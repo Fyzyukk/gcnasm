@@ -13,156 +13,48 @@ constexpr int VALU_MASK = 0x02;
 
 template<int Pairs, int VALU_CNT, int Group>
 __device__ inline void sched_barrier_pairs() {
-    if constexpr (Pairs > 0) {
-        SCHED_BARRIER(MFMA_MASK, 1, Group);
-        SCHED_BARRIER(VALU_MASK, VALU_CNT, Group);
+    SCHED_BARRIER(MFMA_MASK, 1, Group);
+    SCHED_BARRIER(VALU_MASK, VALU_CNT, Group);
+    if constexpr (Pairs > 1) {
         sched_barrier_pairs<Pairs - 1, VALU_CNT, Group>();
     }
-}
-
-template<int Group>
-__device__ inline void scale_sched_barrier() {
-    sched_barrier_pairs<MXFP8_SCHED_PAIRS, MXFP8_SCHED_VALU_CNT, Group>();
 }
 
 __device__ inline float e8m0_to_f32(unsigned char b) {
     return __builtin_bit_cast(float, static_cast<unsigned>(b) << 23);
 }
 
-template<int KG>
-__device__ inline float packed_e8m0_to_f32(unsigned int packed) {
-    static_assert(KG >= 0 && KG < 4);
-
-    unsigned int bits;
-    if constexpr (KG == 0) {
-        bits = (packed & 0x000000ffu) << 23;
-    } else if constexpr (KG == 1) {
-        bits = (packed & 0x0000ff00u) << 15;
-    } else if constexpr (KG == 2) {
-        bits = (packed & 0x00ff0000u) << 7;
-    } else {
-        bits = (packed >> 1) & 0x7f800000u;
-    }
-    return __builtin_bit_cast(float, bits);
-}
-
-template<int KG>
-__device__ inline unsigned int packed_e8m0_exp(unsigned int packed) {
-    static_assert(KG >= 0 && KG < 4);
-
-    if constexpr (KG == 0) {
-        return packed & 0x000000ffu;
-    } else if constexpr (KG == 1) {
-        return (packed >> 8) & 0x000000ffu;
-    } else if constexpr (KG == 2) {
-        return (packed >> 16) & 0x000000ffu;
-    } else {
-        return packed >> 24;
-    }
-}
-
-template<int KG>
-__device__ inline float packed_e8m0_product_to_f32(unsigned int packed_a, unsigned int packed_b) {
-    const unsigned int exp = packed_e8m0_exp<KG>(packed_a) + packed_e8m0_exp<KG>(packed_b) - 127u;
-    return __builtin_bit_cast(float, exp << 23);
-}
-
-template<typename Vec>
-__device__ inline void pin_accumulator(Vec& acc) {
-#if MXFP8_PIN_ACCUM
-    using D_ACC = typename opus::vector_traits<Vec>::dtype;
-    constexpr int N = opus::vector_traits<Vec>::size();
-    static_assert(N == 4 || N == 8 || N == 16 || N == 32,
-                  "unsupported accumulator vector size");
-
-    if constexpr (N == 32) {
-        auto* chunks = reinterpret_cast<opus::vector_t<D_ACC, 16>*>(&acc);
-        asm volatile("" : "+v"(chunks[0]), "+v"(chunks[1]) ::);
-    } else if constexpr (N == 16) {
-        asm volatile("" : "+v"(acc) ::);
-    } else if constexpr (N == 8) {
-        auto* chunks = reinterpret_cast<opus::vector_t<D_ACC, 4>*>(&acc);
-        asm volatile("" : "+v"(chunks[0]), "+v"(chunks[1]) ::);
-    } else {
-        asm volatile("" : "+v"(acc) ::);
-    }
-#else
-    (void)acc;
-#endif
-}
-
-#if MXFP8_PACK_SCALE
-// Accumulate one 32-K step_k partial into C with the matching MXFP8 scales.
-//
-// v_sfa/v_sfb hold packed scale dwords for the current half tile and 128-wide
-// K tile. KG selects the active E8M0 byte from each packed dword. The B scale
-// index follows the C fragment columns, so pk is part of SFB_PACK_IDX.
+// Accumulate one K-group's partial product into the C accumulator, applying that
+// group's per-row/per-col MX scales BEFORE accumulation (mathematically:
+//   C[m][n] = Σ_kg (sa[m][kg]·sb[n][kg]) · Σ_{k∈kg} A[m][k]·B[n][k]  ).
+// c_part is the result of mma.step_k<KG>(v_a, v_b, 0) — full vtype_c but only the
+// KG-th K-group contributed. Indexing follows C-layout 0 (probe_c_mma):
+//   fragment i = m_rep*(E_N*ELEM_C) + n_rep*ELEM_C + pk
+//   scale_a depends on (m_rep, kg)      -> idx = m_rep*E_K + kg
+//   scale_b depends on (n_rep, pk, kg)  -> idx = (n_rep*ELEM_C + pk)*E_K + kg
+// (pk is a distinct C column per lane, so each pk picks a different scale_b.)
 template<int E_M, int E_N, int E_K, int ELEM_C, int KG, typename D_ACC>
 __device__ inline void scale_and_accumulate(
-    const opus::vector_t<D_ACC, E_M * E_N * ELEM_C>& v_mma,
-    const opus::vector_t<unsigned int, E_M>& scale_a,
-    const opus::vector_t<unsigned int, E_N * ELEM_C>& scale_b,
-    opus::vector_t<D_ACC, E_M * E_N * ELEM_C>& v_c) {
-    static_assert(E_K == 4, "scale packing assumes one uint32_t per four E8M0 K groups");
-    static_assert(KG < E_K);
-
-    opus::static_for<E_M>([&](auto m_repeat) { // 0/1
-        constexpr int MR = decltype(m_repeat)::value;
-#if MXFP8_COMBINE_SCALE_EXP
-        const unsigned int sf_a = scale_a[MR];
-#else
-        const float sf_a = packed_e8m0_to_f32<KG>(scale_a[MR]);
-#endif
-
-        opus::static_for<E_N>([&](auto n_repeat) {
-            constexpr int NR = decltype(n_repeat)::value;
-
-            opus::static_for<ELEM_C>([&](auto pack) {
-                constexpr int PK = decltype(pack)::value;
-                constexpr int C_IDX = MR * (E_N * ELEM_C) + NR * ELEM_C + PK;
-                constexpr int SFB_PACK_IDX = NR * ELEM_C + PK;
-
-#if MXFP8_COMBINE_SCALE_EXP
-                const float sf_ab = packed_e8m0_product_to_f32<KG>(sf_a, scale_b[SFB_PACK_IDX]);
-                v_c[C_IDX] += v_mma[C_IDX] * sf_ab;
-#else
-                const float sf_b = packed_e8m0_to_f32<KG>(scale_b[SFB_PACK_IDX]);
-                const float sf_ab = sf_a * sf_b;
-                v_c[C_IDX] += v_mma[C_IDX] * sf_ab;
-#endif
-            });
-        });
-    });
-}
-#else
-template<int E_M, int E_N, int E_K, int ELEM_C, int KG, typename D_ACC>
-__device__ inline void scale_and_accumulate(
-    const opus::vector_t<D_ACC, E_M * E_N * ELEM_C>& v_mma,
+    const opus::vector_t<D_ACC, E_M * E_N * ELEM_C>& c_part,
     const opus::vector_t<unsigned char, E_M * E_K>& scale_a,
     const opus::vector_t<unsigned char, E_N * ELEM_C * E_K>& scale_b,
-    opus::vector_t<D_ACC, E_M * E_N * ELEM_C>& v_c) {
-    static_assert(KG < E_K);
+    opus::vector_t<D_ACC, E_M * E_N * ELEM_C>& acc) {
 
-    opus::static_for<E_M>([&](auto m_repeat) {
-        constexpr int MR = decltype(m_repeat)::value;
-        constexpr int SFA_IDX = MR * E_K + KG;
-        const float sf_a = e8m0_to_f32(scale_a[SFA_IDX]);
-
-        opus::static_for<E_N>([&](auto n_repeat) {
-            constexpr int NR = decltype(n_repeat)::value;
-
-            opus::static_for<ELEM_C>([&](auto pack) {
-                constexpr int PK = decltype(pack)::value;
-                constexpr int C_IDX = MR * (E_N * ELEM_C) + NR * ELEM_C + PK;
-                constexpr int SFB_IDX = (NR * ELEM_C + PK) * E_K + KG;
-
-                const float sf_b = e8m0_to_f32(scale_b[SFB_IDX]);
-                v_c[C_IDX] += v_mma[C_IDX] * sf_a * sf_b;
+    opus::static_for<E_M>([&](auto m_repeat){
+        constexpr int m_rep = decltype(m_repeat)::value;
+        opus::static_for<E_N>([&](auto n_repeat){
+            constexpr int n_rep = decltype(n_repeat)::value;
+            opus::static_for<ELEM_C>([&](auto pk_){
+                constexpr int pk = decltype(pk_)::value;
+                constexpr int i = m_rep * (E_N * ELEM_C) + n_rep * ELEM_C + pk;
+                constexpr int scale_a_idx = m_rep * E_K + KG;
+                constexpr int scale_b_idx = (n_rep * ELEM_C + pk) * E_K + KG;
+                D_ACC scale_c = e8m0_to_f32(opus::get<scale_a_idx>(scale_a)) * e8m0_to_f32(opus::get<scale_b_idx>(scale_b));
+                acc[i] += c_part[i] * scale_c;
             });
         });
     });
 }
-#endif
 
 // Create layout for loading A matrix from global memory. (identical to block_scale)
 template<class T>
@@ -307,44 +199,56 @@ __device__ inline auto make_layout_rb(int lane_id, int wave_id_n) {
         opus::unfold_p_coord(rb_block_dim, opus::tuple{lane_id_n % T::T_M, wave_id_n, lane_id_n / T::T_M, lane_id / T::W_N}));
 }
 
-
-// Create layout for loading E8M0 scale factors for A from global memory.
-//
-// Software scaling is applied after step_k(), so scale coordinates are chosen
-// from the C fragment, not directly from the A/B input fragments. For A this is
-// the C-layout M projection:
-//
-//   c_m = m_rep * (T_M * W_M) + wave_id_m * W_M + lane_id % W_M
-//
-// All ELEM_C C fragments owned by a lane share this same row, so A scale does
-// not need a pk dimension. Register index used by scale:
-//
-//   sfa_pack_idx = m_rep
+// Handwritten C-store layout for the real-machine 16x16x32 swap_ab accumulator.
+// Ground truth from probe_c_mma.cu (feeds the exact ra/rb + swap_ab tiled mma and
+// reads back a unique C[m][n] fingerprint): the accumulator register (lane, pk) holds
+//   m = lane % W_M ,  n = (lane / W_M) * 4 + pk        (4 consecutive COLUMNS per lane)
+// Extended to the block tile (fragment i = m_rep*(E_N*4) + n_rep*4 + pk, matching
+// v_c / scale_c_group order):
+//   m = m_rep*(W_M*T_M) + wave_id_m*W_M + row          , row = lane % W_M
+//   n = n_rep*(W_N*T_N) + wave_id_n*W_N + gk*4 + pk     , gk  = lane / W_M
+// The 4 pk fragments are contiguous in n (row-major C) -> store with VEC_C=4.
+// y-dims (issue space) are ordered m_rep, n_rep, pk with pk innermost so the flat
+// fragment index and the vectorized store both line up with the mma output.
 template<class T>
-__device__ inline auto make_layout_sfa_pack(int lane_id, int wave_id_m, int stride_sfa_pack) {
-    constexpr auto sfa_block_shape = opus::make_tuple(
-        opus::number<T::E_M>{}, // 2   
-        opus::number<T::T_M>{}, // 4    
-        opus::number<T::W_M>{}, // 16    
-        opus::number<1>{});     // 1      
+__device__ inline auto make_layout_gc(int lane_id, int wave_id_m, int wave_id_n, int stride_c) {
+    const int row = lane_id % T::W_M;   // -> m
+    const int gk  = lane_id / T::W_M;   // -> n (group of 4 cols)
 
-    constexpr auto sfa_block_dim = opus::make_tuple(
-        opus::make_tuple(opus::y_dim{}, opus::p_dim{}, opus::p_dim{}, opus::y_dim{}));
+    auto gc_shape = opus::make_tuple(
+        opus::number<T::E_M>{},                 // 0 y: m_rep   (slowest fragment axis)
+        opus::number<T::E_N>{},                 // 1 y: n_rep
+        opus::number<T::T_M>{},                 // 2 p: wave_id_m
+        opus::number<T::T_N>{},                 // 3 p: wave_id_n
+        opus::number<T::WARP_SIZE / T::W_M>{},  // 4 p: gk
+        opus::number<T::W_M>{},                 // 5 p: row
+        opus::number<4>{});                     // 6 y: pk      (fastest, vec dim)
 
-    return opus::make_layout(
-        sfa_block_shape,
-        opus::unfold_x_stride(sfa_block_dim, sfa_block_shape, opus::tuple{stride_sfa_pack}),
-        opus::unfold_p_coord(sfa_block_dim, opus::tuple{wave_id_m, lane_id % T::W_M}));
+    auto gc_stride = opus::make_tuple(
+        (T::W_M * T::T_M) * stride_c,           // m_rep     -> rows
+        (T::W_N * T::T_N),                       // n_rep     -> cols
+        T::W_M * stride_c,                       // wave_id_m -> rows
+        T::W_N,                                   // wave_id_n -> cols
+        4,                                        // gk        -> cols (n = gk*4)
+        stride_c,                                 // row       -> rows
+        1);                                       // pk        -> cols (contiguous)
+
+    auto gc_coord = opus::make_tuple(
+        opus::_, opus::_,
+        wave_id_m, wave_id_n, gk, row, opus::_);
+
+    return opus::make_layout(gc_shape, gc_stride, gc_coord);
 }
 
+// Create layout for loading E8M0 scale factors for A from global memory.
 template<class T>
-__device__ inline auto make_layout_sfa_byte(int lane_id, int wave_id_m, int stride_sfa) {
+__device__ inline auto make_layout_sfa(int lane_id, int wave_id_m, int stride_sfa) {
     constexpr auto sfa_block_shape = opus::make_tuple(
-        opus::number<T::E_M>{},
-        opus::number<T::T_M>{},
-        opus::number<T::W_M>{},
-        opus::number<T::E_K>{},
-        opus::number<1>{});
+        opus::number<T::E_M>{},     
+        opus::number<T::T_M>{},      
+        opus::number<T::W_M>{},      
+        opus::number<T::E_K>{},      
+        opus::number<1>{});          
 
     constexpr auto sfa_block_dim = opus::make_tuple(
         opus::make_tuple(opus::y_dim{}, opus::p_dim{}, opus::p_dim{}),
@@ -358,56 +262,43 @@ __device__ inline auto make_layout_sfa_byte(int lane_id, int wave_id_m, int stri
 
 // Create layout for loading E8M0 scale factors for B from global memory.
 //
-// B scale follows the C-layout N projection for register-local post-scale. The
-// B input fragment for a lane is tied to lane_id % W_N, but the C fragments
-// owned by the same lane cover consecutive output columns:
+// The MFMA transposes lane<->data on the B side: the C output column is
+//   n = n_rep*(W_N*T_N) + wave_id_n*W_N + gk*4 + pk ,  gk = lane / W_M
+// (ground truth C-layout 0 from probe_c_mma). Each C column has its own B scale,
+// and the 4 "pk" columns a lane holds are DISTINCT columns -> each needs its own
+// scale_b. So unlike the old code (which copied rb's n = lane % W_N and had no pk
+// dim), sfb must index n by gk = lane / W_M and add a pk (=4) y-dim.
 //
-//   c_n = n_rep * (T_N * W_N) + wave_id_n * W_N
-//       + (lane_id / W_M) * ELEM_C + pk
-//
-// Therefore each lane loads one B scale per (n_rep, pk, KG). Register index:
-//
-//   sfb_pack_idx = n_rep * ELEM_C + pk
+// Per lane we load E_N * ELEM_C * E_K scale bytes. Fragment (y-dim) order is
+// (n_rep, pk, kg) with kg innermost, so scale_and_accumulate reads
+//   scale_b_idx = (n_rep*ELEM_C + pk) * E_K + kg .
+// Memory is B scale [N, num_groups_k]: n -> rows (*stride_sfb), kg -> cols (*1).
 template<class T>
-__device__ inline auto make_layout_sfb_pack(int lane_id, int wave_id_n, int stride_sfb_pack) {
-    constexpr auto sfb_block_shape = opus::make_tuple(
-        opus::number<T::E_N>{}, // 4
-        opus::number<T::T_N>{}, // 2
-        opus::number<T::WARP_SIZE / T::W_M>{}, // 4
-        opus::number<T::ELEM_C>{}, // 4
-        opus::number<1>{});
+__device__ inline auto make_layout_sfb(int lane_id, int wave_id_n, int stride_sfb) {
+    const int gk = lane_id / T::W_M;   // -> n column group of 4 (matches C-layout 0)
 
-    constexpr auto sfb_block_dim = opus::make_tuple(
-        opus::make_tuple(opus::y_dim{}, opus::p_dim{}, opus::p_dim{}, opus::y_dim{}, opus::y_dim{}));
+    auto sfb_shape = opus::make_tuple(
+        opus::number<T::E_N>{},                 // 0 y: n_rep  (slowest)
+        opus::number<T::T_N>{},                 // 1 p: wave_id_n
+        opus::number<T::WARP_SIZE / T::W_M>{},  // 2 p: gk
+        opus::number<T::ELEM_C>{},              // 3 y: pk
+        opus::number<T::E_K>{});                // 4 y: kg     (fastest)
 
-    return opus::make_layout(
-        sfb_block_shape,
-        opus::unfold_x_stride(sfb_block_dim, sfb_block_shape, opus::tuple{stride_sfb_pack}),
-        opus::unfold_p_coord(sfb_block_dim, opus::tuple{wave_id_n, lane_id / T::W_M}));
-}
+    auto sfb_stride = opus::make_tuple(
+        (T::W_N * T::T_N) * stride_sfb,         // n_rep     -> n rows
+        T::W_N * stride_sfb,                     // wave_id_n -> n rows
+        4 * stride_sfb,                          // gk        -> n rows (n = gk*4)
+        stride_sfb,                              // pk        -> n rows (contiguous cols of C)
+        1);                                       // kg        -> K-group cols
 
-template<class T>
-__device__ inline auto make_layout_sfb_byte(int lane_id, int wave_id_n, int stride_sfb) {
-    constexpr auto sfb_block_shape = opus::make_tuple(
-        opus::number<T::E_N>{},
-        opus::number<T::T_N>{},
-        opus::number<T::WARP_SIZE / T::W_M>{},
-        opus::number<T::ELEM_C>{},
-        opus::number<T::E_K>{},
-        opus::number<1>{});
+    auto sfb_coord = opus::make_tuple(
+        opus::_, wave_id_n, gk, opus::_, opus::_);
 
-    constexpr auto sfb_block_dim = opus::make_tuple(
-        opus::make_tuple(opus::y_dim{}, opus::p_dim{}, opus::p_dim{}, opus::y_dim{}),
-        opus::make_tuple(opus::y_dim{}, opus::y_dim{}));
-
-    return opus::make_layout(
-        sfb_block_shape,
-        opus::unfold_x_stride(sfb_block_dim, sfb_block_shape, opus::tuple{stride_sfb, 1_I}),
-        opus::unfold_p_coord(sfb_block_dim, opus::tuple{wave_id_n, lane_id / T::W_M}));
+    return opus::make_layout(sfb_shape, sfb_stride, sfb_coord);
 }
 
 template<class Traits>
-__global__ __launch_bounds__(Traits::BLOCK_SIZE, MXFP8_MIN_BLOCKS_PER_CU) void gemm_a8w8_mxfp8_kernel(opus_gemm_kargs kargs) {
+__global__ __launch_bounds__(Traits::BLOCK_SIZE, 2) void gemm_a8w8_mxfp8_kernel(opus_gemm_kargs kargs) {
     using namespace opus;
 
     using T = opus::remove_cvref_t<Traits>;
@@ -416,9 +307,6 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, MXFP8_MIN_BLOCKS_PER_CU) void g
     using D_C = opus::fp32_t;
     using D_ACC = opus::fp32_t;
     using D_SF = unsigned char;   
-#if MXFP8_PACK_SCALE
-    using D_SF_PACK = unsigned int;
-#endif
 
     const int wgid = block_id_x();
     const int num_tiles_n = ceil_div(kargs.n, T::B_N);
@@ -432,15 +320,8 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, MXFP8_MIN_BLOCKS_PER_CU) void g
     auto g_a = make_gmem(reinterpret_cast<const D_A*>(kargs.ptr_a) + batch_id * kargs.stride_a_batch + row * kargs.stride_a);
     auto g_b = make_gmem(reinterpret_cast<const D_B*>(kargs.ptr_b) + batch_id * kargs.stride_b_batch + col * kargs.stride_b);
     auto g_c = make_gmem(reinterpret_cast<D_C*>(kargs.ptr_c) + batch_id * kargs.stride_c_batch + row * kargs.stride_c + col);
-#if MXFP8_PACK_SCALE
-    const D_SF* sfa_base = reinterpret_cast<const D_SF*>(kargs.ptr_sfa) + batch_id * kargs.stride_sfa_batch + row * kargs.stride_sfa;
-    const D_SF* sfb_base = reinterpret_cast<const D_SF*>(kargs.ptr_sfb) + batch_id * kargs.stride_sfb_batch + col * kargs.stride_sfb;
-    auto g_sfa = make_gmem(reinterpret_cast<const D_SF_PACK*>(sfa_base));
-    auto g_sfb = make_gmem(reinterpret_cast<const D_SF_PACK*>(sfb_base));
-#else
     auto g_sfa = make_gmem(reinterpret_cast<const D_SF*>(kargs.ptr_sfa) + batch_id * kargs.stride_sfa_batch + row * kargs.stride_sfa);
     auto g_sfb = make_gmem(reinterpret_cast<const D_SF*>(kargs.ptr_sfb) + batch_id * kargs.stride_sfb_batch + col * kargs.stride_sfb);
-#endif
 
     const int wave_id_m = wave_id % T::T_M;
     const int wave_id_n = wave_id / T::T_M;
@@ -451,15 +332,8 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, MXFP8_MIN_BLOCKS_PER_CU) void g
     auto u_gb = make_layout_gb<T>(lane_id, wave_id_m, wave_id_n, kargs.stride_b);
     auto u_sb = make_layout_sb<T>(wave_id_m, wave_id_n);
     auto u_rb = make_layout_rb<T>(lane_id, wave_id_n);
-#if MXFP8_PACK_SCALE
-    const int stride_sfa_pack = kargs.stride_sfa / T::NUM_KGROUPS;
-    const int stride_sfb_pack = kargs.stride_sfb / T::NUM_KGROUPS;
-    auto u_sfa = make_layout_sfa_pack<T>(lane_id, wave_id_m, stride_sfa_pack);
-    auto u_sfb = make_layout_sfb_pack<T>(lane_id, wave_id_n, stride_sfb_pack);
-#else
-    auto u_sfa = make_layout_sfa_byte<T>(lane_id, wave_id_m, kargs.stride_sfa);
-    auto u_sfb = make_layout_sfb_byte<T>(lane_id, wave_id_n, kargs.stride_sfb);
-#endif
+    auto u_sfa = make_layout_sfa<T>(lane_id, wave_id_m, kargs.stride_sfa);
+    auto u_sfb = make_layout_sfb<T>(lane_id, wave_id_n, kargs.stride_sfb);
 
     constexpr int smem_a_elem = T::smem_m_rep * (T::smem_linear_wave + T::smem_padding);
     constexpr int smem_b_elem = T::smem_n_rep * (T::smem_linear_wave + T::smem_padding);
@@ -476,20 +350,17 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, MXFP8_MIN_BLOCKS_PER_CU) void g
     constexpr int ELEM_C = decltype(mma)::elem_c;
 
     typename decltype(mma)::vtype_a v_a;
-    typename decltype(mma)::vtype_b v_b[2];
+    typename decltype(mma)::vtype_b v_b;
     typename decltype(mma)::vtype_c v_c[2][2];
+    typename decltype(mma)::vtype_c zero_c;
     clear(v_c[0][0]);
     clear(v_c[0][1]);
     clear(v_c[1][0]);
     clear(v_c[1][1]);
+    clear(zero_c);
 
-#if MXFP8_PACK_SCALE
-    using vtype_sfa = vector_t<unsigned int, T::E_M>;
-    using vtype_sfb = vector_t<unsigned int, T::E_N * ELEM_C>;
-#else
     using vtype_sfa = vector_t<unsigned char, T::E_M * T::E_K>;
-    using vtype_sfb = vector_t<unsigned char, T::E_N * ELEM_C * T::E_K>;
-#endif
+    using vtype_sfb = vector_t<unsigned char, T::E_N * T::ELEM_C * T::E_K>;
     vtype_sfa v_sfa[2][2];
     vtype_sfb v_sfb[2][2];
 
@@ -497,350 +368,58 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, MXFP8_MIN_BLOCKS_PER_CU) void g
     auto gb_offset = [&](int half_tile_n, int tile_k) { return half_tile_n * T::HALF_B_N * kargs.stride_b + tile_k * T::B_K; };
     auto sa_offset = [&](int stage, int half_tile_m) { return (stage * 2 + half_tile_m) * smem_a_elem; };
     auto sb_offset = [&](int stage, int half_tile_n) { return (stage * 2 + half_tile_n) * smem_b_elem; };
-#if MXFP8_PACK_SCALE
-    auto sfa_offset = [&](int half_tile_m, int tile_k) { return half_tile_m * (T::HALF_B_M / T::GROUP_M) * stride_sfa_pack + tile_k;};
-    auto sfb_offset = [&](int half_tile_n, int tile_k) { return half_tile_n * (T::HALF_B_N / T::GROUP_N) * stride_sfb_pack + tile_k;};
-#else
     auto sfa_offset = [&](int half_tile_m, int tile_k) { return half_tile_m * (T::HALF_B_M / T::GROUP_M) * kargs.stride_sfa + tile_k * T::NUM_KGROUPS;};
     auto sfb_offset = [&](int half_tile_n, int tile_k) { return half_tile_n * (T::HALF_B_N / T::GROUP_N) * kargs.stride_sfb + tile_k * T::NUM_KGROUPS;};
-#endif
 
     const int loops = ceil_div(kargs.k, T::B_K);
-    (void)loops;
 
-    // Prologue
-    v_sfa[0][0] = load(g_sfa, u_sfa, sfa_offset(0, 0));
-    v_sfb[0][0] = load(g_sfb, u_sfb, sfb_offset(0, 0));
-    async_load<T::VEC_A_GLOBAL>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(0, 0), ga_offset(0, 0));
-    async_load<T::VEC_B_GLOBAL>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(0, 0), gb_offset(0, 0));
-    v_sfa[0][1] = load(g_sfa, u_sfa, sfa_offset(1, 0));
-    v_sfb[0][1] = load(g_sfb, u_sfb, sfb_offset(1, 0));
-    async_load<T::VEC_A_GLOBAL>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(0, 1), ga_offset(1, 0));
-    async_load<T::VEC_B_GLOBAL>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(0, 1), gb_offset(1, 0));
+    // Correctness-first straight-line pipeline (K=256 = 2 K-tiles fully unrolled).
+    // step_k requires the A/B operands to be live at scale time, which is
+    // incompatible with the old deferred-v_mma software pipeline, so we load all
+    // A/B/scale tiles first, then compute. Per subtile we split the 4 K-groups via
+    // step_k and apply each group's MX scale before accumulating (method A, §3).
+    // Scheduling tuning (setprio / sched_barrier_pairs) is intentionally dropped
+    // here and can be re-layered once numerics are verified.
 
-     if (wave_id_n == 1) {
-        __builtin_amdgcn_s_barrier();
-    }
-
-    s_waitcnt_vmcnt(number<T::a_buffer_load_insts + T::b_buffer_load_insts + T::sfa_buffer_load_insts + T::sfb_buffer_load_insts>{});
-    __builtin_amdgcn_s_barrier();
-
-    v_sfa[1][0] = load(g_sfa, u_sfa, sfa_offset(0, 1));
-    v_sfb[1][0] = load(g_sfb, u_sfb, sfb_offset(0, 1));
-    async_load<T::VEC_A_GLOBAL>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(1, 0), ga_offset(0, 1));
-    async_load<T::VEC_B_GLOBAL>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(1, 0), gb_offset(0, 1));
-    async_load<T::VEC_A_GLOBAL>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(1, 1), ga_offset(1, 1));
-
-    s_waitcnt_vmcnt(number<2 * T::a_buffer_load_insts + T::b_buffer_load_insts + T::sfa_buffer_load_insts + T::sfb_buffer_load_insts>{});
-    __builtin_amdgcn_s_barrier();
-
-    v_a = load<T::VEC_A>(s_a, u_ra + sa_offset(0, 0));
-    v_b[0] = load<T::VEC_B>(s_b, u_rb + sb_offset(0, 0));
-    async_load<T::VEC_B_GLOBAL>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(1, 1), gb_offset(1, 1));
-    s_waitcnt_lgkmcnt(0_I);
-    __builtin_amdgcn_s_barrier();
-    __builtin_amdgcn_sched_barrier(0);
-
-    __builtin_amdgcn_s_setprio(1);
-    static_for<T::E_K>([&](auto kg) {
-        constexpr int KG = decltype(kg)::value;
-        auto v_mma = mma.step_k(kg, v_a, v_b[0]);
-        scale_and_accumulate<T::E_M, T::E_N, T::E_K, ELEM_C, KG, D_ACC>(v_mma, v_sfa[0][0], v_sfb[0][0], v_c[0][0]);
+    // Load every scale + async A/B for both stages and both halves.
+    opus::static_for<2>([&](auto stage_){
+        constexpr int stage = decltype(stage_)::value;
+        opus::static_for<2>([&](auto half_){
+            constexpr int half = decltype(half_)::value;
+            v_sfa[half][stage] = load(g_sfa, u_sfa, sfa_offset(half, stage));
+            v_sfb[half][stage] = load(g_sfb, u_sfb, sfb_offset(half, stage));
+            async_load<T::VEC_A>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(stage, half), ga_offset(half, stage));
+            async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(stage, half), gb_offset(half, stage));
+        });
     });
-    pin_accumulator(v_c[0][0]);
-    scale_sched_barrier<0>();
-    __builtin_amdgcn_s_setprio(0);
+
+    s_waitcnt_vmcnt(0_I);
     __builtin_amdgcn_s_barrier();
-    __builtin_amdgcn_sched_barrier(0);
 
-    // Main loop
-    for(int tile = 0; tile < loops - 2; tile += 2){
-        // First tile
-        v_sfb[1][1] = load(g_sfb, u_sfb, sfb_offset(1, tile + 1));
-        v_b[1] = load<T::VEC_B>(s_b, u_rb + sb_offset(0, 1));
-        async_load<T::VEC_A_GLOBAL>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(0, 0), ga_offset(0, tile + 2));
-        s_waitcnt_lgkmcnt(0_I);
-        s_waitcnt_vmcnt(number<2 * T::a_buffer_load_insts + 2 * T::b_buffer_load_insts + 2 * T::sfa_buffer_load_insts + 2 * T::sfb_buffer_load_insts>{});
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);
-
-        __builtin_amdgcn_s_setprio(1);
-        static_for<T::E_K>([&](auto kg) {
-            constexpr int KG = decltype(kg)::value;
-            auto v_mma = mma.step_k(kg, v_a, v_b[1]);
-            scale_and_accumulate<T::E_M, T::E_N, T::E_K, ELEM_C, KG, D_ACC>(v_mma, v_sfa[0][0], v_sfb[0][1], v_c[0][1]);
+    // Compute: C[hm][hn] += Σ_stage Σ_kg scale(sfa[hm][stage], sfb[hn][stage], kg)
+    //                                     · step_k<kg>(ra(stage,hm), rb(stage,hn))
+    opus::static_for<2>([&](auto stage_){
+        constexpr int stage = decltype(stage_)::value;
+        opus::static_for<2>([&](auto hm_){
+            constexpr int hm = decltype(hm_)::value;
+            v_a = load<T::VEC_A>(s_a, u_ra + sa_offset(stage, hm));
+            opus::static_for<2>([&](auto hn_){
+                constexpr int hn = decltype(hn_)::value;
+                v_b = load<T::VEC_B>(s_b, u_rb + sb_offset(stage, hn));
+                s_waitcnt_lgkmcnt(0_I);
+                opus::static_for<T::E_K>([&](auto kg_){
+                    constexpr int kg = decltype(kg_)::value;
+                    auto v_part = mma.step_k(number<kg>{}, v_a, v_b, zero_c);
+                    scale_and_accumulate<T::E_M, T::E_N, T::E_K, T::ELEM_C, kg, D_ACC>(
+                        v_part, v_sfa[hm][stage], v_sfb[hn][stage], v_c[hm][hn]);
+                });
+            });
         });
-        pin_accumulator(v_c[0][1]);
-        scale_sched_barrier<0>();
-        __builtin_amdgcn_s_setprio(0);
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);
-        
-        v_sfa[1][1] = load(g_sfa, u_sfa, sfa_offset(1, tile + 1));
-        v_a = load<T::VEC_A>(s_a, u_ra + sa_offset(0, 1));
-        async_load<T::VEC_B_GLOBAL>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(0, 0), gb_offset(0, tile + 2));
-        s_waitcnt_lgkmcnt(0_I);
-        s_waitcnt_lgkmcnt(0_I);
-        s_waitcnt_vmcnt(number<2 * T::a_buffer_load_insts + 2 * T::b_buffer_load_insts + 2 * T::sfa_buffer_load_insts + 2 * T::sfb_buffer_load_insts>{});
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);
-        
-        __builtin_amdgcn_s_setprio(1);
-        static_for<T::E_K>([&](auto kg) {
-            constexpr int KG = decltype(kg)::value;
-            auto v_mma = mma.step_k(kg, v_a, v_b[0]);
-            scale_and_accumulate<T::E_M, T::E_N, T::E_K, ELEM_C, KG, D_ACC>(v_mma, v_sfa[0][1], v_sfb[0][0], v_c[1][0]);
-        });
-        pin_accumulator(v_c[1][0]);
-        scale_sched_barrier<0>();
-        __builtin_amdgcn_s_setprio(0);
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);
+    });
 
-        v_sfb[0][0] = load(g_sfb, u_sfb, sfb_offset(0, tile + 2));
-        v_b[0] = load<T::VEC_B>(s_b, u_rb + sb_offset(1, 0));
-        async_load<T::VEC_A_GLOBAL>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(0, 1), ga_offset(1, tile + 2));
-        s_waitcnt_lgkmcnt(number<T::a_ds_read_insts>{});
-        s_waitcnt_vmcnt(number<2 * T::a_buffer_load_insts + 2 * T::b_buffer_load_insts + 2 * T::sfa_buffer_load_insts + 2 * T::sfb_buffer_load_insts>{});
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);
-
-        __builtin_amdgcn_s_setprio(1);
-        static_for<T::E_K>([&](auto kg) {
-            constexpr int KG = decltype(kg)::value;
-            auto v_mma = mma.step_k(kg, v_a, v_b[1]);
-            scale_and_accumulate<T::E_M, T::E_N, T::E_K, ELEM_C, KG, D_ACC>(v_mma, v_sfa[0][1], v_sfb[0][1], v_c[1][1]);
-        });
-        pin_accumulator(v_c[1][1]);
-        scale_sched_barrier<0>();
-        __builtin_amdgcn_s_setprio(0);
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);
-
-        //Second tile
-        v_sfa[0][0] = load(g_sfa, u_sfa, sfa_offset(0, tile + 2));
-        v_a = load<T::VEC_A>(s_a, u_ra + sa_offset(1, 0));
-        async_load<T::VEC_B_GLOBAL>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(0, 1), gb_offset(1, tile + 2));
-        s_waitcnt_lgkmcnt(0_I);
-        s_waitcnt_vmcnt(number<2 * T::a_buffer_load_insts + 2 * T::b_buffer_load_insts + 2 * T::sfa_buffer_load_insts + 2 * T::sfb_buffer_load_insts>{});
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);
-
-        __builtin_amdgcn_s_setprio(1);
-        static_for<T::E_K>([&](auto kg) {
-            constexpr int KG = decltype(kg)::value;
-            auto v_mma = mma.step_k(kg, v_a, v_b[0]);
-            scale_and_accumulate<T::E_M, T::E_N, T::E_K, ELEM_C, KG, D_ACC>(v_mma, v_sfa[1][0], v_sfb[1][0], v_c[0][0]);
-        });
-        pin_accumulator(v_c[0][0]);
-        scale_sched_barrier<0>();
-        __builtin_amdgcn_s_setprio(0);
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);       
-        
-        v_sfb[0][1] = load(g_sfb, u_sfb, sfb_offset(1, tile + 2));
-        v_b[1] = load<T::VEC_B>(s_b, u_rb + sb_offset(1, 1));
-        async_load<T::VEC_A_GLOBAL>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(1, 0), ga_offset(0, tile + 3));
-        s_waitcnt_lgkmcnt(0_I);
-        s_waitcnt_vmcnt(number<2 * T::a_buffer_load_insts + 2 * T::b_buffer_load_insts + 2 * T::sfa_buffer_load_insts + 2 * T::sfb_buffer_load_insts>{});
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);
-
-        __builtin_amdgcn_s_setprio(1);
-        static_for<T::E_K>([&](auto kg) {
-            constexpr int KG = decltype(kg)::value;
-            auto v_mma = mma.step_k(kg, v_a, v_b[1]);
-            scale_and_accumulate<T::E_M, T::E_N, T::E_K, ELEM_C, KG, D_ACC>(v_mma, v_sfa[1][0], v_sfb[1][1], v_c[0][1]);
-        });
-        pin_accumulator(v_c[0][1]);
-        scale_sched_barrier<0>();
-        __builtin_amdgcn_s_setprio(0);
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);
-
-        v_sfa[0][1] = load(g_sfa, u_sfa, sfa_offset(1, tile + 2));
-        v_a = load<T::VEC_A>(s_a, u_ra + sa_offset(1, 1));
-        async_load<T::VEC_B_GLOBAL>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(1, 0), gb_offset(0, tile + 3));
-        s_waitcnt_lgkmcnt(0_I);
-        s_waitcnt_vmcnt(number<2 * T::a_buffer_load_insts + 2 * T::b_buffer_load_insts + 2 * T::sfa_buffer_load_insts + 2 * T::sfb_buffer_load_insts>{});
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);
-
-        __builtin_amdgcn_s_setprio(1);
-        static_for<T::E_K>([&](auto kg) {
-            constexpr int KG = decltype(kg)::value;
-            auto v_mma = mma.step_k(kg, v_a, v_b[0]);
-            scale_and_accumulate<T::E_M, T::E_N, T::E_K, ELEM_C, KG, D_ACC>(v_mma, v_sfa[1][1], v_sfb[1][0], v_c[1][0]);
-        });
-        pin_accumulator(v_c[1][0]);
-        scale_sched_barrier<0>();
-        __builtin_amdgcn_s_setprio(0);
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0); 
-        
-        v_sfb[1][0] = load(g_sfb, u_sfb, sfb_offset(0, tile + 3));
-        v_b[0] = load<T::VEC_B>(s_b, u_rb + sb_offset(0, 0));
-        async_load<T::VEC_A_GLOBAL>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(1, 1), ga_offset(1, tile + 3));
-        s_waitcnt_lgkmcnt(number<T::a_ds_read_insts>{});
-        s_waitcnt_vmcnt(number<2 * T::a_buffer_load_insts + 2 * T::b_buffer_load_insts + 2 * T::sfa_buffer_load_insts + 2 * T::sfb_buffer_load_insts>{});
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);
-
-        __builtin_amdgcn_s_setprio(1);
-        static_for<T::E_K>([&](auto kg) {
-            constexpr int KG = decltype(kg)::value;
-            auto v_mma = mma.step_k(kg, v_a, v_b[1]);
-            scale_and_accumulate<T::E_M, T::E_N, T::E_K, ELEM_C, KG, D_ACC>(v_mma, v_sfa[1][1], v_sfb[1][1], v_c[1][1]);
-        });
-        pin_accumulator(v_c[1][1]);
-        scale_sched_barrier<0>();
-        __builtin_amdgcn_s_setprio(0);
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);
-        
-        v_sfa[1][0] = load(g_sfa, u_sfa, sfa_offset(0, tile + 3));
-        v_a = load<T::VEC_A>(s_a, u_ra + sa_offset(0, 0));
-        async_load<T::VEC_B_GLOBAL>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(1, 1), gb_offset(1, tile + 3));
-        s_waitcnt_lgkmcnt(0_I);
-        s_waitcnt_vmcnt(number<2 * T::a_buffer_load_insts + 2 * T::b_buffer_load_insts + 2 * T::sfa_buffer_load_insts + 2 * T::sfb_buffer_load_insts>{});
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);
-
-        // Seed the next pair: after each loop iteration, v_a/v_b[0] and
-        // v_sfa[0][0]/v_sfb[0][0] describe (tile + 2, hm0, hn0). This matches
-        // the prologue invariant expected by the next iteration or epilogue.
-        __builtin_amdgcn_s_setprio(1);
-        static_for<T::E_K>([&](auto kg) {
-            constexpr int KG = decltype(kg)::value;
-            auto v_mma = mma.step_k(kg, v_a, v_b[0]);
-            scale_and_accumulate<T::E_M, T::E_N, T::E_K, ELEM_C, KG, D_ACC>(v_mma, v_sfa[0][0], v_sfb[0][0], v_c[0][0]);
-        });
-        pin_accumulator(v_c[0][0]);
-        scale_sched_barrier<0>();
-        __builtin_amdgcn_s_setprio(0);
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);
-    }
-
-    //Epilogue
-    {
-        const int tile = loops - 2;
-
-        v_sfb[1][1] = load(g_sfb, u_sfb, sfb_offset(1, tile + 1));
-        v_b[1] = load<T::VEC_B>(s_b, u_rb + sb_offset(0, 1));
-        s_waitcnt_lgkmcnt(0_I);
-        s_waitcnt_vmcnt(number<2 * T::a_buffer_load_insts + 2 * T::b_buffer_load_insts + 2 * T::sfa_buffer_load_insts + 2 * T::sfb_buffer_load_insts>{});
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);
-
-        __builtin_amdgcn_s_setprio(1);
-        static_for<T::E_K>([&](auto kg) {
-            constexpr int KG = decltype(kg)::value;
-            auto v_mma = mma.step_k(kg, v_a, v_b[1]);
-            scale_and_accumulate<T::E_M, T::E_N, T::E_K, ELEM_C, KG, D_ACC>(v_mma, v_sfa[0][0], v_sfb[0][1], v_c[0][1]);
-        });
-        pin_accumulator(v_c[0][1]);
-        scale_sched_barrier<0>();
-        __builtin_amdgcn_s_setprio(0);
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);
-
-        v_sfa[1][1] = load(g_sfa, u_sfa, sfa_offset(1, tile + 1));
-        v_a = load<T::VEC_A>(s_a, u_ra + sa_offset(0, 1));
-        s_waitcnt_lgkmcnt(0_I);
-        s_waitcnt_vmcnt(number<T::a_buffer_load_insts + T::b_buffer_load_insts + 2 * T::sfa_buffer_load_insts + 2 * T::sfb_buffer_load_insts>{});
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);
-
-        __builtin_amdgcn_s_setprio(1);
-        static_for<T::E_K>([&](auto kg) {
-            constexpr int KG = decltype(kg)::value;
-            auto v_mma = mma.step_k(kg, v_a, v_b[0]);
-            scale_and_accumulate<T::E_M, T::E_N, T::E_K, ELEM_C, KG, D_ACC>(v_mma, v_sfa[0][1], v_sfb[0][0], v_c[1][0]);
-        });
-        pin_accumulator(v_c[1][0]);
-        scale_sched_barrier<0>();
-        static_for<T::E_K>([&](auto kg) {
-            constexpr int KG = decltype(kg)::value;
-            auto v_mma = mma.step_k(kg, v_a, v_b[1]);
-            scale_and_accumulate<T::E_M, T::E_N, T::E_K, ELEM_C, KG, D_ACC>(v_mma, v_sfa[0][1], v_sfb[0][1], v_c[1][1]);
-        });
-        pin_accumulator(v_c[1][1]);
-        scale_sched_barrier<0>();
-        __builtin_amdgcn_s_setprio(0);
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);
-    }
-
-    {
-        v_a = load<T::VEC_A>(s_a, u_ra + sa_offset(1, 0));
-        v_b[0] = load<T::VEC_B>(s_b, u_rb + sb_offset(1, 0));
-        s_waitcnt_lgkmcnt(0_I);
-        s_waitcnt_vmcnt(number<T::b_buffer_load_insts + 2 * T::sfa_buffer_load_insts + 2 * T::sfb_buffer_load_insts>{});
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);
-
-        __builtin_amdgcn_s_setprio(1);
-        static_for<T::E_K>([&](auto kg) {
-            constexpr int KG = decltype(kg)::value;
-            auto v_mma = mma.step_k(kg, v_a, v_b[0]);
-            scale_and_accumulate<T::E_M, T::E_N, T::E_K, ELEM_C, KG, D_ACC>(v_mma, v_sfa[1][0], v_sfb[1][0], v_c[0][0]);
-        });
-        pin_accumulator(v_c[0][0]);
-        scale_sched_barrier<0>();
-        __builtin_amdgcn_s_setprio(0);
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);
-        
-        v_b[1] = load<T::VEC_B>(s_b, u_rb + sb_offset(1, 1));
-        s_waitcnt_lgkmcnt(0_I);
-        s_waitcnt_vmcnt(0_I);
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);
-
-        __builtin_amdgcn_s_setprio(1);
-        static_for<T::E_K>([&](auto kg) {
-            constexpr int KG = decltype(kg)::value;
-            auto v_mma = mma.step_k(kg, v_a, v_b[1]);
-            scale_and_accumulate<T::E_M, T::E_N, T::E_K, ELEM_C, KG, D_ACC>(v_mma, v_sfa[1][0], v_sfb[1][1], v_c[0][1]);
-        });
-        pin_accumulator(v_c[0][1]);
-        scale_sched_barrier<0>();
-        __builtin_amdgcn_s_setprio(0);
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);       
-        
-        v_a = load<T::VEC_A>(s_a, u_ra + sa_offset(1, 1));
-        s_waitcnt_lgkmcnt(0_I);
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);
-
-        __builtin_amdgcn_s_setprio(1);
-        static_for<T::E_K>([&](auto kg) {
-            constexpr int KG = decltype(kg)::value;
-            auto v_mma = mma.step_k(kg, v_a, v_b[0]);
-            scale_and_accumulate<T::E_M, T::E_N, T::E_K, ELEM_C, KG, D_ACC>(v_mma, v_sfa[1][1], v_sfb[1][0], v_c[1][0]);
-        });
-        pin_accumulator(v_c[1][0]);
-        scale_sched_barrier<0>();
-        static_for<T::E_K>([&](auto kg) {
-            constexpr int KG = decltype(kg)::value;
-            auto v_mma = mma.step_k(kg, v_a, v_b[1]);
-            scale_and_accumulate<T::E_M, T::E_N, T::E_K, ELEM_C, KG, D_ACC>(v_mma, v_sfa[1][1], v_sfb[1][1], v_c[1][1]);
-        });
-        pin_accumulator(v_c[1][1]);
-        scale_sched_barrier<0>();
-        __builtin_amdgcn_s_setprio(0);
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);        
-    }
-
-     if (wave_id_n == 0) {
-        __builtin_amdgcn_s_barrier();
-    }
-
-    auto p_coord_c = opus::make_tuple(wave_id_m, lane_id % mma.grpn_c, wave_id_n, lane_id / mma.grpn_c);
-    auto u_gc = partition_layout_c<T::VEC_C>(mma, opus::make_tuple(kargs.stride_c, 1_I), p_coord_c);
+    __builtin_amdgcn_s_barrier();
+    
+    auto u_gc = make_layout_gc<T>(lane_id, wave_id_m, wave_id_n, kargs.stride_c);
 
     auto c_offset = [&](int half_tile_m, int half_tile_n) {
         return half_tile_m * T::HALF_B_M * kargs.stride_c + half_tile_n * T::HALF_B_N;
@@ -850,5 +429,4 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, MXFP8_MIN_BLOCKS_PER_CU) void g
     store<T::VEC_C>(g_c, v_c[0][1], u_gc, c_offset(0, 1));
     store<T::VEC_C>(g_c, v_c[1][0], u_gc, c_offset(1, 0));
     store<T::VEC_C>(g_c, v_c[1][1], u_gc, c_offset(1, 1));
-
 }

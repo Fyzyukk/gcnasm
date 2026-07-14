@@ -1,5 +1,6 @@
 #include <hip/hip_fp8.h>
 #include <opus/hip_minimal.hpp>
+#include <algorithm>
 #include <cmath>
 #include <cstdint>
 #include <cstdio>
@@ -75,28 +76,51 @@ void rand_scale_e8m0(e8m0_t* ptr, std::size_t size, int lo = 124, int hi = 130) 
 }
 
 template<typename T>
-bool valid_vector(const T* ref, const T* result, int n, fp32_t threshold = 1e-3f) {
+bool valid_vector(const T* ref, const T* result, const double* mag, int n,
+                  fp32_t rel_mag = 5e-5f, fp32_t abs_floor = 1e-4f) {
     int errors = 0;
+    int max_idx = -1;
+    int max_ratio_idx = -1;
+    fp32_t max_diff = 0.0f;
+    fp32_t max_tol = 0.0f;
+    fp32_t max_ratio = 0.0f;
     for (int i = 0; i < n; ++i) {
-        const fp32_t diff = std::abs(static_cast<fp32_t>(ref[i]) - static_cast<fp32_t>(result[i]));
-        if (diff > threshold) {
+        const fp32_t r = static_cast<fp32_t>(ref[i]);
+        const fp32_t got = static_cast<fp32_t>(result[i]);
+        const fp32_t diff = std::abs(r - got);
+        const fp32_t tol = abs_floor + rel_mag * static_cast<fp32_t>(mag[i]);
+        const fp32_t ratio = diff / tol;
+        if (diff > max_diff) {
+            max_diff = diff;
+            max_tol = tol;
+            max_idx = i;
+        }
+        if (ratio > max_ratio) {
+            max_ratio = ratio;
+            max_ratio_idx = i;
+        }
+        if (diff > tol) {
             if (errors < 10) {
-                std::printf("Error at %d: ref=%.6f, result=%.6f, diff=%.6f\n",
-                            i, static_cast<fp32_t>(ref[i]), static_cast<fp32_t>(result[i]), diff);
+                std::printf("Error at %d: ref=%.6f, result=%.6f, diff=%.6f, tol=%.6f (sum_abs_term=%.2f)\n",
+                            i, r, got, diff, tol, mag[i]);
             }
             ++errors;
-            if (errors >= 10) {
-                break;
-            }
         }
+    }
+    if (max_idx >= 0) {
+        std::printf("Validation stats: rel_mag=%.2e, abs_floor=%.2e, errors=%d/%d, max_diff=%.6f at %d (tol=%.6f, ref=%.6f, result=%.6f), max_ratio=%.3f at %d\n",
+                    rel_mag, abs_floor, errors, n, max_diff, max_idx, max_tol,
+                    static_cast<fp32_t>(ref[max_idx]), static_cast<fp32_t>(result[max_idx]),
+                    max_ratio, max_ratio_idx);
     }
     return errors == 0;
 }
 
 // CPU reference MXFP8 GEMM: fp8 inputs, fp32 output, per-32-K E8M0 scales per row.
-// SFA: [M, num_groups_k], SFB: [N, num_groups_k].
+// SFA: [M, num_groups_k], SFB: [N, num_groups_k]. Accumulate in double and
+// emit sum(abs(term)) per element for a condition-aware fp32 validation bound.
 void gemm_ref(const host_fp8_t* a, const host_fp8_t* b, const e8m0_t* sfa, const e8m0_t* sfb, fp32_t* c,
-              int m, int n, int k, int lda, int ldb, int ldc, int stride_sfa, int stride_sfb,
+              double* mag, int m, int n, int k, int lda, int ldb, int ldc, int stride_sfa, int stride_sfb,
               int group_k) {
     #pragma omp parallel for collapse(2)
     for (int i = 0; i < m; ++i) {
@@ -105,18 +129,23 @@ void gemm_ref(const host_fp8_t* a, const host_fp8_t* b, const e8m0_t* sfa, const
             const host_fp8_t* b_row = b + j * ldb;
             const e8m0_t* sfa_row = sfa + i * stride_sfa;
             const e8m0_t* sfb_row = sfb + j * stride_sfb;
-            fp32_t sum = 0.0f;
+            double sum = 0.0;
+            double sum_abs_term = 0.0;
             for (int k_group_idx = 0; k_group_idx < k / group_k; ++k_group_idx) {
-                const fp32_t scale_a = e8m0_to_f32(sfa_row[k_group_idx]);
-                const fp32_t scale_b = e8m0_to_f32(sfb_row[k_group_idx]);
-                const fp32_t scale = scale_a * scale_b;
+                const double scale = static_cast<double>(e8m0_to_f32(sfa_row[k_group_idx]))
+                                   * static_cast<double>(e8m0_to_f32(sfb_row[k_group_idx]));
                 const int p_begin = k_group_idx * group_k;
                 const int p_end = p_begin + group_k;
                 for (int p = p_begin; p < p_end; ++p) {
-                    sum += static_cast<fp32_t>(a_row[p]) * static_cast<fp32_t>(b_row[p]) * scale;
+                    const double term = static_cast<double>(static_cast<fp32_t>(a_row[p]))
+                                      * static_cast<double>(static_cast<fp32_t>(b_row[p]))
+                                      * scale;
+                    sum += term;
+                    sum_abs_term += std::abs(term);
                 }
             }
-            c[i * ldc + j] = sum;
+            c[i * ldc + j] = static_cast<fp32_t>(sum);
+            mag[i * ldc + j] = sum_abs_term;
         }
     }
 }
@@ -226,9 +255,11 @@ int main(int argc, char** argv) {
     auto host_b = std::make_unique<host_fp8_t[]>(static_cast<std::size_t>(batch) * N * K);
     std::unique_ptr<fp32_t[]> host_c;
     std::unique_ptr<fp32_t[]> host_c_out;
+    std::unique_ptr<double[]> host_c_mag;
     if (verify) {
         host_c = std::make_unique<fp32_t[]>(static_cast<std::size_t>(batch) * M * N);
         host_c_out = std::make_unique<fp32_t[]>(static_cast<std::size_t>(batch) * M * N);
+        host_c_mag = std::make_unique<double[]>(static_cast<std::size_t>(M) * N);
     }
 
     const std::size_t sfa_count = static_cast<std::size_t>(batch) * M * num_groups_k;
@@ -307,9 +338,11 @@ int main(int argc, char** argv) {
                      host_sfa.get() + static_cast<std::size_t>(b) * kargs.stride_sfa_batch,
                      host_sfb.get() + static_cast<std::size_t>(b) * kargs.stride_sfb_batch,
                      host_c.get() + static_cast<std::size_t>(b) * M * N,
+                     host_c_mag.get(),
                      M, N, K, K, K, N, kargs.stride_sfa, kargs.stride_sfb, GROUP_K);
             const bool valid = valid_vector(host_c.get() + static_cast<std::size_t>(b) * M * N,
-                                            host_c_out.get() + static_cast<std::size_t>(b) * M * N, M * N, 1e-3f);
+                                            host_c_out.get() + static_cast<std::size_t>(b) * M * N,
+                                            host_c_mag.get(), M * N);
             std::printf("[GEMM batch %d/%d: %dx%dx%d, block_%dx%dx%d] %s\n",
                         b + 1, batch, M, N, K, BLOCK_M, BLOCK_N, BLOCK_K, valid ? "VALID" : "FAIL");
             all_valid = all_valid && valid;

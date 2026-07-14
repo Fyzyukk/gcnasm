@@ -1,7 +1,6 @@
 #include <hip/hip_fp8.h>
 #include <opus/hip_minimal.hpp>
 #include <cmath>
-#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -10,10 +9,13 @@
 #include <random>
 #include <omp.h>
 
-#include "gemm_a8w8_mxfp8_common.h"
+#include "gemm_a8w8_blockscale_ldsbypass_common.h"
 
 template<class Traits>
-__global__ void gemm_a8w8_mxfp8_kernel(opus_gemm_kargs kargs);
+__global__ void gemm_a8w8_blockscale_ldsbypass_kernel(opus_gemm_kargs kargs);
+
+template<class Traits>
+__global__ void gemm_a8w8_blockscale_ldsbypass_repack_kernel(opus_gemm_kargs kargs);
 
 #define CHECK_HIP(call)                                                                                   \
     do {                                                                                                  \
@@ -26,25 +28,9 @@ __global__ void gemm_a8w8_mxfp8_kernel(opus_gemm_kargs kargs);
 
 #define CHECK_HIP_KERNEL_LAUNCH() CHECK_HIP(hipGetLastError())
 
-using GemmTraits = gemm_a8w8_mxfp8_traits<>;
+using GemmTraits = gemm_a8w8_blockscale_traits<>;
 using host_fp8_t = __hip_fp8_e4m3;
 using fp32_t = float;
-using e8m0_t = uint8_t;
-
-// E8M0: 8-bit exponent-only scale, bias 127. value = 2^(byte - 127); 0x7F = 1.0.
-inline fp32_t e8m0_to_f32(e8m0_t e) {
-    return std::ldexp(1.0f, static_cast<int>(e) - 127);
-}
-
-inline e8m0_t f32_to_e8m0(fp32_t v) {
-    if (v <= 0.0f) return 0;
-    int exp;
-    std::frexp(v, &exp);      // v in [0.5, 1) * 2^exp -> nearest power-of-two exponent
-    int biased = (exp - 1) + 127;
-    if (biased < 0) biased = 0;
-    if (biased > 255) biased = 255;
-    return static_cast<e8m0_t>(biased);
-}
 
 template<typename T>
 void rand_vector(T* ptr, std::size_t size, fp32_t min_val = 0.0f, fp32_t max_val = 1.0f) {
@@ -56,20 +42,6 @@ void rand_vector(T* ptr, std::size_t size, fp32_t min_val = 0.0f, fp32_t max_val
         #pragma omp for
         for (std::size_t i = 0; i < size; ++i) {
             ptr[i] = static_cast<T>(dis(gen));
-        }
-    }
-}
-
-// Random E8M0 scales drawn as power-of-two exponents around 1.0 (byte in [lo, hi]).
-void rand_scale_e8m0(e8m0_t* ptr, std::size_t size, int lo = 124, int hi = 130) {
-    #pragma omp parallel
-    {
-        std::random_device rd;
-        std::mt19937 gen(rd() + omp_get_thread_num());
-        std::uniform_int_distribution<int> dis(lo, hi);
-        #pragma omp for
-        for (std::size_t i = 0; i < size; ++i) {
-            ptr[i] = static_cast<e8m0_t>(dis(gen));
         }
     }
 }
@@ -93,22 +65,21 @@ bool valid_vector(const T* ref, const T* result, int n, fp32_t threshold = 1e-3f
     return errors == 0;
 }
 
-// CPU reference MXFP8 GEMM: fp8 inputs, fp32 output, per-32-K E8M0 scales per row.
-// SFA: [M, num_groups_k], SFB: [N, num_groups_k].
-void gemm_ref(const host_fp8_t* a, const host_fp8_t* b, const e8m0_t* sfa, const e8m0_t* sfb, fp32_t* c,
+// CPU reference GEMM: fp8 inputs, fp32 output, with grouped scale factors.
+void gemm_ref(const host_fp8_t* a, const host_fp8_t* b, const fp32_t* sfa, const fp32_t* sfb, fp32_t* c,
               int m, int n, int k, int lda, int ldb, int ldc, int stride_sfa, int stride_sfb,
-              int group_k) {
+              int group_m, int group_n, int group_k) {
     #pragma omp parallel for collapse(2)
     for (int i = 0; i < m; ++i) {
         for (int j = 0; j < n; ++j) {
             const host_fp8_t* a_row = a + i * lda;
             const host_fp8_t* b_row = b + j * ldb;
-            const e8m0_t* sfa_row = sfa + i * stride_sfa;
-            const e8m0_t* sfb_row = sfb + j * stride_sfb;
+            const int m_group = i / group_m;
+            const int n_group = j / group_n;
             fp32_t sum = 0.0f;
             for (int k_group_idx = 0; k_group_idx < k / group_k; ++k_group_idx) {
-                const fp32_t scale_a = e8m0_to_f32(sfa_row[k_group_idx]);
-                const fp32_t scale_b = e8m0_to_f32(sfb_row[k_group_idx]);
+                const fp32_t scale_a = sfa[k_group_idx * stride_sfa + m_group];
+                const fp32_t scale_b = sfb[n_group * stride_sfb + k_group_idx];
                 const fp32_t scale = scale_a * scale_b;
                 const int p_begin = k_group_idx * group_k;
                 const int p_end = p_begin + group_k;
@@ -121,10 +92,31 @@ void gemm_ref(const host_fp8_t* a, const host_fp8_t* b, const e8m0_t* sfa, const
     }
 }
 
+// B preshuffle: pack B[N, K] row-major into K-panels B'[K/BLOCK_K][N][BLOCK_K],
+// so each BLOCK_K-wide K-panel is contiguous per N-row. This turns the kernel's
+// B global load from a strided (stride=K) gather into panel-contiguous reads,
+// improving cache-line utilization. Kernel then loads B with stride_b = BLOCK_K.
+void shuffle_b(const host_fp8_t* src, host_fp8_t* dst, int batch, int N, int K, int block_k) {
+    const int num_kt = K / block_k;
+    #pragma omp parallel for collapse(2)
+    for (int b = 0; b < batch; ++b) {
+        for (int n = 0; n < N; ++n) {
+            const host_fp8_t* s = src + static_cast<std::size_t>(b) * N * K + static_cast<std::size_t>(n) * K;
+            for (int kt = 0; kt < num_kt; ++kt) {
+                host_fp8_t* d = dst + static_cast<std::size_t>(b) * N * K
+                              + (static_cast<std::size_t>(kt) * N + n) * block_k;
+                for (int ki = 0; ki < block_k; ++ki) {
+                    d[ki] = s[static_cast<std::size_t>(kt) * block_k + ki];
+                }
+            }
+        }
+    }
+}
+
 template<class Traits>
 void benchmark_kernel(const opus_gemm_kargs& kargs, dim3 grid, dim3 block, int warmup = 200, int iterations = 100) {
     for (int i = 0; i < warmup; ++i) {
-        gemm_a8w8_mxfp8_kernel<Traits><<<grid, block>>>(kargs);
+        gemm_a8w8_blockscale_ldsbypass_kernel<Traits><<<grid, block>>>(kargs);
         CHECK_HIP_KERNEL_LAUNCH();
     }
 
@@ -137,7 +129,7 @@ void benchmark_kernel(const opus_gemm_kargs& kargs, dim3 grid, dim3 block, int w
     CHECK_HIP(hipEventRecord(start));
 
     for (int i = 0; i < iterations; ++i) {
-        gemm_a8w8_mxfp8_kernel<Traits><<<grid, block>>>(kargs);
+        gemm_a8w8_blockscale_ldsbypass_kernel<Traits><<<grid, block>>>(kargs);
         CHECK_HIP_KERNEL_LAUNCH();
     }
 
@@ -209,17 +201,17 @@ int main(int argc, char** argv) {
         return 1;
     }
 
+    constexpr int GROUP_M = GemmTraits::GROUP_M;
+    constexpr int GROUP_N = GemmTraits::GROUP_N;
     constexpr int GROUP_K = GemmTraits::GROUP_K;
-    if (M % BLOCK_M != 0 || N % BLOCK_N != 0 || K % BLOCK_K != 0) {
-        std::cerr << "M/N/K must be multiples of BLOCK_M/BLOCK_N/BLOCK_K ("
-                  << BLOCK_M << "," << BLOCK_N << "," << BLOCK_K << ").\n";
-        return 1;
-    }
-    if (K % GROUP_K != 0) {
-        std::cerr << "K must be a multiple of GROUP_K (" << GROUP_K << ").\n";
+    if (M % GROUP_M != 0 || N % GROUP_N != 0 || K % GROUP_K != 0) {
+        std::cerr << "M/N/K must be multiples of GROUP_M/GROUP_N/GROUP_K ("
+                  << GROUP_M << "," << GROUP_N << "," << GROUP_K << ") for scale factors.\n";
         return 1;
     }
 
+    const int num_groups_m = M / GROUP_M;
+    const int num_groups_n = N / GROUP_N;
     const int num_groups_k = K / GROUP_K;
 
     auto host_a = std::make_unique<host_fp8_t[]>(static_cast<std::size_t>(batch) * M * K);
@@ -231,68 +223,80 @@ int main(int argc, char** argv) {
         host_c_out = std::make_unique<fp32_t[]>(static_cast<std::size_t>(batch) * M * N);
     }
 
-    const std::size_t sfa_count = static_cast<std::size_t>(batch) * M * num_groups_k;
-    const std::size_t sfb_count = static_cast<std::size_t>(batch) * N * num_groups_k;
-    auto host_sfa = std::make_unique<e8m0_t[]>(sfa_count);
-    auto host_sfb = std::make_unique<e8m0_t[]>(sfb_count);
+    const std::size_t sfa_count = static_cast<std::size_t>(batch) * num_groups_m * num_groups_k;
+    const std::size_t sfb_count = static_cast<std::size_t>(batch) * num_groups_n * num_groups_k;
+    auto host_sfa = std::make_unique<fp32_t[]>(sfa_count);
+    auto host_sfb = std::make_unique<fp32_t[]>(sfb_count);
 
     rand_vector(host_a.get(), static_cast<std::size_t>(batch) * M * K, 0.0f, 1.0f);
     rand_vector(host_b.get(), static_cast<std::size_t>(batch) * N * K, -0.5f, 0.5f);
-    rand_scale_e8m0(host_sfa.get(), sfa_count);
-    rand_scale_e8m0(host_sfb.get(), sfb_count);
-    if (const char* u = std::getenv("MXFP8_UNIT_SCALE")) {
-        if (std::atoi(u)) {
-            std::fill_n(host_sfa.get(), sfa_count, static_cast<e8m0_t>(127));
-            std::fill_n(host_sfb.get(), sfb_count, static_cast<e8m0_t>(127));
-        }
-    }
+    rand_vector(host_sfa.get(), sfa_count, 0.8f, 1.2f);
+    rand_vector(host_sfb.get(), sfb_count, 0.8f, 1.2f);
+
+    // Preshuffle B into K-panel layout on host; kernel reads this shuffled copy.
+    // host_b keeps the original [N, K] layout for the CPU reference below.
+    auto host_b_shuffled = std::make_unique<host_fp8_t[]>(static_cast<std::size_t>(batch) * N * K);
+    shuffle_b(host_b.get(), host_b_shuffled.get(), batch, N, K, BLOCK_K);
 
     void* dev_a = nullptr;
     void* dev_b = nullptr;
+    void* dev_b_pp = nullptr;
     void* dev_sfa = nullptr;
     void* dev_sfb = nullptr;
     fp32_t* dev_c = nullptr;
     CHECK_HIP(hipMalloc(&dev_a, static_cast<std::size_t>(batch) * M * K * sizeof(host_fp8_t)));
     CHECK_HIP(hipMalloc(&dev_b, static_cast<std::size_t>(batch) * N * K * sizeof(host_fp8_t)));
+    // B'' fragment buffer holds each N-row once per col-tile -> same total bytes as B.
+    CHECK_HIP(hipMalloc(&dev_b_pp, static_cast<std::size_t>(batch) * N * K * sizeof(host_fp8_t)));
     CHECK_HIP(hipMalloc(&dev_c, static_cast<std::size_t>(batch) * M * N * sizeof(fp32_t)));
-    CHECK_HIP(hipMalloc(&dev_sfa, sfa_count * sizeof(e8m0_t)));
-    CHECK_HIP(hipMalloc(&dev_sfb, sfb_count * sizeof(e8m0_t)));
+    CHECK_HIP(hipMalloc(&dev_sfa, sfa_count * sizeof(fp32_t)));
+    CHECK_HIP(hipMalloc(&dev_sfb, sfb_count * sizeof(fp32_t)));
 
     CHECK_HIP(hipMemcpy(dev_a, host_a.get(), static_cast<std::size_t>(batch) * M * K * sizeof(host_fp8_t), hipMemcpyHostToDevice));
-    CHECK_HIP(hipMemcpy(dev_b, host_b.get(), static_cast<std::size_t>(batch) * N * K * sizeof(host_fp8_t), hipMemcpyHostToDevice));
-    CHECK_HIP(hipMemcpy(dev_sfa, host_sfa.get(), sfa_count * sizeof(e8m0_t), hipMemcpyHostToDevice));
-    CHECK_HIP(hipMemcpy(dev_sfb, host_sfb.get(), sfb_count * sizeof(e8m0_t), hipMemcpyHostToDevice));
+    CHECK_HIP(hipMemcpy(dev_b, host_b_shuffled.get(), static_cast<std::size_t>(batch) * N * K * sizeof(host_fp8_t), hipMemcpyHostToDevice));
+    CHECK_HIP(hipMemcpy(dev_sfa, host_sfa.get(), sfa_count * sizeof(fp32_t), hipMemcpyHostToDevice));
+    CHECK_HIP(hipMemcpy(dev_sfb, host_sfb.get(), sfb_count * sizeof(fp32_t), hipMemcpyHostToDevice));
 
     opus_gemm_kargs kargs{};
     kargs.ptr_a = dev_a;
-    kargs.ptr_b = dev_b;
+    kargs.ptr_b = dev_b;         // repack input (preshuffled K-panel B')
+    kargs.ptr_b_pp = dev_b_pp;   // repack output / main gemm input (compact fragments)
     kargs.ptr_c = dev_c;
     kargs.m = M;
     kargs.n = N;
     kargs.k = K;
     kargs.batch = batch;
     kargs.stride_a = K;
-    kargs.stride_b = K;
+    kargs.stride_b = BLOCK_K;  // preshuffled B: rows within a K-panel are BLOCK_K apart
     kargs.stride_c = N;
     kargs.stride_a_batch = M * K;
     kargs.stride_b_batch = N * K;
+    kargs.stride_b_pp_batch = N * K;
     kargs.stride_c_batch = M * N;
     kargs.ptr_sfa = dev_sfa;
     kargs.ptr_sfb = dev_sfb;
-    kargs.stride_sfa = num_groups_k;
+    kargs.stride_sfa = num_groups_m;
     kargs.stride_sfb = num_groups_k;
-    kargs.stride_sfa_batch = M * num_groups_k;
-    kargs.stride_sfb_batch = N * num_groups_k;
+    kargs.stride_sfa_batch = num_groups_m * num_groups_k;
+    kargs.stride_sfb_batch = num_groups_n * num_groups_k;
 
     const int num_tiles_m = ceil_div(M, BLOCK_M);
     const int num_tiles_n = ceil_div(N, BLOCK_N);
+    const int num_tiles_k = ceil_div(K, BLOCK_K);
     dim3 grid(num_tiles_m * num_tiles_n, 1, batch);
     dim3 block(BLOCK_SIZE);
 
-    std::printf("Launching MXFP8 GEMM kernel: M=%d, N=%d, K=%d, grid=(%u,%u,%u), block=%d\n",
+    // One-shot weight repack: fill B'' with per-lane MMA fragments (offline preprocessing,
+    // not timed). Grid covers every (col_tile, k_tile) so all K-panels are packed.
+    dim3 repack_grid(num_tiles_n * num_tiles_k, 1, batch);
+    gemm_a8w8_blockscale_ldsbypass_repack_kernel<GemmTraits><<<repack_grid, block>>>(kargs);
+    CHECK_HIP_KERNEL_LAUNCH();
+    CHECK_HIP(hipDeviceSynchronize());
+
+    std::printf("Launching GEMM kernel: M=%d, N=%d, K=%d, grid=(%u,%u,%u), block=%d\n",
                 M, N, K, grid.x, grid.y, grid.z, BLOCK_SIZE);
 
-    gemm_a8w8_mxfp8_kernel<GemmTraits><<<grid, block>>>(kargs);
+    gemm_a8w8_blockscale_ldsbypass_kernel<GemmTraits><<<grid, block>>>(kargs);
     CHECK_HIP_KERNEL_LAUNCH();
 
     if (verify) {
@@ -307,7 +311,7 @@ int main(int argc, char** argv) {
                      host_sfa.get() + static_cast<std::size_t>(b) * kargs.stride_sfa_batch,
                      host_sfb.get() + static_cast<std::size_t>(b) * kargs.stride_sfb_batch,
                      host_c.get() + static_cast<std::size_t>(b) * M * N,
-                     M, N, K, K, K, N, kargs.stride_sfa, kargs.stride_sfb, GROUP_K);
+                     M, N, K, K, K, N, kargs.stride_sfa, kargs.stride_sfb, GROUP_M, GROUP_N, GROUP_K);
             const bool valid = valid_vector(host_c.get() + static_cast<std::size_t>(b) * M * N,
                                             host_c_out.get() + static_cast<std::size_t>(b) * M * N, M * N, 1e-3f);
             std::printf("[GEMM batch %d/%d: %dx%dx%d, block_%dx%dx%d] %s\n",
@@ -324,6 +328,7 @@ int main(int argc, char** argv) {
 
     CHECK_HIP(hipFree(dev_a));
     CHECK_HIP(hipFree(dev_b));
+    CHECK_HIP(hipFree(dev_b_pp));
     CHECK_HIP(hipFree(dev_c));
     CHECK_HIP(hipFree(dev_sfa));
     CHECK_HIP(hipFree(dev_sfb));
