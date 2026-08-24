@@ -75,6 +75,119 @@ void rand_scale_e8m0(e8m0_t* ptr, std::size_t size, int lo = 124, int hi = 130) 
     }
 }
 
+// Tile-major consumer order matching the LDS image:
+// [consumer_wave_m][r][q][m_call].  The final m_call dimension is four
+// contiguous bytes, so one cooperative loader lane can copy it directly to
+// LDS with a single dword VMEM instruction.
+template<class Traits>
+void pack_sfa_consumer_major(
+    const e8m0_t* src,
+    e8m0_t* dst,
+    int batch,
+    int m,
+    int k) {
+    constexpr int scale_count = Traits::SCALE_KGROUPS_PER_MFMA;
+    constexpr int tile_elems = Traits::packed_sfa_tile_elem;
+    static_assert(tile_elems == Traits::B_M * Traits::NUM_KGROUPS);
+
+    const int num_groups_k = k / Traits::GROUP_K;
+    const int num_tiles_m = m / Traits::B_M;
+    const int num_tiles_k = k / Traits::B_K;
+
+    #pragma omp parallel for collapse(3)
+    for (int b = 0; b < batch; ++b) {
+        for (int mb = 0; mb < num_tiles_m; ++mb) {
+            for (int kt = 0; kt < num_tiles_k; ++kt) {
+                const std::size_t dst_tile =
+                    (static_cast<std::size_t>(b) * num_tiles_m * num_tiles_k
+                     + static_cast<std::size_t>(mb) * num_tiles_k + kt)
+                    * tile_elems;
+                for (int consumer_wave_m = 0; consumer_wave_m < Traits::T_M;
+                     ++consumer_wave_m) {
+                    for (int r = 0; r < Traits::W_M; ++r) {
+                        for (int q = 0; q < scale_count; ++q) {
+                            for (int m_call = 0; m_call < Traits::SCALE_M_CALLS;
+                                 ++m_call) {
+                                const int src_m =
+                                    mb * Traits::B_M
+                                    + m_call * Traits::T_M * Traits::W_M
+                                    + consumer_wave_m * Traits::W_M + r;
+                                const int src_q = kt * Traits::NUM_KGROUPS + q;
+                                const std::size_t dst_offset =
+                                    (((consumer_wave_m * Traits::W_M + r) * scale_count + q)
+                                     * Traits::SCALE_M_CALLS)
+                                    + m_call;
+                                dst[dst_tile + dst_offset] =
+                                    src[(static_cast<std::size_t>(b) * m + src_m)
+                                        * num_groups_k + src_q];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// SFB consumer order is
+// [half_n][consumer_wave_n][r][q][n_call].  n_call is contiguous for the
+// same direct dword global-to-LDS copy.
+template<class Traits>
+void pack_sfb_consumer_major(
+    const e8m0_t* src,
+    e8m0_t* dst,
+    int batch,
+    int n,
+    int k) {
+    constexpr int scale_count = Traits::SCALE_KGROUPS_PER_MFMA;
+    constexpr int tile_elems = Traits::packed_sfb_tile_elem;
+    static_assert(tile_elems == Traits::B_N * Traits::NUM_KGROUPS);
+
+    const int num_groups_k = k / Traits::GROUP_K;
+    const int num_tiles_n = n / Traits::B_N;
+    const int num_tiles_k = k / Traits::B_K;
+
+    #pragma omp parallel for collapse(3)
+    for (int b = 0; b < batch; ++b) {
+        for (int nb = 0; nb < num_tiles_n; ++nb) {
+            for (int kt = 0; kt < num_tiles_k; ++kt) {
+                const std::size_t dst_tile =
+                    (static_cast<std::size_t>(b) * num_tiles_n * num_tiles_k
+                     + static_cast<std::size_t>(nb) * num_tiles_k + kt)
+                    * tile_elems;
+                for (int half_n = 0; half_n < Traits::SCALE_N_HALVES; ++half_n) {
+                    for (int consumer_wave_n = 0; consumer_wave_n < Traits::T_N;
+                         ++consumer_wave_n) {
+                        for (int r = 0; r < Traits::W_N; ++r) {
+                            for (int q = 0; q < scale_count; ++q) {
+                                for (int n_call = 0; n_call < Traits::SCALE_N_CALLS;
+                                     ++n_call) {
+                                    const int src_n =
+                                        nb * Traits::B_N + half_n * Traits::HALF_B_N
+                                        + n_call * Traits::T_N * Traits::W_N
+                                        + consumer_wave_n * Traits::W_N + r;
+                                    const int src_q = kt * Traits::NUM_KGROUPS + q;
+                                    const std::size_t dst_offset =
+                                        (((((half_n * Traits::T_N + consumer_wave_n)
+                                             * Traits::W_N)
+                                            + r)
+                                           * scale_count
+                                           + q)
+                                          * Traits::SCALE_N_CALLS)
+                                        + n_call;
+                                    dst[dst_tile + dst_offset] =
+                                        src[(static_cast<std::size_t>(b) * n + src_n)
+                                            * num_groups_k + src_q];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 template<typename T>
 bool valid_vector(const T* ref, const T* result, const double* mag, int n,
                   fp32_t rel_mag = 5e-5f, fp32_t abs_floor = 1e-4f) {
@@ -250,6 +363,9 @@ int main(int argc, char** argv) {
     }
 
     const int num_groups_k = K / GROUP_K;
+    const int num_tiles_m = M / BLOCK_M;
+    const int num_tiles_n = N / BLOCK_N;
+    const int num_tiles_k = K / BLOCK_K;
 
     auto host_a = std::make_unique<host_fp8_t[]>(static_cast<std::size_t>(batch) * M * K);
     auto host_b = std::make_unique<host_fp8_t[]>(static_cast<std::size_t>(batch) * N * K);
@@ -266,6 +382,8 @@ int main(int argc, char** argv) {
     const std::size_t sfb_count = static_cast<std::size_t>(batch) * N * num_groups_k;
     auto host_sfa = std::make_unique<e8m0_t[]>(sfa_count);
     auto host_sfb = std::make_unique<e8m0_t[]>(sfb_count);
+    auto host_sfa_packed = std::make_unique<e8m0_t[]>(sfa_count);
+    auto host_sfb_packed = std::make_unique<e8m0_t[]>(sfb_count);
 
     rand_vector(host_a.get(), static_cast<std::size_t>(batch) * M * K, 0.0f, 1.0f);
     rand_vector(host_b.get(), static_cast<std::size_t>(batch) * N * K, -0.5f, 0.5f);
@@ -322,6 +440,11 @@ int main(int argc, char** argv) {
         }
     }
 
+    pack_sfa_consumer_major<GemmTraits>(
+        host_sfa.get(), host_sfa_packed.get(), batch, M, K);
+    pack_sfb_consumer_major<GemmTraits>(
+        host_sfb.get(), host_sfb_packed.get(), batch, N, K);
+
     void* dev_a = nullptr;
     void* dev_b = nullptr;
     void* dev_sfa = nullptr;
@@ -335,8 +458,8 @@ int main(int argc, char** argv) {
 
     CHECK_HIP(hipMemcpy(dev_a, host_a.get(), static_cast<std::size_t>(batch) * M * K * sizeof(host_fp8_t), hipMemcpyHostToDevice));
     CHECK_HIP(hipMemcpy(dev_b, host_b.get(), static_cast<std::size_t>(batch) * N * K * sizeof(host_fp8_t), hipMemcpyHostToDevice));
-    CHECK_HIP(hipMemcpy(dev_sfa, host_sfa.get(), sfa_count * sizeof(e8m0_t), hipMemcpyHostToDevice));
-    CHECK_HIP(hipMemcpy(dev_sfb, host_sfb.get(), sfb_count * sizeof(e8m0_t), hipMemcpyHostToDevice));
+    CHECK_HIP(hipMemcpy(dev_sfa, host_sfa_packed.get(), sfa_count * sizeof(e8m0_t), hipMemcpyHostToDevice));
+    CHECK_HIP(hipMemcpy(dev_sfb, host_sfb_packed.get(), sfb_count * sizeof(e8m0_t), hipMemcpyHostToDevice));
 
     opus_gemm_scale_kargs kargs{};
     kargs.ptr_a = dev_a;
@@ -354,13 +477,11 @@ int main(int argc, char** argv) {
     kargs.stride_c_batch = M * N;
     kargs.ptr_sfa = dev_sfa;
     kargs.ptr_sfb = dev_sfb;
-    kargs.stride_sfa = num_groups_k;
-    kargs.stride_sfb = num_groups_k;
-    kargs.stride_sfa_batch = M * num_groups_k;
-    kargs.stride_sfb_batch = N * num_groups_k;
+    kargs.stride_sfa = GemmTraits::packed_sfa_tile_elem;
+    kargs.stride_sfb = GemmTraits::packed_sfb_tile_elem;
+    kargs.stride_sfa_batch = num_tiles_m * num_tiles_k * kargs.stride_sfa;
+    kargs.stride_sfb_batch = num_tiles_n * num_tiles_k * kargs.stride_sfb;
 
-    const int num_tiles_m = ceil_div_scale(M, BLOCK_M);
-    const int num_tiles_n = ceil_div_scale(N, BLOCK_N);
     dim3 grid(num_tiles_m * num_tiles_n, 1, batch);
     dim3 block(BLOCK_SIZE);
 
@@ -379,11 +500,11 @@ int main(int argc, char** argv) {
         for (int b = 0; b < batch; ++b) {
             gemm_ref(host_a.get() + static_cast<std::size_t>(b) * M * K,
                      host_b.get() + static_cast<std::size_t>(b) * N * K,
-                     host_sfa.get() + static_cast<std::size_t>(b) * kargs.stride_sfa_batch,
-                     host_sfb.get() + static_cast<std::size_t>(b) * kargs.stride_sfb_batch,
+                     host_sfa.get() + static_cast<std::size_t>(b) * M * num_groups_k,
+                     host_sfb.get() + static_cast<std::size_t>(b) * N * num_groups_k,
                      host_c.get() + static_cast<std::size_t>(b) * M * N,
                      host_c_mag.get(),
-                     M, N, K, K, K, N, kargs.stride_sfa, kargs.stride_sfb, GROUP_K);
+                     M, N, K, K, K, N, num_groups_k, num_groups_k, GROUP_K);
             const bool valid = valid_vector(host_c.get() + static_cast<std::size_t>(b) * M * N,
                                             host_c_out.get() + static_cast<std::size_t>(b) * M * N,
                                             host_c_mag.get(), M * N);

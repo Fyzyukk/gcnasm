@@ -18,6 +18,8 @@ struct opus_gemm_scale_kargs {
 
     const void* __restrict__ ptr_sfa;
     const void* __restrict__ ptr_sfb;
+    // Packed scale strides in E8M0 elements.  One stride is one tile-major
+    // [loader_wave][lane][q] image; the batch stride spans all block/K tiles.
     int stride_sfa;
     int stride_sfb;
     int stride_sfa_batch;
@@ -74,19 +76,27 @@ struct gemm_a8w8_mxfp8_scale_traits {
     static constexpr int SCALE_KGROUPS_PER_MFMA = W_K / GROUP_K;
     static constexpr int NUM_KGROUPS = B_K / GROUP_K;
 
-    static constexpr int smem_linear_wave = WARP_SIZE * VEC_A;
-    static constexpr int smem_sub = smem_linear_wave / B_K;
-    static constexpr int smem_m_rep = HALF_B_M / smem_sub;
-    static constexpr int smem_n_rep = HALF_B_N / smem_sub;
+    static constexpr int smem_linear_wave = WARP_SIZE * VEC_A; // 1024
+    static constexpr int smem_sub = smem_linear_wave / B_K; // 8
+    static constexpr int smem_m_rep = HALF_B_M / smem_sub; // 16
+    static constexpr int smem_n_rep = HALF_B_N / smem_sub; // 16
     static constexpr int smem_padding = 32;
 
-    static constexpr int a_buffer_load_insts = HALF_B_M * B_K / (BLOCK_SIZE * VEC_A);
-    static constexpr int b_buffer_load_insts = HALF_B_N * B_K / (BLOCK_SIZE * VEC_B);
+    // The packed global tile exactly matches the consumer-major LDS image, so
+    // cooperative loaders can copy one aligned dword directly into LDS.
+    static constexpr int SCALE_M_CALLS = B_M / (T_M * W_M); // 4
+    static constexpr int SCALE_N_CALLS = E_N; // 4 per N half-tile
+    static constexpr int SCALE_N_HALVES = B_N / HALF_B_N; // 2
+    static constexpr int packed_sfa_tile_elem =
+        T_M * W_M * SCALE_KGROUPS_PER_MFMA * SCALE_M_CALLS; // 1024 bytes
+    static constexpr int packed_sfb_tile_elem =
+        SCALE_N_HALVES * T_N * W_N * SCALE_KGROUPS_PER_MFMA * SCALE_N_CALLS; // 1024 bytes
+
+    static constexpr int a_buffer_load_insts = HALF_B_M * B_K / (BLOCK_SIZE * VEC_A); // 2
+    static constexpr int b_buffer_load_insts = HALF_B_N * B_K / (BLOCK_SIZE * VEC_B); // 2
 
     static constexpr int a_ds_read_insts = E_M * W_M * W_K / (WARP_SIZE * VEC_A);
     static constexpr int b_ds_read_insts = E_N * W_N * W_K / (WARP_SIZE * VEC_B);
-    static constexpr int sfa_buffer_load_insts = E_M;
-    static constexpr int sfb_buffer_load_insts = E_N;
     static constexpr int IDENTITY_E8M0 = 127;
 };
 
