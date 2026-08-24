@@ -1,5 +1,9 @@
 # GEMM A8W8 MXFP8 Scaled-MFMA Pipeline Flow
 
+> 本文描述的是较早的 global-to-VGPR scale pipeline，不再代表当前
+> kernel。当前 host consumer-major prepack + cooperative dword
+> global-to-LDS 流程见 `MXFP8_GEMM_OPTIMIZATION_LOG.md`。
+
 本文档整理当前 `gemm_a8w8_mxfp8_scale_kernel_template.hpp` 的实际执行流程。优化实验记录放在 `SCALE_LOAD_OPTIMIZATION_PLAN1.md`。
 
 ## 1. Kernel 目标

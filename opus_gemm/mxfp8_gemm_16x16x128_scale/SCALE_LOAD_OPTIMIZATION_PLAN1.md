@@ -1,5 +1,9 @@
 # MXFP8 Scaled-MFMA Scale Load Optimization Plan
 
+> 本文记录较早期实验，顶部“当前版本”已不是最新状态。2.15 P 的
+> consumer-major cooperative global-to-LDS 保存点、与 1.878 P 版本的
+> 差异及最新瓶颈见 `MXFP8_GEMM_OPTIMIZATION_LOG.md`。
+
 本文档记录 `gemm_a8w8_mxfp8_scale_kernel_template.hpp` 的 scale load 相关优化、已验证实验、当前保留状态和后续路线。整体 kernel pipeline 说明放在 `GEMM_A8W8_MXFP8_SCALE_PIPELINE_FLOW.md`。
 
 ## 当前结论
