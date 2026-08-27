@@ -76,9 +76,8 @@ void rand_scale_e8m0(e8m0_t* ptr, std::size_t size, int lo = 124, int hi = 130) 
 }
 
 // Tile-major consumer order matching the LDS image:
-// [consumer_wave_m][r][q][m_call].  The final m_call dimension is four
-// contiguous bytes, so one cooperative loader lane can copy it directly to
-// LDS with a single dword VMEM instruction.
+// [consumer_wave_m][r][q][m_call]. The packed tile is a byte-for-byte image
+// of the consumer-facing LDS tile.
 template<class Traits>
 void pack_sfa_consumer_major(
     const e8m0_t* src,
@@ -88,7 +87,6 @@ void pack_sfa_consumer_major(
     int k) {
     constexpr int scale_count = Traits::SCALE_KGROUPS_PER_MFMA;
     constexpr int tile_elems = Traits::packed_sfa_tile_elem;
-    static_assert(tile_elems == Traits::B_M * Traits::NUM_KGROUPS);
 
     const int num_groups_k = k / Traits::GROUP_K;
     const int num_tiles_m = m / Traits::B_M;
@@ -130,8 +128,8 @@ void pack_sfa_consumer_major(
 }
 
 // SFB consumer order is
-// [half_n][consumer_wave_n][r][q][n_call].  n_call is contiguous for the
-// same direct dword global-to-LDS copy.
+// [half_n][consumer_wave_n][r][q][n_call]. The packed tile is copied
+// linearly to LDS; producer vector width does not change this layout.
 template<class Traits>
 void pack_sfb_consumer_major(
     const e8m0_t* src,
@@ -141,7 +139,6 @@ void pack_sfb_consumer_major(
     int k) {
     constexpr int scale_count = Traits::SCALE_KGROUPS_PER_MFMA;
     constexpr int tile_elems = Traits::packed_sfb_tile_elem;
-    static_assert(tile_elems == Traits::B_N * Traits::NUM_KGROUPS);
 
     const int num_groups_k = k / Traits::GROUP_K;
     const int num_tiles_n = n / Traits::B_N;

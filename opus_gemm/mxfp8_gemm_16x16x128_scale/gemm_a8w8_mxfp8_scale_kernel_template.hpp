@@ -7,13 +7,89 @@
 
 using opus::operator""_I;
 
-template<int Pairs, int VALU_CNT, int Group>
+template<class T, int Begin, int End, class Mem, class Offsets, class V>
+__device__ inline void load_b_range_scale(
+    Mem& mem, const Offsets& offsets, V& dst) {
+    opus::static_for<End - Begin>([&](auto j) {
+        constexpr int i = Begin + decltype(j)::value;
+        auto value = mem.template load<T::VEC_B>(offsets[i]);
+        opus::set_slice(
+            dst,
+            value,
+            opus::number<i * T::VEC_B>{},
+            opus::number<(i + 1) * T::VEC_B>{});
+    });
+}
+
+template<class T>
+__device__ inline auto make_layout_gsfa_scale(int lane_id) {
+    constexpr int scale_vec = 16;
+
+    constexpr auto block_shape = opus::make_tuple(
+        opus::number<T::WARP_SIZE>{},
+        opus::number<scale_vec>{});
+    constexpr auto block_dim = opus::make_tuple(
+        opus::make_tuple(opus::p_dim{}),
+        opus::make_tuple(opus::y_dim{}));
+
+    return opus::make_layout<scale_vec>(
+        block_shape,
+        opus::unfold_x_stride(block_dim, block_shape, opus::tuple{opus::number<scale_vec>{}, 1_I}),
+        opus::unfold_p_coord(block_dim, opus::tuple{lane_id}));
+}
+
+template<class T>
+__device__ inline auto make_layout_ssfa_scale() {
+    constexpr int scale_vec = 16;
+
+    constexpr auto block_shape =
+        opus::make_tuple(opus::number<scale_vec>{});
+    constexpr auto block_dim =
+        opus::make_tuple(opus::make_tuple(opus::y_dim{}));
+
+    return opus::make_layout<scale_vec>(
+        block_shape,
+        opus::unfold_x_stride(block_dim, block_shape, opus::tuple{1_I}),
+        opus::unfold_p_coord(block_dim, opus::tuple{}));
+}
+
+template<class T>
+__device__ inline auto make_layout_gsfb_scale(int lane_id) {
+    constexpr int scale_vec = 16;
+
+    constexpr auto block_shape = opus::make_tuple(
+        opus::number<T::WARP_SIZE>{},
+        opus::number<scale_vec>{});
+    constexpr auto block_dim = opus::make_tuple(
+        opus::make_tuple(opus::p_dim{}),
+        opus::make_tuple(opus::y_dim{}));
+
+    return opus::make_layout<scale_vec>(
+        block_shape,
+        opus::unfold_x_stride(block_dim, block_shape, opus::tuple{opus::number<scale_vec>{}, 1_I}),
+        opus::unfold_p_coord(block_dim, opus::tuple{lane_id}));
+}
+
+template<class T>
+__device__ inline auto make_layout_ssfb_scale() {
+    constexpr int scale_vec = 16;
+
+    constexpr auto block_shape =
+        opus::make_tuple(opus::number<scale_vec>{});
+    constexpr auto block_dim =
+        opus::make_tuple(opus::make_tuple(opus::y_dim{}));
+
+    return opus::make_layout<scale_vec>(
+        block_shape,
+        opus::unfold_x_stride(block_dim, block_shape, opus::tuple{1_I}),
+        opus::unfold_p_coord(block_dim, opus::tuple{}));
+}
+
 __device__ inline void sched_barrier_pairs_scale() {
-    __builtin_amdgcn_sched_group_barrier(0x08, 1, Group);
-    __builtin_amdgcn_sched_group_barrier(0x02, VALU_CNT, Group);
-    if constexpr (Pairs > 1) {
-        sched_barrier_pairs_scale<Pairs - 1, VALU_CNT, Group>();
-    }
+    __builtin_amdgcn_sched_group_barrier(0x08, 1, 0);
+    __builtin_amdgcn_sched_group_barrier(0x02, 2, 0);
+    __builtin_amdgcn_sched_group_barrier(0x08, 1, 0);
+    __builtin_amdgcn_sched_group_barrier(0x02, 2, 0);
 }
 
 template<class T, int HALF_TILE_M, int M_REPEAT, int N_GROUP, class MMA>
@@ -53,190 +129,6 @@ __device__ inline void mma_scale_repeat_n2(
             opus::number<scale_op_sel_b>{});
         opus::set_slice(v_c, s_c, opus::number<c_offset>{}, opus::number<c_offset + c_len>{});
     });
-}
-
-// Cooperative SFA loader: the four wave_n==0 waves each copy one contiguous
-// 256-byte consumer-wave slice.  Each lane transfers four m_call bytes.
-template<class T>
-__device__ inline auto make_layout_lsfa_scale(int lane_id, int wave_id_m) {
-    constexpr int scale_count = T::SCALE_KGROUPS_PER_MFMA;
-    constexpr int m_calls = T::SCALE_M_CALLS;
-
-    constexpr auto block_shape = opus::make_tuple(
-        opus::number<T::T_M>{},
-        opus::number<T::W_M>{},
-        opus::number<scale_count>{},
-        opus::number<m_calls>{});
-    constexpr auto block_dim = opus::make_tuple(
-        opus::make_tuple(opus::p_dim{}, opus::p_dim{}),
-        opus::make_tuple(opus::p_dim{}),
-        opus::make_tuple(opus::y_dim{}));
-
-    return opus::make_layout<m_calls>(
-        block_shape,
-        opus::unfold_x_stride(
-            block_dim,
-            block_shape,
-            opus::tuple{opus::number<scale_count * m_calls>{},
-                        opus::number<m_calls>{},
-                        1_I}),
-        opus::unfold_p_coord(
-            block_dim,
-            opus::tuple{wave_id_m, lane_id / scale_count, lane_id % scale_count}));
-}
-
-// Cooperative SFB loader: the four wave_n==1 waves map to
-// (half_n, consumer_wave_n), again moving one packed dword per lane.
-template<class T>
-__device__ inline auto make_layout_lsfb_scale(int lane_id, int wave_id_m) {
-    constexpr int scale_count = T::SCALE_KGROUPS_PER_MFMA;
-    constexpr int n_calls = T::SCALE_N_CALLS;
-
-    constexpr auto block_shape = opus::make_tuple(
-        opus::number<T::SCALE_N_HALVES>{},
-        opus::number<T::T_N>{},
-        opus::number<T::W_N>{},
-        opus::number<scale_count>{},
-        opus::number<n_calls>{});
-    constexpr auto block_dim = opus::make_tuple(
-        opus::make_tuple(opus::p_dim{}),
-        opus::make_tuple(opus::p_dim{}, opus::p_dim{}),
-        opus::make_tuple(opus::p_dim{}),
-        opus::make_tuple(opus::y_dim{}));
-
-    return opus::make_layout<n_calls>(
-        block_shape,
-        opus::unfold_x_stride(
-            block_dim,
-            block_shape,
-            opus::tuple{opus::number<T::T_N * T::W_N * scale_count * n_calls>{},
-                        opus::number<scale_count * n_calls>{},
-                        opus::number<n_calls>{},
-                        1_I}),
-        opus::unfold_p_coord(
-            block_dim,
-            opus::tuple{wave_id_m / T::T_N,
-                        wave_id_m % T::T_N,
-                        lane_id / scale_count,
-                        lane_id % scale_count}));
-}
-
-// Four wave_n==0 waves cooperatively load the 256 SFA rows.  Each lane owns
-// one row and fetches its four contiguous K-group bytes as one dword.
-template<class T>
-__device__ inline auto make_layout_gsfa_scale(
-    int lane_id, int wave_id_m, int stride_sfa) {
-    constexpr int scale_count = T::SCALE_KGROUPS_PER_MFMA;
-    constexpr int rows_per_wave = T::B_M / T::T_M;
-    static_assert(rows_per_wave == T::WARP_SIZE);
-
-    constexpr auto block_shape = opus::make_tuple(
-        opus::number<T::T_M>{},
-        opus::number<rows_per_wave>{},
-        opus::number<scale_count>{});
-    constexpr auto block_dim = opus::make_tuple(
-        opus::make_tuple(opus::p_dim{}, opus::p_dim{}),
-        opus::make_tuple(opus::y_dim{}));
-
-    return opus::make_layout<scale_count>(
-        block_shape,
-        opus::unfold_x_stride(
-            block_dim, block_shape, opus::tuple{stride_sfa, 1_I}),
-        opus::unfold_p_coord(block_dim, opus::tuple{wave_id_m, lane_id}));
-}
-
-// Four wave_n==1 waves use the same ownership rule for the 256 SFB rows.
-template<class T>
-__device__ inline auto make_layout_gsfb_scale(
-    int lane_id, int wave_id_m, int stride_sfb) {
-    constexpr int scale_count = T::SCALE_KGROUPS_PER_MFMA;
-    constexpr int rows_per_wave = T::B_N / T::T_M;
-    static_assert(rows_per_wave == T::WARP_SIZE);
-
-    constexpr auto block_shape = opus::make_tuple(
-        opus::number<T::T_M>{},
-        opus::number<rows_per_wave>{},
-        opus::number<scale_count>{});
-    constexpr auto block_dim = opus::make_tuple(
-        opus::make_tuple(opus::p_dim{}, opus::p_dim{}),
-        opus::make_tuple(opus::y_dim{}));
-
-    return opus::make_layout<scale_count>(
-        block_shape,
-        opus::unfold_x_stride(
-            block_dim, block_shape, opus::tuple{stride_sfb, 1_I}),
-        opus::unfold_p_coord(block_dim, opus::tuple{wave_id_m, lane_id}));
-}
-
-// Scatter the four bytes fetched by one SFA loader lane into the
-// consumer-major [wave_m][r][q][m_call] LDS image.
-template<class T>
-__device__ inline auto make_layout_ssfa_scale(int lane_id, int wave_id_m) {
-    constexpr int scale_count = T::SCALE_KGROUPS_PER_MFMA;
-    constexpr int m_calls = T::SCALE_M_CALLS;
-
-    constexpr auto block_shape = opus::make_tuple(
-        opus::number<T::T_M>{},
-        opus::number<T::W_M>{},
-        opus::number<scale_count>{},
-        opus::number<m_calls>{});
-    constexpr auto block_dim = opus::make_tuple(
-        opus::make_tuple(opus::p_dim{}, opus::p_dim{}),
-        opus::make_tuple(opus::y_dim{}),
-        opus::make_tuple(opus::p_dim{}));
-
-    return opus::make_layout(
-        block_shape,
-        opus::unfold_x_stride(
-            block_dim,
-            block_shape,
-            opus::tuple{opus::number<scale_count * m_calls>{},
-                        opus::number<m_calls>{},
-                        1_I}),
-        opus::unfold_p_coord(
-            block_dim,
-            opus::tuple{lane_id / T::W_M, lane_id % T::W_M, wave_id_m}));
-}
-
-// Scatter SFB into [half_n][wave_n][r][q][n_call].
-template<class T>
-__device__ inline auto make_layout_ssfb_scale(int lane_id, int wave_id_m) {
-    constexpr int scale_count = T::SCALE_KGROUPS_PER_MFMA;
-    constexpr int n_per_call = T::T_N * T::W_N;
-
-    const int linear_n = wave_id_m * T::WARP_SIZE + lane_id;
-    const int half_tile_n = linear_n / T::HALF_B_N;
-    const int n_in_half = linear_n % T::HALF_B_N;
-    const int n_call = n_in_half / n_per_call;
-    const int n_in_call = n_in_half % n_per_call;
-    const int consumer_wave_n = n_in_call / T::W_N;
-    const int r = n_in_call % T::W_N;
-
-    constexpr auto block_shape = opus::make_tuple(
-        opus::number<T::SCALE_N_HALVES>{},
-        opus::number<T::T_N>{},
-        opus::number<T::W_N>{},
-        opus::number<scale_count>{},
-        opus::number<T::SCALE_N_CALLS>{});
-    constexpr auto block_dim = opus::make_tuple(
-        opus::make_tuple(opus::p_dim{}),
-        opus::make_tuple(opus::p_dim{}, opus::p_dim{}),
-        opus::make_tuple(opus::y_dim{}),
-        opus::make_tuple(opus::p_dim{}));
-
-    return opus::make_layout(
-        block_shape,
-        opus::unfold_x_stride(
-            block_dim,
-            block_shape,
-            opus::tuple{
-                opus::number<T::T_N * T::W_N * scale_count * T::SCALE_N_CALLS>{},
-                opus::number<scale_count * T::SCALE_N_CALLS>{},
-                opus::number<T::SCALE_N_CALLS>{},
-                1_I}),
-        opus::unfold_p_coord(
-            block_dim,
-            opus::tuple{half_tile_n, consumer_wave_n, r, n_call}));
 }
 
 template<class T>
@@ -417,7 +309,7 @@ __device__ inline auto make_layout_rb_scale(int lane_id, int wave_id_n) {
         opus::make_tuple(opus::p_dim{}, opus::p_dim{}, opus::y_dim{}, opus::y_dim{}, opus::p_dim{}, opus::y_dim{}));
 
     const int lane_id_n = lane_id % T::W_N;
-    
+
     return opus::make_layout<T::VEC_B>(
         rb_block_shape,
         opus::unfold_x_stride(rb_block_dim, rb_block_shape, opus::tuple{opus::number<T::smem_linear_wave + T::smem_padding>{}, 1_I}),
@@ -438,9 +330,9 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, 2) void gemm_a8w8_mxfp8_scale_k
 
     const int wgid = block_id_x();
     const int num_tiles_n = ceil_div_scale(kargs.n, T::B_N);
-    const int num_tiles_k = ceil_div_scale(kargs.k, T::B_K);
     const int block_m = wgid / num_tiles_n;
     const int block_n = wgid % num_tiles_n;
+    const int num_tiles_k = ceil_div_scale(kargs.k, T::B_K);
     const int row = block_m * T::B_M;
     const int col = block_n * T::B_N;
 
@@ -448,19 +340,25 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, 2) void gemm_a8w8_mxfp8_scale_k
     const int wave_id = __builtin_amdgcn_readfirstlane(thread_id_x() / T::WARP_SIZE);
     const int lane_id = thread_id_x() % T::WARP_SIZE;
 
-    auto g_a = make_gmem(reinterpret_cast<const D_A*>(kargs.ptr_a) + batch_id * kargs.stride_a_batch + row * kargs.stride_a);
-    auto g_b = make_gmem(reinterpret_cast<const D_B*>(kargs.ptr_b) + batch_id * kargs.stride_b_batch + col * kargs.stride_b);
-    auto g_c = make_gmem(reinterpret_cast<D_C*>(kargs.ptr_c) + batch_id * kargs.stride_c_batch + row * kargs.stride_c + col);
+    auto g_a = make_gmem(
+        reinterpret_cast<const D_A*>(kargs.ptr_a) +
+        batch_id * kargs.stride_a_batch + row * kargs.stride_a);
+    auto g_b = make_gmem(
+        reinterpret_cast<const D_B*>(kargs.ptr_b) +
+        batch_id * kargs.stride_b_batch + col * kargs.stride_b);
+    auto g_c = make_gmem(
+        reinterpret_cast<D_C*>(kargs.ptr_c) +
+        batch_id * kargs.stride_c_batch + row * kargs.stride_c + col);
 
-    // Scale is prepacked tile-major in the exact consumer-major LDS order.
-    // Four waves cooperatively copy aligned, adjacent dwords directly from
-    // global memory into LDS; no VGPR forwarding or LDS transpose is needed.
-    auto g_sfa = make_gmem(reinterpret_cast<const D_SF*>(
-        reinterpret_cast<const D_SF*>(kargs.ptr_sfa) + batch_id * kargs.stride_sfa_batch
-        + block_m * num_tiles_k * kargs.stride_sfa));
-    auto g_sfb = make_gmem(reinterpret_cast<const D_SF*>(
-        reinterpret_cast<const D_SF*>(kargs.ptr_sfb) + batch_id * kargs.stride_sfb_batch
-        + block_n * num_tiles_k * kargs.stride_sfb));
+    // Scale tiles are prepacked in the exact consumer-major LDS order.
+    auto g_sfa = make_gmem(
+        reinterpret_cast<const D_SF*>(kargs.ptr_sfa) +
+        batch_id * kargs.stride_sfa_batch +
+        block_m * num_tiles_k * kargs.stride_sfa);
+    auto g_sfb = make_gmem(
+        reinterpret_cast<const D_SF*>(kargs.ptr_sfb) +
+        batch_id * kargs.stride_sfb_batch +
+        block_n * num_tiles_k * kargs.stride_sfb);
 
     const int wave_id_m = wave_id % T::T_M;
     const int wave_id_n = wave_id / T::T_M;
@@ -472,8 +370,10 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, 2) void gemm_a8w8_mxfp8_scale_k
     auto u_sb = make_layout_sb_scale<T>(wave_id_m, wave_id_n);
     auto u_rb = make_layout_rb_scale<T>(lane_id, wave_id_n);
 
-    auto u_lsfa = make_layout_lsfa_scale<T>(lane_id, wave_id_m);
-    auto u_lsfb = make_layout_lsfb_scale<T>(lane_id, wave_id_m);
+    const auto u_gsfa = make_layout_gsfa_scale<T>(lane_id);
+    const auto u_ssfa = make_layout_ssfa_scale<T>();
+    const auto u_gsfb = make_layout_gsfb_scale<T>(lane_id);
+    const auto u_ssfb = make_layout_ssfb_scale<T>();
     auto u_rsfa = make_layout_rsfa_scale<T>(lane_id, wave_id_m);
     auto u_rsfb_0 = make_layout_rsfb_scale<T>(lane_id, wave_id_n, 0);
     auto u_rsfb_1 = make_layout_rsfb_scale<T>(lane_id, wave_id_n, 1);
@@ -499,6 +399,7 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, 2) void gemm_a8w8_mxfp8_scale_k
         mfma_adaptor_swap_ab{});
     typename decltype(mma)::vtype_a v_a[2];
     typename decltype(mma)::vtype_b v_b;
+    typename decltype(mma)::vtype_b v_b_second;
     typename decltype(mma)::vtype_c v_c[2][2];
     clear(v_c[0][0]);
     clear(v_c[0][1]);
@@ -519,12 +420,10 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, 2) void gemm_a8w8_mxfp8_scale_k
     const int loops = num_tiles_k;
 
     // Prologue
-    if (wave_id_n == 0) {
-        async_load<4>(
-            g_sfa, s_sfa.ptr, u_lsfa, u_lsfa + ssfa_offset(0), gsfa_offset(0));
-    } else {
-        async_load<4>(
-            g_sfb, s_sfb.ptr, u_lsfb, u_lsfb + ssfb_offset(0), gsfb_offset(0));
+    if (wave_id == 0) {
+        async_load<16>(g_sfa, s_sfa.ptr, u_gsfa, u_ssfa + ssfa_offset(0), gsfa_offset(0));
+    } else if (wave_id == 1) {
+        async_load<16>(g_sfb, s_sfb.ptr, u_gsfb, u_ssfb + ssfb_offset(0), gsfb_offset(0));
     }
     async_load<T::VEC_A>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(0, 0), ga_offset(0, 0));
     async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(0, 0), gb_offset(0, 0));
@@ -532,67 +431,68 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, 2) void gemm_a8w8_mxfp8_scale_k
     async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(0, 1), gb_offset(1, 0));
 
     s_waitcnt_vmcnt(0_I);
+
     s_waitcnt_lgkmcnt(0_I);
     __builtin_amdgcn_s_barrier();
     __builtin_amdgcn_sched_barrier(0);
 
     int stage = 0;
+    int scale_stage = 0;
     int tile = 0;
 
+    // Seed the rolling pipeline with the coldest part of tile 1.  Subsequent
+    // B prefetches are issued immediately after the mid-tile barrier releases
+    // the old consumer stage.
+    if (loops > 1) {
+        async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(1, 0), gb_offset(0, 1));
+        async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(1, 1), gb_offset(1, 1));
+        __builtin_amdgcn_sched_barrier(0);
+    }
+
     // Main Loop
+#pragma unroll 4
     for (tile = 0; tile + 1 < loops; ++tile) {
         const int next_stage = stage ^ 1;
 
-        // Four waves fetch SFA and four fetch SFB.  Host prepacking makes the
-        // dword layout identical to the consumer-major LDS layout.
-        if (wave_id_n == 0) {
-            async_load<4>(
-                g_sfa,
-                s_sfa.ptr,
-                u_lsfa,
-                u_lsfa + ssfa_offset(next_stage),
-                gsfa_offset(tile + 1));
-        } else {
-            async_load<4>(
-                g_sfb,
-                s_sfb.ptr,
-                u_lsfb,
-                u_lsfb + ssfb_offset(next_stage),
-                gsfb_offset(tile + 1));
-        }
+        // Keeping the producer branch in a local callable preserves the
+        // verified gfx950 control flow and register allocation.
+        auto load_next_scale = [&]() {
+            if (wave_id == 0) { async_load<16>(g_sfa, s_sfa.ptr, u_gsfa, u_ssfa + ssfa_offset(next_stage), gsfa_offset(tile + 1));
+            } else if (wave_id == 1) {
+                async_load<16>(g_sfb, s_sfb.ptr, u_gsfb, u_ssfb + ssfb_offset(next_stage), gsfb_offset(tile + 1));
+            }
+        };
 
-        async_load<T::VEC_A>(
-            g_a, s_a.ptr, u_ga, u_sa + sa_offset(next_stage, 0), ga_offset(0, tile + 1));
-        async_load<T::VEC_B>(
-            g_b, s_b.ptr, u_gb, u_sb + sb_offset(next_stage, 0), gb_offset(0, tile + 1));
-        async_load<T::VEC_A>(
-            g_a, s_a.ptr, u_ga, u_sa + sa_offset(next_stage, 1), ga_offset(1, tile + 1));
-        async_load<T::VEC_B>(
-            g_b, s_b.ptr, u_gb, u_sb + sb_offset(next_stage, 1), gb_offset(1, tile + 1));
-
-        auto r_sfa = load<4>(s_sfa, u_rsfa + ssfa_offset(stage));
-        auto r_sfb_0 = load<4>(s_sfb, u_rsfb_0 + ssfb_offset(stage));
+        v_sfa = __builtin_bit_cast(D_SF_PACK, load<4>(s_sfa, u_rsfa + ssfa_offset(scale_stage)));
+        v_sfb[0] = __builtin_bit_cast(D_SF_PACK, load<4>(s_sfb, u_rsfb_0 + ssfb_offset(scale_stage)));
         v_a[0] = load<T::VEC_A>(s_a, u_ra + sa_offset(stage, 0));
+        __builtin_amdgcn_sched_barrier(0);
+
         v_b = load<T::VEC_B>(s_b, u_rb + sb_offset(stage, 0));
+        auto rb1_offsets_prefetch = opus::layout_to_offsets<T::VEC_B>(u_rb + sb_offset(stage, 1));
+        load_b_range_scale<T, 0, 4>(s_b, rb1_offsets_prefetch, v_b_second);
+        v_sfb[1] = __builtin_bit_cast(D_SF_PACK, load<4>(s_sfb, u_rsfb_1 + ssfb_offset(scale_stage)));
+        __builtin_amdgcn_sched_barrier(0);
 
-        s_waitcnt_lgkmcnt(0_I);
-        v_sfa = __builtin_bit_cast(D_SF_PACK, r_sfa);
-        v_sfb[0] = __builtin_bit_cast(D_SF_PACK, r_sfb_0);
+        load_next_scale();
+        async_load<T::VEC_A>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(next_stage, 0), ga_offset(0, tile + 1), 0_I, opus::number<0>{});
+        async_load<T::VEC_A>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(next_stage, 1), ga_offset(1, tile + 1), 0_I, opus::number<0>{});
+        __builtin_amdgcn_sched_barrier(0);
 
-        // Fetch the second N-half scale before the first half computes.  It is
-        // only one dword, and the following 16 MFMAs hide its LDS latency.
-        auto r_sfb_1 = load<4>(s_sfb, u_rsfb_1 + ssfb_offset(stage));
-
+        s_waitcnt_lgkmcnt(opus::number<9>{});
         __builtin_amdgcn_s_setprio(1);
+
+        // A half 0 x B half 0 -> C[0][0] (64x64).
         mma_scale_repeat_n2<T, 0, 0, 0>(
             mma, v_a[0], v_b, v_c[0][0], v_sfa, v_sfb[0]);
         {
             auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[0][0]);
             asm volatile("" : "+v"(v_c_pin[0]) ::);
         }
-        sched_barrier_pairs_scale<2, 2, 0>();
+        sched_barrier_pairs_scale();
 
         v_a[1] = load<T::VEC_A>(s_a, u_ra + sa_offset(stage, 1));
+        s_waitcnt_lgkmcnt(opus::number<9>{});
 
         mma_scale_repeat_n2<T, 0, 0, 1>(
             mma, v_a[0], v_b, v_c[0][0], v_sfa, v_sfb[0]);
@@ -600,7 +500,7 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, 2) void gemm_a8w8_mxfp8_scale_k
             auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[0][0]);
             asm volatile("" : "+v"(v_c_pin[0]) ::);
         }
-        sched_barrier_pairs_scale<2, 2, 0>();
+        sched_barrier_pairs_scale();
 
         mma_scale_repeat_n2<T, 0, 1, 0>(
             mma, v_a[0], v_b, v_c[0][0], v_sfa, v_sfb[0]);
@@ -608,7 +508,7 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, 2) void gemm_a8w8_mxfp8_scale_k
             auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[0][0]);
             asm volatile("" : "+v"(v_c_pin[1]) ::);
         }
-        sched_barrier_pairs_scale<2, 2, 0>();
+        sched_barrier_pairs_scale();
 
         mma_scale_repeat_n2<T, 0, 1, 1>(
             mma, v_a[0], v_b, v_c[0][0], v_sfa, v_sfb[0]);
@@ -616,15 +516,16 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, 2) void gemm_a8w8_mxfp8_scale_k
             auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[0][0]);
             asm volatile("" : "+v"(v_c_pin[1]) ::);
         }
-        sched_barrier_pairs_scale<2, 2, 0>();
+        sched_barrier_pairs_scale();
 
+        // A half 1 x B half 0 -> C[1][0] (64x64).
         mma_scale_repeat_n2<T, 1, 0, 0>(
             mma, v_a[1], v_b, v_c[1][0], v_sfa, v_sfb[0]);
         {
             auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[1][0]);
             asm volatile("" : "+v"(v_c_pin[0]) ::);
         }
-        sched_barrier_pairs_scale<2, 2, 0>();
+        sched_barrier_pairs_scale();
 
         mma_scale_repeat_n2<T, 1, 0, 1>(
             mma, v_a[1], v_b, v_c[1][0], v_sfa, v_sfb[0]);
@@ -632,7 +533,7 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, 2) void gemm_a8w8_mxfp8_scale_k
             auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[1][0]);
             asm volatile("" : "+v"(v_c_pin[0]) ::);
         }
-        sched_barrier_pairs_scale<2, 2, 0>();
+        sched_barrier_pairs_scale();
 
         mma_scale_repeat_n2<T, 1, 1, 0>(
             mma, v_a[1], v_b, v_c[1][0], v_sfa, v_sfb[0]);
@@ -640,7 +541,7 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, 2) void gemm_a8w8_mxfp8_scale_k
             auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[1][0]);
             asm volatile("" : "+v"(v_c_pin[1]) ::);
         }
-        sched_barrier_pairs_scale<2, 2, 0>();
+        sched_barrier_pairs_scale();
 
         mma_scale_repeat_n2<T, 1, 1, 1>(
             mma, v_a[1], v_b, v_c[1][0], v_sfa, v_sfb[0]);
@@ -648,228 +549,225 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, 2) void gemm_a8w8_mxfp8_scale_k
             auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[1][0]);
             asm volatile("" : "+v"(v_c_pin[1]) ::);
         }
-        sched_barrier_pairs_scale<2, 2, 0>();
+        sched_barrier_pairs_scale();
 
-        v_b = load<T::VEC_B>(s_b, u_rb + sb_offset(stage, 1));
-        v_sfb[1] = __builtin_bit_cast(D_SF_PACK, r_sfb_1);
+        auto rb1_offsets_tail = opus::layout_to_offsets<T::VEC_B>(u_rb + sb_offset(stage, 1));
+        load_b_range_scale<T, 4, 8>(s_b, rb1_offsets_tail, v_b_second);
+        const auto& v_b_n1 = v_b_second;
 
+        // A half 0 x B half 1 -> C[0][1] (64x64).
         mma_scale_repeat_n2<T, 0, 0, 0>(
-            mma, v_a[0], v_b, v_c[0][1], v_sfa, v_sfb[1]);
+            mma, v_a[0], v_b_n1, v_c[0][1], v_sfa, v_sfb[1]);
         {
             auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[0][1]);
             asm volatile("" : "+v"(v_c_pin[0]) ::);
         }
-        sched_barrier_pairs_scale<2, 2, 0>();
+        sched_barrier_pairs_scale();
 
         mma_scale_repeat_n2<T, 0, 0, 1>(
-            mma, v_a[0], v_b, v_c[0][1], v_sfa, v_sfb[1]);
+            mma, v_a[0], v_b_n1, v_c[0][1], v_sfa, v_sfb[1]);
         {
             auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[0][1]);
             asm volatile("" : "+v"(v_c_pin[0]) ::);
         }
-        sched_barrier_pairs_scale<2, 2, 0>();
+        sched_barrier_pairs_scale();
 
-        mma_scale_repeat_n2<T, 0, 1, 0>(
-            mma, v_a[0], v_b, v_c[0][1], v_sfa, v_sfb[1]);
-        {
-            auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[0][1]);
-            asm volatile("" : "+v"(v_c_pin[1]) ::);
-        }
-        sched_barrier_pairs_scale<2, 2, 0>();
-
-        mma_scale_repeat_n2<T, 0, 1, 1>(
-            mma, v_a[0], v_b, v_c[0][1], v_sfa, v_sfb[1]);
-        {
-            auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[0][1]);
-            asm volatile("" : "+v"(v_c_pin[1]) ::);
-        }
-        sched_barrier_pairs_scale<2, 2, 0>();
-
-        mma_scale_repeat_n2<T, 1, 0, 0>(
-            mma, v_a[1], v_b, v_c[1][1], v_sfa, v_sfb[1]);
-        {
-            auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[1][1]);
-            asm volatile("" : "+v"(v_c_pin[0]) ::);
-        }
-        sched_barrier_pairs_scale<2, 2, 0>();
-
-        mma_scale_repeat_n2<T, 1, 0, 1>(
-            mma, v_a[1], v_b, v_c[1][1], v_sfa, v_sfb[1]);
-        {
-            auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[1][1]);
-            asm volatile("" : "+v"(v_c_pin[0]) ::);
-        }
-        sched_barrier_pairs_scale<2, 2, 0>();
-
-        mma_scale_repeat_n2<T, 1, 1, 0>(
-            mma, v_a[1], v_b, v_c[1][1], v_sfa, v_sfb[1]);
-        {
-            auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[1][1]);
-            asm volatile("" : "+v"(v_c_pin[1]) ::);
-        }
-        sched_barrier_pairs_scale<2, 2, 0>();
-
-        mma_scale_repeat_n2<T, 1, 1, 1>(
-            mma, v_a[1], v_b, v_c[1][1], v_sfa, v_sfb[1]);
-        {
-            auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[1][1]);
-            asm volatile("" : "+v"(v_c_pin[1]) ::);
-        }
-        sched_barrier_pairs_scale<2, 2, 0>();
+        // All operands for tile t are now resident in VGPRs.  Publish tile
+        // t+1 and release tile t's LDS stage with the same barrier, then start
+        // the cold B path for tile t+2 while the final 12 MFMAs of tile t run.
         __builtin_amdgcn_s_setprio(0);
-
         s_waitcnt_vmcnt(0_I);
         s_waitcnt_lgkmcnt(0_I);
         __builtin_amdgcn_s_barrier();
         __builtin_amdgcn_sched_barrier(0);
+
+        if (tile + 2 < loops) {
+            async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(stage, 0), gb_offset(0, tile + 2));
+            async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(stage, 1), gb_offset(1, tile + 2));
+            __builtin_amdgcn_sched_barrier(0);
+        }
+        __builtin_amdgcn_s_setprio(1);
+
+        mma_scale_repeat_n2<T, 0, 1, 0>(
+            mma, v_a[0], v_b_n1, v_c[0][1], v_sfa, v_sfb[1]);
+        {
+            auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[0][1]);
+            asm volatile("" : "+v"(v_c_pin[1]) ::);
+        }
+        sched_barrier_pairs_scale();
+
+        mma_scale_repeat_n2<T, 0, 1, 1>(
+            mma, v_a[0], v_b_n1, v_c[0][1], v_sfa, v_sfb[1]);
+        {
+            auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[0][1]);
+            asm volatile("" : "+v"(v_c_pin[1]) ::);
+        }
+        sched_barrier_pairs_scale();
+
+        // A half 1 x B half 1 -> C[1][1] (64x64).
+        mma_scale_repeat_n2<T, 1, 0, 0>(
+            mma, v_a[1], v_b_n1, v_c[1][1], v_sfa, v_sfb[1]);
+        {
+            auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[1][1]);
+            asm volatile("" : "+v"(v_c_pin[0]) ::);
+        }
+        sched_barrier_pairs_scale();
+
+        mma_scale_repeat_n2<T, 1, 0, 1>(
+            mma, v_a[1], v_b_n1, v_c[1][1], v_sfa, v_sfb[1]);
+        {
+            auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[1][1]);
+            asm volatile("" : "+v"(v_c_pin[0]) ::);
+        }
+        sched_barrier_pairs_scale();
+
+        mma_scale_repeat_n2<T, 1, 1, 0>(
+            mma, v_a[1], v_b_n1, v_c[1][1], v_sfa, v_sfb[1]);
+        {
+            auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[1][1]);
+            asm volatile("" : "+v"(v_c_pin[1]) ::);
+        }
+        sched_barrier_pairs_scale();
+
+        mma_scale_repeat_n2<T, 1, 1, 1>(
+            mma, v_a[1], v_b_n1, v_c[1][1], v_sfa, v_sfb[1]);
+        {
+            auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[1][1]);
+            asm volatile("" : "+v"(v_c_pin[1]) ::);
+        }
+        sched_barrier_pairs_scale();
+        __builtin_amdgcn_s_setprio(0);
         stage = next_stage;
+        scale_stage = next_stage;
     }
 
-    // ---------------------------------------------------------------------
-    // Epilogue: consume the final resident tile; issue no next-tile VMEM.
-    // ---------------------------------------------------------------------
-    auto r_sfa = load<4>(s_sfa, u_rsfa + ssfa_offset(stage));
-    auto r_sfb_0 = load<4>(s_sfb, u_rsfb_0 + ssfb_offset(stage));
+    // Consume the final resident tile without issuing more global loads.
+    v_sfa = __builtin_bit_cast(D_SF_PACK, load<4>(s_sfa, u_rsfa + ssfa_offset(scale_stage)));
+    v_sfb[0] = __builtin_bit_cast(D_SF_PACK, load<4>(s_sfb, u_rsfb_0 + ssfb_offset(scale_stage)));
     v_a[0] = load<T::VEC_A>(s_a, u_ra + sa_offset(stage, 0));
     v_a[1] = load<T::VEC_A>(s_a, u_ra + sa_offset(stage, 1));
     v_b = load<T::VEC_B>(s_b, u_rb + sb_offset(stage, 0));
 
     s_waitcnt_lgkmcnt(0_I);
-    v_sfa = __builtin_bit_cast(D_SF_PACK, r_sfa);
-    v_sfb[0] = __builtin_bit_cast(D_SF_PACK, r_sfb_0);
-    auto r_sfb_1 = load<4>(s_sfb, u_rsfb_1 + ssfb_offset(stage));
+    v_sfb[1] = __builtin_bit_cast(D_SF_PACK, load<4>(s_sfb, u_rsfb_1 + ssfb_offset(scale_stage)));
 
     __builtin_amdgcn_s_setprio(1);
-    mma_scale_repeat_n2<T, 0, 0, 0>(
-        mma, v_a[0], v_b, v_c[0][0], v_sfa, v_sfb[0]);
+    mma_scale_repeat_n2<T, 0, 0, 0>(mma, v_a[0], v_b, v_c[0][0], v_sfa, v_sfb[0]);
     {
         auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[0][0]);
         asm volatile("" : "+v"(v_c_pin[0]) ::);
     }
-    sched_barrier_pairs_scale<2, 2, 0>();
+    sched_barrier_pairs_scale();
 
-    mma_scale_repeat_n2<T, 0, 0, 1>(
-        mma, v_a[0], v_b, v_c[0][0], v_sfa, v_sfb[0]);
+    mma_scale_repeat_n2<T, 0, 0, 1>(mma, v_a[0], v_b, v_c[0][0], v_sfa, v_sfb[0]);
     {
         auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[0][0]);
         asm volatile("" : "+v"(v_c_pin[0]) ::);
     }
-    sched_barrier_pairs_scale<2, 2, 0>();
+    sched_barrier_pairs_scale();
 
-    mma_scale_repeat_n2<T, 0, 1, 0>(
-        mma, v_a[0], v_b, v_c[0][0], v_sfa, v_sfb[0]);
+    mma_scale_repeat_n2<T, 0, 1, 0>(mma, v_a[0], v_b, v_c[0][0], v_sfa, v_sfb[0]);
     {
         auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[0][0]);
         asm volatile("" : "+v"(v_c_pin[1]) ::);
     }
-    sched_barrier_pairs_scale<2, 2, 0>();
+    sched_barrier_pairs_scale();
 
-    mma_scale_repeat_n2<T, 0, 1, 1>(
-        mma, v_a[0], v_b, v_c[0][0], v_sfa, v_sfb[0]);
+    mma_scale_repeat_n2<T, 0, 1, 1>(mma, v_a[0], v_b, v_c[0][0], v_sfa, v_sfb[0]);
     {
         auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[0][0]);
         asm volatile("" : "+v"(v_c_pin[1]) ::);
     }
-    sched_barrier_pairs_scale<2, 2, 0>();
+    sched_barrier_pairs_scale();
 
-    mma_scale_repeat_n2<T, 1, 0, 0>(
-        mma, v_a[1], v_b, v_c[1][0], v_sfa, v_sfb[0]);
+
+    mma_scale_repeat_n2<T, 1, 0, 0>(mma, v_a[1], v_b, v_c[1][0], v_sfa, v_sfb[0]);
     {
         auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[1][0]);
         asm volatile("" : "+v"(v_c_pin[0]) ::);
     }
-    sched_barrier_pairs_scale<2, 2, 0>();
+    sched_barrier_pairs_scale();
 
-    mma_scale_repeat_n2<T, 1, 0, 1>(
-        mma, v_a[1], v_b, v_c[1][0], v_sfa, v_sfb[0]);
+    mma_scale_repeat_n2<T, 1, 0, 1>(mma, v_a[1], v_b, v_c[1][0], v_sfa, v_sfb[0]);
     {
         auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[1][0]);
         asm volatile("" : "+v"(v_c_pin[0]) ::);
     }
-    sched_barrier_pairs_scale<2, 2, 0>();
+    sched_barrier_pairs_scale();
 
-    mma_scale_repeat_n2<T, 1, 1, 0>(
-        mma, v_a[1], v_b, v_c[1][0], v_sfa, v_sfb[0]);
+    mma_scale_repeat_n2<T, 1, 1, 0>(mma, v_a[1], v_b, v_c[1][0], v_sfa, v_sfb[0]);
     {
         auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[1][0]);
         asm volatile("" : "+v"(v_c_pin[1]) ::);
     }
-    sched_barrier_pairs_scale<2, 2, 0>();
+    sched_barrier_pairs_scale();
 
-    mma_scale_repeat_n2<T, 1, 1, 1>(
-        mma, v_a[1], v_b, v_c[1][0], v_sfa, v_sfb[0]);
+    mma_scale_repeat_n2<T, 1, 1, 1>(mma, v_a[1], v_b, v_c[1][0], v_sfa, v_sfb[0]);
     {
         auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[1][0]);
         asm volatile("" : "+v"(v_c_pin[1]) ::);
     }
-    sched_barrier_pairs_scale<2, 2, 0>();
+    sched_barrier_pairs_scale();
+
 
     v_b = load<T::VEC_B>(s_b, u_rb + sb_offset(stage, 1));
-    v_sfb[1] = __builtin_bit_cast(D_SF_PACK, r_sfb_1);
 
-    mma_scale_repeat_n2<T, 0, 0, 0>(
-        mma, v_a[0], v_b, v_c[0][1], v_sfa, v_sfb[1]);
+    mma_scale_repeat_n2<T, 0, 0, 0>(mma, v_a[0], v_b, v_c[0][1], v_sfa, v_sfb[1]);
     {
         auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[0][1]);
         asm volatile("" : "+v"(v_c_pin[0]) ::);
     }
-    sched_barrier_pairs_scale<2, 2, 0>();
+    sched_barrier_pairs_scale();
 
-    mma_scale_repeat_n2<T, 0, 0, 1>(
-        mma, v_a[0], v_b, v_c[0][1], v_sfa, v_sfb[1]);
+    mma_scale_repeat_n2<T, 0, 0, 1>(mma, v_a[0], v_b, v_c[0][1], v_sfa, v_sfb[1]);
     {
         auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[0][1]);
         asm volatile("" : "+v"(v_c_pin[0]) ::);
     }
-    sched_barrier_pairs_scale<2, 2, 0>();
+    sched_barrier_pairs_scale();
 
-    mma_scale_repeat_n2<T, 0, 1, 0>(
-        mma, v_a[0], v_b, v_c[0][1], v_sfa, v_sfb[1]);
+    mma_scale_repeat_n2<T, 0, 1, 0>(mma, v_a[0], v_b, v_c[0][1], v_sfa, v_sfb[1]);
     {
         auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[0][1]);
         asm volatile("" : "+v"(v_c_pin[1]) ::);
     }
-    sched_barrier_pairs_scale<2, 2, 0>();
+    sched_barrier_pairs_scale();
 
-    mma_scale_repeat_n2<T, 0, 1, 1>(
-        mma, v_a[0], v_b, v_c[0][1], v_sfa, v_sfb[1]);
+    mma_scale_repeat_n2<T, 0, 1, 1>(mma, v_a[0], v_b, v_c[0][1], v_sfa, v_sfb[1]);
     {
         auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[0][1]);
         asm volatile("" : "+v"(v_c_pin[1]) ::);
     }
-    sched_barrier_pairs_scale<2, 2, 0>();
+    sched_barrier_pairs_scale();
 
-    mma_scale_repeat_n2<T, 1, 0, 0>(
-        mma, v_a[1], v_b, v_c[1][1], v_sfa, v_sfb[1]);
+
+    mma_scale_repeat_n2<T, 1, 0, 0>(mma, v_a[1], v_b, v_c[1][1], v_sfa, v_sfb[1]);
     {
         auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[1][1]);
         asm volatile("" : "+v"(v_c_pin[0]) ::);
     }
-    sched_barrier_pairs_scale<2, 2, 0>();
+    sched_barrier_pairs_scale();
 
-    mma_scale_repeat_n2<T, 1, 0, 1>(
-        mma, v_a[1], v_b, v_c[1][1], v_sfa, v_sfb[1]);
+    mma_scale_repeat_n2<T, 1, 0, 1>(mma, v_a[1], v_b, v_c[1][1], v_sfa, v_sfb[1]);
     {
         auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[1][1]);
         asm volatile("" : "+v"(v_c_pin[0]) ::);
     }
-    sched_barrier_pairs_scale<2, 2, 0>();
+    sched_barrier_pairs_scale();
 
-    mma_scale_repeat_n2<T, 1, 1, 0>(
-        mma, v_a[1], v_b, v_c[1][1], v_sfa, v_sfb[1]);
+    mma_scale_repeat_n2<T, 1, 1, 0>(mma, v_a[1], v_b, v_c[1][1], v_sfa, v_sfb[1]);
     {
         auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[1][1]);
         asm volatile("" : "+v"(v_c_pin[1]) ::);
     }
-    sched_barrier_pairs_scale<2, 2, 0>();
+    sched_barrier_pairs_scale();
 
-    mma_scale_repeat_n2<T, 1, 1, 1>(
-        mma, v_a[1], v_b, v_c[1][1], v_sfa, v_sfb[1]);
+    mma_scale_repeat_n2<T, 1, 1, 1>(mma, v_a[1], v_b, v_c[1][1], v_sfa, v_sfb[1]);
     {
         auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[1][1]);
         asm volatile("" : "+v"(v_c_pin[1]) ::);
     }
-    sched_barrier_pairs_scale<2, 2, 0>();
+    sched_barrier_pairs_scale();
     __builtin_amdgcn_s_setprio(0);
 
     auto p_coord_c = opus::make_tuple(wave_id_m, lane_id % mma.grpn_c, wave_id_n, lane_id / mma.grpn_c);
@@ -879,8 +777,8 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, 2) void gemm_a8w8_mxfp8_scale_k
         return half_tile_m * T::HALF_B_M * kargs.stride_c + half_tile_n * T::HALF_B_N;
     };
 
-    store<T::VEC_C>(g_c, v_c[0][0], u_gc, c_offset(0, 0));
-    store<T::VEC_C>(g_c, v_c[0][1], u_gc, c_offset(0, 1));
-    store<T::VEC_C>(g_c, v_c[1][0], u_gc, c_offset(1, 0));
-    store<T::VEC_C>(g_c, v_c[1][1], u_gc, c_offset(1, 1));
+    store<T::VEC_C>(g_c, v_c[0][0], u_gc, c_offset(0, 0), opus::number<2>{});
+    store<T::VEC_C>(g_c, v_c[0][1], u_gc, c_offset(0, 1), opus::number<2>{});
+    store<T::VEC_C>(g_c, v_c[1][0], u_gc, c_offset(1, 0), opus::number<2>{});
+    store<T::VEC_C>(g_c, v_c[1][1], u_gc, c_offset(1, 1), opus::number<2>{});
 }
