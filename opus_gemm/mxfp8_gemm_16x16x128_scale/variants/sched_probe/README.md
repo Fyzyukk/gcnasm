@@ -86,11 +86,44 @@ b7only −0.65%，6/6 输。与前两个变体一样：本机 read 6119 GB/s 已
 
 （注：首轮在 GPU7 上测到 1.6-1.7ms，是别的进程占满了卡，已换 GPU6 重测。）
 
+## 350 判决（clang22）：0 个 CANDIDATE，线路关闭
+
+```
+candidate   body  dry   判定
+base         560    5   control
+vmem         576    7   reject
+vmem+b0      575    7   reject
+vmem+b1..b5  575~576 7  reject
+vmem+b6      578    8   reject
+vmem+b7      575    7   reject
+vmem+all     577    9   reject
+b7only       559    6   reject      <- 纯化版，单独补测
+```
+
+资源全程无污染（VGPR 235 / SGPR 73 / spill 0 / occupancy 2）。
+
+三条结论：
+
+1. **`0x20` 在两个编译器上都有害**，确认是设计错误，不是编译器差异：
+   clang20 dry 12→15，clang22 dry 5→7。
+2. **b7 的有效性是 clang20 专有的**。clang20 上它把 dry 从 12 打到 1；clang22
+   上纯 b7only 反而 5→6。b0-b6 在两个编译器上都无效。
+3. **clang22 基线本来就没有可修空间**：dry 只有 5，MFMA 从 decile 5 就开始，
+   不存在 clang20 那种"前 60% 全空"的大块分层。
+
+`scan.sh` 的候选列表**漏了纯 b7only**（只有 `vmem+b7`），是本脚本的缺陷；
+判决所依据的那一行是手工补编的（`-DMXFP8_SCHED_RELEASE=128`，不定义
+`MXFP8_VMEM_GROUP`）。已在下面的用法里补上。
+
+**指令排布路线到此关闭。** 连同 wave_pingpong（−6.75%）和 vmem_interleave
+（判零），三次尝试都没有拿到收益。剩余缺口不在搬运的时机，在搬运的字节量。
+
 ## 用法
 
 ```sh
 ./scan.sh                       # 编译全部候选 + 结构筛选，不计时
 ONLY="base vmem" ./scan.sh      # 只跑指定候选
+ONLY="base b7only" ./scan.sh    # 纯化版：放开 b7，不加 group barrier
 ```
 
 单独构建 b7only：

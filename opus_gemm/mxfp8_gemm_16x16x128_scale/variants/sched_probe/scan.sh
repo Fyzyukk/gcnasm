@@ -8,6 +8,7 @@
 #   vmem            +0x20 VMEM group barrier, ALL sched_barrier(0) kept
 #   vmem+bN         +0x20 and release barrier N only  (N = 0..7)
 #   vmem+all        +0x20 and release all eight (== rejected vmem_interleave)
+#   bN              release barrier N only, NO group barrier (purified)
 #
 #   ONLY=<list>     restrict to given candidate names, e.g. ONLY="base vmem"
 set -e
@@ -37,6 +38,8 @@ CANDS="base vmem"
 i=0
 while [ $i -le 7 ]; do CANDS="$CANDS vmem+b$i"; i=$((i + 1)); done
 CANDS="$CANDS vmem+all"
+i=0
+while [ $i -le 7 ]; do CANDS="$CANDS b$i"; i=$((i + 1)); done
 [ -n "$ONLY" ] && CANDS="$ONLY"
 
 for c in $CANDS; do
@@ -46,6 +49,8 @@ for c in $CANDS; do
         vmem+all) DEF="-DMXFP8_VMEM_GROUP=1 -DMXFP8_SCHED_RELEASE=255" ;;
         vmem+b*)  N=${c#vmem+b}; M=$((1 << N))
                   DEF="-DMXFP8_VMEM_GROUP=1 -DMXFP8_SCHED_RELEASE=$M" ;;
+        b*)       N=${c#b}; M=$((1 << N))
+                  DEF="-DMXFP8_SCHED_RELEASE=$M" ;;
     esac
     TAG=$(echo "$c" | tr '+' '_')
     RES=$($HIPCC "$HERE/gemm_a8w8_mxfp8_scale_kernel_sched_probe.cc" $FLAGS $DEF \
