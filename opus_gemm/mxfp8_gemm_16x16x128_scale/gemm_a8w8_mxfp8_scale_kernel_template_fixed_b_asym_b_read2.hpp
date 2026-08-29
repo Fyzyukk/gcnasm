@@ -32,6 +32,32 @@ using opus::operator""_I;
 #define MXFP8_SCALE_OUTPUT_TILES_PER_WG 4
 #endif
 
+// MXFP8_EARLY_C_STORE -- move half the C stores behind the next tile's
+// prologue loads in the VMEM queue.
+//
+// gfx9 has ONE unified vmcnt covering both VMEM loads and stores (no vscnt;
+// s_wait_storecnt exists only under __gfx1250__), and it retires in order.
+// The default tile-boundary sequence is
+//
+//     32x buffer_store ... nt          <- this tile's C
+//      9x buffer_load ... lds          <- next tile's prologue
+//         s_waitcnt vmcnt(0)           <- "the 9 loads landed"
+//
+// With the stores queued ahead of the loads, `vmcnt(0)` is the only encodable
+// way to say "the loads landed", so it drains all 32 stores too and exposes
+// their full latency at the tile boundary.  That is the 11.1% the section 31
+// ablation ladder attributes to the C store -- 268 MB / 32.6 us = 8.23 TB/s is
+// past any write ceiling, so it is latency, not bandwidth.
+//
+// This flag stores the two quadrants that are final early (v_c[0][0] and
+// v_c[1][0], done before the tail's second half) right after their last MFMA.
+// They then sit BEHIND the prologue loads, and the wait can be relaxed to the
+// exact outstanding-store count -- an identity from in-order retirement, not
+// the heuristic that got MXFP8_VMCNT_RELAX rejected in section 31.1.
+#if defined(MXFP8_EARLY_C_STORE) && defined(MXFP8_WIDE_AGPR_FRAGMENTS)
+#error "MXFP8_EARLY_C_STORE does not cover the WIDE_AGPR_FRAGMENTS epilogue"
+#endif
+
 template<class Traits>
 struct fixed_b_prefetch_4_traits : Traits {
     static constexpr int OUTPUT_TILES_PER_WG =
@@ -1805,6 +1831,21 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
         __builtin_amdgcn_sched_barrier(0);
     }
 
+#if defined(MXFP8_EARLY_C_STORE)
+    // Hoisted out of the epilogue so the [0][0]/[1][0] stores can issue as soon
+    // as those quadrants are final.  Depends only on wave/lane ids and
+    // stride_c, all live long before here.  This is the one place the flag
+    // costs something: it extends the address VGPRs' live range across the
+    // tail's second half, and the build sits at 243/256.
+    auto p_coord_c =
+        opus::make_tuple(wave_id_m, lane_id % mma.grpn_c, wave_id_n, lane_id / mma.grpn_c);
+    auto u_gc = partition_layout_c<T::VEC_C>(mma, opus::make_tuple(kargs.stride_c, 1_I), p_coord_c);
+
+    auto c_offset = [&](int half_tile_m, int half_tile_n) {
+        return half_tile_m * T::HALF_B_M * kargs.stride_c + half_tile_n * T::HALF_B_N;
+    };
+#endif
+
     __builtin_amdgcn_s_setprio(1);
     mma_scale_repeat_n2<T, 0, 0, 0>(mma, v_a[0], v_b, v_c[0][0], v_sfa, v_sfb[0]);
     {
@@ -1863,6 +1904,17 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
     }
     sched_barrier_pairs_scale();
 
+#if defined(MXFP8_EARLY_C_STORE)
+    // v_c[0][0] and v_c[1][0] are final here -- the remaining tail MFMAs write
+    // v_c[0][1]/v_c[1][1], which are distinct arrays.  Issuing now puts these
+    // 16 stores behind the prologue loads in the unified VMEM queue and gives
+    // them the whole second half of the tail, plus the barrier below, to
+    // retire under.  The sched_barrier pins them: if the scheduler sank them
+    // back below the wait, the change would silently undo itself.
+    store<T::VEC_C>(g_c, v_c[0][0], u_gc, c_offset(0, 0), opus::number<2>{});
+    store<T::VEC_C>(g_c, v_c[1][0], u_gc, c_offset(1, 0), opus::number<2>{});
+    __builtin_amdgcn_sched_barrier(0);
+#endif
 
 #if defined(MXFP8_SINGLE_STAGE_B)
     v_b = load<T::VEC_B>(s_b, u_rb + sb_offset(stage, 1));
@@ -1939,7 +1991,15 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
     __builtin_amdgcn_s_setprio(0);
 
     if (has_next_output) {
+#if defined(MXFP8_EARLY_C_STORE)
+        // Queue here is [9 prologue loads][16 C stores], in that order.  vmcnt
+        // retires in order, so "all 9 loads retired" is exactly "at most 16
+        // VMEM ops outstanding".  Not a heuristic relaxation -- an identity.
+        // 16 is well inside the 0..63 s_waitcnt_vmcnt encodes.
+        s_waitcnt_vmcnt(opus::number<16>{});
+#else
         s_waitcnt_vmcnt(0_I);
+#endif
         s_waitcnt_lgkmcnt(0_I);
         __builtin_amdgcn_s_barrier();
         __builtin_amdgcn_sched_barrier(0);
@@ -1958,12 +2018,14 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
 #endif
     }
 
+#if !defined(MXFP8_EARLY_C_STORE)
     auto p_coord_c = opus::make_tuple(wave_id_m, lane_id % mma.grpn_c, wave_id_n, lane_id / mma.grpn_c);
     auto u_gc = partition_layout_c<T::VEC_C>(mma, opus::make_tuple(kargs.stride_c, 1_I), p_coord_c);
 
     auto c_offset = [&](int half_tile_m, int half_tile_n) {
         return half_tile_m * T::HALF_B_M * kargs.stride_c + half_tile_n * T::HALF_B_N;
     };
+#endif
 
 #if defined(MXFP8_WIDE_AGPR_FRAGMENTS)
     // Materialize one 64-dword quadrant at a time for the existing vectorized
@@ -1985,10 +2047,16 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
                         opus::number<2>{});
     });
 #else
+#if defined(MXFP8_EARLY_C_STORE)
+    // [0][0] and [1][0] already went out at the tail.
+    store<T::VEC_C>(g_c, v_c[0][1], u_gc, c_offset(0, 1), opus::number<2>{});
+    store<T::VEC_C>(g_c, v_c[1][1], u_gc, c_offset(1, 1), opus::number<2>{});
+#else
     store<T::VEC_C>(g_c, v_c[0][0], u_gc, c_offset(0, 0), opus::number<2>{});
     store<T::VEC_C>(g_c, v_c[0][1], u_gc, c_offset(0, 1), opus::number<2>{});
     store<T::VEC_C>(g_c, v_c[1][0], u_gc, c_offset(1, 0), opus::number<2>{});
     store<T::VEC_C>(g_c, v_c[1][1], u_gc, c_offset(1, 1), opus::number<2>{});
+#endif
 #endif
     }
 }
