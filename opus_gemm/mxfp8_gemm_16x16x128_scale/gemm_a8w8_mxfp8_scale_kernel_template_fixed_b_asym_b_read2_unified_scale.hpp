@@ -8,6 +8,10 @@
 // Keep these choices local to this template so the persistent reference and
 // the final winner are separate source files and can be compared directly.
 
+// Dedicated unified-scale producer variant. Wave 0/1 share one 16-byte
+// producer path, and the selected descriptor remains live across all
+// persistent M tiles handled by the workgroup.
+
 // 8-wave persistent fixed-B prefetch x4 variant.
 //
 // One workgroup computes up to four adjacent M tiles while keeping the B/SFB
@@ -375,6 +379,24 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
         (block_id_x() / num_tiles_n) * T::OUTPUT_TILES_PER_WG;
     const int col = block_n * T::B_N;
     int first_stage = 0;
+    const int batch_id = block_id_z();
+    const int wave_id =
+        __builtin_amdgcn_readfirstlane(thread_id_x() / T::WARP_SIZE);
+    const int lane_id = thread_id_x() % T::WARP_SIZE;
+    const bool scale_producer_active = wave_id < 2;
+    const bool scale_producer_is_sfa = wave_id == 0;
+    const auto* g_sf_base = scale_producer_is_sfa
+        ? reinterpret_cast<const D_SF*>(kargs.ptr_sfa) +
+              batch_id * kargs.stride_sfa_batch +
+              first_block_m * num_tiles_k * kargs.stride_sfa
+        : reinterpret_cast<const D_SF*>(kargs.ptr_sfb) +
+              batch_id * kargs.stride_sfb_batch +
+              block_n * num_tiles_k * kargs.stride_sfb;
+    auto g_sf = make_gmem(g_sf_base);
+    const int stride_sf =
+        scale_producer_is_sfa ? kargs.stride_sfa : kargs.stride_sfb;
+    const int output_stride_sf =
+        scale_producer_is_sfa ? num_tiles_k * kargs.stride_sfa : 0;
 
     for (int output_tile = 0; output_tile < T::OUTPUT_TILES_PER_WG;
          ++output_tile) {
@@ -383,10 +405,6 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
         break;
     }
     const int row = block_m * T::B_M;
-
-    const int batch_id = block_id_z();
-    const int wave_id = __builtin_amdgcn_readfirstlane(thread_id_x() / T::WARP_SIZE);
-    const int lane_id = thread_id_x() % T::WARP_SIZE;
 
     auto g_a = make_gmem(
         reinterpret_cast<const D_A*>(kargs.ptr_a) +
@@ -397,16 +415,6 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
     auto g_c = make_gmem(
         reinterpret_cast<D_C*>(kargs.ptr_c) +
         batch_id * kargs.stride_c_batch + row * kargs.stride_c + col);
-
-    // Scale tiles are prepacked in the exact consumer-major LDS order.
-    auto g_sfa = make_gmem(
-        reinterpret_cast<const D_SF*>(kargs.ptr_sfa) +
-        batch_id * kargs.stride_sfa_batch +
-        block_m * num_tiles_k * kargs.stride_sfa);
-    auto g_sfb = make_gmem(
-        reinterpret_cast<const D_SF*>(kargs.ptr_sfb) +
-        batch_id * kargs.stride_sfb_batch +
-        block_n * num_tiles_k * kargs.stride_sfb);
 
     const int wave_id_m = wave_id % T::T_M;
     const int wave_id_n = wave_id / T::T_M;
@@ -428,8 +436,6 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
 
     const auto u_gsfa = make_layout_gsfa_scale<T>(lane_id);
     const auto u_ssfa = make_layout_ssfa_scale<T>();
-    const auto u_gsfb = make_layout_gsfb_scale<T>(lane_id);
-    const auto u_ssfb = make_layout_ssfb_scale<T>();
     auto u_rsfa = make_layout_rsfa_scale<T>(lane_id, wave_id_m);
     auto u_rsfb_0 = make_layout_rsfb_scale<T>(lane_id, wave_id_n, 0);
 
@@ -446,6 +452,8 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
     __shared__ char smem_sfb[smem_sfb_elem * 2 * sizeof(D_SF)];
     auto s_sfa = make_smem(reinterpret_cast<D_SF*>(smem_sfa));
     auto s_sfb = make_smem(reinterpret_cast<D_SF*>(smem_sfb));
+    static_assert(T::packed_sfa_tile_elem == T::packed_sfb_tile_elem);
+    auto* s_sf_ptr = scale_producer_is_sfa ? s_sfa.ptr : s_sfb.ptr;
 
     auto mma = make_tiled_mma<D_A, D_B, D_ACC>(
         seq<T::E_M, T::E_N, T::E_K>{},
@@ -466,8 +474,10 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
     auto gb_offset = [&](int half_tile_n, int tile_k) { return half_tile_n * T::HALF_B_N * kargs.stride_b + tile_k * T::B_K; };
     auto sa_offset = [&](int stage, int half_tile_m) { return (stage * 2 + half_tile_m) * smem_a_elem; };
     auto sb_offset = [&](int stage, int half_tile_n) { return (stage * 2 + half_tile_n) * smem_b_elem; };
-    auto gsfa_offset = [&](int tile_k) { return tile_k * kargs.stride_sfa; };
-    auto gsfb_offset = [&](int tile_k) { return tile_k * kargs.stride_sfb; };
+    auto gsf_offset = [&](int output_delta, int tile_k) {
+        return (output_tile + output_delta) * output_stride_sf +
+               tile_k * stride_sf;
+    };
     auto ssfa_offset = [&](int stage) { return stage * smem_sfa_elem; };
     auto ssfb_offset = [&](int stage) { return stage * smem_sfb_elem; };
     auto load_sfb_pair = [&](int read_stage) {
@@ -492,12 +502,9 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
     int tile = 0;
 
     if (output_tile == 0) {
-        if (wave_id == 0) {
-            async_load<16>(g_sfa, s_sfa.ptr, u_gsfa,
-                           u_ssfa + ssfa_offset(stage), gsfa_offset(0));
-        } else if (wave_id == 1) {
-            async_load<16>(g_sfb, s_sfb.ptr, u_gsfb,
-                           u_ssfb + ssfb_offset(stage), gsfb_offset(0));
+        if (scale_producer_active) {
+            async_load<16>(g_sf, s_sf_ptr, u_gsfa,
+                           u_ssfa + ssfa_offset(stage), gsf_offset(0, 0));
         }
         async_load<T::VEC_A>(g_a, s_a.ptr, u_ga,
                              u_sa + sa_offset(stage, 0), ga_offset(0, 0));
@@ -534,9 +541,11 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
         // Keeping the producer branch in a local callable preserves the
         // verified gfx950 control flow and register allocation.
         auto load_next_scale = [&]() {
-            if (wave_id == 0) { async_load<16>(g_sfa, s_sfa.ptr, u_gsfa, u_ssfa + ssfa_offset(next_stage), gsfa_offset(tile + 1));
-            } else if (wave_id == 1) {
-                async_load<16>(g_sfb, s_sfb.ptr, u_gsfb, u_ssfb + ssfb_offset(next_stage), gsfb_offset(tile + 1));
+            if (scale_producer_active) {
+                async_load<16>(
+                    g_sf, s_sf_ptr, u_gsfa,
+                    u_ssfa + ssfa_offset(next_stage),
+                    gsf_offset(0, tile + 1));
             }
         };
 
@@ -762,17 +771,10 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
         auto g_a_next = make_gmem(
             reinterpret_cast<const D_A*>(kargs.ptr_a) +
             batch_id * kargs.stride_a_batch + next_row * kargs.stride_a);
-        auto g_sfa_next = make_gmem(
-            reinterpret_cast<const D_SF*>(kargs.ptr_sfa) +
-            batch_id * kargs.stride_sfa_batch +
-            next_block_m * num_tiles_k * kargs.stride_sfa);
-
-        if (wave_id == 0) {
-            async_load<16>(g_sfa_next, s_sfa.ptr, u_gsfa,
-                           u_ssfa + ssfa_offset(next_output_stage), gsfa_offset(0));
-        } else if (wave_id == 1) {
-            async_load<16>(g_sfb, s_sfb.ptr, u_gsfb,
-                           u_ssfb + ssfb_offset(next_output_stage), gsfb_offset(0));
+        if (scale_producer_active) {
+            async_load<16>(
+                g_sf, s_sf_ptr, u_gsfa,
+                u_ssfa + ssfa_offset(next_output_stage), gsf_offset(1, 0));
         }
         async_load<T::VEC_A>(g_a_next, s_a.ptr, u_ga,
                              u_sa + sa_offset(next_output_stage, 0), ga_offset(0, 0));
