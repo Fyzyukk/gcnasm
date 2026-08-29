@@ -9,7 +9,7 @@
 set -u
 GPU=${1:?amd-smi gpu id}; HIPDEV=${2:?hip device id}; LABEL=${3:-$(hostname)}
 HERE=$(cd "$(dirname "$0")" && pwd)
-BIN=${BIN:-$HERE/../../build/gemm_a8w8_mxfp8_scale_fixed_b_asym_b_read2.exe}
+BIN=${BIN:-$HERE/../../build/gemm_a8w8_mxfp8_scale_fixed_b_asym_b_read2_clang23.exe}
 export LD_LIBRARY_PATH=/opt/rocm/lib/llvm/lib:${LD_LIBRARY_PATH:-}
 
 echo "================================================================"
@@ -35,22 +35,22 @@ HIP_VISIBLE_DEVICES=$HIPDEV python3 "$HERE/sample.py" $GPU "$HERE/mfma_peak" 200
 echo; echo "### 3. GEMM 8192^3 -- SHORT protocol (200 warmup + 100 iters)"
 echo "    [this is the protocol that produced the 2.65 P number]"
 for r in 1 2 3; do
-  HIP_VISIBLE_DEVICES=$HIPDEV $BIN -m 8192 -n 8192 -k 8192 -v 0 -w 200 -i 100 2>&1 \
+  HIP_VISIBLE_DEVICES=$HIPDEV $BIN -m 8192 -n 8192 -k 8192 -b 1 -v 0 -w 200 -i 100 2>&1 \
     | grep -o 'avg_time=[0-9.]* ms, [0-9.]* TFlops'
 done
-HIP_VISIBLE_DEVICES=$HIPDEV python3 "$HERE/sample.py" $GPU $BIN -m 8192 -n 8192 -k 8192 -v 0 -w 200 -i 100 2>&1 \
+HIP_VISIBLE_DEVICES=$HIPDEV python3 "$HERE/sample.py" $GPU $BIN -m 8192 -n 8192 -k 8192 -b 1 -v 0 -w 200 -i 100 2>&1 \
   | grep -E 'SCLK|POWER|HOTSPOT|PPT'
 
 echo; echo "### 4. GEMM 8192^3 -- LONG protocol (1000 warmup + 1000 iters, steady state)"
 for r in 1 2 3; do
-  HIP_VISIBLE_DEVICES=$HIPDEV $BIN -m 8192 -n 8192 -k 8192 -v 0 -w 1000 -i 1000 2>&1 \
+  HIP_VISIBLE_DEVICES=$HIPDEV $BIN -m 8192 -n 8192 -k 8192 -b 1 -v 0 -w 1000 -i 1000 2>&1 \
     | grep -o 'avg_time=[0-9.]* ms, [0-9.]* TFlops'
 done
-HIP_VISIBLE_DEVICES=$HIPDEV python3 "$HERE/sample.py" $GPU $BIN -m 8192 -n 8192 -k 8192 -v 0 -w 1000 -i 1000 2>&1 \
+HIP_VISIBLE_DEVICES=$HIPDEV python3 "$HERE/sample.py" $GPU $BIN -m 8192 -n 8192 -k 8192 -b 1 -v 0 -w 1000 -i 1000 2>&1 \
   | grep -E 'SCLK|POWER|HOTSPOT|PPT'
 
 echo; echo "### 5. soak time-series (is the clock stable, or decaying?)"
-HIP_VISIBLE_DEVICES=$HIPDEV python3 "$HERE/series.py" $GPU $BIN -m 8192 -n 8192 -k 8192 -v 0 -w 2000 -i 6000 2>&1 | tail -45
+HIP_VISIBLE_DEVICES=$HIPDEV python3 "$HERE/series.py" $GPU $BIN -m 8192 -n 8192 -k 8192 -b 1 -v 0 -w 2000 -i 6000 2>&1 | tail -45
 
 echo; echo "================================================================"
 echo "Report sections 1-5 verbatim.  Compare machines on:"
