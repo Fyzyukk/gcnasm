@@ -5,10 +5,9 @@
 //   + one B producer wave per resident SIMD pair
 //   + paired SFB LDS reads
 //
-// Both choices are unconditional here: the persistent reference lives in its
-// own source file, so there is no in-file switch to keep.
-
-// 8-wave persistent fixed-B prefetch x4 variant.
+// Every choice here is unconditional.  The variants this was selected against
+// live in their own source files under variants/, so there is nothing to
+// switch on -- read the code, not the flags.
 //
 // One workgroup computes up to four adjacent M tiles while keeping the B/SFB
 // tile fixed. The next output tile's K=0 A/B/scale data is prefetched while
@@ -26,14 +25,11 @@
 
 using opus::operator""_I;
 
-#ifndef MXFP8_SCALE_OUTPUT_TILES_PER_WG
-#define MXFP8_SCALE_OUTPUT_TILES_PER_WG 4
-#endif
-
 template<class Traits>
 struct fixed_b_prefetch_4_traits : Traits {
-    static constexpr int OUTPUT_TILES_PER_WG =
-        MXFP8_SCALE_OUTPUT_TILES_PER_WG;
+    // Four adjacent M tiles per workgroup.  The host's grid rule above must
+    // agree with this; it is not independently tunable.
+    static constexpr int OUTPUT_TILES_PER_WG = 4;
 };
 
 template<class T, int Begin, int End, class Mem, class Offsets, class V>
@@ -361,7 +357,8 @@ __device__ inline auto make_layout_rb_scale(int lane_id, int wave_id_n) {
 
 template<class Traits>
 __global__ __launch_bounds__(Traits::BLOCK_SIZE, 2)
-void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
+void gemm_a8w8_mxfp8_scale_fixed_b_asym_b_read2_kernel(
+    opus_gemm_scale_kargs kargs) {
     using namespace opus;
 
     using T = fixed_b_prefetch_4_traits<opus::remove_cvref_t<Traits>>;
@@ -532,29 +529,11 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
     }
 
     // Main Loop
-// The unroll factor is a real tuning knob, not a formality: on clang 23 this
-// pragma is what buys the +16% in section 29.1 (clang 20/21/22 ignore it and
-// leave the loop rolled).  Section 29 never swept the factor itself -- 4 is
-// just what the source happened to say, and clang answers it with a 3x body
-// (64 -> 192 MFMA).  Overridable so the factor can be A/B'd on its own.
-#ifndef MXFP8_MAIN_LOOP_UNROLL
-#define MXFP8_MAIN_LOOP_UNROLL 4
-#endif
-#if MXFP8_MAIN_LOOP_UNROLL == 1
-#pragma unroll 1
-#elif MXFP8_MAIN_LOOP_UNROLL == 2
-#pragma unroll 2
-#elif MXFP8_MAIN_LOOP_UNROLL == 3
-#pragma unroll 3
-#elif MXFP8_MAIN_LOOP_UNROLL == 4
+// This pragma is load-bearing, not a formality: on clang 23 it is what buys
+// the +16% in section 29.1.  clang 20/21/22 ignore it and leave the loop
+// rolled.  clang 23 answers 4 with a 3x body, 64 -> 192 MFMA -- which is what
+// `make clang23_check` counts.  To sweep the factor, edit it here.
 #pragma unroll 4
-#elif MXFP8_MAIN_LOOP_UNROLL == 6
-#pragma unroll 6
-#elif MXFP8_MAIN_LOOP_UNROLL == 8
-#pragma unroll 8
-#else
-#error "unsupported MXFP8_MAIN_LOOP_UNROLL"
-#endif
     for (tile = 0; tile + 1 < loops; ++tile) {
         const int next_stage = stage ^ 1;
 

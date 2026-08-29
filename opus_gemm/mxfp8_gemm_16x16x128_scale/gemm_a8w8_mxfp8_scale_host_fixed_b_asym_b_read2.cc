@@ -2,11 +2,6 @@
 // This is deliberately a complete translation unit rather than including
 // another variant's .cc file, so all three retained versions are independent.
 
-#define MXFP8_SCALE_KERNEL \
-    gemm_a8w8_mxfp8_scale_fixed_b_asym_b_read2_kernel
-#define MXFP8_SCALE_VARIANT_NAME \
-    "16x16x128 fixed-B x4 + asymmetric B producer + SFB read2"
-
 #include <hip/hip_fp8.h>
 #include <opus/hip_minimal.hpp>
 #include <algorithm>
@@ -23,20 +18,12 @@
 
 #include "gemm_a8w8_mxfp8_scale_common.h"
 
-#ifndef MXFP8_SCALE_KERNEL
-#define MXFP8_SCALE_KERNEL gemm_a8w8_mxfp8_scale_kernel
-#endif
-
-#ifndef MXFP8_SCALE_TRAITS
-#define MXFP8_SCALE_TRAITS gemm_a8w8_mxfp8_scale_traits<>
-#endif
-
-#ifndef MXFP8_SCALE_VARIANT_NAME
-#define MXFP8_SCALE_VARIANT_NAME "16x16x128 fixed-B prefetch x4"
-#endif
+static constexpr const char* VARIANT_NAME =
+    "16x16x128 fixed-B x4 + asymmetric B producer + SFB read2";
 
 template<class Traits>
-__global__ void MXFP8_SCALE_KERNEL(opus_gemm_scale_kargs kargs);
+__global__ void gemm_a8w8_mxfp8_scale_fixed_b_asym_b_read2_kernel(
+    opus_gemm_scale_kargs kargs);
 
 #define CHECK_HIP(call)                                                                                   \
     do {                                                                                                  \
@@ -49,12 +36,10 @@ __global__ void MXFP8_SCALE_KERNEL(opus_gemm_scale_kargs kargs);
 
 #define CHECK_HIP_KERNEL_LAUNCH() CHECK_HIP(hipGetLastError())
 
-using GemmTraits = MXFP8_SCALE_TRAITS;
-#ifndef MXFP8_SCALE_OUTPUT_TILES_PER_WG
-#define MXFP8_SCALE_OUTPUT_TILES_PER_WG 4
-#endif
-static constexpr int FIXED_B_PREFETCH_OUTPUT_TILES_PER_WG =
-    MXFP8_SCALE_OUTPUT_TILES_PER_WG;
+using GemmTraits = gemm_a8w8_mxfp8_scale_traits<>;
+// Must match fixed_b_prefetch_4_traits::OUTPUT_TILES_PER_WG in the kernel
+// template -- it sets the grid rule below.
+static constexpr int FIXED_B_PREFETCH_OUTPUT_TILES_PER_WG = 4;
 using host_fp8_t = __hip_fp8_e4m3;
 using fp32_t = float;
 using e8m0_t = uint8_t;
@@ -453,7 +438,7 @@ void benchmark_kernel(
     int warmup,
     int iterations) {
     for (int i = 0; i < warmup; ++i) {
-        MXFP8_SCALE_KERNEL<Traits><<<grid, block>>>(kargs);
+        gemm_a8w8_mxfp8_scale_fixed_b_asym_b_read2_kernel<Traits><<<grid, block>>>(kargs);
         CHECK_HIP_KERNEL_LAUNCH();
     }
 
@@ -466,7 +451,7 @@ void benchmark_kernel(
     CHECK_HIP(hipEventRecord(start));
 
     for (int i = 0; i < iterations; ++i) {
-        MXFP8_SCALE_KERNEL<Traits><<<grid, block>>>(kargs);
+        gemm_a8w8_mxfp8_scale_fixed_b_asym_b_read2_kernel<Traits><<<grid, block>>>(kargs);
         CHECK_HIP_KERNEL_LAUNCH();
     }
 
@@ -507,7 +492,7 @@ void benchmark_kernel_timeline(
     int launched = 0;
     for (int range = 0; range < num_ranges; ++range) {
         while (launched < range_ends[range]) {
-            MXFP8_SCALE_KERNEL<Traits><<<grid, block>>>(kargs);
+            gemm_a8w8_mxfp8_scale_fixed_b_asym_b_read2_kernel<Traits><<<grid, block>>>(kargs);
             CHECK_HIP_KERNEL_LAUNCH();
             ++launched;
         }
@@ -755,11 +740,11 @@ int main(int argc, char** argv) {
     dim3 block(BLOCK_SIZE);
 
     std::printf("Launching MXFP8 scaled-MFMA GEMM %s: M=%d, N=%d, K=%d, grid=(%u,%u,%u), block=%d, output_tiles_per_wg=%d\n",
-                MXFP8_SCALE_VARIANT_NAME, M, N, K, grid.x, grid.y, grid.z, BLOCK_SIZE,
+                VARIANT_NAME, M, N, K, grid.x, grid.y, grid.z, BLOCK_SIZE,
                 FIXED_B_PREFETCH_OUTPUT_TILES_PER_WG);
 
     if (verify) {
-        MXFP8_SCALE_KERNEL<GemmTraits><<<grid, block>>>(kargs);
+        gemm_a8w8_mxfp8_scale_fixed_b_asym_b_read2_kernel<GemmTraits><<<grid, block>>>(kargs);
         CHECK_HIP_KERNEL_LAUNCH();
         std::printf("\nValidating GPU results against CPU reference...\n");
         CHECK_HIP(hipMemcpy(host_c_out.get(), dev_c, static_cast<std::size_t>(batch) * M * N * sizeof(fp32_t),
