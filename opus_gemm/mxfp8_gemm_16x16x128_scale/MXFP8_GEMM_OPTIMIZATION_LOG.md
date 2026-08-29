@@ -1136,8 +1136,12 @@ CU / partition:                256 CU, SPX/NPS1
 
 ## 24. 2026-08-27：区分 clang unroll 收益与短时 boost
 
-> 状态更新：本节关于跨机器差异主要来自 boost 的判断，已被第 26 节的新平台信息
-> 取代。本节数据仍保留，但异常 MI355X 节点不能代表正常 MI355X。
+> 状态更新（第 29 节）：本节两个结论均已被推翻，数据只作历史保留，不要再引用。
+> 一是跨机器差异主要来自 boost 的判断，已被第 26 节的新平台信息取代；二是
+> 「clang 22 未展开只值约 0.085 P」这个量化结论，第 29 节在同卡同环境下实测为
+> **+16.0%（2.436 P -> 2.826 P）**。下表 clang 22 与 clang 23 两行不是同环境
+> 对照——clang 23 那行是从另一台机器带过来的历史二进制，机器差异与编译器收益
+> 混在一起，无法分离。
 
 MI350X 侧补充了两种测试长度：
 
@@ -1221,7 +1225,8 @@ fixed-B prefetch x4，10 次直接复测中位数：2.6528 P
 fixed-B prefetch x4，最快单次：           2.6571 P
 ```
 
-因此当前正式性能按约 `2.65 P` 记录。异常 MI355X 上的零 warmup 时间线、约 2.30 P
+因此当前正式性能按约 `2.65 P` 记录。（第 29 节补充：该 2.65 P 是 clang 22 手动
+`#pragma unroll 4` 未生效的版本；改用 clang 23 后同一份源码为 2.83 P。）异常 MI355X 上的零 warmup 时间线、约 2.30 P
 稳态、约 1.5 GHz gfx clock 和 PPT violation 数据仍有诊断价值：它们说明低性能来自
 该节点的运行状态，而不是 kernel 源码恢复或 fixed-B persistent 路径错误；这些数据
 不得再用于推断正常 MI355X 的性能。
@@ -1979,3 +1984,249 @@ reference A2:   0.4781 ms / 2.2998 P
 差异完全落在同轮漂移内，且候选多出 10 个 SGPR spill，因此正式判定 **NO-GO**。
 这说明原始 B 的大行距不是当前距 2.6 P 约 13% 缺口的主因；retained winner 继续为
 `scale_fixed_b_asym_b_read2`。
+
+## 28. 2026-08-28：skeleton 上界的定量定性——ds_read 条数是唯一自变量
+
+本节合并两轮工作：32x32x64 MFMA 形状的最终判定，以及此后对 skeleton
+(0.3215 ms，占整 kernel 71.7%) 的机理定位。结论是 **69% 峰值是结构性的，
+源码层面所有杠杆已全部测完并关闭**。
+
+### 28.1 32x32x64：instruction count 减半，但每条恰好慢一倍
+
+之前的 `final.cc` 探针给出过 32x32x64 快 2x 的结论，那是**错的**：该探针把所有
+配置钉在 ~77 TB/s 的带宽饱和点上，测的是带宽不是 MFMA。改用从 `isa_base.s` 实测
+的真实 LDS 强度（396 B/lane / 32 MFMA = 12.38 B/lane/MFMA）重新标定后结论翻转。
+
+裸指令吞吐（GPU6, MI355X, 256 CU）：
+
+| 指令 | 单条耗时 | 峰值 |
+|---|---:|---:|
+| `v_mfma_scale_f32_16x16x128_f8f6f4` | 1.000x | 4.96 P |
+| `v_mfma_scale_f32_32x32x64_f8f6f4` | **1.989x** | 4.99 P |
+
+峰值相差 0.6%，即两种形状在硬件上等价。同 FLOPs、同 LDS 字节、occupancy 2 的
+严格对照：
+
+```text
+16x16x128 x8 + 6 ds_read_b128   24.916 ms   4.310 P   1.000x
+32x32x64  x4 + 6 ds_read_b128   24.098 ms   4.456 P   0.967x
+```
+
+−3.3%，折算 skeleton 0.3215 → ~0.3109 ms，整 kernel ~0.4379 ms ≈ 2.53 P / 50.5%
+MFU，远达不到 60%，而代价是重写 MMA 层、scale 布局
+(`SCALE_KGROUPS_PER_MFMA=2`) 和 C 输出布局 (f32x16 fragment)。判定 **NO-GO**。
+
+### 28.2 本轮全部改动：无一为正
+
+| 改动 | 结果 |
+|---|---:|
+| `MXFP8_SINK_A_PRODUCER` | **−3.2%**，0/6 |
+| `MXFP8_SINGLE_STAGE_B`（LDS 139264→105472） | **−19.5%**，0/5 |
+| `MXFP8_VMCNT_RELAX` | 结构无变化（stranded 仍是 18） |
+| 更小 tile shape | 被源码 `vec_from_issue_space` static_assert 挡死 |
+| 减少 barrier（每 tile 3→1） | 合成上界仅 ~1.6%，且有正确性风险 |
+| 32x32x64 MFMA | −3.3%（见 28.1） |
+
+`MXFP8_SINGLE_STAGE_B` 的 −19.5% 值得单独记一笔：它把 LDS 降到 105472 B，理论上
+接近 163840/105472 = 1.55，仍不足 2 个 WG/CU，占用率没有提升，却付出了 B 单缓冲
+带来的全部串行化代价。**降 LDS 本身不是目的，跨过 2 WG/CU 门槛才是**，而当前
+tile 形状下这个门槛够不到。
+
+### 28.3 关键工具：忠实的 skeleton 模型
+
+按真实 ds_read/MFMA 比例与 occupancy 2 标定的合成 kernel，精确复现了实测的
+69% 峰值，因此其扫描可信：
+
+```text
+32 ds_read /32 mfma   61.0% 峰值
+24 ds_read /32 mfma   68.9% 峰值   <-- 真实 kernel（实测 69%）
+16 ds_read /32 mfma   79.3% 峰值
+12 ds_read /32 mfma   88.9% 峰值
+ 8 ds_read /32 mfma   88.9% 峰值
+ 4 ds_read /32 mfma  100.2% 峰值
+ 0 ds_read /32 mfma  100.3% 峰值
+```
+
+**性能几乎线性依赖于 ds_read 条数**——不是带宽，不是延迟，也不是指令位置。
+这条曲线是本节所有结论的依据。
+
+### 28.4 推论一：指令位置已是最优，`vmem_interleave` 的前提是反的
+
+ISA 块普查显示，52 条 ds_read 中有 36 条（69%）落在**零 MFMA 的块**里：
+
+```text
+block         len  mfma   ds   loop-depth
+LBB0_10        57    12    0   Depth=2
+LBB0_11        34     0   18   Depth=1      <- 干区
+LBB0_19       124    20    8   (hot path)
+LBB0_23        43     0   18   (not in loop) <- 干区
+LBB0_32       153    32    8   Depth=1
+```
+
+直觉是这浪费了 matrix core。实测相反——同样 26 ds_read / 32 MFMA，两种排布：
+
+```text
+交织                     68.8% 峰值  1.000x
+聚簇（真实布局）          73.7% 峰值  0.934x
+```
+
+**聚簇反而快 6.6%。** 把 ds_read 集中发射让 LDS 流水线连续工作、并把 MFMA 段
+留成无依赖的密集段；打散则让每组 MFMA 都紧跟一个未就绪的 operand。这回头解释了
+`wave_pingpong` / `vmem_interleave` / `sched_probe` 三个变体在 350 上为何全部判零：
+它们优化的方向本身就是错的。
+
+（附带更正一处方法论错误：此前所有 decile / dry-load 分析都用"两个 s_barrier 之间
+最大跨度"定位稳态循环。在本 kernel 中该跨度含 9 个分支、一个 `%._crit_edge` 和
+128 条累加器清零 `v_mov_b32`，它跨越 output-tile 边界，每 `OUTPUT_TILES_PER_WG`
+个 tile 才跑一次，不是每个 K tile。正确做法是走基本块，见
+`variants/vmcnt_relax/hotpath.py`。）
+
+### 28.5 推论二：LDS 流量已在算法下界
+
+每 wave 每 K 步，64x128 的 wave tile 需要 A = 8 条 + B = 16 条 =
+**最少 24 条 `ds_read_b128`**。kernel 实际发 **26 条**：
+
+- 距该 blocking 的信息论下界只差 8%
+- 全部已是最宽的 `b128`（48 条 b128 + 2 条 b32 + 2 条 read2st64_b32）
+- MFMA operand 复用度 5.3x，高于此前 reuse 扫描中的任何一点
+- 匹配资源的 blocking order 探针确认现有 4x4x2 排布最优
+  （`real_4x4_x2` 92.9% vs `one_8x4` 89.3% vs `one_4x8` 87.9%）
+
+### 28.6 结论：约束是 VGPR，不是指令调度
+
+把 28.3 和 28.5 合起来：26 条读 / 32 条 MFMA 在曲线上就对应 69%，而 26 已经是底。
+要往上走只有一条路——**加大 wave tile，用更多复用摊薄每条读**。而更大的 wave tile
+需要更多累加器 VGPR，当前 236/256、occupancy 2，没有空间。
+
+这就是那堵墙，也是每一个 tile shape 改动撞上的同一个约束（`enumerate.py` 当初
+只建模了 DRAM 流量、没建模 occupancy 与 VGPR 的耦合，所以没暴露出来）。
+
+剩余可能为正的方向，都是 MMA 层的多天级重写，不是 variant：
+
+1. 重写累加器布局腾出 VGPR，以放大 wave tile
+2. K 循环下沉到手写汇编
+
+### 28.7 已穷尽、不要重复尝试的方向
+
+指令排布（wave_pingpong / vmem_interleave / sched_probe，且方向本身是反的）、
+tile shape（32 种可行形状 +0.0%，且已被 static_assert 挡死）、NO_SINK/scratch、
+AGPR 累加器（gfx950 上 AGPR 与 VGPR 共用同一物理寄存器堆，无独立预算）、
+XCD remap、group swizzle、3-stage LDS、`OUTPUT_TILES_PER_WG` 8/16、
+early per-quadrant C store、LDS bank conflict、32x32x64 形状、
+提高 operand 复用 / 改 blocking、C store（fp32 268 MB / 0.0399 ms = 6.7 TB/s，
+已在写带宽下界）、降 LDS 但跨不过 2 WG/CU 门槛。
+
+本节所有实验均未提交；retained winner 保持 `scale_fixed_b_asym_b_read2` 未改动，
+本机 GPU6 中位 0.4485 ms / 2.453 P（clang 20 编译；第 29 节改用 clang 23 后为
+0.3888 ms / 2.826 P，本节所有百分比均以 clang 20 的 2.453 P 为分母）。
+
+## 29. 2026-08-29：clang 23 自动展开 +16%，以及两处测量方法错误的订正
+
+本节做三件事：把 clang 23 变成正式编译路径、订正此前两个被污染的测量、
+重新记录各机器的正式数字。
+
+### 29.1 clang 20/22 根本没有执行 `#pragma unroll 4`
+
+`gemm_a8w8_mxfp8_scale_kernel_template_fixed_b_asym_b_read2.hpp` 主 K 循环上的
+`#pragma unroll 4`，在 clang 20/21/22 上都会报 `loop not unrolled`，循环体保持
+64 条 MFMA。clang 23 把它展开 3 倍，192 条 MFMA。device assembly 从 1354 行 /
+25 branch / 52 ds_read 变为 2587 行 / 49 branch / 156 ds_read。
+
+同卡（本机 MI355X）、同源码、干净窗口 ABBA，统一口径 `-b 1`、8192^3、
+200 warmup + 100 timing：
+
+| 编译器 | 循环体 MFMA | 性能 |
+|---|---:|---:|
+| clang 20（hipcc 自带） | 64 | 2.436 P |
+| clang 23（46fcb339） | 192 | **2.826 P** |
+
+即 **+16.0%**。这与第 24 节「unroll 只值 0.085 P」的估算相差一个数量级；那个
+估算错在把两台不同机器的数字相减。
+
+clang 23 没有任何 apt 源提供（扫了 438 个含 clang22 的源，0 个有 clang23），
+只能从 ROCm llvm-project 源码构建，见 `tools/build_clang23.sh`（pin 在
+`46fcb339`，256 核约 5 分钟）。
+
+### 29.2 正式编译路径
+
+```sh
+./tools/build_clang23.sh     # 一次性
+make clang23                 # 编译 + 自动校验
+make clang23_benchmark       # 官方口径
+```
+
+两个 TU 全部由 clang 23 编译并链接。最小 LLVM 构建不含 openmp，因此借用 ROCm 的
+`-I/opt/rocm/lib/llvm/include` 与 `-lomp`，另需 `-lamdhip64` 提供
+`__hipRegisterFatBinary`。
+
+此前的过渡方案是用 `llvm-objcopy --update-section=.hip_fatbin` 把 clang 23 的
+device image 塞进 hipcc 产物。干净窗口 ABBA 证明两条路径等价（2.8285 P vs
+2.8285 P，4 轮），故该 hack 作废。
+
+`make clang23` 附带 `clang23_check`：反汇编**链接后 exe** 的 fatbin，MFMA 少于
+192 就让 build 失败。必须查 exe 而不是 kernel TU 的 `.s`——见 29.3。
+
+### 29.3 订正一：`-fembed-offload-object` 被静默覆盖，导致「clang 23 无收益」的假结论
+
+曾用 `-fembed-offload-object=/tmp/k23.hipfb` 做 ABBA，结论是 clang 23 只差
+0.08%、没有收益。该结论错误。反汇编产物 `build_c23/gemm_c23.exe` 发现其中只有
+**64 条 MFMA**：hipcc 自己的 clang 20 device image 优先级高于
+`-fembed-offload-object`，实际是 clang 20 在和 clang 20 对比。
+
+**教训：换过 device image 之后，必须反汇编最终 exe 确认里面是哪个 image。**
+检查 kernel TU 的 `.s` 不够——那一步是对的，被覆盖的是后面的链接。
+这条已固化为 Makefile 的 `clang23_check` 目标。
+
+### 29.4 订正二：2.77 P 是被邻居干扰的读数，实为 2.83 P
+
+此前记录本机 clang 23 为 2.774 P（全 clang23）/ 2.773 P（objcopy 版）。在
+`guard.py` 报 CLEAN 的窗口重测**同一批未改动的二进制文件**：
+
+| 二进制 | 旧读数 | 干净窗口重测 |
+|---|---:|---:|
+| 全 clang23（`/tmp/t_full.exe`） | 2.774 P | 2.829 P |
+| objcopy 版（`/tmp/real_c23.exe`） | 2.773 P | 2.829 P |
+| `make clang23` 新产物 | — | 2.829 P |
+
+同一个文件字节未变而读数变化 +2.0%，差异只能来自环境。当时那次 ABBA 的**相对**
+比较（两条路径等价）仍然成立，被污染的只是**绝对**数值。
+
+本机是共享容器，邻居进程在另一个 PID namespace，约 60 秒突发 / 40 秒空闲，
+大致每 10 次测量污染 1 次。**每次正式测量前先跑
+`python3 variants/dvfs_study/guard.py`。**
+
+### 29.5 `measure.sh` 一直在跑 batch=8
+
+host 的 `int batch = 8` 是默认值，`measure.sh` 没传 `-b 1`，因此它产出的所有数字
+都是 batch=8（读数约 2.14 P 而非约 2.45 P），不符合统一口径。已修正，默认二进制
+也改为 clang 23 版。**任何测量命令都必须显式带 `-b 1`。**
+
+### 29.6 当前正式数字
+
+统一口径：`-b 1`、8192^3、200 warmup + 100 timing、`guard.py` CLEAN。
+
+| 机器 | 编译器 | 性能 | 距 3 P |
+|---|---|---:|---:|
+| MI350X | clang 22（未展开） | 2.65 P | -11.7% |
+| MI350X | clang 23 | 2.65 P | -11.7% |
+| 本机 MI355X | clang 20（未展开） | 2.436 P | -18.8% |
+| 本机 MI355X | clang 23 | **2.826 P** | **-5.8%** |
+
+MI355X 快于 MI350X，符合预期，第 26 节「异常降额节点」的困惑随之消解——本机不是
+那台 `smci355-ccs-aus-n12-25` 异常节点。
+
+MI350X 上 clang 23 与 clang 22 同为 2.65 P 这一点存疑：本机上同样的源码切换编译器
+有 +16%。两种可能——该 2.65 P 测于非干净窗口（与 29.4 同类问题），或 MI350X 上
+clang 23 的展开未生效。**待办：在 MI350X 上先 `guard.py` 确认 CLEAN，再
+`make clang23_benchmark`，并检查 `clang23_check` 是否报 192 MFMA。**
+
+### 29.7 对第 28 节结论的影响
+
+第 28 节「ds_read 条数是唯一自变量、VGPR 是墙」的结论不受影响：那些实验都在
+clang 20 的 2.453 P 基线上做的相对比较，编译器对所有 variant 一视同仁。但绝对
+分母变了——skeleton 占比、各 variant 的百分比若要引用，需在 clang 23 基线上重算。
+第 28.7 节「已穷尽方向」清单仍然有效，不要重复尝试。
+
+到 3 P 还差 5.8%，缺口从第 28 节记录的约 18% 收窄到不足 6%，但 28.6 指出的
+VGPR 约束（236/256、occupancy 2）没有改变——clang 23 是编译器侧的收益，
+不是那堵墙被推倒了。
