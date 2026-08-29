@@ -102,35 +102,6 @@ void rand_scale_e8m0(e8m0_t* ptr, std::size_t size, int lo = 124, int hi = 130) 
     }
 }
 
-#if defined(MXFP8_PRESHUFFLE_B)
-// Pack row-major B[batch][N][K] as B'[batch][K/BLOCK_K][N][BLOCK_K].
-// Keeping the original host B allows validation to remain independent of the
-// packed layout consumed by the GPU kernel.
-void preshuffle_b_k_panels(
-    const host_fp8_t* src,
-    host_fp8_t* dst,
-    int batch,
-    int n,
-    int k,
-    int block_k) {
-    const int num_k_tiles = k / block_k;
-    #pragma omp parallel for collapse(2)
-    for (int b = 0; b < batch; ++b) {
-        for (int row = 0; row < n; ++row) {
-            const host_fp8_t* src_row =
-                src + static_cast<std::size_t>(b) * n * k
-                    + static_cast<std::size_t>(row) * k;
-            for (int tile_k = 0; tile_k < num_k_tiles; ++tile_k) {
-                host_fp8_t* dst_row =
-                    dst + static_cast<std::size_t>(b) * n * k
-                        + (static_cast<std::size_t>(tile_k) * n + row) * block_k;
-                std::copy_n(src_row + static_cast<std::size_t>(tile_k) * block_k,
-                            block_k, dst_row);
-            }
-        }
-    }
-}
-#endif
 
 // Tile-major consumer order matching the LDS image:
 // [consumer_wave_m][r][q][m_call]. The packed tile is a byte-for-byte image
@@ -665,10 +636,6 @@ int main(int argc, char** argv) {
 
     auto host_a = std::make_unique<host_fp8_t[]>(static_cast<std::size_t>(batch) * M * K);
     auto host_b = std::make_unique<host_fp8_t[]>(static_cast<std::size_t>(batch) * N * K);
-#if defined(MXFP8_PRESHUFFLE_B)
-    auto host_b_preshuffled =
-        std::make_unique<host_fp8_t[]>(static_cast<std::size_t>(batch) * N * K);
-#endif
     std::unique_ptr<fp32_t[]> host_c;
     std::unique_ptr<fp32_t[]> host_c_out;
     std::unique_ptr<double[]> host_c_mag;
@@ -687,10 +654,6 @@ int main(int argc, char** argv) {
 
     rand_vector(host_a.get(), static_cast<std::size_t>(batch) * M * K, 0.0f, 1.0f);
     rand_vector(host_b.get(), static_cast<std::size_t>(batch) * N * K, -0.5f, 0.5f);
-#if defined(MXFP8_PRESHUFFLE_B)
-    preshuffle_b_k_panels(
-        host_b.get(), host_b_preshuffled.get(), batch, N, K, BLOCK_K);
-#endif
     rand_scale_e8m0(host_sfa.get(), sfa_count);
     rand_scale_e8m0(host_sfb.get(), sfb_count);
     if (const char* u = std::getenv("MXFP8_UNIT_SCALE")) {
@@ -761,11 +724,7 @@ int main(int argc, char** argv) {
     CHECK_HIP(hipMalloc(&dev_sfb, sfb_count * sizeof(e8m0_t)));
 
     CHECK_HIP(hipMemcpy(dev_a, host_a.get(), static_cast<std::size_t>(batch) * M * K * sizeof(host_fp8_t), hipMemcpyHostToDevice));
-#if defined(MXFP8_PRESHUFFLE_B)
-    CHECK_HIP(hipMemcpy(dev_b, host_b_preshuffled.get(), static_cast<std::size_t>(batch) * N * K * sizeof(host_fp8_t), hipMemcpyHostToDevice));
-#else
     CHECK_HIP(hipMemcpy(dev_b, host_b.get(), static_cast<std::size_t>(batch) * N * K * sizeof(host_fp8_t), hipMemcpyHostToDevice));
-#endif
     CHECK_HIP(hipMemcpy(dev_sfa, host_sfa_packed.get(), sfa_count * sizeof(e8m0_t), hipMemcpyHostToDevice));
     CHECK_HIP(hipMemcpy(dev_sfb, host_sfb_packed.get(), sfb_count * sizeof(e8m0_t), hipMemcpyHostToDevice));
 
@@ -778,11 +737,7 @@ int main(int argc, char** argv) {
     kargs.k = K;
     kargs.batch = batch;
     kargs.stride_a = K;
-#if defined(MXFP8_PRESHUFFLE_B)
-    kargs.stride_b = BLOCK_K;
-#else
     kargs.stride_b = K;
-#endif
     kargs.stride_c = N;
     kargs.stride_a_batch = M * K;
     kargs.stride_b_batch = N * K;

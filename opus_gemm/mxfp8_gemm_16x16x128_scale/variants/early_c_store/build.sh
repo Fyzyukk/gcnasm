@@ -11,6 +11,9 @@
 #
 # Builds off and on and reports the disassembly gate for each.  Always reads
 # the LINKED exe, never the kernel TU .s (section 29.3).
+#
+# The flag measured +0.17% and was not retained, so the main template no longer
+# carries it -- this directory keeps its own fork, like the other variants.
 set -e
 HERE=$(cd "$(dirname "$0")" && pwd)
 TOP=$(cd "$HERE/../.." && pwd)
@@ -29,7 +32,7 @@ ROCM=${ROCM_PATH:-/opt/rocm}
 ARCH=${ARCH:-gfx950}
 [ -x "$CLANG23" ] || { echo "ERROR: no clang 23 at $CLANG23" >&2; exit 1; }
 
-FLAGS="-I$TOP -I$OPUS_INCLUDE_DIR -std=c++17 -O3 -ffast-math \
+FLAGS="-I$HERE -I$TOP -I$OPUS_INCLUDE_DIR -std=c++17 -O3 -ffast-math \
        --offload-arch=$ARCH --rocm-path=$ROCM"
 LDFLAGS="-fopenmp -L$ROCM/lib/llvm/lib -lomp -Wl,-rpath,$ROCM/lib/llvm/lib \
          -L$ROCM/lib -lamdhip64 -Wl,-rpath,$ROCM/lib"
@@ -40,7 +43,7 @@ B="$HERE/build"; mkdir -p "$B"
     $FLAGS -fopenmp -I$ROCM/lib/llvm/include -c -o "$B/host.o"
 
 build_one() {   # $1 = tag, $2 = extra defines
-    $CLANG23 -x hip "$TOP/gemm_a8w8_mxfp8_scale_kernel_fixed_b_asym_b_read2.cc" \
+    $CLANG23 -x hip "$HERE/gemm_a8w8_mxfp8_scale_kernel_early_c_store.cc" \
         $FLAGS -D__HIPCC_RTC__ $2 -c -o "$B/k_$1.o" 2>&1 | grep -E "error" && exit 1
     $CLANG23 "$B/k_$1.o" "$B/host.o" --offload-arch=$ARCH --rocm-path=$ROCM \
         $LDFLAGS -o "$B/$1.exe"
