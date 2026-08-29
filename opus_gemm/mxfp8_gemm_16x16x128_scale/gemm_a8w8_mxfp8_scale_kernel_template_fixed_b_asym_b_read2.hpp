@@ -1053,7 +1053,29 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
 #pragma unroll 1
 #endif
 #else
+// The unroll factor is a real tuning knob, not a formality: on clang 23 this
+// pragma is what buys the +16% in section 29.1 (clang 20/21/22 ignore it and
+// leave the loop rolled).  Section 29 never swept the factor itself -- 4 is
+// just what the source happened to say, and clang answers it with a 3x body
+// (64 -> 192 MFMA).  Overridable so the factor can be A/B'd on its own.
+#ifndef MXFP8_MAIN_LOOP_UNROLL
+#define MXFP8_MAIN_LOOP_UNROLL 4
+#endif
+#if MXFP8_MAIN_LOOP_UNROLL == 1
+#pragma unroll 1
+#elif MXFP8_MAIN_LOOP_UNROLL == 2
+#pragma unroll 2
+#elif MXFP8_MAIN_LOOP_UNROLL == 3
+#pragma unroll 3
+#elif MXFP8_MAIN_LOOP_UNROLL == 4
 #pragma unroll 4
+#elif MXFP8_MAIN_LOOP_UNROLL == 6
+#pragma unroll 6
+#elif MXFP8_MAIN_LOOP_UNROLL == 8
+#pragma unroll 8
+#else
+#error "unsupported MXFP8_MAIN_LOOP_UNROLL"
+#endif
 #endif
     for (tile = 0; tile + 1 < loops; ++tile) {
         const int next_stage = stage ^ 1;
