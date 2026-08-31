@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>unified_scale 内核优化方案逐步拆解</title>
+<style>
+  .viz-root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --plane:          #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --grid:           #e1e0d9;
+    --axis:           #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --series-1:       #2a78d6;
+    --series-2:       #eb6834;
+    --series-3:       #1baf7a;
+    --good:           #0ca30c;
+    --good-text:      #006300;
+    --critical:       #d03b3b;
+    --warning:        #fab219;
+    --code-bg:        #f4f4f1;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .viz-root {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --plane:          #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --grid:           #2c2c2a;
+      --axis:           #383835;
+      --border:         rgba(255,255,255,0.10);
+      --series-1:       #3987e5;
+      --series-2:       #d95926;
+      --series-3:       #199e70;
+      --good:           #0ca30c;
+      --good-text:      #0ca30c;
+      --critical:       #d03b3b;
+      --warning:        #fab219;
+      --code-bg:        #222221;
+    }
+  }
+  :root[data-theme="dark"] .viz-root {
+    color-scheme: dark;
+    --surface-1:      #1a1a19;
+    --plane:          #0d0d0d;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #898781;
+    --grid:           #2c2c2a;
+    --axis:           #383835;
+    --border:         rgba(255,255,255,0.10);
+    --series-1:       #3987e5;
+    --series-2:       #d95926;
+    --series-3:       #199e70;
+    --good:           #0ca30c;
+    --good-text:      #0ca30c;
+    --critical:       #d03b3b;
+    --warning:        #fab219;
+    --code-bg:        #222221;
+  }
+
+  * { box-sizing: border-box; }
+  html { background: var(--plane); }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC",
+                 "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: var(--plane);
+    color: var(--text-primary);
+    line-height: 1.72;
+    font-size: 15px;
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 40px 28px 100px; }
+
+  header.doc-head {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 22px;
+  }
+  h1 { font-size: 27px; line-height: 1.35; margin: 0 0 10px; font-weight: 650; }
+  .subtitle { color: var(--text-secondary); font-size: 14.5px; margin: 0; }
+  .meta-line {
+    color: var(--text-muted); font-size: 13px; margin-top: 14px;
+    display: flex; flex-wrap: wrap; gap: 18px;
+  }
+  .meta-line code { background: none; padding: 0; color: var(--text-secondary); }
+
+  h2 {
+    font-size: 21px; margin: 50px 0 6px; font-weight: 620;
+    padding-top: 18px; border-top: 1px solid var(--border);
+  }
+  h3 { font-size: 16.5px; margin: 34px 0 6px; font-weight: 620; }
+  h4 { font-size: 14.5px; margin: 20px 0 4px; font-weight: 620; color: var(--text-secondary); }
+  p { margin: 10px 0; }
+  .lede { color: var(--text-secondary); margin-top: 4px; }
+
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.875em;
+    background: var(--code-bg);
+    padding: 1.5px 5px;
+    border-radius: 4px;
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    overflow-x: auto;
+    font-size: 12.8px;
+    line-height: 1.62;
+    margin: 14px 0;
+  }
+  pre code { background: none; padding: 0; font-size: inherit; }
+  .pre-label {
+    font-size: 11.5px; color: var(--text-muted); margin: 14px 0 -8px;
+    letter-spacing: .02em;
+  }
+
+  table {
+    border-collapse: collapse; width: 100%; margin: 16px 0;
+    font-size: 13.5px; background: var(--surface-1);
+    border: 1px solid var(--border); border-radius: 8px;
+  }
+  th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--grid); }
+  th {
+    font-weight: 600; color: var(--text-secondary);
+    font-size: 12.5px; letter-spacing: .02em; background: var(--plane);
+  }
+  tr:last-child td { border-bottom: none; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .win { color: var(--good-text); font-weight: 600; }
+  .lose { color: var(--critical); font-weight: 600; }
+  tr.highlight td { background: color-mix(in srgb, var(--series-1) 8%, transparent); font-weight: 600; }
+
+  figure { margin: 24px 0; }
+  figcaption { font-size: 12.5px; color: var(--text-muted); margin-top: 10px; }
+  .fig-title { font-size: 14.5px; font-weight: 620; margin-bottom: 2px; }
+  .fig-sub { font-size: 12.5px; color: var(--text-secondary); margin-bottom: 14px; }
+  .chart-surface {
+    background: var(--surface-1); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px 22px 16px;
+  }
+
+  .kpi-row {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
+    gap: 12px; margin: 22px 0 10px;
+  }
+  .stat {
+    background: var(--surface-1); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 16px;
+  }
+  .stat .label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .stat .value { font-size: 25px; font-weight: 620; line-height: 1.15; }
+  .stat .unit { font-size: 14px; color: var(--text-secondary); font-weight: 500; }
+  .stat .delta { font-size: 12.5px; margin-top: 4px; color: var(--text-secondary); }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 18px; margin: 0 0 14px; font-size: 12.5px; }
+  .legend .item { display: flex; align-items: center; gap: 7px; color: var(--text-secondary); }
+  .swatch { width: 11px; height: 11px; border-radius: 3px; flex: none; }
+
+  .callout {
+    border-left: 3px solid var(--series-1);
+    background: var(--surface-1);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px; margin: 18px 0; font-size: 14px;
+  }
+  .callout.warn { border-left-color: var(--warning); }
+  .callout.stop { border-left-color: var(--critical); }
+  .callout .tag {
+    font-size: 11.5px; font-weight: 660; letter-spacing: .04em;
+    color: var(--text-muted); display: block; margin-bottom: 3px;
+  }
+
+  .tt {
+    position: fixed; pointer-events: none; opacity: 0;
+    background: var(--surface-1); color: var(--text-primary);
+    border: 1px solid var(--border); border-radius: 7px;
+    padding: 7px 10px; font-size: 12.5px; line-height: 1.5;
+    box-shadow: 0 4px 14px rgba(0,0,0,.14); z-index: 60;
+    transition: opacity .1s; font-variant-numeric: tabular-nums; max-width: 280px;
+  }
+  .tt .tt-k { color: var(--text-muted); }
+  .hoverable { cursor: default; }
+  .hoverable:hover { filter: brightness(1.06); }
+
+  .toggle {
+    position: fixed; top: 14px; right: 14px;
+    background: var(--surface-1); color: var(--text-secondary);
+    border: 1px solid var(--border); border-radius: 7px;
+    padding: 6px 12px; font-size: 12.5px; cursor: pointer; z-index: 70;
+    font-family: inherit;
+  }
+  details {
+    background: var(--surface-1); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 14px; margin: 14px 0; font-size: 13.5px;
+  }
+  summary { cursor: pointer; font-weight: 600; font-size: 13.5px; color: var(--text-secondary); }
+  details[open] summary { margin-bottom: 8px; }
+
+  .step-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .step-tag {
+    font-size: 11.5px; font-weight: 620; padding: 2px 9px; border-radius: 20px;
+    background: color-mix(in srgb, var(--series-1) 15%, transparent);
+    color: var(--series-1);
+  }
+  .step-tag.new {
+    background: color-mix(in srgb, var(--good) 16%, transparent);
+    color: var(--good-text);
+  }
+  .lineref {
+    font-size: 12px; color: var(--text-muted); font-family: ui-monospace, monospace;
+  }
+  ul, ol { padding-left: 22px; margin: 10px 0; }
+  li { margin: 5px 0; }
+  a { color: var(--series-1); }
+  .footnote { font-size: 12.5px; color: var(--text-muted); margin-top: 6px; }
+  .toc { font-size: 13.5px; }
+  .toc ol { padding-left: 24px; }
+  .toc li { margin: 3px 0; }
+  .toc a { text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .toc .t-note { color: var(--text-muted); font-size: 12.5px; }
+</style>
+</head>
+<body class="viz-root" data-palette="#2a78d6,#eb6834,#1baf7a">
+<button class="toggle" id="themeBtn">切换深色</button>
+<div class="wrap">
+
+<header class="doc-head">
+  <h1><code>unified_scale</code> 内核：优化方案逐步拆解</h1>
+  <p class="subtitle">
+    <code>gemm_a8w8_mxfp8_scale_kernel_template_fixed_b_asym_b_read2_unified_scale.hpp</code>
+    · 929 行 · gfx950
+  </p>
+  <div class="meta-line">
+    <span>MFMA <code>V_MFMA_SCALE_F32_16X16X128_F8F6F4</code></span>
+    <span>Block tile <code>256×256×128</code></span>
+    <span>8 waves / 512 线程</span>
+    <span>2026-08-30</span>
+  </div>
+</header>
+
+<div class="kpi-row">
+  <div class="stat">
+    <div class="label">性能（8192³, b=1 中位）</div>
+    <div class="value">2874<span class="unit"> TFlops</span></div>
+    <div class="delta">0.3826 ms</div>
+  </div>
+  <div class="stat">
+    <div class="label">VGPR / SGPR</div>
+    <div class="value">240<span class="unit"> / 101</span></div>
+    <div class="delta">spill 0 · scratch 0</div>
+  </div>
+  <div class="stat">
+    <div class="label">静态 MFMA</div>
+    <div class="value">192</div>
+    <div class="delta">展开 3 倍后</div>
+  </div>
+  <div class="stat">
+    <div class="label">occupancy</div>
+    <div class="value">2<span class="unit"> waves/SIMD</span></div>
+    <div class="delta">LDS 139 264 B</div>
+  </div>
+</div>
+
+<p class="lede">
+本文只讲<strong>这一个内核文件内部</strong>做了哪些优化。每一步给出：解决什么问题、
+代码长什么样、在 ISA 或计数器上留下什么痕迹。
+</p>
+
+<div class="callout">
+  <span class="tag">目录</span>
+  <div class="toc">
+    <ol>
+      <li><a href="#s1">持久 fixed-B：一个 workgroup 连算 4 个 M tile</a></li>
+      <li><a href="#s2">双缓冲滚动流水线：算当前 tile 时预取下一个</a></li>
+      <li><a href="#s3">16 字节 scale producer：8 条 VMEM 压到 2 条</a></li>
+      <li><a href="#s4">统一 scale producer 路径 <span class="t-note">★本版新增</span></a></li>
+      <li><a href="#s5">描述符跨 output tile 存活 <span class="t-note">★本版新增</span></a></li>
+      <li><a href="#s6">B-first：最冷的请求最早发射</a></li>
+      <li><a href="#s7">asymmetric B producer：pair 内一条 wave 独立填 B</a></li>
+      <li><a href="#s8">B1 半程读取：拆成 prefetch + tail 两段</a></li>
+      <li><a href="#s9"><code>ds_read2st64_b32</code>：SFB 两 half 一条读完</a></li>
+      <li><a href="#s10">累加器 pin：阻止编译器搬运 C</a></li>
+      <li><a href="#s11"><code>sched_group_barrier</code>：手工指定 MFMA/LDS 交错比</a></li>
+      <li><a href="#s12"><code>s_setprio</code>：MFMA 段抬优先级</a></li>
+      <li><a href="#s13">单 barrier 同时发布与回收</a></li>
+      <li><a href="#s14">尾 tile 剥离：最后一个 K tile 不再发 global</a></li>
+      <li><a href="#s15">C 写回 non-temporal</a></li>
+      <li><a href="#s16"><code>#pragma unroll 4</code> 与它的门禁</a></li>
+    </ol>
+  </div>
+</div>
+
+<h2>0. 内核骨架</h2>
+
+<p>先看整体形状，后面每一步都挂在这个骨架的某个位置上：</p>
+
+<pre><code>__global__ __launch_bounds__(512, 2)
+void gemm_a8w8_mxfp8_scale_kernel(kargs) {
+
+  // ── prologue：wave 角色、scale 描述符选择（跨 output tile 存活）
+  scale_producer_active / scale_producer_is_sfa / g_sf / stride_sf / s_sf_ptr
+
+  for (output_tile = 0; output_tile &lt; 4; ++output_tile) {   // 持久 M tile 循环
+      if (block_m >= num_tiles_m) break;
+
+      // ── 布局构造（编译期）+ LDS 声明
+      // ── prologue：output_tile==0 时预载 tile 0；loops>1 时种入 cold B
+
+      #pragma unroll 4
+      for (tile = 0; tile + 1 &lt; loops; ++tile) {            // 主 K 循环
+          ds_read  当前 tile 的 sfa / sfb / A0 / B0 / B1前半
+          async_load 下一 tile 的 scale / A0 / A1
+          32 条 MFMA（C[0][0] 和 C[1][0]）
+          单 barrier：发布 t+1、回收 t 的 LDS
+          发 t+2 的 cold B（仅 producer wave）
+          32 条 MFMA（C[0][1] 和 C[1][1]），与上面的 B 搬运重叠
+      }
+
+      // ── 尾 tile：只消费，不再发 global；同时预取下一个 output tile
+      // ── C 写回（nt）
+  }
+}</code></pre>
+
+<h2>1. 优化逐条拆解</h2>
+
+<!-- ===================== 1 ===================== -->
+<h3 id="s1"><span class="step-head">1 · 持久 fixed-B：一个 workgroup 连算 4 个 M tile <span class="step-tag">结构</span></span></h3>
+
+<p>
+<strong>问题。</strong>一个 workgroup 只算一个输出 tile 时，每算完一块，B 和 SFB 就要重新从 global 拉一遍。
+</p>
+
+<p>
+<strong>做法。</strong>让一个 workgroup 沿 M 方向连续吃掉 4 个相邻 tile。整个过程 <code>col</code>（N 坐标）不变，
+于是 <strong>B 和 SFB 一次都不用重载</strong>：
+</p>
+
+<pre><code>template&lt;class Traits&gt;
+struct fixed_b_prefetch_4_traits : Traits {
+    static constexpr int OUTPUT_TILES_PER_WG = 4;   // 与主机网格规则耦合，不可独立调
+};
+
+const int block_n       = block_id_x() % num_tiles_n;
+const int first_block_m = (block_id_x() / num_tiles_n) * T::OUTPUT_TILES_PER_WG;
+const int col           = block_n * T::B_N;         // ← 循环外，全程不变
+
+for (int output_tile = 0; output_tile &lt; T::OUTPUT_TILES_PER_WG; ++output_tile) {
+    const int block_m = first_block_m + output_tile;
+    if (block_m >= num_tiles_m) break;              // M 不整除时的尾部保护
+    const int row = block_m * T::B_M;               // ← 只有 A 侧随循环推进
+    ...
+}</code></pre>
+
+<p>主机侧网格必须配合，否则会漏算或重算：</p>
+
+<pre><code>grid.x = ceil_div(num_tiles_m, 4) * num_tiles_n;
+grid.z = batch;</code></pre>
+
+<div class="callout warn">
+  <span class="tag">为什么是 4，不是 8 或 16</span>
+  <code>8</code> 和 <code>16</code> 都实测过：VGPR/LDS 完全不变、数值全对，但<strong>更慢</strong>。
+  瓶颈不是 A 的重复流量，而是 <strong>CU 占用</strong>——workgroup 总数随之减少，填不满 CU。
+  所以 4 是实测最优点，不是一个可调参数。
+</div>
+
+<!-- ===================== 2 ===================== -->
+<h3 id="s2"><span class="step-head">2 · 双缓冲滚动流水线 <span class="step-tag">结构</span></span></h3>
+
+<p>
+<strong>做法。</strong>LDS 里 A/B 各开 4 份、scale 各开 2 份，用 <code>stage ^ 1</code> 在两组之间翻转。
+每轮循环<strong>一边从 stage 读当前 tile、一边往 stage^1 写下一 tile</strong>：
+</p>
+
+<pre><code>__shared__ char smem_a[smem_a_elem * 4 * sizeof(D_A)];    // 2 stage × 2 half
+__shared__ char smem_b[smem_b_elem * 4 * sizeof(D_B)];
+__shared__ char smem_sfa[smem_sfa_elem * 2 * sizeof(D_SF)];
+__shared__ char smem_sfb[smem_sfb_elem * 2 * sizeof(D_SF)];
+
+auto sa_offset = [&amp;](int stage, int half) { return (stage*2 + half) * smem_a_elem; };
+auto sb_offset = [&amp;](int stage, int half) { return (stage*2 + half) * smem_b_elem; };
+
+for (tile = 0; tile + 1 &lt; loops; ++tile) {
+    const int next_stage = stage ^ 1;
+    ... 读 stage，写 next_stage ...
+    stage = next_stage;  scale_stage = next_stage;
+}</code></pre>
+
+<p>
+关键在于 <code>async_load</code> 走的是 gfx950 的 <code>buffer_load_dwordx4 … lds</code>——
+<strong>global 直接落 LDS，不经过 VGPR</strong>。所以「预取下一 tile」这件事不占累加器寄存器，
+这是能在 240 VGPR 的预算里同时容纳双缓冲的前提。
+</p>
+
+<!-- ===================== 3 ===================== -->
+<h3 id="s3"><span class="step-head">3 · 16 字节 scale producer <span class="step-tag">scale 通路</span></span></h3>
+
+<p>
+<strong>问题。</strong>scale 载荷只有 2 KiB/K tile（SFA 1 KiB + SFB 1 KiB），
+但早期的 4B 协同路径要 8 个 wave 各发一条 4B/lane 的 VMEM——<strong>8 条 wave 级请求搬 2 KiB</strong>。
+</p>
+
+<p><strong>做法。</strong>改成两个 wave 各用 16B/lane 一次搬完：</p>
+
+<pre><code>wave 0: 64 lanes × 16 B = 完整 1 KiB SFA tile
+wave 1: 64 lanes × 16 B = 完整 1 KiB SFB tile</code></pre>
+
+<p>wave 级 scale VMEM <strong>8 条 → 2 条</strong>，总载荷和 LDS 图像都不变。用显式 layout 表达：</p>
+
+<pre><code>// global 侧：lane 作为 tile 内的行坐标，stride = [16, 1]
+constexpr auto block_shape = make_tuple(number&lt;WARP_SIZE&gt;{}, number&lt;16&gt;{});
+return make_layout&lt;16&gt;(block_shape,
+    unfold_x_stride(block_dim, block_shape, tuple{number&lt;16&gt;{}, 1_I}),
+    unfold_p_coord(block_dim, tuple{lane_id}));          // ← 有 lane 坐标
+
+// LDS 侧：不加 lane 坐标
+constexpr auto block_shape = make_tuple(number&lt;16&gt;{});
+return make_layout&lt;16&gt;(block_shape,
+    unfold_x_stride(block_dim, block_shape, tuple{1_I}),
+    unfold_p_coord(block_dim, tuple{}));                 // ← 空</code></pre>
+
+<div class="callout">
+  <span class="tag">为什么 LDS 侧不带 lane</span>
+  gfx950 的 <code>buffer_load_dwordx4 … lds</code> 从一个 <strong>wave-uniform 的 LDS base</strong> 开始，
+  硬件会把各 lane 的 16 字节返回值<em>依次</em>写进去。lane 偏移由硬件负责，
+  软件再加一遍就错了。
+</div>
+
+<!-- ===================== 4 ===================== -->
+<h3 id="s4"><span class="step-head">4 · 统一 scale producer 路径 <span class="step-tag new">★ 本版新增 · +1.63%</span></span></h3>
+
+<p>
+<strong>观察。</strong>上一步留下四个 layout 函数。但因为 <code>B_M == B_N == 256</code>，于是
+<code>packed_sfa_tile_elem == packed_sfb_tile_elem == 256 × NUM_KGROUPS</code>，
+结果是 <code>make_layout_gsfa_scale</code> 和 <code>make_layout_gsfb_scale</code> 的函数体
+<strong>逐字符完全相同</strong>，<code>ssfa</code> / <code>ssfb</code> 同理。
+</p>
+
+<p>
+也就是说，wave 0 和 wave 1 走的是两条<strong>字面等价</strong>的代码路径，区别只在基地址和 stride。
+编译器必须为两条分支各生成一套地址计算和布局常量，而它无法自己发现这两条能合并。
+</p>
+
+<p><strong>做法。</strong>把「两条分支」改写成「一条分支 + 提前选好的描述符」：</p>
+
+<div class="pre-label">prologue —— 只算一次</div>
+<pre><code>const bool scale_producer_active = wave_id &lt; 2;
+const bool scale_producer_is_sfa = wave_id == 0;
+
+const auto* g_sf_base = scale_producer_is_sfa
+    ? ptr_sfa + batch_id*stride_sfa_batch + first_block_m*num_tiles_k*stride_sfa
+    : ptr_sfb + batch_id*stride_sfb_batch + block_n    *num_tiles_k*stride_sfb;
+auto g_sf = make_gmem(g_sf_base);
+
+const int stride_sf = scale_producer_is_sfa ? kargs.stride_sfa : kargs.stride_sfb;
+
+static_assert(T::packed_sfa_tile_elem == T::packed_sfb_tile_elem);
+auto* s_sf_ptr = scale_producer_is_sfa ? s_sfa.ptr : s_sfb.ptr;</code></pre>
+
+<p>三个发射点（prologue、主循环、output tile 边界）从 if/else 双分支塌缩成单条：</p>
+
+<div class="pre-label">改前</div>
+<pre><code>if (wave_id == 0) {
+    async_load&lt;16&gt;(g_sfa, s_sfa.ptr, u_gsfa, u_ssfa + ssfa_offset(st), gsfa_offset(k));
+} else if (wave_id == 1) {
+    async_load&lt;16&gt;(g_sfb, s_sfb.ptr, u_gsfb, u_ssfb + ssfb_offset(st), gsfb_offset(k));
+}</code></pre>
+
+<div class="pre-label">改后</div>
+<pre><code>if (scale_producer_active) {
+    async_load&lt;16&gt;(g_sf, s_sf_ptr, u_gsfa, u_ssfa + ssfa_offset(st), gsf_offset(0, k));
+}</code></pre>
+
+<p>
+注意改后<strong>只保留 <code>u_gsfa</code> / <code>u_ssfa</code></strong>——
+因为 gsfb/ssfb 与它们逐字符相同，留一个就够，另一个连同它的布局常量一起消失。
+</p>
+
+<div class="callout warn">
+  <span class="tag">前提被钉死</span>
+  这个合并依赖 <code>B_M == B_N</code>。代码里那行
+  <code>static_assert(packed_sfa_tile_elem == packed_sfb_tile_elem)</code> 就是为此存在的：
+  将来若改成非方形 block tile，编译期直接报错，而不是安静地算错结果。
+</div>
+
+<!-- ===================== 5 ===================== -->
+<h3 id="s5"><span class="step-head">5 · 描述符跨 output tile 存活 <span class="step-tag new">★ 本版新增</span></span></h3>
+
+<p>
+<strong>问题。</strong>上面那段被<strong>提到了 <code>output_tile</code> 循环之外</strong>。
+但原版每进一个新的 M tile，都要为 SFA 重建一次 gmem 描述符：
+</p>
+
+<div class="pre-label">改前 —— 每个 output tile 边界重算一次</div>
+<pre><code>auto g_sfa_next = make_gmem(
+    ptr_sfa + batch_id*stride_sfa_batch + next_block_m*num_tiles_k*stride_sfa);
+
+if (wave_id == 0) {
+    async_load&lt;16&gt;(g_sfa_next, s_sfa.ptr, u_gsfa, ..., gsfa_offset(0));
+} else if (wave_id == 1) {
+    async_load&lt;16&gt;(g_sfb, s_sfb.ptr, u_gsfb, ..., gsfb_offset(0));
+}</code></pre>
+
+<p>
+<strong>做法。</strong>把「前进到下一个 M tile」从<em>重建描述符</em>降级为<em>偏移里加一项</em>：
+</p>
+
+<div class="pre-label">改后</div>
+<pre><code>// prologue，循环外
+const int output_stride_sf = scale_producer_is_sfa ? num_tiles_k * stride_sfa : 0;
+
+// 循环内
+auto gsf_offset = [&amp;](int output_delta, int tile_k) {
+    return (output_tile + output_delta) * output_stride_sf + tile_k * stride_sf;
+};
+
+// 主循环用 delta=0（本 tile），output tile 边界用 delta=1（下一 tile）
+async_load&lt;16&gt;(g_sf, s_sf_ptr, u_gsfa, u_ssfa + ssfa_offset(st), gsf_offset(1, 0));</code></pre>
+
+<div class="callout">
+  <span class="tag">这里有个巧妙处</span>
+  <code>output_stride_sf</code> 对 SFB 恰好取 <strong>0</strong>。
+  这正是 fixed-B 语义在偏移算术里的自然表达——<strong>B 侧不随 M tile 前进</strong>。
+  于是<strong>同一个表达式</strong>同时正确覆盖了 SFA 的「每 tile 前进一格」和 SFB 的「原地不动」，
+  不需要任何分支。
+</div>
+
+<h4>第 4 步 + 第 5 步在 ISA 上的效果</h4>
+
+<figure>
+  <div class="chart-surface">
+    <div class="fig-title">合并前后的静态指令构成</div>
+    <div class="fig-sub">从链接后 exe 的 device image 反汇编统计（gfx950）</div>
+    <div class="legend">
+      <span class="item"><span class="swatch" style="background:var(--series-1)"></span>合并前</span>
+      <span class="item"><span class="swatch" style="background:var(--series-2)"></span>unified</span>
+    </div>
+    <div id="isaChart"></div>
+  </div>
+  <figcaption>
+    计算指令完全没动（MFMA 192、<code>ds_read_b128</code> 144、<code>buffer_store</code> 32 三项一致），
+    变的只有控制流与地址计算——这是纯粹的开销削减。
+  </figcaption>
+</figure>
+
+<table>
+  <thead><tr><th>指标</th><th class="num">合并前</th><th class="num">unified</th><th class="num">变化</th></tr></thead>
+  <tbody>
+    <tr class="highlight"><td>分支指令</td><td class="num">69</td><td class="num">42</td><td class="num win">−27（−39%）</td></tr>
+    <tr><td>汇编总行数</td><td class="num">1706</td><td class="num">1605</td><td class="num win">−101</td></tr>
+    <tr><td><code>s_nop</code></td><td class="num">127</td><td class="num">110</td><td class="num win">−17</td></tr>
+    <tr><td><code>s_cselect_b32</code></td><td class="num">18</td><td class="num">15</td><td class="num win">−3</td></tr>
+    <tr><td><code>buffer_load_dwordx4 … lds</code></td><td class="num">88</td><td class="num">87</td><td class="num win">−1</td></tr>
+    <tr><td>VGPR</td><td class="num">243</td><td class="num">240</td><td class="num win">−3</td></tr>
+    <tr><td>SGPR</td><td class="num">106</td><td class="num">101</td><td class="num win">−5</td></tr>
+    <tr><td>MFMA / ds_read_b128 / buffer_store</td><td class="num">192 / 144 / 32</td><td class="num">192 / 144 / 32</td><td class="num">不变</td></tr>
+  </tbody>
+</table>
+
+<!-- ===================== 6 ===================== -->
+<h3 id="s6"><span class="step-head">6 · B-first：最冷的请求最早发射 <span class="step-tag">调度</span></span></h3>
+
+<p>
+<strong>问题。</strong>B 的跨 block cache 复用最弱，最容易成为一个 tile 里<strong>最后完成</strong>的
+global-to-LDS 请求，从而卡住 barrier。
+</p>
+
+<p><strong>做法。</strong>把最冷的请求排到最前面开始"老化"，让易命中 cache 的 scale/A 去覆盖 LDS 延迟：</p>
+
+<pre><code>B0 → B1 → 当前 tile 的早期 LDS reads → scale → A0 → A1</code></pre>
+
+<p>在代码里体现为主循环的发射次序：先 <code>load_b_range_scale</code>，再 <code>load_next_scale()</code>，最后两条 A：</p>
+
+<pre><code>v_b = load&lt;VEC_B&gt;(s_b, u_rb + sb_offset(stage, 0));
+load_b_range_scale&lt;T, 0, b_ds_read_insts/2&gt;(s_b, rb1_offsets_prefetch, v_b_second);
+__builtin_amdgcn_sched_barrier(0);
+
+load_next_scale();                                       // ← scale 在 B 之后
+async_load&lt;VEC_A&gt;(g_a, ..., ga_offset(0, tile + 1), 0_I, number&lt;0&gt;{});
+async_load&lt;VEC_A&gt;(g_a, ..., ga_offset(1, tile + 1), 0_I, number&lt;0&gt;{});</code></pre>
+
+<p>ATT 观测到的效果：</p>
+
+<table>
+  <thead><tr><th>指标</th><th class="num">改前</th><th class="num">改后</th></tr></thead>
+  <tbody>
+    <tr><td>两个 head <code>lgkmcnt(5)</code></td><td class="num">82.9</td><td class="num win">4.0 cyc/tile</td></tr>
+    <tr><td>barrier residence</td><td class="num">335.6</td><td class="num win">258.1 cyc/tile</td></tr>
+    <tr><td>tile-tail VMEM wait</td><td class="num">196.8</td><td class="num lose">207.9 cyc/tile</td></tr>
+  </tbody>
+</table>
+
+<p>尾部 VMEM 等待略有变差，但 head wait 降得更多，净为正。</p>
+
+<!-- ===================== 7 ===================== -->
+<h3 id="s7"><span class="step-head">7 · asymmetric B producer <span class="step-tag">调度</span></span></h3>
+
+<p>
+<strong>问题。</strong>B0/B1 若由 resident pair 的两个 wave 各搬一半，两条 wave 会互相等。
+</p>
+
+<p>
+<strong>做法。</strong>resident pair 是 <code>(0,4) (1,5) (2,6) (3,7)</code>。
+在 mid-tile barrier 之后，<strong>只让 pair 里的一条 wave 搬完整个 B</strong>，
+另一条立刻进入尾部 12 条 MFMA：
+</p>
+
+<pre><code>if (tile + 2 &lt; loops) {
+    constexpr int b_producer_wave_n = 1;        // 每个 pair 里 n==1 的那条搬 B
+    if (wave_id_n == b_producer_wave_n) {
+        async_load&lt;VEC_B&gt;(g_b, s_b.ptr, u_gb_producer_0, ..., gb_offset(0, tile+2));
+        async_load&lt;VEC_B&gt;(g_b, s_b.ptr, u_gb_producer_1, ..., gb_offset(0, tile+2));
+        async_load&lt;VEC_B&gt;(g_b, s_b.ptr, u_gb_producer_0, ..., gb_offset(1, tile+2));
+        async_load&lt;VEC_B&gt;(g_b, s_b.ptr, u_gb_producer_1, ..., gb_offset(1, tile+2));
+    }
+    __builtin_amdgcn_sched_barrier(0);
+}
+__builtin_amdgcn_s_setprio(1);
+// ↓ 两条 wave 都继续跑完全相同的 12 条 MFMA</code></pre>
+
+<p>
+producer wave 用两个<strong>显式的 logical wave-N layout</strong>
+（<code>u_gb_producer_0</code> / <code>u_gb_producer_1</code>）代替自己那份，
+从而覆盖本该由伙伴负责的那一半。
+</p>
+
+<div class="callout">
+  <span class="tag">关键区别</span>
+  这<strong>不是</strong>严格的 producer/consumer 分离（那个方向实测 NO-GO）。
+  producer wave 只是<em>短暂落后</em>，并没有放弃计算——<strong>两条 wave 仍执行全部 MFMA</strong>。
+  代价是几条 VMEM 的延迟，收益是伙伴 wave 提前 12 条 MFMA 开跑。
+</div>
+
+<details>
+  <summary>同期试过但没保留的三个变体</summary>
+  <table>
+    <thead><tr><th>变体</th><th class="num">结果</th><th>结论</th></tr></thead>
+    <tbody>
+      <tr><td>合成一个四-wave producer layout</td><td class="num">0.47645 vs 0.47640 ms</td><td>打平（0.01%），保留已全矩阵验证的显式版</td></tr>
+      <tr><td>固定正/负 offset</td><td class="num">0.4955 ms</td><td>正确但慢；另一版 K≥384 出错</td></tr>
+      <tr><td>B0/B1 分给 pair 的不同 wave</td><td class="num">0.481 ms</td><td>比同一 wave 做两 half 慢约 1%</td></tr>
+    </tbody>
+  </table>
+</details>
+
+<!-- ===================== 8 ===================== -->
+<h3 id="s8"><span class="step-head">8 · B1 半程读取：拆成 prefetch + tail 两段 <span class="step-tag">调度</span></span></h3>
+
+<p>
+<strong>问题。</strong>B half 1 的那组 <code>ds_read</code> 如果一次读完，
+后面 32 条 MFMA 全都得等它；如果一条不读，用到时又要现等。
+</p>
+
+<p><strong>做法。</strong>对半劈开。前一半在 tile 开头就发，后一半推迟到真要用 <code>v_b_second</code> 之前：</p>
+
+<pre><code>// tile 开头：先发一半
+auto rb1_offsets_prefetch = layout_to_offsets&lt;VEC_B&gt;(u_rb + sb_offset(stage, 1));
+load_b_range_scale&lt;T, 0, T::b_ds_read_insts / 2&gt;(s_b, rb1_offsets_prefetch, v_b_second);
+
+// ... 中间 32 条 MFMA 只用 v_b（half 0），与上面的读重叠 ...
+
+// 真正要用 half 1 之前：补上后一半
+auto rb1_offsets_tail = layout_to_offsets&lt;VEC_B&gt;(u_rb + sb_offset(stage, 1));
+load_b_range_scale&lt;T, T::b_ds_read_insts / 2, T::b_ds_read_insts&gt;(
+    s_b, rb1_offsets_tail, v_b_second);
+const auto&amp; v_b_n1 = v_b_second;</code></pre>
+
+<p>
+提前条数扫描过 2/4/6/8：<code>r4</code> 与 <code>r8</code> 性能只差 0.008%，但 <code>r8</code> 多花 15 个 VGPR，
+所以取 <code>r4</code>。ATT 里 B1 progressive wait 从约 41 降到 <strong>0.8 cyc/tile</strong>。
+</p>
+
+<!-- ===================== 9 ===================== -->
+<h3 id="s9"><span class="step-head">9 · <code>ds_read2st64_b32</code>：SFB 两 half 一条读完 <span class="step-tag">scale 通路</span></span></h3>
+
+<p>
+<strong>观察。</strong>SFB 的 half 0 与 half 1 在 LDS 里<strong>恰好相距 512 字节</strong>。
+而 <code>ds_read2st64_b32</code> 的 offset 单位是 64 dword = 256 字节。
+512 / 256 = 2，所以 <code>offset1:2</code> 正好命中——两条读能合成一条：
+</p>
+
+<pre><code>auto load_sfb_pair = [&amp;](int read_stage) {
+    const auto offsets = layout_to_offsets&lt;4&gt;(u_rsfb_0 + ssfb_offset(read_stage));
+    const u32_t addr = static_cast&lt;u32_t&gt;(
+        reinterpret_cast&lt;__UINTPTR_TYPE__&gt;(s_sfb.ptr + offsets[0]));
+    u32x2_t pair;
+    // SFB half 1 is exactly 512 bytes after half 0. ST64 offsets are in
+    // units of 64 dwords (256 bytes), hence offset1=2.
+    asm volatile(
+        "ds_read2st64_b32 %0, %1 offset0:0 offset1:2\n"
+        : "=v"(pair) : "v"(addr) : "memory");
+    return pair;
+};</code></pre>
+
+<p>
+展开后静态 <code>ds_read</code> 从 162 降到 156，VGPR 少 4 个。
+绝对收益很小（中位 +0.04%、均值 +0.12%），5/5 组方向一致，
+作为组成部分保留，<strong>不单独宣称提速</strong>。
+</p>
+
+<p class="footnote">
+这里用内联汇编而不是 intrinsic，是因为需要精确控制 <code>offset0/offset1</code> 这对立即数；
+注释把「512 字节 ÷ 256 字节 = 2」这个推导写进了代码，防止后人改 LDS 布局时踩雷。
+</p>
+
+<!-- ===================== 10 ===================== -->
+<h3 id="s10"><span class="step-head">10 · 累加器 pin：阻止编译器搬运 C <span class="step-tag">寄存器</span></span></h3>
+
+<p>
+<strong>问题。</strong>C 累加器是 <code>2×2</code> 组、每组 16 个 fp32，
+占了 VGPR 预算的绝大部分。编译器在寄存器压力下很容易决定「把这块 C 挪个位置」，
+插入一堆 <code>v_mov_b32</code>，甚至溢出。
+</p>
+
+<p><strong>做法。</strong>每条 MFMA 之后，用一个空的内联汇编把累加器"钉"在原地：</p>
+
+<pre><code>mma_scale_repeat_n2&lt;T, 0, 0, 0&gt;(mma, v_a[0], v_b, v_c[0][0], v_sfa, v_sfb[0]);
+{
+    auto* v_c_pin = reinterpret_cast&lt;vector_t&lt;D_ACC, 16&gt;*&gt;(&amp;v_c[0][0]);
+    asm volatile("" : "+v"(v_c_pin[0]) ::);      // 空指令，但 "+v" 声明读写该寄存器组
+}</code></pre>
+
+<p>
+<code>asm volatile("")</code> 不产生任何机器码，但 <code>"+v"</code> 约束告诉编译器
+「这组 VGPR 在这里被读写了」，于是它不能跨这个点搬动或重分配它们。
+整个主循环里这个模式重复 16 次（每条 MFMA 后一次），
+分别钉 <code>v_c_pin[0]</code> 和 <code>v_c_pin[1]</code>（每组 C 的上下半）。
+</p>
+
+<p>
+结果就是最终 ISA 里 <strong>vspill = 0、<code>scratch_*</code> = 0</strong>，
+在 240/256 VGPR 这么紧的预算下没有任何溢出。
+</p>
+
+<!-- ===================== 11 ===================== -->
+<h3 id="s11"><span class="step-head">11 · <code>sched_group_barrier</code>：手工指定交错比 <span class="step-tag">调度</span></span></h3>
+
+<p>
+<strong>问题。</strong>编译器自己排 MFMA 和 LDS 读的交错比例，排出来的不一定是最优。
+</p>
+
+<p><strong>做法。</strong>用 <code>sched_group_barrier</code> 显式指定一个重复的配比模式：</p>
+
+<pre><code>__device__ inline void sched_barrier_pairs_scale() {
+    __builtin_amdgcn_sched_group_barrier(0x08, 1, 0);   // MFMA   × 1
+    __builtin_amdgcn_sched_group_barrier(0x02, 2, 0);   // VALU   × 2
+    __builtin_amdgcn_sched_group_barrier(0x08, 1, 0);   // MFMA   × 1
+    __builtin_amdgcn_sched_group_barrier(0x02, 2, 0);   // VALU   × 2
+}</code></pre>
+
+<p>
+掩码 <code>0x08</code> 是 MFMA、<code>0x02</code> 是 VALU。这段在每条
+<code>mma_scale_repeat_n2</code> 之后调用一次，把「1 条 MFMA 配 2 条 VALU」
+这个节奏铺满整个 MFMA 段——让地址计算和 scale 解包的 VALU 指令
+均匀塞进 MFMA 的执行间隙，而不是堆在一起。
+</p>
+
+<p>
+另外在关键的发射边界上用 <code>__builtin_amdgcn_sched_barrier(0)</code>（完全禁止跨越移动），
+把「B 读 → scale → A」这个顺序焊死，防止编译器把第 6 步辛苦排好的顺序又打乱。
+</p>
+
+<!-- ===================== 12 ===================== -->
+<h3 id="s12"><span class="step-head">12 · <code>s_setprio</code>：MFMA 段抬优先级 <span class="step-tag">调度</span></span></h3>
+
+<p>
+<strong>问题。</strong>两条 resident wave 共享一个 SIMD。搬运阶段的 wave 会和
+正在算 MFMA 的 wave 抢发射槽。
+</p>
+
+<p><strong>做法。</strong>进 MFMA 段抬优先级，出来降回去：</p>
+
+<pre><code>s_waitcnt_lgkmcnt(number&lt;8&gt;{});
+__builtin_amdgcn_s_setprio(1);        // ← 进入 MFMA 段
+    ... 32 条 MFMA ...
+__builtin_amdgcn_s_setprio(0);        // ← 出来，让搬运 wave 上
+    s_waitcnt_vmcnt(0); s_waitcnt_lgkmcnt(0); s_barrier();
+    发 t+2 的 cold B
+__builtin_amdgcn_s_setprio(1);        // ← 再抬，跑尾部 12 条 MFMA
+    ... 32 条 MFMA ...
+__builtin_amdgcn_s_setprio(0);</code></pre>
+
+<p>
+效果是让 MFMA 段尽量不被打断，同时把 barrier 附近那段
+（本来就要等的地方）让给需要发 VMEM 的 wave。
+</p>
+
+<!-- ===================== 13 ===================== -->
+<h3 id="s13"><span class="step-head">13 · 单 barrier 同时发布与回收 <span class="step-tag">同步</span></span></h3>
+
+<p>
+<strong>问题。</strong>双缓冲天然需要两件事：<em>发布</em> tile t+1 的数据（写完了，可以读），
+<em>回收</em> tile t 的 LDS stage（读完了，可以覆盖）。两个 barrier 是最直观的写法，
+但 barrier 本身很贵。
+</p>
+
+<p><strong>做法。</strong>把两件事合并到同一个 barrier 上，放在整个 tile 的正中间：</p>
+
+<pre><code>// tile t 的全部操作数此刻已经在 VGPR 里了
+__builtin_amdgcn_s_setprio(0);
+s_waitcnt_vmcnt(0_I);          // t+1 的 global→LDS 全部落地
+s_waitcnt_lgkmcnt(0_I);        // t 的 LDS 读全部完成
+__builtin_amdgcn_s_barrier();  // ← 一个 barrier 同时完成发布与回收
+__builtin_amdgcn_sched_barrier(0);</code></pre>
+
+<p>
+这能成立的前提是那句注释点明的：
+<strong>「tile t 的全部操作数此刻已经驻留在 VGPR 里」</strong>——
+所以回收它的 LDS 是安全的。barrier 之后立刻发 t+2 的 cold B，
+让这条最冷的请求在尾部 12 条 MFMA 的掩护下开始老化。
+</p>
+
+<p class="footnote">
+测过更激进的方向：把 barrier 删掉（<code>nobarrier</code>）反而 <strong>−2.4%</strong>——
+barrier 保护的调度顺序本身有价值，不只是正确性开销。
+</p>
+
+<!-- ===================== 14 ===================== -->
+<h3 id="s14"><span class="step-head">14 · 尾 tile 剥离 <span class="step-tag">结构</span></span></h3>
+
+<p>
+<strong>问题。</strong>主循环条件是 <code>tile + 1 &lt; loops</code>，
+最后一个 K tile 被<strong>故意留在循环外</strong>。
+如果放进循环，每轮都要判断「还要不要发下一个 tile 的 global load」。
+</p>
+
+<p><strong>做法。</strong>循环只处理「有下一个 tile」的情形；最后一个 tile 单独展开，只消费不发射：</p>
+
+<pre><code>// Consume the final resident tile without issuing more global loads.
+v_sfa = bit_cast&lt;D_SF_PACK&gt;(load&lt;4&gt;(s_sfa, u_rsfa + ssfa_offset(scale_stage)));
+const auto v_sfb_pair = load_sfb_pair(scale_stage);
+v_a[0] = load&lt;VEC_A&gt;(s_a, u_ra + sa_offset(stage, 0));
+v_a[1] = load&lt;VEC_A&gt;(s_a, u_ra + sa_offset(stage, 1));
+v_b    = load&lt;VEC_B&gt;(s_b, u_rb + sb_offset(stage, 0));
+s_waitcnt_lgkmcnt(0_I);</code></pre>
+
+<p>
+这段腾出来的发射带宽，正好用来<strong>预取下一个 output tile 的 K=0 数据</strong>——
+于是 M tile 之间的切换不需要冷启动：
+</p>
+
+<pre><code>const bool has_next_output =
+    output_tile + 1 &lt; T::OUTPUT_TILES_PER_WG &amp;&amp; block_m + 1 &lt; num_tiles_m;
+
+if (has_next_output) {
+    auto g_a_next = make_gmem(ptr_a + batch_id*stride_a_batch + next_row*stride_a);
+    if (scale_producer_active) {
+        async_load&lt;16&gt;(g_sf, s_sf_ptr, u_gsfa,
+                       u_ssfa + ssfa_offset(next_output_stage), gsf_offset(1, 0));
+    }
+    async_load&lt;VEC_A&gt;(g_a_next, ...);   // A 换新行
+    async_load&lt;VEC_B&gt;(g_b, ...);        // B 复用同一个描述符（fixed-B）
+    ...
+}
+// ↓ 这些搬运与尾 tile 的 64 条 MFMA 重叠</code></pre>
+
+<p>
+注意这里 <code>g_b</code> 直接复用——这就是第 1 步 fixed-B 的兑现点：
+换 M tile 时 B 侧一个字节都不用重读。而 scale 侧靠第 5 步的 <code>gsf_offset(1, 0)</code>
+一个表达式搞定（SFA 前进一格、SFB 因 <code>output_stride_sf == 0</code> 原地不动）。
+</p>
+
+<!-- ===================== 15 ===================== -->
+<h3 id="s15"><span class="step-head">15 · C 写回 non-temporal <span class="step-tag">访存</span></span></h3>
+
+<p>
+<strong>做法。</strong>C 写完就不会再读，不该污染 L2。给四次 store 都加上 <code>nt</code> 提示
+（第三个模板参数 <code>number&lt;2&gt;{}</code>）：
+</p>
+
+<pre><code>store&lt;VEC_C&gt;(g_c, v_c[0][0], u_gc, c_offset(0, 0), number&lt;2&gt;{});
+store&lt;VEC_C&gt;(g_c, v_c[0][1], u_gc, c_offset(0, 1), number&lt;2&gt;{});
+store&lt;VEC_C&gt;(g_c, v_c[1][0], u_gc, c_offset(1, 0), number&lt;2&gt;{});
+store&lt;VEC_C&gt;(g_c, v_c[1][1], u_gc, c_offset(1, 1), number&lt;2&gt;{});</code></pre>
+
+<table>
+  <thead><tr><th>指标</th><th class="num">改前</th><th class="num">改后</th><th class="num">变化</th></tr></thead>
+  <tbody>
+    <tr><td>L2 miss</td><td class="num">10.682 M</td><td class="num">10.503 M</td><td class="num win">−1.67%</td></tr>
+    <tr><td>MemUnitStalled</td><td class="num">0.2296%</td><td class="num">0.1952%</td><td class="num win">−15%</td></tr>
+    <tr><td>MFMA 利用率</td><td class="num">55.70%</td><td class="num">56.72%</td><td class="num win">+1.02 pt</td></tr>
+  </tbody>
+</table>
+
+<p>
+严格 ABBA 10/10 胜、平均 +0.49%。<code>sc0+nt</code> 与单独 <code>nt</code> 持平，
+所以选语义更简单的。A/B/scale 上的其他 cache hint 最多只值 0.05%–0.13%，没有采用。
+</p>
+
+<!-- ===================== 16 ===================== -->
+<h3 id="s16"><span class="step-head">16 · <code>#pragma unroll 4</code> 与它的门禁 <span class="step-tag">代码生成</span></span></h3>
+
+<p>
+主 K 循环上就一行 pragma，但它是这个内核里<strong>单步收益最大</strong>的一处：
+</p>
+
+<pre><code>#pragma unroll 4
+for (tile = 0; tile + 1 &lt; loops; ++tile) {</code></pre>
+
+<p>
+问题是 <strong>clang 20/21/22 会直接忽略它</strong>（报 <code>loop not unrolled</code>），
+循环体保持 64 条 MFMA。只有 clang 23 会真的展开 3 倍：
+</p>
+
+<table>
+  <thead><tr><th>编译器</th><th class="num">MFMA</th><th class="num">汇编行</th><th class="num">分支</th><th class="num">ds_read</th></tr></thead>
+  <tbody>
+    <tr><td>clang 20（未展开）</td><td class="num">64</td><td class="num">1354</td><td class="num">25</td><td class="num">52</td></tr>
+    <tr class="highlight"><td>clang 23（展开）</td><td class="num">192</td><td class="num">2587</td><td class="num">49</td><td class="num">156</td></tr>
+  </tbody>
+</table>
+
+<p>
+本机上这个差异值 <strong>16%</strong>。真正的自变量是「展开与否」而不是编译器版本——
+在另一台机器上，clang 22 编手动展开版和 clang 23 编自动展开版，性能完全相同。
+clang 23 的价值是<strong>省掉维护一份手动展开源码的负担</strong>。
+</p>
+
+<div class="callout warn">
+  <span class="tag">门禁</span>
+  因为「展开被静默关掉」会安静地损失 16%，构建里挂了一道硬门禁——
+  它从<strong>链接后的 exe</strong> 里抽 device image 数 MFMA 条数，少于 192 直接失败：
+  <pre style="margin:8px 0 0"><code>n=$(llvm-objdump -d $DEV | grep -c v_mfma_scale_f32_16x16x128)
+if [ "$n" -ge 192 ]; then echo "OK -- $n MFMA (loop unrolled)";
+else echo "FAIL -- only $n MFMA"; exit 1; fi</code></pre>
+  <p style="margin:8px 0 0; font-size:13px">
+  必须从<strong>链接后的 exe</strong> 抽，不能看内核 TU 的 <code>.s</code>——
+  hipcc 自己的 device image 会静默覆盖 <code>-fembed-offload-object</code>，
+  这个坑制造过一次「clang 23 无收益」的假结论。
+  </p>
+</div>
+
+<h2>2. 这些优化的分类与相对量级</h2>
+
+<figure>
+  <div class="chart-surface">
+    <div class="fig-title">内核内各优化点的量化收益</div>
+    <div class="fig-sub">各自来自其配对窗口，分母不同，<strong>不可相加</strong>；未单独量化的结构性改动不在图中</div>
+    <div class="legend">
+      <span class="item"><span class="swatch" style="background:var(--series-1)"></span>scale 通路 / 访存</span>
+      <span class="item"><span class="swatch" style="background:var(--series-2)"></span>调度 / 流水线</span>
+      <span class="item"><span class="swatch" style="background:var(--series-3)"></span>代码生成</span>
+    </div>
+    <div id="gainChart"></div>
+  </div>
+  <figcaption>
+    第 10–13 步（累加器 pin、sched_group_barrier、s_setprio、单 barrier）是内核成立的
+    结构前提，没有独立的 A/B 数字，因此不在图中。
+  </figcaption>
+</figure>
+
+<h2>3. 本版新增两步的验证</h2>
+
+<p>
+第 4、5 步（unified scale）是这一版相对上一个保留版的<strong>全部改动</strong>，
+diff 约 150 行。ABBA 配对结果：
+</p>
+
+<figure>
+  <div class="chart-surface">
+    <div class="fig-title">ABBA 配对：40 次采样分布</div>
+    <div class="fig-sub">8192³ · <code>-b 1 -w 200 -i 100</code> · 10 轮 A-B-B-A · guard 全程 CLEAN</div>
+    <div class="legend">
+      <span class="item"><span class="swatch" style="background:var(--series-1)"></span>合并前（20 次）</span>
+      <span class="item"><span class="swatch" style="background:var(--series-2)"></span>unified（20 次）</span>
+    </div>
+    <div id="dotChart"></div>
+  </div>
+  <figcaption>
+    两个分布<strong>完全不重叠</strong>：合并前最快的一次（0.3885 ms）仍慢于
+    unified 最慢的一次（0.3881 ms）。四个离群点（两边各二）是容器邻居污染，约 2%，
+    不足以跨越两个分布之间的间距。
+  </figcaption>
+</figure>
+
+<table>
+  <thead>
+    <tr><th>版本</th><th class="num">中位</th><th class="num">性能</th><th class="num">最好</th><th class="num">最差</th><th class="num">主体区间</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>合并前</td><td class="num">0.3890 ms</td><td class="num">2826.9 T</td><td class="num">0.3885</td><td class="num">0.3971</td><td class="num">0.3885–0.3893（18/20）</td></tr>
+    <tr class="highlight"><td>unified</td><td class="num">0.3826 ms</td><td class="num">2873.8 T</td><td class="num">0.3822</td><td class="num">0.3881</td><td class="num">0.3822–0.3830（18/20）</td></tr>
+  </tbody>
+</table>
+
+<p><strong>+1.63%，10/10 轮胜。</strong>门禁与正确性：</p>
+
+<table>
+  <thead><tr><th>检查项</th><th>结果</th></tr></thead>
+  <tbody>
+    <tr><td>展开门禁 <code>clang23_unified_scale_check</code></td><td class="win">OK — 192 MFMA</td></tr>
+    <tr><td>VGPR / SGPR</td><td class="win">240 / 101（均低于合并前）</td></tr>
+    <tr><td><code>vgpr_spill_count</code> / <code>scratch_*</code> 指令数</td><td class="win">0 / 0</td></tr>
+    <tr><td>LDS / occupancy</td><td class="win">139 264 B / 2 waves/SIMD，未退化</td></tr>
+    <tr><td>正确性 <code>8192³</code></td><td class="win">ALL BATCHES VALID</td></tr>
+    <tr><td>正确性 <code>8192×4096×16384</code></td><td class="win">ALL BATCHES VALID</td></tr>
+    <tr><td>正确性 <code>16384×16384×4096</code></td><td class="win">ALL BATCHES VALID</td></tr>
+    <tr><td><code>guard.py</code>（前 / 中 / 后）</td><td class="win">CLEAN × 3</td></tr>
+  </tbody>
+</table>
+
+<p class="footnote">
+第二个形状 <code>8192×4096×16384</code> 是特意选的——历史上某个候选正是在这个形状上
+报出 1414 个错误。
+</p>
+
+<div class="callout warn">
+  <span class="tag">保留意见</span>
+  以上全部在同一块 GPU、同一次会话内测得。定为正式保留版之前，
+  建议开一次冷会话跨 DVFS 状态复核一轮 ABBA。
+</div>
+
+<h2>4. 构建与复现</h2>
+
+<pre><code># 机器是否干净（邻居进程会污染约 1/10 的读数）
+python3 variants/dvfs_study/guard.py
+
+# 构建（自带展开门禁，未展开直接失败）
+make clang23_unified_scale
+
+# 正确性
+LD_LIBRARY_PATH=/opt/rocm/lib/llvm/lib:$LD_LIBRARY_PATH \
+  ./build/gemm_a8w8_mxfp8_scale_fixed_b_asym_b_read2_unified_scale_clang23.exe \
+  -m 8192 -n 8192 -k 8192 -b 1 -v 1 -w 5 -i 5
+
+# 性能（-b 1 必须显式给，主机默认 batch=8）
+make clang23_unified_scale_benchmark</code></pre>
+
+<h2>5. 这个内核已经用尽的空间</h2>
+
+<div class="callout stop">
+  <span class="tag">VGPR 墙</span>
+  当前 <strong>240 / 256</strong>，occupancy 2 waves/SIMD。每 wave 26 条 LDS 读配 32 条 MFMA
+  已经在算法下界，想再往上只能<strong>加大 wave tile 来摊薄每条读</strong>，
+  而更大的 wave tile 需要更多累加器 VGPR——没有空间。
+</div>
+
+<p>
+消融实验（用故意不正确的 diag 内核定价）给出的上界说明缺口在数据通路，不在指令排布：
+</p>
+
+<table>
+  <thead><tr><th>消融</th><th class="num">性能</th><th class="num">增量</th><th>含义</th></tr></thead>
+  <tbody>
+    <tr><td>保留版</td><td class="num">2.828 P</td><td class="num">—</td><td>基线</td></tr>
+    <tr><td>放开全部 <code>lgkmcnt</code> + <code>vmcnt</code></td><td class="num">2.857 P</td><td class="num">+1.0%</td><td>等待全删也只值 1%</td></tr>
+    <tr><td>去掉全部 global load</td><td class="num">3.373 P</td><td class="num">+18.0%</td><td>数据通路的真实开销</td></tr>
+    <tr><td>再去掉 C store</td><td class="num">3.747 P</td><td class="num">+11.1%</td><td>skeleton 允许 3 P</td></tr>
+  </tbody>
+</table>
+
+<p class="footnote">
+最后一行有个教训：那 11.1% 是在 global load 流<strong>已被移除</strong>的前提下量的。
+据此判定「是延迟、可靠重排回收」并实现之后，只拿到 +0.17%——
+真实原因是<strong>读写争用</strong>。消融数字只在它自己的消融上下文里有效。
+</p>
+
+<p>
+unified scale 省的 3 个 VGPR 不足以撼动那堵墙。但它证明了一件事：
+<strong>「两条字面等价的代码路径」这类冗余在这个内核里仍然存在，单条就值 1.6%。</strong>
+</p>
+
+<div class="tt" id="tt"></div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var tt = document.getElementById('tt');
+  function showTip(html, ev) {
+    tt.innerHTML = html;
+    tt.style.opacity = '1';
+    var pad = 14, w = tt.offsetWidth, h = tt.offsetHeight;
+    var x = ev.clientX + pad, y = ev.clientY + pad;
+    if (x + w > window.innerWidth - 8) x = ev.clientX - w - pad;
+    if (y + h > window.innerHeight - 8) y = ev.clientY - h - pad;
+    tt.style.left = x + 'px';
+    tt.style.top = y + 'px';
+  }
+  function hideTip() { tt.style.opacity = '0'; }
+
+  function svg(w, h) {
+    var s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    s.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    s.setAttribute('width', '100%');
+    s.style.display = 'block';
+    s.style.overflow = 'visible';
+    return s;
+  }
+  function el(tag, attrs) {
+    var e = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+  function txt(x, y, str, opts) {
+    opts = opts || {};
+    var t = el('text', {
+      x: x, y: y,
+      'font-size': opts.size || 11.5,
+      'text-anchor': opts.anchor || 'start',
+      fill: opts.fill || 'var(--text-secondary)',
+      'font-weight': opts.weight || 400,
+      'font-family': 'inherit'
+    });
+    if (opts.tabular) t.style.fontVariantNumeric = 'tabular-nums';
+    t.textContent = str;
+    return t;
+  }
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  /* ---------- Figure: ISA composition ------------------------------------ */
+  (function () {
+    var host = document.getElementById('isaChart');
+    if (!host) return;
+
+    var data = [
+      { name: '分支',                a: 69,  b: 42,  key: 's_cbranch / s_branch' },
+      { name: 's_nop',               a: 127, b: 110, key: '流水线气泡填充' },
+      { name: 's_add_i32',           a: 116, b: 121, key: '标量地址计算' },
+      { name: 's_mov_b32',           a: 108, b: 115, key: '标量搬运' },
+      { name: 'buffer_load…lds',     a: 88,  b: 87,  key: 'global → LDS 直搬' },
+      { name: 's_waitcnt',           a: 43,  b: 45,  key: '计数器等待' },
+      { name: 's_cselect_b32',       a: 18,  b: 15,  key: '标量条件选择' },
+      { name: 'v_mfma（不变）',      a: 192, b: 192, key: '计算指令，完全一致' },
+      { name: 'ds_read_b128（不变）', a: 144, b: 144, key: 'LDS 读，完全一致' }
+    ];
+
+    var W = 900, padL = 150, padR = 80, padT = 16, rowH = 40;
+    var H = padT + data.length * rowH + 34;
+    var plotW = W - padL - padR;
+    var max = 200;
+    var x = function (v) { return padL + v / max * plotW; };
+
+    var s = svg(W, H);
+
+    [0, 50, 100, 150, 200].forEach(function (v) {
+      s.appendChild(el('line', {
+        x1: x(v), x2: x(v), y1: padT, y2: padT + data.length * rowH,
+        stroke: 'var(--grid)', 'stroke-width': 1
+      }));
+      s.appendChild(txt(x(v), padT + data.length * rowH + 18, v,
+        { anchor: 'middle', size: 11, fill: 'var(--text-muted)', tabular: true }));
+    });
+
+    data.forEach(function (d, i) {
+      var cy = padT + i * rowH;
+      var bh = 13, gap = 2;
+
+      s.appendChild(txt(padL - 12, cy + rowH / 2 + 3, d.name,
+        { anchor: 'end', size: 12, fill: 'var(--text-primary)' }));
+
+      [['a', 'var(--series-1)', '合并前'], ['b', 'var(--series-2)', 'unified']]
+        .forEach(function (pair, j) {
+          var v = d[pair[0]];
+          var by = cy + 4 + j * (bh + gap);
+          var bw = Math.max(2, x(v) - padL);
+          var r = el('rect', {
+            x: padL, y: by, width: bw, height: bh, rx: 4,
+            fill: pair[1], class: 'hoverable'
+          });
+          var delta = d.b - d.a;
+          r.addEventListener('mousemove', function (ev) {
+            showTip('<b>' + esc(d.name) + '</b><br>'
+              + '<span class="tt-k">' + pair[2] + '</span> ' + v + ' 条<br>'
+              + '<span class="tt-k">差异</span> '
+              + (delta === 0 ? '无变化' : (delta > 0 ? '+' : '') + delta + ' 条')
+              + '<br><span class="tt-k">用途</span> ' + esc(d.key), ev);
+          });
+          r.addEventListener('mouseleave', hideTip);
+          s.appendChild(r);
+
+          s.appendChild(txt(padL + bw + 7, by + bh - 2, v,
+            { size: 10.5, fill: 'var(--text-muted)', tabular: true }));
+        });
+    });
+
+    host.appendChild(s);
+  })();
+
+  /* ---------- Figure: gain by step --------------------------------------- */
+  (function () {
+    var host = document.getElementById('gainChart');
+    if (!host) return;
+
+    var data = [
+      { name: '16 · #pragma unroll 4',     gain: 16.0, type: 2, note: 'clang 23 展开 3 倍；clang 20/22 忽略 pragma' },
+      { name: '4+5 · unified scale',       gain: 1.63, type: 0, note: '本版新增：两条等价路径合一 + 描述符跨 tile 存活' },
+      { name: '7 · asymmetric B producer', gain: 1.50, type: 1, note: 'pair 内一条 wave 独立填满 B0/B1' },
+      { name: '6 · B-first VMEM 顺序',     gain: 0.74, type: 1, note: '最冷的 B 请求最早开始老化' },
+      { name: '15 · C 写回 non-temporal',  gain: 0.49, type: 0, note: 'L2 miss −1.67%，MFMA 利用率 +1.02 pt' },
+      { name: '8 · B1 半程读取 (r4)',      gain: 0.45, type: 1, note: 'B1 progressive wait 41 → 0.8 cyc/tile' },
+      { name: '3 · 16B scale producer',    gain: 0.39, type: 0, note: 'wave 级 scale VMEM 8 条 → 2 条' },
+      { name: '9 · SFB ds_read2st64',      gain: 0.12, type: 0, note: 'ds_read 162 → 156，VGPR −4' }
+    ];
+
+    var colors = ['var(--series-1)', 'var(--series-2)', 'var(--series-3)'];
+    var typeName = ['scale 通路 / 访存', '调度 / 流水线', '代码生成'];
+
+    var W = 900, padL = 220, padR = 60, padT = 14, rowH = 32;
+    var H = padT + data.length * rowH + 34;
+    var plotW = W - padL - padR;
+    var max = 17;
+    var x = function (v) { return padL + v / max * plotW; };
+
+    var s = svg(W, H);
+
+    [0, 4, 8, 12, 16].forEach(function (v) {
+      s.appendChild(el('line', {
+        x1: x(v), x2: x(v), y1: padT, y2: padT + data.length * rowH,
+        stroke: 'var(--grid)', 'stroke-width': 1
+      }));
+      s.appendChild(txt(x(v), padT + data.length * rowH + 18, v + '%',
+        { anchor: 'middle', size: 11, fill: 'var(--text-muted)', tabular: true }));
+    });
+
+    data.forEach(function (d, i) {
+      var cy = padT + i * rowH;
+      var bh = 15;
+      var by = cy + (rowH - bh) / 2;
+      var bw = Math.max(3, x(d.gain) - padL);
+
+      s.appendChild(txt(padL - 12, by + bh - 3, d.name,
+        { anchor: 'end', size: 12, fill: 'var(--text-primary)' }));
+
+      var r = el('rect', {
+        x: padL, y: by, width: bw, height: bh, rx: 4,
+        fill: colors[d.type], class: 'hoverable'
+      });
+      r.addEventListener('mousemove', function (ev) {
+        showTip('<b>' + esc(d.name) + '</b><br>'
+          + '<span class="tt-k">收益</span> +' + d.gain.toFixed(2) + '%<br>'
+          + '<span class="tt-k">类型</span> ' + typeName[d.type] + '<br>'
+          + '<span class="tt-k">说明</span> ' + esc(d.note), ev);
+      });
+      r.addEventListener('mouseleave', hideTip);
+      s.appendChild(r);
+
+      s.appendChild(txt(padL + bw + 8, by + bh - 3, '+' + d.gain.toFixed(2) + '%',
+        { size: 11.5, fill: 'var(--text-secondary)', weight: 600, tabular: true }));
+    });
+
+    host.appendChild(s);
+  })();
+
+  /* ---------- Figure: ABBA dot strip -------------------------------------- */
+  (function () {
+    var host = document.getElementById('dotChart');
+    if (!host) return;
+
+    var A = [0.3887,0.3890,0.3885,0.3890,0.3889,0.3890,0.3887,0.3886,0.3971,0.3893,
+             0.3887,0.3886,0.3893,0.3892,0.3905,0.3890,0.3958,0.3885,0.3889,0.3886];
+    var B = [0.3826,0.3825,0.3825,0.3828,0.3826,0.3827,0.3824,0.3824,0.3825,0.3825,
+             0.3881,0.3824,0.3827,0.3828,0.3830,0.3826,0.3822,0.3842,0.3828,0.3822];
+
+    var W = 900, padL = 116, padR = 40, padT = 26, padB = 42;
+    var bandH = 62;
+    var H = padT + bandH * 2 + padB;
+    var plotW = W - padL - padR;
+    var min = 0.3810, max = 0.3985;
+    var x = function (v) { return padL + (v - min) / (max - min) * plotW; };
+
+    var s = svg(W, H);
+
+    [0.382, 0.385, 0.388, 0.391, 0.394, 0.397].forEach(function (v) {
+      s.appendChild(el('line', {
+        x1: x(v), x2: x(v), y1: padT - 8, y2: padT + bandH * 2 - 8,
+        stroke: 'var(--grid)', 'stroke-width': 1
+      }));
+      s.appendChild(txt(x(v), padT + bandH * 2 + 10, v.toFixed(3),
+        { anchor: 'middle', size: 11, fill: 'var(--text-muted)', tabular: true }));
+    });
+    s.appendChild(txt(W / 2, padT + bandH * 2 + 30, 'kernel 时间 (ms) — 越小越好',
+      { anchor: 'middle', size: 11.5, fill: 'var(--text-muted)' }));
+
+    function median(arr) {
+      var a = arr.slice().sort(function (p, q) { return p - q; });
+      var m = a.length >> 1;
+      return a.length % 2 ? a[m] : (a[m - 1] + a[m]) / 2;
+    }
+
+    [{ d: A, c: 'var(--series-1)', label: '合并前', y: padT + 16 },
+     { d: B, c: 'var(--series-2)', label: 'unified', y: padT + bandH + 16 }]
+      .forEach(function (g) {
+        s.appendChild(txt(padL - 14, g.y + 4, g.label,
+          { anchor: 'end', size: 12, fill: 'var(--text-primary)', weight: 600 }));
+
+        var med = median(g.d);
+        s.appendChild(el('line', {
+          x1: x(med), x2: x(med), y1: g.y - 17, y2: g.y + 17,
+          stroke: g.c, 'stroke-width': 2
+        }));
+        s.appendChild(txt(x(med), g.y - 22, '中位 ' + med.toFixed(4),
+          { anchor: 'middle', size: 10.5, fill: 'var(--text-secondary)', weight: 600, tabular: true }));
+
+        var counts = {};
+        g.d.forEach(function (v, i) {
+          var kx = Math.round(x(v));
+          counts[kx] = (counts[kx] || 0) + 1;
+          var dy = ((counts[kx] - 1) % 5) * 6 - 12;
+
+          var c = el('circle', {
+            cx: x(v), cy: g.y + dy, r: 4.5,
+            fill: g.c, stroke: 'var(--surface-1)', 'stroke-width': 2,
+            class: 'hoverable'
+          });
+          c.addEventListener('mousemove', function (ev) {
+            var tf = 2 * Math.pow(8192, 3) / (v * 1e-3) / 1e12;
+            showTip('<b>' + g.label + '</b> 第 ' + (i + 1) + ' 次<br>'
+              + '<span class="tt-k">时间</span> ' + v.toFixed(4) + ' ms<br>'
+              + '<span class="tt-k">性能</span> ' + tf.toFixed(1) + ' TFlops<br>'
+              + '<span class="tt-k">轮次</span> 第 ' + (Math.floor(i / 2) + 1) + ' 轮', ev);
+          });
+          c.addEventListener('mouseleave', hideTip);
+          s.appendChild(c);
+        });
+      });
+
+    var gapL = x(0.3881), gapR = x(0.3885);
+    s.appendChild(el('rect', {
+      x: gapL, y: padT - 8, width: Math.max(1, gapR - gapL), height: bandH * 2,
+      fill: 'var(--good)', opacity: 0.14
+    }));
+    s.appendChild(txt(gapR + 6, padT + 2, '两分布无重叠',
+      { size: 10.5, fill: 'var(--good-text)', weight: 600 }));
+
+    host.appendChild(s);
+  })();
+
+  /* ---------- theme toggle ------------------------------------------------ */
+  (function () {
+    var btn = document.getElementById('themeBtn');
+    var root = document.documentElement;
+    function isDark() {
+      return root.getAttribute('data-theme') === 'dark' ||
+        (!root.hasAttribute('data-theme') &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches);
+    }
+    function label() { btn.textContent = isDark() ? '切换浅色' : '切换深色'; }
+    btn.addEventListener('click', function () {
+      root.setAttribute('data-theme', isDark() ? 'light' : 'dark');
+      label();
+    });
+    label();
+  })();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+# Profiling / experiment artifacts -- large and machine-local.
+.rocprofv3/
+trace_att_dec/
+trace_mxfp8_2.9P/
+# variants/history/wt holds real git worktrees; variants/history/build holds objects.
+variants/history/
+__pycache__/
+*.swp
+variants/dvfs_study/mfma_peak

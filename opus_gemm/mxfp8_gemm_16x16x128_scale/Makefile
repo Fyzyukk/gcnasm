@@ -28,10 +28,11 @@ OUT        = $(BUILD)/gemm_a8w8_mxfp8.exe
 KERNEL_OBJ = $(BUILD)/gemm_a8w8_mxfp8_kernel.o
 HOST_OBJ   = $(BUILD)/gemm_a8w8_mxfp8_host.o
 
-# The three retained scale pipelines, ordered from baseline to winner.
+# Retained scale pipelines, ordered from baseline to newer candidates.
 SCALE_BASELINE_OUT        = $(BUILD)/gemm_a8w8_mxfp8_scale.exe
 SCALE_PERSISTENT_OUT      = $(BUILD)/gemm_a8w8_mxfp8_scale_fixed_b_prefetch_4.exe
 SCALE_ASYM_B_READ2_OUT    = $(BUILD)/gemm_a8w8_mxfp8_scale_fixed_b_asym_b_read2.exe
+SCALE_UNIFIED_SCALE_OUT   = $(BUILD)/gemm_a8w8_mxfp8_scale_fixed_b_asym_b_read2_unified_scale.exe
 
 SCALE_BASELINE_KERNEL_OBJ = $(BUILD)/gemm_a8w8_mxfp8_scale_kernel.o
 SCALE_BASELINE_HOST_OBJ   = $(BUILD)/gemm_a8w8_mxfp8_scale_host.o
@@ -39,11 +40,16 @@ SCALE_PERSISTENT_KERNEL_OBJ = $(BUILD)/gemm_a8w8_mxfp8_scale_kernel_fixed_b_pref
 SCALE_PERSISTENT_HOST_OBJ   = $(BUILD)/gemm_a8w8_mxfp8_scale_host_fixed_b_prefetch_4.o
 SCALE_ASYM_B_READ2_KERNEL_OBJ = $(BUILD)/gemm_a8w8_mxfp8_scale_kernel_fixed_b_asym_b_read2.o
 SCALE_ASYM_B_READ2_HOST_OBJ   = $(BUILD)/gemm_a8w8_mxfp8_scale_host_fixed_b_asym_b_read2.o
+SCALE_UNIFIED_SCALE_KERNEL_OBJ = $(BUILD)/gemm_a8w8_mxfp8_scale_kernel_fixed_b_asym_b_read2_unified_scale.o
+SCALE_UNIFIED_SCALE_HOST_OBJ = $(BUILD)/gemm_a8w8_mxfp8_scale_host_fixed_b_asym_b_read2_unified_scale.o
 
 # Same sources, built entirely with clang 23 -- this is the performance build.
 C23_OUT        = $(BUILD)/gemm_a8w8_mxfp8_scale_fixed_b_asym_b_read2_clang23.exe
 C23_KERNEL_OBJ = $(BUILD)/c23_kernel_fixed_b_asym_b_read2.o
 C23_HOST_OBJ   = $(BUILD)/c23_host_fixed_b_asym_b_read2.o
+C23_UNIFIED_OUT = $(BUILD)/gemm_a8w8_mxfp8_scale_fixed_b_asym_b_read2_unified_scale_clang23.exe
+C23_UNIFIED_KERNEL_OBJ = $(BUILD)/c23_kernel_fixed_b_asym_b_read2_unified_scale.o
+C23_UNIFIED_HOST_OBJ = $(BUILD)/c23_host_fixed_b_asym_b_read2_unified_scale.o
 
 .PHONY: all clean benchmark scale scale_benchmark \
         scale_baseline scale_baseline_benchmark \
@@ -51,7 +57,11 @@ C23_HOST_OBJ   = $(BUILD)/c23_host_fixed_b_asym_b_read2.o
         scale_fixed_b_prefetch_4 scale_fixed_b_prefetch_4_benchmark \
         scale_final scale_final_benchmark \
         scale_fixed_b_asym_b_read2 scale_fixed_b_asym_b_read2_benchmark \
-        clang23 clang23_benchmark clang23_check
+        scale_fixed_b_asym_b_read2_unified_scale \
+        scale_fixed_b_asym_b_read2_unified_scale_benchmark \
+        clang23 clang23_benchmark clang23_check \
+        clang23_unified_scale clang23_unified_scale_benchmark \
+        clang23_unified_scale_check
 
 all: $(OUT)
 benchmark: $(OUT)
@@ -68,6 +78,10 @@ scale_fixed_b_persistent_benchmark scale_fixed_b_prefetch_4_benchmark: $(SCALE_P
 scale_final scale_fixed_b_asym_b_read2: $(SCALE_ASYM_B_READ2_OUT)
 scale_final_benchmark scale_fixed_b_asym_b_read2_benchmark: $(SCALE_ASYM_B_READ2_OUT)
 	$(SCALE_ASYM_B_READ2_OUT)
+
+scale_fixed_b_asym_b_read2_unified_scale: $(SCALE_UNIFIED_SCALE_OUT)
+scale_fixed_b_asym_b_read2_unified_scale_benchmark: $(SCALE_UNIFIED_SCALE_OUT)
+	$(SCALE_UNIFIED_SCALE_OUT)
 
 $(BUILD):
 	mkdir -p $(BUILD)
@@ -95,6 +109,12 @@ $(SCALE_PERSISTENT_HOST_OBJ): gemm_a8w8_mxfp8_scale_host_fixed_b_prefetch_4.cc g
 $(SCALE_ASYM_B_READ2_KERNEL_OBJ): gemm_a8w8_mxfp8_scale_kernel_fixed_b_asym_b_read2.cc gemm_a8w8_mxfp8_scale_kernel_template_fixed_b_asym_b_read2.hpp gemm_a8w8_mxfp8_scale_common.h | $(BUILD)
 	$(HIPCC) $< $(COMMON_FLAGS) -D__HIPCC_RTC__ -Rpass-analysis=kernel-resource-usage -save-temps=obj -c -o $@
 
+$(SCALE_UNIFIED_SCALE_KERNEL_OBJ): gemm_a8w8_mxfp8_scale_kernel_fixed_b_asym_b_read2_unified_scale.cc gemm_a8w8_mxfp8_scale_kernel_template_fixed_b_asym_b_read2_unified_scale.hpp gemm_a8w8_mxfp8_scale_common.h | $(BUILD)
+	$(HIPCC) $< $(COMMON_FLAGS) -D__HIPCC_RTC__ -Rpass-analysis=kernel-resource-usage -save-temps=obj -c -o $@
+
+$(SCALE_UNIFIED_SCALE_HOST_OBJ): gemm_a8w8_mxfp8_scale_host_fixed_b_asym_b_read2_unified_scale.cc gemm_a8w8_mxfp8_scale_common.h | $(BUILD)
+	$(HIPCC) $< $(COMMON_FLAGS) -c -o $@
+
 $(SCALE_ASYM_B_READ2_HOST_OBJ): gemm_a8w8_mxfp8_scale_host_fixed_b_asym_b_read2.cc gemm_a8w8_mxfp8_scale_common.h | $(BUILD)
 	$(HIPCC) $< $(COMMON_FLAGS) -c -o $@
 
@@ -108,6 +128,9 @@ $(SCALE_PERSISTENT_OUT): $(SCALE_PERSISTENT_KERNEL_OBJ) $(SCALE_PERSISTENT_HOST_
 	$(HIPCC) $^ --offload-arch=$(ARCH) -fopenmp -o $@
 
 $(SCALE_ASYM_B_READ2_OUT): $(SCALE_ASYM_B_READ2_KERNEL_OBJ) $(SCALE_ASYM_B_READ2_HOST_OBJ)
+	$(HIPCC) $^ --offload-arch=$(ARCH) -fopenmp -o $@
+
+$(SCALE_UNIFIED_SCALE_OUT): $(SCALE_UNIFIED_SCALE_KERNEL_OBJ) $(SCALE_UNIFIED_SCALE_HOST_OBJ)
 	$(HIPCC) $^ --offload-arch=$(ARCH) -fopenmp -o $@
 
 # ---- clang 23 build (the +13% unrolled one) -------------------------------
@@ -139,6 +162,34 @@ clang23_check: $(C23_OUT)
 
 clang23_benchmark: $(C23_OUT)
 	LD_LIBRARY_PATH=$(OMP_LIB):$$LD_LIBRARY_PATH $(C23_OUT) -m 8192 -n 8192 -k 8192 -b 1 -v 0 -w 200 -i 100
+
+# ---- clang 23 unified-scale build ------------------------------------------
+$(C23_UNIFIED_KERNEL_OBJ): gemm_a8w8_mxfp8_scale_kernel_fixed_b_asym_b_read2_unified_scale.cc gemm_a8w8_mxfp8_scale_kernel_template_fixed_b_asym_b_read2_unified_scale.hpp gemm_a8w8_mxfp8_scale_common.h | $(BUILD)
+	@test -x $(CLANG23) || { echo "clang 23 not found at $(CLANG23) -- run tools/build_clang23.sh"; exit 1; }
+	$(CLANG23) -x hip $< $(C23_FLAGS) -D__HIPCC_RTC__ -c -o $@
+
+$(C23_UNIFIED_HOST_OBJ): gemm_a8w8_mxfp8_scale_host_fixed_b_asym_b_read2_unified_scale.cc gemm_a8w8_mxfp8_scale_common.h | $(BUILD)
+	@test -x $(CLANG23) || { echo "clang 23 not found at $(CLANG23) -- run tools/build_clang23.sh"; exit 1; }
+	$(CLANG23) -x hip $< $(C23_FLAGS) -fopenmp -I$(OMP_INC) -c -o $@
+
+$(C23_UNIFIED_OUT): $(C23_UNIFIED_KERNEL_OBJ) $(C23_UNIFIED_HOST_OBJ)
+	$(CLANG23) $^ --offload-arch=$(ARCH) --rocm-path=$(ROCM_PATH) $(C23_LDFLAGS) -o $@
+	@$(MAKE) --no-print-directory clang23_unified_scale_check
+
+clang23_unified_scale: $(C23_UNIFIED_OUT)
+
+clang23_unified_scale_check: $(C23_UNIFIED_OUT)
+	@$(ROCM_PATH)/llvm/bin/llvm-objcopy --dump-section=.hip_fatbin=$(BUILD)/.c23-unified-fb $(C23_UNIFIED_OUT) 2>/dev/null; \
+	$(ROCM_PATH)/llvm/bin/clang-offload-bundler -type=o \
+	   -targets=hipv4-amdgcn-amd-amdhsa--$(ARCH) -input=$(BUILD)/.c23-unified-fb \
+	   -output=$(BUILD)/.c23-unified-dev -unbundle 2>/dev/null; \
+	n=$$($(ROCM_PATH)/llvm/bin/llvm-objdump -d $(BUILD)/.c23-unified-dev 2>/dev/null | grep -c v_mfma_scale_f32_16x16x128); \
+	rm -f $(BUILD)/.c23-unified-fb $(BUILD)/.c23-unified-dev; \
+	if [ "$$n" -ge 192 ]; then echo "clang23_unified_scale_check: OK -- $$n MFMA (loop unrolled)"; \
+	else echo "clang23_unified_scale_check: FAIL -- only $$n MFMA (expected >=192); loop was NOT unrolled"; exit 1; fi
+
+clang23_unified_scale_benchmark: $(C23_UNIFIED_OUT)
+	LD_LIBRARY_PATH=$(OMP_LIB):$$LD_LIBRARY_PATH $(C23_UNIFIED_OUT) -m 8192 -n 8192 -k 8192 -b 1 -v 0 -w 200 -i 100
 
 clean:
 	rm -rf $(BUILD)
