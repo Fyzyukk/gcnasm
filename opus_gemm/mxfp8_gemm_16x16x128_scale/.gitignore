@@ -1,0 +1,16 @@
+# Build products
+build/
+variants/*/build/
+__pycache__/
+*.o
+*.elf
+
+# Profiler traces (tens of MB, not source)
+.rocprofv3/
+trace_att_dec/
+trace_mxfp8_2.9P/
+
+# Local experiment scratch
+variants/history/
+variants/dvfs_study/mfma_peak
+*.swp
