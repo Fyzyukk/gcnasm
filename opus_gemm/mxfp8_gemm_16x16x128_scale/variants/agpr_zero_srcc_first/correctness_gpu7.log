@@ -1,0 +1,93 @@
+CHECK tag=zero_first m=256 n=256 k=128 batch=2
+Launching MXFP8 scaled-MFMA GEMM 16x16x128 fixed-B x4 + asymmetric B + SFB read2 + unified scale producer: M=256, N=256, K=128, grid=(1,1,2), block=512, output_tiles_per_wg=4
+
+Validating GPU results against CPU reference...
+Validation stats: rel_mag=5.00e-05, abs_floor=1.00e-04, errors=0/65536, max_diff=0.003414 at 274 (tol=0.015134, ref=-49.860035, result=-49.856621), max_ratio=0.336 at 25550
+[GEMM batch 1/2: 256x256x128, block_256x256x128] VALID
+Validation stats: rel_mag=5.00e-05, abs_floor=1.00e-04, errors=0/65536, max_diff=0.002930 at 10528 (tol=0.012397, ref=0.909668, result=0.912598), max_ratio=0.247 at 22945
+[GEMM batch 2/2: 256x256x128, block_256x256x128] VALID
+
+[Overall] ALL BATCHES VALID
+
+Kernel Performance: avg_time=0.0167 ms, 2.01 TFlops
+CHECK tag=zero_first m=256 n=512 k=256 batch=1
+Launching MXFP8 scaled-MFMA GEMM 16x16x128 fixed-B x4 + asymmetric B + SFB read2 + unified scale producer: M=256, N=512, K=256, grid=(2,1,1), block=512, output_tiles_per_wg=4
+
+Validating GPU results against CPU reference...
+Validation stats: rel_mag=5.00e-05, abs_floor=1.00e-04, errors=0/131072, max_diff=0.006317 at 11680 (tol=0.014181, ref=59.857269, result=59.863586), max_ratio=0.445 at 11680
+[GEMM batch 1/1: 256x512x256, block_256x256x128] VALID
+
+[Overall] ALL BATCHES VALID
+
+Kernel Performance: avg_time=0.0191 ms, 3.51 TFlops
+CHECK tag=zero_first m=512 n=512 k=512 batch=1
+Launching MXFP8 scaled-MFMA GEMM 16x16x128 fixed-B x4 + asymmetric B + SFB read2 + unified scale producer: M=512, N=512, K=512, grid=(2,1,1), block=512, output_tiles_per_wg=4
+
+Validating GPU results against CPU reference...
+Validation stats: rel_mag=5.00e-05, abs_floor=1.00e-04, errors=0/262144, max_diff=0.005675 at 223051 (tol=0.034820, ref=-4.717372, result=-4.711697), max_ratio=0.264 at 115589
+[GEMM batch 1/1: 512x512x512, block_256x256x128] VALID
+
+[Overall] ALL BATCHES VALID
+
+Kernel Performance: avg_time=0.0284 ms, 9.45 TFlops
+CHECK tag=zero_first m=768 n=512 k=1024 batch=1
+Launching MXFP8 scaled-MFMA GEMM 16x16x128 fixed-B x4 + asymmetric B + SFB read2 + unified scale producer: M=768, N=512, K=1024, grid=(2,1,1), block=512, output_tiles_per_wg=4
+
+Validating GPU results against CPU reference...
+Validation stats: rel_mag=5.00e-05, abs_floor=1.00e-04, errors=0/393216, max_diff=0.005486 at 254267 (tol=0.024176, ref=77.251015, result=77.245529), max_ratio=0.227 at 254267
+[GEMM batch 1/1: 768x512x1024, block_256x256x128] VALID
+
+[Overall] ALL BATCHES VALID
+
+Kernel Performance: avg_time=0.0514 ms, 15.67 TFlops
+CHECK tag=zero_first m=1024 n=512 k=1024 batch=1
+Launching MXFP8 scaled-MFMA GEMM 16x16x128 fixed-B x4 + asymmetric B + SFB read2 + unified scale producer: M=1024, N=512, K=1024, grid=(2,1,1), block=512, output_tiles_per_wg=4
+
+Validating GPU results against CPU reference...
+Validation stats: rel_mag=5.00e-05, abs_floor=1.00e-04, errors=0/524288, max_diff=0.006363 at 139291 (tol=0.069750, ref=-201.623978, result=-201.617615), max_ratio=0.150 at 208328
+[GEMM batch 1/1: 1024x512x1024, block_256x256x128] VALID
+
+[Overall] ALL BATCHES VALID
+
+Kernel Performance: avg_time=0.0664 ms, 16.18 TFlops
+CHECK tag=zero_first m=1280 n=768 k=384 batch=1
+Launching MXFP8 scaled-MFMA GEMM 16x16x128 fixed-B x4 + asymmetric B + SFB read2 + unified scale producer: M=1280, N=768, K=384, grid=(6,1,1), block=512, output_tiles_per_wg=4
+
+Validating GPU results against CPU reference...
+Validation stats: rel_mag=5.00e-05, abs_floor=1.00e-04, errors=0/983040, max_diff=0.005608 at 538429 (tol=0.019795, ref=-67.524902, result=-67.519295), max_ratio=0.412 at 597776
+[GEMM batch 1/1: 1280x768x384, block_256x256x128] VALID
+
+[Overall] ALL BATCHES VALID
+
+Kernel Performance: avg_time=0.0516 ms, 14.62 TFlops
+CHECK tag=zero_first m=8192 n=512 k=16384 batch=1
+Launching MXFP8 scaled-MFMA GEMM 16x16x128 fixed-B x4 + asymmetric B + SFB read2 + unified scale producer: M=8192, N=512, K=16384, grid=(16,1,1), block=512, output_tiles_per_wg=4
+
+Validating GPU results against CPU reference...
+Validation stats: rel_mag=5.00e-05, abs_floor=1.00e-04, errors=0/4194304, max_diff=0.010201 at 377610 (tol=0.697985, ref=105.321053, result=105.331253), max_ratio=0.019 at 1003926
+[GEMM batch 1/1: 8192x512x16384, block_256x256x128] VALID
+
+[Overall] ALL BATCHES VALID
+
+Kernel Performance: avg_time=0.5554 ms, 247.44 TFlops
+CHECK tag=zero_first m=8192 n=2048 k=128 batch=1
+Launching MXFP8 scaled-MFMA GEMM 16x16x128 fixed-B x4 + asymmetric B + SFB read2 + unified scale producer: M=8192, N=2048, K=128, grid=(64,1,1), block=512, output_tiles_per_wg=4
+
+Validating GPU results against CPU reference...
+Validation stats: rel_mag=5.00e-05, abs_floor=1.00e-04, errors=0/16777216, max_diff=0.006596 at 14981213 (tol=0.017484, ref=-45.719372, result=-45.725967), max_ratio=0.466 at 12829741
+[GEMM batch 1/1: 8192x2048x128, block_256x256x128] VALID
+
+[Overall] ALL BATCHES VALID
+
+Kernel Performance: avg_time=0.0400 ms, 107.48 TFlops
+CHECK tag=zero_first m=8192 n=8192 k=128 batch=1
+Launching MXFP8 scaled-MFMA GEMM 16x16x128 fixed-B x4 + asymmetric B + SFB read2 + unified scale producer: M=8192, N=8192, K=128, grid=(256,1,1), block=512, output_tiles_per_wg=4
+
+Validating GPU results against CPU reference...
+Validation stats: rel_mag=5.00e-05, abs_floor=1.00e-04, errors=0/67108864, max_diff=0.007324 at 25370745 (tol=0.012473, ref=-88.044067, result=-88.036743), max_ratio=0.633 at 25832553
+[GEMM batch 1/1: 8192x8192x128, block_256x256x128] VALID
+
+[Overall] ALL BATCHES VALID
+
+Kernel Performance: avg_time=0.0697 ms, 246.55 TFlops
+PASS: zero_first passed nine unified-scale shapes on GPU 7
