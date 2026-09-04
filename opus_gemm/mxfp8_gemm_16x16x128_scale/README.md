@@ -47,16 +47,6 @@ Two things fall out of this. The packed tile is a byte-for-byte image of the con
 
 The repack is a host-side preprocessing step, done once outside the timed region — in a real pipeline it belongs with quantization, which is where the scales are produced anyway.
 
-### Pipeline shape
-
-**Persistent fixed-B tile.** One workgroup walks `OUTPUT_TILES_PER_WG = 4` adjacent M tiles while holding N fixed. `B` and the `B` scales never move across those four output tiles, so their global loads and address arithmetic are hoisted out of the output loop entirely — only `A`, `C` and the `A` scales are re-based per tile. The grid is sized accordingly: `ceil_div(num_tiles_m, 4) * num_tiles_n`.
-
-`OUTPUT_TILES_PER_WG` is a traits parameter, and the device TU instantiates the kernel twice — once with 4 and once with 1. The host picks between them at launch: it keeps 4 when `ceil_div(num_tiles_m, 4) * num_tiles_n` still reaches the CU count, and falls back to 1 when it does not. See [Performance](#performance) for why.
-
-**Early-C output handoff.** The LDS handoff to the next output tile is moved about 30 MFMAs earlier than the naive position. It can be moved there because the two C quadrants belonging to the `B` half-0 half are final as soon as the half-0 MFMAs retire, so they are stored immediately; gfx9 completes VMEM in order, so the handoff can then wait on `s_waitcnt vmcnt(16)` instead of `vmcnt(0)`. This also spreads the epilogue's 32 stores across the remaining MFMAs instead of bunching them after the last one.
-
-**`ds_read2st64_b32` for the B scales.** Both N halves of the `SFB` scale are 512 bytes apart in LDS. The ST64 addressing unit is 64 dwords (256 bytes), so `offset0:0 offset1:2` fetches both halves in a single instruction, and only the `half_tile_n = 0` register layout has to be built.
-
 ### Kernel configuration
 
 Default traits (`gemm_a8w8_mxfp8_scale_traits<>`):
@@ -120,15 +110,6 @@ make check   # >=192 v_mfma_scale_f32_16x16x128, and 0 s_setprio
 make regs    # VGPR / SGPR / spill / LDS
 ```
 
-Expected `make regs` output — one block per instantiation, persistent first:
-
-| Instantiation | VGPR | SGPR | VGPR spill | SGPR spill | LDS (bytes) | Blocks/CU |
-|---|:---:|:---:|:---:|:---:|:---:|:---:|
-| 4 tiles/WG | 242 | 101 | 0 | 0 | 139264 | 1 |
-| 1 tile/WG  | 226 |  76 | 0 | 0 | 139264 | 1 |
-
-Any nonzero spill count is a regression: an earlier version of the loop-invariant hoisting pushed SGPR from 101 to 106 with 6 spills and cost 1.2%.
-
 ## Run
 
 ```bash
@@ -165,7 +146,6 @@ All flags accept both `-m 4096` and `-m=4096` syntax. `M / N / K` must be multip
 
 ```bash
 ./bench.sh              # 5 runs on the default card
-./bench.sh 5 2          # 5 runs pinned to GPU 2
 ```
 
 ## Performance
@@ -180,30 +160,3 @@ Measured on MI355X, `batch = 1`, square problem size `M = N = K`, `-w 200 -i 100
 | 8192  | 4 | (256,  1, 1) | 0.3663 | 3004.94 |
 | 16384 | 4 | (1024, 1, 1) | 3.1919 | 2755.78 |
 
-### Why the persistent tile is switched off below 8192
-
-LDS is 139264 bytes, so exactly one workgroup fits per CU and the workgroup count *is* the CU count in use. On a 256-CU MI355X that makes the tradeoff arithmetic:
-
-| M=N=K | Tiles (m×n) | WGs at 4 | WGs at 1 | Rounds at 4 | Rounds at 1 |
-|---:|:--:|--:|--:|--:|--:|
-| 1024  | 4×4   | 4    | 16   | 1 | 1 |
-| 2048  | 8×8   | 16   | 64   | 1 | 1 |
-| 4096  | 16×16 | 64   | 256  | 1 | 1 |
-| 8192  | 32×32 | 256  | 1024 | 1 | 4 |
-| 16384 | 64×64 | 1024 | 4096 | 4 | 16 |
-
-Dividing the grid by four only saves work once there are more workgroups than CUs — first true at 8192. Below that it just parks CUs: at 4096 the persistent form runs 64 workgroups and leaves 192 CUs idle, whereas one tile per workgroup fills the chip exactly. Measured on one card, forcing the persistent form at the small sizes costs:
-
-| M=N=K | 1 tile/WG | 4 tiles/WG | forcing 4 |
-|---:|---:|---:|:--|
-| 1024 |  124.46 |   35.80 | −71% |
-| 2048 |  667.15 |  188.34 | −72% |
-| 4096 | 2440.74 |  893.95 | −63% |
-| 8192 | ~2940   | 2968.44 | +1.0% |
-| 16384| ~2580   | 2755.78 | +6.8% |
-
-(This table is a paired comparison on GPU 4, so its 8192 row reads 2968.44 rather than the 3004.94 above — that one is the fastest card. Only same-card pairs are meaningful.)
-
-4096 is the sharpest case for the reason above — it is the largest size where the non-persistent grid still fits in one round. The single-tile instantiation is also cheaper in registers (VGPR 226 / SGPR 76 versus 242 / 101), though with LDS pinning occupancy at one block per CU that buys nothing.
-
-The same binary measures 2863–3005 TFlops at 8192³ depending on which card it lands on: DVFS under a shared power wall spreads results by about 5%, while per-card repeatability is under 0.2%. The 8192 row above is the fastest card. For any change to the kernel, the meaningful check is a paired same-card comparison against the previous build, not an absolute number.
