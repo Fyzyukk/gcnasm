@@ -31,7 +31,8 @@ template<
     int BLOCK_K_ = 128,
     int GROUP_M_ = 1,
     int GROUP_N_ = 1,
-    int GROUP_K_ = 32>
+    int GROUP_K_ = 32,
+    int OUTPUT_TILES_ = 4>
 struct gemm_a8w8_mxfp8_scale_traits {
     static constexpr int BLOCK_SIZE = 512;
     static constexpr int WARP_SIZE = 64;
@@ -67,6 +68,12 @@ struct gemm_a8w8_mxfp8_scale_traits {
     static constexpr int VEC_C = 4;
     static constexpr int VEC_GLOBAL_SCALE = 16;
     static constexpr int VEC_LDS_SCALE = 4;
+
+    // One workgroup walks this many adjacent M tiles with N held fixed.  4 keeps
+    // B and the B scales resident across four output tiles; 1 disables the
+    // persistent tile so the grid is four times wider.  The host picks between
+    // the two instantiations at launch, see pick_output_tiles_per_wg().
+    static constexpr int OUTPUT_TILES_PER_WG = OUTPUT_TILES_;
 
     static constexpr int GROUP_M = GROUP_M_;
     static constexpr int GROUP_N = GROUP_N_;

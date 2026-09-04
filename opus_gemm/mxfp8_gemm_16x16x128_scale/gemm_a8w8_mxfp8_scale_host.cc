@@ -28,11 +28,25 @@ __global__ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs);
 
 #define CHECK_HIP_KERNEL_LAUNCH() CHECK_HIP(hipGetLastError())
 
-using GemmTraits = gemm_a8w8_mxfp8_scale_traits<>;
+// The two instantiations provided by the device TU.  They differ only in
+// OUTPUT_TILES_PER_WG, so every tile/scale constant below can be read off
+// either one; GemmTraits names the persistent form for that purpose.
+using GemmTraitsPersist = gemm_a8w8_mxfp8_scale_traits<256, 256, 128, 1, 1, 32, 4>;
+using GemmTraitsSingle  = gemm_a8w8_mxfp8_scale_traits<256, 256, 128, 1, 1, 32, 1>;
+using GemmTraits = GemmTraitsPersist;
 
-// One workgroup walks this many adjacent M tiles with N held fixed.  The kernel
-// hardcodes the same 4, so the two must be changed together.
-static constexpr int OUTPUT_TILES_PER_WG = 4;
+// The persistent fixed-B tile divides the workgroup count by four.  That is a
+// win only once there are more workgroups than CUs -- below that it just parks
+// CUs.  LDS is 139264 B, so occupancy is one workgroup per CU and the compare
+// is directly against the CU count.
+inline int pick_output_tiles_per_wg(int num_tiles_m, int num_tiles_n) {
+    int cus = 0;
+    CHECK_HIP(hipDeviceGetAttribute(&cus, hipDeviceAttributeMultiprocessorCount, 0));
+    const int persist_wgs =
+        ceil_div_scale(num_tiles_m, GemmTraitsPersist::OUTPUT_TILES_PER_WG) * num_tiles_n;
+    return persist_wgs >= cus ? GemmTraitsPersist::OUTPUT_TILES_PER_WG
+                              : GemmTraitsSingle::OUTPUT_TILES_PER_WG;
+}
 using host_fp8_t = __hip_fp8_e4m3;
 using fp32_t = float;
 using e8m0_t = uint8_t;
@@ -569,17 +583,23 @@ int main(int argc, char** argv) {
     kargs.stride_sfa_batch = num_tiles_m * num_tiles_k * kargs.stride_sfa;
     kargs.stride_sfb_batch = num_tiles_n * num_tiles_k * kargs.stride_sfb;
 
+    const int output_tiles_per_wg = pick_output_tiles_per_wg(num_tiles_m, num_tiles_n);
+    const bool persist = output_tiles_per_wg == GemmTraitsPersist::OUTPUT_TILES_PER_WG;
     const int m_tile_groups =
-        ceil_div_scale(num_tiles_m, OUTPUT_TILES_PER_WG);
+        ceil_div_scale(num_tiles_m, output_tiles_per_wg);
     dim3 grid(m_tile_groups * num_tiles_n, 1, batch);
     dim3 block(BLOCK_SIZE);
 
     std::printf("Launching MXFP8 scaled-MFMA GEMM: M=%d, N=%d, K=%d, grid=(%u,%u,%u), block=%d, output_tiles_per_wg=%d\n",
                 M, N, K, grid.x, grid.y, grid.z, BLOCK_SIZE,
-                OUTPUT_TILES_PER_WG);
+                output_tiles_per_wg);
 
     if (verify) {
-        gemm_a8w8_mxfp8_scale_kernel<GemmTraits><<<grid, block>>>(kargs);
+        if (persist) {
+            gemm_a8w8_mxfp8_scale_kernel<GemmTraitsPersist><<<grid, block>>>(kargs);
+        } else {
+            gemm_a8w8_mxfp8_scale_kernel<GemmTraitsSingle><<<grid, block>>>(kargs);
+        }
         CHECK_HIP_KERNEL_LAUNCH();
         std::printf("\nValidating GPU results against CPU reference...\n");
         CHECK_HIP(hipMemcpy(host_c_out.get(), dev_c, static_cast<std::size_t>(batch) * M * N * sizeof(fp32_t),
@@ -607,9 +627,17 @@ int main(int argc, char** argv) {
 
     std::printf("\n");
     if (timeline) {
-        benchmark_kernel_timeline<GemmTraits>(kargs, grid, block);
+        if (persist) {
+            benchmark_kernel_timeline<GemmTraitsPersist>(kargs, grid, block);
+        } else {
+            benchmark_kernel_timeline<GemmTraitsSingle>(kargs, grid, block);
+        }
     } else {
-        benchmark_kernel<GemmTraits>(kargs, grid, block, warmup, iterations);
+        if (persist) {
+            benchmark_kernel<GemmTraitsPersist>(kargs, grid, block, warmup, iterations);
+        } else {
+            benchmark_kernel<GemmTraitsSingle>(kargs, grid, block, warmup, iterations);
+        }
     }
     std::printf("\n");
 

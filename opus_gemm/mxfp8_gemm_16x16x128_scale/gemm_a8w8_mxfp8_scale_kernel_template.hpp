@@ -334,7 +334,7 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
     const int num_tiles_n = ceil_div_scale(kargs.n, T::B_N);
     const int num_tiles_k = ceil_div_scale(kargs.k, T::B_K);
     const int block_n = block_id_x() % num_tiles_n;
-    const int first_block_m = (block_id_x() / num_tiles_n) * 4;
+    const int first_block_m = (block_id_x() / num_tiles_n) * T::OUTPUT_TILES_PER_WG;
     const int col = block_n * T::B_N;
 
     const int batch_id = block_id_z();
@@ -351,7 +351,7 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
     const auto* p_sf = scale_producer_is_sfa ? reinterpret_cast<const D_SF*>(kargs.ptr_sfa) + batch_id * kargs.stride_sfa_batch + first_block_m * num_tiles_k * kargs.stride_sfa : reinterpret_cast<const D_SF*>(kargs.ptr_sfb) + batch_id * kargs.stride_sfb_batch + block_n * num_tiles_k * kargs.stride_sfb;
 
     int first_stage = 0;
-    for (int output_tile = 0; output_tile < 4; ++output_tile) {
+    for (int output_tile = 0; output_tile < T::OUTPUT_TILES_PER_WG; ++output_tile) {
         const int block_m = first_block_m + output_tile;
         if (block_m >= num_tiles_m) {
             break;
@@ -670,7 +670,8 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
     v_b = load<T::VEC_B>(s_b, u_rb + sb_offset(stage, 0));
     s_waitcnt_lgkmcnt(0_I);
 
-    const bool has_next_output = output_tile + 1 < 4 && block_m + 1 < num_tiles_m;
+    const bool has_next_output =
+        output_tile + 1 < T::OUTPUT_TILES_PER_WG && block_m + 1 < num_tiles_m;
     const int next_output_stage = stage ^ 1;
     
     auto output_b1_handoff = [&]() {

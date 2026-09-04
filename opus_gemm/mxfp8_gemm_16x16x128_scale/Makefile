@@ -65,20 +65,25 @@ $(ROCM_PATH)/llvm/bin/clang-offload-bundler -type=o \
    -output=$(BUILD)/.dev -unbundle 2>/dev/null
 endef
 
-# The build is only correct if the K loop unrolled (>=192 MFMA) and no
-# s_setprio survived.  Both have silently regressed before.
+# The build is only correct if the K loop unrolled (192 MFMA per kernel, and
+# the device TU carries two instantiations) and no s_setprio survived.  Both
+# have silently regressed before.  Counting 384 rather than 192 matters: with
+# the looser bound one un-unrolled instantiation would still pass.
+MFMA_MIN ?= 384
+
 check: $(OUT)
 	@$(UNBUNDLE); \
 	n=$$($(ROCM_PATH)/llvm/bin/llvm-objdump -d $(BUILD)/.dev 2>/dev/null | grep -c v_mfma_scale_f32_16x16x128); \
 	p=$$($(ROCM_PATH)/llvm/bin/llvm-objdump -d $(BUILD)/.dev 2>/dev/null | grep -c s_setprio); \
 	rm -f $(BUILD)/.fb $(BUILD)/.dev; \
-	if [ "$$n" -ge 192 ] && [ "$$p" -eq 0 ]; then \
+	if [ "$$n" -ge $(MFMA_MIN) ] && [ "$$p" -eq 0 ]; then \
 	    echo "check: OK -- $$n MFMA, 0 s_setprio"; \
 	else \
-	    echo "check: FAIL -- $$n MFMA (expected >=192), $$p s_setprio (expected 0)"; exit 1; \
+	    echo "check: FAIL -- $$n MFMA (expected >=$(MFMA_MIN)), $$p s_setprio (expected 0)"; exit 1; \
 	fi
 
-# Occupancy inputs.  Expected: VGPR 242, SGPR 101, 0 spill, LDS 139264 (1 block/CU).
+# Occupancy inputs, one block per instantiation.  Expected: VGPR 242 / SGPR 101
+# (4 tiles per WG) and VGPR 226 / SGPR 76 (1 tile), 0 spill, LDS 139264 both.
 regs: $(OUT)
 	@$(UNBUNDLE); \
 	$(ROCM_PATH)/llvm/bin/llvm-readelf --notes $(BUILD)/.dev 2>/dev/null | \
