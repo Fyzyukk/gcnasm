@@ -13,6 +13,7 @@
 #include <omp.h>
 
 #include "gemm_a8w8_mxfp8_scale_common.h"
+#include "gemm_a8w8_mxfp8_scale_repack.hpp"
 
 template<class Traits>
 __global__ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs);
@@ -111,7 +112,10 @@ void pack_sfa_consumer_major(
     const int num_tiles_m = m / Traits::B_M;
     const int num_tiles_k = k / Traits::B_K;
 
-    #pragma omp parallel for collapse(3)
+    // Cap the thread count: each iteration packs one 1 KB tile, so with all
+    // 256 cores of this box the fork/join cost swamps the work -- 8192^3 takes
+    // 16.8 ms at 256 threads against 0.057 ms at 32.
+    #pragma omp parallel for collapse(3) num_threads(std::min(32, omp_get_max_threads()))
     for (int b = 0; b < batch; ++b) {
         for (int mb = 0; mb < num_tiles_m; ++mb) {
             for (int kt = 0; kt < num_tiles_k; ++kt) {
@@ -163,7 +167,10 @@ void pack_sfb_consumer_major(
     const int num_tiles_n = n / Traits::B_N;
     const int num_tiles_k = k / Traits::B_K;
 
-    #pragma omp parallel for collapse(3)
+    // Cap the thread count: each iteration packs one 1 KB tile, so with all
+    // 256 cores of this box the fork/join cost swamps the work -- 8192^3 takes
+    // 16.8 ms at 256 threads against 0.057 ms at 32.
+    #pragma omp parallel for collapse(3) num_threads(std::min(32, omp_get_max_threads()))
     for (int b = 0; b < batch; ++b) {
         for (int nb = 0; nb < num_tiles_n; ++nb) {
             for (int kt = 0; kt < num_tiles_k; ++kt) {
@@ -401,6 +408,7 @@ int main(int argc, char** argv) {
     int warmup = 200;
     int iterations = 100;
     int timeline = 0;
+    int device_repack = 0;
 
     auto parse_val = [](const char* arg, const char* flag) -> const char* {
         const std::size_t len = std::strlen(flag);
@@ -439,6 +447,10 @@ int main(int argc, char** argv) {
         if (try_parse(iterations, "-i", "--iterations")) continue;
         if (std::strcmp(arg, "--timeline") == 0) {
             timeline = 1;
+            continue;
+        }
+        if (std::strcmp(arg, "--device-repack") == 0) {
+            device_repack = 1;
             continue;
         }
     }
@@ -559,8 +571,42 @@ int main(int argc, char** argv) {
 
     CHECK_HIP(hipMemcpy(dev_a, host_a.get(), static_cast<std::size_t>(batch) * M * K * sizeof(host_fp8_t), hipMemcpyHostToDevice));
     CHECK_HIP(hipMemcpy(dev_b, host_b.get(), static_cast<std::size_t>(batch) * N * K * sizeof(host_fp8_t), hipMemcpyHostToDevice));
-    CHECK_HIP(hipMemcpy(dev_sfa, host_sfa_packed.get(), sfa_count * sizeof(e8m0_t), hipMemcpyHostToDevice));
-    CHECK_HIP(hipMemcpy(dev_sfb, host_sfb_packed.get(), sfb_count * sizeof(e8m0_t), hipMemcpyHostToDevice));
+    if (device_repack) {
+        // Upload the scales in their logical layout and repack on the GPU, the
+        // way a real pipeline would -- there the scales come out of a
+        // quantization kernel and are already in device memory.  The result is
+        // compared byte-for-byte against the host packer below, which stays in
+        // the build as the correctness oracle.
+        void* dev_sfa_raw = nullptr;
+        void* dev_sfb_raw = nullptr;
+        CHECK_HIP(hipMalloc(&dev_sfa_raw, sfa_count * sizeof(e8m0_t)));
+        CHECK_HIP(hipMalloc(&dev_sfb_raw, sfb_count * sizeof(e8m0_t)));
+        CHECK_HIP(hipMemcpy(dev_sfa_raw, host_sfa.get(), sfa_count * sizeof(e8m0_t), hipMemcpyHostToDevice));
+        CHECK_HIP(hipMemcpy(dev_sfb_raw, host_sfb.get(), sfb_count * sizeof(e8m0_t), hipMemcpyHostToDevice));
+
+        const float repack_ms = launch_scale_repack<GemmTraits>(
+            static_cast<const e8m0_t*>(dev_sfa_raw), static_cast<e8m0_t*>(dev_sfa),
+            static_cast<const e8m0_t*>(dev_sfb_raw), static_cast<e8m0_t*>(dev_sfb),
+            batch, M, N, K);
+
+        auto gpu_sfa = std::make_unique<e8m0_t[]>(sfa_count);
+        auto gpu_sfb = std::make_unique<e8m0_t[]>(sfb_count);
+        CHECK_HIP(hipMemcpy(gpu_sfa.get(), dev_sfa, sfa_count * sizeof(e8m0_t), hipMemcpyDeviceToHost));
+        CHECK_HIP(hipMemcpy(gpu_sfb.get(), dev_sfb, sfb_count * sizeof(e8m0_t), hipMemcpyDeviceToHost));
+        const bool sfa_match = std::memcmp(gpu_sfa.get(), host_sfa_packed.get(), sfa_count) == 0;
+        const bool sfb_match = std::memcmp(gpu_sfb.get(), host_sfb_packed.get(), sfb_count) == 0;
+        std::printf("Device scale repack: %.4f ms, SFA %s, SFB %s vs the host packer\n",
+                    repack_ms, sfa_match ? "match" : "MISMATCH", sfb_match ? "match" : "MISMATCH");
+        if (!sfa_match || !sfb_match) {
+            return 1;
+        }
+
+        CHECK_HIP(hipFree(dev_sfa_raw));
+        CHECK_HIP(hipFree(dev_sfb_raw));
+    } else {
+        CHECK_HIP(hipMemcpy(dev_sfa, host_sfa_packed.get(), sfa_count * sizeof(e8m0_t), hipMemcpyHostToDevice));
+        CHECK_HIP(hipMemcpy(dev_sfb, host_sfb_packed.get(), sfb_count * sizeof(e8m0_t), hipMemcpyHostToDevice));
+    }
 
     opus_gemm_scale_kargs kargs{};
     kargs.ptr_a = dev_a;

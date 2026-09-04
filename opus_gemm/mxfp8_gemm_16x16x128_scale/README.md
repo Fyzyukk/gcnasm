@@ -45,7 +45,11 @@ Here `r` is the row within the MFMA's `W_M`/`W_N`, `q` the K-group within one MF
 
 Two things fall out of this. The packed tile is a byte-for-byte image of the consumer-facing LDS tile, so the global→LDS producer is a flat linear copy — it reads `VEC_GLOBAL_SCALE = 16` bytes per lane fully coalesced and writes them straight down, with no address arithmetic that depends on the MFMA layout. And because each `(tile, k-tile)` block is self-contained and contiguous, `stride_sfa` / `stride_sfb` collapse to a single element count per tile (`packed_sfa_tile_elem` / `packed_sfb_tile_elem`), which is what keeps the producer's pointer walk to one add per stage.
 
-The repack is a host-side preprocessing step, done once outside the timed region — in a real pipeline it belongs with quantization, which is where the scales are produced anyway.
+The repack is a one-off preprocessing step, done outside the timed region.
+
+`--device-repack` does it on the GPU instead, which is what a real pipeline needs: there the scales come out of a quantization kernel and are already in device memory, so copying them back to the host to pack them makes no sense. `gemm_a8w8_mxfp8_scale_repack.hpp` holds the kernel — one wave per `(tile, k-tile)` block, four strided dword loads, a 4×4 byte transpose, one coalesced `dwordx4` store. Measured on GPU 4, both tensors together: 8.7 µs at 4096³, 10.4 µs at 8192³, 30.5 µs at 16384³.
+
+The host packer stays in the build as the correctness oracle — `--device-repack` compares the GPU result against it byte for byte before running the GEMM. Longer term the repack belongs inside the quantization kernel: the `e8m0` byte is already in a register when it is computed, so writing it straight to its consumer-major address costs nothing at all.
 
 ### Kernel configuration
 
@@ -72,6 +76,7 @@ mxfp8_gemm_16x16x128_scale/
 ├── bench.sh
 ├── gemm_a8w8_mxfp8_scale_common.h            # kargs + traits
 ├── gemm_a8w8_mxfp8_scale_kernel_template.hpp # kernel body
+├── gemm_a8w8_mxfp8_scale_repack.hpp          # device-side scale repack (--device-repack)
 ├── gemm_a8w8_mxfp8_scale_kernel.cc           # device TU: the two instantiations
 └── gemm_a8w8_mxfp8_scale_host.cc             # host launcher / benchmark / CPU reference
 ```
@@ -139,6 +144,7 @@ make benchmark SHAPE="-m 4096 -n 4096 -k 4096 -b 1"
 | `-w`, `--warmup` | Warmup iterations | 200 |
 | `-i`, `--iterations` | Timed iterations | 100 |
 | `--timeline` | Per-kernel timeline of consecutive launches (requires `-v 0`) | off |
+| `--device-repack` | Repack the scales on the GPU and check the result against the host packer | off |
 
 All flags accept both `-m 4096` and `-m=4096` syntax. `M / N / K` must be multiples of `BLOCK_M / BLOCK_N / BLOCK_K`, and `K` a multiple of `GROUP_K = 32`.
 

@@ -28,6 +28,7 @@ KERNEL_OBJ  = $(BUILD)/gemm_a8w8_mxfp8_scale_kernel.o
 HOST_OBJ    = $(BUILD)/gemm_a8w8_mxfp8_scale_host.o
 
 HEADERS = gemm_a8w8_mxfp8_scale_common.h \
+          gemm_a8w8_mxfp8_scale_repack.hpp \
           gemm_a8w8_mxfp8_scale_kernel_template.hpp
 
 # Optional card pin: `make benchmark GPU=2`.
@@ -49,7 +50,7 @@ $(KERNEL_OBJ): $(KERNEL_SRC) $(HEADERS) | $(BUILD)
 	@test -x $(HIPCC) || { echo "compiler not found at $(HIPCC) -- set CLANG23_ROOT or HIPCC"; exit 1; }
 	$(HIPCC) -x hip $< $(COMMON_FLAGS) -D__HIPCC_RTC__ -c -o $@
 
-$(HOST_OBJ): $(HOST_SRC) gemm_a8w8_mxfp8_scale_common.h | $(BUILD)
+$(HOST_OBJ): $(HOST_SRC) gemm_a8w8_mxfp8_scale_common.h gemm_a8w8_mxfp8_scale_repack.hpp | $(BUILD)
 	@test -x $(HIPCC) || { echo "compiler not found at $(HIPCC) -- set CLANG23_ROOT or HIPCC"; exit 1; }
 	$(HIPCC) -x hip $< $(COMMON_FLAGS) -fopenmp -I$(OMP_INC) -c -o $@
 
