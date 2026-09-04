@@ -28,7 +28,24 @@ Scale factors follow the OCP MX convention: one `e8m0` exponent per 32 contiguou
 
 `SFA` is `[M, K/32]` and `SFB` is `[N, K/32]` — the same shape, differing only in which of `M` or `N` names the rows. The kernel exploits this: the global→LDS scale producer is written once and parameterised by a base pointer and a stride, with wave 0 driving the `SFA` copy and wave 1 the `SFB` copy through the same instructions. Both legs must therefore use the same LDS stage stride, which a `static_assert` in the kernel enforces.
 
-The two scale tensors are stored pre-swizzled per `(tile, k-tile)` block (`stride_sfa = packed_sfa_tile_elem`), so the producer's global reads are fully coalesced.
+#### Host-side scale reordering
+
+The scale tensors are not fed to the kernel in their logical `[M, K/32]` / `[N, K/32]` layout. The host repacks them once, before the launch, into a consumer-major image; `pack_sfa_consumer_major` and `pack_sfb_consumer_major` in `gemm_a8w8_mxfp8_scale_host.cc` do this with an OpenMP loop over `(batch, tile, k-tile)`.
+
+The reason is that the scale bytes a single MFMA needs are scattered in the logical layout. One `V_MFMA_SCALE_F32_16X16X128_F8F6F4` consumes `SCALE_KGROUPS_PER_MFMA = W_K / GROUP_K = 4` scale bytes per lane, and those four are 32 K-elements apart in a row — while the 16 lanes covering the MFMA's rows are `K/32` bytes apart from each other. Fetching that directly would be a strided gather in the producer and a strided `ds_read` in the consumer.
+
+So the repack writes each `(tile, k-tile)` block out in exactly the order the consumer reads it:
+
+| Tensor | Packed order | Tile size |
+|---|---|---|
+| `SFA` | `[consumer_wave_m][r][q][m_call]` | `packed_sfa_tile_elem = B_M * NUM_KGROUPS` |
+| `SFB` | `[half_n][consumer_wave_n][r][q][n_call]` | `packed_sfb_tile_elem = B_N * NUM_KGROUPS` |
+
+Here `r` is the row within the MFMA's `W_M`/`W_N`, `q` the K-group within one MFMA, and `m_call`/`n_call` the repeat index. The innermost two axes are exactly what one lane wants contiguously, and `q` sitting just outside `m_call` is what lets the consumer's `ds_read` pick up a whole dword of four scale bytes for the `op_sel` operands.
+
+Two things fall out of this. The packed tile is a byte-for-byte image of the consumer-facing LDS tile, so the global→LDS producer is a flat linear copy — it reads `VEC_GLOBAL_SCALE = 16` bytes per lane fully coalesced and writes them straight down, with no address arithmetic that depends on the MFMA layout. And because each `(tile, k-tile)` block is self-contained and contiguous, `stride_sfa` / `stride_sfb` collapse to a single element count per tile (`packed_sfa_tile_elem` / `packed_sfb_tile_elem`), which is what keeps the producer's pointer walk to one add per stage.
+
+The repack is a host-side preprocessing step, done once outside the timed region — in a real pipeline it belongs with quantization, which is where the scales are produced anyway.
 
 ### Pipeline shape
 
@@ -184,6 +201,8 @@ Dividing the grid by four only saves work once there are more workgroups than CU
 | 4096 | 2440.74 |  893.95 | −63% |
 | 8192 | ~2940   | 2968.44 | +1.0% |
 | 16384| ~2580   | 2755.78 | +6.8% |
+
+(This table is a paired comparison on GPU 4, so its 8192 row reads 2968.44 rather than the 3004.94 above — that one is the fastest card. Only same-card pairs are meaningful.)
 
 4096 is the sharpest case for the reason above — it is the largest size where the non-persistent grid still fits in one round. The single-tile instantiation is also cheaper in registers (VGPR 226 / SGPR 76 versus 242 / 101), though with LDS pinning occupancy at one block per CU that buys nothing.
 
