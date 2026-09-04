@@ -553,10 +553,14 @@ int main(int argc, char** argv) {
         }
     }
 
-    pack_sfa_consumer_major<GemmTraits>(
-        host_sfa.get(), host_sfa_packed.get(), batch, M, K);
-    pack_sfb_consumer_major<GemmTraits>(
-        host_sfb.get(), host_sfb_packed.get(), batch, N, K);
+    // The default path uploads this; --device-repack only needs it as the
+    // oracle to compare against, which is a -v 1 affair.
+    if (!device_repack || verify) {
+        pack_sfa_consumer_major<GemmTraits>(
+            host_sfa.get(), host_sfa_packed.get(), batch, M, K);
+        pack_sfb_consumer_major<GemmTraits>(
+            host_sfb.get(), host_sfb_packed.get(), batch, N, K);
+    }
 
     void* dev_a = nullptr;
     void* dev_b = nullptr;
@@ -589,16 +593,24 @@ int main(int argc, char** argv) {
             static_cast<const e8m0_t*>(dev_sfb_raw), static_cast<e8m0_t*>(dev_sfb),
             batch, M, N, K);
 
-        auto gpu_sfa = std::make_unique<e8m0_t[]>(sfa_count);
-        auto gpu_sfb = std::make_unique<e8m0_t[]>(sfb_count);
-        CHECK_HIP(hipMemcpy(gpu_sfa.get(), dev_sfa, sfa_count * sizeof(e8m0_t), hipMemcpyDeviceToHost));
-        CHECK_HIP(hipMemcpy(gpu_sfb.get(), dev_sfb, sfb_count * sizeof(e8m0_t), hipMemcpyDeviceToHost));
-        const bool sfa_match = std::memcmp(gpu_sfa.get(), host_sfa_packed.get(), sfa_count) == 0;
-        const bool sfb_match = std::memcmp(gpu_sfb.get(), host_sfb_packed.get(), sfb_count) == 0;
-        std::printf("Device scale repack: %.4f ms, SFA %s, SFB %s vs the host packer\n",
-                    repack_ms, sfa_match ? "match" : "MISMATCH", sfb_match ? "match" : "MISMATCH");
-        if (!sfa_match || !sfb_match) {
-            return 1;
+        // The repack writes straight into dev_sfa / dev_sfb, which is what the
+        // kernel reads -- nothing is copied again.  Reading it back to compare
+        // against the host packer is a self-check on the lane mapping and has
+        // no place in a timed run, so it only happens under -v 1.
+        if (verify) {
+            auto gpu_sfa = std::make_unique<e8m0_t[]>(sfa_count);
+            auto gpu_sfb = std::make_unique<e8m0_t[]>(sfb_count);
+            CHECK_HIP(hipMemcpy(gpu_sfa.get(), dev_sfa, sfa_count * sizeof(e8m0_t), hipMemcpyDeviceToHost));
+            CHECK_HIP(hipMemcpy(gpu_sfb.get(), dev_sfb, sfb_count * sizeof(e8m0_t), hipMemcpyDeviceToHost));
+            const bool sfa_match = std::memcmp(gpu_sfa.get(), host_sfa_packed.get(), sfa_count) == 0;
+            const bool sfb_match = std::memcmp(gpu_sfb.get(), host_sfb_packed.get(), sfb_count) == 0;
+            std::printf("Device scale repack: %.4f ms, SFA %s, SFB %s vs the host packer\n",
+                        repack_ms, sfa_match ? "match" : "MISMATCH", sfb_match ? "match" : "MISMATCH");
+            if (!sfa_match || !sfb_match) {
+                return 1;
+            }
+        } else {
+            std::printf("Device scale repack: %.4f ms\n", repack_ms);
         }
 
         CHECK_HIP(hipFree(dev_sfa_raw));
