@@ -488,8 +488,8 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
         __builtin_amdgcn_sched_barrier(0);
 
         load_next_scale();
-        async_load<T::VEC_A>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(next_stage, 0), ga_offset(0, tile + 1), 0_I, opus::number<0>{});
-        async_load<T::VEC_A>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(next_stage, 1), ga_offset(1, tile + 1), 0_I, opus::number<0>{});
+        async_load<T::VEC_A>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(next_stage, 0), ga_offset(0, tile + 1));
+        async_load<T::VEC_A>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(next_stage, 1), ga_offset(1, tile + 1));
         __builtin_amdgcn_sched_barrier(0);
 
         s_waitcnt_lgkmcnt(opus::number<8>{});
