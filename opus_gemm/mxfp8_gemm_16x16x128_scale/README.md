@@ -28,9 +28,9 @@ Scale factors follow the OCP MX convention: one `e8m0` exponent per 32 contiguou
 
 `SFA` is `[M, K/32]` and `SFB` is `[N, K/32]` — the same shape, differing only in which of `M` or `N` names the rows. The kernel exploits this: the global→LDS scale producer is written once and parameterised by a base pointer and a stride, with wave 0 driving the `SFA` copy and wave 1 the `SFB` copy through the same instructions. Both legs must therefore use the same LDS stage stride, which a `static_assert` in the kernel enforces.
 
-#### Host-side scale reordering
+#### Scale reordering
 
-The scale tensors are not fed to the kernel in their logical `[M, K/32]` / `[N, K/32]` layout. The host repacks them once, before the launch, into a consumer-major image; `pack_sfa_consumer_major` and `pack_sfb_consumer_major` in `gemm_a8w8_mxfp8_scale_host.cc` do this with an OpenMP loop over `(batch, tile, k-tile)`.
+The scale tensors are not fed to the kernel in their logical `[M, K/32]` / `[N, K/32]` layout. They are repacked once, before the launch, into a consumer-major image.
 
 The reason is that the scale bytes a single MFMA needs are scattered in the logical layout. One `V_MFMA_SCALE_F32_16X16X128_F8F6F4` consumes `SCALE_KGROUPS_PER_MFMA = W_K / GROUP_K = 4` scale bytes per lane, and those four are 32 K-elements apart in a row — while the 16 lanes covering the MFMA's rows are `K/32` bytes apart from each other. Fetching that directly would be a strided gather in the producer and a strided `ds_read` in the consumer.
 
@@ -45,11 +45,7 @@ Here `r` is the row within the MFMA's `W_M`/`W_N`, `q` the K-group within one MF
 
 Two things fall out of this. The packed tile is a byte-for-byte image of the consumer-facing LDS tile, so the global→LDS producer is a flat linear copy — it reads `VEC_GLOBAL_SCALE = 16` bytes per lane fully coalesced and writes them straight down, with no address arithmetic that depends on the MFMA layout. And because each `(tile, k-tile)` block is self-contained and contiguous, `stride_sfa` / `stride_sfb` collapse to a single element count per tile (`packed_sfa_tile_elem` / `packed_sfb_tile_elem`), which is what keeps the producer's pointer walk to one add per stage.
 
-The repack is a one-off preprocessing step, done outside the timed region.
-
-`--device-repack` does it on the GPU instead, which is what a real pipeline needs: there the scales come out of a quantization kernel and are already in device memory, so copying them back to the host to pack them makes no sense. `gemm_a8w8_mxfp8_scale_repack.hpp` holds the kernel — one wave per `(tile, k-tile)` block, four strided dword loads, a 4×4 byte transpose, one coalesced `dwordx4` store. Measured on GPU 4, both tensors together: 8.7 µs at 4096³, 10.4 µs at 8192³, 30.5 µs at 16384³.
-
-The host packer stays in the build as the correctness oracle — `--device-repack` compares the GPU result against it byte for byte before running the GEMM. Longer term the repack belongs inside the quantization kernel: the `e8m0` byte is already in a register when it is computed, so writing it straight to its consumer-major address costs nothing at all.
+The repack itself runs on the GPU (`gemm_a8w8_mxfp8_scale_repack.hpp`), where the scales already live: it is a 4×4 byte transpose, one wave per `(tile, k-tile)` block, four strided dword loads and one coalesced `dwordx4` store. On GPU 4, both tensors together cost 10.4 µs at 8192³. `pack_sfa_consumer_major` / `pack_sfb_consumer_major` in the host file are the CPU version of the same permutation, kept as the oracle `--device-repack` checks against.
 
 ### Kernel configuration
 
