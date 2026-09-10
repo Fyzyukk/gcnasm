@@ -1,0 +1,476 @@
+{
+  "results": {
+    "reference": {
+      "unit": {
+        "hash": "ea319abf3c30c60f",
+        "elements": 65536,
+        "cpu_reference": true
+      },
+      "random": {
+        "hash": "de07957bf4bff582",
+        "elements": 131072,
+        "cpu_reference": true
+      },
+      "sfa_k": {
+        "hash": "68c35e79d3433df4",
+        "elements": 131072,
+        "cpu_reference": true
+      },
+      "sfb_k": {
+        "hash": "aafab78319d327b8",
+        "elements": 131072,
+        "cpu_reference": true
+      },
+      "random_square": {
+        "hash": "3484e876b0d0ccf2",
+        "elements": 262144,
+        "cpu_reference": true
+      },
+      "batch3": {
+        "hash": "d9345d785722df7b",
+        "elements": 196608,
+        "cpu_reference": true
+      },
+      "sfa_row": {
+        "hash": "a2eabb9916ce4809",
+        "elements": 393216,
+        "cpu_reference": true
+      },
+      "sfb_row": {
+        "hash": "92e1d8eb5ca011b9",
+        "elements": 393216,
+        "cpu_reference": true
+      },
+      "full8192": {
+        "hash": "d7317b3740f24b47",
+        "elements": 67108864,
+        "cpu_reference": false
+      },
+      "full8192_seed2": {
+        "hash": "712d4716c77aae2e",
+        "elements": 67108864,
+        "cpu_reference": false
+      },
+      "full_batch3": {
+        "hash": "ddb29e2ff28ae34f",
+        "elements": 1572864,
+        "cpu_reference": false
+      }
+    },
+    "after4": {
+      "unit": {
+        "hash": "ea319abf3c30c60f",
+        "elements": 65536,
+        "cpu_reference": true
+      },
+      "random": {
+        "hash": "de07957bf4bff582",
+        "elements": 131072,
+        "cpu_reference": true
+      },
+      "sfa_k": {
+        "hash": "68c35e79d3433df4",
+        "elements": 131072,
+        "cpu_reference": true
+      },
+      "sfb_k": {
+        "hash": "aafab78319d327b8",
+        "elements": 131072,
+        "cpu_reference": true
+      },
+      "random_square": {
+        "hash": "3484e876b0d0ccf2",
+        "elements": 262144,
+        "cpu_reference": true
+      },
+      "batch3": {
+        "hash": "d9345d785722df7b",
+        "elements": 196608,
+        "cpu_reference": true
+      },
+      "sfa_row": {
+        "hash": "a2eabb9916ce4809",
+        "elements": 393216,
+        "cpu_reference": true
+      },
+      "sfb_row": {
+        "hash": "92e1d8eb5ca011b9",
+        "elements": 393216,
+        "cpu_reference": true
+      },
+      "full8192": {
+        "hash": "d7317b3740f24b47",
+        "elements": 67108864,
+        "cpu_reference": false
+      },
+      "full8192_seed2": {
+        "hash": "712d4716c77aae2e",
+        "elements": 67108864,
+        "cpu_reference": false
+      },
+      "full_batch3": {
+        "hash": "ddb29e2ff28ae34f",
+        "elements": 1572864,
+        "cpu_reference": false
+      }
+    },
+    "b0_89": {
+      "unit": {
+        "hash": "ea319abf3c30c60f",
+        "elements": 65536,
+        "cpu_reference": true
+      },
+      "random": {
+        "hash": "de07957bf4bff582",
+        "elements": 131072,
+        "cpu_reference": true
+      },
+      "sfa_k": {
+        "hash": "68c35e79d3433df4",
+        "elements": 131072,
+        "cpu_reference": true
+      },
+      "sfb_k": {
+        "hash": "aafab78319d327b8",
+        "elements": 131072,
+        "cpu_reference": true
+      },
+      "random_square": {
+        "hash": "3484e876b0d0ccf2",
+        "elements": 262144,
+        "cpu_reference": true
+      },
+      "batch3": {
+        "hash": "d9345d785722df7b",
+        "elements": 196608,
+        "cpu_reference": true
+      },
+      "sfa_row": {
+        "hash": "a2eabb9916ce4809",
+        "elements": 393216,
+        "cpu_reference": true
+      },
+      "sfb_row": {
+        "hash": "92e1d8eb5ca011b9",
+        "elements": 393216,
+        "cpu_reference": true
+      },
+      "full8192": {
+        "hash": "d7317b3740f24b47",
+        "elements": 67108864,
+        "cpu_reference": false
+      },
+      "full8192_seed2": {
+        "hash": "712d4716c77aae2e",
+        "elements": 67108864,
+        "cpu_reference": false
+      },
+      "full_batch3": {
+        "hash": "ddb29e2ff28ae34f",
+        "elements": 1572864,
+        "cpu_reference": false
+      }
+    },
+    "b0_1213": {
+      "unit": {
+        "hash": "ea319abf3c30c60f",
+        "elements": 65536,
+        "cpu_reference": true
+      },
+      "random": {
+        "hash": "de07957bf4bff582",
+        "elements": 131072,
+        "cpu_reference": true
+      },
+      "sfa_k": {
+        "hash": "68c35e79d3433df4",
+        "elements": 131072,
+        "cpu_reference": true
+      },
+      "sfb_k": {
+        "hash": "aafab78319d327b8",
+        "elements": 131072,
+        "cpu_reference": true
+      },
+      "random_square": {
+        "hash": "3484e876b0d0ccf2",
+        "elements": 262144,
+        "cpu_reference": true
+      },
+      "batch3": {
+        "hash": "d9345d785722df7b",
+        "elements": 196608,
+        "cpu_reference": true
+      },
+      "sfa_row": {
+        "hash": "a2eabb9916ce4809",
+        "elements": 393216,
+        "cpu_reference": true
+      },
+      "sfb_row": {
+        "hash": "92e1d8eb5ca011b9",
+        "elements": 393216,
+        "cpu_reference": true
+      },
+      "full8192": {
+        "hash": "d7317b3740f24b47",
+        "elements": 67108864,
+        "cpu_reference": false
+      },
+      "full8192_seed2": {
+        "hash": "712d4716c77aae2e",
+        "elements": 67108864,
+        "cpu_reference": false
+      },
+      "full_batch3": {
+        "hash": "ddb29e2ff28ae34f",
+        "elements": 1572864,
+        "cpu_reference": false
+      }
+    },
+    "b0_pair": {
+      "unit": {
+        "hash": "ea319abf3c30c60f",
+        "elements": 65536,
+        "cpu_reference": true
+      },
+      "random": {
+        "hash": "de07957bf4bff582",
+        "elements": 131072,
+        "cpu_reference": true
+      },
+      "sfa_k": {
+        "hash": "68c35e79d3433df4",
+        "elements": 131072,
+        "cpu_reference": true
+      },
+      "sfb_k": {
+        "hash": "aafab78319d327b8",
+        "elements": 131072,
+        "cpu_reference": true
+      },
+      "random_square": {
+        "hash": "3484e876b0d0ccf2",
+        "elements": 262144,
+        "cpu_reference": true
+      },
+      "batch3": {
+        "hash": "d9345d785722df7b",
+        "elements": 196608,
+        "cpu_reference": true
+      },
+      "sfa_row": {
+        "hash": "a2eabb9916ce4809",
+        "elements": 393216,
+        "cpu_reference": true
+      },
+      "sfb_row": {
+        "hash": "92e1d8eb5ca011b9",
+        "elements": 393216,
+        "cpu_reference": true
+      },
+      "full8192": {
+        "hash": "d7317b3740f24b47",
+        "elements": 67108864,
+        "cpu_reference": false
+      },
+      "full8192_seed2": {
+        "hash": "712d4716c77aae2e",
+        "elements": 67108864,
+        "cpu_reference": false
+      },
+      "full_batch3": {
+        "hash": "ddb29e2ff28ae34f",
+        "elements": 1572864,
+        "cpu_reference": false
+      }
+    },
+    "b0_open": {
+      "unit": {
+        "hash": "ea319abf3c30c60f",
+        "elements": 65536,
+        "cpu_reference": true
+      },
+      "random": {
+        "hash": "de07957bf4bff582",
+        "elements": 131072,
+        "cpu_reference": true
+      },
+      "sfa_k": {
+        "hash": "68c35e79d3433df4",
+        "elements": 131072,
+        "cpu_reference": true
+      },
+      "sfb_k": {
+        "hash": "aafab78319d327b8",
+        "elements": 131072,
+        "cpu_reference": true
+      },
+      "random_square": {
+        "hash": "3484e876b0d0ccf2",
+        "elements": 262144,
+        "cpu_reference": true
+      },
+      "batch3": {
+        "hash": "d9345d785722df7b",
+        "elements": 196608,
+        "cpu_reference": true
+      },
+      "sfa_row": {
+        "hash": "a2eabb9916ce4809",
+        "elements": 393216,
+        "cpu_reference": true
+      },
+      "sfb_row": {
+        "hash": "92e1d8eb5ca011b9",
+        "elements": 393216,
+        "cpu_reference": true
+      },
+      "full8192": {
+        "hash": "d7317b3740f24b47",
+        "elements": 67108864,
+        "cpu_reference": false
+      },
+      "full8192_seed2": {
+        "hash": "712d4716c77aae2e",
+        "elements": 67108864,
+        "cpu_reference": false
+      },
+      "full_batch3": {
+        "hash": "ddb29e2ff28ae34f",
+        "elements": 1572864,
+        "cpu_reference": false
+      }
+    },
+    "transpose_staged": {
+      "unit": {
+        "hash": "ea319abf3c30c60f",
+        "elements": 65536,
+        "cpu_reference": true
+      },
+      "random": {
+        "hash": "de07957bf4bff582",
+        "elements": 131072,
+        "cpu_reference": true
+      },
+      "sfa_k": {
+        "hash": "68c35e79d3433df4",
+        "elements": 131072,
+        "cpu_reference": true
+      },
+      "sfb_k": {
+        "hash": "aafab78319d327b8",
+        "elements": 131072,
+        "cpu_reference": true
+      },
+      "random_square": {
+        "hash": "3484e876b0d0ccf2",
+        "elements": 262144,
+        "cpu_reference": true
+      },
+      "batch3": {
+        "hash": "d9345d785722df7b",
+        "elements": 196608,
+        "cpu_reference": true
+      },
+      "sfa_row": {
+        "hash": "a2eabb9916ce4809",
+        "elements": 393216,
+        "cpu_reference": true
+      },
+      "sfb_row": {
+        "hash": "92e1d8eb5ca011b9",
+        "elements": 393216,
+        "cpu_reference": true
+      },
+      "full8192": {
+        "hash": "d7317b3740f24b47",
+        "elements": 67108864,
+        "cpu_reference": false
+      },
+      "full8192_seed2": {
+        "hash": "712d4716c77aae2e",
+        "elements": 67108864,
+        "cpu_reference": false
+      },
+      "full_batch3": {
+        "hash": "ddb29e2ff28ae34f",
+        "elements": 1572864,
+        "cpu_reference": false
+      }
+    },
+    "b_contig_common": {
+      "unit": {
+        "hash": "ea319abf3c30c60f",
+        "elements": 65536,
+        "cpu_reference": true
+      },
+      "random": {
+        "hash": "de07957bf4bff582",
+        "elements": 131072,
+        "cpu_reference": true
+      },
+      "sfa_k": {
+        "hash": "68c35e79d3433df4",
+        "elements": 131072,
+        "cpu_reference": true
+      },
+      "sfb_k": {
+        "hash": "aafab78319d327b8",
+        "elements": 131072,
+        "cpu_reference": true
+      },
+      "random_square": {
+        "hash": "3484e876b0d0ccf2",
+        "elements": 262144,
+        "cpu_reference": true
+      },
+      "batch3": {
+        "hash": "d9345d785722df7b",
+        "elements": 196608,
+        "cpu_reference": true
+      },
+      "sfa_row": {
+        "hash": "a2eabb9916ce4809",
+        "elements": 393216,
+        "cpu_reference": true
+      },
+      "sfb_row": {
+        "hash": "92e1d8eb5ca011b9",
+        "elements": 393216,
+        "cpu_reference": true
+      },
+      "full8192": {
+        "hash": "d7317b3740f24b47",
+        "elements": 67108864,
+        "cpu_reference": false
+      },
+      "full8192_seed2": {
+        "hash": "712d4716c77aae2e",
+        "elements": 67108864,
+        "cpu_reference": false
+      },
+      "full_batch3": {
+        "hash": "ddb29e2ff28ae34f",
+        "elements": 1572864,
+        "cpu_reference": false
+      }
+    }
+  },
+  "excluded": {},
+  "eligible": [
+    "reference",
+    "after4",
+    "b0_89",
+    "b0_1213",
+    "b0_pair",
+    "b0_open",
+    "transpose_staged",
+    "b_contig_common"
+  ],
+  "reference_hashes": {
+    "full8192": "d7317b3740f24b47",
+    "full8192_seed2": "712d4716c77aae2e",
+    "full_batch3": "ddb29e2ff28ae34f"
+  }
+}

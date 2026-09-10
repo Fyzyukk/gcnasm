@@ -1,0 +1,62 @@
+{
+  "contract": {
+    "M": 8192,
+    "N": 8192,
+    "K": 8192,
+    "b": 1,
+    "w": 200,
+    "i": 100,
+    "GPU": 7,
+    "seed": 20260909
+  },
+  "order": "rotate",
+  "rounds": 3,
+  "images": {
+    "base_a": {
+      "path": "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/8_wave_local_scale_direct/build_side_t2_exact4_nohandoff_noprio/kernel.exe",
+      "sha256": "69e9a10aedfea1170e545d273bad99198396bfe2d44b2cef929186677cc72921",
+      "resources": {
+        "vgpr_count": 248,
+        "agpr_count": 0,
+        "sgpr_count": 97,
+        "private_segment_fixed_size": 0,
+        "group_segment_fixed_size": 143360
+      }
+    },
+    "base_b": {
+      "path": "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/8_wave_local_scale_direct/build_side_t2_exact4_nohandoff_noprio/kernel.exe",
+      "sha256": "69e9a10aedfea1170e545d273bad99198396bfe2d44b2cef929186677cc72921",
+      "resources": {
+        "vgpr_count": 248,
+        "agpr_count": 0,
+        "sgpr_count": 97,
+        "private_segment_fixed_size": 0,
+        "group_segment_fixed_size": 143360
+      }
+    },
+    "qhalf": {
+      "path": "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/8_wave_local_scale_direct/prototype_scale_f4_pair32_qhalf_alignall_20260910/target/kernel.exe",
+      "sha256": "fcd132740923abbf105976b77dab006b1ecc0a27488558a636eaef9ebbcfe2b6",
+      "resources": {
+        "vgpr_count": 252,
+        "agpr_count": 0,
+        "sgpr_count": 106,
+        "private_segment_fixed_size": 0,
+        "group_segment_fixed_size": 159744
+      },
+      "build_config": "declare -- TOOLCHAIN=\"/root/toolchains/rocm-llvm23-46fcb339-build\"\ndeclare -- ROCM=\"/opt/rocm\"\ndeclare -- OPUS_INCLUDE_DIR=\"/root/workspace/aiter/csrc/include\"\ndeclare -- ARCH=\"gfx950\"\ndeclare -- EXACT_MASK=\"4\"\ndeclare -a FLAGS=([0]=\"-I/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/8_wave_local_scale_direct/prototype_scale_f4_pair32_qhalf_alignall_20260910\" [1]=\"-I/root/workspace/aiter/csrc/include\" [2]=\"-std=c++17\" [3]=\"-O3\" [4]=\"-ffast-math\" [5]=\"--offload-arch=gfx950\" [6]=\"--rocm-path=/opt/rocm\")\ndeclare -a DEVICE_DEFINES=([0]=\"-DMXFP8_EXACT_8192=4\" [1]=\"-DMXFP8_LOCAL_OUTPUT_TILES_PER_WG=2\" [2]=\"-DMXFP8_LOCAL_OUTPUT_HANDOFF=0\" [3]=\"-DMXFP8_ISOLATED_SOURCE_CHANGE=1\" [4]=\"-DMXFP8_ROW_SCALE_PAIR_POSITION=10\" [5]=\"-DMXFP8_ROW_SCALE_PREFETCH_POSITION=1\" [6]=\"-DMXFP8_ROW_SCALE_LOOP_UNROLL=4\" [7]=\"-DMXFP8_ROW_SCALE_PHASE_UNROLL=0\" [8]=\"-DMXFP8_ROW_SCALE_DOUBLE_QUEUE=1\" [9]=\"-DMXFP8_ROW_SCALE_F4_PAIR32_EXPLICIT=1\")\n"
+    },
+    "postrelease": {
+      "path": "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/8_wave_local_scale_direct/prototype_scale_f4_qhalf_postrelease_20260910/target/kernel.exe",
+      "sha256": "f0e7f129033f3c5a94e81a4357a52e12d8a1510093e940b63be3f343d6d03e83",
+      "resources": {
+        "vgpr_count": 252,
+        "agpr_count": 0,
+        "sgpr_count": 106,
+        "private_segment_fixed_size": 0,
+        "group_segment_fixed_size": 159744
+      },
+      "build_config": "declare -- TOOLCHAIN=\"/root/toolchains/rocm-llvm23-46fcb339-build\"\ndeclare -- ROCM=\"/opt/rocm\"\ndeclare -- OPUS_INCLUDE_DIR=\"/root/workspace/aiter/csrc/include\"\ndeclare -- ARCH=\"gfx950\"\ndeclare -- EXACT_MASK=\"4\"\ndeclare -a FLAGS=([0]=\"-I/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/8_wave_local_scale_direct/prototype_scale_f4_qhalf_postrelease_20260910\" [1]=\"-I/root/workspace/aiter/csrc/include\" [2]=\"-std=c++17\" [3]=\"-O3\" [4]=\"-ffast-math\" [5]=\"--offload-arch=gfx950\" [6]=\"--rocm-path=/opt/rocm\")\ndeclare -a DEVICE_DEFINES=([0]=\"-DMXFP8_EXACT_8192=4\" [1]=\"-DMXFP8_LOCAL_OUTPUT_TILES_PER_WG=2\" [2]=\"-DMXFP8_LOCAL_OUTPUT_HANDOFF=0\" [3]=\"-DMXFP8_ISOLATED_SOURCE_CHANGE=1\" [4]=\"-DMXFP8_ROW_SCALE_PAIR_POSITION=10\" [5]=\"-DMXFP8_ROW_SCALE_PREFETCH_POSITION=1\" [6]=\"-DMXFP8_ROW_SCALE_LOOP_UNROLL=4\" [7]=\"-DMXFP8_ROW_SCALE_PHASE_UNROLL=0\" [8]=\"-DMXFP8_ROW_SCALE_DOUBLE_QUEUE=1\" [9]=\"-DMXFP8_ROW_SCALE_F4_PAIR32_EXPLICIT=1\")\n"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "completed": true,
+  "valid_for_performance_selection": true,
+  "observations_per_label": 24,
+  "total_observations": 72,
+  "full_hash_passed_all_labels": true,
+  "process_snapshots": 26,
+  "after_run_ownership_check_completed": true,
+  "foreign_gpu7_process_observed": false,
+  "baseline_normal_range": true,
+  "candidate_gain_vs_faster_baseline_pct": 0.19639707637919557,
+  "aa_min_time_spread_pct": 0.24784199879555047,
+  "wins_vs_faster_same_round_baseline": 15,
+  "advantage_exceeds_aa_spread": false,
+  "promoted": false,
+  "note": "Independent complete N24; positive gap remains below A/A spread and does not reproduce a confirmed advantage over the first full N24. Sessions are not pooled."
+}

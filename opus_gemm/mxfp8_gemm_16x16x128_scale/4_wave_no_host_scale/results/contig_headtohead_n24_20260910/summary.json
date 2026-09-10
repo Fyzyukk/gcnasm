@@ -1,0 +1,32 @@
+{
+  "b_contig_ioffset": {
+    "observations": 24,
+    "min_ms": 0.452667266,
+    "peak_p": 2.428962088405129,
+    "min_time_gain_pct": 0.0,
+    "aa_spread_pct": 0.06783194259070147,
+    "exceeds_aa_noise": false,
+    "paired_wins": 0,
+    "paired_geomean_gain_pct": -0.17278938649714082
+  },
+  "b_contig_ioffset_aa": {
+    "observations": 24,
+    "min_ms": 0.452974319,
+    "peak_p": 2.427315593085532,
+    "min_time_gain_pct": -0.06778596205583298,
+    "aa_spread_pct": 0.06783194259070147,
+    "exceeds_aa_noise": false,
+    "paired_wins": 0,
+    "paired_geomean_gain_pct": -0.3126857421727136
+  },
+  "b_contig_common": {
+    "observations": 24,
+    "min_ms": 0.452135444,
+    "peak_p": 2.431819142619573,
+    "min_time_gain_pct": 0.11762448776300172,
+    "aa_spread_pct": 0.06783194259070147,
+    "exceeds_aa_noise": true,
+    "paired_wins": 12,
+    "paired_geomean_gain_pct": -0.11170361339736257
+  }
+}

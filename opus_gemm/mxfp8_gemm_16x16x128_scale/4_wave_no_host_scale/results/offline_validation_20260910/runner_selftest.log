@@ -1,0 +1,7 @@
+test_device_identity_uses_pci_not_index (__main__.RunnerTests) ... ok
+test_guard_reports (__main__.RunnerTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.004s
+
+OK

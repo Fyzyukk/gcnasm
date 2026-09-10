@@ -1,0 +1,41 @@
+{
+  "created_utc": "2026-09-10T06:29:23.291298+00:00",
+  "variant": "four_wave_rowmajor_prepared_scale_c11_after4_b_contig_common_vaddr",
+  "contract": {
+    "architecture": "gfx950",
+    "threads": 256,
+    "wave_size": 64,
+    "tile": [
+      256,
+      256,
+      128
+    ],
+    "k": 8192,
+    "m_n_multiple": 256,
+    "scale_layout": "row-major",
+    "kernel_launches_per_gemm": 1,
+    "global_workspace_bytes": 0,
+    "lds_bytes_per_wg": 163840
+  },
+  "compiler": "clang version 23.0.0git (https://github.com/ROCm/llvm-project.git 46fcb339fb61119b337f973c7ca9e710a319fdd0)\nTarget: x86_64-unknown-linux-gnu\nThread model: posix\nInstalledDir: /root/toolchains/rocm-llvm23-46fcb339-build/bin\n",
+  "normalized_isa_sha256": "590bd0440b757862062a03a1c471c1e5f2d896a0c57f6555976e3017a4b937fa",
+  "sha256": {
+    "source/tmpl.hpp": "06702267a0f0c32c1d8e1b9ff77f60e1264bf1d23b78c1e8b5ee09cdf371b624",
+    "source/host.cc": "ebbf58437384c72e6370b030acfbc7b37a880f35e25178d9a386592b82ffc887",
+    "source/kern.cc": "9a63d273b88abbe7651c284246104ff2f6d50bf45060b1e18fbdc15e639739a1",
+    "source/traits.hpp": "41ccea9f8050c87a31e4ececedcaa8537d2d8c0c32bb9c6d20690fdac8048484",
+    "source/gemm_a8w8_mxfp8_scale_common.h": "e703f59ff03a9d7d3df69ae29098b3f306e15e3fae03ce56c47b7efce412fb22",
+    "source/build.sh": "3a3d51b7c3bfcb158249d8a8476126f63f3be8d2862a8ad9ad64ae28b4622093",
+    "source/gate.py": "73538824c09d1c89b99fbbe20bf48313011de8c4a0c1619e437a96d86cd3a263",
+    "source/tools/build_manifest.py": "e5734afe476cdca1ce4dc52c961f30e438197804c93ee1780e20425059013155",
+    "source/tools/static_common.py": "e61a6c69d74d887b7d2cb16618d69d404fe6dde91ea2cf57811adecfadb94119",
+    "source/tools/audit_bcontig.py": "6f32982beb939586066457d3e6bc2724a08f1df3f4a810a10da598a501950ab9",
+    "build/kernel.exe": "6c5a9b271f589b905a3e34469b6f6e284c32c9ac5f3a9989d77eb8752b12c9a9",
+    "build/kernel.o": "39407b80f862249c47d22dbef96529acb30616d681eb0dc8762d37cf0fcc8681",
+    "build/host.o": "980c23191b63c3438edc47bca0715f955d33973d0ee1f62171f08ed93e5e5c4d",
+    "build/kernel.co": "fc58fff1389b3f7aa2c5273d2467dbf1b2763cbb48a2ed21db925ace36e58688",
+    "build/kernel.isa": "ab0ea1f5d236c672315816f6a206ec1d584e8a9d3d56b420da9c1de682861313",
+    "build/kernel.notes": "b660576efc5d0b3809c4c1df48a8c74b67dbd71e4ac3c3f8a6bbde492c4c97cc",
+    "build/static_gate.log": "c39b44f8f84e93b373388eb584f35acb4d466fc863229f68212b0b0765d2c067"
+  }
+}

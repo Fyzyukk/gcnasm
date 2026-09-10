@@ -1,0 +1,62 @@
+{
+  "base_a": {
+    "observations": 3,
+    "min_ms": 0.42373656072760907,
+    "peak_p": 2.5948,
+    "mean_p": 2.5879300000000005,
+    "min_time_gain_pct": 0.0,
+    "mean_gain_pct": 0.0,
+    "paired_gains_pct": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "paired_wins": 0,
+    "paired_rounds": 3
+  },
+  "base_b": {
+    "observations": 3,
+    "min_ms": 0.4243743979991509,
+    "peak_p": 2.5909,
+    "mean_p": 2.58453,
+    "min_time_gain_pct": -0.1503006012024133,
+    "mean_gain_pct": -0.13137913312957217,
+    "paired_gains_pct": [
+      -0.1503006012024133,
+      -0.46458683027531533,
+      0.22270159538144707
+    ],
+    "paired_wins": 1,
+    "paired_rounds": 3
+  },
+  "qhalf": {
+    "observations": 3,
+    "min_ms": 0.4244940014655409,
+    "peak_p": 2.59017,
+    "mean_p": 2.5888833333333334,
+    "min_time_gain_pct": -0.17843379065823894,
+    "mean_gain_pct": 0.03683767850493069,
+    "paired_gains_pct": [
+      -0.23855403113920426,
+      -0.14199996141306404,
+      0.4939009249487869
+    ],
+    "paired_wins": 1,
+    "paired_rounds": 3
+  },
+  "postrelease": {
+    "observations": 3,
+    "min_ms": 0.4221389791125001,
+    "peak_p": 2.6046199999999997,
+    "mean_p": 2.5976866666666667,
+    "min_time_gain_pct": 0.37844920610450306,
+    "mean_gain_pct": 0.37700659085315724,
+    "paired_gains_pct": [
+      0.37844920610450306,
+      -0.1450869170959601,
+      0.9005059283630379
+    ],
+    "paired_wins": 2,
+    "paired_rounds": 3
+  }
+}

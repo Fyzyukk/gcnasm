@@ -1,0 +1,100 @@
+{
+  "phase": "generic",
+  "jobs": [
+    {
+      "kind": "correctness",
+      "name": "coldburst_random",
+      "tag": "coldburst",
+      "binary": "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/8_wave_local_scale_direct/prototype_scale_f4_qhalf_coldburst_20260910/generic/kernel.exe",
+      "generic": true,
+      "case": "random",
+      "env": {
+        "OMP_TOOL": "disabled",
+        "HIP_VISIBLE_DEVICES": "7",
+        "MXFP8_RANDOM_SEED": "20260909"
+      },
+      "argv": [
+        "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/8_wave_local_scale_direct/prototype_scale_f4_qhalf_coldburst_20260910/generic/kernel.exe",
+        "-m",
+        "256",
+        "-n",
+        "256",
+        "-k",
+        "512",
+        "-b",
+        "1",
+        "-v",
+        "1",
+        "-w",
+        "0",
+        "-i",
+        "1"
+      ]
+    },
+    {
+      "kind": "correctness",
+      "name": "coldburst_k_rows",
+      "tag": "coldburst",
+      "binary": "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/8_wave_local_scale_direct/prototype_scale_f4_qhalf_coldburst_20260910/generic/kernel.exe",
+      "generic": true,
+      "case": "k_rows",
+      "env": {
+        "OMP_TOOL": "disabled",
+        "HIP_VISIBLE_DEVICES": "7",
+        "MXFP8_RANDOM_SEED": "20260909",
+        "MXFP8_SFA_K_PATTERN": "1",
+        "MXFP8_SFB_ROW_PATTERN": "1"
+      },
+      "argv": [
+        "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/8_wave_local_scale_direct/prototype_scale_f4_qhalf_coldburst_20260910/generic/kernel.exe",
+        "-m",
+        "768",
+        "-n",
+        "512",
+        "-k",
+        "1024",
+        "-b",
+        "1",
+        "-v",
+        "1",
+        "-w",
+        "0",
+        "-i",
+        "1"
+      ]
+    },
+    {
+      "kind": "correctness",
+      "name": "coldburst_row_k_tail",
+      "tag": "coldburst",
+      "binary": "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/8_wave_local_scale_direct/prototype_scale_f4_qhalf_coldburst_20260910/generic/kernel.exe",
+      "generic": true,
+      "case": "row_k_tail",
+      "env": {
+        "OMP_TOOL": "disabled",
+        "HIP_VISIBLE_DEVICES": "7",
+        "MXFP8_RANDOM_SEED": "20260909",
+        "MXFP8_SFA_ROW_PATTERN": "1",
+        "MXFP8_SFB_K_PATTERN": "1"
+      },
+      "argv": [
+        "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/8_wave_local_scale_direct/prototype_scale_f4_qhalf_coldburst_20260910/generic/kernel.exe",
+        "-m",
+        "2304",
+        "-n",
+        "256",
+        "-k",
+        "1536",
+        "-b",
+        "2",
+        "-v",
+        "1",
+        "-w",
+        "0",
+        "-i",
+        "1"
+      ]
+    }
+  ],
+  "admission": "explicit scale-prototype audit"
+}

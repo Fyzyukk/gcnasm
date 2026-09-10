@@ -1,0 +1,52 @@
+{
+  "tag": "b0_split4_c01_89_v1",
+  "source": "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.variants_quarantine_20260908/scale_sfb_k16_carried_raw_coexec_dist22_sfa_k8_raw_k4_queue_exact_k64_wrap_prepared_scale_c11_after4_b0_split4_c01_89_v1",
+  "compiler": "/root/toolchains/rocm-llvm23-46fcb339-build/bin/clang++",
+  "commands": [
+    [
+      "/root/toolchains/rocm-llvm23-46fcb339-build/bin/clang++",
+      "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.4wave_closeout_20260910.GW0Avl/candidates/b0_split4_c01_89_v1/kernel.o",
+      "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/4_wave_no_host_scale/build/host.o",
+      "--offload-arch=gfx950",
+      "--rocm-path=/opt/rocm",
+      "-fopenmp",
+      "-L/opt/rocm/lib/llvm/lib",
+      "-lomp",
+      "-Wl,-rpath,/opt/rocm/lib/llvm/lib",
+      "-L/opt/rocm/lib",
+      "-lamdhip64",
+      "-Wl,-rpath,/opt/rocm/lib",
+      "-o",
+      "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.4wave_closeout_20260910.GW0Avl/candidates/b0_split4_c01_89_v1/kernel.exe"
+    ],
+    [
+      "/root/toolchains/rocm-llvm23-46fcb339-build/bin/llvm-objcopy",
+      "--dump-section=.hip_fatbin=/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.4wave_closeout_20260910.GW0Avl/candidates/b0_split4_c01_89_v1/kernel.fb",
+      "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.4wave_closeout_20260910.GW0Avl/candidates/b0_split4_c01_89_v1/kernel.exe"
+    ],
+    [
+      "/root/toolchains/rocm-llvm23-46fcb339-build/bin/clang-offload-bundler",
+      "-type=o",
+      "-targets=hipv4-amdgcn-amd-amdhsa--gfx950",
+      "-input=/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.4wave_closeout_20260910.GW0Avl/candidates/b0_split4_c01_89_v1/kernel.fb",
+      "-output=/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.4wave_closeout_20260910.GW0Avl/candidates/b0_split4_c01_89_v1/kernel.co",
+      "-unbundle"
+    ]
+  ],
+  "host_note": "all candidates linked with identical deterministic final host.o",
+  "sha256": {
+    "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.variants_quarantine_20260908/scale_sfb_k16_carried_raw_coexec_dist22_sfa_k8_raw_k4_queue_exact_k64_wrap_prepared_scale_c11_after4_b0_split4_c01_89_v1/tmpl.hpp": "dffb67225469423cfd04d7432c4adb4a15010fac33fce5a3d870e59c5a89f355",
+    "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.variants_quarantine_20260908/scale_sfb_k16_carried_raw_coexec_dist22_sfa_k8_raw_k4_queue_exact_k64_wrap_prepared_scale_c11_after4_b0_split4_c01_89_v1/traits.hpp": "f1fa9239e09285412e89b996fcea1e46cb2692ffc2dd2388c2904dbf65f78e3f",
+    "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.variants_quarantine_20260908/scale_sfb_k16_carried_raw_coexec_dist22_sfa_k8_raw_k4_queue_exact_k64_wrap_prepared_scale_c11_after4_b0_split4_c01_89_v1/kern.cc": "9a63d273b88abbe7651c284246104ff2f6d50bf45060b1e18fbdc15e639739a1",
+    "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.variants_quarantine_20260908/scale_sfb_k16_carried_raw_coexec_dist22_sfa_k8_raw_k4_queue_exact_k64_wrap_prepared_scale_c11_after4_b0_split4_c01_89_v1/host.cc": "f3b1607813bb48f97d01115d2304eb159068d7b73616ea6af79d1f8b866ab0a4",
+    "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.variants_quarantine_20260908/scale_sfb_k16_carried_raw_coexec_dist22_sfa_k8_raw_k4_queue_exact_k64_wrap_prepared_scale_c11_after4_b0_split4_c01_89_v1/build.sh": "7c49bc9d5043d0ebfa1cc9e4460c1d5c2050a272953c88fc7170ec6aa676e6a1",
+    "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/gemm_a8w8_mxfp8_scale_common.h": "65a2dc17438e348124609ed893085dbfb27d4885b80402d36233b9aceb134f09",
+    "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.4wave_closeout_20260910.GW0Avl/candidates/b0_split4_c01_89_v1/kernel.o": "83a5722250c0111d32ffe20694e5840d3bc33adc8061ee1b508ddca79cd97e69",
+    "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/4_wave_no_host_scale/host.cc": "ebbf58437384c72e6370b030acfbc7b37a880f35e25178d9a386592b82ffc887",
+    "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/4_wave_no_host_scale/build/host.o": "980c23191b63c3438edc47bca0715f955d33973d0ee1f62171f08ed93e5e5c4d",
+    "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.4wave_closeout_20260910.GW0Avl/candidates/b0_split4_c01_89_v1/kernel.exe": "9a8aed5811b559364301c06a74b639d6f17393e627a6552f7b5af089e8da12d1",
+    "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.4wave_closeout_20260910.GW0Avl/candidates/b0_split4_c01_89_v1/kernel.co": "ed900babb03e90bd589c6ccc304b5a768831a9104e0b5070966f59ec2f6beebe",
+    "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.4wave_closeout_20260910.GW0Avl/candidates/b0_split4_c01_89_v1/kernel.isa": "d1b6e6a8249902dfe7c3d3fb2601a1f09f079f9a1ac45e3218548411d7fbda37",
+    "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.4wave_closeout_20260910.GW0Avl/candidates/b0_split4_c01_89_v1/kernel.notes": "bc0bc787c3c3b6286c2067916b2d439e4051cbb1ba3b3e9e10b932a5f6cfa18e"
+  }
+}

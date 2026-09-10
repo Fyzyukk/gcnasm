@@ -3367,3 +3367,654 @@ tile），不随 M 线性增长。这是 **stage 相位**问题而非索引写�
 
 **至此，K=8192 / 256x256 下所有量过的杠杆均已关闭，没有已知的通往 3 P 的
 路线。** 保留版 **0.3772-0.3776 ms / 2.913 P**。
+
+---
+
+## 41. 2026-09-01：MI350X 本机构建口径与逐 wave wait-counter 复核
+
+本轮只测 **unified-scale**，并按要求固定使用本机 clang 23：
+
+```bash
+make clang23_unified_scale -j \
+  CLANG23_ROOT=/opt/rocm-llvm23-46fcb339 \
+  OPUS_INCLUDE_DIR=/root/workspace/aiter/csrc/include
+```
+
+正式可执行文件：
+
+```text
+build/gemm_a8w8_mxfp8_scale_fixed_b_asym_b_read2_unified_scale_clang23.exe
+```
+
+linked image 门禁仍为 192 条 scaled MFMA、240 VGPR、101 SGPR、139264 B LDS、
+32 条 `buffer_store_dwordx4`、7 条 barrier、零 spill/scratch。当前节点 8 张卡均由
+runtime 报为 MI350X/gfx950；同一二进制在 HIP 0 约 2.62-2.63 P，HIP 6/7 可到
+2.69-2.70 P。本轮重编后 HIP 7 的一次正式 `-w 200 -i 100` 为：
+
+```text
+0.4081 ms / 2.6940 P
+```
+
+同一二进制在本轮收尾复测又漂到 `0.4144 ms / 2.6530 P`，进一步证明当前节点的
+2.63-2.70 P 波动不能当作源码回归。
+
+所以此前本机约 2.70 P 并未消失；2.63 P 是卡号/operating point 差异，不是
+unified-scale 源码回退。需要同时注明：`guard.py` 当前对 0-7 全部报 NOT CLEAN，
+每卡有两个外部 PID 持有设备（activity 0%、显存 0），因此本节绝对性能只用于确认
+量级，候选判断必须使用同卡同轮 ABBA。
+
+### 41.1 主循环 20/12 boundary 的 `vmcnt(0)` 是真依赖
+
+从 clang23 最终 linked ISA 按 wave 追踪，自上次 VMEM drain 后，到 20/12 边界的
+未完成队列为：
+
+| 路径 | wave 0/1 | wave 2/3 | wave 4-7 |
+|---|---:|---:|---:|
+| steady tile | 5（4 A + 1 scale） | 4 A | 12（4 A + 8 asymmetric-B） |
+| output 0 / tile 0 | 9 | 8 | 8 |
+| 后续 output / tile 0 | 41 | 40 | 40 |
+
+最后一行多出的 32 条是上一 output 的 C store。所有更年轻的 load 都写即将由该
+barrier 发布的下一 LDS stage；留下任意一个未完成 load 都可能让 consumer 读到旧
+数据，所以这里不存在统一可放宽到 `vmcnt(N>0)` 的安全值。
+
+同一边界的 `lgkmcnt(0)` 从依赖上是冗余的：最后一条 B1 LDS read 已被更早的
+progressive wait 清零，之后没有新 DS/SMEM。但 clang23 把两个条件合成一条
+`s_waitcnt vmcnt(0) lgkmcnt(0)`；只删除 lgkm 条件不减少指令，也没有可观性能上界。
+
+output transition 的 K0 prefetch 同理：scale producer wave 有 9 条、其余 wave 有
+8 条 direct-to-LDS VMEM，全部是下一 output 的真依赖，因此该处 `vmcnt(0)` 也 tight。
+
+### 41.2 final-resident LDS wait 下沉：正确但无收益
+
+发现 final-resident tile 的 18 条 LDS read 后原本立即执行一次 `lgkmcnt(0)`，而
+后面的 next-output K0 prefetch 与这些 LDS 结果独立。实验删除显式 wait，让 clang23
+把依赖等待下沉到 K0 prefetch 之后，并自动生成：
+
+```text
+lgkmcnt(6) -> MFMA
+lgkmcnt(4) -> MFMA
+lgkmcnt(2) -> MFMA
+lgkmcnt(0) -> MFMA
+```
+
+18 条 LGKM 的顺序为 SFA 1、SFB pair 1、A0 4、A1 4、B0 8；首四条 MFMA 每次
+依次消费两条 B0 read，所以 `6/4/2/0` 是逐指令最松且安全的计数。资源保持
+240 VGPR / 101 SGPR / 139264 B LDS / 零 spill。
+
+正确性通过 K=128/256/384/512/1024、batch=2、多 N tile、persistent
+1/2/3/4 output 与 4+1 tail。性能却没有形成稳定正收益：
+
+- 8192³ 多轮 ABBA 的总体变化仅约 0-0.2%，落在当前机器噪声内；
+- K=512 的 8 轮 ABBA 为 0/8 胜，均值约 **-0.23%**。
+
+原 wait 后已有地址计算和 next-output prefetch 覆盖大部分 LDS latency；改成四条
+progressive wait 只增加了前端指令。**方向关闭，默认源码已恢复。**
+
+---
+
+## 42. 跨 output K1 队列重排：`vmcnt(32)` 正确，但仍然更慢
+
+为验证 C store 是否把下一 output 的 producer 长时间堵在 VMEM 队列后，做过完整
+K1 handoff：上一 output final tile 在 20/12 分界发布 K0并释放旧 stage，随后先把
+下一 output 的完整 K1 写入旧 stage，再发当前 output 的 32 条 C store。下一边界用：
+
+```text
+[K1 loads 8/9][C stores 32] -> vmcnt(32)
+```
+
+gfx9 VMEM 按年龄退休，因此 `vmcnt(32)` 恰好保证所有 K1 load 完成，同时允许 32 条
+更年轻的 store 继续在飞。K=128/256/384/512/1024、batch=2、多 N tile、persistent
+1/2/3/4/4+1 均 `ALL BATCHES VALID`。
+
+代价是资源从 240/101 增至 243/106，并出现 SGPR lane spill。HIP 7 三方轮转结果：
+
+| 版本 | median ms | 相对 reference |
+|---|---:|---:|
+| reference | 0.40695 | — |
+| handoff + `vmcnt(0)` | 0.41205 | -1.25% |
+| handoff + `vmcnt(32)` | 0.40990 | -0.72% |
+
+精确计数能追回约 0.5%，但整个结构仍为负。原因是保留版的 32 条 store 本来就与
+下一 output 的 B seed、clear、K0 前 20 条 MFMA 重叠；新路径增加控制流和寄存器
+压力，却没有消除 store 的物理服务时间。实验代码已从默认源码回退。
+
+---
+
+## 43. quadrant accumulator recycling：计数完全成立，实测 0/6 胜
+
+为把 C store 与下一 output 的 K0 MFMA 真正交错，实现了独立诊断变体：
+
+```text
+variants/quadrant_k0_handoff/
+```
+
+做法不是复制第二套 accumulator，而是把上一 output 的 C 延迟到下一 output tile0：
+
+```text
+store(old quadrant, 8 x dwordx4)
+clear(the same 32 accumulator VGPRs)
+compute(next-output K0 quadrant, 8 MFMA)
+```
+
+前三个 quadrant 在 20-MFMA 分界前完成，因此真实队列是：
+
+```text
+prior vmcnt(0)
+  -> next-output K1 loads: 8 / 9 per wave
+  -> old-C stores: 8 + 8 + 8
+  -> vmcnt(24) + lgkmcnt(0) + barrier
+  -> B K2 producer
+  -> remaining 12 MFMA, including Q11 store/clear/reuse
+```
+
+这里必须是 `vmcnt(24)`：使用 32 时，普通 wave 的 `8 loads + 24 stores` 队列可能
+完全不等待，K1 尚未完成就被 barrier 发布。linked-ISA gate 已同时验证两种 stage
+parity、K1 8/9 loads、前三组各 8 stores、20/12 MFMA 分界、barrier 后 Q11 的 8 条
+store，以及每个 quadrant 的 store-source/clear/MFMA destination 为同一组 32 VGPR。
+
+构建命令仍固定本机 clang23：
+
+```bash
+ALLOW_SGPR_SPILL=1 \
+TOOLCHAIN=/opt/rocm-llvm23-46fcb339 \
+OPUS_INCLUDE_DIR=/root/workspace/aiter/csrc/include \
+./variants/quadrant_k0_handoff/build.sh
+```
+
+linked 资源：
+
+```text
+MFMA=192  VGPR=243  SGPR=106  sspill=5
+scratch=0  private=0  LDS=139264  vmcnt24=2
+```
+
+默认 gate 会因 5 个 SGPR lane spill 拒绝；`ALLOW_SGPR_SPILL=1` 只用于诊断。
+spill 通过 `v_writelane/v_readlane`，不访问 scratch，且 LDS 仍把 occupancy 限制为
+1 WG/CU。
+
+正确性覆盖：
+
+- random：M={256,512,768,1024,1280} × K={128,256,384,512}，N=256；
+- batch=2；
+- N 多 tile 与 persistent 1/2/3/4、4+1 tail；
+- unit scale、SFA/SFB row pattern、SFA/SFB K-group pattern 及其组合。
+
+全部输出 `ALL BATCHES VALID`。
+
+冻结候选（exe SHA256 `38e76a...3761`，ISA SHA256 `e37555...8280`）在 HIP 7 做
+6 轮 ABBA，命令均为 8192³、`-b 1 -v 0 -w 200 -i 100`：
+
+```text
+reference mean / median = 0.40638 / 0.40695 ms
+candidate mean / median = 0.41368 / 0.41395 ms
+paired wins             = 0 / 6
+throughput delta         = -1.76% mean / -1.69% median
+```
+
+虽然机器 guard 非 CLEAN，但同轮配对 0/6 全输，且幅度远大于此前噪声，因此足以判为
+NO-GO。ATT 上界也支持这个结论：每 WG 只有 3 个内部 output transition，一个 K128
+compute interval 约 2370 ticks；即使三个 transition 都完整隐藏 32 条 K0 MFMA，理论
+最多只回收约 7110 ticks，即 **+0.93%**，本身不可能提供本机所需的 +2%。
+
+**结论：主循环和 output-transition 的安全 wait 已逐 wave 收紧；继续缩短 tile 结尾
+同步没有 2-3% 空间。** 当前 3 P 缺口主要仍是 fp32 C 的 268 MB 物化与 operating
+point。若接口不变，下一步应优先验证干净 MI355X 的频率/功耗口径；若允许改上层契约，
+真正有量级上界的是融合后继算子或避免完整 fp32 C 写回，而不是继续放松 waitcnt。
+
+---
+
+## 44. Copilot 的跨-wave co-execution 建议：两项源码实验均为负收益
+
+本节仍以纯源码 `p18 + two-quadrant early-C` 为唯一 baseline，固定本机 clang23，
+不使用 `ctrl_fill`、AGPR、ISA 重排、`.co` 注入或额外 scheduler flags，只跑
+unified-scale。
+
+### 44.1 提前 B1 后半段 LDS read
+
+建议的核心是把后四条 B1 `ds_read_b128` 放到 B0 的中点，再用余下八条 B0 MFMA
+覆盖其延迟。等价的寄存器安全版本已实现为 `MXFP8_SOURCE_B1_EARLY4`：先完成仍需
+B0/N-group-0 寄存器的计算，发出四条 B1 DS read，再执行四个独立
+`mma_scale_repeat_n2`（八条 MFMA）。另测了带 MFMA/DS schedule-group 的版本。
+
+GPU7、8192^3、`w200/i100`、8 轮 ABBA：
+
+| 候选 | 几何平均 | 胜局 | 最快值相对 baseline |
+|---|---:|---:|---:|
+| `01_b1_early4_plain` | -0.9349% | 1/8 | -0.9167% |
+| `02_b1_early4_group` | -1.4219% | 1/8 | -0.9814% |
+
+因此该 LDS/MFMA co-execution 位置已经实测关闭。额外的 `lgkmcnt(0)` 也不应加入：
+clang23 在最终 ISA 中已经根据各 B1 operand 的首次使用生成渐进式 partial wait，强制
+清零只会更保守。
+
+### 44.2 把 future-B producer 拆为两批
+
+新增纯源码诊断开关 `MXFP8_SOURCE_FUTURE_B_SPLIT=1`，把 steady-loop producer 从：
+
+```text
+8 future-B direct-to-LDS VMEM + 12 MFMA
+```
+
+改为：
+
+```text
+4 future-B direct-to-LDS VMEM + 2 MFMA + 4 VMEM + 10 MFMA
+```
+
+这里 Copilot 文本中的“四个 load”实际是四个 C++ `async_load`；每个调用在 gfx950
+最终展开为两条 `buffer_load_dwordx4 ... lds`，所以硬件指令总数是八条。
+
+8 个 correctness shape（含 batch=2、K tail、多 N tile 与大 K）在 baseline 和
+split 两个版本上全部通过。linked ISA 资源对比：
+
+| 项目 | baseline | future-B split |
+|---|---:|---:|
+| 静态指令 | 1607 | 1655 |
+| MFMA / VMEM load / DS read / store | 192 / 91 / 144 / 32 | 相同 |
+| `s_waitcnt` / `s_barrier` | 50 / 7 | 相同 |
+| VGPR / SGPR | 240 / 101 | 240 / 104 |
+| spill / scratch | 0 | 0 |
+
+拆分没有删除任何真实等待或同步，却因四重 unroll 中重复 producer 控制流增加 48 条
+静态指令、3 SGPR，并把统计到的比较/分支/exec 控制类指令从 79 增至 107。
+
+GPU7、8192^3、`w200/i100`、8 轮 ABBA：
+
+```text
+geometric = -4.8505%
+median    = -5.0917%
+wins      = 0/8
+minimum   = 2.74497 P baseline, 2.60948 P split
+```
+
+原因是 baseline 的 producer VMEM 发出后本来就是异步的，硬件已经可以在另一条 wave
+及后续 XDL 工作之间重叠其服务时间；源码强拆反而延迟了第二批请求，并重复了 uniform
+branch/exec 管理。`__builtin_amdgcn_sched_barrier(0)` 只是编译器调度边界，不是运行时
+workgroup barrier；删掉或移动它不等于删除 `s_waitcnt`/`s_barrier`。
+
+**结论：Copilot 的两项具体改法在当前 8-wave unified-scale 内核上均为明确负收益，
+不进入 355 候选集。**
+
+---
+
+## 45. 2026-09-04：4-wave 大结构缺口审计——`256x256x128` 已是当前约束下的结构上限
+
+本节只审计纯源码、unified-scale、clang23 的 4-wave 路线，不使用手写 MFMA、ISA
+后处理或额外 backend flags。保留基线为：
+
+```text
+variants/four_wave_c_agpr_tail_split2_sfa_hybrid_wait6_v1
+BLOCK_TILE = 256x256x128
+4 x Wave64, T_M x T_N = 2 x 2, 1 wave/SIMD
+ordinary VGPR = 160, AGPR = 256, combined = 416
+LDS = 139264 / 163840 B
+scaled MFMA = 384, direct AGPR stores = 64
+MFMA -> 4xDTLDS windows = 20
+spill/private/scratch = 0
+本机 8192^3, w200/i100: about 2.46 PFlop/s
+```
+
+### 45.1 `launch_bounds(256, 1)` 不等于“512 VGPR 再加 256 AGPR”
+
+gfx950 对一条 resident wave 的约束是 **ordinary VGPR 与 AGPR 共用 512-position
+combined budget**。当前 4-wave 已使用：
+
+```text
+160 ordinary VGPR + 256 AGPR = 416 combined
+```
+
+因此只剩 96 个 combined positions。当前每条 wave 拥有 `128x128` 输出；四条 wave
+覆盖一个 `256x256` block。仅 C partial sums 就需要：
+
+```text
+B_M * B_N / (4 waves * 64 lanes)
+= 256 * 256 / 256
+= 256 FP32 registers / wave
+```
+
+这也是为什么 C 恰好占满 `a0:a255`。最小的规则扩张 `320x256` 已把 C live-set 提高到
+320 registers/wave；实际 mixed AGPR/VGPR 版本做到 480 combined、零 spill，但 8192^3
+仍为 `-15.8135%`、0/4。去掉 8192 的 grid-tail，在可整除的 10240x8192x8192 上也只是
+约 `-0.78%`，没有暴露出更大的 tile 吞吐收益。
+
+再扩到 `384x256` 时，仅 C 就是 384 registers/wave；加上当前约 152--160 个 operand、
+地址和控制寄存器后超过 512，所以已经不是 spill-free 候选。`512x256` 更是仅 C 就需要
+512 registers/wave，尚未放入任何 A/B/scale 状态便已用尽上限。
+
+### 45.2 非方形大 tile 不能免费增加 B 复用
+
+保持每 wave 的 `128x128` C、把拓扑改成 `T_M=4,T_N=1` 的 `512x128x128` 已完整实现。
+它确实让同一块 B 服务四个 M wave，但方形 tile 的 operand 字节数从：
+
+```text
+256x256: A 32768 B + B 32768 B = 65536 B / K128
+512x128: A 65536 B + B 16384 B = 81920 B / K128
+```
+
+增加 25%。由于双缓冲需要 174080 B、超过 LDS 上限，该版本还必须单缓冲 A，并增加
+读完旧 A 后才允许覆盖的 workgroup barrier。即使最终 ISA 保留 20 个 A co-execution
+窗口和 10 个 B 窗口，实测仍为 `-13.7184%`、0/8。
+
+镜像的 `128x512` 具有相同的 `+25%` operand-byte 下界和 174080 B 双缓冲需求，只是把
+单缓冲压力移到更重的 B 路径，结构上不优于已经失败的 `512x128`。同一个
+`256x256` tile 内改成 `4x1` 或 `1x4` topology 也会把每 wave 的 LDS operand reads 从
+`8 A + 8 B` 增为 `4+16` 或 `16+4`，同样增加 25%，所以 `2x2` 已是四条 wave 的最小
+operand-read 拓扑。
+
+### 45.3 `B_K=256` 只是重新命名现有两个 K128 stage，不能免费减半同步
+
+当前双缓冲 K128 占 139264 B。把 A/B/scale 真正做成双缓冲 K256 需要：
+
+```text
+2 * 139264 = 278528 B > 163840 B
+```
+
+单缓冲 K256 虽仍约为 139264 B，但其物理内容恰好就是当前两个 K128 stage。若先完整
+装入 K256 再计算，会把原本隐藏在 K0 MFMA 下的 K1 VMEM 重新放回关键路径；若仍在
+计算前半 K128 时装入后半，则后半数据由不同 producer wave 写入 LDS，首次跨 wave
+消费前仍需要 publication barrier。也就是说它又退化为当前双 K128 pipeline，并没有
+减少 MFMA 数、数据量或 barrier 密度。
+
+此外 scaled opcode 本身仍是 `16x16x128`；`B_K=256` 需要两次相同的 K128 reduction，
+不会减少 XDL 工作。改用 `32x32x64_scale` 的独立版本虽把静态 MFMA 从 384 减到 192，
+但 DS/VMEM/store 和同步没有同比下降，权威 r4 为 `-12.3907%`、0/4。
+
+### 45.4 “同一 B 连算更多 A block”的硬限制是 C live-set
+
+当前一组 `256x256` output 已占 256 AGPR/wave。若在 K 外层同时推进第二个 M output，
+仅两组 C 就需要 512 accumulator registers/wave；再加 A/B/scale 和地址后必然超过
+combined 512。四个 A output 则需要 1024 accumulator registers/wave。
+
+把 partial C 暂存 LDS 也不可行：一组 `256x256` FP32 C 为 262144 B，已经超过整个
+workgroup LDS。每个 K128 后写回 global 则在 K=8192 时产生 64 次 store 和 63 次
+reload；全矩阵约 34.09 GB C traffic。要在 3 P 对应约 0.3665 ms 内完成，需约
+93 TB/s，仅此一项就远超设备能力。
+
+保留一组 C、让同一 WG 顺序处理两个 output 的 static-Mx2 K0 handoff 也已经做成纯
+源码、零 spill 版本；它保持全部 20 个 DTLDS 窗口，结果为 `-1.3460%`、0/4。它只能
+省 output 边界的一小段 prologue，不能让一个完整 B panel 跨两个长期 C live-set。
+
+### 45.5 用第二条 resident wave 隐藏延迟也已闭合
+
+当前 416 combined registers/wave，两个 resident waves/SIMD 需要 832，硬超 512；
+当前 LDS 也只能容纳一个 139264 B workgroup。独立 `128x128` 版本把资源降到
+144 combined、69632 B LDS，确实允许 2 WG/CU，但一个 WG 的输出面积缩为四分之一，
+而 residency 只翻倍。正式结果为 `-30.8559%`、0/4。因此 4-wave 的单-wave/SIMD
+不是一个尚未打开的 launch-bounds 开关，而是大 C tile 为换取复用所付出的资源代价。
+
+### 45.6 现有 co-execution 已覆盖最有价值的延迟窗口
+
+保留版 linked ISA 已有 20 个明确的 `MFMA -> 4x direct-to-LDS` 窗口，A/B 各 10 个。
+B1 三段 DS read 在四个 steady body 中都形成相同的 first-use 距离：
+
+```text
+B1 head:   c00 之后 4 MFMA 发出
+B1 tail-1: c00 之后 16 MFMA 发出
+B1 tail-2: c10 之后 4 MFMA 发出
+```
+
+tail-split2 已将 `SQ_WAIT_INST_LDS` 降低约 52.74%，hybrid SFA 又降低约 11.28%。剩余
+counter 压力已转向 general dependency / VMEM FIFO 和单-wave latency，而不是一段
+尚未发出的 LDS read。进一步拆 B1、把 A 做 quarter pipeline、携带 next-A/next-B、
+拆 future-B VMEM、提前 publication、改变 DS group count，均已有零收益或负收益结果。
+
+因此“每条 MFMA 后放内存操作”的正确部分已经落实；co-execution 只隐藏相互独立指令
+的执行窗口，不能取消跨 wave LDS publication、首次 operand dependency 或 stage
+overwrite 的真同步。
+
+### 45.7 审计结论
+
+在“4 waves、unified-scale、clang23、源码级、FP32 C 接口、零 spill”这些约束下，
+没有发现仍未利用且预期能提供 `>0.5%` 的安全大结构：
+
+- 扩大 tile：先撞 C combined-register 上限，已实现的最大可行 `320x256` 仍负收益；
+- 改成长条 tile复用 B：`512x128` 已实测大幅负收益；
+- `B_K=256`：LDS 不容纳双缓冲，单缓冲不能消除真实 publication；
+- 两个 output 同时共享 B：C live-set 不可驻留；
+- 2 WG/CU：缩小 tile 的复用损失远大于 occupancy 收益；
+- 更多 LDS/VMEM co-execution：主要 first-use 窗口已经排满，剩余排列已有负结果。
+
+本轮审计不再创建重复 variant，也不修改保留 baseline。后续仍可做的只是 wait/group
+count、少量 VMEM burst、地址/控制指令等微调，合理预期是单项明显小于 1%。如果要找
+真正有量级的下一步，必须放宽接口约束，例如融合后继算子、避免完整 FP32 C 写回；
+这已经不是当前 GEMM kernel 内部的 pipeline 调序。
+
+---
+
+## 46. 2026-09-04：4W/8W 公平拓扑对照——4W 静态效率优势成立，但单-wave 延迟仍占主导
+
+45 节只能说明当前完整 4W 比完整 8W 慢，仍混入了 8W 的 persistent output x4。
+为验证“理想 4-wave 应更快”的判断，本节新增纯源码 8W single-output 控制：
+
+```text
+variants/eight_wave_single_output_source_control_v1
+```
+
+它与 4W winner 使用相同的 `256x256x128` block tile、相同的一个 output/WG 和
+1024-WG grid。唯一结构差异是 8W 的 `4x2` wave topology 对 4W 的 `2x2` topology。
+两边均由
+`/root/toolchains/rocm-llvm23-46fcb339-build/bin/clang++` 直接从 C++/HIP 构建，
+只保留 p18 + two-quadrant early-C 源码路径，不使用 pre-RA flag、`ctrl_fill`、ISA
+重排或 code-object 注入。8W-t1 与 4W 均通过 8 项 unified-scale correctness，含
+K=1152，并保持零 spill/private/scratch。
+
+### 46.1 同为 single-output 的直接 ABBA
+
+GPU7、8192 cubed、`w200/i100`、四轮 mirrored ABBA：
+
+```text
+8W-t1 fastest       2.71668 PFlop/s
+4W-t1 fastest       2.47754 PFlop/s
+4W geometric delta  -8.6271%
+4W median delta     -8.5056%
+4W wins             0/4
+```
+
+另测 8W persistent-t4 对 8W-t1：几何均值只高 `+0.4171%`、3/4 wins，最快值
+反而基本打平（2.72162 P 对 2.72351 P）。因此当前 4W 的约 8.6% 差距不是
+persistent/grid/handoff 混淆造成的，而是 core topology/pipeline 自身的差距。
+
+### 46.2 专家关于静态效率的判断确实成立
+
+按每 logical K128、每 SIMD 归一化，8W 把同一 SIMD 上两条 wave 相加：
+
+| 项目 | 4W：1 wave/SIMD | 8W：2 waves/SIMD |
+| --- | ---: | ---: |
+| scaled MFMA | 64 | 64 |
+| DS read | 36 | 52 |
+| DTLDS VMEM | 平均 16.5 | 平均 16.5 |
+| waitcnt | 12--13 | 16 |
+| branch | 3 | 6 |
+| 总 issue 指令 | 约 185 | 约 216 |
+
+4W 对相同数学工作减少约 14% issue 指令、约 31% DS-read opcode 和约 33% 的
+LDS-to-VGPR 字节。因此不能把当前结果解释为“4-wave 理论没有优势”或“co-execution
+没有实现”。4W 最终 ISA 每个 K128 已有四个明确的
+`MFMA -> 4 x buffer_load ... lds` 窗口，完整静态 ISA 共 20 个。
+
+### 46.3 动态计数解释了为什么静态优势没有变成墙钟优势
+
+用 `rocprofv3` 对 8W-t1 和 4W 做两组独立顺序交错采样。每进程先运行 20 次非采样
+warmup，再记录 8 个 dispatch，并剔除第一个 cold dispatch；每个 kernel 最终各有
+14 个 steady 样本。关键比值为：
+
+| 比值 | 8W-t1 | 4W |
+| --- | ---: | ---: |
+| `SQ_WAIT_ANY / SQ_WAVE_CYCLES` | 22.97% | 12.81% |
+| `SQ_WAIT_INST_ANY / SQ_WAVE_CYCLES` | 54.35% | 54.32% |
+| `SQ_WAIT_INST_LDS / SQ_WAVE_CYCLES` | 9.35% | 2.34% |
+
+这说明 4W 的 LDS 减量和 co-execution 是有效的：LDS wait 比例已经显著低于 8W。
+但总 instruction-issue wait 比例几乎完全不变，剩余空洞并不主要来自 LDS。
+
+每条 wave 的 `SQ_WAVE_CYCLES`：
+
+```text
+8W-t1  39446
+4W     48940   (+24.07%)
+```
+
+4W 的一条 wave 做两倍于 8W 单 wave 的 MFMA 工作，只用了 1.24 倍 wave cycles，
+所以它的单-wave 工作效率确实更高；但 8W 在每个 SIMD 上同时保留两条 wave，两个
+约 39446-cycle 的 wave 生命周期可以重叠。4W 只有一条 48940-cycle wave，无法在
+剩余 operand/scoreboard/issue 空洞出现时切换到 sibling wave。
+
+资源约束正好解释这一点：
+
+```text
+4W: 160 ordinary VGPR + 256 AGPR = 416 combined，1 wave/SIMD
+8W: 226 VGPR/wave，2 * 226 = 452 <= 512，2 waves/SIMD
+```
+
+4W 每 SIMD 的 accumulator-chain 总数也没有超过 8W：4W 是一条 wave 的 64 条链，
+8W 是两条 wave 各 32 条链。当前实现只是把相同的 SIMD-level ILP 合并到一个更大的
+register context 中，同时失去了硬件 wave switching。
+
+### 46.4 结论
+
+专家的判断应理解为一个有条件的上限判断：
+
+```text
+4W 节省的 DS/控制/重复工作
+    >
+失去第二条 resident wave 后暴露的 dependency/issue latency
+```
+
+当前实现左侧优势已经存在，但右侧代价仍更大，所以 4W-t1 实测慢约 8.6%。这不是
+persistent 导致，也不是 B1 LDS co-execution 未生效。若继续推进 4W，目标应从
+“再提前一组 LDS read”改为缩短单 wave 的 48940-cycle critical path：重点检查
+scaled-MFMA 发射间隔、非 LDS operand dependency、前端/大 unrolled body，以及能否
+在不增加 live range 的前提下把真实地址/VALU/VMEM 工作填入更多 XDL 窗口。
+
+原始 ABBA 与 correctness 在：
+
+```text
+variants/eight_wave_single_output_source_control_v1
+```
+
+硬件计数与复现脚本在：
+
+```text
+variants/four_wave_vs_eight_wave_t1_counter_diag
+```
+
+---
+
+## 47. 2026-09-07：8W row-major scale queue4 + pair1 co-execution——ISA 有重叠，但整体回退 8.39%
+
+候选目录：
+
+```text
+variants/output_handoff_rowmajor_scale_vgpr_queue4_coexec_after_pair1_v1
+```
+
+本实验从冻结的 8-wave p18 + early-C unified-scale baseline 独立派生，目标是恢复
+row-major scale ABI，并把 scale transpose/cooked-LDS publication 放进 scaled MFMA
+窗口，而不是依赖 host 预重排。
+
+### 47.1 设计与正确性契约
+
+- `wave_id_n == 0` 的四条 wave 生产 SFA，`wave_id_n == 1` 的四条 wave 生产 SFB；
+- 每个 producer 用普通 `load<16>` 读取同一逻辑 row 上连续四个 K128 tile 的 scale；
+- 四个 dword 保存在单个 VGPR queue 中，以 `next_scale_tile & 3` 选择当前 tile；
+- 每 tile 用 `transpose_scale_dword_4x4()` 做 lane transpose，再用 `store<4>` 写入原有
+  cooked scale LDS layout；
+- steady loop 中的 `load_next_scale()` 从 loop header 移到第一组
+  `mma_scale_repeat_n2()` 之后，即先发射两条 scaled MFMA，再执行下一 tile 的
+  transpose、LDS publication 和必要的 phase-3 refill；
+- phase-3 refill 仍是普通 `buffer_load_dwordx4`，空 memory fence 防止 LLVM 把它
+  提到 LDS publication 之前；
+- 不含手写 ISA、code-object 后处理或额外 scale 专用 `sched_group_barrier`。
+
+queue4 的 host 契约明确为：
+
+```text
+num_tiles_k % 4 == 0
+```
+
+因此 K1（`K=128`）是 rejection gate，最小支持 K4（`K=512`）。GPU7 unified-scale
+验证覆盖并通过：K1 拒绝、K4/K64 单 output、persistent 3/4、4+tail、N 方向 4 tiles
+和 batch2。完整输出在候选目录的 `correctness_gpu7.log`。
+
+### 47.2 clang23 静态资源与 linked ISA
+
+固定编译器：
+
+```text
+/root/toolchains/rocm-llvm23-46fcb339-build/bin/clang++
+```
+
+冻结 baseline template SHA256：
+
+```text
+3df28e19473c35e596503beb55caea4680b697e15c3810001f3bfd39d4ef8cce
+```
+
+候选 template SHA256：
+
+```text
+361833bf4bc6dd2ea8b005eca32a80073ed652bae252f66f0be4d0c41a4eab2d
+```
+
+| 项目 | frozen baseline | queue4 + pair1 |
+| --- | ---: | ---: |
+| 总指令 | 1607 | 1724 |
+| scaled MFMA | 192 | 192 |
+| DTLDS | 91 | 84 |
+| 普通 `buffer_load_dwordx4` | 0 | 4 |
+| DS read / write | 156 / 0 | 156 / 7 |
+| permute | 0 | 28 |
+| `v_mov_b32` | 384 | 408 |
+| wait / NOP | 50 / 114 | 60 / 114 |
+| VGPR / SGPR | 240 / 101 | 250 / 98 |
+| LDS bytes | 139264 | 139264 |
+| spill/private/scratch | 0 | 0 |
+
+四个普通 b128 scale load 到下一次 VMEM wait 之前的 MFMA 数为：
+
+```text
+[0, 18, 18, 18]
+```
+
+首项是 cold start；persistent handoff 和两个 steady phase-3 refill 均保留 18 条
+MFMA 的服务窗口。linked gfx950 ISA 确实把 `v_permlane*`、`v_perm_b32` 和
+`ds_write_b32` 穿插到后续 MFMA 链中，因此 co-execution 本身已经发生。这里没有再加
+新的 group 约束，因为需要隐藏的指令已经进入目标调度区；额外 barrier 只会固定
+cadence，并不能消除新增的动态指令。
+
+### 47.3 w200/i100 r4 ABBA
+
+GPU7，`8192x8192x8192`，warmup 200，iterations 100，同一 clang23 构建，四轮
+mirrored ABBA：
+
+```text
+frozen baseline   2.696681 PFlop/s
+queue4 + pair1    2.470272 PFlop/s
+geometric delta  -8.3931%
+wins              0/4
+```
+
+逐轮分别为 `-8.5708%`、`-8.4206%`、`-9.5057%`、`-7.0588%`。候选未达到
+`>= +0.3%` 且 `>= 3/4 wins` 的晋级门槛，因此没有运行 r8。权威 TSV 和 summary：
+
+```text
+variants/output_handoff_rowmajor_scale_vgpr_queue4_coexec_after_pair1_v1/
+  results_vs_frozen_baseline_gpu7_w200_i100_r4.tsv
+  results_vs_frozen_baseline_gpu7_w200_i100_r4.summary.txt
+```
+
+### 47.4 结论
+
+该实验回答了“co-execution 是否发生”和“发生后是否足够”两个不同问题：
+
+```text
+co-execution：发生
+性能收益：没有，整体 -8.3931%
+```
+
+MFMA 窗口能覆盖一部分 transpose/store/refill 服务时间，但不能把新增的 28 条 permute、
+24 条额外 move、7 条 DS write、10 条额外 wait 和更长 live range 变成零成本。后续若
+继续 row-major scale 路线，必须先减少真实动态工作或跨 tile 复用 transpose 结果；只
+继续调整 `sched_group_barrier` cadence，不足以追回约 8.4% 的差距。本候选拒绝，不
+进入 retained baseline。

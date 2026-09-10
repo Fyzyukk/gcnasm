@@ -48,6 +48,77 @@ using opus::operator""_I;
 #define MXFP8_EARLY_C_WAVE_SPLIT 0
 #endif
 
+// Source-only steady-state B1 prefetch experiment.  Mode 0 is byte-for-byte
+// the retained p18 + early-C source path.  Mode 1 finishes every B0 use of
+// N-group 0 first, then starts the four remaining B1 LDS reads while the
+// independent B0/N-group-1 MFMAs are still available to cover their latency.
+// Mode 2 adds the gfx950 scheduler grouping used to request an XDL + DS4
+// co-execution window; it does not inject or rewrite assembly.
+#ifndef MXFP8_SOURCE_B1_EARLY4
+#define MXFP8_SOURCE_B1_EARLY4 0
+#endif
+
+// Number of B1 MFMA pairs completed before the steady-state tile handoff.
+// The retained source uses 2 (20/12 MFMAs around the barrier).  Other values
+// move only the existing wait/barrier/next-B-producer block.
+#ifndef MXFP8_SOURCE_MAIN_HANDOFF_PAIRS
+#define MXFP8_SOURCE_MAIN_HANDOFF_PAIRS 2
+#endif
+
+// Source-only formulations of the steady B-producer predicate.  Mode 0 is
+// the retained control flow.  The other modes preserve the producer payload
+// and the 20/12 handoff while exposing uniform control to clang in different
+// forms, so their linked schedules can be compared without ISA rewriting.
+#ifndef MXFP8_SOURCE_CTRL_SCHEDULE
+#define MXFP8_SOURCE_CTRL_SCHEDULE 0
+#endif
+
+// Reuse one fixed-B K0 half across the four persistent M outputs.  The
+// selected half lives in one extra padded LDS slot and is loaded only once by
+// the workgroup.  Mode 1 caches B0; mode 2 caches B1.
+#ifndef MXFP8_PERSISTENT_B_K0_CACHE
+#define MXFP8_PERSISTENT_B_K0_CACHE 0
+#endif
+
+#if MXFP8_PERSISTENT_B_K0_CACHE < 0 || MXFP8_PERSISTENT_B_K0_CACHE > 2
+#error "MXFP8_PERSISTENT_B_K0_CACHE must be 0, 1 (B0), or 2 (B1)"
+#endif
+
+// Replace the fixed four-iteration loop plus an internal M-tail break with a
+// single uniform trip count.  This keeps the same general-shape contract while
+// exposing output-loop control without a divergent exit mask.
+#ifndef MXFP8_SOURCE_OUTPUT_TRIP_COUNT
+#define MXFP8_SOURCE_OUTPUT_TRIP_COUNT 0
+#endif
+
+#if MXFP8_SOURCE_OUTPUT_TRIP_COUNT < 0 || MXFP8_SOURCE_OUTPUT_TRIP_COUNT > 2
+#error "MXFP8_SOURCE_OUTPUT_TRIP_COUNT must be 0, 1, or 2"
+#endif
+
+// Prefetch the next persistent output's complete K1 tile immediately after
+// its K0 handoff.  This places every required K1 VMEM load before the final
+// sixteen C stores, so the next output's first steady boundary can publish K1
+// with vmcnt(16) instead of draining those younger stores.
+#ifndef MXFP8_SOURCE_NEXT_OUTPUT_K1_EARLY
+#define MXFP8_SOURCE_NEXT_OUTPUT_K1_EARLY 0
+#endif
+
+// Split the steady B(t+2) producer burst around the first independent B1
+// MFMA pair.  Each source async_load below expands to two direct-to-LDS VMEM
+// instructions, so this changes the producer-wave stream from 8 VMEM + 12
+// MFMA to 4 VMEM + 2 MFMA + 4 VMEM + 10 MFMA without changing bytes or the
+// workgroup synchronization protocol.
+#ifndef MXFP8_SOURCE_FUTURE_B_SPLIT
+#define MXFP8_SOURCE_FUTURE_B_SPLIT 0
+#endif
+
+// The retained C layout has two rows of four vector fragments.  Mode 1 keeps
+// one source-level base per row.  Mode 2 additionally issues the b128 builtin
+// directly so the N-fragment delta remains a compile-time byte displacement.
+#ifndef MXFP8_SOURCE_CSTORE_IMMEDIATE
+#define MXFP8_SOURCE_CSTORE_IMMEDIATE 0
+#endif
+
 #if defined(MXFP8_EARLY_C_STORE_THREE_QUADRANTS) && \
     (!defined(MXFP8_EARLY_C_STORE) || MXFP8_OUTPUT_B1_HANDOFF_PAIRS != 4)
 #error "three-quadrant early store requires EARLY_C_STORE and p24 handoff"
@@ -69,6 +140,107 @@ __device__ inline void load_b_range_scale(
             value,
             opus::number<i * T::VEC_B>{},
             opus::number<(i + 1) * T::VEC_B>{});
+    });
+}
+
+template<class T, class Mem, class V, class Layout, int Aux, int Quadrant>
+__device__ inline void store_c_immediate_offsets(
+    Mem& mem,
+    const V& value,
+    const Layout& layout,
+    int scalar_offset,
+    opus::number<Aux>,
+    opus::number<Quadrant>) {
+    using LT = opus::layout_load_traits<Layout, T::VEC_C>;
+    constexpr int fragments = T::E_M * T::E_N;
+    static_assert(LT::r_elem.value == fragments);
+    static_assert(T::E_M == 2 && T::E_N == 4);
+
+    const auto offsets = opus::layout_to_offsets<T::VEC_C>(layout);
+    opus::static_for<T::E_M>([&](auto m_repeat) {
+        constexpr int m = decltype(m_repeat)::value;
+        constexpr int base_index = m * T::E_N;
+        int vector_base = offsets[base_index];
+#if MXFP8_SOURCE_CSTORE_IMMEDIATE == 4
+        asm volatile("" : "+v"(vector_base) ::);
+#endif
+        opus::static_for<T::E_N>([&](auto n_repeat) {
+            constexpr int n = decltype(n_repeat)::value;
+            constexpr int fragment = base_index + n;
+            constexpr int immediate_elements = n * T::W_N * T::T_N;
+            auto payload = opus::slice(
+                value,
+                opus::number<fragment * T::VEC_C>{},
+                opus::number<(fragment + 1) * T::VEC_C>{});
+#if MXFP8_SOURCE_CSTORE_IMMEDIATE >= 2
+            using scalar_type = typename Mem::scalar_type;
+            constexpr int immediate_bytes =
+                immediate_elements * sizeof(scalar_type);
+            static_assert(sizeof(payload) == 16);
+#if MXFP8_SOURCE_CSTORE_IMMEDIATE == 2 || \
+    MXFP8_SOURCE_CSTORE_IMMEDIATE == 4 || \
+    MXFP8_SOURCE_CSTORE_IMMEDIATE == 5
+            __builtin_amdgcn_raw_buffer_store_b128(
+                __builtin_bit_cast(opus::u32x4_t, payload),
+                mem.cached_rsrc,
+#if MXFP8_SOURCE_CSTORE_IMMEDIATE == 5
+                vector_base * sizeof(scalar_type) + immediate_bytes +
+                    Quadrant * 512,
+                scalar_offset * sizeof(scalar_type) - Quadrant * 512, Aux);
+#else
+                vector_base * sizeof(scalar_type) + immediate_bytes,
+                scalar_offset * sizeof(scalar_type), Aux);
+#endif
+#else
+            __builtin_amdgcn_raw_buffer_store_b128(
+                __builtin_bit_cast(opus::u32x4_t, payload),
+                mem.cached_rsrc, vector_base * sizeof(scalar_type),
+                scalar_offset * sizeof(scalar_type) + immediate_bytes, Aux);
+#endif
+#else
+            mem.template store<T::VEC_C>(
+                payload, vector_base + immediate_elements, scalar_offset,
+                opus::number<Aux>{});
+#endif
+        });
+    });
+}
+
+template<class T, class V, int Aux, int Quadrant>
+__device__ inline void store_c_structured(
+    __amdgpu_buffer_rsrc_t& resource,
+    const V& value,
+    int lane_id,
+    int wave_id_m,
+    int wave_id_n,
+    opus::number<Aux>,
+    opus::number<Quadrant>) {
+    constexpr int half_m = Quadrant / 2;
+    constexpr int half_n = Quadrant % 2;
+    constexpr int fragments = T::E_M * T::E_N;
+    static_assert(T::E_M == 2 && T::E_N == 4);
+
+    const int row_base = half_m * T::HALF_B_M +
+                         wave_id_m * T::W_M + lane_id % T::W_M;
+    const int col_base = half_n * T::HALF_B_N +
+                         wave_id_n * T::W_N +
+                         (lane_id / T::W_M) * T::VEC_C;
+    opus::static_for<T::E_M>([&](auto m_repeat) {
+        constexpr int m = decltype(m_repeat)::value;
+        const int row = row_base + m * T::W_M * T::T_M;
+        opus::static_for<T::E_N>([&](auto n_repeat) {
+            constexpr int n = decltype(n_repeat)::value;
+            constexpr int fragment = m * T::E_N + n;
+            auto payload = opus::slice(
+                value,
+                opus::number<fragment * T::VEC_C>{},
+                opus::number<(fragment + 1) * T::VEC_C>{});
+            const int col_bytes =
+                (col_base + n * T::W_N * T::T_N) * sizeof(opus::fp32_t);
+            __builtin_amdgcn_struct_buffer_store_format_v4f32(
+                __builtin_bit_cast(opus::fp32x4_t, payload), resource,
+                row, col_bytes, 0, Aux);
+        });
     });
 }
 
@@ -436,12 +608,31 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
     const int output_stride_sf =
         scale_producer_is_sfa ? num_tiles_k * kargs.stride_sfa : 0;
 
+#if MXFP8_SOURCE_OUTPUT_TRIP_COUNT == 2
+    const int remaining_output_tiles = num_tiles_m - first_block_m;
+    int output_tiles_left =
+        remaining_output_tiles < T::OUTPUT_TILES_PER_WG
+            ? remaining_output_tiles
+            : T::OUTPUT_TILES_PER_WG;
+    int output_tile = 0;
+    do {
+#elif MXFP8_SOURCE_OUTPUT_TRIP_COUNT == 1
+    const int remaining_output_tiles = num_tiles_m - first_block_m;
+    const int output_tile_limit =
+        remaining_output_tiles < T::OUTPUT_TILES_PER_WG
+            ? remaining_output_tiles
+            : T::OUTPUT_TILES_PER_WG;
+    for (int output_tile = 0; output_tile < output_tile_limit; ++output_tile) {
+#else
     for (int output_tile = 0; output_tile < T::OUTPUT_TILES_PER_WG;
          ++output_tile) {
+#endif
     const int block_m = first_block_m + output_tile;
+#if MXFP8_SOURCE_OUTPUT_TRIP_COUNT == 0
     if (block_m >= num_tiles_m) {
         break;
     }
+#endif
     const int row = block_m * T::B_M;
 
     auto g_a = make_gmem(
@@ -450,12 +641,23 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
     auto g_b = make_gmem(
         reinterpret_cast<const D_B*>(kargs.ptr_b) +
         batch_id * kargs.stride_b_batch + col * kargs.stride_b);
-    auto g_c = make_gmem(
-        reinterpret_cast<D_C*>(kargs.ptr_c) +
-        batch_id * kargs.stride_c_batch + row * kargs.stride_c + col);
+    auto* g_c_base = reinterpret_cast<D_C*>(kargs.ptr_c) +
+                     batch_id * kargs.stride_c_batch +
+                     row * kargs.stride_c + col;
+    auto g_c = make_gmem(g_c_base);
+#if MXFP8_SOURCE_CSTORE_IMMEDIATE == 6
+    auto g_c_struct = __builtin_amdgcn_make_buffer_rsrc(
+        static_cast<void*>(g_c_base),
+        static_cast<unsigned short>(kargs.stride_c * sizeof(D_C)),
+        0xffffffffu, buffer_default_config());
+#endif
 
     const int wave_id_m = wave_id % T::T_M;
     const int wave_id_n = wave_id / T::T_M;
+#if MXFP8_SOURCE_CTRL_SCHEDULE == 3 || MXFP8_SOURCE_CTRL_SCHEDULE == 4
+    const int scalar_b_producer =
+        __builtin_amdgcn_readfirstlane(static_cast<int>(wave_id_n == 1));
+#endif
 #if MXFP8_EARLY_C_WAVE_SPLIT
     const bool early_c_pre_wave =
         wave_id_n == MXFP8_EARLY_C_WAVE_SPLIT - 1;
@@ -484,7 +686,18 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
     constexpr int smem_a_elem = T::smem_m_rep * (T::smem_linear_wave + T::smem_padding);
     constexpr int smem_b_elem = T::smem_n_rep * (T::smem_linear_wave + T::smem_padding);
     __shared__ char smem_a[smem_a_elem * 4 * sizeof(D_A)];
+#if MXFP8_PERSISTENT_B_K0_CACHE
+    constexpr int smem_total_bytes =
+        smem_a_elem * 4 * sizeof(D_A) +
+        smem_b_elem * 5 * sizeof(D_B) +
+        (T::packed_sfa_tile_elem + T::packed_sfb_tile_elem) *
+            2 * sizeof(D_SF);
+    static_assert(smem_total_bytes <= 160 * 1024,
+                  "persistent B K0 cache exceeds the gfx950 LDS budget");
+    __shared__ char smem_b[smem_b_elem * 5 * sizeof(D_B)];
+#else
     __shared__ char smem_b[smem_b_elem * 4 * sizeof(D_B)];
+#endif
     auto s_a = make_smem(reinterpret_cast<D_A*>(smem_a));
     auto s_b = make_smem(reinterpret_cast<D_B*>(smem_b));
 
@@ -516,6 +729,9 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
     auto gb_offset = [&](int half_tile_n, int tile_k) { return half_tile_n * T::HALF_B_N * kargs.stride_b + tile_k * T::B_K; };
     auto sa_offset = [&](int stage, int half_tile_m) { return (stage * 2 + half_tile_m) * smem_a_elem; };
     auto sb_offset = [&](int stage, int half_tile_n) { return (stage * 2 + half_tile_n) * smem_b_elem; };
+#if MXFP8_PERSISTENT_B_K0_CACHE
+    constexpr int sb_k0_cache_offset = 4 * smem_b_elem;
+#endif
     auto gsf_offset = [&](int output_delta, int tile_k) {
         return (output_tile + output_delta) * output_stride_sf +
                tile_k * stride_sf;
@@ -551,11 +767,23 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
         async_load<T::VEC_A>(g_a, s_a.ptr, u_ga,
                              u_sa + sa_offset(stage, 0), ga_offset(0, 0));
         async_load<T::VEC_B>(g_b, s_b.ptr, u_gb,
-                             u_sb + sb_offset(stage, 0), gb_offset(0, 0));
+                             u_sb +
+#if MXFP8_PERSISTENT_B_K0_CACHE == 1
+                                 sb_k0_cache_offset,
+#else
+                                 sb_offset(stage, 0),
+#endif
+                             gb_offset(0, 0));
         async_load<T::VEC_A>(g_a, s_a.ptr, u_ga,
                              u_sa + sa_offset(stage, 1), ga_offset(1, 0));
         async_load<T::VEC_B>(g_b, s_b.ptr, u_gb,
-                             u_sb + sb_offset(stage, 1), gb_offset(1, 0));
+                             u_sb +
+#if MXFP8_PERSISTENT_B_K0_CACHE == 2
+                                 sb_k0_cache_offset,
+#else
+                                 sb_offset(stage, 1),
+#endif
+                             gb_offset(1, 0));
 
         s_waitcnt_vmcnt(0_I);
         s_waitcnt_lgkmcnt(0_I);
@@ -581,6 +809,12 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
 #pragma unroll 4
     for (tile = 0; tile + 1 < loops; ++tile) {
         const int next_stage = stage ^ 1;
+#if MXFP8_SOURCE_CTRL_SCHEDULE == 1 || MXFP8_SOURCE_CTRL_SCHEDULE == 3
+        const int future_b_tile = tile + 2;
+#elif MXFP8_SOURCE_CTRL_SCHEDULE == 2
+        int future_b_tile = tile + 2;
+        asm volatile("" : "+s"(future_b_tile) ::);
+#endif
 
         // Keeping the producer branch in a local callable preserves the
         // verified gfx950 control flow and register allocation.
@@ -600,15 +834,42 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
         v_a[0] = load<T::VEC_A>(s_a, u_ra + sa_offset(stage, 0));
         __builtin_amdgcn_sched_barrier(0);
 
-        v_b = load<T::VEC_B>(s_b, u_rb + sb_offset(stage, 0));
-        auto rb1_offsets_prefetch = opus::layout_to_offsets<T::VEC_B>(u_rb + sb_offset(stage, 1));
+        v_b = load<T::VEC_B>(
+            s_b, u_rb +
+#if MXFP8_PERSISTENT_B_K0_CACHE == 1
+                     (tile == 0 ? sb_k0_cache_offset : sb_offset(stage, 0))
+#else
+                     sb_offset(stage, 0)
+#endif
+        );
+        auto rb1_offsets_prefetch = opus::layout_to_offsets<T::VEC_B>(
+            u_rb +
+#if MXFP8_PERSISTENT_B_K0_CACHE == 2
+                (tile == 0 ? sb_k0_cache_offset : sb_offset(stage, 1))
+#else
+                sb_offset(stage, 1)
+#endif
+        );
         load_b_range_scale<T, 0, T::b_ds_read_insts / 2>(
             s_b, rb1_offsets_prefetch, v_b_second);
         __builtin_amdgcn_sched_barrier(0);
 
-        load_next_scale();
-        async_load<T::VEC_A>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(next_stage, 0), ga_offset(0, tile + 1), 0_I, opus::number<0>{});
-        async_load<T::VEC_A>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(next_stage, 1), ga_offset(1, tile + 1), 0_I, opus::number<0>{});
+#if MXFP8_SOURCE_NEXT_OUTPUT_K1_EARLY
+        const bool inherited_output_k1 = output_tile > 0 && tile == 0;
+        if (!inherited_output_k1) {
+#endif
+            load_next_scale();
+            async_load<T::VEC_A>(g_a, s_a.ptr, u_ga,
+                                 u_sa + sa_offset(next_stage, 0),
+                                 ga_offset(0, tile + 1), 0_I,
+                                 opus::number<0>{});
+            async_load<T::VEC_A>(g_a, s_a.ptr, u_ga,
+                                 u_sa + sa_offset(next_stage, 1),
+                                 ga_offset(1, tile + 1), 0_I,
+                                 opus::number<0>{});
+#if MXFP8_SOURCE_NEXT_OUTPUT_K1_EARLY
+        }
+#endif
         __builtin_amdgcn_sched_barrier(0);
 
         s_waitcnt_lgkmcnt(opus::number<8>{});
@@ -625,6 +886,83 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
         v_a[1] = load<T::VEC_A>(s_a, u_ra + sa_offset(stage, 1));
         s_waitcnt_lgkmcnt(opus::number<8>{});
 
+#if MXFP8_SOURCE_B1_EARLY4
+        // Consume B0/N-group 0 for both A halves before reusing that physical
+        // B register group as the destination of the four late B1 LDS reads.
+        mma_scale_repeat_n2<T, 0, 1, 0>(
+            mma, v_a[0], v_b, v_c[0][0], v_sfa, v_sfb[0]);
+        {
+            auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[0][0]);
+            asm volatile("" : "+v"(v_c_pin[1]) ::);
+        }
+        sched_barrier_pairs_scale();
+
+        // A half 1 x B half 0 -> C[1][0] (64x64).
+        mma_scale_repeat_n2<T, 1, 0, 0>(
+            mma, v_a[1], v_b, v_c[1][0], v_sfa, v_sfb[0]);
+        {
+            auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[1][0]);
+            asm volatile("" : "+v"(v_c_pin[0]) ::);
+        }
+        sched_barrier_pairs_scale();
+
+        mma_scale_repeat_n2<T, 1, 1, 0>(
+            mma, v_a[1], v_b, v_c[1][0], v_sfa, v_sfb[0]);
+        {
+            auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[1][0]);
+            asm volatile("" : "+v"(v_c_pin[1]) ::);
+        }
+        sched_barrier_pairs_scale();
+
+        auto rb1_offsets_tail = opus::layout_to_offsets<T::VEC_B>(
+            u_rb +
+#if MXFP8_PERSISTENT_B_K0_CACHE == 2
+                (tile == 0 ? sb_k0_cache_offset : sb_offset(stage, 1))
+#else
+                sb_offset(stage, 1)
+#endif
+        );
+        load_b_range_scale<T, T::b_ds_read_insts / 2,
+                           T::b_ds_read_insts>(
+            s_b, rb1_offsets_tail, v_b_second);
+#if MXFP8_SOURCE_B1_EARLY4 == 2
+        __builtin_amdgcn_sched_group_barrier(0x08, 1, 1);
+        __builtin_amdgcn_sched_group_barrier(0x100, 4, 1);
+#endif
+
+        // The four independent B0/N-group-1 calls cover B1 LDS latency.
+        mma_scale_repeat_n2<T, 0, 0, 1>(
+            mma, v_a[0], v_b, v_c[0][0], v_sfa, v_sfb[0]);
+        {
+            auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[0][0]);
+            asm volatile("" : "+v"(v_c_pin[0]) ::);
+        }
+        sched_barrier_pairs_scale();
+
+        mma_scale_repeat_n2<T, 0, 1, 1>(
+            mma, v_a[0], v_b, v_c[0][0], v_sfa, v_sfb[0]);
+        {
+            auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[0][0]);
+            asm volatile("" : "+v"(v_c_pin[1]) ::);
+        }
+        sched_barrier_pairs_scale();
+
+        mma_scale_repeat_n2<T, 1, 0, 1>(
+            mma, v_a[1], v_b, v_c[1][0], v_sfa, v_sfb[0]);
+        {
+            auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[1][0]);
+            asm volatile("" : "+v"(v_c_pin[0]) ::);
+        }
+        sched_barrier_pairs_scale();
+
+        mma_scale_repeat_n2<T, 1, 1, 1>(
+            mma, v_a[1], v_b, v_c[1][0], v_sfa, v_sfb[0]);
+        {
+            auto* v_c_pin = reinterpret_cast<vector_t<D_ACC, 16>*>(&v_c[1][0]);
+            asm volatile("" : "+v"(v_c_pin[1]) ::);
+        }
+        sched_barrier_pairs_scale();
+#else
         mma_scale_repeat_n2<T, 0, 0, 1>(
             mma, v_a[0], v_b, v_c[0][0], v_sfa, v_sfb[0]);
         {
@@ -682,11 +1020,53 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
         }
         sched_barrier_pairs_scale();
 
-        auto rb1_offsets_tail = opus::layout_to_offsets<T::VEC_B>(u_rb + sb_offset(stage, 1));
+        auto rb1_offsets_tail = opus::layout_to_offsets<T::VEC_B>(
+            u_rb +
+#if MXFP8_PERSISTENT_B_K0_CACHE == 2
+                (tile == 0 ? sb_k0_cache_offset : sb_offset(stage, 1))
+#else
+                sb_offset(stage, 1)
+#endif
+        );
         load_b_range_scale<T, T::b_ds_read_insts / 2,
                            T::b_ds_read_insts>(
             s_b, rb1_offsets_tail, v_b_second);
+#endif
         const auto& v_b_n1 = v_b_second;
+
+#if MXFP8_SOURCE_MAIN_HANDOFF_PAIRS != 2
+        auto steady_tile_handoff = [&]() {
+            // Publish tile t+1 and release tile t's LDS stage, then start the
+            // cold B path for tile t+2 while tile t finishes from registers.
+            s_waitcnt_vmcnt(0_I);
+            s_waitcnt_lgkmcnt(0_I);
+            __builtin_amdgcn_s_barrier();
+            __builtin_amdgcn_sched_barrier(0);
+
+            if (tile + 2 < loops) {
+                constexpr int b_producer_wave_n = 1;
+                if (wave_id_n == b_producer_wave_n) {
+                    async_load<T::VEC_B>(g_b, s_b.ptr, u_gb_producer_0,
+                                         u_sb_producer_0 + sb_offset(stage, 0),
+                                         gb_offset(0, tile + 2));
+                    async_load<T::VEC_B>(g_b, s_b.ptr, u_gb_producer_1,
+                                         u_sb_producer_1 + sb_offset(stage, 0),
+                                         gb_offset(0, tile + 2));
+                    async_load<T::VEC_B>(g_b, s_b.ptr, u_gb_producer_0,
+                                         u_sb_producer_0 + sb_offset(stage, 1),
+                                         gb_offset(1, tile + 2));
+                    async_load<T::VEC_B>(g_b, s_b.ptr, u_gb_producer_1,
+                                         u_sb_producer_1 + sb_offset(stage, 1),
+                                         gb_offset(1, tile + 2));
+                }
+                __builtin_amdgcn_sched_barrier(0);
+            }
+        };
+#endif
+
+#if MXFP8_SOURCE_MAIN_HANDOFF_PAIRS == 0
+        steady_tile_handoff();
+#endif
 
         // A half 0 x B half 1 -> C[0][1] (64x64).
         mma_scale_repeat_n2<T, 0, 0, 0>(
@@ -697,6 +1077,10 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
         }
         sched_barrier_pairs_scale();
 
+#if MXFP8_SOURCE_MAIN_HANDOFF_PAIRS == 1
+        steady_tile_handoff();
+#endif
+
         mma_scale_repeat_n2<T, 0, 0, 1>(
             mma, v_a[0], v_b_n1, v_c[0][1], v_sfa, v_sfb[1]);
         {
@@ -705,19 +1089,39 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
         }
         sched_barrier_pairs_scale();
 
-
-        // All operands for tile t are now resident in VGPRs.  Publish tile
-        // t+1 and release tile t's LDS stage with the same barrier, then start
-        // the cold B path for tile t+2 while the final 12 MFMAs of tile t run.
+#if MXFP8_SOURCE_MAIN_HANDOFF_PAIRS == 2
+        // Retained 20/12 steady-state handoff, kept textually unchanged so
+        // mode 2 remains the exact baseline instruction stream.
+#if MXFP8_SOURCE_NEXT_OUTPUT_K1_EARLY
+        if (inherited_output_k1) {
+            s_waitcnt_vmcnt(opus::number<16>{});
+        } else {
+            s_waitcnt_vmcnt(0_I);
+        }
+#else
         s_waitcnt_vmcnt(0_I);
+#endif
         s_waitcnt_lgkmcnt(0_I);
         __builtin_amdgcn_s_barrier();
         __builtin_amdgcn_sched_barrier(0);
 
-        if (tile + 2 < loops) {
-            constexpr int b_producer_wave_n =
-                1;
+#if MXFP8_SOURCE_FUTURE_B_SPLIT
+        const bool produce_future_b = tile + 2 < loops;
+        if (produce_future_b) {
+            constexpr int b_producer_wave_n = 1;
             if (wave_id_n == b_producer_wave_n) {
+                async_load<T::VEC_B>(g_b, s_b.ptr, u_gb_producer_0,
+                                     u_sb_producer_0 + sb_offset(stage, 0),
+                                     gb_offset(0, tile + 2));
+                async_load<T::VEC_B>(g_b, s_b.ptr, u_gb_producer_1,
+                                     u_sb_producer_1 + sb_offset(stage, 0),
+                                     gb_offset(0, tile + 2));
+            }
+            __builtin_amdgcn_sched_barrier(0);
+        }
+#elif MXFP8_SOURCE_CTRL_SCHEDULE == 4
+        if (scalar_b_producer) {
+            if (tile + 2 < loops) {
                 async_load<T::VEC_B>(g_b, s_b.ptr, u_gb_producer_0,
                                      u_sb_producer_0 + sb_offset(stage, 0),
                                      gb_offset(0, tile + 2));
@@ -733,6 +1137,66 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
             }
             __builtin_amdgcn_sched_barrier(0);
         }
+#else
+#if MXFP8_SOURCE_CTRL_SCHEDULE == 1 || MXFP8_SOURCE_CTRL_SCHEDULE == 2 || \
+    MXFP8_SOURCE_CTRL_SCHEDULE == 3
+        if (future_b_tile < loops) {
+#else
+        if (tile + 2 < loops) {
+#endif
+            constexpr int b_producer_wave_n =
+                1;
+#if MXFP8_SOURCE_CTRL_SCHEDULE == 3
+            if (scalar_b_producer) {
+#else
+            if (wave_id_n == b_producer_wave_n) {
+#endif
+                async_load<T::VEC_B>(g_b, s_b.ptr, u_gb_producer_0,
+                                     u_sb_producer_0 + sb_offset(stage, 0),
+                                     gb_offset(0,
+#if MXFP8_SOURCE_CTRL_SCHEDULE == 1 || MXFP8_SOURCE_CTRL_SCHEDULE == 2 || \
+    MXFP8_SOURCE_CTRL_SCHEDULE == 3
+                                               future_b_tile
+#else
+                                               tile + 2
+#endif
+                                     ));
+                async_load<T::VEC_B>(g_b, s_b.ptr, u_gb_producer_1,
+                                     u_sb_producer_1 + sb_offset(stage, 0),
+                                     gb_offset(0,
+#if MXFP8_SOURCE_CTRL_SCHEDULE == 1 || MXFP8_SOURCE_CTRL_SCHEDULE == 2 || \
+    MXFP8_SOURCE_CTRL_SCHEDULE == 3
+                                               future_b_tile
+#else
+                                               tile + 2
+#endif
+                                     ));
+                async_load<T::VEC_B>(g_b, s_b.ptr, u_gb_producer_0,
+                                     u_sb_producer_0 + sb_offset(stage, 1),
+                                     gb_offset(1,
+#if MXFP8_SOURCE_CTRL_SCHEDULE == 1 || MXFP8_SOURCE_CTRL_SCHEDULE == 2 || \
+    MXFP8_SOURCE_CTRL_SCHEDULE == 3
+                                               future_b_tile
+#else
+                                               tile + 2
+#endif
+                                     ));
+                async_load<T::VEC_B>(g_b, s_b.ptr, u_gb_producer_1,
+                                     u_sb_producer_1 + sb_offset(stage, 1),
+                                     gb_offset(1,
+#if MXFP8_SOURCE_CTRL_SCHEDULE == 1 || MXFP8_SOURCE_CTRL_SCHEDULE == 2 || \
+    MXFP8_SOURCE_CTRL_SCHEDULE == 3
+                                               future_b_tile
+#else
+                                               tile + 2
+#endif
+                                     ));
+            }
+            __builtin_amdgcn_sched_barrier(0);
+        }
+#endif
+#endif
+
         mma_scale_repeat_n2<T, 0, 1, 0>(
             mma, v_a[0], v_b_n1, v_c[0][1], v_sfa, v_sfb[1]);
         {
@@ -741,6 +1205,24 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
         }
         sched_barrier_pairs_scale();
 
+#if MXFP8_SOURCE_FUTURE_B_SPLIT
+        if (produce_future_b) {
+            constexpr int b_producer_wave_n = 1;
+            if (wave_id_n == b_producer_wave_n) {
+                async_load<T::VEC_B>(g_b, s_b.ptr, u_gb_producer_0,
+                                     u_sb_producer_0 + sb_offset(stage, 1),
+                                     gb_offset(1, tile + 2));
+                async_load<T::VEC_B>(g_b, s_b.ptr, u_gb_producer_1,
+                                     u_sb_producer_1 + sb_offset(stage, 1),
+                                     gb_offset(1, tile + 2));
+            }
+            __builtin_amdgcn_sched_barrier(0);
+        }
+#endif
+
+#if MXFP8_SOURCE_MAIN_HANDOFF_PAIRS == 3
+        steady_tile_handoff();
+#endif
 
         mma_scale_repeat_n2<T, 0, 1, 1>(
             mma, v_a[0], v_b_n1, v_c[0][1], v_sfa, v_sfb[1]);
@@ -750,6 +1232,9 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
         }
         sched_barrier_pairs_scale();
 
+#if MXFP8_SOURCE_MAIN_HANDOFF_PAIRS == 4
+        steady_tile_handoff();
+#endif
 
         // A half 1 x B half 1 -> C[1][1] (64x64).
         mma_scale_repeat_n2<T, 1, 0, 0>(
@@ -796,12 +1281,27 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
     v_sfb[1] = v_sfb_pair[1];
     v_a[0] = load<T::VEC_A>(s_a, u_ra + sa_offset(stage, 0));
     v_a[1] = load<T::VEC_A>(s_a, u_ra + sa_offset(stage, 1));
-    v_b = load<T::VEC_B>(s_b, u_rb + sb_offset(stage, 0));
+    v_b = load<T::VEC_B>(
+        s_b, u_rb +
+#if MXFP8_PERSISTENT_B_K0_CACHE == 1
+                 (tile == 0 ? sb_k0_cache_offset : sb_offset(stage, 0))
+#else
+                 sb_offset(stage, 0)
+#endif
+    );
     s_waitcnt_lgkmcnt(0_I);
 
     const bool has_next_output =
+#if MXFP8_SOURCE_OUTPUT_TRIP_COUNT
+#if MXFP8_SOURCE_OUTPUT_TRIP_COUNT == 2
+        output_tiles_left > 1;
+#else
+        output_tile + 1 < output_tile_limit;
+#endif
+#else
         output_tile + 1 < T::OUTPUT_TILES_PER_WG &&
         block_m + 1 < num_tiles_m;
+#endif
     const int next_output_stage = stage ^ 1;
     auto output_b1_handoff = [&]() {
         if (has_next_output) {
@@ -824,6 +1324,26 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
                 async_load<T::VEC_B>(
                     g_b, s_b.ptr, u_gb,
                     u_sb + sb_offset(stage, 1), gb_offset(1, 1));
+#if MXFP8_SOURCE_NEXT_OUTPUT_K1_EARLY
+                const int next_row = (block_m + 1) * T::B_M;
+                auto g_a_k1_next = make_gmem(
+                    reinterpret_cast<const D_A*>(kargs.ptr_a) +
+                    batch_id * kargs.stride_a_batch +
+                    next_row * kargs.stride_a);
+                if (scale_producer_active) {
+                    async_load<16>(
+                        g_sf, s_sf_ptr, u_gsfa,
+                        u_ssfa + ssfa_offset(stage), gsf_offset(1, 1));
+                }
+                async_load<T::VEC_A>(
+                    g_a_k1_next, s_a.ptr, u_ga,
+                    u_sa + sa_offset(stage, 0), ga_offset(0, 1), 0_I,
+                    opus::number<0>{});
+                async_load<T::VEC_A>(
+                    g_a_k1_next, s_a.ptr, u_ga,
+                    u_sa + sa_offset(stage, 1), ga_offset(1, 1), 0_I,
+                    opus::number<0>{});
+#endif
                 __builtin_amdgcn_sched_barrier(0);
             }
             first_stage = next_output_stage;
@@ -842,12 +1362,16 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
         }
         async_load<T::VEC_A>(g_a_next, s_a.ptr, u_ga,
                              u_sa + sa_offset(next_output_stage, 0), ga_offset(0, 0));
+#if MXFP8_PERSISTENT_B_K0_CACHE != 1
         async_load<T::VEC_B>(g_b, s_b.ptr, u_gb,
                              u_sb + sb_offset(next_output_stage, 0), gb_offset(0, 0));
+#endif
         async_load<T::VEC_A>(g_a_next, s_a.ptr, u_ga,
                              u_sa + sa_offset(next_output_stage, 1), ga_offset(1, 0));
+#if MXFP8_PERSISTENT_B_K0_CACHE != 2
         async_load<T::VEC_B>(g_b, s_b.ptr, u_gb,
                              u_sb + sb_offset(next_output_stage, 1), gb_offset(1, 0));
+#endif
         __builtin_amdgcn_sched_barrier(0);
     }
 
@@ -861,6 +1385,22 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
         return half_tile_m * T::HALF_B_M * kargs.stride_c +
                half_tile_n * T::HALF_B_N;
     };
+#if MXFP8_SOURCE_CSTORE_IMMEDIATE
+    auto store_c = [&](const auto& value, int offset, auto quadrant) {
+#if MXFP8_SOURCE_CSTORE_IMMEDIATE == 6
+        (void)offset;
+        store_c_structured<T>(g_c_struct, value, lane_id, wave_id_m,
+                              wave_id_n, opus::number<2>{}, quadrant);
+#else
+        store_c_immediate_offsets<T>(
+            g_c, value, u_gc, offset, opus::number<2>{}, quadrant);
+#endif
+    };
+#else
+    auto store_c = [&](const auto& value, int offset, auto) {
+        store<T::VEC_C>(g_c, value, u_gc, offset, opus::number<2>{});
+    };
+#endif
 #endif
 
     mma_scale_repeat_n2<T, 0, 0, 0>(mma, v_a[0], v_b, v_c[0][0], v_sfa, v_sfb[0]);
@@ -927,15 +1467,22 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
 #if MXFP8_EARLY_C_WAVE_SPLIT
     if (!has_next_output || early_c_pre_wave) {
 #endif
-    store<T::VEC_C>(g_c, v_c[0][0], u_gc, c_offset(0, 0), opus::number<2>{});
-    store<T::VEC_C>(g_c, v_c[1][0], u_gc, c_offset(1, 0), opus::number<2>{});
+    store_c(v_c[0][0], c_offset(0, 0), opus::number<0>{});
+    store_c(v_c[1][0], c_offset(1, 0), opus::number<2>{});
     __builtin_amdgcn_sched_barrier(0);
 #if MXFP8_EARLY_C_WAVE_SPLIT
     }
 #endif
 #endif
 
-    v_b = load<T::VEC_B>(s_b, u_rb + sb_offset(stage, 1));
+    v_b = load<T::VEC_B>(
+        s_b, u_rb +
+#if MXFP8_PERSISTENT_B_K0_CACHE == 2
+                 (tile == 0 ? sb_k0_cache_offset : sb_offset(stage, 1))
+#else
+                 sb_offset(stage, 1)
+#endif
+    );
 
     if constexpr (MXFP8_OUTPUT_B1_HANDOFF_PAIRS == 0)
         output_b1_handoff();
@@ -952,8 +1499,8 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
 
 #if MXFP8_EARLY_C_WAVE_SPLIT
     if (has_next_output && !early_c_pre_wave) {
-        store<T::VEC_C>(g_c, v_c[0][0], u_gc, c_offset(0, 0), opus::number<2>{});
-        store<T::VEC_C>(g_c, v_c[1][0], u_gc, c_offset(1, 0), opus::number<2>{});
+        store_c(v_c[0][0], c_offset(0, 0), opus::number<0>{});
+        store_c(v_c[1][0], c_offset(1, 0), opus::number<2>{});
         __builtin_amdgcn_sched_barrier(0);
     }
 #endif
@@ -989,7 +1536,7 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
     // At p24 the first B1 quadrant is complete.  These eight stores follow all
     // next-output prologue loads, so vmcnt(24) can publish the loads while all
     // three early quadrants remain outstanding in the ordered VMEM queue.
-    store<T::VEC_C>(g_c, v_c[0][1], u_gc, c_offset(0, 1), opus::number<2>{});
+    store_c(v_c[0][1], c_offset(0, 1), opus::number<1>{});
     __builtin_amdgcn_sched_barrier(0);
 #endif
 
@@ -1043,18 +1590,40 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
     auto c_offset = [&](int half_tile_m, int half_tile_n) {
         return half_tile_m * T::HALF_B_M * kargs.stride_c + half_tile_n * T::HALF_B_N;
     };
+#if MXFP8_SOURCE_CSTORE_IMMEDIATE
+    auto store_c = [&](const auto& value, int offset, auto quadrant) {
+#if MXFP8_SOURCE_CSTORE_IMMEDIATE == 6
+        (void)offset;
+        store_c_structured<T>(g_c_struct, value, lane_id, wave_id_m,
+                              wave_id_n, opus::number<2>{}, quadrant);
+#else
+        store_c_immediate_offsets<T>(
+            g_c, value, u_gc, offset, opus::number<2>{}, quadrant);
+#endif
+    };
+#else
+    auto store_c = [&](const auto& value, int offset, auto) {
+        store<T::VEC_C>(g_c, value, u_gc, offset, opus::number<2>{});
+    };
+#endif
 #endif
 
 #if defined(MXFP8_EARLY_C_STORE_THREE_QUADRANTS)
-    store<T::VEC_C>(g_c, v_c[1][1], u_gc, c_offset(1, 1), opus::number<2>{});
+    store_c(v_c[1][1], c_offset(1, 1), opus::number<3>{});
 #elif defined(MXFP8_EARLY_C_STORE)
-    store<T::VEC_C>(g_c, v_c[0][1], u_gc, c_offset(0, 1), opus::number<2>{});
-    store<T::VEC_C>(g_c, v_c[1][1], u_gc, c_offset(1, 1), opus::number<2>{});
+    store_c(v_c[0][1], c_offset(0, 1), opus::number<1>{});
+    store_c(v_c[1][1], c_offset(1, 1), opus::number<3>{});
 #else
-    store<T::VEC_C>(g_c, v_c[0][0], u_gc, c_offset(0, 0), opus::number<2>{});
-    store<T::VEC_C>(g_c, v_c[0][1], u_gc, c_offset(0, 1), opus::number<2>{});
-    store<T::VEC_C>(g_c, v_c[1][0], u_gc, c_offset(1, 0), opus::number<2>{});
-    store<T::VEC_C>(g_c, v_c[1][1], u_gc, c_offset(1, 1), opus::number<2>{});
+    store_c(v_c[0][0], c_offset(0, 0), opus::number<0>{});
+    store_c(v_c[0][1], c_offset(0, 1), opus::number<1>{});
+    store_c(v_c[1][0], c_offset(1, 0), opus::number<2>{});
+    store_c(v_c[1][1], c_offset(1, 1), opus::number<3>{});
 #endif
+#if MXFP8_SOURCE_OUTPUT_TRIP_COUNT == 2
+        ++output_tile;
+        --output_tiles_left;
+    } while (output_tiles_left > 0);
+#else
     }
+#endif
 }

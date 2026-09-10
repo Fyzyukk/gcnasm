@@ -1,0 +1,18 @@
+W20260910 06:36:51.878832 136484622954432 simple_timer.cpp:55] [rocprofv3] tool initialization ::     0.000818 sec
+W20260910 06:36:51.879060 136484622954432 tool.cpp:2422] HIP (compiler) version 7.2.0 initialized (instance=0)
+W20260910 06:36:51.879150 136484622954432 simple_timer.cpp:55] [rocprofv3] '/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/4_wave_no_host_scale/build/kernel.exe -m 8192 -n 8192 -k 8192 -b 1 -v 0 -w 0 -i 1' ::     0.000000 sec
+W20260910 06:36:51.879586 136484622954432 tool.cpp:2422] HIP (runtime) version 7.2.0 initialized (instance=0)
+W20260910 06:36:52.029014 136484622954432 tool.cpp:2422] HSA version 8.20.0 initialized (instance=0)
+W20260910 06:36:52.245995 136484622954432 simple_timer.cpp:55] [rocprofv3] '/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/4_wave_no_host_scale/build/kernel.exe -m 8192 -n 8192 -k 8192 -b 1 -v 0 -w 0 -i 1' ::     0.366845 sec
+E20260910 06:36:52.253115 136484622954432 output_stream.cpp:111] Opened result file: /root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/4_wave_no_host_scale/results/single_kernel_trace_20260910/trace/contract_kernel_trace.csv
+E20260910 06:36:52.257609 136484622954432 output_stream.cpp:111] Opened result file: /root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/4_wave_no_host_scale/results/single_kernel_trace_20260910/trace/contract_hip_api_trace.csv
+E20260910 06:36:52.260595 136484622954432 output_stream.cpp:111] Opened result file: /root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/4_wave_no_host_scale/results/single_kernel_trace_20260910/trace/contract_memory_allocation_trace.csv
+E20260910 06:36:52.261153 136484622954432 output_stream.cpp:111] Opened result file: /root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/4_wave_no_host_scale/results/single_kernel_trace_20260910/trace/contract_agent_info.csv
+W20260910 06:36:52.264338 136484622954432 simple_timer.cpp:55] [rocprofv3] output generation ::     0.014249 sec
+W20260910 06:36:52.264433 136484622954432 simple_timer.cpp:55] [rocprofv3] tool finalization ::     0.014426 sec
+Device identity: hip_device=0 pci=0000:98:00.0 arch=gfx950:sramecc+:xnack- cu=256 warp=64 name="AMD Instinct MI350X"
+Input generator: splitmix64-index-v1 seed=20260909
+Launching MXFP8 scaled-MFMA GEMM 4W exact-K64 branchless-wrap SFA-K8 raw/K4 queue + SFB-K16 dist22, 256x256x128, unified scale: M=8192, N=8192, K=8192, grid=(1024,1,1), block=256, output_tiles_per_wg=1
+
+Kernel Performance: avg_time=1.177852988 ms, 933.487976 TFlops
+

@@ -1,0 +1,1 @@
+Device identity: hip_device=0 pci=0000:98:00.0 arch=gfx950:sramecc+:xnack- cu=256 warp=64 name="AMD Instinct MI350X"

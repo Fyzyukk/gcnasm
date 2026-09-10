@@ -1,0 +1,107 @@
+{
+  "path_base": "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale",
+  "historical_paths_note": "Recorded manifests are immutable. Earlier after4 runs used 4_wave_no_host_scale/build; that build was moved to .4wave_closeout_20260910.GW0Avl/after4_baseline/build before promoting common-vaddr. Resolve old results by SHA256, not the current content of the recorded path. Archived paths retain their original root-relative names.",
+  "candidates": {
+    "b0_split4_c01_1213_v1": {
+      "compile_manifest.json": {
+        "snapshot": "b0_split4_c01_1213_v1_compile_manifest.json",
+        "sha256": "665ebb2eb956926b54ca3e5ec64c87b6cfd885e7dd1350503f5a14233389c32d"
+      },
+      "relink_manifest.json": {
+        "snapshot": "b0_split4_c01_1213_v1_relink_manifest.json",
+        "sha256": "e0b7176374482af24a4c3e86e86e88805f15bbde5533cc31457f3aba4893d3e4"
+      }
+    },
+    "b0_split4_c01_89_v1": {
+      "compile_manifest.json": {
+        "snapshot": "b0_split4_c01_89_v1_compile_manifest.json",
+        "sha256": "7a82d3018468c376857f21181bc442187275cb0050a4f3b00330a2ccf93878e7"
+      },
+      "relink_manifest.json": {
+        "snapshot": "b0_split4_c01_89_v1_relink_manifest.json",
+        "sha256": "2b9b64a200ae87940c134c17446649dc564cc465389861845aa6c8ec480d0d20"
+      }
+    },
+    "b0_split4_c01_pair_between_open_v1": {
+      "compile_manifest.json": {
+        "snapshot": "b0_split4_c01_pair_between_open_v1_compile_manifest.json",
+        "sha256": "b3cf2bdb4bf0bf6ef85808197b8e0e522d3d56a62f931606e01d84fe5597a2cc"
+      },
+      "relink_manifest.json": {
+        "snapshot": "b0_split4_c01_pair_between_open_v1_relink_manifest.json",
+        "sha256": "72ddfdcf88a7669f2acb297385efec8faf2aa793466bc50d8c868fd58bfbb66e"
+      }
+    },
+    "b0_split4_c01_pair_between_v1": {
+      "compile_manifest.json": {
+        "snapshot": "b0_split4_c01_pair_between_v1_compile_manifest.json",
+        "sha256": "a1070bb945e8079b7cc004c1598d50782d57e4d2fba7c93a926be5a05083f297"
+      },
+      "relink_manifest.json": {
+        "snapshot": "b0_split4_c01_pair_between_v1_relink_manifest.json",
+        "sha256": "e1975563ad1335b1a7057e4e7c6af0d7345ea1b5e69bf6dbc22b322b1f3839dd"
+      }
+    },
+    "b_contig_common_vaddr_v1": {
+      "compile_manifest.json": {
+        "snapshot": "b_contig_common_vaddr_v1_compile_manifest.json",
+        "sha256": "3ed18a41c11206bca408c8fc8b34ffa90e6a39c03e020203e8bdd0cf50aab5b6"
+      },
+      "relink_manifest.json": {
+        "snapshot": "b_contig_common_vaddr_v1_relink_manifest.json",
+        "sha256": "e5614778735250bea79fb2675b814cff313e3bb9341d23048f898b8de891953f"
+      }
+    },
+    "b_contig_ioffset_v1": {
+      "compile_manifest.json": {
+        "snapshot": "b_contig_ioffset_v1_compile_manifest.json",
+        "sha256": "152853de910db2676c04a0d6c2baff5b34b16b2ce8313ac25b269381a0cb02a8"
+      },
+      "relink_manifest.json": {
+        "snapshot": "b_contig_ioffset_v1_relink_manifest.json",
+        "sha256": "ce39e39edea725027740bed660c7ca895b8ee4d6661a344a2a85093051a2bc8e"
+      }
+    },
+    "transpose_staged_v1": {
+      "compile_manifest.json": {
+        "snapshot": "transpose_staged_v1_compile_manifest.json",
+        "sha256": "24cdbd7cb8a3a665261ea4a57df94f6d6c43481a0e14d8c61c1539fbd5238884"
+      },
+      "relink_manifest.json": {
+        "snapshot": "transpose_staged_v1_relink_manifest.json",
+        "sha256": "49872ef4bbe977c229fd18d08ba66e2239038d378708a5d1e65e414e06de072a"
+      }
+    }
+  },
+  "after4_packaged": {
+    "build_path_before_archive": ".4wave_closeout_20260910.GW0Avl/after4_baseline/build",
+    "manifest_snapshot": "after4_packaged_build_manifest.json",
+    "manifest_sha256": "31671675e06ee9f91e369a3eb64232ae9cab513ae2796d577497580a2168c3b0"
+  },
+  "final_common_packaged": {
+    "build_path_before_archive": "4_wave_no_host_scale/build",
+    "manifest_snapshot": "final_common_packaged_build_manifest.json",
+    "manifest_sha256": "4708ef7fc2553665551152bb4bd19e45bf4bea08d990a4542c6e07174bcb2f90"
+  },
+  "reference": {
+    "path_before_archive": ".4wave_closeout_20260910.GW0Avl/reference",
+    "note": "Historical after4 kernel.o, linked to the same deterministic final host.o; linked CO exactly matches historical CO.",
+    "files": {
+      "kernel.co": "4e465e50151cdf8477814c0cf8d0b7c065feb0098d047d43226b16b9a0902697",
+      "kernel.exe": "aa91579dfee4ec1dbc28eee9941d495411019e3caa6194db4f93ab6eb5028638",
+      "kernel.fb": "ea1d85d937d189baf484f404fe4f9932f44cb5ef982b5bb8915b7f43907c6560",
+      "kernel.isa": "ef59e2bd98a4c8b1fa3985aec7928a16fa5f4dad2946b4b043779ec6014aa56f",
+      "kernel.notes": "b62ad01859a6ee4bac3902160c3ea0e75fb31a4ce00cadf94bd8518f08813515",
+      "kernel.o": "5887be11e9904853776598f430a32aefcf4485bfa22bd192531cd85176f656b4",
+      "kernel_linked.co": "4e465e50151cdf8477814c0cf8d0b7c065feb0098d047d43226b16b9a0902697"
+    }
+  },
+  "selected": {
+    "candidate": "b_contig_common_vaddr_v1",
+    "candidate_exe_sha256": "73be0566fd67d5be805ee9647436ec08ec0d40a0205f749aa108e1aa1295d745",
+    "final_exe_sha256": "6c5a9b271f589b905a3e34469b6f6e284c32c9ac5f3a9989d77eb8752b12c9a9",
+    "shared_host_o_sha256": "980c23191b63c3438edc47bca0715f955d33973d0ee1f62171f08ed93e5e5c4d",
+    "source_tmpl_sha256": "06702267a0f0c32c1d8e1b9ff77f60e1264bf1d23b78c1e8b5ee09cdf371b624",
+    "normalized_isa_sha256": "590bd0440b757862062a03a1c471c1e5f2d896a0c57f6555976e3017a4b937fa"
+  }
+}

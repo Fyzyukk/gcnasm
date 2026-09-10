@@ -1,0 +1,4 @@
+Launching MXFP8 scaled-MFMA GEMM 8W local raw-scale direct, 256x256x128, unified scale: M=8192, N=8192, K=8192, grid=(512,1,1), block=512, output_tiles_per_wg=2
+
+Kernel Performance: avg_time=0.4238 ms, 2594.42 TFlops
+

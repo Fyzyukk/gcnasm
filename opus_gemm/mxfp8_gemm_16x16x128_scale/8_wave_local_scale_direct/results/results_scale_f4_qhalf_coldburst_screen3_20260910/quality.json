@@ -1,0 +1,16 @@
+{
+  "completed": true,
+  "screening_only": true,
+  "valid_for_candidate_promotion": false,
+  "observations_per_label": 3,
+  "total_observations": 12,
+  "full_hash_passed_all_labels": true,
+  "after_run_ownership_check_completed": true,
+  "foreign_gpu7_process_observed": false,
+  "candidate_gain_vs_faster_baseline_pct": 0.5357824777143083,
+  "aa_min_time_spread_pct": 1.474479411304186,
+  "wins_vs_faster_same_round_baseline": 3,
+  "platform_contamination_asserted": false,
+  "promoted": false,
+  "note": "N3 has A/A spread larger than candidate gap; use the separate complete N24 sessions for closeout, without pooling. Correctness results remain valid."
+}

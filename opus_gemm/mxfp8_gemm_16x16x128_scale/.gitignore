@@ -14,3 +14,15 @@ trace_mxfp8_2.9P/
 variants/history/
 variants/dvfs_study/mfma_peak
 *.swp
+
+# Old optimization branches/backups remain local; publish the retained sources.
+.4wave_cleanup_*/
+.8wave_cleanup_*/
+.variants_quarantine_*/
+8_wave_no_host_scal/
+8_wave_no_host_scale/
+8_wave_local_scale_direct/prototype_scale_f4_qhalf_coldburst_20260910/
+variants/
+VARIANTS_CLEANUP_20260908.md
+VARIANTS_DELETE_20260908.txt
+VARIANTS_KEEP_20260908.txt

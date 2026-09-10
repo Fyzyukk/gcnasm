@@ -1,0 +1,20 @@
+[
+  {
+    "name": "coldburst_random",
+    "passed": true,
+    "correctness_only": true,
+    "binary_sha256": "a2e2feb5996179d2c02121568578f09c76055ac8b7335055958015ba6ea23dfb"
+  },
+  {
+    "name": "coldburst_k_rows",
+    "passed": true,
+    "correctness_only": true,
+    "binary_sha256": "a2e2feb5996179d2c02121568578f09c76055ac8b7335055958015ba6ea23dfb"
+  },
+  {
+    "name": "coldburst_row_k_tail",
+    "passed": true,
+    "correctness_only": true,
+    "binary_sha256": "a2e2feb5996179d2c02121568578f09c76055ac8b7335055958015ba6ea23dfb"
+  }
+]

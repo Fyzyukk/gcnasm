@@ -1,0 +1,10 @@
+Launching MXFP8 scaled-MFMA GEMM 8W local raw-scale direct, 256x256x128, unified scale: M=256, N=256, K=512, grid=(1,1,1), block=512, output_tiles_per_wg=2
+
+Validating GPU results against CPU reference...
+Validation stats: rel_mag=5.00e-05, abs_floor=1.00e-04, errors=0/65536, max_diff=0.003891 at 36224 (tol=0.043232, ref=-76.311295, result=-76.307404), max_ratio=0.225 at 48033
+[GEMM batch 1/1: 256x256x512, block_256x256x128] VALID
+
+[Overall] ALL BATCHES VALID
+
+Kernel Performance: avg_time=0.0177 ms, 3.79 TFlops
+

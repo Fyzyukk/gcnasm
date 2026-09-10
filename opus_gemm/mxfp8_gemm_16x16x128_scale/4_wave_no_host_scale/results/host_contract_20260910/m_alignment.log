@@ -1,0 +1,1 @@
+M/N/K must be multiples of BLOCK_M/BLOCK_N/BLOCK_K (256,256,128).

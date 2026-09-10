@@ -1,0 +1,16 @@
+{
+  "valid_for_selection": false,
+  "reason": "foreign GPU process; no more launches",
+  "pids": [
+    "1732358",
+    "1732364",
+    "1732362",
+    "1732360",
+    "1732359",
+    "1732357",
+    "1732363",
+    "1732361",
+    "1731828"
+  ],
+  "snapshot": "before_identity"
+}

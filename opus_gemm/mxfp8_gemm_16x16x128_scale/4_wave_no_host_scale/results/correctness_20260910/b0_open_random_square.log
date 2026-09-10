@@ -1,0 +1,12 @@
+COMMAND ["/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.4wave_closeout_20260910.GW0Avl/candidates/b0_split4_c01_pair_between_open_v1/kernel.exe", "-m", "512", "-n", "512", "-k", "8192", "-b", "1", "-v", "1", "-w", "0", "-i", "1"]
+Device identity: hip_device=0 pci=0000:98:00.0 arch=gfx950:sramecc+:xnack- cu=256 warp=64 name="AMD Instinct MI350X"
+Input generator: splitmix64-index-v1 seed=20260910
+Launching MXFP8 scaled-MFMA GEMM 4W exact-K64 branchless-wrap SFA-K8 raw/K4 queue + SFB-K16 dist22, 256x256x128, unified scale: M=512, N=512, K=8192, grid=(4,1,1), block=256, output_tiles_per_wg=1
+Output bit hash: 3484e876b0d0ccf2 (262144 fp32 values)
+Output finite check: nonfinite=0
+
+Validating GPU results against CPU reference...
+Validation stats: rel_mag=5.00e-05, abs_floor=1.00e-04, errors=0/262144, max_diff=0.007019 at 11487 (tol=0.310731, ref=123.485641, result=123.478622), max_ratio=0.025 at 256207
+[GEMM batch 1/1: 512x512x8192, block_256x256x128] VALID
+
+[Overall] ALL BATCHES VALID

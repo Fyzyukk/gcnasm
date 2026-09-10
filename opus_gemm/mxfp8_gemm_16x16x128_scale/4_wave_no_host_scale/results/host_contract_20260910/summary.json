@@ -1,0 +1,77 @@
+{
+  "binary": "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/4_wave_no_host_scale/build/kernel.exe",
+  "binary_sha256": "4a2ad13e0f20b97af9731bb67a2cf84cfefd71680c75dbf4735006f3188bb88e",
+  "status": "pass",
+  "tests": [
+    {
+      "label": "unsupported_k",
+      "returncode": 1,
+      "expected": "requires K=8192"
+    },
+    {
+      "label": "m_alignment",
+      "returncode": 1,
+      "expected": "must be multiples"
+    },
+    {
+      "label": "n_alignment",
+      "returncode": 1,
+      "expected": "must be multiples"
+    },
+    {
+      "label": "zero_batch",
+      "returncode": 1,
+      "expected": "Invalid arguments"
+    },
+    {
+      "label": "negative_warmup",
+      "returncode": 1,
+      "expected": "Invalid arguments"
+    },
+    {
+      "label": "zero_iterations",
+      "returncode": 1,
+      "expected": "Invalid arguments"
+    },
+    {
+      "label": "verify_value",
+      "returncode": 2,
+      "expected": "--verify must be 0 or 1"
+    },
+    {
+      "label": "unknown_option",
+      "returncode": 2,
+      "expected": "Unknown argument"
+    },
+    {
+      "label": "missing_value",
+      "returncode": 2,
+      "expected": "Missing value"
+    },
+    {
+      "label": "invalid_integer",
+      "returncode": 2,
+      "expected": "Invalid integer argument"
+    },
+    {
+      "label": "negative_seed",
+      "returncode": 2,
+      "expected": "Invalid MXFP8_RANDOM_SEED"
+    },
+    {
+      "label": "spaced_negative_seed",
+      "returncode": 2,
+      "expected": "Invalid MXFP8_RANDOM_SEED"
+    },
+    {
+      "label": "invalid_seed",
+      "returncode": 2,
+      "expected": "Invalid MXFP8_RANDOM_SEED"
+    },
+    {
+      "label": "timeline_hash_conflict",
+      "returncode": 1,
+      "expected": "--timeline requires"
+    }
+  ]
+}

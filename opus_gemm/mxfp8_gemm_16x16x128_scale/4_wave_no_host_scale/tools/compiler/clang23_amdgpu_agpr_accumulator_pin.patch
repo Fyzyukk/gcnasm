@@ -1,0 +1,200 @@
+diff --git a/llvm/lib/Target/AMDGPU/SIPreColorPins.cpp b/llvm/lib/Target/AMDGPU/SIPreColorPins.cpp
+--- a/llvm/lib/Target/AMDGPU/SIPreColorPins.cpp
++++ b/llvm/lib/Target/AMDGPU/SIPreColorPins.cpp
+@@ -205,6 +205,8 @@ bool SIPreColorPins::runOnMachineFunction(MachineFunction &MF) {
+     else
+       ReqVGPRs = std::max(ReqVGPRs, RegNo + NumRegs);
+ 
++    bool PinTouchesAccumulator = false;
++
+     // Constrain the pinned value's register file (and connected vregs) to VGPR
+     // or AGPR. This is a class narrowing, not a physreg pin, so it also works
+     // for loop-carried PHI values; it no-ops when the file is incompatible.
+@@ -218,7 +220,8 @@ bool SIPreColorPins::runOnMachineFunction(MachineFunction &MF) {
+       // since constrainRegClass cannot cross the disjoint AGPR/VGPR files).
+       auto constrainComponent = [&](ArrayRef<Register> Seeds, bool AGPRFile,
+                                     bool FollowAcc, bool Recompute,
+-                                    SmallPtrSetImpl<MachineInstr *> &Inputs) {
++                                    SmallPtrSetImpl<MachineInstr *> &Inputs,
++                                    SmallPtrSetImpl<MachineInstr *> &Accumulators) {
+         DenseSet<Register> Seen;
+         SmallVector<Register, 16> WL;
+         auto Add = [&](Register R, bool IsSeed = false) {
+@@ -261,10 +264,11 @@ bool SIPreColorPins::runOnMachineFunction(MachineFunction &MF) {
+                              (S1 >= 0 && OpNo == (unsigned)S1);
+               bool IsAcc = (S2 >= 0 && OpNo == (unsigned)S2) ||
+                            (OpNo == 0 && MO.isDef());
+-              if (IsInput && !FollowAcc) {
+-                Inputs.insert(MI);
+-              } else if (FollowAcc && IsAcc) {
++              if (IsInput) {
+                 Inputs.insert(MI);
++              }
++              if (FollowAcc && IsAcc) {
++                Accumulators.insert(MI);
+                 if (MI->getOperand(0).isReg())
+                   Add(MI->getOperand(0).getReg());
+                 if (MI->getOperand(S2).isReg())
+@@ -296,13 +300,17 @@ bool SIPreColorPins::runOnMachineFunction(MachineFunction &MF) {
+       };
+ 
+       SmallPtrSet<MachineInstr *, 8> InputMFMAs;
++      SmallPtrSet<MachineInstr *, 8> AccumulatorMFMAs;
+       Register Seeds[] = {Src, Dst};
+-      // Constrain the pinned value's own component to its file. For an AGPR
+-      // input pin, stop at the MFMAs that consume it (recorded in InputMFMAs).
+-      constrainComponent(Seeds, /*AGPRFile=*/WantAGPR, /*FollowAcc=*/!WantAGPR,
+-                         /*Recompute=*/false, InputMFMAs);
++      // Constrain the pinned value's own component to its file. Record MFMA
++      // input uses separately from accumulator dst/src2 edges: an AGPR operand
++      // pin may request a VGPRCD accumulator, while an AGPR accumulator pin
++      // must instead convert and retain the complete dst/src2 chain in AGPRs.
++      constrainComponent(Seeds, /*AGPRFile=*/WantAGPR, /*FollowAcc=*/true,
++                         /*Recompute=*/false, InputMFMAs, AccumulatorMFMAs);
++      PinTouchesAccumulator = !AccumulatorMFMAs.empty();
+ 
+-      auto TieVGPRAccumulator = [&](MachineInstr *MI) {
++      auto TieAccumulator = [&](MachineInstr *MI) {
+         int S2 = AMDGPU::getNamedOperandIdx(MI->getOpcode(),
+                                             AMDGPU::OpName::src2);
+         if (S2 < 0 || !MI->getOperand(0).isReg() ||
+@@ -324,29 +332,60 @@ bool SIPreColorPins::runOnMachineFunction(MachineFunction &MF) {
+         return S2;
+       };
+ 
++      // An AGPR pin attached to an MFMA accumulator definition is a request
++      // for the native AGPR dst/srcC encoding. ISel commonly selects vgprcd
++      // before the later pin pseudo makes that requirement visible, so convert
++      // every connected accumulator MFMA, select its tied/in-place form, and
++      // then re-derive/constrain the connected register classes as AGPRs.
++      if (WantAGPR && !AccumulatorMFMAs.empty()) {
++        SmallVector<Register, 8> AccSeeds;
++        for (MachineInstr *MI : AccumulatorMFMAs) {
++          int AOp = AMDGPU::getMFMASrcCVDstAGPROp(MI->getOpcode());
++          if (AOp != -1)
++            MI->setDesc(TII->get(AOp));
++          int MacOp = AMDGPU::getMFMAMacOp(MI->getOpcode());
++          if (MacOp != -1)
++            MI->setDesc(TII->get(MacOp));
++          int S2 = TieAccumulator(MI);
++          if (MI->getOperand(0).isReg())
++            AccSeeds.push_back(MI->getOperand(0).getReg());
++          if (S2 >= 0 && MI->getOperand(S2).isReg())
++            AccSeeds.push_back(MI->getOperand(S2).getReg());
++        }
++        if (!AccSeeds.empty()) {
++          SmallPtrSet<MachineInstr *, 8> IgnoreInputs;
++          SmallPtrSet<MachineInstr *, 8> IgnoreAccumulators;
++          constrainComponent(AccSeeds, /*AGPRFile=*/true,
++                             /*FollowAcc=*/true, /*Recompute=*/true,
++                             IgnoreInputs, IgnoreAccumulators);
++        }
++      }
++
+       // A VGPR pin on an accumulator is also a request for the MFMA vgprcd
+       // encoding. ISel may have selected the all-AGPR form before seeing the
+       // pin pseudo; merely constraining the connected vregs cannot cross the
+       // disjoint AGPR/VGPR register files and leaves accvgpr bridge copies.
+-      if (!WantAGPR && !InputMFMAs.empty()) {
++      if (!WantAGPR && !AccumulatorMFMAs.empty()) {
+         SmallVector<Register, 8> AccSeeds;
+-        for (MachineInstr *MI : InputMFMAs) {
++        for (MachineInstr *MI : AccumulatorMFMAs) {
+           int VOp = AMDGPU::getMFMASrcCVDstVGPROp(MI->getOpcode());
+           if (VOp != -1)
+             MI->setDesc(TII->get(VOp));
+           int MacOp = AMDGPU::getMFMAMacOp(MI->getOpcode());
+           if (MacOp != -1)
+             MI->setDesc(TII->get(MacOp));
+-          int S2 = TieVGPRAccumulator(MI);
++          int S2 = TieAccumulator(MI);
+           if (MI->getOperand(0).isReg())
+             AccSeeds.push_back(MI->getOperand(0).getReg());
+           if (S2 >= 0 && MI->getOperand(S2).isReg())
+             AccSeeds.push_back(MI->getOperand(S2).getReg());
+         }
+         if (!AccSeeds.empty()) {
+-          SmallPtrSet<MachineInstr *, 8> Ignore;
++          SmallPtrSet<MachineInstr *, 8> IgnoreInputs;
++          SmallPtrSet<MachineInstr *, 8> IgnoreAccumulators;
+           constrainComponent(AccSeeds, /*AGPRFile=*/false,
+-                             /*FollowAcc=*/true, /*Recompute=*/true, Ignore);
++                             /*FollowAcc=*/true, /*Recompute=*/true,
++                             IgnoreInputs, IgnoreAccumulators);
+         }
+       }
+ 
+@@ -355,7 +394,8 @@ bool SIPreColorPins::runOnMachineFunction(MachineFunction &MF) {
+       // constrain its accumulator (vdst/srcC chain) to VGPR, re-deriving classes
+       // from the converted defs. The chain stays coalesced in VGPR (no chunked
+       // pins, no agpr<->vgpr shuffle).
+-      if (WantAGPR && PinAgprVgprC && !InputMFMAs.empty()) {
++      if (WantAGPR && AccumulatorMFMAs.empty() && PinAgprVgprC &&
++          !InputMFMAs.empty()) {
+         SmallVector<Register, 8> AccSeeds;
+         for (MachineInstr *MI : InputMFMAs) {
+           int VOp = AMDGPU::getMFMASrcCVDstVGPROp(MI->getOpcode());
+@@ -364,7 +404,7 @@ bool SIPreColorPins::runOnMachineFunction(MachineFunction &MF) {
+           int MacOp = AMDGPU::getMFMAMacOp(MI->getOpcode());
+           if (MacOp != -1)
+             MI->setDesc(TII->get(MacOp));
+-          int S2 = TieVGPRAccumulator(MI);
++          int S2 = TieAccumulator(MI);
+           if (MI->getOperand(0).isReg()) {
+             AccSeeds.push_back(MI->getOperand(0).getReg());
+             // Each converted MFMA's vdst is one accumulator tile now living in
+@@ -375,9 +415,11 @@ bool SIPreColorPins::runOnMachineFunction(MachineFunction &MF) {
+             AccSeeds.push_back(MI->getOperand(S2).getReg());
+         }
+         if (!AccSeeds.empty()) {
+-          SmallPtrSet<MachineInstr *, 8> Ignore;
++          SmallPtrSet<MachineInstr *, 8> IgnoreInputs;
++          SmallPtrSet<MachineInstr *, 8> IgnoreAccumulators;
+           constrainComponent(AccSeeds, /*AGPRFile=*/false, /*FollowAcc=*/true,
+-                             /*Recompute=*/true, Ignore);
++                             /*Recompute=*/true, IgnoreInputs,
++                             IgnoreAccumulators);
+         }
+       }
+     }
+@@ -427,6 +469,7 @@ bool SIPreColorPins::runOnMachineFunction(MachineFunction &MF) {
+       if (WantAGPR && PinSource && !SrcSub)
+         if (MachineInstr *RS = MRI.getVRegDef(Src); RS && RS->isRegSequence()) {
+           DenseMap<Register, MCRegister> ElemTargets;
++          DenseSet<Register> MultiTargetElems;
+           for (unsigned I = 1; I + 1 < RS->getNumOperands(); I += 2) {
+             const MachineOperand &Reg = RS->getOperand(I);
+             const MachineOperand &Sub = RS->getOperand(I + 1);
+@@ -445,12 +488,18 @@ bool SIPreColorPins::runOnMachineFunction(MachineFunction &MF) {
+             if (!PhysElem)
+               report_fatal_error("AMDGPU hard pin cannot map REG_SEQUENCE "
+                                  "source tuple");
++            if (MultiTargetElems.contains(Elem))
++              continue;
+             auto [It, Inserted] = ElemTargets.try_emplace(Elem, PhysElem);
+-            if (!Inserted && It->second != PhysElem)
+-              report_fatal_error(
+-                  Twine("conflicting AMDGPU hard-pin subranges for vreg ") +
+-                  Twine(Elem.id()) + ": " + Twine(It->second.id()) +
+-                  " versus " + Twine(PhysElem.id()));
++            if (!Inserted && It->second != PhysElem) {
++              // BUILD_VECTOR splats (notably an all-zero accumulator
++              // initializer) legitimately reuse one scalar source for several
++              // destination subregisters. That scalar cannot occupy several
++              // physical registers simultaneously; leave it unpinned and let
++              // the pinned REG_SEQUENCE destination receive ordinary copies.
++              ElemTargets.erase(Elem);
++              MultiTargetElems.insert(Elem);
++            }
+           }
+           for (const auto &[Elem, Target] : ElemTargets)
+             SetHardHint(Elem, Target, "reg-sequence-element");
+@@ -484,7 +533,7 @@ bool SIPreColorPins::runOnMachineFunction(MachineFunction &MF) {
+             for (MachineOperand &O : MI->operands())
+               if (O.isReg() && !O.isImplicit())
+                 Add(O.getReg());
+-          if (!WantAGPR && TII->isMAI(*MI)) {
++          if ((!WantAGPR || PinTouchesAccumulator) && TII->isMAI(*MI)) {
+             int Src2 = AMDGPU::getNamedOperandIdx(MI->getOpcode(),
+                                                   AMDGPU::OpName::src2);
+             if (Src2 >= 0 && ((unsigned)Src2 == MO.getOperandNo() ||

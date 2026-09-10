@@ -8,5 +8,12 @@
 *.hipfb
 *.egg
 build/
+build*/
 dist/
 *_hip.*
+
+# Local Python caches, profiler output and temporary probes.
+__pycache__/
+*.py[cod]
+/.rocprofv3/
+/.tmp*

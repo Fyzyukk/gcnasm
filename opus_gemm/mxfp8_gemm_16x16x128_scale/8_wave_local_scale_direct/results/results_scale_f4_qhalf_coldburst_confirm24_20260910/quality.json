@@ -1,0 +1,17 @@
+{
+  "completed": true,
+  "valid_for_performance_selection": true,
+  "observations_per_label": 24,
+  "total_observations": 72,
+  "full_hash_passed_all_labels": true,
+  "process_snapshots": 26,
+  "after_run_ownership_check_completed": true,
+  "foreign_gpu7_process_observed": false,
+  "baseline_normal_range": true,
+  "candidate_gain_vs_faster_baseline_pct": 0.20149219361671467,
+  "aa_min_time_spread_pct": 0.2929232664216075,
+  "wins_vs_faster_same_round_baseline": 13,
+  "advantage_exceeds_aa_spread": false,
+  "promoted": false,
+  "note": "Complete standalone N24; positive min-of-N gap is below same-session A/A spread. No samples discarded or pooled."
+}

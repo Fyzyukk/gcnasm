@@ -1,0 +1,1414 @@
+diff --git a/clang/include/clang/Basic/Attr.td b/clang/include/clang/Basic/Attr.td
+index ffa6a17f51..77d8c0083d 100644
+--- a/clang/include/clang/Basic/Attr.td
++++ b/clang/include/clang/Basic/Attr.td
+@@ -2513,6 +2513,20 @@ def AMDGPUNumVGPR : InheritableAttr {
+   let Subjects = SubjectList<[Function], ErrorDiag, "kernel functions">;
+ }
+ 
++def AMDGPUPinVGPR : InheritableAttr {
++  let Spellings = [Clang<"amdgpu_pin_vgpr", 0>];
++  let Args = [ExprArgument<"Reg">];
++  let Documentation = [AMDGPUPinRegDocs];
++  let Subjects = SubjectList<[Var]>;
++}
++
++def AMDGPUPinAGPR : InheritableAttr {
++  let Spellings = [Clang<"amdgpu_pin_agpr", 0>];
++  let Args = [ExprArgument<"Reg">];
++  let Documentation = [AMDGPUPinRegDocs];
++  let Subjects = SubjectList<[Var]>;
++}
++
+ def AMDGPUMaxNumWorkGroups : InheritableAttr {
+   let Spellings = [Clang<"amdgpu_max_num_work_groups", 0>];
+   let Args = [ExprArgument<"MaxNumWorkGroupsX">, ExprArgument<"MaxNumWorkGroupsY", 1>, ExprArgument<"MaxNumWorkGroupsZ", 1>];
+diff --git a/clang/include/clang/Basic/AttrDocs.td b/clang/include/clang/Basic/AttrDocs.td
+index 4b45f41305..48570f7d89 100644
+--- a/clang/include/clang/Basic/AttrDocs.td
++++ b/clang/include/clang/Basic/AttrDocs.td
+@@ -3380,6 +3380,27 @@ An error will be given if:
+   }];
+ }
+ 
++def AMDGPUPinRegDocs : Documentation {
++  let Category = DocCatAMDGPUAttributes;
++  let Content = [{
++The ``amdgpu_pin_vgpr(N)`` and ``amdgpu_pin_agpr(N)`` attributes require an
++automatic local variable to occupy the physical VGPR (respectively AGPR) tuple
++starting at register number ``N``. Every store to the variable is lowered through
++the ``llvm.amdgcn.pin.{vgpr,agpr}`` intrinsics, and a value wider than one 32-bit
++register occupies consecutive registers ``N``, ``N+1``, ... .
++
++Hard pinning is enabled by default. If the requested tuple cannot be allocated,
++overlaps an incompatible simultaneously-live pin, spills, or is unavailable on
++the selected target, compilation fails instead of silently choosing another
++register. Passing the internal backend option
++``-mllvm -amdgpu-hard-pin-regs=0`` selects a best-effort soft-hint mode for
++compiler experiments only. The attribute is only meaningful on automatic
++(block-scope, non-static) local variables and is ignored elsewhere. It is
++intended for hand-tuned kernels (e.g. controlling MFMA/WMMA operand placement)
++and requires an AMDGPU target.
++  }];
++}
++
+ def AMDGPUWavesPerEUDocs : Documentation {
+   let Category = DocCatAMDGPUAttributes;
+   let Content = [{
+diff --git a/clang/include/clang/Sema/SemaAMDGPU.h b/clang/include/clang/Sema/SemaAMDGPU.h
+index 681eb8accd..b9b43ab5f7 100644
+--- a/clang/include/clang/Sema/SemaAMDGPU.h
++++ b/clang/include/clang/Sema/SemaAMDGPU.h
+@@ -78,6 +78,10 @@ public:
+   void handleAMDGPUWavesPerEUAttr(Decl *D, const ParsedAttr &AL);
+   void handleAMDGPUNumSGPRAttr(Decl *D, const ParsedAttr &AL);
+   void handleAMDGPUNumVGPRAttr(Decl *D, const ParsedAttr &AL);
++  void handleAMDGPUPinVGPRAttr(Decl *D, const ParsedAttr &AL);
++  void handleAMDGPUPinAGPRAttr(Decl *D, const ParsedAttr &AL);
++  void addAMDGPUPinVGPRAttr(Decl *D, const AttributeCommonInfo &CI, Expr *Reg);
++  void addAMDGPUPinAGPRAttr(Decl *D, const AttributeCommonInfo &CI, Expr *Reg);
+   void handleAMDGPUMaxNumWorkGroupsAttr(Decl *D, const ParsedAttr &AL);
+   void handleAMDGPUFlatWorkGroupSizeAttr(Decl *D, const ParsedAttr &AL);
+ 
+diff --git a/clang/lib/CodeGen/CGDecl.cpp b/clang/lib/CodeGen/CGDecl.cpp
+index 3da25eeef3..65c6cbf392 100644
+--- a/clang/lib/CodeGen/CGDecl.cpp
++++ b/clang/lib/CodeGen/CGDecl.cpp
+@@ -1772,6 +1772,16 @@ CodeGenFunction::EmitAutoVarAlloca(const VarDecl &D) {
+                                    emission.getAllocatedAddress());
+   }
+ 
++  // Record amdgpu_pin_{vgpr,agpr} locals so stores to them get pinned.
++  if (D.hasAttr<AMDGPUPinVGPRAttr>() || D.hasAttr<AMDGPUPinAGPRAttr>()) {
++    bool IsAGPR = D.hasAttr<AMDGPUPinAGPRAttr>();
++    const Expr *RegE = IsAGPR ? D.getAttr<AMDGPUPinAGPRAttr>()->getReg()
++                              : D.getAttr<AMDGPUPinVGPRAttr>()->getReg();
++    unsigned Reg = RegE->EvaluateKnownConstInt(getContext()).getZExtValue();
++    AMDGPUPinnedLocals[emission.getAllocatedAddress().getBasePointer()] = {
++        IsAGPR, Reg};
++  }
++
+   return emission;
+ }
+ 
+diff --git a/clang/lib/CodeGen/CGExpr.cpp b/clang/lib/CodeGen/CGExpr.cpp
+index aebe0152dc..52abdfefc7 100644
+--- a/clang/lib/CodeGen/CGExpr.cpp
++++ b/clang/lib/CodeGen/CGExpr.cpp
+@@ -44,6 +44,7 @@
+ #include "llvm/IR/Constants.h"
+ #include "llvm/IR/DataLayout.h"
+ #include "llvm/IR/Intrinsics.h"
++#include "llvm/IR/IntrinsicsAMDGPU.h"
+ #include "llvm/IR/LLVMContext.h"
+ #include "llvm/IR/MDBuilder.h"
+ #include "llvm/IR/MatrixBuilder.h"
+@@ -3028,7 +3029,64 @@ void CodeGenFunction::EmitStoreThroughLValue(RValue Src, LValue Dst,
+   }
+ 
+   assert(Src.isScalar() && "Can't emit an agg store with this method");
+-  EmitStoreOfScalar(Src.getScalarVal(), Dst, isInit);
++  llvm::Value *SV = Src.getScalarVal();
++  if (Dst.isSimple() && !AMDGPUPinnedLocals.empty())
++    SV = emitAMDGPUPinnedValue(SV, Dst.getPointer(*this));
++  EmitStoreOfScalar(SV, Dst, isInit);
++}
++
++llvm::Value *CodeGenFunction::emitAMDGPUPinnedValue(llvm::Value *V,
++                                                    llvm::Value *Addr) {
++  auto It = AMDGPUPinnedLocals.find(Addr);
++  if (It == AMDGPUPinnedLocals.end())
++    return V;
++  // The pin intrinsics are AMDGCN-only; ignore the attribute on other targets
++  // rather than emit invalid IR.
++  if (!getTarget().getTriple().isAMDGCN())
++    return V;
++  bool IsAGPR = It->second.first;
++  unsigned Reg = It->second.second;
++  llvm::Type *Ty = V->getType();
++  unsigned Bits = CGM.getDataLayout().getTypeSizeInBits(Ty);
++  if (Bits == 0 || (Bits % 32) != 0)
++    return V;
++  unsigned Lanes = Bits / 32;
++
++  llvm::Intrinsic::ID IID = IsAGPR ? llvm::Intrinsic::amdgcn_pin_agpr
++                                   : llvm::Intrinsic::amdgcn_pin_vgpr;
++
++  // Pin only widths represented by the backend pseudos. Wider values are
++  // decomposed into consecutive 16/8/4/2/1-dword chunks.
++  auto *VecTy = llvm::FixedVectorType::get(Int32Ty, Lanes);
++  llvm::Value *Vec = Builder.CreateBitCast(V, VecTy);
++
++  auto Pin = [&](llvm::Value *Chunk, unsigned RegNo) -> llvm::Value * {
++    llvm::Function *Fn = CGM.getIntrinsic(IID, {Chunk->getType()});
++    return Builder.CreateCall(Fn,
++                              {Chunk, llvm::ConstantInt::get(Int32Ty, RegNo)});
++  };
++  auto FloorWidth = [](unsigned L) -> unsigned {
++    for (unsigned W : {16u, 8u, 4u, 2u})
++      if (L >= W)
++        return W;
++    return 1;
++  };
++
++  for (unsigned Off = 0; Off < Lanes;) {
++    unsigned W = FloorWidth(Lanes - Off);
++    if (W == 1) {
++      llvm::Value *Idx = llvm::ConstantInt::get(Int32Ty, Off);
++      llvm::Value *Elt = Builder.CreateExtractElement(Vec, Idx);
++      Vec = Builder.CreateInsertElement(Vec, Pin(Elt, Reg + Off), Idx);
++    } else {
++      llvm::Value *Idx = llvm::ConstantInt::get(Int64Ty, Off);
++      llvm::Value *Sub = Builder.CreateExtractVector(
++          llvm::FixedVectorType::get(Int32Ty, W), Vec, Idx);
++      Vec = Builder.CreateInsertVector(VecTy, Vec, Pin(Sub, Reg + Off), Idx);
++    }
++    Off += W;
++  }
++  return Builder.CreateBitCast(Vec, Ty);
+ }
+ 
+ void CodeGenFunction::EmitStoreThroughBitfieldLValue(RValue Src, LValue Dst,
+diff --git a/clang/lib/CodeGen/CodeGenFunction.h b/clang/lib/CodeGen/CodeGenFunction.h
+index 0ba9a4e098..f2133f3aac 100644
+--- a/clang/lib/CodeGen/CodeGenFunction.h
++++ b/clang/lib/CodeGen/CodeGenFunction.h
+@@ -1550,6 +1550,17 @@ private:
+   /// decls.
+   DeclMapTy LocalDeclMap;
+ 
++  /// Local variables carrying an amdgpu_pin_{vgpr,agpr} attribute, keyed by the
++  /// variable's storage pointer. Maps to (isAGPR, startRegNo). Every value
++  /// stored to such a variable is wrapped with llvm.amdgcn.pin.* so it is
++  /// register-pinned. \sa emitAMDGPUPinnedValue
++  llvm::DenseMap<llvm::Value *, std::pair<bool, unsigned>> AMDGPUPinnedLocals;
++
++  /// If \p Addr is a pinned local's storage, return \p V wrapped with the
++  /// appropriate llvm.amdgcn.pin.* intrinsic(s) (chunked for wide values);
++  /// otherwise return \p V unchanged.
++  llvm::Value *emitAMDGPUPinnedValue(llvm::Value *V, llvm::Value *Addr);
++
+   // Keep track of the cleanups for callee-destructed parameters pushed to the
+   // cleanup stack so that they can be deactivated later.
+   llvm::DenseMap<const ParmVarDecl *, EHScopeStack::stable_iterator>
+diff --git a/clang/lib/Sema/SemaAMDGPU.cpp b/clang/lib/Sema/SemaAMDGPU.cpp
+index 028807f924..cd402add95 100644
+--- a/clang/lib/Sema/SemaAMDGPU.cpp
++++ b/clang/lib/Sema/SemaAMDGPU.cpp
+@@ -711,6 +711,59 @@ void SemaAMDGPU::handleAMDGPUNumVGPRAttr(Decl *D, const ParsedAttr &AL) {
+                  AMDGPUNumVGPRAttr(getASTContext(), AL, NumVGPR));
+ }
+ 
++// Validate a pin register operand. Value-dependent expressions (e.g. template
++// parameters) are accepted as-is and re-checked at instantiation; otherwise the
++// expression must be a non-negative integer constant.
++static Expr *checkPinRegArg(Sema &S, const AttributeCommonInfo &CI, Expr *E) {
++  if (E->isValueDependent())
++    return E;
++  llvm::APSInt Val;
++  ExprResult R = S.VerifyIntegerConstantExpression(E, &Val);
++  if (R.isInvalid())
++    return nullptr;
++  if (Val.isNegative()) {
++    S.Diag(E->getExprLoc(), diag::err_attribute_requires_positive_integer)
++        << CI << /*non-negative*/ 1;
++    return nullptr;
++  }
++  return R.get();
++}
++
++void SemaAMDGPU::addAMDGPUPinVGPRAttr(Decl *D, const AttributeCommonInfo &CI,
++                                      Expr *RegExpr) {
++  if (Expr *E = checkPinRegArg(SemaRef, CI, RegExpr))
++    D->addAttr(::new (getASTContext())
++                   AMDGPUPinVGPRAttr(getASTContext(), CI, E));
++}
++
++void SemaAMDGPU::addAMDGPUPinAGPRAttr(Decl *D, const AttributeCommonInfo &CI,
++                                      Expr *RegExpr) {
++  if (Expr *E = checkPinRegArg(SemaRef, CI, RegExpr))
++    D->addAttr(::new (getASTContext())
++                   AMDGPUPinAGPRAttr(getASTContext(), CI, E));
++}
++
++// The pin is applied to stores of an automatic local (see EmitAutoVarAlloca),
++// so it is meaningless on globals, static locals, or parameters; ignore it
++// there.
++static bool isPinnableLocal(Sema &S, Decl *D, const ParsedAttr &AL) {
++  const auto *VD = dyn_cast<VarDecl>(D);
++  if (VD && VD->isLocalVarDecl() && VD->hasLocalStorage())
++    return true;
++  S.Diag(AL.getLoc(), diag::warn_attribute_ignored) << AL;
++  return false;
++}
++
++void SemaAMDGPU::handleAMDGPUPinVGPRAttr(Decl *D, const ParsedAttr &AL) {
++  if (isPinnableLocal(SemaRef, D, AL))
++    addAMDGPUPinVGPRAttr(D, AL, AL.getArgAsExpr(0));
++}
++
++void SemaAMDGPU::handleAMDGPUPinAGPRAttr(Decl *D, const ParsedAttr &AL) {
++  if (isPinnableLocal(SemaRef, D, AL))
++    addAMDGPUPinAGPRAttr(D, AL, AL.getArgAsExpr(0));
++}
++
+ static bool
+ checkAMDGPUMaxNumWorkGroupsArguments(Sema &S, Expr *XExpr, Expr *YExpr,
+                                      Expr *ZExpr,
+diff --git a/clang/lib/Sema/SemaDeclAttr.cpp b/clang/lib/Sema/SemaDeclAttr.cpp
+index 386651fa69..4e66c85ea1 100644
+--- a/clang/lib/Sema/SemaDeclAttr.cpp
++++ b/clang/lib/Sema/SemaDeclAttr.cpp
+@@ -7620,6 +7620,12 @@ ProcessDeclAttribute(Sema &S, Scope *scope, Decl *D, const ParsedAttr &AL,
+   case ParsedAttr::AT_AMDGPUNumVGPR:
+     S.AMDGPU().handleAMDGPUNumVGPRAttr(D, AL);
+     break;
++  case ParsedAttr::AT_AMDGPUPinVGPR:
++    S.AMDGPU().handleAMDGPUPinVGPRAttr(D, AL);
++    break;
++  case ParsedAttr::AT_AMDGPUPinAGPR:
++    S.AMDGPU().handleAMDGPUPinAGPRAttr(D, AL);
++    break;
+   case ParsedAttr::AT_AMDGPUMaxNumWorkGroups:
+     S.AMDGPU().handleAMDGPUMaxNumWorkGroupsAttr(D, AL);
+     break;
+diff --git a/clang/lib/Sema/SemaTemplateInstantiateDecl.cpp b/clang/lib/Sema/SemaTemplateInstantiateDecl.cpp
+index c9bc613a7c..95b862c651 100644
+--- a/clang/lib/Sema/SemaTemplateInstantiateDecl.cpp
++++ b/clang/lib/Sema/SemaTemplateInstantiateDecl.cpp
+@@ -969,6 +969,22 @@ void Sema::InstantiateAttrs(const MultiLevelTemplateArgumentList &TemplateArgs,
+           *this, TemplateArgs, *AMDGPUMaxNumWorkGroups, New);
+     }
+ 
++    if (const auto *Pin = dyn_cast<AMDGPUPinVGPRAttr>(TmplAttr)) {
++      EnterExpressionEvaluationContext Unevaluated(
++          *this, Sema::ExpressionEvaluationContext::ConstantEvaluated);
++      ExprResult R = SubstExpr(Pin->getReg(), TemplateArgs);
++      if (!R.isInvalid())
++        AMDGPU().addAMDGPUPinVGPRAttr(New, *Pin, R.get());
++    }
++
++    if (const auto *Pin = dyn_cast<AMDGPUPinAGPRAttr>(TmplAttr)) {
++      EnterExpressionEvaluationContext Unevaluated(
++          *this, Sema::ExpressionEvaluationContext::ConstantEvaluated);
++      ExprResult R = SubstExpr(Pin->getReg(), TemplateArgs);
++      if (!R.isInvalid())
++        AMDGPU().addAMDGPUPinAGPRAttr(New, *Pin, R.get());
++    }
++
+     if (const auto *CUDAClusterDims = dyn_cast<CUDAClusterDimsAttr>(TmplAttr)) {
+       instantiateDependentCUDAClusterDimsAttr(*this, TemplateArgs,
+                                               *CUDAClusterDims, New);
+diff --git a/llvm/include/llvm/IR/IntrinsicsAMDGPU.td b/llvm/include/llvm/IR/IntrinsicsAMDGPU.td
+index dc76766712..92c4035480 100644
+--- a/llvm/include/llvm/IR/IntrinsicsAMDGPU.td
++++ b/llvm/include/llvm/IR/IntrinsicsAMDGPU.td
+@@ -2512,6 +2512,22 @@ def int_amdgcn_readfirstlane :
+   Intrinsic<[llvm_any_ty], [LLVMMatchType<0>],
+             [IntrNoMem, IntrConvergent, IntrWillReturn, IntrNoCallback, IntrNoFree, IntrNoCreateUndefOrPoison]>;
+ 
++// Register-pinning constraint. Requires the value operand to occupy the physical
++// VGPR (int_amdgcn_pin_vgpr) or AGPR (int_amdgcn_pin_agpr) tuple starting at the
++// number given by the second (immediate) operand. Overloaded on the value type:
++// a 32/64/128-bit value pins to 1/2/4 consecutive registers starting at that
++// number. The AMDGPU backend uses hard pinning by default and reports a fatal
++// error if it cannot honor the tuple; -amdgpu-hard-pin-regs=false is an explicit
++// best-effort soft-hint mode for compiler experiments. Value passed unchanged.
++def int_amdgcn_pin_vgpr :
++  Intrinsic<[llvm_any_ty], [LLVMMatchType<0>, llvm_i32_ty],
++            [IntrNoMem, IntrWillReturn, IntrNoCallback, IntrNoFree,
++             ImmArg<ArgIndex<1>>]>;
++def int_amdgcn_pin_agpr :
++  Intrinsic<[llvm_any_ty], [LLVMMatchType<0>, llvm_i32_ty],
++            [IntrNoMem, IntrWillReturn, IntrNoCallback, IntrNoFree,
++             ImmArg<ArgIndex<1>>]>;
++
+ // The lane argument must be uniform across the currently active threads of the
+ // current wave. Otherwise, the result is undefined.
+ def int_amdgcn_readlane :
+diff --git a/llvm/lib/Target/AMDGPU/AMDGPU.h b/llvm/lib/Target/AMDGPU/AMDGPU.h
+index 0ee44a24ef..4b737d577c 100644
+--- a/llvm/lib/Target/AMDGPU/AMDGPU.h
++++ b/llvm/lib/Target/AMDGPU/AMDGPU.h
+@@ -53,6 +53,8 @@ FunctionPass *createSIFixSGPRCopiesLegacyPass();
+ FunctionPass *createLowerWWMCopiesPass();
+ FunctionPass *createSIMemoryLegalizerPass();
+ FunctionPass *createSIInsertWaitcntsPass();
++FunctionPass *createSIPreColorPinsPass();
++FunctionPass *createSIVerifyPinnedRegsPass();
+ FunctionPass *createSIPreAllocateWWMRegsLegacyPass();
+ FunctionPass *createSIFormMemoryClausesLegacyPass();
+ 
+@@ -247,6 +249,11 @@ extern char &SIOptimizeExecMaskingLegacyID;
+ void initializeSIPreAllocateWWMRegsLegacyPass(PassRegistry &);
+ extern char &SIPreAllocateWWMRegsLegacyID;
+ 
++void initializeSIPreColorPinsPass(PassRegistry &);
++extern char &SIPreColorPinsID;
++void initializeSIVerifyPinnedRegsPass(PassRegistry &);
++extern char &SIVerifyPinnedRegsID;
++
+ void initializeAMDGPUImageIntrinsicOptimizerPass(PassRegistry &);
+ extern char &AMDGPUImageIntrinsicOptimizerID;
+ 
+diff --git a/llvm/lib/Target/AMDGPU/AMDGPUAttributor.cpp b/llvm/lib/Target/AMDGPU/AMDGPUAttributor.cpp
+index 2155aa06b2..ad531e3f04 100644
+--- a/llvm/lib/Target/AMDGPU/AMDGPUAttributor.cpp
++++ b/llvm/lib/Target/AMDGPU/AMDGPUAttributor.cpp
+@@ -1334,6 +1334,17 @@ struct AAAMDGPUMinAGPRAlloc
+       switch (CB.getIntrinsicID()) {
+       case Intrinsic::not_intrinsic:
+         break;
++      case Intrinsic::amdgcn_pin_agpr: {
++        // Explicit request to hold a value in AGPRs starting at a given
++        // register; require at least that range so the function keeps AGPRs
++        // and the AGPR MFMA form stays available for the pin to be honored.
++        unsigned RegNo =
++            cast<ConstantInt>(CB.getArgOperand(1))->getZExtValue();
++        unsigned NumRegs = divideCeil(
++            CB.getArgOperand(0)->getType()->getPrimitiveSizeInBits(), 32);
++        Maximum.takeAssumedMaximum(std::min(RegNo + NumRegs, 256u));
++        return true;
++      }
+       case Intrinsic::write_register:
+       case Intrinsic::read_register:
+       case Intrinsic::read_volatile_register: {
+diff --git a/llvm/lib/Target/AMDGPU/AMDGPUTargetMachine.cpp b/llvm/lib/Target/AMDGPU/AMDGPUTargetMachine.cpp
+index b7c0f1ca61..83779de66d 100644
+--- a/llvm/lib/Target/AMDGPU/AMDGPUTargetMachine.cpp
++++ b/llvm/lib/Target/AMDGPU/AMDGPUTargetMachine.cpp
+@@ -653,6 +653,8 @@ extern "C" LLVM_ABI LLVM_EXTERNAL_VISIBILITY void LLVMInitializeAMDGPUTarget() {
+   RegisterTargetMachine<GCNTargetMachine> Y(getTheGCNTarget());
+ 
+   PassRegistry *PR = PassRegistry::getPassRegistry();
++  initializeSIPreColorPinsPass(*PR);
++  initializeSIVerifyPinnedRegsPass(*PR);
+   initializeR600ClauseMergePassPass(*PR);
+   initializeR600ControlFlowFinalizerPass(*PR);
+   initializeR600PacketizerPass(*PR);
+@@ -1727,6 +1729,10 @@ bool GCNPassConfig::addGlobalInstructionSelect() {
+ }
+ 
+ void GCNPassConfig::addFastRegAlloc() {
++  // Hard-pin llvm.amdgcn.pin.* values while still in SSA form, before
++  // PHIElimination / TwoAddressInstruction.
++  addPass(createSIPreColorPinsPass());
++
+   // FIXME: We have to disable the verifier here because of PHIElimination +
+   // TwoAddressInstructions disabling it.
+ 
+@@ -1746,6 +1752,10 @@ void GCNPassConfig::addPreRegAlloc() {
+ }
+ 
+ void GCNPassConfig::addOptimizedRegAlloc() {
++  // Hard-pin llvm.amdgcn.pin.* values while still in SSA form, before
++  // PHIElimination / TwoAddressInstruction / LiveIntervals.
++  addPass(createSIPreColorPinsPass());
++
+   if (EnableDCEInRA)
+     insertPass(&DetectDeadLanesID, &DeadMachineInstructionElimID);
+ 
+@@ -1904,6 +1914,7 @@ bool GCNPassConfig::addRegAssignAndRewriteOptimized() {
+   addPass(createVGPRAllocPass(true));
+ 
+   addPreRewrite();
++  addPass(createSIVerifyPinnedRegsPass());
+   addPass(&VirtRegRewriterID);
+ 
+   addPass(&AMDGPUMarkLastScratchLoadID);
+diff --git a/llvm/lib/Target/AMDGPU/CMakeLists.txt b/llvm/lib/Target/AMDGPU/CMakeLists.txt
+index 392d561fe3..e704fb5856 100644
+--- a/llvm/lib/Target/AMDGPU/CMakeLists.txt
++++ b/llvm/lib/Target/AMDGPU/CMakeLists.txt
+@@ -186,6 +186,7 @@ add_llvm_target(AMDGPUCodeGen
+   SIPeepholeSDWA.cpp
+   SIPostRABundler.cpp
+   SIPreAllocateWWMRegs.cpp
++  SIPreColorPins.cpp
+   SIPreEmitPeephole.cpp
+   SIProgramInfo.cpp
+   SIRegisterInfo.cpp
+diff --git a/llvm/lib/Target/AMDGPU/SIFoldOperands.cpp b/llvm/lib/Target/AMDGPU/SIFoldOperands.cpp
+index aa063e1fc0..d2c1aaae80 100644
+--- a/llvm/lib/Target/AMDGPU/SIFoldOperands.cpp
++++ b/llvm/lib/Target/AMDGPU/SIFoldOperands.cpp
+@@ -2632,9 +2632,15 @@ bool SIFoldOperandsImpl::tryFoldLoad(MachineInstr &MI) {
+     return false;
+ 
+   // Check that all uses a copy to an agpr or a reg_sequence producing an agpr.
++  // A PIN_AGPR_B* pseudo (from llvm.amdgcn.pin.agpr) is also an AGPR terminator:
++  // its def is already an AGPR tuple, so a load feeding it should be folded into
++  // AGPR (a native buffer_load into AGPR) exactly like a copy-to-AGPR.
++  auto IsPinAgpr = [&](const MachineInstr &MI) {
++    return TII->getName(MI.getOpcode()).starts_with("PIN_AGPR_B");
++  };
+   while (!Users.empty()) {
+     const MachineInstr *I = Users.pop_back_val();
+-    if (!I->isCopy() && !I->isRegSequence())
++    if (!I->isCopy() && !I->isRegSequence() && !IsPinAgpr(*I))
+       return false;
+     Register DstReg = I->getOperand(0).getReg();
+     // Physical registers may have more than one instruction definitions
+diff --git a/llvm/lib/Target/AMDGPU/SIInstrInfo.h b/llvm/lib/Target/AMDGPU/SIInstrInfo.h
+index 2e897099f2..709b5dd5a7 100644
+--- a/llvm/lib/Target/AMDGPU/SIInstrInfo.h
++++ b/llvm/lib/Target/AMDGPU/SIInstrInfo.h
+@@ -1892,11 +1892,20 @@ namespace AMDGPU {
+   LLVM_READONLY
+   int32_t getMFMAEarlyClobberOp(uint32_t Opcode);
+ 
++  /// \returns the tied/in-place version of an out-of-place MFMA, if one exists.
++  LLVM_READONLY
++  int32_t getMFMAMacOp(uint32_t Opcode);
++
+   /// \returns Version of an MFMA instruction which uses AGPRs for srcC and
+   /// vdst, given an \p Opcode of an MFMA which uses VGPRs for srcC/vdst.
+   LLVM_READONLY
+   int32_t getMFMASrcCVDstAGPROp(uint32_t Opcode);
+ 
++  /// \returns the VGPR (vgprcd) form of an MFMA that uses AGPRs for srcC/vdst,
++  /// or -1. Lets an accumulator be pinned into VGPRs with AGPR inputs.
++  LLVM_READONLY
++  int getMFMASrcCVDstVGPROp(uint32_t Opcode);
++
+   /// \returns v_cmpx version of a v_cmp instruction.
+   LLVM_READONLY
+   int32_t getVCMPXOpFromVCMP(uint32_t Opcode);
+diff --git a/llvm/lib/Target/AMDGPU/SIInstrInfo.td b/llvm/lib/Target/AMDGPU/SIInstrInfo.td
+index 7c3aff9c9f..8da46f1af2 100644
+--- a/llvm/lib/Target/AMDGPU/SIInstrInfo.td
++++ b/llvm/lib/Target/AMDGPU/SIInstrInfo.td
+@@ -3493,6 +3493,18 @@ def getMFMAEarlyClobberOp : InstrMapping {
+   let ValueCols = [["0"]];
+ }
+ 
++// Map an out-of-place MFMA pseudo to the equivalent tied/in-place pseudo.
++// Profiles whose hardware also permits a distinct destination keep the tied
++// form patternless; target passes may select it when accumulator coalescing is
++// a required part of a register-placement contract.
++def getMFMAMacOp : InstrMapping {
++  let FilterClass = "MFMATable";
++  let RowFields = ["FMAOp"];
++  let ColFields = ["IsMac"];
++  let KeyCol = ["0"];
++  let ValueCols = [["1"]];
++}
++
+ // Map from an mfma using VGPRs to one using AGPRs.
+ def getMFMASrcCVDstAGPROp : InstrMapping {
+   let FilterClass = "MFMATable";
+@@ -3502,6 +3514,16 @@ def getMFMASrcCVDstAGPROp : InstrMapping {
+   let ValueCols = [["AGPR"]];
+ }
+ 
++// Map from an mfma using AGPRs for srcC/vdst to the VGPR (vgprcd) form. Used to
++// pin an accumulator into VGPRs while its inputs stay in AGPRs.
++def getMFMASrcCVDstVGPROp : InstrMapping {
++  let FilterClass = "MFMATable";
++  let RowFields = ["AGPROp"];
++  let ColFields = ["MFMAKind"];
++  let KeyCol = ["AGPR"];
++  let ValueCols = [["VGPR"]];
++}
++
+ // Maps an v_cmp instruction to its v_cmpx equivalent.
+ def getVCMPXOpFromVCMP : InstrMapping {
+   let FilterClass = "VCMPVCMPXTable";
+diff --git a/llvm/lib/Target/AMDGPU/SIInstructions.td b/llvm/lib/Target/AMDGPU/SIInstructions.td
+index dede206427..9cdb5200e7 100644
+--- a/llvm/lib/Target/AMDGPU/SIInstructions.td
++++ b/llvm/lib/Target/AMDGPU/SIInstructions.td
+@@ -410,6 +410,39 @@ foreach Op = Operations in {
+                                                       Op.VT, Op.RetReg, Op.Reg>;
+ }
+ 
++// Register-pinning hints. Lowered by EmitInstrWithCustomInserter into a COPY
++// plus a register-allocation hint requesting the numbered VGPR/AGPR tuple.
++// One pseudo per register width; the inserter derives the tuple physreg from the
++// destination register class, so it works for any width/alignment.
++// Expanded by the SIPreColorPins pass (pre-RA, still in SSA form) into either a
++// hard physical-register assignment or a soft COPY + allocation hint.
++class PinPseudo<RegisterClass DstRC, RegisterClass SrcRC> :
++  VPseudoInstSI <(outs DstRC:$vdst), (ins SrcRC:$src, i32imm:$regno), []> {
++  let hasSideEffects = 0;
++  let mayLoad = 0;
++  let mayStore = 0;
++}
++
++foreach w = [32,64,96,128,160,192,224,256,288,320,352,384,512,1024] in {
++  defvar VRC = !cast<RegisterClass>(!if(!eq(w,32), "VGPR_32", "VReg_"#w));
++  defvar ARC = !cast<RegisterClass>(!if(!eq(w,32), "AGPR_32", "AReg_"#w));
++  // AV source: the pinned value arrives in a VGPR, but SIFoldOperands' AGPR load
++  // fold may rewrite it to an AGPR in place (a native buffer_load into AGPR), so
++  // the source must accept either file.
++  defvar AVRC = !cast<RegisterClass>(!if(!eq(w,32), "AV_32", "AV_"#w));
++  def PIN_VGPR_B#w : PinPseudo<VRC, VRC>;
++  def PIN_AGPR_B#w : PinPseudo<ARC, AVRC>;
++}
++
++// Map each supported value type to the width-appropriate pseudo via its size.
++foreach vt = [i32, f32, v2i32, v4i32, v4f32, v8f16,
++              v8i32, v8f32, v16i32, v16f32] in {
++  def : GCNPat<(vt (int_amdgcn_pin_vgpr vt:$s, (i32 timm:$r))),
++               (!cast<Instruction>("PIN_VGPR_B"#vt.Size) $s, $r)>;
++  def : GCNPat<(vt (int_amdgcn_pin_agpr vt:$s, (i32 timm:$r))),
++               (!cast<Instruction>("PIN_AGPR_B"#vt.Size) $s, $r)>;
++}
++
+ let usesCustomInserter = 1, Defs = [VCC] in {
+ def V_ADD_U64_PSEUDO : VPseudoInstSI <
+   (outs VReg_64_AlignTarget:$vdst), (ins VSrc_b64:$src0, VSrc_b64:$src1),
+diff --git a/llvm/lib/Target/AMDGPU/SIMachineFunctionInfo.h b/llvm/lib/Target/AMDGPU/SIMachineFunctionInfo.h
+index 041cb30168..19e475863b 100644
+--- a/llvm/lib/Target/AMDGPU/SIMachineFunctionInfo.h
++++ b/llvm/lib/Target/AMDGPU/SIMachineFunctionInfo.h
+@@ -1175,6 +1175,10 @@ public:
+     return WavesPerEU;
+   }
+ 
++  /// Override the waves-per-EU bounds (used e.g. to let register-pinning drive
++  /// the occupancy target / VGPR budget).
++  void setWavesPerEU(unsigned Min, unsigned Max) { WavesPerEU = {Min, Max}; }
++
+   /// \returns Default/requested minimum number of waves per execution unit.
+   unsigned getMinWavesPerEU() const {
+     return WavesPerEU.first;
+diff --git a/llvm/lib/Target/AMDGPU/SIRegisterInfo.cpp b/llvm/lib/Target/AMDGPU/SIRegisterInfo.cpp
+index 79570fb26f..a438f0104d 100644
+--- a/llvm/lib/Target/AMDGPU/SIRegisterInfo.cpp
++++ b/llvm/lib/Target/AMDGPU/SIRegisterInfo.cpp
+@@ -4142,12 +4142,61 @@ bool SIRegisterInfo::getRegAllocationHints(Register VirtReg,
+     }
+     return false;
+   }
++  case AMDGPURI::HardPin: {
++    Register Pinned = Hint.second;
++    if (!Pinned.isPhysical())
++      report_fatal_error("AMDGPU hard-pin hint has a non-physical target");
++    if (!is_contained(Order, Pinned.asMCReg()))
++      report_fatal_error("AMDGPU hard-pin target is outside the allocation "
++                         "order for its register class");
++    Hints.push_back(Pinned.asMCReg());
++    return true;
++  }
+   default:
+     return TargetRegisterInfo::getRegAllocationHints(VirtReg, Order, Hints, MF,
+                                                      VRM);
+   }
+ }
+ 
++void SIRegisterInfo::updateRegAllocHint(Register Reg, Register NewReg,
++                                        MachineFunction &MF) const {
++  MachineRegisterInfo &MRI = MF.getRegInfo();
++  std::pair<unsigned, Register> OldHint = MRI.getRegAllocationHint(Reg);
++  if (OldHint.first != AMDGPURI::HardPin)
++    return;
++
++  Register Pinned = OldHint.second;
++  if (!Pinned.isPhysical())
++    report_fatal_error("AMDGPU hard-pin hint has a non-physical target");
++
++  if (NewReg.isPhysical()) {
++    if (NewReg != Pinned)
++      report_fatal_error("AMDGPU hard-pinned virtual register was coalesced "
++                         "to a different physical register");
++    return;
++  }
++
++  if (!NewReg.isVirtual())
++    report_fatal_error("AMDGPU hard-pin hint was coalesced to an invalid "
++                       "register");
++
++  std::pair<unsigned, Register> NewHint = MRI.getRegAllocationHint(NewReg);
++  if (NewHint.first == AMDGPURI::HardPin && NewHint.second != Pinned) {
++    // Subregister coalescing legitimately joins an element pinned to (say)
++    // a[8:11] with its REG_SEQUENCE result pinned to a[8:15]. Keep the
++    // surviving register's wider constraint when the physical tuples overlap.
++    if (NewHint.second.isPhysical() &&
++        regsOverlap(Pinned, NewHint.second.asMCReg()))
++      return;
++    report_fatal_error(
++        Twine("conflicting AMDGPU hard-pin hints were coalesced: vreg ") +
++        Twine(Reg.id()) + " -> " + Twine(NewReg.id()) + ", targets " +
++        Twine(Pinned.id()) + " and " + Twine(NewHint.second.id()));
++  }
++
++  MRI.setRegAllocationHint(NewReg, AMDGPURI::HardPin, Pinned);
++}
++
+ MCRegister SIRegisterInfo::getReturnAddressReg(const MachineFunction &MF) const {
+   // Not a callee saved register.
+   return AMDGPU::SGPR30_SGPR31;
+diff --git a/llvm/lib/Target/AMDGPU/SIRegisterInfo.h b/llvm/lib/Target/AMDGPU/SIRegisterInfo.h
+index d98bb25e43..67cef03f1a 100644
+--- a/llvm/lib/Target/AMDGPU/SIRegisterInfo.h
++++ b/llvm/lib/Target/AMDGPU/SIRegisterInfo.h
+@@ -33,7 +33,7 @@ struct SGPRSpillBuilder;
+ /// Register allocation hint types. Helps eliminate unneeded COPY with True16
+ namespace AMDGPURI {
+ 
+-enum { Size16 = 1, Size32 = 2 };
++enum { Size16 = 1, Size32 = 2, HardPin = 3 };
+ 
+ } // end namespace AMDGPURI
+ 
+@@ -367,6 +367,9 @@ public:
+                              const MachineFunction &MF, const VirtRegMap *VRM,
+                              const LiveRegMatrix *Matrix) const override;
+ 
++  void updateRegAllocHint(Register Reg, Register NewReg,
++                          MachineFunction &MF) const override;
++
+   const int *getRegUnitPressureSets(MCRegUnit RegUnit) const override;
+ 
+   MCRegister getReturnAddressReg(const MachineFunction &MF) const;
+diff --git a/llvm/lib/Target/AMDGPU/VOP3PInstructions.td b/llvm/lib/Target/AMDGPU/VOP3PInstructions.td
+index 7ae93b30e7..ca698a8770 100644
+--- a/llvm/lib/Target/AMDGPU/VOP3PInstructions.td
++++ b/llvm/lib/Target/AMDGPU/VOP3PInstructions.td
+@@ -1095,19 +1095,28 @@ multiclass MAIInst<string OpName, string P, SDPatternOperator node = null_frag,
+                         MFMATable<0, "VGPR", NAME # "_vgprcd_e64", NAME # "_e64">;
+     }
+ 
+-    if NoDstOverlap then {
+-      let Constraints = !if(NoDstOverlap, "$vdst = $src2", ""),
+-          isConvertibleToThreeAddress = NoDstOverlap,
+-          Mnemonic = OpName in {
++    // Keep an in-place pseudo available even when the hardware permits an
++    // out-of-place destination.  It is patternless for those profiles and is
++    // selected only by target passes that require vdst/SrcC coalescing.
++    let Constraints = "$vdst = $src2",
++        isConvertibleToThreeAddress = 1,
++        Mnemonic = OpName in {
+         def "_mac_e64" : MAIInst<OpName # "_mac", ProfileAGPR,
+-                                 !if(!eq(node, null_frag), null_frag, AgprMAIFrag<node, ProfileAGPR.DstVT, HasAbid, Scaled>), Scaled>,
++                                 !if(NoDstOverlap,
++                                     !if(!eq(node, null_frag), null_frag,
++                                         AgprMAIFrag<node, ProfileAGPR.DstVT,
++                                                     HasAbid, Scaled>),
++                                     null_frag), Scaled>,
+                          MFMATable<1, "AGPR", NAME # "_e64", NAME # "_mac_e64">;
+ 
+         let OtherPredicates = [isGFX90APlus] in
+         def _mac_vgprcd_e64 : MAIInst<OpName # "_mac_vgprcd", ProfileVGPR,
+-                                      !if(!eq(node, null_frag), null_frag, VgprMAIFrag<node, HasAbid, Scaled>), Scaled>,
++                                      !if(NoDstOverlap,
++                                          !if(!eq(node, null_frag), null_frag,
++                                              VgprMAIFrag<node, HasAbid,
++                                                          Scaled>),
++                                          null_frag), Scaled>,
+                               MFMATable<1, "VGPR", NAME # "_vgprcd_e64", NAME # "_mac_e64">;
+-      }
+     }
+   } // mayRaiseFPException = 0, ReadsModeReg = 1
+ }
+@@ -1129,18 +1138,19 @@ multiclass ScaledMAIInst_mc<string OpName, string UnscaledOpName_, SDPatternOper
+           !cast<MAIInst>(UnscaledOpName#"_vgprcd_e64"), !if(NoDstOverlap, null_frag, VgprMAIFrag<node, HasAbid, true>)>,
+         MFMATable<0, "VGPR", NAME # "_vgprcd_e64", NAME # "_e64">;
+ 
+- if NoDstOverlap then {
+-   let Constraints = !if(NoDstOverlap, "$vdst = $src2", ""),
+-       isConvertibleToThreeAddress = NoDstOverlap,
+-       Mnemonic = UnscaledOpName_ in {
++ let Constraints = "$vdst = $src2",
++     isConvertibleToThreeAddress = 1,
++     Mnemonic = UnscaledOpName_ in {
+      def _mac_e64 : ScaledMAIInst<OpName # "_mac",
+-          !cast<MAIInst>(UnscaledOpName # "_mac_e64"), AgprMAIFrag<node, Profile.DstVT, HasAbid, true>>,
++          !cast<MAIInst>(UnscaledOpName # "_mac_e64"),
++          !if(NoDstOverlap,
++              AgprMAIFrag<node, Profile.DstVT, HasAbid, true>, null_frag)>,
+         MFMATable<1, "AGPR", NAME # "_e64">;
+ 
+      def _mac_vgprcd_e64 : ScaledMAIInst<OpName # " _mac_vgprcd",
+-          !cast<MAIInst>(UnscaledOpName # "_mac_vgprcd_e64"), VgprMAIFrag<node, HasAbid, true>>,
++          !cast<MAIInst>(UnscaledOpName # "_mac_vgprcd_e64"),
++          !if(NoDstOverlap, VgprMAIFrag<node, HasAbid, true>, null_frag)>,
+         MFMATable<1, "VGPR", NAME # "_vgprcd_e64", NAME # "_mac_e64">;
+-    }
+   }
+ }
+ 
+diff --git a/clang/test/CodeGenHIP/amdgpu-pin-attr.hip b/clang/test/CodeGenHIP/amdgpu-pin-attr.hip
+new file mode 100644
+index 0000000000..654ebe8a43
+--- /dev/null
++++ b/clang/test/CodeGenHIP/amdgpu-pin-attr.hip
+@@ -0,0 +1,49 @@
++// RUN: %clang_cc1 -triple amdgcn-amd-amdhsa -target-cpu gfx950 -x hip \
++// RUN:   -fcuda-is-device -emit-llvm -o - %s | FileCheck %s
++
++// The amdgpu_pin_{agpr,vgpr} attribute wraps every store to the local in the
++// corresponding llvm.amdgcn.pin.* intrinsic (chunked to i32-based widths).
++
++typedef float float2 __attribute__((ext_vector_type(2)));
++
++// CHECK-LABEL: define{{.*}}pin_agpr
++// CHECK: call <2 x i32> @llvm.amdgcn.pin.agpr.v2i32(<2 x i32> %{{[0-9]+}}, i32 8)
++__attribute__((device)) void pin_agpr(float2 *out, float2 in) {
++  __attribute__((amdgpu_pin_agpr(8))) float2 x;
++  x = in;
++  *out = x;
++}
++
++// CHECK-LABEL: define{{.*}}pin_vgpr
++// CHECK: call <2 x i32> @llvm.amdgcn.pin.vgpr.v2i32(<2 x i32> %{{[0-9]+}}, i32 4)
++__attribute__((device)) void pin_vgpr(float2 *out, float2 in) {
++  __attribute__((amdgpu_pin_vgpr(4))) float2 x;
++  x = in;
++  *out = x;
++}
++
++// A value wider than the largest pin width is decomposed into i32 chunks of
++// 16/8/4/2/1 dwords at consecutive register numbers (12 dwords -> 8 + 4).
++typedef float float12 __attribute__((ext_vector_type(12)));
++// CHECK-LABEL: define{{.*}}pin_wide
++// CHECK: call <8 x i32> @llvm.amdgcn.pin.vgpr.v8i32(<8 x i32> %{{[0-9]+}}, i32 0)
++// CHECK: call <4 x i32> @llvm.amdgcn.pin.vgpr.v4i32(<4 x i32> %{{[0-9]+}}, i32 8)
++__attribute__((device)) void pin_wide(float12 *out, float12 in) {
++  __attribute__((amdgpu_pin_vgpr(0))) float12 x;
++  x = in;
++  *out = x;
++}
++
++// A constant-expression argument (here via a template parameter) is accepted and
++// evaluated at instantiation.
++template <int N>
++__attribute__((device)) void pin_tmpl(float2 *out, float2 in) {
++  __attribute__((amdgpu_pin_agpr(N + 4))) float2 x;
++  x = in;
++  *out = x;
++}
++// CHECK-LABEL: define{{.*}}pin_tmpl
++// CHECK: call <2 x i32> @llvm.amdgcn.pin.agpr.v2i32(<2 x i32> %{{[0-9]+}}, i32 12)
++__attribute__((device)) void use_tmpl(float2 *out, float2 in) {
++  pin_tmpl<8>(out, in);
++}
+diff --git a/clang/test/SemaHIP/amdgpu-pin-attr.hip b/clang/test/SemaHIP/amdgpu-pin-attr.hip
+new file mode 100644
+index 0000000000..3c37be1307
+--- /dev/null
++++ b/clang/test/SemaHIP/amdgpu-pin-attr.hip
+@@ -0,0 +1,36 @@
++// RUN: %clang_cc1 -triple amdgcn-amd-amdhsa -target-cpu gfx950 -x hip \
++// RUN:   -fcuda-is-device -fsyntax-only -verify %s
++
++typedef float float2 __attribute__((ext_vector_type(2)));
++
++__attribute__((device)) void ok(void) {
++  __attribute__((amdgpu_pin_agpr(0))) float2 a;   // fine
++  __attribute__((amdgpu_pin_vgpr(8))) float2 b;   // fine
++  constexpr int base = 16;
++  __attribute__((amdgpu_pin_agpr(base + 4))) float2 c; // constant expr: fine
++  (void)a; (void)b; (void)c;
++}
++
++__attribute__((device)) void bad(int n) { // expected-note {{declared here}}
++  // expected-error@+1 {{'amdgpu_pin_agpr' attribute requires a non-negative integral compile time constant expression}}
++  __attribute__((amdgpu_pin_agpr(-1))) float2 a;
++  // expected-error@+2 {{expression is not an integral constant expression}}
++  // expected-note@+1 {{function parameter 'n' with unknown value cannot be used in a constant expression}}
++  __attribute__((amdgpu_pin_vgpr(n))) float2 b;
++  (void)a; (void)b;
++}
++
++// The attribute only applies to variables.
++// expected-warning@+1 {{'amdgpu_pin_agpr' attribute only applies to variables}}
++__attribute__((device)) __attribute__((amdgpu_pin_agpr(0))) void func(void) {}
++
++// Only automatic locals are pinnable; the attribute is ignored on globals and
++// static locals (CodeGen pins stores to an automatic variable's storage).
++// expected-warning@+1 {{'amdgpu_pin_vgpr' attribute ignored}}
++__attribute__((device)) __attribute__((amdgpu_pin_vgpr(0))) float2 g_pinned;
++
++__attribute__((device)) void bad_storage(void) {
++  // expected-warning@+1 {{'amdgpu_pin_agpr' attribute ignored}}
++  static __attribute__((amdgpu_pin_agpr(0))) float2 s;
++  (void)s;
++}
+diff --git a/llvm/lib/Target/AMDGPU/SIPreColorPins.cpp b/llvm/lib/Target/AMDGPU/SIPreColorPins.cpp
+new file mode 100644
+index 0000000000..89b8601f1c
+--- /dev/null
++++ b/llvm/lib/Target/AMDGPU/SIPreColorPins.cpp
+@@ -0,0 +1,580 @@
++//===-- SIPreColorPins.cpp - Hard register pinning ------------------------===//
++//
++// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
++// See https://llvm.org/LICENSE.txt for license information.
++// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
++//
++//===----------------------------------------------------------------------===//
++//
++/// \file
++/// Lowers the PIN_{VGPR,AGPR}_B* pseudos produced from
++/// llvm.amdgcn.pin.{vgpr,agpr} into exact register-allocation constraints.
++///
++/// The requested physical tuple is recorded as a hard allocation hint on the
++/// pseudo destination and on compatible one-to-one producer, PHI, COPY, and
++/// accumulator chains.  REG_SEQUENCE producers receive the corresponding
++/// physical sub-tuples, allowing LDS loads to define pinned AGPR operands
++/// directly. Shared undef/constant producers are placement boundaries rather
++/// than links between independently pinned values.
++///
++/// MFMA accumulator chains are kept in VGPR through the vgprcd form. When an
++/// in-place accumulator is required, the pass selects a tied pseudo descriptor
++/// so the ordinary two-address/coalescing machinery preserves Dst == SrcC.
++///
++/// A verifier after register allocation checks every surviving or split hard-
++/// pinned vreg against its requested tuple and reports a fatal error on a
++/// mismatch or spill. There is no silent fallback while hard pinning is enabled;
++/// -amdgpu-hard-pin-regs=false retains the legacy best-effort hint path.
++///
++/// Runs pre-RA while the function is still in SSA form (before PHIElimination /
++/// TwoAddressInstruction), so each value has a single reaching def.
++//
++//===----------------------------------------------------------------------===//
++
++#include "AMDGPU.h"
++#include "GCNSubtarget.h"
++#include "SIMachineFunctionInfo.h"
++#include "SIRegisterInfo.h"
++#include "llvm/ADT/DenseMap.h"
++#include "llvm/ADT/DenseSet.h"
++#include "llvm/CodeGen/LivePhysRegs.h"
++#include "llvm/CodeGen/MachineFunctionPass.h"
++#include "llvm/CodeGen/MachineRegisterInfo.h"
++#include "llvm/CodeGen/VirtRegMap.h"
++#include "llvm/InitializePasses.h"
++#include "llvm/Support/CommandLine.h"
++
++using namespace llvm;
++
++#define DEBUG_TYPE "si-pre-color-pins"
++
++static cl::opt<bool> EnableHardPin(
++    "amdgpu-hard-pin-regs", cl::init(true), cl::Hidden,
++    cl::desc("Use hard register pre-coloring for llvm.amdgcn.pin.* (else soft "
++             "allocation hints only)"));
++
++// If set, convert an AGPR-pinned input's MFMA to the mixed vgprcd form
++// (v[C], a[A], a[B]) so the accumulator stays in VGPR; else keep the native
++// all-AGPR form (a[D], a[A], a[B], a[C]).
++static cl::opt<bool> PinAgprVgprC(
++    "amdgpu-pin-agpr-vgpr-c", cl::init(true), cl::Hidden,
++    cl::desc("Convert an AGPR-input MFMA to vgprcd to keep its accumulator in "
++             "VGPR (else keep the native all-AGPR form)"));
++
++// Experimental (default off): if nonzero, an AGPR-input pin caps occupancy so
++// the vgprcd accumulator plus this many VGPRs of headroom stay resident, in
++// place of __launch_bounds__. Driving occupancy here can perturb hard-pinned
++// physreg live ranges at low occupancy, so __launch_bounds__ is preferred.
++static cl::opt<unsigned> PinAccVGPRMargin(
++    "amdgpu-pin-acc-vgpr-margin", cl::init(0), cl::Hidden,
++    cl::desc("If nonzero, VGPRs reserved above a vgprcd accumulator so an "
++             "AGPR-input pin can drive occupancy (experimental)"));
++
++namespace {
++
++class SIPreColorPins : public MachineFunctionPass {
++public:
++  static char ID;
++
++  SIPreColorPins() : MachineFunctionPass(ID) {}
++
++  bool runOnMachineFunction(MachineFunction &MF) override;
++
++  StringRef getPassName() const override {
++    return "SI pre-color pinned registers";
++  }
++
++  void getAnalysisUsage(AnalysisUsage &AU) const override {
++    AU.setPreservesCFG();
++    MachineFunctionPass::getAnalysisUsage(AU);
++  }
++};
++
++class SIVerifyPinnedRegs : public MachineFunctionPass {
++public:
++  static char ID;
++
++  SIVerifyPinnedRegs() : MachineFunctionPass(ID) {}
++
++  bool runOnMachineFunction(MachineFunction &MF) override;
++
++  StringRef getPassName() const override {
++    return "SI verify hard-pinned registers";
++  }
++
++  void getAnalysisUsage(AnalysisUsage &AU) const override {
++    AU.addRequired<VirtRegMapWrapperLegacy>();
++    AU.addPreserved<VirtRegMapWrapperLegacy>();
++    AU.setPreservesAll();
++    MachineFunctionPass::getAnalysisUsage(AU);
++  }
++};
++
++} // end anonymous namespace
++
++char SIPreColorPins::ID = 0;
++
++char &llvm::SIPreColorPinsID = SIPreColorPins::ID;
++
++INITIALIZE_PASS(SIPreColorPins, DEBUG_TYPE, "SI pre-color pinned registers",
++                false, false)
++
++FunctionPass *llvm::createSIPreColorPinsPass() { return new SIPreColorPins(); }
++
++char SIVerifyPinnedRegs::ID = 0;
++
++char &llvm::SIVerifyPinnedRegsID = SIVerifyPinnedRegs::ID;
++
++INITIALIZE_PASS_BEGIN(SIVerifyPinnedRegs, "si-verify-pinned-regs",
++                      "SI verify hard-pinned registers", false, false)
++INITIALIZE_PASS_DEPENDENCY(VirtRegMapWrapperLegacy)
++INITIALIZE_PASS_END(SIVerifyPinnedRegs, "si-verify-pinned-regs",
++                    "SI verify hard-pinned registers", false, false)
++
++FunctionPass *llvm::createSIVerifyPinnedRegsPass() {
++  return new SIVerifyPinnedRegs();
++}
++
++static bool isPinPseudo(const SIInstrInfo *TII, const MachineInstr &MI) {
++  StringRef N = TII->getName(MI.getOpcode());
++  return N.starts_with("PIN_VGPR_B") || N.starts_with("PIN_AGPR_B");
++}
++
++// Physical register tuple a pin targets, or 0 if it is not a legal member of the
++// destination register class (e.g. a misaligned start on a target that requires
++// aligned tuples).
++static MCRegister getPinPhysReg(const SIRegisterInfo *TRI,
++                                const TargetRegisterClass *RC, unsigned RegNo) {
++  unsigned First =
++      (TRI->isAGPRClass(RC) ? AMDGPU::AGPR0 : AMDGPU::VGPR0) + RegNo;
++  MCRegister PR = TRI->getRegSizeInBits(*RC) == 32
++                      ? MCRegister(First)
++                      : TRI->getMatchingSuperReg(First, AMDGPU::sub0, RC);
++  if (PR && RC->contains(PR))
++    return PR;
++  return MCRegister();
++}
++
++bool SIPreColorPins::runOnMachineFunction(MachineFunction &MF) {
++  const GCNSubtarget &ST = MF.getSubtarget<GCNSubtarget>();
++  const SIInstrInfo *TII = ST.getInstrInfo();
++  const SIRegisterInfo *TRI = ST.getRegisterInfo();
++  MachineRegisterInfo &MRI = MF.getRegInfo();
++  auto IsImplicitDefVReg = [&](Register R) {
++    if (!R.isVirtual())
++      return false;
++    MachineInstr *Def = MRI.getVRegDef(R);
++    return Def && Def->isImplicitDef();
++  };
++  auto IsTraversableCopy = [&](const MachineInstr &MI) {
++    if (!MI.isCopy() || isPinPseudo(TII, MI))
++      return false;
++    if (MI.getNumExplicitOperands() < 2 || !MI.getOperand(1).isReg())
++      return true;
++    Register CopySrc = MI.getOperand(1).getReg();
++    return !CopySrc.isVirtual() || MRI.hasOneNonDBGUse(CopySrc);
++  };
++
++  SmallVector<MachineInstr *, 8> Pins;
++  for (MachineBasicBlock &MBB : MF)
++    for (MachineInstr &MI : MBB)
++      if (isPinPseudo(TII, MI))
++        Pins.push_back(&MI);
++
++  if (Pins.empty())
++    return false;
++
++  unsigned ReqVGPRs = 0, ReqAGPRs = 0; // highest register a pin needs, +1
++  // Accumulator tiles routed to VGPR by the vgprcd conversion; their footprint
++  // optionally drives the occupancy cap (see PinAccVGPRMargin).
++  DenseSet<Register> AccTiles;
++
++  for (MachineInstr *Pin : Pins) {
++    Register Dst = Pin->getOperand(0).getReg();
++    Register Src = Pin->getOperand(1).getReg();
++    unsigned RegNo = Pin->getOperand(2).getImm();
++    const TargetRegisterClass *RC = MRI.getRegClass(Dst);
++    MCRegister PR = getPinPhysReg(TRI, RC, RegNo);
++
++    // Record how many registers this pin needs so the pin itself can drive the
++    // occupancy target (the register budget must cover the pinned range).
++    unsigned NumRegs = TRI->getRegSizeInBits(*RC) / 32;
++    bool WantAGPR = TRI->isAGPRClass(RC);
++    if (WantAGPR)
++      ReqAGPRs = std::max(ReqAGPRs, RegNo + NumRegs);
++    else
++      ReqVGPRs = std::max(ReqVGPRs, RegNo + NumRegs);
++
++    // Constrain the pinned value's register file (and connected vregs) to VGPR
++    // or AGPR. This is a class narrowing, not a physreg pin, so it also works
++    // for loop-carried PHI values; it no-ops when the file is incompatible.
++    {
++      // Gather the copy/REG_SEQUENCE/tie-connected component of `Seeds` and
++      // constrain each member to the requested file. MFMA src2<->vdst edges are
++      // followed only when `FollowAcc`; otherwise an MFMA *using* a member as
++      // src0/src1 is recorded in `Inputs` as a leaf, so an input pin does not
++      // drag the loop-carried accumulator into the AGPR file. `Recompute`
++      // re-derives classes from defs first (needed after an opcode conversion,
++      // since constrainRegClass cannot cross the disjoint AGPR/VGPR files).
++      auto constrainComponent = [&](ArrayRef<Register> Seeds, bool AGPRFile,
++                                    bool FollowAcc, bool Recompute,
++                                    SmallPtrSetImpl<MachineInstr *> &Inputs) {
++        DenseSet<Register> Seen;
++        SmallVector<Register, 16> WL;
++        auto Add = [&](Register R, bool IsSeed = false) {
++          // Different loop PHIs can legally share one undef incoming value.
++          // Treating that IMPLICIT_DEF as a component edge incorrectly merges
++          // otherwise independent pinned live ranges.  Keep explicit seeds so
++          // malformed direct pins are still diagnosed later, but do not walk
++          // through undef values discovered from COPY/PHI/REG_SEQUENCE edges.
++          if (R.isVirtual() && (IsSeed || !IsImplicitDefVReg(R)) &&
++              Seen.insert(R).second)
++            WL.push_back(R);
++        };
++        for (Register R : Seeds)
++          Add(R, /*IsSeed=*/true);
++        for (unsigned I = 0; I < WL.size(); ++I) {
++          for (MachineOperand &MO : MRI.reg_operands(WL[I])) {
++            MachineInstr *MI = MO.getParent();
++            // Copy / REG_SEQUENCE / PHI all just move the value between vregs;
++            // pull every register operand into the component. PHI matters for
++            // the loop-carried accumulator: without it the carried value stays
++            // in its original file (AGPR) while the vgprcd MFMA computes in VGPR,
++            // forcing an agpr<->vgpr copy every iteration.
++            if (IsTraversableCopy(*MI) || MI->isRegSequence() || MI->isPHI()) {
++              for (MachineOperand &O : MI->operands())
++                if (O.isReg())
++                  Add(O.getReg());
++            }
++            if (MO.isTied())
++              Add(MI->getOperand(MI->findTiedOperandIdx(MO.getOperandNo()))
++                      .getReg());
++            if (TII->isMAI(*MI)) {
++              int S0 = AMDGPU::getNamedOperandIdx(MI->getOpcode(),
++                                                  AMDGPU::OpName::src0);
++              int S1 = AMDGPU::getNamedOperandIdx(MI->getOpcode(),
++                                                  AMDGPU::OpName::src1);
++              int S2 = AMDGPU::getNamedOperandIdx(MI->getOpcode(),
++                                                  AMDGPU::OpName::src2);
++              unsigned OpNo = MO.getOperandNo();
++              bool IsInput = (S0 >= 0 && OpNo == (unsigned)S0) ||
++                             (S1 >= 0 && OpNo == (unsigned)S1);
++              bool IsAcc = (S2 >= 0 && OpNo == (unsigned)S2) ||
++                           (OpNo == 0 && MO.isDef());
++              if (IsInput && !FollowAcc) {
++                Inputs.insert(MI);
++              } else if (FollowAcc && IsAcc) {
++                Inputs.insert(MI);
++                if (MI->getOperand(0).isReg())
++                  Add(MI->getOperand(0).getReg());
++                if (MI->getOperand(S2).isReg())
++                  Add(MI->getOperand(S2).getReg());
++              }
++            }
++          }
++        }
++        for (Register R : WL) {
++          // A constant accumulator init (e.g. clear()==0) placed in an AGPR by
++          // V_ACCVGPR_WRITE can't be constrained to VGPR; rewrite it to V_MOV so
++          // the constant is born in VGPR instead of copied from AGPR each launch.
++          if (!AGPRFile)
++            for (MachineInstr &Def :
++                 make_early_inc_range(MRI.def_instructions(R))) {
++              if (Def.getOpcode() == AMDGPU::V_ACCVGPR_WRITE_B32_e64 &&
++                  Def.getNumOperands() >= 2 && Def.getOperand(1).isImm())
++                Def.setDesc(TII->get(AMDGPU::V_MOV_B32_e32));
++            }
++          if (Recompute)
++            MRI.recomputeRegClass(R);
++          unsigned Sz = TRI->getRegSizeInBits(*MRI.getRegClass(R));
++          const TargetRegisterClass *Want =
++              AGPRFile ? TRI->getAGPRClassForBitWidth(Sz)
++                       : TRI->getVGPRClassForBitWidth(Sz);
++          if (Want)
++            MRI.constrainRegClass(R, Want);
++        }
++      };
++
++      SmallPtrSet<MachineInstr *, 8> InputMFMAs;
++      Register Seeds[] = {Src, Dst};
++      // Constrain the pinned value's own component to its file. For an AGPR
++      // input pin, stop at the MFMAs that consume it (recorded in InputMFMAs).
++      constrainComponent(Seeds, /*AGPRFile=*/WantAGPR, /*FollowAcc=*/!WantAGPR,
++                         /*Recompute=*/false, InputMFMAs);
++
++      auto TieVGPRAccumulator = [&](MachineInstr *MI) {
++        int S2 = AMDGPU::getNamedOperandIdx(MI->getOpcode(),
++                                            AMDGPU::OpName::src2);
++        if (S2 < 0 || !MI->getOperand(0).isReg() ||
++            !MI->getOperand(S2).isReg())
++          report_fatal_error("malformed vgprcd MFMA accumulator operands");
++        unsigned TiedUse = 0;
++        if (MI->isRegTiedToUseOperand(0, &TiedUse)) {
++          if (TiedUse != static_cast<unsigned>(S2))
++            report_fatal_error("vgprcd MFMA destination has an unexpected tie");
++        } else {
++          if (MI->getOperand(S2).isTied())
++            report_fatal_error("vgprcd MFMA SrcC has an unexpected tie");
++          // The non-overlap scaled opcode permits a distinct vdst and SrcC,
++          // but the GEMM accumulator is logically in-place.  Make that
++          // requirement explicit so TwoAddressInstruction/coalescing cannot
++          // leave a second 128-bit live range and a copy between every MFMA.
++          MI->tieOperands(0, S2);
++        }
++        return S2;
++      };
++
++      // A VGPR pin on an accumulator is also a request for the MFMA vgprcd
++      // encoding. ISel may have selected the all-AGPR form before seeing the
++      // pin pseudo; merely constraining the connected vregs cannot cross the
++      // disjoint AGPR/VGPR register files and leaves accvgpr bridge copies.
++      if (!WantAGPR && !InputMFMAs.empty()) {
++        SmallVector<Register, 8> AccSeeds;
++        for (MachineInstr *MI : InputMFMAs) {
++          int VOp = AMDGPU::getMFMASrcCVDstVGPROp(MI->getOpcode());
++          if (VOp != -1)
++            MI->setDesc(TII->get(VOp));
++          int MacOp = AMDGPU::getMFMAMacOp(MI->getOpcode());
++          if (MacOp != -1)
++            MI->setDesc(TII->get(MacOp));
++          int S2 = TieVGPRAccumulator(MI);
++          if (MI->getOperand(0).isReg())
++            AccSeeds.push_back(MI->getOperand(0).getReg());
++          if (S2 >= 0 && MI->getOperand(S2).isReg())
++            AccSeeds.push_back(MI->getOperand(S2).getReg());
++        }
++        if (!AccSeeds.empty()) {
++          SmallPtrSet<MachineInstr *, 8> Ignore;
++          constrainComponent(AccSeeds, /*AGPRFile=*/false,
++                             /*FollowAcc=*/true, /*Recompute=*/true, Ignore);
++        }
++      }
++
++      // ISel picks the all-AGPR MFMA form when the function needs AGPRs. To keep
++      // the accumulator in VGPR, convert each consuming MFMA to vgprcd and
++      // constrain its accumulator (vdst/srcC chain) to VGPR, re-deriving classes
++      // from the converted defs. The chain stays coalesced in VGPR (no chunked
++      // pins, no agpr<->vgpr shuffle).
++      if (WantAGPR && PinAgprVgprC && !InputMFMAs.empty()) {
++        SmallVector<Register, 8> AccSeeds;
++        for (MachineInstr *MI : InputMFMAs) {
++          int VOp = AMDGPU::getMFMASrcCVDstVGPROp(MI->getOpcode());
++          if (VOp != -1)
++            MI->setDesc(TII->get(VOp));
++          int MacOp = AMDGPU::getMFMAMacOp(MI->getOpcode());
++          if (MacOp != -1)
++            MI->setDesc(TII->get(MacOp));
++          int S2 = TieVGPRAccumulator(MI);
++          if (MI->getOperand(0).isReg()) {
++            AccSeeds.push_back(MI->getOperand(0).getReg());
++            // Each converted MFMA's vdst is one accumulator tile now living in
++            // VGPR; track distinct tiles for the occupancy cap below.
++            AccTiles.insert(MI->getOperand(0).getReg());
++          }
++          if (S2 >= 0 && MI->getOperand(S2).isReg())
++            AccSeeds.push_back(MI->getOperand(S2).getReg());
++        }
++        if (!AccSeeds.empty()) {
++          SmallPtrSet<MachineInstr *, 8> Ignore;
++          constrainComponent(AccSeeds, /*AGPRFile=*/false, /*FollowAcc=*/true,
++                             /*Recompute=*/true, Ignore);
++        }
++      }
++    }
++
++    bool Hard = EnableHardPin;
++    if (Hard && (!PR || !Src.isVirtual() || !Dst.isVirtual()))
++      report_fatal_error("invalid AMDGPU hard-pin pseudo");
++
++    auto SetHardHint = [&](Register R, MCRegister Target, StringRef Origin) {
++      if (!R.isVirtual() || !Target)
++        report_fatal_error("invalid AMDGPU hard-pin register mapping");
++      std::pair<unsigned, Register> Existing = MRI.getRegAllocationHint(R);
++      if (Existing.first == AMDGPURI::HardPin && Existing.second != Target)
++        report_fatal_error(
++            Twine("conflicting AMDGPU hard-pin requests for vreg ") +
++            Twine(R.id()) + ": target " + Twine(Existing.second.id()) +
++            " versus " + Twine(Target.id()) + " from pin base " +
++            Twine(RegNo) + " (pin dst " + Twine(Dst.id()) + ", src " +
++            Twine(Src.id()) + ", origin " + Origin + ")");
++      MRI.setRegAllocationHint(R, AMDGPURI::HardPin, Target);
++    };
++
++    if (Hard) {
++      unsigned PinBits = TRI->getRegSizeInBits(*RC);
++      unsigned SrcSub = Pin->getOperand(1).getSubReg();
++      MCRegister SrcTarget = PR;
++      if (SrcSub) {
++        const TargetRegisterClass *SrcRC = MRI.getRegClass(Src);
++        SrcTarget = TRI->getMatchingSuperReg(PR, SrcSub, SrcRC);
++        if (!SrcTarget || !SrcRC->contains(SrcTarget))
++          report_fatal_error("AMDGPU hard pin cannot map source subregister");
++      }
++      // A shared splat/constant can feed several independently pinned
++      // destinations (for example the zero initializer for every C fragment).
++      // Such a producer cannot itself occupy multiple physical tuples.  Pin a
++      // source only when this pin is its sole non-debug use; the destination
++      // and its accumulator/copy component remain hard-pinned either way.
++      bool PinSource = MRI.hasOneNonDBGUse(Src);
++      if (PinSource)
++        SetHardHint(Src, SrcTarget, "pin-src");
++      SetHardHint(Dst, PR, "pin-dst");
++
++      // REG_SEQUENCE values are commonly assembled from two or more folded
++      // load tuples. Pin each producer tuple to the corresponding subrange so
++      // every load site is constrained, while RA remains free to reuse the
++      // same physical bank for non-overlapping live intervals across blocks.
++      if (WantAGPR && PinSource && !SrcSub)
++        if (MachineInstr *RS = MRI.getVRegDef(Src); RS && RS->isRegSequence()) {
++          DenseMap<Register, MCRegister> ElemTargets;
++          for (unsigned I = 1; I + 1 < RS->getNumOperands(); I += 2) {
++            const MachineOperand &Reg = RS->getOperand(I);
++            const MachineOperand &Sub = RS->getOperand(I + 1);
++            if (!Reg.isReg() || !Reg.getReg().isVirtual() || !Sub.isImm())
++              report_fatal_error("malformed REG_SEQUENCE in AMDGPU hard pin");
++            MCRegister PhysDst = TRI->getSubReg(PR, Sub.getImm());
++            if (!PhysDst)
++              report_fatal_error("AMDGPU hard pin has invalid tuple subrange");
++            Register Elem = Reg.getReg();
++            MCRegister PhysElem = PhysDst;
++            if (Reg.getSubReg()) {
++              const TargetRegisterClass *ElemRC = MRI.getRegClass(Elem);
++              PhysElem = TRI->getMatchingSuperReg(PhysDst, Reg.getSubReg(),
++                                                  ElemRC);
++            }
++            if (!PhysElem)
++              report_fatal_error("AMDGPU hard pin cannot map REG_SEQUENCE "
++                                 "source tuple");
++            auto [It, Inserted] = ElemTargets.try_emplace(Elem, PhysElem);
++            if (!Inserted && It->second != PhysElem)
++              report_fatal_error(
++                  Twine("conflicting AMDGPU hard-pin subranges for vreg ") +
++                  Twine(Elem.id()) + ": " + Twine(It->second.id()) +
++                  " versus " + Twine(PhysElem.id()));
++          }
++          for (const auto &[Elem, Target] : ElemTargets)
++            SetHardHint(Elem, Target, "reg-sequence-element");
++        }
++
++      // Pin the complete copy/PHI/MFMA-accumulator component. This keeps a
++      // loop-carried SrcC and every MFMA destination on one exact VGPR tuple.
++      DenseSet<Register> Seen;
++      SmallVector<Register, 16> Comp;
++      auto Add = [&](Register R, bool IsSeed = false) {
++        if (R.isVirtual() &&
++            (IsSeed || !IsImplicitDefVReg(R)) &&
++            TRI->getRegSizeInBits(*MRI.getRegClass(R)) == PinBits &&
++            Seen.insert(R).second)
++          Comp.push_back(R);
++      };
++      Add(Dst, /*IsSeed=*/true);
++      if (!SrcSub && PinSource)
++        Add(Src, /*IsSeed=*/true);
++      for (unsigned I = 0; I < Comp.size(); ++I) {
++        Register R = Comp[I];
++        for (MachineOperand &MO : MRI.reg_operands(R)) {
++          MachineInstr *MI = MO.getParent();
++          // A pin pseudo is an explicit placement boundary. In particular,
++          // several independently pinned accumulator fragments may share one
++          // constant initializer; never walk through that shared source into
++          // a sibling pin with a different requested tuple.
++          if (isPinPseudo(TII, *MI))
++            continue;
++          if (IsTraversableCopy(*MI) || MI->isPHI())
++            for (MachineOperand &O : MI->operands())
++              if (O.isReg() && !O.isImplicit())
++                Add(O.getReg());
++          if (!WantAGPR && TII->isMAI(*MI)) {
++            int Src2 = AMDGPU::getNamedOperandIdx(MI->getOpcode(),
++                                                  AMDGPU::OpName::src2);
++            if (Src2 >= 0 && ((unsigned)Src2 == MO.getOperandNo() ||
++                              (MO.isDef() && MO.getOperandNo() == 0))) {
++              Add(MI->getOperand(0).getReg());
++              Add(MI->getOperand(Src2).getReg());
++            }
++          }
++        }
++      }
++      for (Register R : Comp)
++        SetHardHint(R, PR, "connected-component");
++
++      BuildMI(*Pin->getParent(), Pin, Pin->getDebugLoc(),
++              TII->get(TargetOpcode::COPY), Dst)
++          .add(Pin->getOperand(1));
++      Pin->eraseFromParent();
++      continue;
++    }
++
++    // Explicitly disabled hard pinning retains the old best-effort behaviour
++    // for A/B testing, but enabled mode never silently degrades to this path.
++    BuildMI(*Pin->getParent(), Pin, Pin->getDebugLoc(),
++            TII->get(TargetOpcode::COPY), Dst)
++        .add(Pin->getOperand(1));
++    if (PR) {
++      MRI.setSimpleHint(Dst, PR);
++      if (Src.isVirtual())
++        MRI.setSimpleHint(Src, PR);
++    }
++    Pin->eraseFromParent();
++  }
++
++  // Cap occupancy so a wide VGPR-resident value fits the per-wave budget without
++  // the user setting __launch_bounds__. Only VGPR footprints drive this: AGPRs
++  // are a separate file, so feeding an AGPR count into the VGPR occupancy formula
++  // would wrongly raise occupancy and spill the VGPR accumulator. `AccVGPRs` is
++  // the footprint of the vgprcd accumulator tiles plus PinAccVGPRMargin.
++  auto *MFI = MF.getInfo<SIMachineFunctionInfo>();
++  unsigned AccVGPRs = 0;
++  if (PinAccVGPRMargin) {
++    for (Register R : AccTiles)
++      if (R.isVirtual())
++        AccVGPRs += TRI->getRegSizeInBits(*MRI.getRegClass(R)) / 32;
++    if (AccVGPRs)
++      AccVGPRs += PinAccVGPRMargin;
++  }
++  unsigned Req = std::max(ReqVGPRs, AccVGPRs);
++  if (Req) {
++    // Occupancy achievable while reserving `Req` registers per wave; cap the
++    // waves-per-EU (and hence the RA's VGPR budget) so the pinned range fits.
++    unsigned Occ = ST.getOccupancyWithNumVGPRs(Req, MFI->getDynamicVGPRBlockSize());
++    auto WPE = MFI->getWavesPerEU();
++    unsigned NewMax = WPE.second ? std::min(WPE.second, Occ) : Occ;
++    // Only cap the *max* occupancy; keep the min low (1 unless the function
++    // already required more). Forcing min==max over-constrains the allocator and
++    // breaks physreg liveness for hard-pinned loop-body tuples at low occupancy.
++    unsigned NewMin = std::min(WPE.first ? WPE.first : 1u, NewMax);
++    MFI->setWavesPerEU(NewMin, NewMax);
++    MFI->limitOccupancy(NewMax);
++  }
++
++  return true;
++}
++
++bool SIVerifyPinnedRegs::runOnMachineFunction(MachineFunction &MF) {
++  if (!EnableHardPin)
++    return false;
++
++  MachineRegisterInfo &MRI = MF.getRegInfo();
++  VirtRegMap &VRM = getAnalysis<VirtRegMapWrapperLegacy>().getVRM();
++  for (unsigned I = 0, E = MRI.getNumVirtRegs(); I != E; ++I) {
++    Register R = Register::index2VirtReg(I);
++    if (MRI.reg_nodbg_empty(R))
++      continue;
++
++    std::pair<unsigned, Register> Hint = MRI.getRegAllocationHint(R);
++    if (Hint.first != AMDGPURI::HardPin) {
++      Register Original = VRM.getOriginal(R);
++      if (Original != R)
++        Hint = MRI.getRegAllocationHint(Original);
++    }
++    if (Hint.first != AMDGPURI::HardPin)
++      continue;
++
++    if (!Hint.second.isPhysical() || !VRM.hasPhys(R) ||
++        VRM.getPhys(R) != Hint.second.asMCReg())
++      report_fatal_error("AMDGPU register allocator failed a hard-pin "
++                         "constraint in function " +
++                         MF.getName());
++  }
++  return false;
++}

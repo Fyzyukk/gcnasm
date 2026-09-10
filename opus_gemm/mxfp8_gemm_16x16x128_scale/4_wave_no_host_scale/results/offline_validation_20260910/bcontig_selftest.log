@@ -1,0 +1,8 @@
+{
+  "self_test": "PASS",
+  "negative_cases": [
+    "wrong LDS row stride",
+    "missing immediate subtraction",
+    "unreviewed source"
+  ]
+}

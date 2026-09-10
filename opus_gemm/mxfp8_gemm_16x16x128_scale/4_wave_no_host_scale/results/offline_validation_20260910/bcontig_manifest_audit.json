@@ -1,0 +1,260 @@
+{
+  "status": "PASS",
+  "variant": "b_contig_common_vaddr_v1",
+  "source": "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/4_wave_no_host_scale/tmpl.hpp",
+  "source_sha256": "06702267a0f0c32c1d8e1b9ff77f60e1264bf1d23b78c1e8b5ee09cdf371b624",
+  "build": "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/4_wave_no_host_scale/build",
+  "compensation_location": "soffset",
+  "math": {
+    "b_bytes_per_half": 16384,
+    "b_bytes_per_k128_tile": 32768,
+    "source_address_cases": 393216,
+    "old_wave_lds_row_stride": 4224,
+    "new_wave_lds_row_stride": 1056,
+    "immediates": [
+      0,
+      1056,
+      2112,
+      3168
+    ],
+    "same_raw_B_coordinates": true,
+    "same_consumer_LDS_image": true
+  },
+  "isa": {
+    "normalized_sha256": "590bd0440b757862062a03a1c471c1e5f2d896a0c57f6555976e3017a4b937fa",
+    "instructions": 1920,
+    "scaled_mfma": 384,
+    "dtlds_windows": 21,
+    "same_m0_b_groups": 10,
+    "m0_writes": 92,
+    "nop": 92,
+    "b_groups": [
+      {
+        "mfma_instruction_index": 742,
+        "srd": "20:23",
+        "vaddr": [
+          "v8",
+          "v8",
+          "v8",
+          "v8"
+        ],
+        "soffset": [
+          "s7",
+          "s6",
+          "s7",
+          "s26"
+        ],
+        "immediates": [
+          0,
+          1056,
+          2112,
+          3168
+        ]
+      },
+      {
+        "mfma_instruction_index": 756,
+        "srd": "20:23",
+        "vaddr": [
+          "v8",
+          "v8",
+          "v8",
+          "v8"
+        ],
+        "soffset": [
+          "s27",
+          "s66",
+          "s67",
+          "s68"
+        ],
+        "immediates": [
+          0,
+          1056,
+          2112,
+          3168
+        ]
+      },
+      {
+        "mfma_instruction_index": 931,
+        "srd": "20:23",
+        "vaddr": [
+          "v8",
+          "v8",
+          "v8",
+          "v8"
+        ],
+        "soffset": [
+          "s64",
+          "s6",
+          "s7",
+          "s26"
+        ],
+        "immediates": [
+          0,
+          1056,
+          2112,
+          3168
+        ]
+      },
+      {
+        "mfma_instruction_index": 941,
+        "srd": "20:23",
+        "vaddr": [
+          "v8",
+          "v8",
+          "v8",
+          "v8"
+        ],
+        "soffset": [
+          "s27",
+          "s66",
+          "s67",
+          "s68"
+        ],
+        "immediates": [
+          0,
+          1056,
+          2112,
+          3168
+        ]
+      },
+      {
+        "mfma_instruction_index": 1117,
+        "srd": "20:23",
+        "vaddr": [
+          "v8",
+          "v8",
+          "v8",
+          "v8"
+        ],
+        "soffset": [
+          "s7",
+          "s6",
+          "s7",
+          "s26"
+        ],
+        "immediates": [
+          0,
+          1056,
+          2112,
+          3168
+        ]
+      },
+      {
+        "mfma_instruction_index": 1131,
+        "srd": "20:23",
+        "vaddr": [
+          "v8",
+          "v8",
+          "v8",
+          "v8"
+        ],
+        "soffset": [
+          "s27",
+          "s65",
+          "s66",
+          "s67"
+        ],
+        "immediates": [
+          0,
+          1056,
+          2112,
+          3168
+        ]
+      },
+      {
+        "mfma_instruction_index": 1306,
+        "srd": "20:23",
+        "vaddr": [
+          "v8",
+          "v8",
+          "v8",
+          "v8"
+        ],
+        "soffset": [
+          "s69",
+          "s6",
+          "s7",
+          "s26"
+        ],
+        "immediates": [
+          0,
+          1056,
+          2112,
+          3168
+        ]
+      },
+      {
+        "mfma_instruction_index": 1316,
+        "srd": "20:23",
+        "vaddr": [
+          "v8",
+          "v8",
+          "v8",
+          "v8"
+        ],
+        "soffset": [
+          "s27",
+          "s65",
+          "s66",
+          "s67"
+        ],
+        "immediates": [
+          0,
+          1056,
+          2112,
+          3168
+        ]
+      },
+      {
+        "mfma_instruction_index": 1645,
+        "srd": "20:23",
+        "vaddr": [
+          "v8",
+          "v8",
+          "v8",
+          "v8"
+        ],
+        "soffset": [
+          "s7",
+          "s27",
+          "s7",
+          "s49"
+        ],
+        "immediates": [
+          0,
+          1056,
+          2112,
+          3168
+        ]
+      },
+      {
+        "mfma_instruction_index": 1657,
+        "srd": "20:23",
+        "vaddr": [
+          "v8",
+          "v8",
+          "v8",
+          "v8"
+        ],
+        "soffset": [
+          "s7",
+          "s48",
+          "s27",
+          "s7"
+        ],
+        "immediates": [
+          2112,
+          0,
+          1056,
+          3168
+        ]
+      }
+    ]
+  },
+  "provenance": {
+    "checked": true,
+    "file": "4_wave_no_host_scale/build/manifest.json",
+    "files_checked": 8
+  },
+  "limits": "Supplemental B-path audit only; real GPU correctness, scale/MFMA/wait gates and performance validation remain required."
+}

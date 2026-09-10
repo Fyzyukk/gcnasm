@@ -1,0 +1,13 @@
+WARNING: AMD GPU device(s) is/are in a low-power state. Check power control/runtime_status
+
+
+
+============================ ROCm System Management Interface ============================
+================================== GPUs Indexed by PID ===================================
+PID 704160 is using 0 DRM device(s)
+PID 704193 is using 0 DRM device(s)
+PID 704155 is using 0 DRM device(s)
+PID 512666 is using 1 DRM device(s):
+3 
+==========================================================================================
+================================== End of ROCm SMI Log ===================================

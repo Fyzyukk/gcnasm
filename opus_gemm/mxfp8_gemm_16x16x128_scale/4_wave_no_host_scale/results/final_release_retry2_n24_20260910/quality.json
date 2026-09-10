@@ -1,0 +1,8 @@
+{
+  "valid_for_selection": false,
+  "reason": "foreign GPU process; no more launches",
+  "pids": [
+    "1825077"
+  ],
+  "snapshot": "r22_p1"
+}

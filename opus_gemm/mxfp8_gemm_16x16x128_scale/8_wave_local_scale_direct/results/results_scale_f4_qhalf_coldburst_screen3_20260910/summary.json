@@ -1,0 +1,62 @@
+{
+  "base_a": {
+    "observations": 3,
+    "min_ms": 0.4303709205323313,
+    "peak_p": 2.5548,
+    "mean_p": 2.4734133333333332,
+    "min_time_gain_pct": 0.0,
+    "mean_gain_pct": 0.0,
+    "paired_gains_pct": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "paired_wins": 0,
+    "paired_rounds": 3
+  },
+  "base_b": {
+    "observations": 3,
+    "min_ms": 0.42411739683622185,
+    "peak_p": 2.5924699999999996,
+    "mean_p": 2.5888299999999997,
+    "min_time_gain_pct": 1.474479411304186,
+    "mean_gain_pct": 4.66629111726844,
+    "paired_gains_pct": [
+      9.72428231185849,
+      3.4596014015595866,
+      1.1781744167840946
+    ],
+    "paired_wins": 3,
+    "paired_rounds": 3
+  },
+  "qhalf": {
+    "observations": 3,
+    "min_ms": 0.42419102776058826,
+    "peak_p": 2.5920199999999998,
+    "mean_p": 2.54873,
+    "min_time_gain_pct": 1.4568655080632542,
+    "mean_gain_pct": 3.045049755803042,
+    "paired_gains_pct": [
+      7.6307603637812305,
+      0.3460000478892722,
+      1.4568655080632542
+    ],
+    "paired_wins": 3,
+    "paired_rounds": 3
+  },
+  "coldburst": {
+    "observations": 3,
+    "min_ms": 0.42185716009146856,
+    "peak_p": 2.60636,
+    "mean_p": 2.6058166666666667,
+    "min_time_gain_pct": 2.0181618913417854,
+    "mean_gain_pct": 5.353061356505973,
+    "paired_gains_pct": [
+      10.418873905562688,
+      3.982791785392159,
+      2.0181618913417854
+    ],
+    "paired_wins": 3,
+    "paired_rounds": 3
+  }
+}

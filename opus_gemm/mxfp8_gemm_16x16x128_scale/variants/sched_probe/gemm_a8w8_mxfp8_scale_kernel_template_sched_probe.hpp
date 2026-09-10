@@ -817,7 +817,7 @@ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
 #if defined(MXFP8_WIDE_AGPR_FRAGMENTS)
     using AccFragment = vector_t<D_ACC, decltype(mma)::mma_c_len>;
     static_assert(decltype(mma)::mma_c_len == 4);
-    static_assert(T::E_M * T::E_N == 16);
+    static_assert(T::E_M * T::E_N == 8);
     AccFragment v_c[2][2][T::E_M * T::E_N]{};
 #else
     typename decltype(mma)::vtype_c v_c[2][2];

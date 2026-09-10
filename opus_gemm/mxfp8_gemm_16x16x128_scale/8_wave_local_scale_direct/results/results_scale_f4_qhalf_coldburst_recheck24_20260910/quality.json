@@ -1,0 +1,22 @@
+{
+  "completed": true,
+  "valid_for_performance_selection": true,
+  "observations_per_label": 24,
+  "total_observations": 72,
+  "full_hash_passed_all_labels": true,
+  "process_snapshots": 26,
+  "after_run_ownership_check_completed": true,
+  "foreign_gpu7_process_observed": false,
+  "baseline_normal_range": true,
+  "candidate_gain_vs_faster_baseline_pct": 0.8269244770411577,
+  "aa_min_time_spread_pct": 0.4402997425170252,
+  "wins_vs_faster_same_round_baseline": 13,
+  "advantage_exceeds_aa_spread": true,
+  "cross_session_gain_confirmed": false,
+  "candidate_peak_pflops": 2.631250,
+  "candidate_second_highest_pflops_context_only": 2.604960,
+  "peak_observation_discarded": false,
+  "platform_contamination_asserted": false,
+  "promoted": false,
+  "note": "Keep the observed min-of-24. This session shows a positive signal beyond A/A, but the earlier independent N24 did not establish one. Higher peak not cross-session confirmed; second-highest is context only, not a replacement estimator. Testing closed out without further runs."
+}

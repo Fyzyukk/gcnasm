@@ -1,0 +1,9 @@
+{
+  "valid_for_performance_selection": false,
+  "reason": "foreign processes occupy GPU7",
+  "pids": [
+    206240
+  ],
+  "snapshot": "before_r03",
+  "timestamp_ns": 1789008426855348242
+}

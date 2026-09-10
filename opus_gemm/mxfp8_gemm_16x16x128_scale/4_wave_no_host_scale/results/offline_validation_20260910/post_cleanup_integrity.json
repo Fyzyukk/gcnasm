@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "source_build_hashes": 17,
+  "archived_files": 11164,
+  "archive_members": 12551,
+  "removed_directory_targets": 484,
+  "removed_root_documents": 3,
+  "tracked_files_unchanged": 171,
+  "protected_paths_present": 261,
+  "markdown_links_checked": 60,
+  "complete_performance_observations": 528,
+  "final_executable_sha256": "6c5a9b271f589b905a3e34469b6f6e284c32c9ac5f3a9989d77eb8752b12c9a9",
+  "archive_sha256": "d93f430a351cc2c436d39f2f6c9c7c973ad8d48cee99390c5413e2a94251971a"
+}

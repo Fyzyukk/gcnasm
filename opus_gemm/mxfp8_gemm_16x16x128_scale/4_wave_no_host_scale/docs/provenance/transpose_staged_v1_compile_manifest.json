@@ -1,0 +1,35 @@
+{
+  "tag": "transpose_staged_v1",
+  "source": "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.variants_quarantine_20260908/scale_sfb_k16_carried_raw_coexec_dist22_sfa_k8_raw_k4_queue_exact_k64_wrap_prepared_scale_c11_after4_transpose_staged_v1",
+  "compiler": "/root/toolchains/rocm-llvm23-46fcb339-build/bin/clang++",
+  "commands": [
+    [
+      "/root/toolchains/rocm-llvm23-46fcb339-build/bin/clang++",
+      "-x",
+      "hip",
+      "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.variants_quarantine_20260908/scale_sfb_k16_carried_raw_coexec_dist22_sfa_k8_raw_k4_queue_exact_k64_wrap_prepared_scale_c11_after4_transpose_staged_v1/kern.cc",
+      "-I/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.variants_quarantine_20260908/scale_sfb_k16_carried_raw_coexec_dist22_sfa_k8_raw_k4_queue_exact_k64_wrap_prepared_scale_c11_after4_transpose_staged_v1",
+      "-I/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale",
+      "-I/root/workspace/aiter/csrc/include",
+      "-std=c++17",
+      "-O3",
+      "-ffast-math",
+      "--offload-arch=gfx950",
+      "--rocm-path=/opt/rocm",
+      "-D__HIPCC_RTC__",
+      "-c",
+      "-o",
+      "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.4wave_closeout_20260910.GW0Avl/candidates/transpose_staged_v1/kernel.o"
+    ]
+  ],
+  "host_note": "all candidates linked with identical deterministic final host.o",
+  "sha256": {
+    "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.variants_quarantine_20260908/scale_sfb_k16_carried_raw_coexec_dist22_sfa_k8_raw_k4_queue_exact_k64_wrap_prepared_scale_c11_after4_transpose_staged_v1/tmpl.hpp": "62092ca6754dc165dbefd0ca77cd5fddb3b334a842e04316999d2d62ad5063a1",
+    "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.variants_quarantine_20260908/scale_sfb_k16_carried_raw_coexec_dist22_sfa_k8_raw_k4_queue_exact_k64_wrap_prepared_scale_c11_after4_transpose_staged_v1/traits.hpp": "f1fa9239e09285412e89b996fcea1e46cb2692ffc2dd2388c2904dbf65f78e3f",
+    "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.variants_quarantine_20260908/scale_sfb_k16_carried_raw_coexec_dist22_sfa_k8_raw_k4_queue_exact_k64_wrap_prepared_scale_c11_after4_transpose_staged_v1/kern.cc": "9a63d273b88abbe7651c284246104ff2f6d50bf45060b1e18fbdc15e639739a1",
+    "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.variants_quarantine_20260908/scale_sfb_k16_carried_raw_coexec_dist22_sfa_k8_raw_k4_queue_exact_k64_wrap_prepared_scale_c11_after4_transpose_staged_v1/host.cc": "f3b1607813bb48f97d01115d2304eb159068d7b73616ea6af79d1f8b866ab0a4",
+    "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.variants_quarantine_20260908/scale_sfb_k16_carried_raw_coexec_dist22_sfa_k8_raw_k4_queue_exact_k64_wrap_prepared_scale_c11_after4_transpose_staged_v1/build.sh": "7c49bc9d5043d0ebfa1cc9e4460c1d5c2050a272953c88fc7170ec6aa676e6a1",
+    "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/gemm_a8w8_mxfp8_scale_common.h": "65a2dc17438e348124609ed893085dbfb27d4885b80402d36233b9aceb134f09",
+    "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.4wave_closeout_20260910.GW0Avl/candidates/transpose_staged_v1/kernel.o": "131515619f860c4858de09c88b7cf848bd7f976156e333c558f05973dde774ed"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "created_utc": "2026-09-10T05:59:42.399529+00:00",
+  "variant": "four_wave_rowmajor_prepared_scale_c11_after4",
+  "contract": {
+    "architecture": "gfx950",
+    "threads": 256,
+    "wave_size": 64,
+    "tile": [
+      256,
+      256,
+      128
+    ],
+    "k": 8192,
+    "m_n_multiple": 256,
+    "scale_layout": "row-major",
+    "kernel_launches_per_gemm": 1,
+    "global_workspace_bytes": 0,
+    "lds_bytes_per_wg": 163840
+  },
+  "compiler": "clang version 23.0.0git (https://github.com/ROCm/llvm-project.git 46fcb339fb61119b337f973c7ca9e710a319fdd0)\nTarget: x86_64-unknown-linux-gnu\nThread model: posix\nInstalledDir: /root/toolchains/rocm-llvm23-46fcb339-build/bin\n",
+  "normalized_isa_sha256": "f77e1b4bad73e582b4916a9c03b0cc7f161366420ee06f38cd85c28934f78bb6",
+  "sha256": {
+    "source/tmpl.hpp": "c44276cd5df57755e05a26433452a990f9c13da43afedf4e78eb7d02886a0669",
+    "source/host.cc": "ebbf58437384c72e6370b030acfbc7b37a880f35e25178d9a386592b82ffc887",
+    "source/kern.cc": "9a63d273b88abbe7651c284246104ff2f6d50bf45060b1e18fbdc15e639739a1",
+    "source/traits.hpp": "41ccea9f8050c87a31e4ececedcaa8537d2d8c0c32bb9c6d20690fdac8048484",
+    "source/gemm_a8w8_mxfp8_scale_common.h": "e703f59ff03a9d7d3df69ae29098b3f306e15e3fae03ce56c47b7efce412fb22",
+    "source/build.sh": "babd8680c289972576e8e1efbc07ade1b274f7f367fa05185bf4d22c3e274f9f",
+    "source/gate.py": "88d73a9d1b3e49a5d4a04980a970bc80c6eca8eb4a6cdf997e895a2a6211a8a1",
+    "source/tools/build_manifest.py": "0335d278b6f1d73a10873c33570c9dac460b66e2c2567923f398de96a03f8d06",
+    "build/kernel.exe": "4a2ad13e0f20b97af9731bb67a2cf84cfefd71680c75dbf4735006f3188bb88e",
+    "build/kernel.o": "c50cc91c78533de140d460410514a3031bd0ba9d464cfa838e3a23d3bf1ef1f5",
+    "build/host.o": "980c23191b63c3438edc47bca0715f955d33973d0ee1f62171f08ed93e5e5c4d",
+    "build/kernel.co": "ed42e55e855e364d19cfe87126d7d856e9d1ad62579747b325ca8a1e23f83322",
+    "build/kernel.isa": "bc7936f28bc99e8a8852018a50a30586a627d2b5fed7a0f9eaed003650e94655",
+    "build/kernel.notes": "b62ad01859a6ee4bac3902160c3ea0e75fb31a4ce00cadf94bd8518f08813515",
+    "build/static_gate.log": "02435b6cbd6b824615c94b5d9277a05e31ee7a6b58e586c063da9f161ff90abd"
+  }
+}

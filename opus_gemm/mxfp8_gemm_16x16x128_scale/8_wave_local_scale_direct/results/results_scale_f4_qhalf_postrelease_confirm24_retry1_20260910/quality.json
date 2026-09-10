@@ -1,0 +1,18 @@
+{
+  "status": "incomplete_stopped_by_user",
+  "annotation_date": "2026-09-10",
+  "valid_for_performance_selection": false,
+  "reason": "User requested documentation only and no further runs; N24 confirmation was interrupted with exit130.",
+  "planned_rounds": 24,
+  "completed_rounds": 15,
+  "planned_observations": 72,
+  "recorded_observations": 45,
+  "observations_per_label": {"base_a": 15, "base_b": 15, "postrelease": 15},
+  "exit_code": 130,
+  "after_run_ownership_check_completed": false,
+  "final_summary_completed": false,
+  "platform_contamination_asserted": false,
+  "promoted": false,
+  "pool_with_other_sessions": false,
+  "resume_requires_user_request_and_fresh_directory": true
+}

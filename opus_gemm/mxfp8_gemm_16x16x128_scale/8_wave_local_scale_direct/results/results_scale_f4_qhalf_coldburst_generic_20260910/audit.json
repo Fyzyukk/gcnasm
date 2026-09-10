@@ -1,0 +1,226 @@
+{
+  "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/8_wave_local_scale_direct/prototype_scale_f4_qhalf_coldburst_20260910/generic/kernel.exe": {
+    "build_dir": "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/8_wave_local_scale_direct/prototype_scale_f4_qhalf_coldburst_20260910/generic",
+    "static_only": true,
+    "accepted": true,
+    "correctness": "not_checked",
+    "performance": "not_measured",
+    "errors": [],
+    "warnings": [
+      "only max block size is present; verify actual block=512 at GPU validation"
+    ],
+    "artifacts": {
+      "kernel.notes": {
+        "sha256": "c86db4679b0b206a483d89402f53ea61ad0b2734d102eb6bb0bd80940809941a",
+        "bytes": 1210
+      },
+      "kernel.s": {
+        "sha256": "2e30fec6965f83ec323a9170e58b9afc25061a1c5316fbbac3b74b1d0bfa2632",
+        "bytes": 126637
+      },
+      "kernel.isa": {
+        "sha256": "7ba0e5337f788663e0c2b829837e0415043a738eb440a43aad945a440b0fda36",
+        "bytes": 196227
+      },
+      "kernel.exe": {
+        "sha256": "a2e2feb5996179d2c02121568578f09c76055ac8b7335055958015ba6ea23dfb",
+        "bytes": 75096
+      },
+      "config.sh": {
+        "sha256": "ed88be60fe242606d14c82214a4b97dc72a2e4dfe2e78e776cf3a3b97346d88e",
+        "bytes": 961
+      },
+      "source.sha256": {
+        "sha256": "71ebba53bbdee359efb9a687c4a2d73deb1dbab43fbd158cda4e030bd44e384e",
+        "bytes": 1463
+      }
+    },
+    "binary_sha256": "a2e2feb5996179d2c02121568578f09c76055ac8b7335055958015ba6ea23dfb",
+    "resources": {
+      "physical_vgpr": 254,
+      "agpr": 0,
+      "sgpr": 106,
+      "scratch_bytes": 0,
+      "lds_bytes": 159744,
+      "max_block_threads": 512,
+      "wavefront_size": 64,
+      "vgpr_spills": 0,
+      "sgpr_spills": 0,
+      "assembly_total_vgpr": 254,
+      "target": "amdgcn-amd-amdhsa--gfx950",
+      "required_workgroup_size": null,
+      "max_waves_per_block": 8
+    },
+    "isa_counts": {
+      "instructions": 1866,
+      "scaled_mfma": 256,
+      "ds_read_b128": 192,
+      "ds_read_b32": 8,
+      "ds_read_b64": 0,
+      "ds_read2": 8,
+      "ds_read2st64_b32": 0,
+      "ds_write2": 11,
+      "ds_write_b32": 0,
+      "ds_write_b8": 0,
+      "dtlds_loads": 96,
+      "scale_vmem_loads_proxy": 5,
+      "waits": 75,
+      "waits_vmcnt": 9,
+      "waits_lgkmcnt": 73,
+      "barriers": 9,
+      "scratch_instructions": 0,
+      "buffer_stores": 32,
+      "v_perm_b32": 44,
+      "v_permlane": 22,
+      "v_mov": 281,
+      "s_nop": 132
+    },
+    "opcode_histogram": {
+      "buffer_load_dwordx4": 101,
+      "buffer_store_dwordx4": 32,
+      "ds_read2_b32": 8,
+      "ds_read_b128": 192,
+      "ds_read_b32": 8,
+      "ds_write2_b32": 11,
+      "s_abs_i32": 2,
+      "s_add_i32": 102,
+      "s_add_u32": 10,
+      "s_addc_u32": 10,
+      "s_addk_i32": 9,
+      "s_and_b32": 17,
+      "s_and_b64": 5,
+      "s_and_saveexec_b64": 8,
+      "s_andn2_b64": 15,
+      "s_ashr_i32": 19,
+      "s_barrier": 9,
+      "s_bfe_u32": 2,
+      "s_branch": 7,
+      "s_cbranch_execz": 9,
+      "s_cbranch_scc0": 4,
+      "s_cbranch_scc1": 10,
+      "s_cbranch_vccnz": 17,
+      "s_cmp_eq_u32": 1,
+      "s_cmp_ge_i32": 10,
+      "s_cmp_ge_u32": 2,
+      "s_cmp_gt_i32": 1,
+      "s_cmp_lg_u32": 1,
+      "s_cmp_lt_i32": 6,
+      "s_cmpk_gt_i32": 2,
+      "s_cmpk_lg_i32": 1,
+      "s_cselect_b32": 4,
+      "s_cselect_b64": 10,
+      "s_endpgm": 1,
+      "s_load_dword": 4,
+      "s_load_dwordx2": 4,
+      "s_load_dwordx4": 1,
+      "s_load_dwordx8": 1,
+      "s_lshl_b32": 26,
+      "s_lshl_b64": 3,
+      "s_lshr_b32": 5,
+      "s_mov_b32": 124,
+      "s_mov_b64": 12,
+      "s_movk_i32": 3,
+      "s_mul_hi_u32": 2,
+      "s_mul_i32": 25,
+      "s_nop": 132,
+      "s_or_b32": 4,
+      "s_or_b64": 8,
+      "s_sub_i32": 5,
+      "s_waitcnt": 75,
+      "s_xor_b32": 4,
+      "s_xor_b64": 1,
+      "v_add3_u32": 15,
+      "v_add_lshl_u32": 8,
+      "v_add_u32_e32": 32,
+      "v_and_b32_e32": 22,
+      "v_and_or_b32": 2,
+      "v_bfe_u32": 4,
+      "v_bitop3_b32": 7,
+      "v_cmp_eq_u32_e32": 4,
+      "v_cmp_gt_u32_e32": 1,
+      "v_cmp_gt_u32_e64": 2,
+      "v_cmp_ne_u32_e64": 1,
+      "v_cndmask_b32_e32": 7,
+      "v_cndmask_b32_e64": 5,
+      "v_cvt_f32_u32_e32": 1,
+      "v_cvt_u32_f32_e32": 1,
+      "v_lshl_add_u32": 3,
+      "v_lshl_or_b32": 4,
+      "v_lshlrev_b32_e32": 19,
+      "v_lshrrev_b32_e32": 10,
+      "v_mad_u64_u32": 5,
+      "v_mfma_scale_f32_16x16x128_f8f6f4": 256,
+      "v_mov_b32_e32": 281,
+      "v_mul_f32_e32": 1,
+      "v_mul_lo_u32": 4,
+      "v_mul_u32_u24_e32": 1,
+      "v_or3_b32": 3,
+      "v_or_b32_e32": 4,
+      "v_perm_b32": 44,
+      "v_permlane16_swap_b32_e64": 11,
+      "v_permlane32_swap_b32_e64": 11,
+      "v_rcp_iflag_f32_e32": 1,
+      "v_readfirstlane_b32": 2,
+      "v_xad_u32": 4,
+      "v_xor_b32_e32": 5
+    },
+    "normalized_isa_sha256": "4d3f7a915ebcdb04887945e1afd6cc1a8d10f1be40e3ed97dd03274d12cf054e",
+    "same_instructions_as_reference": null,
+    "build_config": {
+      "TOOLCHAIN": "/root/toolchains/rocm-llvm23-46fcb339-build",
+      "ROCM": "/opt/rocm",
+      "OPUS_INCLUDE_DIR": "/root/workspace/aiter/csrc/include",
+      "ARCH": "gfx950",
+      "EXACT_MASK": "0",
+      "FLAGS": [
+        "-I/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/8_wave_local_scale_direct/prototype_scale_f4_qhalf_coldburst_20260910",
+        "-I/root/workspace/aiter/csrc/include",
+        "-std=c++17",
+        "-O3",
+        "-ffast-math",
+        "--offload-arch=gfx950",
+        "--rocm-path=/opt/rocm"
+      ],
+      "DEVICE_DEFINES": [
+        "-DMXFP8_EXACT_8192=0",
+        "-DMXFP8_LOCAL_OUTPUT_TILES_PER_WG=2",
+        "-DMXFP8_LOCAL_OUTPUT_HANDOFF=0",
+        "-DMXFP8_ISOLATED_SOURCE_CHANGE=1",
+        "-DMXFP8_ROW_SCALE_PAIR_POSITION=10",
+        "-DMXFP8_ROW_SCALE_PREFETCH_POSITION=1",
+        "-DMXFP8_ROW_SCALE_LOOP_UNROLL=4",
+        "-DMXFP8_ROW_SCALE_PHASE_UNROLL=0",
+        "-DMXFP8_ROW_SCALE_DOUBLE_QUEUE=1",
+        "-DMXFP8_ROW_SCALE_F4_PAIR32_EXPLICIT=1"
+      ]
+    },
+    "recorded_source_sha256": [
+      {
+        "sha256": "f64535a64b33749ae9afbd5cc899bb0f63e997973cfd0362020c2cdfe8d0ceb8",
+        "recorded_path": "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/8_wave_local_scale_direct/prototype_scale_f4_qhalf_coldburst_20260910/host.cc"
+      },
+      {
+        "sha256": "8a22aea6998e87eb6145df82a61bf878d830178266e5d81a7e2e2434aff20b26",
+        "recorded_path": "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/8_wave_local_scale_direct/prototype_scale_f4_qhalf_coldburst_20260910/kernel.cc"
+      },
+      {
+        "sha256": "65a2dc17438e348124609ed893085dbfb27d4885b80402d36233b9aceb134f09",
+        "recorded_path": "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/8_wave_local_scale_direct/prototype_scale_f4_qhalf_coldburst_20260910/gemm_a8w8_mxfp8_scale_common.h"
+      },
+      {
+        "sha256": "fd9149c9d069caffda6e19e68e9b6f971bbb2533286b869ea50a3274c4982446",
+        "recorded_path": "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/8_wave_local_scale_direct/prototype_scale_f4_qhalf_coldburst_20260910/gemm_a8w8_mxfp8_scale_kernel.hpp"
+      },
+      {
+        "sha256": "c2c832b7625816f6405289534cf59eb9538d98223c99acf0a4714087c17121e1",
+        "recorded_path": "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/8_wave_local_scale_direct/prototype_scale_f4_qhalf_coldburst_20260910/build.sh"
+      },
+      {
+        "sha256": "717c65ae4a616f50863216c077e10fad03310e6157086c6acc074d44498803f5",
+        "recorded_path": "/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/8_wave_local_scale_direct/prototype_scale_f4_qhalf_coldburst_20260910/check_static.py"
+      }
+    ],
+    "source_hash_scope": "build-time manifest only; current mutable sources are not compared",
+    "scale_prototype_admission_exceptions": []
+  }
+}

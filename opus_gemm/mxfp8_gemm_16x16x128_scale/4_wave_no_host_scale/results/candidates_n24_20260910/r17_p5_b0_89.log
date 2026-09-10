@@ -1,0 +1,7 @@
+COMMAND ["/root/workspace/gcnasm-mxfp8-final-pipeline-20260828/opus_gemm/mxfp8_gemm_16x16x128_scale/.4wave_closeout_20260910.GW0Avl/candidates/b0_split4_c01_89_v1/kernel.exe", "-m", "8192", "-n", "8192", "-k", "8192", "-b", "1", "-v", "0", "-w", "200", "-i", "100"]
+Device identity: hip_device=0 pci=0000:98:00.0 arch=gfx950:sramecc+:xnack- cu=256 warp=64 name="AMD Instinct MI350X"
+Input generator: splitmix64-index-v1 seed=20260909
+Launching MXFP8 scaled-MFMA GEMM 4W exact-K64 branchless-wrap SFA-K8 raw/K4 queue + SFB-K16 dist22, 256x256x128, unified scale: M=8192, N=8192, K=8192, grid=(1024,1,1), block=256, output_tiles_per_wg=1
+
+Kernel Performance: avg_time=0.478115469 ms, 2299.677979 TFlops
+

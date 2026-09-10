@@ -1,0 +1,8 @@
+{
+  "valid_for_selection": false,
+  "reason": "foreign GPU process; no more launches",
+  "pids": [
+    "1514610"
+  ],
+  "snapshot": "before_b_contig_ioffset_full8192_seed2"
+}
