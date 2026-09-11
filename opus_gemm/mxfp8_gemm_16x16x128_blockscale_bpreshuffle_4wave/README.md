@@ -3,6 +3,8 @@ gfx950 4-wave blockscale bpreshuffle GEMM
 
 本目录从 `../mxfp8_gemm_16x16x128_scale/4_wave_no_host_scale` 的 4-wave 流水线移植，接收 AITER 标准预排 B 及紧凑 block scales。2026-09-11 第三轮选入 `regroll_release8`：A/B 共用预取指令位置、缓存地址、滚动预读全部矩阵操作数，并在第8条 MFMA 后交接 LDS stage。保留完整 K scale 面板和 BF16 vec8 写回。
 
+**当前执行模式为 4wave + tile1。** 本项目的 `tile1` / `tile4` 按每个工作组处理的完整 **256×256 输出块数量**命名：tile1 每WG处理1块；tile4 为每WG连续处理4块的持久化方案。当前 `OUTPUT_TILES_PER_WG=1`，接口 `tiles=0`（auto）也选择1，CLI、Python与C ABI均只接受0/1。K方向的2-stage LDS双缓冲单独计数。历史 `scale_panel_persistent4` 实验及未选入正式路径的结论保存在 [优化日志](OPTIMIZATION_LOG.md) 和 [tile4测量记录](results/persistent4/measurements/results.json)。
+
 GPU2（PCI `0000:65:00.0`）、8192³、b1/w200/i100、CLI seed=1，最终五轮交替中位数为 **BF16 0.357576294 ms / 3.074901P、FP32 0.369553413 ms / 2.975244P**。同轮第二轮基线为3.065668P和2.956384P，提升约0.30%和0.64%。BF16最快单轮约3.106P；正式数值取中位数。测前GPU计算活动为0%，另有18%显存驻留；同地址比较和GPU5对照另行记录。**3.5P目标尚未达到。** 最新流程、测量条件及清理记录见 [第三轮续记](CONTINUATION_20260911_ROUND3.md)。
 
 输入和输出

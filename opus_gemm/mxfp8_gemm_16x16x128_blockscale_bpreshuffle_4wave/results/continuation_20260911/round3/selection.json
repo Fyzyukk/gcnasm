@@ -6,6 +6,12 @@
   "target_pflops": 3.5,
   "target_achieved": false,
   "canonical_measurement": "measurements/formal_cli_gpu2",
+  "tile_mode": "tile1",
+  "output_tile_shape": [256, 256],
+  "output_tiles_per_wg": 1,
+  "persistent_output_tiles": false,
+  "num_waves": 4,
+  "grid": [1024, 1, 1],
   "shape": [
     8192,
     8192,

@@ -2,6 +2,10 @@
 
 本轮正式选入 `regroll_release8`，清理后的源码已放入 `tmpl.hpp`。它让A/B producer共用指令位置，提前缓存地址，按最后消费者滚动预读A1/B1，并把LDS交接提前到第8条MFMA之后。**GPU2最终五轮CLI中位数：BF16 3.074901P、FP32 2.975244P；目标3.5P尚未达到。**
 
+**执行模式明确为 4wave + tile1：每WG独立计算一个256×256输出块。** 项目中tile数量指每WG处理的完整256×256输出块数量；tile4指每WG连续处理4块的持久化方案。第二轮基线与本轮正式版本均为 `OUTPUT_TILES_PER_WG=1`，8192³、batch1的grid均为 `(1024,1,1)`。最终五轮、两种输出、两版共20条CLI日志全部记录 `output_tiles_per_wg=1 (auto)`。K方向另有2-stage LDS双缓冲。
+
+历史tile4候选 `scale_panel_persistent4` 的记录保存在 `OPTIMIZATION_LOG.md` 和 `results/persistent4/`；当时FP32/BF16单轮为2.873824256P/2.949399654P，未选入正式路径。这是早期候选的历史测量；本轮3.074901P/2.975244P对应上述tile1。
+
 ## 最终对照与基线身份
 
 基线是第二轮正式选择 `pair_b_early_a_merge`，恢复时 `tmpl.hpp` 的SHA256为 `97fc15711b5aaad38a91ea7387b42bdf1f0cd11f761f071a83bdb84c111d8ab2`。其完整可重建源码保存在 `results/continuation_20260911/round3/baseline_source/`。本轮没有把某次失败实验或另一张卡上的速度重新命名为基线。
