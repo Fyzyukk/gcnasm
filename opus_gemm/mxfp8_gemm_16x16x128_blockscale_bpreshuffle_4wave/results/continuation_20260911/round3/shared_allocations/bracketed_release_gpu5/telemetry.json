@@ -1,0 +1,1198 @@
+[
+  {
+    "timestamp_utc": "2026-09-11T07:30:20.491751+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "39.0",
+        "Temperature (Sensor memory) (C)": "27.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(997Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(49Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "496.0",
+        "GPU use (%)": "25",
+        "GFX Activity": "788141907",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "1",
+        "Memory Activity": "1976778418",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:20.741515+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "40.0",
+        "Temperature (Sensor memory) (C)": "28.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(977Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(44Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "704.0",
+        "GPU use (%)": "43",
+        "GFX Activity": "788156183",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "2",
+        "Memory Activity": "1976778949",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:20.992184+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "41.0",
+        "Temperature (Sensor memory) (C)": "29.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(740Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(43Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "596.0",
+        "GPU use (%)": "30",
+        "GFX Activity": "788167547",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "1",
+        "Memory Activity": "1976779368",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:21.206620+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "42.0",
+        "Temperature (Sensor memory) (C)": "29.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(963Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(43Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "711.0",
+        "GPU use (%)": "44",
+        "GFX Activity": "788180965",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "2",
+        "Memory Activity": "1976779863",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:21.457363+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "43.0",
+        "Temperature (Sensor memory) (C)": "30.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(1206Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(48Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "868.0",
+        "GPU use (%)": "56",
+        "GFX Activity": "788197415",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "2",
+        "Memory Activity": "1976780489",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:21.727647+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "44.0",
+        "Temperature (Sensor memory) (C)": "30.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(944Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(43Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "711.0",
+        "GPU use (%)": "43",
+        "GFX Activity": "788211251",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "3",
+        "Memory Activity": "1976781146",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:21.976721+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "45.0",
+        "Temperature (Sensor memory) (C)": "32.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(1366Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(43Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "966.0",
+        "GPU use (%)": "64",
+        "GFX Activity": "788229710",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "6",
+        "Memory Activity": "1976782773",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:22.266215+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "46.0",
+        "Temperature (Sensor memory) (C)": "32.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(1224Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(52Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "874.0",
+        "GPU use (%)": "57",
+        "GFX Activity": "788245985",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "5",
+        "Memory Activity": "1976784206",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:22.537964+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "46.0",
+        "Temperature (Sensor memory) (C)": "31.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(1006Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(44Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "773.0",
+        "GPU use (%)": "48",
+        "GFX Activity": "788260652",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "5",
+        "Memory Activity": "1976785544",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:22.798277+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "47.0",
+        "Temperature (Sensor memory) (C)": "32.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(1638Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(48Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "1130.0",
+        "GPU use (%)": "78",
+        "GFX Activity": "788284530",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "5",
+        "Memory Activity": "1976787483",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:23.140557+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "48.0",
+        "Temperature (Sensor memory) (C)": "31.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(1488Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(52Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "1045.0",
+        "GPU use (%)": "71",
+        "GFX Activity": "788304569",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "3",
+        "Memory Activity": "1976788234",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:23.447866+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "48.0",
+        "Temperature (Sensor memory) (C)": "31.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(1215Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(43Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "872.0",
+        "GPU use (%)": "57",
+        "GFX Activity": "788320934",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "2",
+        "Memory Activity": "1976788840",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:23.715595+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "32.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(1548Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(48Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "1094.0",
+        "GPU use (%)": "75",
+        "GFX Activity": "788342660",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "3",
+        "Memory Activity": "1976789646",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:24.039640+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "32.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(1018Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(43Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "762.0",
+        "GPU use (%)": "47",
+        "GFX Activity": "788356800",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "4",
+        "Memory Activity": "1976790594",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:24.287210+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "33.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(1088Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(53Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "847.0",
+        "GPU use (%)": "55",
+        "GFX Activity": "788372790",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "5",
+        "Memory Activity": "1976792089",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:24.553953+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "32.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(986Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(51Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "735.0",
+        "GPU use (%)": "45",
+        "GFX Activity": "788386856",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "4",
+        "Memory Activity": "1976793327",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:24.803526+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "31.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(770Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(45Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "615.0",
+        "GPU use (%)": "34",
+        "GFX Activity": "788399305",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "3",
+        "Memory Activity": "1976794405",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:25.038867+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "32.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(1012Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(42Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "741.0",
+        "GPU use (%)": "46",
+        "GFX Activity": "788413863",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "4",
+        "Memory Activity": "1976795669",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:25.292258+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "31.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(810Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(42Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "637.0",
+        "GPU use (%)": "36",
+        "GFX Activity": "788426525",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "2",
+        "Memory Activity": "1976796486",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:25.524981+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "32.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(1314Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(52Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "927.0",
+        "GPU use (%)": "61",
+        "GFX Activity": "788444297",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "2",
+        "Memory Activity": "1976797139",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:25.808402+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "32.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(914Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(48Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "676.0",
+        "GPU use (%)": "37",
+        "GFX Activity": "788455206",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "1",
+        "Memory Activity": "1976797544",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:26.003874+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "31.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(911Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(41Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "686.0",
+        "GPU use (%)": "42",
+        "GFX Activity": "788466613",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "2",
+        "Memory Activity": "1976797954",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:26.251117+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "48.0",
+        "Temperature (Sensor memory) (C)": "32.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(1187Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(49Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "851.0",
+        "GPU use (%)": "55",
+        "GFX Activity": "788482789",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "2",
+        "Memory Activity": "1976798570",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:26.520507+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "32.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(771Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(43Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "618.0",
+        "GPU use (%)": "32",
+        "GFX Activity": "788494065",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "2",
+        "Memory Activity": "1976799188",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:26.733840+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "48.0",
+        "Temperature (Sensor memory) (C)": "32.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(691Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(45Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "560.0",
+        "GPU use (%)": "27",
+        "GFX Activity": "788504802",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "2",
+        "Memory Activity": "1976800124",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:26.951055+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "48.0",
+        "Temperature (Sensor memory) (C)": "34.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(1427Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(41Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "1025.0",
+        "GPU use (%)": "69",
+        "GFX Activity": "788524739",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "6",
+        "Memory Activity": "1976801898",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:27.261453+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "34.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(1342Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(48Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "974.0",
+        "GPU use (%)": "65",
+        "GFX Activity": "788542932",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "6",
+        "Memory Activity": "1976803530",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:27.548829+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "32.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(853Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(43Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "666.0",
+        "GPU use (%)": "38",
+        "GFX Activity": "788555598",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "3",
+        "Memory Activity": "1976804691",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:27.780517+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "33.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(1812Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(44Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "1241.0",
+        "GPU use (%)": "87",
+        "GFX Activity": "788584289",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "3",
+        "Memory Activity": "1976806097",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:28.178919+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "50.0",
+        "Temperature (Sensor memory) (C)": "33.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(1245Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(49Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "901.0",
+        "GPU use (%)": "59",
+        "GFX Activity": "788600835",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "2",
+        "Memory Activity": "1976806701",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:28.450424+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "50.0",
+        "Temperature (Sensor memory) (C)": "32.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(799Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(44Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "627.0",
+        "GPU use (%)": "32",
+        "GFX Activity": "788612099",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "1",
+        "Memory Activity": "1976807124",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:28.663411+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "50.0",
+        "Temperature (Sensor memory) (C)": "32.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(786Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(42Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "622.0",
+        "GPU use (%)": "35",
+        "GFX Activity": "788624138",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "1",
+        "Memory Activity": "1976807572",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:28.898657+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "33.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(1120Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(40Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "843.0",
+        "GPU use (%)": "54",
+        "GFX Activity": "788640249",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "4",
+        "Memory Activity": "1976808617",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:29.167762+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "33.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(1116Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(52Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "861.0",
+        "GPU use (%)": "55",
+        "GFX Activity": "788656369",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "5",
+        "Memory Activity": "1976810146",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:29.435853+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "33.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(952Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(43Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "742.0",
+        "GPU use (%)": "45",
+        "GFX Activity": "788670446",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "4",
+        "Memory Activity": "1976811408",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:29.682514+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "33.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(941Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(41Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "737.0",
+        "GPU use (%)": "45",
+        "GFX Activity": "788684583",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "4",
+        "Memory Activity": "1976812676",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:29.931911+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "34.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(1130Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(41Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "860.0",
+        "GPU use (%)": "56",
+        "GFX Activity": "788700832",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "5",
+        "Memory Activity": "1976814138",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:30.201262+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "33.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(1029Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(52Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "767.0",
+        "GPU use (%)": "48",
+        "GFX Activity": "788715510",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "2",
+        "Memory Activity": "1976814746",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:30.456374+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "32.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(1094Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(43Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "797.0",
+        "GPU use (%)": "51",
+        "GFX Activity": "788730576",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "2",
+        "Memory Activity": "1976815309",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:30.713276+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "33.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(1074Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(42Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "784.0",
+        "GPU use (%)": "50",
+        "GFX Activity": "788745359",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "2",
+        "Memory Activity": "1976815855",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:30.967040+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "32.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(783Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(40Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "616.0",
+        "GPU use (%)": "33",
+        "GFX Activity": "788757718",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "1",
+        "Memory Activity": "1976816329",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:31.201738+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "33.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(1145Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(51Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "829.0",
+        "GPU use (%)": "53",
+        "GFX Activity": "788773721",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "3",
+        "Memory Activity": "1976817003",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:31.470721+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "33.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(959Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(42Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "728.0",
+        "GPU use (%)": "44",
+        "GFX Activity": "788787762",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "4",
+        "Memory Activity": "1976818218",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:31.722982+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "33.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(901Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(42Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "700.0",
+        "GPU use (%)": "42",
+        "GFX Activity": "788801516",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "4",
+        "Memory Activity": "1976819450",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:31.971419+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "35.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(1498Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(48Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "1087.0",
+        "GPU use (%)": "74",
+        "GFX Activity": "788823187",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "7",
+        "Memory Activity": "1976821396",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  },
+  {
+    "timestamp_utc": "2026-09-11T07:30:32.295504+00:00",
+    "returncode": 0,
+    "status": {
+      "card5": {
+        "Temperature (Sensor junction) (C)": "49.0",
+        "Temperature (Sensor memory) (C)": "35.0",
+        "fclk clock speed:": "(1250Mhz)",
+        "fclk clock level:": "0",
+        "mclk clock speed:": "(2000Mhz)",
+        "mclk clock level:": "0",
+        "sclk clock speed:": "(1454Mhz)",
+        "sclk clock level:": "1",
+        "socclk clock speed:": "(40Mhz)",
+        "socclk clock level:": "S",
+        "Current Socket Graphics Package Power (W)": "1036.0",
+        "GPU use (%)": "70",
+        "GFX Activity": "788842993",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "6",
+        "Memory Activity": "1976823213",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:95:00.0"
+      }
+    }
+  }
+]

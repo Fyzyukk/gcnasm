@@ -1,0 +1,11 @@
+[0;33mW20260911 02:34:48.309565 140698058973056 simple_timer.cpp:55] [rocprofv3] tool initialization ::     0.139180 sec
+[m[0;33mW20260911 02:34:48.309921 140698058973056 simple_timer.cpp:55] [rocprofv3] '/tmp/mxfp8_fourwave_e8_continue_20260910/three_b_slots_r12/build/gemm_a8w8_blockscale_bpreshuffle.exe -m 8192 -n 8192 -k 8192 -b 1 -w 200 -i 100 -v 0 --dtype bf16' ::     0.000000 sec
+[m[0;33mW20260911 02:34:48.533787 140698058973056 tool.cpp:2158] HSA version 8.18.0 initialized (instance=0)
+[m[0;33mW20260911 02:34:48.782275 140698058973056 simple_timer.cpp:55] [rocprofv3] '/tmp/mxfp8_fourwave_e8_continue_20260910/three_b_slots_r12/build/gemm_a8w8_blockscale_bpreshuffle.exe -m 8192 -n 8192 -k 8192 -b 1 -w 200 -i 100 -v 0 --dtype bf16' ::     0.472354 sec
+[m[0;31mE20260911 02:34:48.787345 140698058973056 output_stream.cpp:111] Opened result file: /tmp/mxfp8_fourwave_e8_continue_20260910/profile_coexecution/three_b_slots_r12/stalls/profile_counter_collection.csv
+[m[0;31mE20260911 02:34:48.789361 140698058973056 output_stream.cpp:111] Opened result file: /tmp/mxfp8_fourwave_e8_continue_20260910/profile_coexecution/three_b_slots_r12/stalls/profile_agent_info.csv
+[m[0;33mW20260911 02:34:48.790679 140698058973056 simple_timer.cpp:55] [rocprofv3] tool finalization ::     0.008258 sec
+[mLaunching 4-wave blockscale bpreshuffle GEMM: M=8192, N=8192, K=8192, batch=1, dtype=bf16, seed=1, grid=(1024,1,1), block=256, output_tiles_per_wg=1 (auto)
+Input layout: A raw [B,M,K], B packed (16,16), SFA [B,K/128,M], SFB [B,N/128,K/128]
+
+Kernel Performance: avg_time=0.419331551 ms, 2622.057954 TFlops

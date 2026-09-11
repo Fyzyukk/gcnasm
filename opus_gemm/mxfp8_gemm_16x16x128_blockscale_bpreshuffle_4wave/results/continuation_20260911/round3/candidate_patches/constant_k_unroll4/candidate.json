@@ -1,0 +1,6 @@
+{
+  "parent": "/tmp/mxfp8_fourwave_round3_20260911/baseline",
+  "source_sha256": "e8869c3a33747912c0dad547d2d33fd16b7b4a4577d5d5c11c3860d3aacef315",
+  "exact_k8192": true,
+  "unroll": 4
+}

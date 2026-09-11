@@ -1,0 +1,29 @@
+mkdir -p build
+/root/toolchains/rocm-llvm23-46fcb339-build/bin/clang++ -x hip gemm_a8w8_mxfp8_scale_kernel.cc -I. -I/root/workspace/aiter/csrc/include -std=c++17 -O3 -ffast-math -fPIC --offload-arch=gfx950 --rocm-path=/opt/rocm -D__HIPCC_RTC__ -c -o build/kernel.o
+/root/toolchains/rocm-llvm23-46fcb339-build/bin/clang++ -x hip gemm_a8w8_mxfp8_scale_host.cc -I. -I/root/workspace/aiter/csrc/include -std=c++17 -O3 -ffast-math -fPIC --offload-arch=gfx950 --rocm-path=/opt/rocm -fno-finite-math-only -fopenmp -I/opt/rocm/lib/llvm/include -c -o build/host.o
+/root/toolchains/rocm-llvm23-46fcb339-build/bin/clang++ -x hip gemm_a8w8_blockscale_bpreshuffle_launch.cc -I. -I/root/workspace/aiter/csrc/include -std=c++17 -O3 -ffast-math -fPIC --offload-arch=gfx950 --rocm-path=/opt/rocm -c -o build/launch.o
+In file included from gemm_a8w8_mxfp8_scale_kernel.cc:14:
+In file included from ./tmpl.hpp:4:
+/root/workspace/aiter/csrc/include/opus/opus.hpp:331:45: warning: use of CUDA/HIP target attributes on deduction guides is deprecated; they will be rejected in a future version of Clang [-Wdeprecated-attributes]
+  331 | template<typename... T> __host__ __device__ tuple(T&&...) -> tuple<remove_cvref_t<T>...>;
+      |                                             ^
+1 warning generated when compiling for gfx950.
+/root/toolchains/rocm-llvm23-46fcb339-build/bin/clang++ build/kernel.o build/host.o --offload-arch=gfx950 --rocm-path=/opt/rocm -L/opt/rocm/lib -lamdhip64 -Wl,-rpath,/opt/rocm/lib -fopenmp -L/opt/rocm/lib/llvm/lib -lomp -Wl,-rpath,/opt/rocm/lib/llvm/lib -o build/gemm_a8w8_blockscale_bpreshuffle.exe
+/root/toolchains/rocm-llvm23-46fcb339-build/bin/clang++ build/kernel.o build/launch.o -shared --offload-arch=gfx950 --rocm-path=/opt/rocm -L/opt/rocm/lib -lamdhip64 -Wl,-rpath,/opt/rocm/lib -o build/libblockscale_bpreshuffle.so
+/root/toolchains/rocm-llvm23-46fcb339-build/bin/llvm-objcopy --dump-section=.hip_fatbin=build/device.fb build/gemm_a8w8_blockscale_bpreshuffle.exe build/inspect.exe
+/root/toolchains/rocm-llvm23-46fcb339-build/bin/clang-offload-bundler -type=o -targets=hipv4-amdgcn-amd-amdhsa--gfx950 -input=build/device.fb -output=build/device.co -unbundle
+/root/toolchains/rocm-llvm23-46fcb339-build/bin/llvm-objdump -d --mcpu=gfx950 build/device.co > build/device.isa
+/root/toolchains/rocm-llvm23-46fcb339-build/bin/llvm-readelf --notes build/device.co > build/device.notes
+/root/toolchains/rocm-llvm23-46fcb339-build/bin/clang++ -x hip gemm_a8w8_mxfp8_scale_kernel.cc -I. -I/root/workspace/aiter/csrc/include -std=c++17 -O3 -ffast-math -fPIC --offload-arch=gfx950 --rocm-path=/opt/rocm -D__HIPCC_RTC__ -c -o build/kernel.o
+In file included from gemm_a8w8_mxfp8_scale_kernel.cc:14:
+In file included from ./tmpl.hpp:4:
+/root/workspace/aiter/csrc/include/opus/opus.hpp:331:45: warning: use of CUDA/HIP target attributes on deduction guides is deprecated; they will be rejected in a future version of Clang [-Wdeprecated-attributes]
+  331 | template<typename... T> __host__ __device__ tuple(T&&...) -> tuple<remove_cvref_t<T>...>;
+      |                                             ^
+1 warning generated when compiling for gfx950.
+/root/toolchains/rocm-llvm23-46fcb339-build/bin/clang++ build/kernel.o build/host.o --offload-arch=gfx950 --rocm-path=/opt/rocm -L/opt/rocm/lib -lamdhip64 -Wl,-rpath,/opt/rocm/lib -fopenmp -L/opt/rocm/lib/llvm/lib -lomp -Wl,-rpath,/opt/rocm/lib/llvm/lib -o build/gemm_a8w8_blockscale_bpreshuffle.exe
+/root/toolchains/rocm-llvm23-46fcb339-build/bin/clang++ build/kernel.o build/launch.o -shared --offload-arch=gfx950 --rocm-path=/opt/rocm -L/opt/rocm/lib -lamdhip64 -Wl,-rpath,/opt/rocm/lib -o build/libblockscale_bpreshuffle.so
+/root/toolchains/rocm-llvm23-46fcb339-build/bin/llvm-objcopy --dump-section=.hip_fatbin=build/device.fb build/gemm_a8w8_blockscale_bpreshuffle.exe build/inspect.exe
+/root/toolchains/rocm-llvm23-46fcb339-build/bin/clang-offload-bundler -type=o -targets=hipv4-amdgcn-amd-amdhsa--gfx950 -input=build/device.fb -output=build/device.co -unbundle
+/root/toolchains/rocm-llvm23-46fcb339-build/bin/llvm-objdump -d --mcpu=gfx950 build/device.co > build/device.isa
+/root/toolchains/rocm-llvm23-46fcb339-build/bin/llvm-readelf --notes build/device.co > build/device.notes

@@ -1,0 +1,307 @@
+{
+  "recovered_from": "/tmp/mxfp8_fourwave_round3_20260911",
+  "measurement_gpu": 2,
+  "all_single_screening_runs": true,
+  "candidates": [
+    {
+      "candidate": "a_lead_two_tiles",
+      "source_and_exe_hashes_match": true,
+      "performance": [
+        {
+          "label": "verify_fp32",
+          "returncode": 0,
+          "ms": 0.088480003,
+          "pflops": 0.012135418
+        },
+        {
+          "label": "verify_bf16",
+          "returncode": 0,
+          "ms": 0.078840002,
+          "pflops": 0.027238503
+        },
+        {
+          "label": "perf_bf16",
+          "returncode": 0,
+          "ms": 0.365750084,
+          "pflops": 3.0061828449999997
+        },
+        {
+          "label": "perf_fp32",
+          "returncode": 0,
+          "ms": 0.379972076,
+          "pflops": 2.893664288
+        }
+      ]
+    },
+    {
+      "candidate": "a_scope1",
+      "source_and_exe_hashes_match": true,
+      "performance": [
+        {
+          "label": "verify_fp32",
+          "returncode": 0,
+          "ms": 0.086839996,
+          "pflops": 0.0123646
+        },
+        {
+          "label": "verify_bf16",
+          "returncode": 0,
+          "ms": 0.088040002,
+          "pflops": 0.024392135
+        },
+        {
+          "label": "perf_bf16",
+          "returncode": 0,
+          "ms": 0.358855782,
+          "pflops": 3.063937337
+        },
+        {
+          "label": "perf_fp32",
+          "returncode": 0,
+          "ms": 0.376094933,
+          "pflops": 2.923494928
+        }
+      ]
+    },
+    {
+      "candidate": "a_scope16",
+      "source_and_exe_hashes_match": true,
+      "performance": [
+        {
+          "label": "verify_fp32",
+          "returncode": 0,
+          "ms": 0.081,
+          "pflops": 0.013256071999999999
+        },
+        {
+          "label": "verify_bf16",
+          "returncode": 0,
+          "ms": 0.07824,
+          "pflops": 0.027447388
+        },
+        {
+          "label": "perf_bf16",
+          "returncode": 0,
+          "ms": 0.358877258,
+          "pflops": 3.0637539780000003
+        },
+        {
+          "label": "perf_fp32",
+          "returncode": 0,
+          "ms": 0.377570724,
+          "pflops": 2.912068009
+        }
+      ]
+    },
+    {
+      "candidate": "b_scope1",
+      "source_and_exe_hashes_match": true,
+      "performance": [
+        {
+          "label": "verify_fp32",
+          "returncode": 0,
+          "ms": 0.08072,
+          "pflops": 0.013302054
+        },
+        {
+          "label": "verify_bf16",
+          "returncode": 0,
+          "ms": 0.083719999,
+          "pflops": 0.025650785
+        },
+        {
+          "label": "perf_bf16",
+          "returncode": 0,
+          "ms": 0.358608513,
+          "pflops": 3.066049991
+        },
+        {
+          "label": "perf_fp32",
+          "returncode": 0,
+          "ms": 0.371850891,
+          "pflops": 2.9568616189999997
+        }
+      ]
+    },
+    {
+      "candidate": "b_scope16",
+      "source_and_exe_hashes_match": true,
+      "performance": [
+        {
+          "label": "verify_fp32",
+          "returncode": 0,
+          "ms": 0.081200004,
+          "pflops": 0.013223421
+        },
+        {
+          "label": "verify_bf16",
+          "returncode": 0,
+          "ms": 0.087800004,
+          "pflops": 0.02445881
+        },
+        {
+          "label": "perf_bf16",
+          "returncode": 0,
+          "ms": 0.358851547,
+          "pflops": 3.063973491
+        },
+        {
+          "label": "perf_fp32",
+          "returncode": 0,
+          "ms": 0.372662659,
+          "pflops": 2.9504207150000004
+        }
+      ]
+    },
+    {
+      "candidate": "producer_spread/split4_bstride8",
+      "source_and_exe_hashes_match": true,
+      "performance": [
+        {
+          "label": "verify_fp32",
+          "returncode": 0,
+          "ms": 0.087800004,
+          "pflops": 0.012229405
+        },
+        {
+          "label": "verify_bf16",
+          "returncode": 0,
+          "ms": 0.088160001,
+          "pflops": 0.024358934000000002
+        },
+        {
+          "label": "perf_bf16",
+          "returncode": 0,
+          "ms": 0.35947731,
+          "pflops": 3.058639855
+        },
+        {
+          "label": "perf_fp32",
+          "returncode": 0,
+          "ms": 0.375556145,
+          "pflops": 2.9276890910000004
+        }
+      ]
+    },
+    {
+      "candidate": "producer_spread/split4_stride4",
+      "source_and_exe_hashes_match": true,
+      "performance": [
+        {
+          "label": "verify_fp32",
+          "returncode": 0,
+          "ms": 0.086039998,
+          "pflops": 0.012479566000000001
+        },
+        {
+          "label": "verify_bf16",
+          "returncode": 0,
+          "ms": 0.085320003,
+          "pflops": 0.025169755999999998
+        },
+        {
+          "label": "perf_bf16",
+          "returncode": 0,
+          "ms": 0.357740097,
+          "pflops": 3.073492843
+        },
+        {
+          "label": "perf_fp32",
+          "returncode": 0,
+          "ms": 0.37551815,
+          "pflops": 2.92798531
+        }
+      ]
+    },
+    {
+      "candidate": "scale_kcache",
+      "source_and_exe_hashes_match": true,
+      "performance": [
+        {
+          "label": "verify_fp32",
+          "returncode": 0,
+          "ms": 0.081720002,
+          "pflops": 0.013139277999999999
+        },
+        {
+          "label": "verify_bf16",
+          "returncode": 0,
+          "ms": 0.084399998,
+          "pflops": 0.02544412
+        },
+        {
+          "label": "perf_bf16",
+          "returncode": 0,
+          "ms": 0.361916389,
+          "pflops": 3.0380266270000003
+        },
+        {
+          "label": "perf_fp32",
+          "returncode": 0,
+          "ms": 0.376444893,
+          "pflops": 2.920777114
+        }
+      ]
+    },
+    {
+      "candidate": "unroll16",
+      "source_and_exe_hashes_match": true,
+      "performance": [
+        {
+          "label": "verify_fp32",
+          "returncode": 0,
+          "ms": 0.088440001,
+          "pflops": 0.012140907000000001
+        },
+        {
+          "label": "verify_bf16",
+          "returncode": 0,
+          "ms": 0.086400002,
+          "pflops": 0.024855134
+        },
+        {
+          "label": "perf_bf16",
+          "returncode": 0,
+          "ms": 0.359760895,
+          "pflops": 3.056228856
+        },
+        {
+          "label": "perf_fp32",
+          "returncode": 0,
+          "ms": 0.374935875,
+          "pflops": 2.932532471
+        }
+      ]
+    },
+    {
+      "candidate": "unroll8",
+      "source_and_exe_hashes_match": true,
+      "performance": [
+        {
+          "label": "verify_fp32",
+          "returncode": 0,
+          "ms": 0.081040002,
+          "pflops": 0.013249529000000001
+        },
+        {
+          "label": "verify_bf16",
+          "returncode": 0,
+          "ms": 0.078840002,
+          "pflops": 0.027238503
+        },
+        {
+          "label": "perf_bf16",
+          "returncode": 0,
+          "ms": 0.359280167,
+          "pflops": 3.060318186
+        },
+        {
+          "label": "perf_fp32",
+          "returncode": 0,
+          "ms": 0.372888527,
+          "pflops": 2.948633569
+        }
+      ]
+    }
+  ]
+}

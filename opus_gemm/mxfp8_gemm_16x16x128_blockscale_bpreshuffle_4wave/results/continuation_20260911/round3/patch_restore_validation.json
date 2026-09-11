@@ -1,0 +1,196 @@
+{
+  "status": "PASS",
+  "count": 38,
+  "records": [
+    {
+      "name": "regroll_release4",
+      "source_sha256": "8a69fd685b60b213ad6964371121157bc843e1f897e082a3ce899fd63c4f5fe1",
+      "restored_exactly": true
+    },
+    {
+      "name": "stride_sym_single16",
+      "source_sha256": "5577e17c1eb29305d2a5a9da431eff7603066c2473b17d40b2ef6aa3205624da",
+      "restored_exactly": true
+    },
+    {
+      "name": "scale_kcache",
+      "source_sha256": "e038333b5dab5e74fbd024b8c14753d72733ad7a69ff878a31e56cbed3cc9910",
+      "restored_exactly": true
+    },
+    {
+      "name": "sym_rel24_vaddr",
+      "source_sha256": "2a80a9cf778a5df8b2cc275acbc69b976c716c1d7175d832afaebf2942fddeb3",
+      "restored_exactly": true
+    },
+    {
+      "name": "regroll_release8",
+      "source_sha256": "65cb2e45f4db60b4017021f6679c2f716ff130e3b3801b088b253a2f452c54de",
+      "restored_exactly": true
+    },
+    {
+      "name": "symmetric_batch16",
+      "source_sha256": "9265a54bc4b0629c8f1e5edc4d305116be8c342bf2f49900e1122bc27f24dc32",
+      "restored_exactly": true
+    },
+    {
+      "name": "stride_sym_bf16",
+      "source_sha256": "b010b59e0402a8295aa1d45b6c59ff4fd830f64d21a6a6b4d541edad30ad5396",
+      "restored_exactly": true
+    },
+    {
+      "name": "pin_ab_offset4",
+      "source_sha256": "e262ad6b5f1dca99b6e2539f48d2d8a7fdbd734bfaa171c42fd7cb3909395a08",
+      "restored_exactly": true
+    },
+    {
+      "name": "a_scope16",
+      "source_sha256": "2e167cde55d586d2db5c343b39dccf3e14a6ce274f91fa301ef5b1974c1b4e75",
+      "restored_exactly": true
+    },
+    {
+      "name": "producer_spread/split4_bstride8",
+      "source_sha256": "f508d2a29c354ac860d5f7a1f9a1c92cfccbb4600be32a4c2384df3faee30998",
+      "restored_exactly": true
+    },
+    {
+      "name": "producer_spread/split4_stride4",
+      "source_sha256": "4e5c6bdaf1e64093aad164c4cf5dddc4e21ec02fc834022cd0664fc1b5f56290",
+      "restored_exactly": true
+    },
+    {
+      "name": "a_scope1",
+      "source_sha256": "e85fe48cdf632942a569fccdabb4490848552ea2c76029501fbb2a227fc844b1",
+      "restored_exactly": true
+    },
+    {
+      "name": "lds_read16_only_b",
+      "source_sha256": "34e1deef9255aec6fb0af514170d79f8d2467bbe0cd8013c017796e4f7e459aa",
+      "restored_exactly": true
+    },
+    {
+      "name": "b_scope1",
+      "source_sha256": "f5720b1bec07eb3eed80c81b213165070d7c6b307d25392cfb2f5cd6d213ecfb",
+      "restored_exactly": true
+    },
+    {
+      "name": "sym_release28_dense",
+      "source_sha256": "3c29326dcd95cc873f72188cf3a12e43d1e7992e64233e294f98dc58f75ab095",
+      "restored_exactly": true
+    },
+    {
+      "name": "constant_k_unroll8",
+      "source_sha256": "aef77e0d26de34b0fc1a77b7b2d3f2c6039d6d4b61aad075f04029277a19ea48",
+      "restored_exactly": true
+    },
+    {
+      "name": "sym_release24_dense",
+      "source_sha256": "a6f33bf2124e4f86852073cca42e8c3be5830a32b335b6eeddbdff4017047f56",
+      "restored_exactly": true
+    },
+    {
+      "name": "lds_read16_align8",
+      "source_sha256": "353ca374b3d7fc089539c5a5e20ef03e6aab5ccb16efbad36513b1026db8a4af",
+      "restored_exactly": true
+    },
+    {
+      "name": "asym_pairs8",
+      "source_sha256": "4b2441a72cf7ab096dfaa27ccd5b234533f147b46f16242d149e66669fc18abb",
+      "restored_exactly": true
+    },
+    {
+      "name": "symmetric_single16",
+      "source_sha256": "4c26ed7a358b8e90ecd09cc05a762ed5fe2aea3c9aa2754ea6a7d376b5a187b4",
+      "restored_exactly": true
+    },
+    {
+      "name": "asym_a_pairs_b_single",
+      "source_sha256": "986df9669aecb8f8754bc656fee33cbabe6554800049ebc9d9a27ff91a533af2",
+      "restored_exactly": true
+    },
+    {
+      "name": "b_scope16",
+      "source_sha256": "1da9a37f001e5d2a53a3c85fed22832e65dcfc73e209722fdc9f6ed199fcf722",
+      "restored_exactly": true
+    },
+    {
+      "name": "stride_contract",
+      "source_sha256": "78587a6b5618ec87f201d7ae4594de9afc0325b6dfb22d0990fe61977bfa872d",
+      "restored_exactly": true
+    },
+    {
+      "name": "asym_single16",
+      "source_sha256": "e93acfb786a07f957819bb34e040f244b7986882a358077c34aa14efc515e06e",
+      "restored_exactly": true
+    },
+    {
+      "name": "pin_ab_aligned",
+      "source_sha256": "f32911b3f9f7ac631fad15fada432530c50aab2dc9d46ced9e522396b5cb8549",
+      "restored_exactly": true
+    },
+    {
+      "name": "symmetric_pairs8",
+      "source_sha256": "a32a496879386e622f565f559b3222b3c0c348ac948ebf679d28eb699aec6e97",
+      "restored_exactly": true
+    },
+    {
+      "name": "stride_asym_pairs8",
+      "source_sha256": "3d015855daa0843c75d37e8d18194a43323d21dcacf5b38f9536dcf840b2ce99",
+      "restored_exactly": true
+    },
+    {
+      "name": "sym_release24_spread",
+      "source_sha256": "d85ba772a5c74461099678fca93481de3e522953c12bd00396560b1e15574bbc",
+      "restored_exactly": true
+    },
+    {
+      "name": "a_lead_two_tiles",
+      "source_sha256": "75249ceb1983f2911ccffe69733ed361f8182e3e1ef4d9b2c206c6b2b0f5c09e",
+      "restored_exactly": true
+    },
+    {
+      "name": "sym_rows_quad",
+      "source_sha256": "d3c67f83fa7ed41d0b8cf7a035846a464d9b491fb46d1e10b692f83c40d9dcd6",
+      "restored_exactly": true
+    },
+    {
+      "name": "unroll8",
+      "source_sha256": "4bcb9d371d9e046e01ecdeba1a81c47ac72e1bd9ce2b1f322e4c48d108cdbe3f",
+      "restored_exactly": true
+    },
+    {
+      "name": "sym_rows_vaddr",
+      "source_sha256": "76dcf272459f63747dc6ed6ffccb5f250c8f8ca3b82e864b8fc95a54c8bb51c6",
+      "restored_exactly": true
+    },
+    {
+      "name": "lds_read16_only_a",
+      "source_sha256": "d1a2fabb0a634afe3d1eb6ac2aa2819d6a65a9254486d26340ac77da767b4164",
+      "restored_exactly": true
+    },
+    {
+      "name": "unroll16",
+      "source_sha256": "5e52adcfd060261f37389036315e097207044854567b5292fe6b9123742dae37",
+      "restored_exactly": true
+    },
+    {
+      "name": "sym_rows",
+      "source_sha256": "e7b453bd94d2c374fac208940007f136f234f0003b20742b842334301e2325d2",
+      "restored_exactly": true
+    },
+    {
+      "name": "stride_ab_const",
+      "source_sha256": "2e166a3ed7bf27d3400a8b267cdab09dd88779857d942365fa84667393b47491",
+      "restored_exactly": true
+    },
+    {
+      "name": "selected_register_roll",
+      "source_sha256": "1b1c87b28c1ae645cd8986e00aae0f870f089044c8a8eac4d761e396deafe53a",
+      "restored_exactly": true
+    },
+    {
+      "name": "constant_k_unroll4",
+      "source_sha256": "e8869c3a33747912c0dad547d2d33fd16b7b4a4577d5d5c11c3860d3aacef315",
+      "restored_exactly": true
+    }
+  ]
+}

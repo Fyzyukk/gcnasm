@@ -1,0 +1,258 @@
+{
+  "pci": "0000:85:00.0",
+  "hip_visible_devices": "5",
+  "shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "batch": 1,
+  "performance_measured": false,
+  "versions": {
+    "baseline": {
+      "tmpl.hpp": "97fc15711b5aaad38a91ea7387b42bdf1f0cd11f761f071a83bdb84c111d8ab2",
+      "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+      "build/libblockscale_bpreshuffle.so": "94ae6ebbe783a158254f2417e2c80f80c21136d471466ff3787a35e384905d91"
+    },
+    "symmetric_batch16": {
+      "tmpl.hpp": "9265a54bc4b0629c8f1e5edc4d305116be8c342bf2f49900e1122bc27f24dc32",
+      "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+      "build/libblockscale_bpreshuffle.so": "6ad7f60b2a0d8ee408ca75ef0f124363ec9ee05019f8573fb40306ca9ffac171"
+    },
+    "symmetric_pairs8": {
+      "tmpl.hpp": "a32a496879386e622f565f559b3222b3c0c348ac948ebf679d28eb699aec6e97",
+      "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+      "build/libblockscale_bpreshuffle.so": "d9a43b0106740ac96fafed30615409585836a6e45c3c03ae68c2ff782290aeda"
+    },
+    "symmetric_single16": {
+      "tmpl.hpp": "4c26ed7a358b8e90ecd09cc05a762ed5fe2aea3c9aa2754ea6a7d376b5a187b4",
+      "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+      "build/libblockscale_bpreshuffle.so": "e7378188182e60c1e6029b85f686aed41b9d15dc6eae61f9c721cc1e11f20804"
+    },
+    "asym_single16": {
+      "tmpl.hpp": "e93acfb786a07f957819bb34e040f244b7986882a358077c34aa14efc515e06e",
+      "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+      "build/libblockscale_bpreshuffle.so": "4e4bd97d66673c3a55901623d0aa435b7c264c9ff4a8edf41346362a0430165f"
+    },
+    "asym_pairs8": {
+      "tmpl.hpp": "4b2441a72cf7ab096dfaa27ccd5b234533f147b46f16242d149e66669fc18abb",
+      "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+      "build/libblockscale_bpreshuffle.so": "6003bf680d8274f09c2da8578e99fe17fe43bc245019db841930001407cc12ac"
+    },
+    "asym_a_pairs_b_single": {
+      "tmpl.hpp": "986df9669aecb8f8754bc656fee33cbabe6554800049ebc9d9a27ff91a533af2",
+      "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+      "build/libblockscale_bpreshuffle.so": "e59688615c1a804ea1bf73fe37e96b4185277ed4e6d80e8fa3c8b47f5bd0de77"
+    }
+  },
+  "records": [
+    {
+      "name": "baseline",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "baseline",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "symmetric_batch16",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "symmetric_batch16",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "symmetric_pairs8",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "symmetric_pairs8",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "symmetric_single16",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "symmetric_single16",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "asym_single16",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "asym_single16",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "asym_pairs8",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "asym_pairs8",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "asym_a_pairs_b_single",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "asym_a_pairs_b_single",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "symmetric_batch16",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "symmetric_batch16",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "symmetric_pairs8",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "symmetric_pairs8",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "symmetric_single16",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "symmetric_single16",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "asym_single16",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "asym_single16",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "asym_pairs8",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "asym_pairs8",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "asym_a_pairs_b_single",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "asym_a_pairs_b_single",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    }
+  ]
+}

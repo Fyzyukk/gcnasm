@@ -1,0 +1,9 @@
+{
+  "parent": "/tmp/mxfp8_fourwave_round3_20260911/baseline",
+  "source_sha256": "f32911b3f9f7ac631fad15fada432530c50aab2dc9d46ced9e522396b5cb8549",
+  "A0_vgpr": 32,
+  "A1_vgpr": 64,
+  "B0_vgpr": 96,
+  "B1_vgpr": 128,
+  "purpose": "Check physical operand register placement without changing MFMA shape, data or pipeline."
+}

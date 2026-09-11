@@ -1,0 +1,24 @@
+[
+  {
+    "round": 1,
+    "name": "current",
+    "dtype": "bf16",
+    "candidate_ms": 0.3745926320552826,
+    "baseline_before_ms": 0.38043224811553955,
+    "baseline_after_ms": 0.3845863342285156,
+    "reference_ms": 0.3825092911720276,
+    "speedup_percent": 2.113404920248585,
+    "baseline_drift_percent": 1.0919384814387367
+  },
+  {
+    "round": 1,
+    "name": "current",
+    "dtype": "fp32",
+    "candidate_ms": 0.38942721486091614,
+    "baseline_before_ms": 0.4042014181613922,
+    "baseline_after_ms": 0.405142605304718,
+    "reference_ms": 0.4046720117330551,
+    "speedup_percent": 3.914671674290582,
+    "baseline_drift_percent": 0.23285102452312856
+  }
+]

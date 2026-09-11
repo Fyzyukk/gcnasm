@@ -1,0 +1,11 @@
+--- a/tmpl.hpp
++++ b/tmpl.hpp
+@@ -461,7 +461,7 @@
+     // The launcher enforces K=8192. Keep the trip count runtime-visible to
+     // preserve the validated hard-AGPR loop shape; constant folding it
+     // triggers conflicting hard-pin coalescing in this experimental LLVM.
+-    const int loops = ceil_div_scale(kargs.k, T::B_K);
++    constexpr int loops = T::SCALE_PANEL_K_TILES;
+     static_assert(T::SCALE_PANEL_K_TILES == 64 && T::REQUIRED_K == 8192);
+ 
+     auto prefetch_sfa_panel = [&]() {

@@ -1,0 +1,14 @@
+[0;33mW20260910 13:03:47.299720 140265396965248 simple_timer.cpp:55] [rocprofv3] tool initialization ::     0.000669 sec
+[m[0;33mW20260910 13:03:47.299912 140265396965248 tool.cpp:2158] HIP (compiler) version 7.0.0 initialized (instance=0)
+[m[0;33mW20260910 13:03:47.299993 140265396965248 simple_timer.cpp:55] [rocprofv3] '/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/build/gemm_a8w8_blockscale_bpreshuffle.exe -m 8192 -n 8192 -k 8192 -b 1 -w 0 -i 1 -v 0 --dtype bf16' ::     0.000000 sec
+[m[0;33mW20260910 13:03:47.381488 140265396965248 tool.cpp:2158] HIP (runtime) version 7.0.0 initialized (instance=0)
+[m[0;33mW20260910 13:03:47.532003 140265396965248 tool.cpp:2158] HSA version 8.18.0 initialized (instance=0)
+[m[0;33mW20260910 13:03:47.656347 140265396965248 simple_timer.cpp:55] [rocprofv3] '/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/build/gemm_a8w8_blockscale_bpreshuffle.exe -m 8192 -n 8192 -k 8192 -b 1 -w 0 -i 1 -v 0 --dtype bf16' ::     0.356354 sec
+[m[0;31mE20260910 13:03:47.664615 140265396965248 output_stream.cpp:111] Opened result file: /root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/single_kernel_trace/final_kernel_trace.csv
+[m[0;31mE20260910 13:03:47.673279 140265396965248 output_stream.cpp:111] Opened result file: /root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/single_kernel_trace/final_hip_api_trace.csv
+[m[0;31mE20260910 13:03:47.675159 140265396965248 output_stream.cpp:111] Opened result file: /root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/single_kernel_trace/final_agent_info.csv
+[m[0;33mW20260910 13:03:47.678257 140265396965248 simple_timer.cpp:55] [rocprofv3] tool finalization ::     0.018046 sec
+[mLaunching 4-wave blockscale bpreshuffle GEMM: M=8192, N=8192, K=8192, batch=1, dtype=bf16, seed=1, grid=(1024,1,1), block=256, output_tiles_per_wg=1 (auto)
+Input layout: A raw [B,M,K], B packed (16,16), SFA [B,K/128,M], SFB [B,N/128,K/128]
+
+Kernel Performance: avg_time=1.202689052 ms, 914.211056 TFlops

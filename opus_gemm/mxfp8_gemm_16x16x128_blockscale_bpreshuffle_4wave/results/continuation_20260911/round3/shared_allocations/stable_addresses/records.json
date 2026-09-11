@@ -1,0 +1,296 @@
+[
+  {
+    "round": 1,
+    "name": "baseline",
+    "dtype": "bf16",
+    "ms": 0.38071144104003907,
+    "pflops": 2.888044616606007
+  },
+  {
+    "round": 1,
+    "name": "baseline",
+    "dtype": "fp32",
+    "ms": 0.39642440795898437,
+    "pflops": 2.7735719741297054
+  },
+  {
+    "round": 1,
+    "name": "symmetric_single16",
+    "dtype": "bf16",
+    "ms": 0.3800079345703125,
+    "pflops": 2.893391236736291
+  },
+  {
+    "round": 1,
+    "name": "symmetric_single16",
+    "dtype": "fp32",
+    "ms": 0.3788327789306641,
+    "pflops": 2.90236666130002
+  },
+  {
+    "round": 1,
+    "name": "asym_pairs8",
+    "dtype": "bf16",
+    "ms": 0.3709699249267578,
+    "pflops": 2.96388346843233
+  },
+  {
+    "round": 1,
+    "name": "asym_pairs8",
+    "dtype": "fp32",
+    "ms": 0.3913128662109375,
+    "pflops": 2.80980188160567
+  },
+  {
+    "round": 1,
+    "name": "producer_spread/split4_stride4",
+    "dtype": "bf16",
+    "ms": 0.3669123077392578,
+    "pflops": 2.9966605223757057
+  },
+  {
+    "round": 1,
+    "name": "producer_spread/split4_stride4",
+    "dtype": "fp32",
+    "ms": 0.3847100830078125,
+    "pflops": 2.8580265408683654
+  },
+  {
+    "round": 1,
+    "name": "stride_ab_const",
+    "dtype": "bf16",
+    "ms": 0.36807037353515626,
+    "pflops": 2.987232080690624
+  },
+  {
+    "round": 1,
+    "name": "stride_ab_const",
+    "dtype": "fp32",
+    "ms": 0.3849653244018555,
+    "pflops": 2.856131599604145
+  },
+  {
+    "round": 1,
+    "name": "stride_contract",
+    "dtype": "bf16",
+    "ms": 0.3683303451538086,
+    "pflops": 2.985123659352211
+  },
+  {
+    "round": 1,
+    "name": "stride_contract",
+    "dtype": "fp32",
+    "ms": 0.38444526672363283,
+    "pflops": 2.8599952267494264
+  },
+  {
+    "round": 1,
+    "name": "stride_asym_pairs8",
+    "dtype": "bf16",
+    "ms": 0.37082878112792966,
+    "pflops": 2.9650115733511173
+  },
+  {
+    "round": 1,
+    "name": "stride_asym_pairs8",
+    "dtype": "fp32",
+    "ms": 0.3895817565917969,
+    "pflops": 2.8222872585075036
+  },
+  {
+    "round": 2,
+    "name": "stride_asym_pairs8",
+    "dtype": "bf16",
+    "ms": 0.3710639953613281,
+    "pflops": 2.9631320783503585
+  },
+  {
+    "round": 2,
+    "name": "stride_asym_pairs8",
+    "dtype": "fp32",
+    "ms": 0.3896113586425781,
+    "pflops": 2.8220728256145904
+  },
+  {
+    "round": 2,
+    "name": "stride_contract",
+    "dtype": "bf16",
+    "ms": 0.36858840942382814,
+    "pflops": 2.983033648547821
+  },
+  {
+    "round": 2,
+    "name": "stride_contract",
+    "dtype": "fp32",
+    "ms": 0.3857449722290039,
+    "pflops": 2.850358933837916
+  },
+  {
+    "round": 2,
+    "name": "stride_ab_const",
+    "dtype": "bf16",
+    "ms": 0.3675983810424805,
+    "pflops": 2.991067655569838
+  },
+  {
+    "round": 2,
+    "name": "stride_ab_const",
+    "dtype": "fp32",
+    "ms": 0.38463851928710935,
+    "pflops": 2.8585582895177515
+  },
+  {
+    "round": 2,
+    "name": "producer_spread/split4_stride4",
+    "dtype": "bf16",
+    "ms": 0.38156612396240236,
+    "pflops": 2.88157558736619
+  },
+  {
+    "round": 2,
+    "name": "producer_spread/split4_stride4",
+    "dtype": "fp32",
+    "ms": 0.3844965744018555,
+    "pflops": 2.8596135855994613
+  },
+  {
+    "round": 2,
+    "name": "asym_pairs8",
+    "dtype": "bf16",
+    "ms": 0.37167083740234375,
+    "pflops": 2.9582940525025614
+  },
+  {
+    "round": 2,
+    "name": "asym_pairs8",
+    "dtype": "fp32",
+    "ms": 0.39231258392333984,
+    "pflops": 2.802641752605241
+  },
+  {
+    "round": 2,
+    "name": "symmetric_single16",
+    "dtype": "bf16",
+    "ms": 0.37014522552490237,
+    "pflops": 2.9704871276315514
+  },
+  {
+    "round": 2,
+    "name": "symmetric_single16",
+    "dtype": "fp32",
+    "ms": 0.3810937118530273,
+    "pflops": 2.8851476515572574
+  },
+  {
+    "round": 2,
+    "name": "baseline",
+    "dtype": "bf16",
+    "ms": 0.36921924591064453,
+    "pflops": 2.977936930303181
+  },
+  {
+    "round": 2,
+    "name": "baseline",
+    "dtype": "fp32",
+    "ms": 0.38368217468261717,
+    "pflops": 2.8656833711014036
+  },
+  {
+    "round": 3,
+    "name": "baseline",
+    "dtype": "bf16",
+    "ms": 0.3694428253173828,
+    "pflops": 2.976134742450137
+  },
+  {
+    "round": 3,
+    "name": "baseline",
+    "dtype": "fp32",
+    "ms": 0.38331611633300783,
+    "pflops": 2.868420034864367
+  },
+  {
+    "round": 3,
+    "name": "symmetric_single16",
+    "dtype": "bf16",
+    "ms": 0.3701448440551758,
+    "pflops": 2.9704901890031485
+  },
+  {
+    "round": 3,
+    "name": "symmetric_single16",
+    "dtype": "fp32",
+    "ms": 0.3811121368408203,
+    "pflops": 2.8850081681739637
+  },
+  {
+    "round": 3,
+    "name": "asym_pairs8",
+    "dtype": "bf16",
+    "ms": 0.37205406188964846,
+    "pflops": 2.9552469396292094
+  },
+  {
+    "round": 3,
+    "name": "asym_pairs8",
+    "dtype": "fp32",
+    "ms": 0.39163501739501955,
+    "pflops": 2.807490594404602
+  },
+  {
+    "round": 3,
+    "name": "producer_spread/split4_stride4",
+    "dtype": "bf16",
+    "ms": 0.36782882690429686,
+    "pflops": 2.9891937427244524
+  },
+  {
+    "round": 3,
+    "name": "producer_spread/split4_stride4",
+    "dtype": "fp32",
+    "ms": 0.38579574584960935,
+    "pflops": 2.8499838051729345
+  },
+  {
+    "round": 3,
+    "name": "stride_ab_const",
+    "dtype": "bf16",
+    "ms": 0.3690068435668945,
+    "pflops": 2.979651046977609
+  },
+  {
+    "round": 3,
+    "name": "stride_ab_const",
+    "dtype": "fp32",
+    "ms": 0.38477535247802735,
+    "pflops": 2.8575417336243953
+  },
+  {
+    "round": 3,
+    "name": "stride_contract",
+    "dtype": "bf16",
+    "ms": 0.3694740295410156,
+    "pflops": 2.975883390618507
+  },
+  {
+    "round": 3,
+    "name": "stride_contract",
+    "dtype": "fp32",
+    "ms": 0.38577415466308596,
+    "pflops": 2.850143314386246
+  },
+  {
+    "round": 3,
+    "name": "stride_asym_pairs8",
+    "dtype": "bf16",
+    "ms": 0.37220527648925783,
+    "pflops": 2.954046321285112
+  },
+  {
+    "round": 3,
+    "name": "stride_asym_pairs8",
+    "dtype": "fp32",
+    "ms": 0.38997379302978513,
+    "pflops": 2.8194500436392715
+  }
+]

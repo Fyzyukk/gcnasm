@@ -1,0 +1,192 @@
+--- a/tmpl.hpp
++++ b/tmpl.hpp
+@@ -298,6 +298,8 @@
+     using namespace opus;
+ 
+     using T = opus::remove_cvref_t<Traits>;
++    // C ABI and CLI enforce contiguous matrix/scale strides. K is 8192
++    // on this path, so use those identities directly in address generation.
+     using D_A = opus::fp8_t;
+     using D_B = opus::fp8_t;
+     using D_C = std::conditional_t<T::OUTPUT_BF16, opus::bf16_t, opus::fp32_t>;
+@@ -318,45 +320,45 @@
+ 
+     auto g_a = make_gmem(
+         reinterpret_cast<const D_A*>(kargs.ptr_a) +
+-        batch_id * kargs.stride_a_batch + row * kargs.stride_a);
++        batch_id * (kargs.m * T::REQUIRED_K) + row * T::REQUIRED_K);
+     auto g_b = make_gmem(
+         reinterpret_cast<const D_B*>(kargs.ptr_b) +
+-        batch_id * kargs.stride_b_batch + col * kargs.stride_b);
++        batch_id * (kargs.n * T::REQUIRED_K) + col * T::REQUIRED_K);
+     auto g_c = make_gmem(
+         reinterpret_cast<D_C*>(kargs.ptr_c) +
+-        batch_id * kargs.stride_c_batch + row * kargs.stride_c + col);
++        batch_id * (kargs.m * kargs.n) + row * kargs.n + col);
+ 
+     // Compact external scales are consumed only in the prologue. SFA has
+     // physical [K/128,M] bytes; SFB has physical [N/128,K/128] bytes.
+     auto g_sfa = make_gmem(
+         reinterpret_cast<const D_SF*>(kargs.ptr_sfa) +
+-        batch_id * kargs.stride_sfa_batch + row,
+-        static_cast<unsigned int>(kargs.stride_sfa_batch - row));
+-    const int sfb_row_offset = (col / T::GROUP_N) * kargs.stride_sfb;
++        batch_id * (kargs.m * T::SCALE_PANEL_K_TILES) + row,
++        static_cast<unsigned int>((kargs.m * T::SCALE_PANEL_K_TILES) - row));
++    const int sfb_row_offset = (col / T::GROUP_N) * T::SCALE_PANEL_K_TILES;
+     auto g_sfb = make_gmem(
+         reinterpret_cast<const D_SF*>(kargs.ptr_sfb) +
+-        batch_id * kargs.stride_sfb_batch + sfb_row_offset,
+-        static_cast<unsigned int>(kargs.stride_sfb_batch - sfb_row_offset));
++        batch_id * ((kargs.n / T::GROUP_N) * T::SCALE_PANEL_K_TILES) + sfb_row_offset,
++        static_cast<unsigned int>(((kargs.n / T::GROUP_N) * T::SCALE_PANEL_K_TILES) - sfb_row_offset));
+ 
+     const int wave_id_m = wave_id % T::T_M;
+     const int wave_id_n = wave_id / T::T_M;
+ 
+-    auto u_ga = make_layout_ga_scale<T>(lane_id, wave_id_m, wave_id_n, kargs.stride_a);
++    auto u_ga = make_layout_ga_scale<T>(lane_id, wave_id_m, wave_id_n, T::REQUIRED_K);
+     auto u_sa = make_layout_sa_scale<T>(wave_id_m, wave_id_n);
+     auto u_ra = make_layout_ra_scale<T>(lane_id, wave_id_m);
+-    auto u_gb = make_layout_gb_scale<T>(lane_id, wave_id_m, wave_id_n, kargs.stride_b);
++    auto u_gb = make_layout_gb_scale<T>(lane_id, wave_id_m, wave_id_n, T::REQUIRED_K);
+     auto u_sb = make_layout_sb_scale<T>(wave_id_m, wave_id_n);
+     auto u_rb = make_layout_rb_scale<T>(lane_id, wave_id_n);
+     // Two wave-N0 producers cover both original A producer roles.
+-    auto u_ga_producer_0 = make_layout_ga_scale<T>(lane_id, wave_id_m, 0, kargs.stride_a);
+-    auto u_ga_producer_1 = make_layout_ga_scale<T>(lane_id, wave_id_m, 1, kargs.stride_a);
++    auto u_ga_producer_0 = make_layout_ga_scale<T>(lane_id, wave_id_m, 0, T::REQUIRED_K);
++    auto u_ga_producer_1 = make_layout_ga_scale<T>(lane_id, wave_id_m, 1, T::REQUIRED_K);
+     auto u_sa_producer_0 = make_layout_sa_scale<T>(wave_id_m, 0);
+     auto u_sa_producer_1 = make_layout_sa_scale<T>(wave_id_m, 1);
+     // Only wave_n==1 issues the cold t+2 B prefetch. Those two waves
+     // cover both original wave_n producer roles without changing the LDS
+     // image consumed by all four waves. Prologue B remains a four-wave copy.
+-    auto u_gb_producer_0 = make_layout_gb_scale<T>(lane_id, wave_id_m, 0, kargs.stride_b);
+-    auto u_gb_producer_1 = make_layout_gb_scale<T>(lane_id, wave_id_m, 1, kargs.stride_b);
++    auto u_gb_producer_0 = make_layout_gb_scale<T>(lane_id, wave_id_m, 0, T::REQUIRED_K);
++    auto u_gb_producer_1 = make_layout_gb_scale<T>(lane_id, wave_id_m, 1, T::REQUIRED_K);
+     auto u_sb_producer_0 = make_layout_sb_scale<T>(wave_id_m, 0);
+     auto u_sb_producer_1 = make_layout_sb_scale<T>(wave_id_m, 1);
+ 
+@@ -454,8 +456,8 @@
+     D_SF_PACK v_sfb[T::SCALE_N_HALVES];
+     opus::vector_t<D_SF_PACK, 2> v_sfb_next;
+     D_SF_PACK v_sfa1_next;
+-    auto ga_offset = [&](int half_tile_m, int tile_k) { return half_tile_m * T::HALF_B_M * kargs.stride_a + tile_k * T::B_K; };
+-    auto gb_offset = [&](int half_tile_n, int tile_k) { return half_tile_n * T::HALF_B_N * kargs.stride_b + tile_k * T::B_K * 16; };
++    auto ga_offset = [&](int half_tile_m, int tile_k) { return half_tile_m * T::HALF_B_M * T::REQUIRED_K + tile_k * T::B_K; };
++    auto gb_offset = [&](int half_tile_n, int tile_k) { return half_tile_n * T::HALF_B_N * T::REQUIRED_K + tile_k * T::B_K * 16; };
+     auto sa_offset = [&](int stage, int half_tile_m) { return (stage * 2 + half_tile_m) * smem_a_elem; };
+     auto sb_offset = [&](int stage, int half_tile_n) { return (stage * 2 + half_tile_n) * smem_b_elem; };
+     // The launcher enforces K=8192. Keep the trip count runtime-visible to
+@@ -480,7 +482,7 @@
+         opus::static_for<4>([&](auto pass_i) {
+             constexpr int pass = decltype(pass_i)::value;
+             const int k_column = tid / 16 + pass * 16;
+-            const auto raw = load<16>(g_sfa, k_column * kargs.stride_sfa + source_row);
++            const auto raw = load<16>(g_sfa, k_column * kargs.m + source_row);
+             const auto words = __builtin_bit_cast(opus::vector_t<D_SF_PACK, 4>, raw);
+             opus::static_for<4>([&](auto word_i) {
+                 constexpr int word = decltype(word_i)::value;
+@@ -519,7 +521,7 @@
+     prefetch_sfa_panel();
+     D_SF_PACK panel_sfb_raw = 0;
+     if (wave_id < T::SCALE_N_HALVES) {
+-        const auto raw = load<1>(g_sfb, lane_id, wave_id * kargs.stride_sfb);
++        const auto raw = load<1>(g_sfb, lane_id, wave_id * T::SCALE_PANEL_K_TILES);
+         panel_sfb_raw = static_cast<D_SF_PACK>(raw[0]);
+     }
+     async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(0, 0), gb_offset(0, 0));
+@@ -784,53 +786,53 @@
+         if (wave_id_n == 1) {
+             async_load_issue_b_contiguous_scale<T, 0>(
+                 g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
++                gb_offset(0, future_tile), T::REQUIRED_K);
+             async_load_issue_b_contiguous_scale<T, 1>(
+                 g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
++                gb_offset(0, future_tile), T::REQUIRED_K);
+             async_load_issue_b_contiguous_scale<T, 2>(
+                 g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
++                gb_offset(0, future_tile), T::REQUIRED_K);
+             async_load_issue_b_contiguous_scale<T, 3>(
+                 g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
++                gb_offset(0, future_tile), T::REQUIRED_K);
+             async_load_issue_b_contiguous_scale<T, 0>(
+                 g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
++                gb_offset(0, future_tile), T::REQUIRED_K);
+             async_load_issue_b_contiguous_scale<T, 1>(
+                 g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
++                gb_offset(0, future_tile), T::REQUIRED_K);
+             async_load_issue_b_contiguous_scale<T, 2>(
+                 g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
++                gb_offset(0, future_tile), T::REQUIRED_K);
+             async_load_issue_b_contiguous_scale<T, 3>(
+                 g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
++                gb_offset(0, future_tile), T::REQUIRED_K);
+ 
+             async_load_issue_b_contiguous_scale<T, 0>(
+                 g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
++                gb_offset(1, future_tile), T::REQUIRED_K);
+             async_load_issue_b_contiguous_scale<T, 1>(
+                 g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
++                gb_offset(1, future_tile), T::REQUIRED_K);
+             async_load_issue_b_contiguous_scale<T, 2>(
+                 g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
++                gb_offset(1, future_tile), T::REQUIRED_K);
+             async_load_issue_b_contiguous_scale<T, 3>(
+                 g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
++                gb_offset(1, future_tile), T::REQUIRED_K);
+             async_load_issue_b_contiguous_scale<T, 0>(
+                 g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
++                gb_offset(1, future_tile), T::REQUIRED_K);
+             async_load_issue_b_contiguous_scale<T, 1>(
+                 g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
++                gb_offset(1, future_tile), T::REQUIRED_K);
+             async_load_issue_b_contiguous_scale<T, 2>(
+                 g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
++                gb_offset(1, future_tile), T::REQUIRED_K);
+             async_load_issue_b_contiguous_scale<T, 3>(
+                 g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
++                gb_offset(1, future_tile), T::REQUIRED_K);
+ 
+             __builtin_amdgcn_sched_group_barrier(0x20, 16, 0);
+         }
+@@ -950,10 +952,10 @@
+         wave_id_m, lane_id % mma.grpn_c,
+         wave_id_n, lane_id / mma.grpn_c);
+     auto u_gc = partition_layout_c<T::VEC_C>(
+-        mma, opus::make_tuple(kargs.stride_c, 1_I), p_coord_c);
++        mma, opus::make_tuple(kargs.n, 1_I), p_coord_c);
+ 
+     auto c_offset = [&](int half_tile_m, int half_tile_n) {
+-        return half_tile_m * T::HALF_B_M * kargs.stride_c +
++        return half_tile_m * T::HALF_B_M * kargs.n +
+                half_tile_n * T::HALF_B_N;
+     };
+ 
+@@ -978,7 +980,7 @@
+         const auto x0 = __builtin_amdgcn_permlane16_swap(w0[0], w1[0], false, true); \
+         const auto x1 = __builtin_amdgcn_permlane16_swap(w0[1], w1[1], false, true); \
+         const opus::vector_t<unsigned int, 4> packed = {x0[0], x1[0], x0[1], x1[1]}; \
+-        const int offset = (wave_id_m * 16 + (lane_id & 15) + ((INDEX) / 4) * 32) * kargs.stride_c \
++        const int offset = (wave_id_m * 16 + (lane_id & 15) + ((INDEX) / 4) * 32) * kargs.n \
+             + wave_id_n * 16 + ((INDEX) % 4 / 2) * 64 \
+             + ((lane_id / 16) & 1) * 32 + (lane_id / 32) * 8; \
+         g_c.template store<8>(__builtin_bit_cast(opus::vector_t<D_C, 8>, packed), \

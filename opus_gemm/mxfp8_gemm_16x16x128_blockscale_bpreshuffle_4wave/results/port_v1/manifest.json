@@ -1,0 +1,109 @@
+[
+  {
+    "label": "verify_fp32",
+    "command": [
+      "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/build/gemm_a8w8_blockscale_bpreshuffle.exe",
+      "-m",
+      "256",
+      "-n",
+      "256",
+      "-k",
+      "256",
+      "-b",
+      "1",
+      "-v",
+      "1",
+      "-w",
+      "0",
+      "-i",
+      "1",
+      "--dtype",
+      "fp32"
+    ],
+    "returncode": 0,
+    "wall_seconds": 0.38336416298989207
+  },
+  {
+    "label": "verify_bf16",
+    "command": [
+      "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/build/gemm_a8w8_blockscale_bpreshuffle.exe",
+      "-m",
+      "512",
+      "-n",
+      "256",
+      "-k",
+      "1152",
+      "-b",
+      "2",
+      "-v",
+      "1",
+      "-w",
+      "0",
+      "-i",
+      "1",
+      "--dtype",
+      "bf16"
+    ],
+    "returncode": 0,
+    "wall_seconds": 0.4473483639303595
+  },
+  {
+    "label": "integration",
+    "command": [
+      "python3",
+      "-u",
+      "test_blockscale_bpreshuffle.py",
+      "--large"
+    ],
+    "returncode": 0,
+    "wall_seconds": 3.2929314349312335
+  },
+  {
+    "label": "bench_fp32",
+    "command": [
+      "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/build/gemm_a8w8_blockscale_bpreshuffle.exe",
+      "-m",
+      "8192",
+      "-n",
+      "8192",
+      "-k",
+      "8192",
+      "-b",
+      "1",
+      "-v",
+      "0",
+      "-w",
+      "200",
+      "-i",
+      "100",
+      "--dtype",
+      "fp32"
+    ],
+    "returncode": 0,
+    "wall_seconds": 0.6192643529502675
+  },
+  {
+    "label": "bench_bf16",
+    "command": [
+      "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/build/gemm_a8w8_blockscale_bpreshuffle.exe",
+      "-m",
+      "8192",
+      "-n",
+      "8192",
+      "-k",
+      "8192",
+      "-b",
+      "1",
+      "-v",
+      "0",
+      "-w",
+      "200",
+      "-i",
+      "100",
+      "--dtype",
+      "bf16"
+    ],
+    "returncode": 0,
+    "wall_seconds": 0.6198741189436987
+  }
+]

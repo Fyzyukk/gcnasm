@@ -1,0 +1,171 @@
+Shared-address comparison on PCI 0000:85:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL symmetric_single16 bf16 67108864 outputs
+FULL_BASELINE_EQUAL symmetric_single16 fp32 67108864 outputs
+FULL_BASELINE_EQUAL asym_pairs8 bf16 67108864 outputs
+FULL_BASELINE_EQUAL asym_pairs8 fp32 67108864 outputs
+FULL_BASELINE_EQUAL producer_spread/split4_stride4 bf16 67108864 outputs
+FULL_BASELINE_EQUAL producer_spread/split4_stride4 fp32 67108864 outputs
+FULL_BASELINE_EQUAL stride_ab_const bf16 67108864 outputs
+FULL_BASELINE_EQUAL stride_ab_const fp32 67108864 outputs
+FULL_BASELINE_EQUAL stride_contract bf16 67108864 outputs
+FULL_BASELINE_EQUAL stride_contract fp32 67108864 outputs
+FULL_BASELINE_EQUAL stride_asym_pairs8 bf16 67108864 outputs
+FULL_BASELINE_EQUAL stride_asym_pairs8 fp32 67108864 outputs
+1 baseline bf16: 0.380711441 ms / 2.888045 P
+1 baseline fp32: 0.396424408 ms / 2.773572 P
+1 symmetric_single16 bf16: 0.380007935 ms / 2.893391 P
+1 symmetric_single16 fp32: 0.378832779 ms / 2.902367 P
+1 asym_pairs8 bf16: 0.370969925 ms / 2.963883 P
+1 asym_pairs8 fp32: 0.391312866 ms / 2.809802 P
+1 producer_spread/split4_stride4 bf16: 0.366912308 ms / 2.996661 P
+1 producer_spread/split4_stride4 fp32: 0.384710083 ms / 2.858027 P
+1 stride_ab_const bf16: 0.368070374 ms / 2.987232 P
+1 stride_ab_const fp32: 0.384965324 ms / 2.856132 P
+1 stride_contract bf16: 0.368330345 ms / 2.985124 P
+1 stride_contract fp32: 0.384445267 ms / 2.859995 P
+1 stride_asym_pairs8 bf16: 0.370828781 ms / 2.965012 P
+1 stride_asym_pairs8 fp32: 0.389581757 ms / 2.822287 P
+2 stride_asym_pairs8 bf16: 0.371063995 ms / 2.963132 P
+2 stride_asym_pairs8 fp32: 0.389611359 ms / 2.822073 P
+2 stride_contract bf16: 0.368588409 ms / 2.983034 P
+2 stride_contract fp32: 0.385744972 ms / 2.850359 P
+2 stride_ab_const bf16: 0.367598381 ms / 2.991068 P
+2 stride_ab_const fp32: 0.384638519 ms / 2.858558 P
+2 producer_spread/split4_stride4 bf16: 0.381566124 ms / 2.881576 P
+2 producer_spread/split4_stride4 fp32: 0.384496574 ms / 2.859614 P
+2 asym_pairs8 bf16: 0.371670837 ms / 2.958294 P
+2 asym_pairs8 fp32: 0.392312584 ms / 2.802642 P
+2 symmetric_single16 bf16: 0.370145226 ms / 2.970487 P
+2 symmetric_single16 fp32: 0.381093712 ms / 2.885148 P
+2 baseline bf16: 0.369219246 ms / 2.977937 P
+2 baseline fp32: 0.383682175 ms / 2.865683 P
+3 baseline bf16: 0.369442825 ms / 2.976135 P
+3 baseline fp32: 0.383316116 ms / 2.868420 P
+3 symmetric_single16 bf16: 0.370144844 ms / 2.970490 P
+3 symmetric_single16 fp32: 0.381112137 ms / 2.885008 P
+3 asym_pairs8 bf16: 0.372054062 ms / 2.955247 P
+3 asym_pairs8 fp32: 0.391635017 ms / 2.807491 P
+3 producer_spread/split4_stride4 bf16: 0.367828827 ms / 2.989194 P
+3 producer_spread/split4_stride4 fp32: 0.385795746 ms / 2.849984 P
+3 stride_ab_const bf16: 0.369006844 ms / 2.979651 P
+3 stride_ab_const fp32: 0.384775352 ms / 2.857542 P
+3 stride_contract bf16: 0.369474030 ms / 2.975883 P
+3 stride_contract fp32: 0.385774155 ms / 2.850143 P
+3 stride_asym_pairs8 bf16: 0.372205276 ms / 2.954046 P
+3 stride_asym_pairs8 fp32: 0.389973793 ms / 2.819450 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.3694428253173828,
+    "min_ms": 0.36921924591064453,
+    "max_ms": 0.38071144104003907,
+    "median_pflops": 2.976134742450137
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.38368217468261717,
+    "min_ms": 0.38331611633300783,
+    "max_ms": 0.39642440795898437,
+    "median_pflops": 2.8656833711014036
+  },
+  {
+    "name": "symmetric_single16",
+    "dtype": "bf16",
+    "median_ms": 0.37014522552490237,
+    "min_ms": 0.3701448440551758,
+    "max_ms": 0.3800079345703125,
+    "median_pflops": 2.9704871276315514
+  },
+  {
+    "name": "symmetric_single16",
+    "dtype": "fp32",
+    "median_ms": 0.3810937118530273,
+    "min_ms": 0.3788327789306641,
+    "max_ms": 0.3811121368408203,
+    "median_pflops": 2.8851476515572574
+  },
+  {
+    "name": "asym_pairs8",
+    "dtype": "bf16",
+    "median_ms": 0.37167083740234375,
+    "min_ms": 0.3709699249267578,
+    "max_ms": 0.37205406188964846,
+    "median_pflops": 2.9582940525025614
+  },
+  {
+    "name": "asym_pairs8",
+    "dtype": "fp32",
+    "median_ms": 0.39163501739501955,
+    "min_ms": 0.3913128662109375,
+    "max_ms": 0.39231258392333984,
+    "median_pflops": 2.807490594404602
+  },
+  {
+    "name": "producer_spread/split4_stride4",
+    "dtype": "bf16",
+    "median_ms": 0.36782882690429686,
+    "min_ms": 0.3669123077392578,
+    "max_ms": 0.38156612396240236,
+    "median_pflops": 2.9891937427244524
+  },
+  {
+    "name": "producer_spread/split4_stride4",
+    "dtype": "fp32",
+    "median_ms": 0.3847100830078125,
+    "min_ms": 0.3844965744018555,
+    "max_ms": 0.38579574584960935,
+    "median_pflops": 2.8580265408683654
+  },
+  {
+    "name": "stride_ab_const",
+    "dtype": "bf16",
+    "median_ms": 0.36807037353515626,
+    "min_ms": 0.3675983810424805,
+    "max_ms": 0.3690068435668945,
+    "median_pflops": 2.987232080690624
+  },
+  {
+    "name": "stride_ab_const",
+    "dtype": "fp32",
+    "median_ms": 0.38477535247802735,
+    "min_ms": 0.38463851928710935,
+    "max_ms": 0.3849653244018555,
+    "median_pflops": 2.8575417336243953
+  },
+  {
+    "name": "stride_contract",
+    "dtype": "bf16",
+    "median_ms": 0.36858840942382814,
+    "min_ms": 0.3683303451538086,
+    "max_ms": 0.3694740295410156,
+    "median_pflops": 2.983033648547821
+  },
+  {
+    "name": "stride_contract",
+    "dtype": "fp32",
+    "median_ms": 0.3857449722290039,
+    "min_ms": 0.38444526672363283,
+    "max_ms": 0.38577415466308596,
+    "median_pflops": 2.850358933837916
+  },
+  {
+    "name": "stride_asym_pairs8",
+    "dtype": "bf16",
+    "median_ms": 0.3710639953613281,
+    "min_ms": 0.37082878112792966,
+    "max_ms": 0.37220527648925783,
+    "median_pflops": 2.9631320783503585
+  },
+  {
+    "name": "stride_asym_pairs8",
+    "dtype": "fp32",
+    "median_ms": 0.3896113586425781,
+    "min_ms": 0.3895817565917969,
+    "max_ms": 0.38997379302978513,
+    "median_pflops": 2.8220728256145904
+  }
+]

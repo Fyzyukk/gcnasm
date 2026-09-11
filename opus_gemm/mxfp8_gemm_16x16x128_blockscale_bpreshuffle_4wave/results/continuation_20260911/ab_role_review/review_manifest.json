@@ -1,0 +1,60 @@
+{
+  "status": "independent CPU review PASS",
+  "candidate_files_modified": false,
+  "gpu_launched": false,
+  "candidates": {
+    "ab_role_split_safe_b": {
+      "path": "/tmp/mxfp8_fourwave_e8_continue_20260910/ab_role_split_safe_b",
+      "hashes": {
+        "tmpl.hpp": "0dbee7b1831cc5a24c70822de167a22c2a8a42f6bc7776caf4d2ec645e7f91c0",
+        "tmpl_generic.hpp": "3681ebf7093140a3f1216b1c6faab22e6d726dbd15c4ec3167b931029f84f180",
+        "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+        "build/device.co": "03957f6a4d56ef5e49de64df1f58a5bdaa476070c8d40ad92dfb35bc9dcd81c1",
+        "build/device.isa": "3dae804ecdff56f81292fe33de67c9a201bfb7f972a9ec2426cf42f38e139193",
+        "build/device.notes": "f241d5c3356fda8848ba89eaf9daa151be8d048463fed9d8f61d1996e03789c1",
+        "build/gemm_a8w8_blockscale_bpreshuffle.exe": "c9d78aa1d9c184482e74fa5face8ffb528d9e6d4e65b00040c68ae11568d1299",
+        "build/libblockscale_bpreshuffle.so": "88dc75b4ac666f091d77d5c0bba440b70c93a01b66aa130884e2c4ad1ca28ea9"
+      }
+    },
+    "ab_store8": {
+      "path": "/tmp/mxfp8_fourwave_e8_continue_20260910/ab_store8",
+      "hashes": {
+        "tmpl.hpp": "2c74677dbc95c6d481893d08657afa73945a8492bc55db8fd0945fc2eb1a0559",
+        "tmpl_generic.hpp": "3681ebf7093140a3f1216b1c6faab22e6d726dbd15c4ec3167b931029f84f180",
+        "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+        "build/device.co": "601e5a73368e23c7cfb8fd08bc6501866fc42b33a6ee4b79af6a1371349761d3",
+        "build/device.isa": "166f9402a1d9280f835fe1a443fc95fc5cd6c1b791154bff0d70aa2e8499742b",
+        "build/device.notes": "4a700038231b4a974c74a8e2c1415fee5cf2dcf80ad81bd7a7a1da55eb1ed5b9",
+        "build/gemm_a8w8_blockscale_bpreshuffle.exe": "ec7da4553c3faad9f102f04b1271e3f10dd316d98399d88f47d700d36544157f",
+        "build/libblockscale_bpreshuffle.so": "5c8b402a6cff153f673a5a18f7f82902cfd9eb0d3274544c7574c3eaa3e9ce81"
+      }
+    },
+    "ab_store8_a0_mrepeat": {
+      "path": "/tmp/mxfp8_fourwave_e8_continue_20260910/ab_store8_a0_mrepeat",
+      "hashes": {
+        "tmpl.hpp": "3d1cf12e635664b02da7f210e30a8e16bc1b097bfd5933af5fea979350db8d45",
+        "tmpl_generic.hpp": "3681ebf7093140a3f1216b1c6faab22e6d726dbd15c4ec3167b931029f84f180",
+        "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+        "build/device.co": "e53dcd7b27d762822f3eabe8d5fa2d220049c3cf0c7ab7f1575135c614bbc54f",
+        "build/device.isa": "ab639f8e8e5a7417b94bc91463b19e2b5b48e9238c843d18a4d6aaec65157967",
+        "build/device.notes": "2eb4e05ab8fa64f125bc867635fa1e9ddedb2ff0b1b3d963810fb4fa054e1010",
+        "build/gemm_a8w8_blockscale_bpreshuffle.exe": "9501b21af457e377bb7558b399f60469ee4a1b862de1e53daead0af8bb64c944",
+        "build/libblockscale_bpreshuffle.so": "7ed0562eca44de5163982016a299b68c132f0e1a228bd277d0980cd3ea69c7f1"
+      }
+    }
+  },
+  "review_file_sha256": {
+    "README.md": "eea6b3211d03d5b412ec1060571425178ed2aa92c26a7fcf188bf98a0beef36c",
+    "audit_isa_exec_wait.py": "8f1831c4853b716833f9403d0977e35a92bb673eefb6f8b61a3761e3f5f061e8",
+    "producer_mapping_audit.py": "3750518d4c3c5fd0e70578d5a163b736f3345605f72acc508877c5978af13e75",
+    "producer_mapping_audit.json": "af09f46256b973ebc58fa191eabf94050372b1adcc61f6afabcb6270af984dad",
+    "combination_source_audit.py": "945108ac6bc5e7593f572da1889100cdf5c6f506ee8b01040741b74d2a18c73b",
+    "combination_source_audit.json": "9107f97247b67c3166281d9510ae00c1a400e664d53ea7d57ca85c9d3f99afae",
+    "ab_role_split_safe_b_isa_exec_wait_audit.json": "54182a8c2e13f31701e242c6f9e12f2d79bb33055b08feed432be830c4d13ffb",
+    "ab_store8_isa_exec_wait_audit.json": "a7b86ab5e2b07897ebad5f758268343d7a23a25efe547edf16238103319a7847",
+    "ab_store8_a0_mrepeat_isa_exec_wait_audit.json": "b693aeb49e9b7074c28f30e5d73d4132dbe31c58e2eae6533c6aeae803706a45"
+  },
+  "dependency_sha256": {
+    "/tmp/mxfp8_fourwave_bpreshuffle_20260910/audit_lds_waits.py": "6b569b4050c13774a76400c0724c713bea62242a4e1a2fcb040fbb41d1650acb"
+  }
+}

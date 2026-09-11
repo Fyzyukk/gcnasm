@@ -1,0 +1,62 @@
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "gpu": 5,
+    "rounds": 3,
+    "median_ms": 0.369673653,
+    "min_ms": 0.36885849,
+    "max_ms": 0.369885979,
+    "median_pflops": 2.9742764161123487
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "gpu": 5,
+    "rounds": 3,
+    "median_ms": 0.402024155,
+    "min_ms": 0.401906166,
+    "max_ms": 0.403620644,
+    "median_pflops": 2.7349392172119606
+  },
+  {
+    "name": "regroll_release8",
+    "dtype": "bf16",
+    "gpu": 5,
+    "rounds": 3,
+    "median_ms": 0.369513512,
+    "min_ms": 0.368068542,
+    "max_ms": 0.375043678,
+    "median_pflops": 2.9755654179596007
+  },
+  {
+    "name": "regroll_release8",
+    "dtype": "fp32",
+    "gpu": 5,
+    "rounds": 3,
+    "median_ms": 0.385210419,
+    "min_ms": 0.384853172,
+    "max_ms": 0.38560009,
+    "median_pflops": 2.8543143527382107
+  },
+  {
+    "name": "sym_rel24_vaddr",
+    "dtype": "bf16",
+    "gpu": 5,
+    "rounds": 3,
+    "median_ms": 0.376655769,
+    "min_ms": 0.368771858,
+    "max_ms": 0.377687683,
+    "median_pflops": 2.919141875073736
+  },
+  {
+    "name": "sym_rel24_vaddr",
+    "dtype": "fp32",
+    "gpu": 5,
+    "rounds": 3,
+    "median_ms": 0.383171997,
+    "min_ms": 0.382581482,
+    "max_ms": 0.383792572,
+    "median_pflops": 2.8694989101095505
+  }
+]

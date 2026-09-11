@@ -1,0 +1,6 @@
+{
+  "parent": "/tmp/mxfp8_fourwave_round3_20260911/baseline",
+  "source_sha256": "d1a2fabb0a634afe3d1eb6ac2aa2819d6a65a9254486d26340ac77da767b4164",
+  "matrix": "a",
+  "change": "8-aligned 16-byte compiler-visible matrix LDS loads on one operand only"
+}

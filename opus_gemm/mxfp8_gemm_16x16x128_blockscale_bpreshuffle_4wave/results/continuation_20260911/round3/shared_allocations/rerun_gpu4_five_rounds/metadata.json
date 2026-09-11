@@ -1,0 +1,47 @@
+{
+  "gpu": "AMD Instinct MI355X",
+  "hip_visible_devices": "5",
+  "pci": "0000:85:00.0",
+  "comparison_scope": "Same device and same tensor addresses; not an original GPU2 performance claim",
+  "shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "batch": 1,
+  "warmup": 200,
+  "iterations": 100,
+  "rounds": 5,
+  "versions": {
+    "baseline": {
+      "path": "/tmp/mxfp8_fourwave_round3_20260911/baseline",
+      "source_sha256": "97fc15711b5aaad38a91ea7387b42bdf1f0cd11f761f071a83bdb84c111d8ab2",
+      "library_sha256": "94ae6ebbe783a158254f2417e2c80f80c21136d471466ff3787a35e384905d91"
+    },
+    "symmetric_single16": {
+      "path": "/tmp/mxfp8_fourwave_round3_20260911/symmetric_single16",
+      "source_sha256": "4c26ed7a358b8e90ecd09cc05a762ed5fe2aea3c9aa2754ea6a7d376b5a187b4",
+      "library_sha256": "e7378188182e60c1e6029b85f686aed41b9d15dc6eae61f9c721cc1e11f20804"
+    },
+    "producer_spread/split4_stride4": {
+      "path": "/tmp/mxfp8_fourwave_round3_20260911/producer_spread/split4_stride4",
+      "source_sha256": "4e5c6bdaf1e64093aad164c4cf5dddc4e21ec02fc834022cd0664fc1b5f56290",
+      "library_sha256": "921acfe467d548645990fe7e4ad0375dce8503c6e77a94dcf2b3b57bddf4fe81"
+    },
+    "stride_ab_const": {
+      "path": "/tmp/mxfp8_fourwave_round3_20260911/stride_ab_const",
+      "source_sha256": "2e166a3ed7bf27d3400a8b267cdab09dd88779857d942365fa84667393b47491",
+      "library_sha256": "c6417cdcb5a819d22c0a4807487781263c099f8b3096b196a293e45c4cdbdcb2"
+    }
+  },
+  "pointers": {
+    "A": 139692869681152,
+    "B": 139692100026368,
+    "SFA": 139694190886912,
+    "SFB": 139694191411200,
+    "bf16": 139691963711488,
+    "fp32": 139691693178880
+  },
+  "input_pattern": "Exact CLI seed=1 generator and host FP8 type",
+  "timing": "HIP events around 100 C ABI launches, no preprocessing"
+}

@@ -1,0 +1,66 @@
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.36024231,
+    "min_ms": 0.359733276,
+    "max_ms": 0.36033329,
+    "median_pflops": 3.052144618370896
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.372608185,
+    "min_ms": 0.372533646,
+    "max_ms": 0.372973785,
+    "median_pflops": 2.950852053279506
+  },
+  {
+    "name": "pair_b_early_a_merge",
+    "dtype": "bf16",
+    "median_ms": 0.35923008,
+    "min_ms": 0.358808479,
+    "max_ms": 0.3609552,
+    "median_pflops": 3.0607448790925305
+  },
+  {
+    "name": "pair_b_early_a_merge",
+    "dtype": "fp32",
+    "median_ms": 0.371829796,
+    "min_ms": 0.371197281,
+    "max_ms": 0.3785886,
+    "median_pflops": 2.9570293709759614
+  },
+  {
+    "name": "wg_group_m2",
+    "dtype": "bf16",
+    "median_ms": 0.358921776,
+    "min_ms": 0.358216476,
+    "max_ms": 0.363812904,
+    "median_pflops": 3.063373975325476
+  },
+  {
+    "name": "wg_group_m2",
+    "dtype": "fp32",
+    "median_ms": 0.37310379,
+    "min_ms": 0.372956314,
+    "max_ms": 0.374026566,
+    "median_pflops": 2.946932347634421
+  },
+  {
+    "name": "wg_group_m32",
+    "dtype": "bf16",
+    "median_ms": 0.357329178,
+    "min_ms": 0.357056694,
+    "max_ms": 0.357720528,
+    "median_pflops": 3.077027277565338
+  },
+  {
+    "name": "wg_group_m32",
+    "dtype": "fp32",
+    "median_ms": 0.376299438,
+    "min_ms": 0.376027374,
+    "max_ms": 0.376462708,
+    "median_pflops": 2.9219061118448972
+  }
+]

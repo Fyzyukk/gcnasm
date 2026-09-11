@@ -1,0 +1,3 @@
+"Kind","Agent_Id","Queue_Id","Stream_Id","Thread_Id","Dispatch_Id","Kernel_Id","Kernel_Name","Correlation_Id","Start_Timestamp","End_Timestamp","LDS_Block_Size","Scratch_Size","VGPR_Count","Accum_VGPR_Count","SGPR_Count","Workgroup_Size_X","Workgroup_Size_Y","Workgroup_Size_Z","Grid_Size_X","Grid_Size_Y","Grid_Size_Z"
+"KERNEL_DISPATCH","Agent 4",1,0,3753910,1,7,"__amd_rocclr_copyBuffer",14,891252258848782,891252258852422,0,0,8,0,32,512,1,1,512,1,1
+"KERNEL_DISPATCH","Agent 4",1,0,3753910,2,13,"void blockscale_panel::gemm_a8w8_mxfp8_scale_kernel<WholeKScaleTraits<true> >(opus_gemm_scale_kargs)",21,891252276078029,891252276497472,152064,0,232,0,112,256,1,1,262144,1,1

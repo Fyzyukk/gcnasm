@@ -1,0 +1,115 @@
+Shared-address comparison on PCI 0000:85:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL symmetric_single16 bf16 67108864 outputs
+FULL_BASELINE_EQUAL symmetric_single16 fp32 67108864 outputs
+FULL_BASELINE_EQUAL producer_spread/split4_stride4 bf16 67108864 outputs
+FULL_BASELINE_EQUAL producer_spread/split4_stride4 fp32 67108864 outputs
+FULL_BASELINE_EQUAL stride_ab_const bf16 67108864 outputs
+FULL_BASELINE_EQUAL stride_ab_const fp32 67108864 outputs
+1 baseline bf16: 0.377990761 ms / 2.908832 P
+1 baseline fp32: 0.398088570 ms / 2.761977 P
+1 symmetric_single16 bf16: 0.378985748 ms / 2.901195 P
+1 symmetric_single16 fp32: 0.379092865 ms / 2.900375 P
+1 producer_spread/split4_stride4 bf16: 0.378335266 ms / 2.906183 P
+1 producer_spread/split4_stride4 fp32: 0.385142555 ms / 2.854817 P
+1 stride_ab_const bf16: 0.367664032 ms / 2.990534 P
+1 stride_ab_const fp32: 0.385581818 ms / 2.851565 P
+2 stride_ab_const bf16: 0.368062897 ms / 2.987293 P
+2 stride_ab_const fp32: 0.384563789 ms / 2.859114 P
+2 producer_spread/split4_stride4 bf16: 0.366844864 ms / 2.997211 P
+2 producer_spread/split4_stride4 fp32: 0.409350853 ms / 2.685988 P
+2 symmetric_single16 bf16: 0.370738106 ms / 2.965737 P
+2 symmetric_single16 fp32: 0.380601044 ms / 2.888882 P
+2 baseline bf16: 0.368410873 ms / 2.984471 P
+2 baseline fp32: 0.383059425 ms / 2.870342 P
+3 baseline bf16: 0.368758469 ms / 2.981658 P
+3 baseline fp32: 0.382689056 ms / 2.873120 P
+3 symmetric_single16 bf16: 0.370081711 ms / 2.970997 P
+3 symmetric_single16 fp32: 0.380215416 ms / 2.891812 P
+3 producer_spread/split4_stride4 bf16: 0.367527275 ms / 2.991646 P
+3 producer_spread/split4_stride4 fp32: 0.385565491 ms / 2.851686 P
+3 stride_ab_const bf16: 0.368283730 ms / 2.985502 P
+3 stride_ab_const fp32: 0.385510292 ms / 2.852094 P
+4 stride_ab_const bf16: 0.368414536 ms / 2.984441 P
+4 stride_ab_const fp32: 0.384627876 ms / 2.858637 P
+4 producer_spread/split4_stride4 bf16: 0.367907715 ms / 2.988553 P
+4 producer_spread/split4_stride4 fp32: 0.385342293 ms / 2.853338 P
+4 symmetric_single16 bf16: 0.371065369 ms / 2.963121 P
+4 symmetric_single16 fp32: 0.381280632 ms / 2.883733 P
+4 baseline bf16: 0.368650932 ms / 2.982528 P
+4 baseline fp32: 0.384115067 ms / 2.862454 P
+5 baseline bf16: 0.369243736 ms / 2.977739 P
+5 baseline fp32: 0.384836693 ms / 2.857086 P
+5 symmetric_single16 bf16: 0.371206169 ms / 2.961997 P
+5 symmetric_single16 fp32: 0.380789032 ms / 2.887456 P
+5 producer_spread/split4_stride4 bf16: 0.368120918 ms / 2.986822 P
+5 producer_spread/split4_stride4 fp32: 0.385985489 ms / 2.848583 P
+5 stride_ab_const bf16: 0.368520508 ms / 2.983583 P
+5 stride_ab_const fp32: 0.385809479 ms / 2.849882 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.3687584686279297,
+    "min_ms": 0.3684108734130859,
+    "max_ms": 0.37799076080322264,
+    "median_pflops": 2.9816579721329366
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.38411506652832034,
+    "min_ms": 0.3826890563964844,
+    "max_ms": 0.3980885696411133,
+    "median_pflops": 2.862453789468668
+  },
+  {
+    "name": "symmetric_single16",
+    "dtype": "bf16",
+    "median_ms": 0.37106536865234374,
+    "min_ms": 0.3700817108154297,
+    "max_ms": 0.3789857482910156,
+    "median_pflops": 2.9631211119735283
+  },
+  {
+    "name": "symmetric_single16",
+    "dtype": "fp32",
+    "median_ms": 0.38060104370117187,
+    "min_ms": 0.37909286499023437,
+    "max_ms": 0.38128063201904294,
+    "median_pflops": 2.8888823243461186
+  },
+  {
+    "name": "producer_spread/split4_stride4",
+    "dtype": "bf16",
+    "median_ms": 0.36790771484375,
+    "min_ms": 0.36684486389160154,
+    "max_ms": 0.3783352661132813,
+    "median_pflops": 2.9885527903185216
+  },
+  {
+    "name": "producer_spread/split4_stride4",
+    "dtype": "fp32",
+    "median_ms": 0.3855654907226562,
+    "min_ms": 0.3851425552368164,
+    "max_ms": 0.4093508529663086,
+    "median_pflops": 2.8516857816170513
+  },
+  {
+    "name": "stride_ab_const",
+    "dtype": "bf16",
+    "median_ms": 0.36828372955322264,
+    "min_ms": 0.36766403198242187,
+    "max_ms": 0.3685205078125,
+    "median_pflops": 2.9855015020887685
+  },
+  {
+    "name": "stride_ab_const",
+    "dtype": "fp32",
+    "median_ms": 0.3855102920532227,
+    "min_ms": 0.38456378936767577,
+    "max_ms": 0.3858094787597656,
+    "median_pflops": 2.8520940956466188
+  }
+]

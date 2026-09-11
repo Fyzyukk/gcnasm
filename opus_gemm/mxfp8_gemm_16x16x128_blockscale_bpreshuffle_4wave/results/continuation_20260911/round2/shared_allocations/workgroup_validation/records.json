@@ -1,0 +1,212 @@
+[
+  {
+    "round": 1,
+    "name": "baseline",
+    "dtype": "bf16",
+    "ms": 0.36009361267089846,
+    "pflops": 3.0534049732808795
+  },
+  {
+    "round": 1,
+    "name": "baseline",
+    "dtype": "fp32",
+    "ms": 0.3725105667114258,
+    "pflops": 2.9516253390679332
+  },
+  {
+    "round": 1,
+    "name": "pair_b_early_a_merge",
+    "dtype": "bf16",
+    "ms": 0.3593501281738281,
+    "pflops": 3.05972237539911
+  },
+  {
+    "round": 1,
+    "name": "pair_b_early_a_merge",
+    "dtype": "fp32",
+    "ms": 0.37160663604736327,
+    "pflops": 2.958805148021795
+  },
+  {
+    "round": 1,
+    "name": "wg_group_m32",
+    "dtype": "bf16",
+    "ms": 0.35836185455322267,
+    "pflops": 3.068160335163977
+  },
+  {
+    "round": 1,
+    "name": "wg_group_m32",
+    "dtype": "fp32",
+    "ms": 0.37632152557373044,
+    "pflops": 2.9217346153657084
+  },
+  {
+    "round": 2,
+    "name": "wg_group_m32",
+    "dtype": "bf16",
+    "ms": 0.3618474960327148,
+    "pflops": 3.038605047239549
+  },
+  {
+    "round": 2,
+    "name": "wg_group_m32",
+    "dtype": "fp32",
+    "ms": 0.37639198303222654,
+    "pflops": 2.921187690870292
+  },
+  {
+    "round": 2,
+    "name": "pair_b_early_a_merge",
+    "dtype": "bf16",
+    "ms": 0.3602099227905273,
+    "pflops": 3.052419042924029
+  },
+  {
+    "round": 2,
+    "name": "pair_b_early_a_merge",
+    "dtype": "fp32",
+    "ms": 0.37416084289550783,
+    "pflops": 2.938606881648119
+  },
+  {
+    "round": 2,
+    "name": "baseline",
+    "dtype": "bf16",
+    "ms": 0.3621534729003906,
+    "pflops": 3.0360377852248783
+  },
+  {
+    "round": 2,
+    "name": "baseline",
+    "dtype": "fp32",
+    "ms": 0.3730672073364258,
+    "pflops": 2.947221321397136
+  },
+  {
+    "round": 3,
+    "name": "baseline",
+    "dtype": "bf16",
+    "ms": 0.3619767379760742,
+    "pflops": 3.0375201288450615
+  },
+  {
+    "round": 3,
+    "name": "baseline",
+    "dtype": "fp32",
+    "ms": 0.373177604675293,
+    "pflops": 2.9463494432703174
+  },
+  {
+    "round": 3,
+    "name": "pair_b_early_a_merge",
+    "dtype": "bf16",
+    "ms": 0.363870735168457,
+    "pflops": 3.021709419052268
+  },
+  {
+    "round": 3,
+    "name": "pair_b_early_a_merge",
+    "dtype": "fp32",
+    "ms": 0.38148807525634765,
+    "pflops": 2.8821651293743944
+  },
+  {
+    "round": 3,
+    "name": "wg_group_m32",
+    "dtype": "bf16",
+    "ms": 0.3673647689819336,
+    "pflops": 2.992969714605573
+  },
+  {
+    "round": 3,
+    "name": "wg_group_m32",
+    "dtype": "fp32",
+    "ms": 0.37625965118408206,
+    "pflops": 2.9222150828978277
+  },
+  {
+    "round": 4,
+    "name": "wg_group_m32",
+    "dtype": "bf16",
+    "ms": 0.35892276763916015,
+    "pflops": 3.06336551177323
+  },
+  {
+    "round": 4,
+    "name": "wg_group_m32",
+    "dtype": "fp32",
+    "ms": 0.3769568634033203,
+    "pflops": 2.9168102096594306
+  },
+  {
+    "round": 4,
+    "name": "pair_b_early_a_merge",
+    "dtype": "bf16",
+    "ms": 0.36481876373291017,
+    "pflops": 3.01385711777964
+  },
+  {
+    "round": 4,
+    "name": "pair_b_early_a_merge",
+    "dtype": "fp32",
+    "ms": 0.3836257171630859,
+    "pflops": 2.8661051086639704
+  },
+  {
+    "round": 4,
+    "name": "baseline",
+    "dtype": "bf16",
+    "ms": 0.37386043548583986,
+    "pflops": 2.9409681352004005
+  },
+  {
+    "round": 4,
+    "name": "baseline",
+    "dtype": "fp32",
+    "ms": 0.3843325424194336,
+    "pflops": 2.8608340601459403
+  },
+  {
+    "round": 5,
+    "name": "baseline",
+    "dtype": "bf16",
+    "ms": 0.3700064086914063,
+    "pflops": 2.9716015775635327
+  },
+  {
+    "round": 5,
+    "name": "baseline",
+    "dtype": "fp32",
+    "ms": 0.37417762756347656,
+    "pflops": 2.9384750631288763
+  },
+  {
+    "round": 5,
+    "name": "pair_b_early_a_merge",
+    "dtype": "bf16",
+    "ms": 0.3611135482788086,
+    "pflops": 3.0447808812952344
+  },
+  {
+    "round": 5,
+    "name": "pair_b_early_a_merge",
+    "dtype": "fp32",
+    "ms": 0.3848677062988281,
+    "pflops": 2.856856030737718
+  },
+  {
+    "round": 5,
+    "name": "wg_group_m32",
+    "dtype": "bf16",
+    "ms": 0.3661800003051758,
+    "pflops": 3.0026534132384697
+  },
+  {
+    "round": 5,
+    "name": "wg_group_m32",
+    "dtype": "fp32",
+    "ms": 0.37715648651123046,
+    "pflops": 2.9152663870286113
+  }
+]

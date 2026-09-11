@@ -1,0 +1,81 @@
+Physical GPU5, PCI 0000:95:00.0, HIP index 7
+1 baseline perf_bf16 PASS 0.370259056 ms / 2.969573896 P
+1 baseline perf_fp32 PASS 0.402192001 ms / 2.733797848 P
+1 producer_spread/split4_stride4 perf_bf16 PASS 0.367961693 ms / 2.9881143860000003 P
+1 producer_spread/split4_stride4 perf_fp32 PASS 0.404218979 ms / 2.720089074 P
+1 symmetric_single16 perf_bf16 PASS 0.386023865 ms / 2.8482996210000002 P
+1 symmetric_single16 perf_fp32 PASS 0.383684883 ms / 2.865663142 P
+2 symmetric_single16 perf_bf16 PASS 0.385091324 ms / 2.855197091 P
+2 symmetric_single16 perf_fp32 PASS 0.383028297 ms / 2.870575451 P
+2 producer_spread/split4_stride4 perf_bf16 PASS 0.382479401 ms / 2.874695019 P
+2 producer_spread/split4_stride4 perf_fp32 PASS 0.399574203 ms / 2.751708239 P
+2 baseline perf_bf16 PASS 0.383819122 ms / 2.864660888 P
+2 baseline perf_fp32 PASS 0.399465599 ms / 2.752456358 P
+3 baseline perf_bf16 PASS 0.369040947 ms / 2.9793756950000003 P
+3 baseline perf_fp32 PASS 0.402908783 ms / 2.7289343749999997 P
+3 producer_spread/split4_stride4 perf_bf16 PASS 0.368242645 ms / 2.98583459 P
+3 producer_spread/split4_stride4 perf_fp32 PASS 0.40155777 ms / 2.7381156850000004 P
+3 symmetric_single16 perf_bf16 PASS 0.383413124 ms / 2.867694293 P
+3 symmetric_single16 perf_fp32 PASS 0.383320427 ms / 2.8683877779999998 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "gpu": 5,
+    "rounds": 3,
+    "median_ms": 0.370259056,
+    "min_ms": 0.369040947,
+    "max_ms": 0.383819122,
+    "median_pflops": 2.9695738968664145
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "gpu": 5,
+    "rounds": 3,
+    "median_ms": 0.402192001,
+    "min_ms": 0.399465599,
+    "max_ms": 0.402908783,
+    "median_pflops": 2.7337978503853932
+  },
+  {
+    "name": "producer_spread/split4_stride4",
+    "dtype": "bf16",
+    "gpu": 5,
+    "rounds": 3,
+    "median_ms": 0.368242645,
+    "min_ms": 0.367961693,
+    "max_ms": 0.382479401,
+    "median_pflops": 2.985834592231978
+  },
+  {
+    "name": "producer_spread/split4_stride4",
+    "dtype": "fp32",
+    "gpu": 5,
+    "rounds": 3,
+    "median_ms": 0.40155777,
+    "min_ms": 0.399574203,
+    "max_ms": 0.404218979,
+    "median_pflops": 2.7381156832701805
+  },
+  {
+    "name": "symmetric_single16",
+    "dtype": "bf16",
+    "gpu": 5,
+    "rounds": 3,
+    "median_ms": 0.385091324,
+    "min_ms": 0.383413124,
+    "max_ms": 0.386023865,
+    "median_pflops": 2.8551970902777337
+  },
+  {
+    "name": "symmetric_single16",
+    "dtype": "fp32",
+    "gpu": 5,
+    "rounds": 3,
+    "median_ms": 0.383320427,
+    "min_ms": 0.383028297,
+    "max_ms": 0.383684883,
+    "median_pflops": 2.868387777769015
+  }
+]

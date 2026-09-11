@@ -1,0 +1,521 @@
+--- a/tmpl.hpp
++++ b/tmpl.hpp
+@@ -585,6 +585,8 @@
+         MXFP8_MMA_PAIR(
+             0, 0, 0, v_a[0], v_b, c00_0, c00_1, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
++
++        // A: 2 request(s) after MFMA2.
+         if (wave_id_n == 0) {
+             async_load_issue_scale<T::VEC_A, 0>(
+                 g_a, s_a.ptr, u_ga_producer_0,
+@@ -594,6 +596,21 @@
+                 g_a, s_a.ptr, u_ga_producer_0,
+                 u_sa_producer_0 + sa_offset(next_stage, 0),
+                 ga_offset(0, tile + 1));
++            __builtin_amdgcn_sched_group_barrier(0x20, 2, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++
++
++        v_a[1] = load<T::VEC_A>(s_a, u_ra + sa_offset(stage, 1));
++        // A1 is independent of c00. Its first c10 consumer determines the
++        // required wait, with no eager whole-vector drain here.
++
++        MXFP8_MMA_PAIR(
++            0, 0, 1, v_a[0], v_b, c00_2, c00_3, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++
++        // A: 2 request(s) after MFMA4.
++        if (wave_id_n == 0) {
+             async_load_issue_scale<T::VEC_A, 2>(
+                 g_a, s_a.ptr, u_ga_producer_0,
+                 u_sa_producer_0 + sa_offset(next_stage, 0),
+@@ -602,6 +619,25 @@
+                 g_a, s_a.ptr, u_ga_producer_0,
+                 u_sa_producer_0 + sa_offset(next_stage, 0),
+                 ga_offset(0, tile + 1));
++            __builtin_amdgcn_sched_group_barrier(0x20, 2, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++
++        // Issue the count-4 B1 head after four c00 MFMAs. The remaining
++        // twelve c00 MFMAs plus c10 cover it; the count-8 tail stays fixed
++        // after complete c00.
++        auto rb1_offsets_head =
++            opus::layout_to_offsets<T::VEC_B>(u_rb + sb_offset(stage, 1));
++        load_b_range_scale<T, 0, 4>(
++            s_b, rb1_offsets_head, v_b_second);
++        __builtin_amdgcn_sched_group_barrier(0x100, 4, 0);
++
++        MXFP8_MMA_PAIR(
++            0, 1, 0, v_a[0], v_b, c00_4, c00_5, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++
++        // A: 2 request(s) after MFMA6.
++        if (wave_id_n == 0) {
+             async_load_issue_scale<T::VEC_A, 0>(
+                 g_a, s_a.ptr, u_ga_producer_1,
+                 u_sa_producer_1 + sa_offset(next_stage, 0),
+@@ -610,6 +646,16 @@
+                 g_a, s_a.ptr, u_ga_producer_1,
+                 u_sa_producer_1 + sa_offset(next_stage, 0),
+                 ga_offset(0, tile + 1));
++            __builtin_amdgcn_sched_group_barrier(0x20, 2, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++
++        MXFP8_MMA_PAIR(
++            0, 1, 1, v_a[0], v_b, c00_6, c00_7, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++
++        // A: 2 request(s) after MFMA8.
++        if (wave_id_n == 0) {
+             async_load_issue_scale<T::VEC_A, 2>(
+                 g_a, s_a.ptr, u_ga_producer_1,
+                 u_sa_producer_1 + sa_offset(next_stage, 0),
+@@ -618,7 +664,16 @@
+                 g_a, s_a.ptr, u_ga_producer_1,
+                 u_sa_producer_1 + sa_offset(next_stage, 0),
+                 ga_offset(0, tile + 1));
+-
++            __builtin_amdgcn_sched_group_barrier(0x20, 2, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++
++        MXFP8_MMA_PAIR(
++            0, 2, 0, v_a[0], v_b, c00_8, c00_9, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++
++        // A: 2 request(s) after MFMA10.
++        if (wave_id_n == 0) {
+             async_load_issue_scale<T::VEC_A, 0>(
+                 g_a, s_a.ptr, u_ga_producer_0,
+                 u_sa_producer_0 + sa_offset(next_stage, 1),
+@@ -627,6 +682,16 @@
+                 g_a, s_a.ptr, u_ga_producer_0,
+                 u_sa_producer_0 + sa_offset(next_stage, 1),
+                 ga_offset(1, tile + 1));
++            __builtin_amdgcn_sched_group_barrier(0x20, 2, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++
++        MXFP8_MMA_PAIR(
++            0, 2, 1, v_a[0], v_b, c00_10, c00_11, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++
++        // A: 2 request(s) after MFMA12.
++        if (wave_id_n == 0) {
+             async_load_issue_scale<T::VEC_A, 2>(
+                 g_a, s_a.ptr, u_ga_producer_0,
+                 u_sa_producer_0 + sa_offset(next_stage, 1),
+@@ -635,6 +700,16 @@
+                 g_a, s_a.ptr, u_ga_producer_0,
+                 u_sa_producer_0 + sa_offset(next_stage, 1),
+                 ga_offset(1, tile + 1));
++            __builtin_amdgcn_sched_group_barrier(0x20, 2, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++
++        MXFP8_MMA_PAIR(
++            0, 3, 0, v_a[0], v_b, c00_12, c00_13, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++
++        // A: 2 request(s) after MFMA14.
++        if (wave_id_n == 0) {
+             async_load_issue_scale<T::VEC_A, 0>(
+                 g_a, s_a.ptr, u_ga_producer_1,
+                 u_sa_producer_1 + sa_offset(next_stage, 1),
+@@ -643,6 +718,16 @@
+                 g_a, s_a.ptr, u_ga_producer_1,
+                 u_sa_producer_1 + sa_offset(next_stage, 1),
+                 ga_offset(1, tile + 1));
++            __builtin_amdgcn_sched_group_barrier(0x20, 2, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++
++        MXFP8_MMA_PAIR(
++            0, 3, 1, v_a[0], v_b, c00_14, c00_15, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++
++        // A: 2 request(s) after MFMA16.
++        if (wave_id_n == 0) {
+             async_load_issue_scale<T::VEC_A, 2>(
+                 g_a, s_a.ptr, u_ga_producer_1,
+                 u_sa_producer_1 + sa_offset(next_stage, 1),
+@@ -651,51 +736,9 @@
+                 g_a, s_a.ptr, u_ga_producer_1,
+                 u_sa_producer_1 + sa_offset(next_stage, 1),
+                 ga_offset(1, tile + 1));
+-
+-            __builtin_amdgcn_sched_group_barrier(0x20, 16, 0);
+-        }
+-        __builtin_amdgcn_sched_barrier(0);
+-
+-        v_a[1] = load<T::VEC_A>(s_a, u_ra + sa_offset(stage, 1));
+-        // A1 is independent of c00. Its first c10 consumer determines the
+-        // required wait, with no eager whole-vector drain here.
+-
+-        MXFP8_MMA_PAIR(
+-            0, 0, 1, v_a[0], v_b, c00_2, c00_3, v_sfa, v_sfb[0]);
+-        sched_barrier_pairs_scale();
+-
+-        // Issue the count-4 B1 head after four c00 MFMAs. The remaining
+-        // twelve c00 MFMAs plus c10 cover it; the count-8 tail stays fixed
+-        // after complete c00.
+-        auto rb1_offsets_head =
+-            opus::layout_to_offsets<T::VEC_B>(u_rb + sb_offset(stage, 1));
+-        load_b_range_scale<T, 0, 4>(
+-            s_b, rb1_offsets_head, v_b_second);
+-        __builtin_amdgcn_sched_group_barrier(0x100, 4, 0);
+-
+-        MXFP8_MMA_PAIR(
+-            0, 1, 0, v_a[0], v_b, c00_4, c00_5, v_sfa, v_sfb[0]);
+-        sched_barrier_pairs_scale();
+-
+-        MXFP8_MMA_PAIR(
+-            0, 1, 1, v_a[0], v_b, c00_6, c00_7, v_sfa, v_sfb[0]);
+-        sched_barrier_pairs_scale();
+-
+-        MXFP8_MMA_PAIR(
+-            0, 2, 0, v_a[0], v_b, c00_8, c00_9, v_sfa, v_sfb[0]);
+-        sched_barrier_pairs_scale();
+-
+-        MXFP8_MMA_PAIR(
+-            0, 2, 1, v_a[0], v_b, c00_10, c00_11, v_sfa, v_sfb[0]);
+-        sched_barrier_pairs_scale();
+-
+-        MXFP8_MMA_PAIR(
+-            0, 3, 0, v_a[0], v_b, c00_12, c00_13, v_sfa, v_sfb[0]);
+-        sched_barrier_pairs_scale();
+-
+-        MXFP8_MMA_PAIR(
+-            0, 3, 1, v_a[0], v_b, c00_14, c00_15, v_sfa, v_sfb[0]);
+-        sched_barrier_pairs_scale();
++            __builtin_amdgcn_sched_group_barrier(0x20, 2, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
+ 
+         // Start the first half of the B1 tail after complete c00.  Its first
+         // consumers are earlier in the B1 chain, so keep their full c10
+@@ -778,63 +821,33 @@
+ 
+         // The two B producer waves issue sixteen requests under one role
+         // branch after MFMA38. The old stage was released at MFMA36.
+-        MXFP8_MMA_PAIR(
+-            0, 1, 0, v_a[0], v_b_n1, c01_4, c01_5, v_sfa, v_sfb[1]);
+-        sched_barrier_pairs_scale();
++        MXFP8_MMA_ONE(
++            0, 1, 0, v_a[0], v_b_n1, c01_4, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_group_barrier(0x08, 1, 0);
++        __builtin_amdgcn_sched_group_barrier(0x02, 2, 0);
++
++        // B: 1 request(s) after MFMA37.
+         if (wave_id_n == 1) {
+             async_load_issue_b_contiguous_scale<T, 0>(
+                 g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 0),
+                 gb_offset(0, future_tile), kargs.stride_b);
++            __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(
++            0, 1, 1, v_a[0], v_b_n1, c01_5, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_group_barrier(0x08, 1, 0);
++        __builtin_amdgcn_sched_group_barrier(0x02, 2, 0);
++
++        // B: 1 request(s) after MFMA38.
++        if (wave_id_n == 1) {
+             async_load_issue_b_contiguous_scale<T, 1>(
+                 g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 0),
+                 gb_offset(0, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 2>(
+-                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 3>(
+-                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 0>(
+-                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 1>(
+-                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 2>(
+-                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 3>(
+-                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
+-
+-            async_load_issue_b_contiguous_scale<T, 0>(
+-                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 1>(
+-                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 2>(
+-                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 3>(
+-                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 0>(
+-                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 1>(
+-                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 2>(
+-                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 3>(
+-                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
+-
+-            __builtin_amdgcn_sched_group_barrier(0x20, 16, 0);
+-        }
+-        __builtin_amdgcn_sched_barrier(0);
++            __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++
+ 
+         // Start panel SFA1 for tile t+1 in a dedicated VGPR; the remaining
+         // ten c01 plus sixteen c11 MFMAs cover this immutable panel read.
+@@ -851,9 +864,32 @@
+         v_b = load<T::VEC_B>(s_b, u_rb + sb_offset(next_stage, 0));
+         __builtin_amdgcn_sched_barrier(0);
+ 
+-        MXFP8_MMA_PAIR(
+-            0, 1, 1, v_a[0], v_b_n1, c01_6, c01_7, v_sfa, v_sfb[1]);
+-        sched_barrier_pairs_scale();
++        MXFP8_MMA_ONE(
++            0, 1, 2, v_a[0], v_b_n1, c01_6, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_group_barrier(0x08, 1, 0);
++        __builtin_amdgcn_sched_group_barrier(0x02, 2, 0);
++
++        // B: 1 request(s) after MFMA39.
++        if (wave_id_n == 1) {
++            async_load_issue_b_contiguous_scale<T, 2>(
++                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 0),
++                gb_offset(0, future_tile), kargs.stride_b);
++            __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(
++            0, 1, 3, v_a[0], v_b_n1, c01_7, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_group_barrier(0x08, 1, 0);
++        __builtin_amdgcn_sched_group_barrier(0x02, 2, 0);
++
++        // B: 1 request(s) after MFMA40.
++        if (wave_id_n == 1) {
++            async_load_issue_b_contiguous_scale<T, 3>(
++                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 0),
++                gb_offset(0, future_tile), kargs.stride_b);
++            __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
+ 
+         // M1 is dead after c01_7; M2/M3 still use their current-tile slices.
+         if constexpr (!T::OUTPUT_BF16) {
+@@ -861,13 +897,59 @@
+             __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+         }
+ 
+-        MXFP8_MMA_PAIR(
+-            0, 2, 0, v_a[0], v_b_n1, c01_8, c01_9, v_sfa, v_sfb[1]);
+-        sched_barrier_pairs_scale();
+-
+-        MXFP8_MMA_PAIR(
+-            0, 2, 1, v_a[0], v_b_n1, c01_10, c01_11, v_sfa, v_sfb[1]);
+-        sched_barrier_pairs_scale();
++        MXFP8_MMA_ONE(
++            0, 2, 0, v_a[0], v_b_n1, c01_8, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_group_barrier(0x08, 1, 0);
++        __builtin_amdgcn_sched_group_barrier(0x02, 2, 0);
++
++        // B: 1 request(s) after MFMA41.
++        if (wave_id_n == 1) {
++            async_load_issue_b_contiguous_scale<T, 0>(
++                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 0),
++                gb_offset(0, future_tile), kargs.stride_b);
++            __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(
++            0, 2, 1, v_a[0], v_b_n1, c01_9, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_group_barrier(0x08, 1, 0);
++        __builtin_amdgcn_sched_group_barrier(0x02, 2, 0);
++
++        // B: 1 request(s) after MFMA42.
++        if (wave_id_n == 1) {
++            async_load_issue_b_contiguous_scale<T, 1>(
++                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 0),
++                gb_offset(0, future_tile), kargs.stride_b);
++            __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++
++        MXFP8_MMA_ONE(
++            0, 2, 2, v_a[0], v_b_n1, c01_10, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_group_barrier(0x08, 1, 0);
++        __builtin_amdgcn_sched_group_barrier(0x02, 2, 0);
++
++        // B: 1 request(s) after MFMA43.
++        if (wave_id_n == 1) {
++            async_load_issue_b_contiguous_scale<T, 2>(
++                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 0),
++                gb_offset(0, future_tile), kargs.stride_b);
++            __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(
++            0, 2, 3, v_a[0], v_b_n1, c01_11, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_group_barrier(0x08, 1, 0);
++        __builtin_amdgcn_sched_group_barrier(0x02, 2, 0);
++
++        // B: 1 request(s) after MFMA44.
++        if (wave_id_n == 1) {
++            async_load_issue_b_contiguous_scale<T, 3>(
++                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 0),
++                gb_offset(0, future_tile), kargs.stride_b);
++            __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
+ 
+         // M2 is dead after c01_11. Keep the old SFA0 pack through M3.
+         if constexpr (!T::OUTPUT_BF16) {
+@@ -875,13 +957,59 @@
+             __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+         }
+ 
+-        MXFP8_MMA_PAIR(
+-            0, 3, 0, v_a[0], v_b_n1, c01_12, c01_13, v_sfa, v_sfb[1]);
+-        sched_barrier_pairs_scale();
+-
+-        MXFP8_MMA_PAIR(
+-            0, 3, 1, v_a[0], v_b_n1, c01_14, c01_15, v_sfa, v_sfb[1]);
+-        sched_barrier_pairs_scale();
++        MXFP8_MMA_ONE(
++            0, 3, 0, v_a[0], v_b_n1, c01_12, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_group_barrier(0x08, 1, 0);
++        __builtin_amdgcn_sched_group_barrier(0x02, 2, 0);
++
++        // B: 1 request(s) after MFMA45.
++        if (wave_id_n == 1) {
++            async_load_issue_b_contiguous_scale<T, 0>(
++                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 1),
++                gb_offset(1, future_tile), kargs.stride_b);
++            __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(
++            0, 3, 1, v_a[0], v_b_n1, c01_13, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_group_barrier(0x08, 1, 0);
++        __builtin_amdgcn_sched_group_barrier(0x02, 2, 0);
++
++        // B: 1 request(s) after MFMA46.
++        if (wave_id_n == 1) {
++            async_load_issue_b_contiguous_scale<T, 1>(
++                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 1),
++                gb_offset(1, future_tile), kargs.stride_b);
++            __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++
++        MXFP8_MMA_ONE(
++            0, 3, 2, v_a[0], v_b_n1, c01_14, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_group_barrier(0x08, 1, 0);
++        __builtin_amdgcn_sched_group_barrier(0x02, 2, 0);
++
++        // B: 1 request(s) after MFMA47.
++        if (wave_id_n == 1) {
++            async_load_issue_b_contiguous_scale<T, 2>(
++                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 1),
++                gb_offset(1, future_tile), kargs.stride_b);
++            __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(
++            0, 3, 3, v_a[0], v_b_n1, c01_15, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_group_barrier(0x08, 1, 0);
++        __builtin_amdgcn_sched_group_barrier(0x02, 2, 0);
++
++        // B: 1 request(s) after MFMA48.
++        if (wave_id_n == 1) {
++            async_load_issue_b_contiguous_scale<T, 3>(
++                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 1),
++                gb_offset(1, future_tile), kargs.stride_b);
++            __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
+ 
+         // SFA0 is dead after the final c01 MFMA.  Reuse the same VGPR for the
+         // next tile's SFA0 now, then hide this LDS read under all sixteen c11
+@@ -902,13 +1030,59 @@
+         __builtin_amdgcn_sched_barrier(0);
+ 
+         // A half 1 x B half 1 -> C[1][1] (128x128 wave quadrant).
+-        MXFP8_MMA_PAIR(
+-            1, 0, 0, v_a[1], v_b_n1, c11_0, c11_1, v_sfa, v_sfb[1]);
+-        sched_barrier_pairs_scale();
+-
+-        MXFP8_MMA_PAIR(
+-            1, 0, 1, v_a[1], v_b_n1, c11_2, c11_3, v_sfa, v_sfb[1]);
+-        sched_barrier_pairs_scale();
++        MXFP8_MMA_ONE(
++            1, 0, 0, v_a[1], v_b_n1, c11_0, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_group_barrier(0x08, 1, 0);
++        __builtin_amdgcn_sched_group_barrier(0x02, 2, 0);
++
++        // B: 1 request(s) after MFMA49.
++        if (wave_id_n == 1) {
++            async_load_issue_b_contiguous_scale<T, 0>(
++                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 1),
++                gb_offset(1, future_tile), kargs.stride_b);
++            __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(
++            1, 0, 1, v_a[1], v_b_n1, c11_1, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_group_barrier(0x08, 1, 0);
++        __builtin_amdgcn_sched_group_barrier(0x02, 2, 0);
++
++        // B: 1 request(s) after MFMA50.
++        if (wave_id_n == 1) {
++            async_load_issue_b_contiguous_scale<T, 1>(
++                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 1),
++                gb_offset(1, future_tile), kargs.stride_b);
++            __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++
++        MXFP8_MMA_ONE(
++            1, 0, 2, v_a[1], v_b_n1, c11_2, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_group_barrier(0x08, 1, 0);
++        __builtin_amdgcn_sched_group_barrier(0x02, 2, 0);
++
++        // B: 1 request(s) after MFMA51.
++        if (wave_id_n == 1) {
++            async_load_issue_b_contiguous_scale<T, 2>(
++                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 1),
++                gb_offset(1, future_tile), kargs.stride_b);
++            __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(
++            1, 0, 3, v_a[1], v_b_n1, c11_3, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_group_barrier(0x08, 1, 0);
++        __builtin_amdgcn_sched_group_barrier(0x02, 2, 0);
++
++        // B: 1 request(s) after MFMA52.
++        if (wave_id_n == 1) {
++            async_load_issue_b_contiguous_scale<T, 3>(
++                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 1),
++                gb_offset(1, future_tile), kargs.stride_b);
++            __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
+ 
+         MXFP8_MMA_PAIR(
+             1, 1, 0, v_a[1], v_b_n1, c11_4, c11_5, v_sfa, v_sfb[1]);

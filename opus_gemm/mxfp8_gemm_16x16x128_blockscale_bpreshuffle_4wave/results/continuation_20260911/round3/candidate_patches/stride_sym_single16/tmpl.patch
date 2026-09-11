@@ -1,0 +1,457 @@
+--- a/tmpl.hpp
++++ b/tmpl.hpp
+@@ -298,6 +298,8 @@
+     using namespace opus;
+ 
+     using T = opus::remove_cvref_t<Traits>;
++    // C ABI and CLI enforce contiguous matrix/scale strides. K is 8192
++    // on this path, so use those identities directly in address generation.
+     using D_A = opus::fp8_t;
+     using D_B = opus::fp8_t;
+     using D_C = std::conditional_t<T::OUTPUT_BF16, opus::bf16_t, opus::fp32_t>;
+@@ -318,45 +320,45 @@
+ 
+     auto g_a = make_gmem(
+         reinterpret_cast<const D_A*>(kargs.ptr_a) +
+-        batch_id * kargs.stride_a_batch + row * kargs.stride_a);
++        batch_id * (kargs.m * T::REQUIRED_K) + row * T::REQUIRED_K);
+     auto g_b = make_gmem(
+         reinterpret_cast<const D_B*>(kargs.ptr_b) +
+-        batch_id * kargs.stride_b_batch + col * kargs.stride_b);
++        batch_id * (kargs.n * T::REQUIRED_K) + col * T::REQUIRED_K);
+     auto g_c = make_gmem(
+         reinterpret_cast<D_C*>(kargs.ptr_c) +
+-        batch_id * kargs.stride_c_batch + row * kargs.stride_c + col);
++        batch_id * (kargs.m * kargs.n) + row * kargs.n + col);
+ 
+     // Compact external scales are consumed only in the prologue. SFA has
+     // physical [K/128,M] bytes; SFB has physical [N/128,K/128] bytes.
+     auto g_sfa = make_gmem(
+         reinterpret_cast<const D_SF*>(kargs.ptr_sfa) +
+-        batch_id * kargs.stride_sfa_batch + row,
+-        static_cast<unsigned int>(kargs.stride_sfa_batch - row));
+-    const int sfb_row_offset = (col / T::GROUP_N) * kargs.stride_sfb;
++        batch_id * (kargs.m * T::SCALE_PANEL_K_TILES) + row,
++        static_cast<unsigned int>((kargs.m * T::SCALE_PANEL_K_TILES) - row));
++    const int sfb_row_offset = (col / T::GROUP_N) * T::SCALE_PANEL_K_TILES;
+     auto g_sfb = make_gmem(
+         reinterpret_cast<const D_SF*>(kargs.ptr_sfb) +
+-        batch_id * kargs.stride_sfb_batch + sfb_row_offset,
+-        static_cast<unsigned int>(kargs.stride_sfb_batch - sfb_row_offset));
++        batch_id * ((kargs.n / T::GROUP_N) * T::SCALE_PANEL_K_TILES) + sfb_row_offset,
++        static_cast<unsigned int>(((kargs.n / T::GROUP_N) * T::SCALE_PANEL_K_TILES) - sfb_row_offset));
+ 
+     const int wave_id_m = wave_id % T::T_M;
+     const int wave_id_n = wave_id / T::T_M;
+ 
+-    auto u_ga = make_layout_ga_scale<T>(lane_id, wave_id_m, wave_id_n, kargs.stride_a);
++    auto u_ga = make_layout_ga_scale<T>(lane_id, wave_id_m, wave_id_n, T::REQUIRED_K);
+     auto u_sa = make_layout_sa_scale<T>(wave_id_m, wave_id_n);
+     auto u_ra = make_layout_ra_scale<T>(lane_id, wave_id_m);
+-    auto u_gb = make_layout_gb_scale<T>(lane_id, wave_id_m, wave_id_n, kargs.stride_b);
++    auto u_gb = make_layout_gb_scale<T>(lane_id, wave_id_m, wave_id_n, T::REQUIRED_K);
+     auto u_sb = make_layout_sb_scale<T>(wave_id_m, wave_id_n);
+     auto u_rb = make_layout_rb_scale<T>(lane_id, wave_id_n);
+     // Two wave-N0 producers cover both original A producer roles.
+-    auto u_ga_producer_0 = make_layout_ga_scale<T>(lane_id, wave_id_m, 0, kargs.stride_a);
+-    auto u_ga_producer_1 = make_layout_ga_scale<T>(lane_id, wave_id_m, 1, kargs.stride_a);
++    auto u_ga_producer_0 = make_layout_ga_scale<T>(lane_id, wave_id_m, 0, T::REQUIRED_K);
++    auto u_ga_producer_1 = make_layout_ga_scale<T>(lane_id, wave_id_m, 1, T::REQUIRED_K);
+     auto u_sa_producer_0 = make_layout_sa_scale<T>(wave_id_m, 0);
+     auto u_sa_producer_1 = make_layout_sa_scale<T>(wave_id_m, 1);
+     // Only wave_n==1 issues the cold t+2 B prefetch. Those two waves
+     // cover both original wave_n producer roles without changing the LDS
+     // image consumed by all four waves. Prologue B remains a four-wave copy.
+-    auto u_gb_producer_0 = make_layout_gb_scale<T>(lane_id, wave_id_m, 0, kargs.stride_b);
+-    auto u_gb_producer_1 = make_layout_gb_scale<T>(lane_id, wave_id_m, 1, kargs.stride_b);
++    auto u_gb_producer_0 = make_layout_gb_scale<T>(lane_id, wave_id_m, 0, T::REQUIRED_K);
++    auto u_gb_producer_1 = make_layout_gb_scale<T>(lane_id, wave_id_m, 1, T::REQUIRED_K);
+     auto u_sb_producer_0 = make_layout_sb_scale<T>(wave_id_m, 0);
+     auto u_sb_producer_1 = make_layout_sb_scale<T>(wave_id_m, 1);
+ 
+@@ -366,6 +368,38 @@
+     __shared__ char smem_b[smem_b_elem * 4 * sizeof(D_B)];
+     auto s_a = make_smem(reinterpret_cast<D_A*>(smem_a));
+     auto s_b = make_smem(reinterpret_cast<D_B*>(smem_b));
++
++    // Each wave computes C and produces one matrix. The selected resource,
++    // global offsets, and LDS row stride are wave-uniform outside the loop.
++    // A producers cover alternating padded rows; B producers each cover
++    // one N128 half. All four waves execute the same steady issue sites.
++    const bool produces_a = wave_id_n == 0;
++    auto g_matrix = produces_a ? g_a : g_b;
++    const int matrix_vector_offset = produces_a
++        ? ((lane_id / 8) * 2 + wave_id_m) * T::REQUIRED_K + (lane_id % 8) * 16
++        : wave_id_m * T::HALF_B_N * T::REQUIRED_K + lane_id * 16;
++    const int matrix_pair_stride = produces_a ? 32 * T::REQUIRED_K : 16 * T::REQUIRED_K;
++    const int matrix_odd_stride = produces_a ? 16 * T::REQUIRED_K : 1024;
++    const int matrix_k_stride = produces_a ? T::B_K : T::B_K * 16;
++    const int matrix_lds_row_stride = produces_a
++        ? 2 * (T::smem_linear_wave + T::smem_padding)
++        : T::smem_linear_wave + T::smem_padding;
++    auto* matrix_lds_base = produces_a
++        ? s_a.ptr + wave_id_m * (T::smem_linear_wave + T::smem_padding)
++        : s_b.ptr + wave_id_m * smem_b_elem;
++    static_assert(smem_a_elem == smem_b_elem);
++    auto prefetch_matrix_issue = [&](auto issue_i, int matrix_stage, int k_tile) {
++        constexpr int issue = decltype(issue_i)::value;
++        auto* dst = matrix_lds_base + matrix_stage * 2 * smem_a_elem
++            + issue * matrix_lds_row_stride;
++        g_matrix.template async_load<16>(
++            reinterpret_cast<void*>(reinterpret_cast<__UINTPTR_TYPE__>(dst)),
++            matrix_vector_offset,
++            k_tile * matrix_k_stride + (issue / 2) * matrix_pair_stride
++                + (issue % 2) * matrix_odd_stride,
++            opus::number<0>{}, opus::number<0>{});
++    };
++
+ 
+     alignas(8) __shared__ char smem_sfa[T::SFA_PANEL_BYTES];
+     alignas(8) __shared__ char smem_sfb[T::SFB_PANEL_BYTES];
+@@ -454,8 +488,8 @@
+     D_SF_PACK v_sfb[T::SCALE_N_HALVES];
+     opus::vector_t<D_SF_PACK, 2> v_sfb_next;
+     D_SF_PACK v_sfa1_next;
+-    auto ga_offset = [&](int half_tile_m, int tile_k) { return half_tile_m * T::HALF_B_M * kargs.stride_a + tile_k * T::B_K; };
+-    auto gb_offset = [&](int half_tile_n, int tile_k) { return half_tile_n * T::HALF_B_N * kargs.stride_b + tile_k * T::B_K * 16; };
++    auto ga_offset = [&](int half_tile_m, int tile_k) { return half_tile_m * T::HALF_B_M * T::REQUIRED_K + tile_k * T::B_K; };
++    auto gb_offset = [&](int half_tile_n, int tile_k) { return half_tile_n * T::HALF_B_N * T::REQUIRED_K + tile_k * T::B_K * 16; };
+     auto sa_offset = [&](int stage, int half_tile_m) { return (stage * 2 + half_tile_m) * smem_a_elem; };
+     auto sb_offset = [&](int stage, int half_tile_n) { return (stage * 2 + half_tile_n) * smem_b_elem; };
+     // The launcher enforces K=8192. Keep the trip count runtime-visible to
+@@ -480,7 +514,7 @@
+         opus::static_for<4>([&](auto pass_i) {
+             constexpr int pass = decltype(pass_i)::value;
+             const int k_column = tid / 16 + pass * 16;
+-            const auto raw = load<16>(g_sfa, k_column * kargs.stride_sfa + source_row);
++            const auto raw = load<16>(g_sfa, k_column * kargs.m + source_row);
+             const auto words = __builtin_bit_cast(opus::vector_t<D_SF_PACK, 4>, raw);
+             opus::static_for<4>([&](auto word_i) {
+                 constexpr int word = decltype(word_i)::value;
+@@ -519,7 +553,7 @@
+     prefetch_sfa_panel();
+     D_SF_PACK panel_sfb_raw = 0;
+     if (wave_id < T::SCALE_N_HALVES) {
+-        const auto raw = load<1>(g_sfb, lane_id, wave_id * kargs.stride_sfb);
++        const auto raw = load<1>(g_sfb, lane_id, wave_id * T::SCALE_PANEL_K_TILES);
+         panel_sfb_raw = static_cast<D_SF_PACK>(raw[0]);
+     }
+     async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(0, 0), gb_offset(0, 0));
+@@ -540,6 +574,11 @@
+ 
+     int stage = 0;
+     int tile = 0;
++
++    // Both matrices preload tile one. After each publication, all waves
++    // refill their released matrix stage with t+2, wrapped to valid tile zero.
++    async_load<T::VEC_A>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(1, 0), ga_offset(0, 1));
++    async_load<T::VEC_A>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(1, 1), ga_offset(1, 1));
+ 
+     // K=8192 always has a second tile. Its B data is ready by the first
+     // main-loop VMEM drain; scales require no further global traffic.
+@@ -585,76 +624,7 @@
+         MXFP8_MMA_PAIR(
+             0, 0, 0, v_a[0], v_b, c00_0, c00_1, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+-        if (wave_id_n == 0) {
+-            async_load_issue_scale<T::VEC_A, 0>(
+-                g_a, s_a.ptr, u_ga_producer_0,
+-                u_sa_producer_0 + sa_offset(next_stage, 0),
+-                ga_offset(0, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 1>(
+-                g_a, s_a.ptr, u_ga_producer_0,
+-                u_sa_producer_0 + sa_offset(next_stage, 0),
+-                ga_offset(0, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 2>(
+-                g_a, s_a.ptr, u_ga_producer_0,
+-                u_sa_producer_0 + sa_offset(next_stage, 0),
+-                ga_offset(0, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 3>(
+-                g_a, s_a.ptr, u_ga_producer_0,
+-                u_sa_producer_0 + sa_offset(next_stage, 0),
+-                ga_offset(0, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 0>(
+-                g_a, s_a.ptr, u_ga_producer_1,
+-                u_sa_producer_1 + sa_offset(next_stage, 0),
+-                ga_offset(0, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 1>(
+-                g_a, s_a.ptr, u_ga_producer_1,
+-                u_sa_producer_1 + sa_offset(next_stage, 0),
+-                ga_offset(0, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 2>(
+-                g_a, s_a.ptr, u_ga_producer_1,
+-                u_sa_producer_1 + sa_offset(next_stage, 0),
+-                ga_offset(0, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 3>(
+-                g_a, s_a.ptr, u_ga_producer_1,
+-                u_sa_producer_1 + sa_offset(next_stage, 0),
+-                ga_offset(0, tile + 1));
+-
+-            async_load_issue_scale<T::VEC_A, 0>(
+-                g_a, s_a.ptr, u_ga_producer_0,
+-                u_sa_producer_0 + sa_offset(next_stage, 1),
+-                ga_offset(1, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 1>(
+-                g_a, s_a.ptr, u_ga_producer_0,
+-                u_sa_producer_0 + sa_offset(next_stage, 1),
+-                ga_offset(1, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 2>(
+-                g_a, s_a.ptr, u_ga_producer_0,
+-                u_sa_producer_0 + sa_offset(next_stage, 1),
+-                ga_offset(1, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 3>(
+-                g_a, s_a.ptr, u_ga_producer_0,
+-                u_sa_producer_0 + sa_offset(next_stage, 1),
+-                ga_offset(1, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 0>(
+-                g_a, s_a.ptr, u_ga_producer_1,
+-                u_sa_producer_1 + sa_offset(next_stage, 1),
+-                ga_offset(1, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 1>(
+-                g_a, s_a.ptr, u_ga_producer_1,
+-                u_sa_producer_1 + sa_offset(next_stage, 1),
+-                ga_offset(1, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 2>(
+-                g_a, s_a.ptr, u_ga_producer_1,
+-                u_sa_producer_1 + sa_offset(next_stage, 1),
+-                ga_offset(1, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 3>(
+-                g_a, s_a.ptr, u_ga_producer_1,
+-                u_sa_producer_1 + sa_offset(next_stage, 1),
+-                ga_offset(1, tile + 1));
+-
+-            __builtin_amdgcn_sched_group_barrier(0x20, 16, 0);
+-        }
+-        __builtin_amdgcn_sched_barrier(0);
++
+ 
+         v_a[1] = load<T::VEC_A>(s_a, u_ra + sa_offset(stage, 1));
+         // A1 is independent of c00. Its first c10 consumer determines the
+@@ -764,6 +734,10 @@
+         s_waitcnt_lgkmcnt(0_I);
+         __builtin_amdgcn_s_barrier();
+         __builtin_amdgcn_sched_barrier(0);
++        // Refill the released matrix stage after MFMA36.
++        prefetch_matrix_issue(opus::number<0>{}, stage, future_tile);
++        __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        __builtin_amdgcn_sched_barrier(0);
+ 
+         // M0's four c01 consumers are complete, and the existing 36-MFMA
+         // barrier has published next_stage. Roll only its two K64 pieces.
+@@ -778,63 +752,21 @@
+ 
+         // The two B producer waves issue sixteen requests under one role
+         // branch after MFMA38. The old stage was released at MFMA36.
+-        MXFP8_MMA_PAIR(
+-            0, 1, 0, v_a[0], v_b_n1, c01_4, c01_5, v_sfa, v_sfb[1]);
+-        sched_barrier_pairs_scale();
+-        if (wave_id_n == 1) {
+-            async_load_issue_b_contiguous_scale<T, 0>(
+-                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 1>(
+-                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 2>(
+-                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 3>(
+-                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 0>(
+-                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 1>(
+-                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 2>(
+-                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 3>(
+-                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
+-
+-            async_load_issue_b_contiguous_scale<T, 0>(
+-                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 1>(
+-                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 2>(
+-                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 3>(
+-                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 0>(
+-                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 1>(
+-                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 2>(
+-                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 3>(
+-                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
+-
+-            __builtin_amdgcn_sched_group_barrier(0x20, 16, 0);
+-        }
+-        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(
++            0, 1, 0, v_a[0], v_b_n1, c01_4, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        // Refill the released matrix stage after MFMA37.
++        prefetch_matrix_issue(opus::number<1>{}, stage, future_tile);
++        __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(
++            0, 1, 1, v_a[0], v_b_n1, c01_5, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        // Refill the released matrix stage after MFMA38.
++        prefetch_matrix_issue(opus::number<2>{}, stage, future_tile);
++        __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        __builtin_amdgcn_sched_barrier(0);
++
+ 
+         // Start panel SFA1 for tile t+1 in a dedicated VGPR; the remaining
+         // ten c01 plus sixteen c11 MFMAs cover this immutable panel read.
+@@ -854,6 +786,10 @@
+         MXFP8_MMA_PAIR(
+             0, 1, 1, v_a[0], v_b_n1, c01_6, c01_7, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
++        // Refill the released matrix stage after MFMA40.
++        prefetch_matrix_issue(opus::number<3>{}, stage, future_tile);
++        __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        __builtin_amdgcn_sched_barrier(0);
+ 
+         // M1 is dead after c01_7; M2/M3 still use their current-tile slices.
+         if constexpr (!T::OUTPUT_BF16) {
+@@ -864,10 +800,18 @@
+         MXFP8_MMA_PAIR(
+             0, 2, 0, v_a[0], v_b_n1, c01_8, c01_9, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
++        // Refill the released matrix stage after MFMA42.
++        prefetch_matrix_issue(opus::number<4>{}, stage, future_tile);
++        __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        __builtin_amdgcn_sched_barrier(0);
+ 
+         MXFP8_MMA_PAIR(
+             0, 2, 1, v_a[0], v_b_n1, c01_10, c01_11, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
++        // Refill the released matrix stage after MFMA44.
++        prefetch_matrix_issue(opus::number<5>{}, stage, future_tile);
++        __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        __builtin_amdgcn_sched_barrier(0);
+ 
+         // M2 is dead after c01_11. Keep the old SFA0 pack through M3.
+         if constexpr (!T::OUTPUT_BF16) {
+@@ -878,10 +822,18 @@
+         MXFP8_MMA_PAIR(
+             0, 3, 0, v_a[0], v_b_n1, c01_12, c01_13, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
++        // Refill the released matrix stage after MFMA46.
++        prefetch_matrix_issue(opus::number<6>{}, stage, future_tile);
++        __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        __builtin_amdgcn_sched_barrier(0);
+ 
+         MXFP8_MMA_PAIR(
+             0, 3, 1, v_a[0], v_b_n1, c01_14, c01_15, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
++        // Refill the released matrix stage after MFMA48.
++        prefetch_matrix_issue(opus::number<7>{}, stage, future_tile);
++        __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        __builtin_amdgcn_sched_barrier(0);
+ 
+         // SFA0 is dead after the final c01 MFMA.  Reuse the same VGPR for the
+         // next tile's SFA0 now, then hide this LDS read under all sixteen c11
+@@ -905,34 +857,66 @@
+         MXFP8_MMA_PAIR(
+             1, 0, 0, v_a[1], v_b_n1, c11_0, c11_1, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
++        // Refill the released matrix stage after MFMA50.
++        prefetch_matrix_issue(opus::number<8>{}, stage, future_tile);
++        __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        __builtin_amdgcn_sched_barrier(0);
+ 
+         MXFP8_MMA_PAIR(
+             1, 0, 1, v_a[1], v_b_n1, c11_2, c11_3, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
++        // Refill the released matrix stage after MFMA52.
++        prefetch_matrix_issue(opus::number<9>{}, stage, future_tile);
++        __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        __builtin_amdgcn_sched_barrier(0);
+ 
+         MXFP8_MMA_PAIR(
+             1, 1, 0, v_a[1], v_b_n1, c11_4, c11_5, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
++        // Refill the released matrix stage after MFMA54.
++        prefetch_matrix_issue(opus::number<10>{}, stage, future_tile);
++        __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        __builtin_amdgcn_sched_barrier(0);
+ 
+         MXFP8_MMA_PAIR(
+             1, 1, 1, v_a[1], v_b_n1, c11_6, c11_7, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
++        // Refill the released matrix stage after MFMA56.
++        prefetch_matrix_issue(opus::number<11>{}, stage, future_tile);
++        __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        __builtin_amdgcn_sched_barrier(0);
+ 
+         MXFP8_MMA_PAIR(
+             1, 2, 0, v_a[1], v_b_n1, c11_8, c11_9, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
++        // Refill the released matrix stage after MFMA58.
++        prefetch_matrix_issue(opus::number<12>{}, stage, future_tile);
++        __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        __builtin_amdgcn_sched_barrier(0);
+ 
+         MXFP8_MMA_PAIR(
+             1, 2, 1, v_a[1], v_b_n1, c11_10, c11_11, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
++        // Refill the released matrix stage after MFMA60.
++        prefetch_matrix_issue(opus::number<13>{}, stage, future_tile);
++        __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        __builtin_amdgcn_sched_barrier(0);
+ 
+         MXFP8_MMA_PAIR(
+             1, 3, 0, v_a[1], v_b_n1, c11_12, c11_13, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
++        // Refill the released matrix stage after MFMA62.
++        prefetch_matrix_issue(opus::number<14>{}, stage, future_tile);
++        __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        __builtin_amdgcn_sched_barrier(0);
+ 
+         MXFP8_MMA_PAIR(
+             1, 3, 1, v_a[1], v_b_n1, c11_14, c11_15, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
++        // Refill the released matrix stage after MFMA64.
++        prefetch_matrix_issue(opus::number<15>{}, stage, future_tile);
++        __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
++        __builtin_amdgcn_sched_barrier(0);
+         __builtin_amdgcn_s_setprio(0);
+         v_sfb[1] = v_sfb_next[1];
+         v_sfa[1] = v_sfa1_next;
+@@ -950,10 +934,10 @@
+         wave_id_m, lane_id % mma.grpn_c,
+         wave_id_n, lane_id / mma.grpn_c);
+     auto u_gc = partition_layout_c<T::VEC_C>(
+-        mma, opus::make_tuple(kargs.stride_c, 1_I), p_coord_c);
++        mma, opus::make_tuple(kargs.n, 1_I), p_coord_c);
+ 
+     auto c_offset = [&](int half_tile_m, int half_tile_n) {
+-        return half_tile_m * T::HALF_B_M * kargs.stride_c +
++        return half_tile_m * T::HALF_B_M * kargs.n +
+                half_tile_n * T::HALF_B_N;
+     };
+ 
+@@ -978,7 +962,7 @@
+         const auto x0 = __builtin_amdgcn_permlane16_swap(w0[0], w1[0], false, true); \
+         const auto x1 = __builtin_amdgcn_permlane16_swap(w0[1], w1[1], false, true); \
+         const opus::vector_t<unsigned int, 4> packed = {x0[0], x1[0], x0[1], x1[1]}; \
+-        const int offset = (wave_id_m * 16 + (lane_id & 15) + ((INDEX) / 4) * 32) * kargs.stride_c \
++        const int offset = (wave_id_m * 16 + (lane_id & 15) + ((INDEX) / 4) * 32) * kargs.n \
+             + wave_id_n * 16 + ((INDEX) % 4 / 2) * 64 \
+             + ((lane_id / 16) & 1) * 32 + (lane_id / 32) * 8; \
+         g_c.template store<8>(__builtin_bit_cast(opus::vector_t<D_C, 8>, packed), \

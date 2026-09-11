@@ -1,0 +1,106 @@
+[
+  {
+    "name": "baseline",
+    "bf16": false,
+    "mfma_static": 384,
+    "opcodes": {
+      "ds_read_b32": 22,
+      "ds_read_b64": 0,
+      "s_barrier": 6,
+      "buffer_load_dwordx4": 188,
+      "buffer_load_dwordx4_lds": 0,
+      "v_perm_b32": 32
+    }
+  },
+  {
+    "name": "baseline",
+    "bf16": true,
+    "mfma_static": 384,
+    "opcodes": {
+      "ds_read_b32": 22,
+      "ds_read_b64": 0,
+      "s_barrier": 6,
+      "buffer_load_dwordx4": 188,
+      "buffer_load_dwordx4_lds": 0,
+      "v_perm_b32": 32
+    }
+  },
+  {
+    "name": "pair_a_scale",
+    "bf16": false,
+    "mfma_static": 384,
+    "opcodes": {
+      "ds_read_b32": 12,
+      "ds_read_b64": 5,
+      "s_barrier": 6,
+      "buffer_load_dwordx4": 188,
+      "buffer_load_dwordx4_lds": 0,
+      "v_perm_b32": 32
+    }
+  },
+  {
+    "name": "pair_a_scale",
+    "bf16": true,
+    "mfma_static": 384,
+    "opcodes": {
+      "ds_read_b32": 12,
+      "ds_read_b64": 5,
+      "s_barrier": 6,
+      "buffer_load_dwordx4": 188,
+      "buffer_load_dwordx4_lds": 0,
+      "v_perm_b32": 32
+    }
+  },
+  {
+    "name": "pair_b_scale",
+    "bf16": false,
+    "mfma_static": 384,
+    "opcodes": {
+      "ds_read_b32": 11,
+      "ds_read_b64": 5,
+      "s_barrier": 6,
+      "buffer_load_dwordx4": 188,
+      "buffer_load_dwordx4_lds": 0,
+      "v_perm_b32": 32
+    }
+  },
+  {
+    "name": "pair_b_scale",
+    "bf16": true,
+    "mfma_static": 384,
+    "opcodes": {
+      "ds_read_b32": 11,
+      "ds_read_b64": 5,
+      "s_barrier": 6,
+      "buffer_load_dwordx4": 188,
+      "buffer_load_dwordx4_lds": 0,
+      "v_perm_b32": 32
+    }
+  },
+  {
+    "name": "pair_ab_scale",
+    "bf16": false,
+    "mfma_static": 384,
+    "opcodes": {
+      "ds_read_b32": 1,
+      "ds_read_b64": 10,
+      "s_barrier": 6,
+      "buffer_load_dwordx4": 188,
+      "buffer_load_dwordx4_lds": 0,
+      "v_perm_b32": 32
+    }
+  },
+  {
+    "name": "pair_ab_scale",
+    "bf16": true,
+    "mfma_static": 384,
+    "opcodes": {
+      "ds_read_b32": 1,
+      "ds_read_b64": 10,
+      "s_barrier": 6,
+      "buffer_load_dwordx4": 188,
+      "buffer_load_dwordx4_lds": 0,
+      "v_perm_b32": 32
+    }
+  }
+]

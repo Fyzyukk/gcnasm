@@ -1,0 +1,98 @@
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.3839093893766403,
+    "min_ms": 0.3691212832927704,
+    "max_ms": 0.39206328988075256,
+    "median_pflops": 2.863987331909996
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.4057292640209198,
+    "min_ms": 0.3851439952850342,
+    "max_ms": 0.40789100527763367,
+    "median_pflops": 2.7099638238549835
+  },
+  {
+    "name": "producer_spread/split4_stride4",
+    "dtype": "bf16",
+    "median_ms": 0.3818835914134979,
+    "min_ms": 0.36923521757125854,
+    "max_ms": 0.3911820948123932,
+    "median_pflops": 2.8791800760705244
+  },
+  {
+    "name": "producer_spread/split4_stride4",
+    "dtype": "fp32",
+    "median_ms": 0.4067806005477905,
+    "min_ms": 0.40321213006973267,
+    "max_ms": 0.40769341588020325,
+    "median_pflops": 2.7029598419770857
+  },
+  {
+    "name": "sym_release24_spread",
+    "dtype": "bf16",
+    "median_ms": 0.38519519567489624,
+    "min_ms": 0.37945273518562317,
+    "max_ms": 0.38631442189216614,
+    "median_pflops": 2.854427158286743
+  },
+  {
+    "name": "sym_release24_spread",
+    "dtype": "fp32",
+    "median_ms": 0.3881288468837738,
+    "min_ms": 0.3867315948009491,
+    "max_ms": 0.3885180354118347,
+    "median_pflops": 2.8328521227005106
+  },
+  {
+    "name": "sym_rows",
+    "dtype": "bf16",
+    "median_ms": 0.3888988494873047,
+    "min_ms": 0.38179075717926025,
+    "max_ms": 0.3898528814315796,
+    "median_pflops": 2.827243200193352
+  },
+  {
+    "name": "sym_rows",
+    "dtype": "fp32",
+    "median_ms": 0.38970768451690674,
+    "min_ms": 0.38882359862327576,
+    "max_ms": 0.3906152844429016,
+    "median_pflops": 2.8213752806516696
+  },
+  {
+    "name": "sym_rows_vaddr",
+    "dtype": "bf16",
+    "median_ms": 0.3848455846309662,
+    "min_ms": 0.3780023157596588,
+    "max_ms": 0.386671245098114,
+    "median_pflops": 2.857020248342818
+  },
+  {
+    "name": "sym_rows_vaddr",
+    "dtype": "fp32",
+    "median_ms": 0.3885776400566101,
+    "min_ms": 0.3868800401687622,
+    "max_ms": 0.38919365406036377,
+    "median_pflops": 2.8295802805735737
+  },
+  {
+    "name": "sym_rel24_vaddr",
+    "dtype": "bf16",
+    "median_ms": 0.3824171721935272,
+    "min_ms": 0.37234029173851013,
+    "max_ms": 0.3831931948661804,
+    "median_pflops": 2.8751628005333862
+  },
+  {
+    "name": "sym_rel24_vaddr",
+    "dtype": "fp32",
+    "median_ms": 0.38471001386642456,
+    "min_ms": 0.37858474254608154,
+    "max_ms": 0.38520359992980957,
+    "median_pflops": 2.8580270545225845
+  }
+]

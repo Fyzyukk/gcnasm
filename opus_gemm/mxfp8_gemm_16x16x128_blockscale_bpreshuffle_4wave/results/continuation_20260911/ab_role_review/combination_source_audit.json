@@ -1,0 +1,77 @@
+{
+  "status": "PASS",
+  "scope": "Independent CPU-only source composition and memory lifecycle review; no candidate mutation, compile or GPU launch",
+  "source_sha256": {
+    "ab": "0dbee7b1831cc5a24c70822de167a22c2a8a42f6bc7776caf4d2ec645e7f91c0",
+    "vec8": "a2f01bbf218cd204e4f72f818b8fbcf56baf95ffc8785dd339cb5d89a7774385",
+    "a0": "18ed04381a46b04fb73f893485d8688613132e65d3d33fee3124995aa86e8790",
+    "ab_store8": "2c74677dbc95c6d481893d08657afa73945a8492bc55db8fd0945fc2eb1a0559",
+    "ab_store8_a0_mrepeat": "3d1cf12e635664b02da7f210e30a8e16bc1b097bfd5933af5fea979350db8d45"
+  },
+  "ab_store8": {
+    "changed_line_edits_exactly_match_frozen_vec8": true,
+    "edit_groups": 2,
+    "producer_source_unchanged": true,
+    "inherits_ab_producer_mapping_and_stage_review": true,
+    "mfma_calls_unchanged": true,
+    "generic_source_and_abi_unchanged": true
+  },
+  "ab_store8_a0_mrepeat": {
+    "changed_line_edits_exactly_match_frozen_a0": true,
+    "edit_groups": 5,
+    "producer_source_unchanged": true,
+    "publication": {
+      "source_line": 793,
+      "after_mfma": 36
+    },
+    "a0_cutpoints": [
+      {
+        "m_repeat": 0,
+        "source_line": 800,
+        "after_mfma": 36,
+        "byte_range_exclusive": [
+          0,
+          32
+        ]
+      },
+      {
+        "m_repeat": 1,
+        "source_line": 891,
+        "after_mfma": 40,
+        "byte_range_exclusive": [
+          32,
+          64
+        ]
+      },
+      {
+        "m_repeat": 2,
+        "source_line": 903,
+        "after_mfma": 44,
+        "byte_range_exclusive": [
+          64,
+          96
+        ]
+      },
+      {
+        "m_repeat": 3,
+        "source_line": 922,
+        "after_mfma": 48,
+        "byte_range_exclusive": [
+          96,
+          128
+        ]
+      }
+    ],
+    "sfa0_update_after_mfma": 48,
+    "sfa0_update_source_line": 919,
+    "original_128byte_a0_reload_removed": true,
+    "tail_including_vec8_store_macros_identical_to_ab_store8": true,
+    "mfma_consumption_events_checked": 4096,
+    "stale_slice_or_scale_events": 0,
+    "next_stage_read_before_publication": 0,
+    "tail_tile": 63,
+    "tail_stage": 1,
+    "a_tile64_loads": 0
+  },
+  "conclusion": "Both combinations are exact source compositions of the audited components. The manually inserted M0 read is after the retained 36-MFMA publication barrier; no additional mapping or source lifecycle issue found. ISA and GPU validation are owned by the parent/root."
+}

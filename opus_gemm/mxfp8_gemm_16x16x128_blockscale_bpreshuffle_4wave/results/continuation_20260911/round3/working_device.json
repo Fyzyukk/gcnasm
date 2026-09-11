@@ -1,0 +1,12 @@
+{
+  "hip_visible_devices": "2",
+  "physical_gpu": 2,
+  "visible_device_count": 1,
+  "probe_performed": true,
+  "name": "AMD Instinct MI355X",
+  "pci": "0000:65:00.0",
+  "MultiprocessorCount": 256,
+  "ClockRate": 2400000,
+  "WarpSize": 64,
+  "MaxSharedMemoryPerBlock": 163840
+}

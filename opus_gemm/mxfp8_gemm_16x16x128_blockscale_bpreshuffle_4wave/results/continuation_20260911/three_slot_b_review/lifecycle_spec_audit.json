@@ -1,0 +1,947 @@
+{
+  "status": "PASS for proposed protocol; source and ISA audits still required",
+  "scope": "CPU specification model; no candidate edits or GPU calls",
+  "layout": {
+    "A_bytes": 33792,
+    "B_bytes": 101376,
+    "matrix_bytes": 135168,
+    "scale_bytes": 16896,
+    "total_LDS_bytes": 152064
+  },
+  "correct": {
+    "source_mfma_consumers": 4096,
+    "source_barriers": {
+      "prologue": 1,
+      "R4": 63,
+      "P36": 63,
+      "total": 127
+    },
+    "A_global_requests_per_producer_wave_per_iteration": 16,
+    "B_global_requests_per_producer_wave_per_iteration": 16,
+    "B_prologue_requests_per_producer_wave": 32,
+    "A_global_issue_to_publish_mfma_gaps": [
+      31,
+      30
+    ],
+    "B_steady_issue_to_required_publish_mfma_gap": 126,
+    "B_forced_completion_gaps": {
+      "3": 126,
+      "4": 126,
+      "5": 126,
+      "6": 126,
+      "7": 126,
+      "8": 126,
+      "9": 126,
+      "10": 126,
+      "11": 126,
+      "12": 126,
+      "13": 126,
+      "14": 126,
+      "15": 126,
+      "16": 126,
+      "17": 126,
+      "18": 126,
+      "19": 126,
+      "20": 126,
+      "21": 126,
+      "22": 126,
+      "23": 126,
+      "24": 126,
+      "25": 126,
+      "26": 126,
+      "27": 126,
+      "28": 126,
+      "29": 126,
+      "30": 126,
+      "31": 126,
+      "32": 126,
+      "33": 126,
+      "34": 126,
+      "35": 126,
+      "36": 126,
+      "37": 126,
+      "38": 126,
+      "39": 126,
+      "40": 126,
+      "41": 126,
+      "42": 126,
+      "43": 126,
+      "44": 126,
+      "45": 126,
+      "46": 126,
+      "47": 126,
+      "48": 126,
+      "49": 126,
+      "50": 126,
+      "51": 126,
+      "52": 126,
+      "53": 126,
+      "54": 126,
+      "55": 126,
+      "56": 126,
+      "57": 126,
+      "58": 126,
+      "59": 126,
+      "60": 126,
+      "61": 126,
+      "62": 126,
+      "63": 126
+    },
+    "R4_pending_B_counts": [
+      32
+    ],
+    "P36_pending_B_counts": [
+      16
+    ],
+    "tail": {
+      "tile": 63,
+      "A_slot": 0,
+      "B_slot": 0,
+      "dead_B64": {
+        "global_tile": 0,
+        "physical_slot": 1
+      },
+      "dead_B65": {
+        "global_tile": 1,
+        "physical_slot": 2
+      },
+      "unused_B_tickets_still_allowed_per_producer_wave": 32
+    },
+    "trace": [
+      {
+        "tile": 0,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 0,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 1,
+        "b_published": 1,
+        "b_released_slot": 0
+      },
+      {
+        "tile": 1,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 1,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 2,
+        "b_published": 2,
+        "b_released_slot": 1
+      },
+      {
+        "tile": 2,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 2,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 3,
+        "b_published": 3,
+        "b_released_slot": 2
+      },
+      {
+        "tile": 3,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 3,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 4,
+        "b_published": 4,
+        "b_released_slot": 0
+      },
+      {
+        "tile": 4,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 4,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 5,
+        "b_published": 5,
+        "b_released_slot": 1
+      },
+      {
+        "tile": 5,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 5,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 6,
+        "b_published": 6,
+        "b_released_slot": 2
+      },
+      {
+        "tile": 6,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 6,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 7,
+        "b_published": 7,
+        "b_released_slot": 0
+      },
+      {
+        "tile": 7,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 7,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 8,
+        "b_published": 8,
+        "b_released_slot": 1
+      },
+      {
+        "tile": 8,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 8,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 9,
+        "b_published": 9,
+        "b_released_slot": 2
+      },
+      {
+        "tile": 9,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 9,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 10,
+        "b_published": 10,
+        "b_released_slot": 0
+      },
+      {
+        "tile": 10,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 10,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 11,
+        "b_published": 11,
+        "b_released_slot": 1
+      },
+      {
+        "tile": 11,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 11,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 12,
+        "b_published": 12,
+        "b_released_slot": 2
+      },
+      {
+        "tile": 12,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 12,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 13,
+        "b_published": 13,
+        "b_released_slot": 0
+      },
+      {
+        "tile": 13,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 13,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 14,
+        "b_published": 14,
+        "b_released_slot": 1
+      },
+      {
+        "tile": 14,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 14,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 15,
+        "b_published": 15,
+        "b_released_slot": 2
+      },
+      {
+        "tile": 15,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 15,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 16,
+        "b_published": 16,
+        "b_released_slot": 0
+      },
+      {
+        "tile": 16,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 16,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 17,
+        "b_published": 17,
+        "b_released_slot": 1
+      },
+      {
+        "tile": 17,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 17,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 18,
+        "b_published": 18,
+        "b_released_slot": 2
+      },
+      {
+        "tile": 18,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 18,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 19,
+        "b_published": 19,
+        "b_released_slot": 0
+      },
+      {
+        "tile": 19,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 19,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 20,
+        "b_published": 20,
+        "b_released_slot": 1
+      },
+      {
+        "tile": 20,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 20,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 21,
+        "b_published": 21,
+        "b_released_slot": 2
+      },
+      {
+        "tile": 21,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 21,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 22,
+        "b_published": 22,
+        "b_released_slot": 0
+      },
+      {
+        "tile": 22,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 22,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 23,
+        "b_published": 23,
+        "b_released_slot": 1
+      },
+      {
+        "tile": 23,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 23,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 24,
+        "b_published": 24,
+        "b_released_slot": 2
+      },
+      {
+        "tile": 24,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 24,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 25,
+        "b_published": 25,
+        "b_released_slot": 0
+      },
+      {
+        "tile": 25,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 25,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 26,
+        "b_published": 26,
+        "b_released_slot": 1
+      },
+      {
+        "tile": 26,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 26,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 27,
+        "b_published": 27,
+        "b_released_slot": 2
+      },
+      {
+        "tile": 27,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 27,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 28,
+        "b_published": 28,
+        "b_released_slot": 0
+      },
+      {
+        "tile": 28,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 28,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 29,
+        "b_published": 29,
+        "b_released_slot": 1
+      },
+      {
+        "tile": 29,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 29,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 30,
+        "b_published": 30,
+        "b_released_slot": 2
+      },
+      {
+        "tile": 30,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 30,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 31,
+        "b_published": 31,
+        "b_released_slot": 0
+      },
+      {
+        "tile": 31,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 31,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 32,
+        "b_published": 32,
+        "b_released_slot": 1
+      },
+      {
+        "tile": 32,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 32,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 33,
+        "b_published": 33,
+        "b_released_slot": 2
+      },
+      {
+        "tile": 33,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 33,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 34,
+        "b_published": 34,
+        "b_released_slot": 0
+      },
+      {
+        "tile": 34,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 34,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 35,
+        "b_published": 35,
+        "b_released_slot": 1
+      },
+      {
+        "tile": 35,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 35,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 36,
+        "b_published": 36,
+        "b_released_slot": 2
+      },
+      {
+        "tile": 36,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 36,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 37,
+        "b_published": 37,
+        "b_released_slot": 0
+      },
+      {
+        "tile": 37,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 37,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 38,
+        "b_published": 38,
+        "b_released_slot": 1
+      },
+      {
+        "tile": 38,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 38,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 39,
+        "b_published": 39,
+        "b_released_slot": 2
+      },
+      {
+        "tile": 39,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 39,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 40,
+        "b_published": 40,
+        "b_released_slot": 0
+      },
+      {
+        "tile": 40,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 40,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 41,
+        "b_published": 41,
+        "b_released_slot": 1
+      },
+      {
+        "tile": 41,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 41,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 42,
+        "b_published": 42,
+        "b_released_slot": 2
+      },
+      {
+        "tile": 42,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 42,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 43,
+        "b_published": 43,
+        "b_released_slot": 0
+      },
+      {
+        "tile": 43,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 43,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 44,
+        "b_published": 44,
+        "b_released_slot": 1
+      },
+      {
+        "tile": 44,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 44,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 45,
+        "b_published": 45,
+        "b_released_slot": 2
+      },
+      {
+        "tile": 45,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 45,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 46,
+        "b_published": 46,
+        "b_released_slot": 0
+      },
+      {
+        "tile": 46,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 46,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 47,
+        "b_published": 47,
+        "b_released_slot": 1
+      },
+      {
+        "tile": 47,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 47,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 48,
+        "b_published": 48,
+        "b_released_slot": 2
+      },
+      {
+        "tile": 48,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 48,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 49,
+        "b_published": 49,
+        "b_released_slot": 0
+      },
+      {
+        "tile": 49,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 49,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 50,
+        "b_published": 50,
+        "b_released_slot": 1
+      },
+      {
+        "tile": 50,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 50,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 51,
+        "b_published": 51,
+        "b_released_slot": 2
+      },
+      {
+        "tile": 51,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 51,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 52,
+        "b_published": 52,
+        "b_released_slot": 0
+      },
+      {
+        "tile": 52,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 52,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 53,
+        "b_published": 53,
+        "b_released_slot": 1
+      },
+      {
+        "tile": 53,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 53,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 54,
+        "b_published": 54,
+        "b_released_slot": 2
+      },
+      {
+        "tile": 54,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 54,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 55,
+        "b_published": 55,
+        "b_released_slot": 0
+      },
+      {
+        "tile": 55,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 55,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 56,
+        "b_published": 56,
+        "b_released_slot": 1
+      },
+      {
+        "tile": 56,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 56,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 57,
+        "b_published": 57,
+        "b_released_slot": 2
+      },
+      {
+        "tile": 57,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 57,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 58,
+        "b_published": 58,
+        "b_released_slot": 0
+      },
+      {
+        "tile": 58,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 58,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 59,
+        "b_published": 59,
+        "b_released_slot": 1
+      },
+      {
+        "tile": 59,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 59,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 60,
+        "b_published": 60,
+        "b_released_slot": 2
+      },
+      {
+        "tile": 60,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 60,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 61,
+        "b_published": 61,
+        "b_released_slot": 0
+      },
+      {
+        "tile": 61,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 61,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 62,
+        "b_published": 62,
+        "b_released_slot": 1
+      },
+      {
+        "tile": 62,
+        "point": "R4",
+        "b_pending": 32
+      },
+      {
+        "tile": 62,
+        "point": "P36",
+        "b_pending": 16,
+        "a_published": 63,
+        "b_published": 63,
+        "b_released_slot": 2
+      }
+    ]
+  },
+  "rejected_counterexamples": {
+    "wrapped_global_tile_selects_slot": "('B destination still has live readers', 64, 0, 0, {'logical_tile': 63, 'global_tile': 63, 'ready': False, 'readers_released': False})",
+    "skip_dead_prefetch_keep_vmcnt16": "('unpublished or wrong B generation', 63, {'logical_tile': 63, 'global_tile': 63, 'ready': False, 'readers_released': False}, [(0, 63, 0, 0, 0), (0, 63, 0, 0, 1), (0, 63, 0, 0, 2), (0, 63, 0, 0, 3), (0, 63, 0, 1, 0), (0, 63, 0, 1, 1), (0, 63, 0, 1, 2), (0, 63, 0, 1, 3), (0, 63, 1, 0, 0), (0, 63, 1, 0, 1), (0, 63, 1, 0, 2), (0, 63, 1, 0, 3), (0, 63, 1, 1, 0), (0, 63, 1, 1, 1), (0, 63, 1, 1, 2), (0, 63, 1, 1, 3)])"
+  },
+  "compiler_drain_effect": {
+    "R4_vmcnt0_steady_B_forced_window": [
+      30
+    ],
+    "P36_all_wave_vmcnt0_steady_B_forced_window": [
+      62
+    ],
+    "intended_steady_B_forced_window": [
+      126
+    ]
+  }
+}

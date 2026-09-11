@@ -1,0 +1,40 @@
+{
+  "gpu": "AMD Instinct MI355X",
+  "hip_visible_devices": "2",
+  "shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "batch": 1,
+  "warmup": 200,
+  "iterations": 100,
+  "rounds": 5,
+  "versions": {
+    "baseline": {
+      "path": "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave",
+      "source_sha256": "e32de77d91f66768b2caeeb6e83682b5bf14e7f576bef6303cd0df825e1de0f3",
+      "library_sha256": "924c2d85bc35437ad05ccfa02aa2b121f89533a1f79df029adaa2b683a7c4b04"
+    },
+    "pair_b_early_a_merge": {
+      "path": "/tmp/mxfp8_fourwave_round2_20260911/pair_b_early_a_merge",
+      "source_sha256": "6d23a2bf91c4457f3c099ae61aab69633d75597e0848355b928dc8cf87cc2721",
+      "library_sha256": "94ae6ebbe783a158254f2417e2c80f80c21136d471466ff3787a35e384905d91"
+    },
+    "wg_group_m32": {
+      "path": "/tmp/mxfp8_fourwave_round2_20260911/wg_group_m32",
+      "source_sha256": "abe0ca15a3cf491d78ede5e0523e07b4c89b2fad30bc5c66344f07e8b378a4dc",
+      "library_sha256": "a855866fa37acd191c3d6e79a96fbef58885284ab93bccc7ff1e4f666e0aeb80"
+    }
+  },
+  "pointers": {
+    "A": 139701862268928,
+    "B": 139701176500224,
+    "SFA": 139703172988928,
+    "SFB": 139703173513216,
+    "bf16": 139701040185344,
+    "fp32": 139700769652736
+  },
+  "input_pattern": "Exact CLI seed=1 generator and host FP8 type",
+  "timing": "HIP events around 100 C ABI launches, no preprocessing"
+}

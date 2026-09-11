@@ -1,0 +1,16 @@
+{
+  "name": "sym_rel24_vaddr",
+  "parent": "sym_release24_spread",
+  "parent_sha256": "d85ba772a5c74461099678fca93481de3e522953c12bd00396560b1e15574bbc",
+  "source_sha256": "2a80a9cf778a5df8b2cc275acbc69b976c716c1d7175d832afaebf2942fddeb3",
+  "lds_mapping_audit": "PASS: every A/B byte maps to the unchanged consumer layout, once per tile",
+  "immediate_groups": true,
+  "cached_vgpr_offsets": true,
+  "matrix_bytes_per_tile": 65536,
+  "changes": [
+    "A producer waves each own one M128 half",
+    "A and B have equal LDS row stride",
+    "scalar pair stride shared under enforced contiguous input contract"
+  ],
+  "not_a_full_gemm": false
+}

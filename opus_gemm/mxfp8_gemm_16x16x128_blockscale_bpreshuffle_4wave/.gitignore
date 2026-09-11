@@ -1,0 +1,8 @@
+/build/
+/.rocprofv3/
+/core.*
+/gpucore.*
+/__pycache__/
+*.so
+*.att
+ui_output_*/

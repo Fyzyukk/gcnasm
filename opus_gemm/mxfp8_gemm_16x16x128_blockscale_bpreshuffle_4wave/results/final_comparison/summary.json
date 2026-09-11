@@ -1,0 +1,42 @@
+{
+  "original_4wave_fp32": {
+    "ms": 0.40134421,
+    "peta_flops": 2.73957251,
+    "ms_range": [
+      0.401246041,
+      0.401472121
+    ]
+  },
+  "bpreshuffle_4wave_fp32": {
+    "ms": 0.382540474,
+    "peta_flops": 2.874236068,
+    "ms_range": [
+      0.382407188,
+      0.382640419
+    ]
+  },
+  "bpreshuffle_8wave_fp32": {
+    "ms": 0.3774,
+    "peta_flops": 2.91326,
+    "ms_range": [
+      0.3773,
+      0.3775
+    ]
+  },
+  "bpreshuffle_4wave_bf16": {
+    "ms": 0.372993546,
+    "peta_flops": 2.947803363,
+    "ms_range": [
+      0.372963524,
+      0.373846855
+    ]
+  },
+  "bpreshuffle_8wave_bf16": {
+    "ms": 0.3681,
+    "peta_flops": 2.98706,
+    "ms_range": [
+      0.3679,
+      0.3706
+    ]
+  }
+}

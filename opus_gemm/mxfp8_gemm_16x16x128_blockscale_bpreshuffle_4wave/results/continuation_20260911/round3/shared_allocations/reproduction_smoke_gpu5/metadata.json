@@ -1,0 +1,52 @@
+{
+  "gpu": "AMD Instinct MI355X",
+  "physical_card": "card5",
+  "hip_visible_devices": "7",
+  "pci": "0000:95:00.0",
+  "comparison_scope": "Contemporaneous same-device, same-tensor-address comparison; report this card and this run baseline",
+  "timestamp_utc": "2026-09-11T08:09:51.927650+00:00",
+  "initial_device_status": {
+    "GPU use (%)": "0",
+    "GFX Activity": "792812051",
+    "GPU Memory Allocated (VRAM%)": "0",
+    "GPU Memory Read/Write Activity (%)": "0",
+    "Memory Activity": "1977066606",
+    "Avg. Memory Bandwidth": "0",
+    "PCI Bus": "0000:95:00.0"
+  },
+  "shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "batch": 1,
+  "warmup": 200,
+  "iterations": 100,
+  "rounds": 1,
+  "versions": {
+    "baseline": {
+      "path": "/tmp/mxfp8_4wave_compare_kfah6erm/baseline",
+      "source_sha256": "97fc15711b5aaad38a91ea7387b42bdf1f0cd11f761f071a83bdb84c111d8ab2",
+      "library_sha256": "94ae6ebbe783a158254f2417e2c80f80c21136d471466ff3787a35e384905d91"
+    },
+    "current": {
+      "path": "/tmp/mxfp8_4wave_compare_kfah6erm/current",
+      "source_sha256": "1b1c87b28c1ae645cd8986e00aae0f870f089044c8a8eac4d761e396deafe53a",
+      "library_sha256": "0e10606a5d0065d34cb9f12a0a3fef499d30472171bafbdf147edd76af69a01d"
+    }
+  },
+  "pointers": {
+    "A": 139494764314624,
+    "B": 139493994659840,
+    "SFA": 139496035188736,
+    "SFB": 139496035713024,
+    "bf16": 139493858344960,
+    "fp32": 139493587812352
+  },
+  "input_pattern": "Exact CLI seed=1 generator and host FP8 type",
+  "timing": "HIP events around 100 C ABI launches, no preprocessing",
+  "bracketed": true,
+  "telemetry_enabled": false,
+  "native_timing": true,
+  "benchmark_helper_sha256": "e1725b8fbc942b4b83df5f6e798546790b8e2687011d7d3841e4e5971f2286c3"
+}

@@ -1,0 +1,21 @@
+{
+  "name": "stride_sym_bf16",
+  "parent": "symmetric_single16",
+  "parent_sha256": "4c26ed7a358b8e90ecd09cc05a762ed5fe2aea3c9aa2754ea6a7d376b5a187b4",
+  "source_sha256": "b010b59e0402a8295aa1d45b6c59ff4fd830f64d21a6a6b4d541edad30ad5396",
+  "replacements": {
+    "stride_a": "(T::OUTPUT_BF16 ? T::REQUIRED_K : kargs.stride_a)",
+    "stride_b": "(T::OUTPUT_BF16 ? T::REQUIRED_K : kargs.stride_b)",
+    "stride_c": "(T::OUTPUT_BF16 ? kargs.n : kargs.stride_c)",
+    "stride_sfa": "(T::OUTPUT_BF16 ? kargs.m : kargs.stride_sfa)",
+    "stride_sfb": "(T::OUTPUT_BF16 ? T::SCALE_PANEL_K_TILES : kargs.stride_sfb)",
+    "stride_a_batch": "(T::OUTPUT_BF16 ? (kargs.m * T::REQUIRED_K) : kargs.stride_a_batch)",
+    "stride_b_batch": "(T::OUTPUT_BF16 ? (kargs.n * T::REQUIRED_K) : kargs.stride_b_batch)",
+    "stride_c_batch": "(T::OUTPUT_BF16 ? (kargs.m * kargs.n) : kargs.stride_c_batch)",
+    "stride_sfa_batch": "(T::OUTPUT_BF16 ? (kargs.m * T::SCALE_PANEL_K_TILES) : kargs.stride_sfa_batch)",
+    "stride_sfb_batch": "(T::OUTPUT_BF16 ? ((kargs.n / T::GROUP_N) * T::SCALE_PANEL_K_TILES) : kargs.stride_sfb_batch)"
+  },
+  "contract": "Existing public C ABI rejects all incompatible strides; CLI constructs the same contiguous strides.",
+  "runtime_k_loop_preserved": true,
+  "not_a_full_gemm": false
+}

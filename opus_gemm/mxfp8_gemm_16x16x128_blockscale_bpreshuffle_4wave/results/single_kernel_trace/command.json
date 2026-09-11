@@ -1,0 +1,33 @@
+{
+  "exe_sha256": "c95712190e76124a079f5b348ae95a7c5ff4bb2e1ed15f8cd200ab8c90179240",
+  "hip_visible_devices": 2,
+  "command": [
+    "rocprofv3",
+    "--kernel-trace",
+    "--hip-trace",
+    "-d",
+    "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/single_kernel_trace",
+    "-o",
+    "final",
+    "--output-format",
+    "csv",
+    "--",
+    "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/build/gemm_a8w8_blockscale_bpreshuffle.exe",
+    "-m",
+    "8192",
+    "-n",
+    "8192",
+    "-k",
+    "8192",
+    "-b",
+    "1",
+    "-w",
+    "0",
+    "-i",
+    "1",
+    "-v",
+    "0",
+    "--dtype",
+    "bf16"
+  ]
+}

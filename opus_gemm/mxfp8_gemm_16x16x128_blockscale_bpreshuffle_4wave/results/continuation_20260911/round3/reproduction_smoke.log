@@ -1,0 +1,50 @@
+GPU5, PCI 0000:95:00.0, HIP 7; work directory: /tmp/mxfp8_4wave_compare_kfah6erm
+/root/toolchains/rocm-llvm23-46fcb339-build/bin/clang++ -x hip --offload-arch=gfx950 --rocm-path=/opt/rocm -std=c++17 -O3 -fPIC -shared -D__HIP_PLATFORM_AMD__ -I/opt/rocm/include -fopenmp -I/opt/rocm/lib/llvm/include cli_input_generator.cc \
+	-L/opt/rocm/lib/llvm/lib -lomp -Wl,-rpath,/opt/rocm/lib/llvm/lib -o cli_input_generator.so
+current PASS [(472, 48, 1676), (476, 48, 2105)]
+Shared-address comparison on PCI 0000:95:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL current bf16 67108864 outputs
+FULL_BASELINE_EQUAL current fp32 67108864 outputs
+1 baseline bf16: 0.380432248 ms / 2.890164 P
+1 current bf16: 0.374592632 ms / 2.935220 P
+1 baseline bf16: 0.384586334 ms / 2.858946 P
+1 baseline fp32: 0.404201418 ms / 2.720207 P
+1 current fp32: 0.389427215 ms / 2.823407 P
+1 baseline fp32: 0.405142605 ms / 2.713888 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.3825092911720276,
+    "min_ms": 0.38043224811553955,
+    "max_ms": 0.3845863342285156,
+    "median_pflops": 2.8744703805940017
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.4046720117330551,
+    "min_ms": 0.4042014181613922,
+    "max_ms": 0.405142605304718,
+    "median_pflops": 2.7170439167937834
+  },
+  {
+    "name": "current",
+    "dtype": "bf16",
+    "median_ms": 0.3745926320552826,
+    "min_ms": 0.3745926320552826,
+    "max_ms": 0.3745926320552826,
+    "median_pflops": 2.9352195790485633
+  },
+  {
+    "name": "current",
+    "dtype": "fp32",
+    "median_ms": 0.38942721486091614,
+    "min_ms": 0.38942721486091614,
+    "max_ms": 0.38942721486091614,
+    "median_pflops": 2.823407265382545
+  }
+]
+Results: /root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/continuation_20260911/round3/shared_allocations/reproduction_smoke_gpu5

@@ -1,0 +1,11 @@
+--- a/tmpl.hpp
++++ b/tmpl.hpp
+@@ -96,7 +96,7 @@
+         reinterpret_cast<void*>(reinterpret_cast<__UINTPTR_TYPE__>(dst)),
+         gmem_offsets[0],
+         s_os + source_byte_delta - lds_ioffset,
+-        opus::number<lds_ioffset>{}, opus::number<0>{});
++        opus::number<lds_ioffset>{}, opus::number<1>{});
+ }
+ 
+ __device__ inline void sched_barrier_pairs_scale() {

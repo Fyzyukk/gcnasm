@@ -1,0 +1,47 @@
+{
+  "selected_candidate": "/tmp/mxfp8_fourwave_e8_continue_20260910/selected_ab_dtype_roll",
+  "previous_selected": "/tmp/mxfp8_fourwave_e8_continue_20260910/baseline_before_abroles",
+  "formal": "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave",
+  "tmpl_sha256": "e32de77d91f66768b2caeeb6e83682b5bf14e7f576bef6303cd0df825e1de0f3",
+  "mfma_shape": "16x16x128",
+  "waves": 4,
+  "agpr": 256,
+  "scale_input": "E8M0 A 1x128 [K/128,M]; B 128x128 [N/128,K/128]",
+  "extra_device_workspace_bytes": 0,
+  "formal_rebuild_verified": true,
+  "full_8192_both_dtypes_exact": true,
+  "final_performance": [
+    {
+      "name": "baseline",
+      "dtype": "bf16",
+      "median_ms": 0.373216248,
+      "min_ms": 0.372982559,
+      "max_ms": 0.373400917,
+      "median_pflops": 2.946044374188125
+    },
+    {
+      "name": "baseline",
+      "dtype": "fp32",
+      "median_ms": 0.382766228,
+      "min_ms": 0.382684555,
+      "max_ms": 0.383075905,
+      "median_pflops": 2.8725408548217057
+    },
+    {
+      "name": "formal_selected",
+      "dtype": "bf16",
+      "median_ms": 0.359964752,
+      "min_ms": 0.359949265,
+      "max_ms": 0.36011467,
+      "median_pflops": 3.054498035340971
+    },
+    {
+      "name": "formal_selected",
+      "dtype": "fp32",
+      "median_ms": 0.372730751,
+      "min_ms": 0.372402153,
+      "max_ms": 0.373011894,
+      "median_pflops": 2.9498817171003955
+    }
+  ]
+}

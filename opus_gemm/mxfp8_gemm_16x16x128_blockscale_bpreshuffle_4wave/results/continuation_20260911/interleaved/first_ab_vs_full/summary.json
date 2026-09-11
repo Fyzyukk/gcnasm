@@ -1,0 +1,50 @@
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.373042221,
+    "min_ms": 0.372098808,
+    "max_ms": 0.373459282,
+    "median_pflops": 2.9474187260320863
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.382323189,
+    "min_ms": 0.382170982,
+    "max_ms": 0.38291008,
+    "median_pflops": 2.8758695768673346
+  },
+  {
+    "name": "ab_role_split",
+    "dtype": "bf16",
+    "median_ms": 0.367475052,
+    "min_ms": 0.367073288,
+    "max_ms": 0.3678368,
+    "median_pflops": 2.9920714938112316
+  },
+  {
+    "name": "ab_role_split",
+    "dtype": "fp32",
+    "median_ms": 0.377680473,
+    "min_ms": 0.377433624,
+    "max_ms": 0.377719841,
+    "median_pflops": 2.9112218035587984
+  },
+  {
+    "name": "wave_candidates/persistent_m4_full_handoff_helper_fix",
+    "dtype": "bf16",
+    "median_ms": 0.370856628,
+    "min_ms": 0.370766296,
+    "max_ms": 0.37106781,
+    "median_pflops": 2.9647889366453497
+  },
+  {
+    "name": "wave_candidates/persistent_m4_full_handoff_helper_fix",
+    "dtype": "fp32",
+    "median_ms": 0.379668274,
+    "min_ms": 0.379211044,
+    "max_ms": 0.380126152,
+    "median_pflops": 2.895979735657344
+  }
+]

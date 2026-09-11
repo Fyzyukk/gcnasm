@@ -1,0 +1,62 @@
+{
+  "gpu": "AMD Instinct MI355X",
+  "hip_visible_devices": "5",
+  "pci": "0000:85:00.0",
+  "comparison_scope": "Same device and same tensor addresses; not an original GPU2 performance claim",
+  "shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "batch": 1,
+  "warmup": 200,
+  "iterations": 100,
+  "rounds": 3,
+  "versions": {
+    "baseline": {
+      "path": "/tmp/mxfp8_fourwave_round3_20260911/baseline",
+      "source_sha256": "97fc15711b5aaad38a91ea7387b42bdf1f0cd11f761f071a83bdb84c111d8ab2",
+      "library_sha256": "94ae6ebbe783a158254f2417e2c80f80c21136d471466ff3787a35e384905d91"
+    },
+    "symmetric_single16": {
+      "path": "/tmp/mxfp8_fourwave_round3_20260911/symmetric_single16",
+      "source_sha256": "4c26ed7a358b8e90ecd09cc05a762ed5fe2aea3c9aa2754ea6a7d376b5a187b4",
+      "library_sha256": "e7378188182e60c1e6029b85f686aed41b9d15dc6eae61f9c721cc1e11f20804"
+    },
+    "asym_pairs8": {
+      "path": "/tmp/mxfp8_fourwave_round3_20260911/asym_pairs8",
+      "source_sha256": "4b2441a72cf7ab096dfaa27ccd5b234533f147b46f16242d149e66669fc18abb",
+      "library_sha256": "6003bf680d8274f09c2da8578e99fe17fe43bc245019db841930001407cc12ac"
+    },
+    "producer_spread/split4_stride4": {
+      "path": "/tmp/mxfp8_fourwave_round3_20260911/producer_spread/split4_stride4",
+      "source_sha256": "4e5c6bdaf1e64093aad164c4cf5dddc4e21ec02fc834022cd0664fc1b5f56290",
+      "library_sha256": "921acfe467d548645990fe7e4ad0375dce8503c6e77a94dcf2b3b57bddf4fe81"
+    },
+    "stride_ab_const": {
+      "path": "/tmp/mxfp8_fourwave_round3_20260911/stride_ab_const",
+      "source_sha256": "2e166a3ed7bf27d3400a8b267cdab09dd88779857d942365fa84667393b47491",
+      "library_sha256": "c6417cdcb5a819d22c0a4807487781263c099f8b3096b196a293e45c4cdbdcb2"
+    },
+    "stride_contract": {
+      "path": "/tmp/mxfp8_fourwave_round3_20260911/stride_contract",
+      "source_sha256": "78587a6b5618ec87f201d7ae4594de9afc0325b6dfb22d0990fe61977bfa872d",
+      "library_sha256": "73fe4481c078bb440a253233e27032e3ec509319333dd49a3a226c4a0980cc60"
+    },
+    "stride_asym_pairs8": {
+      "path": "/tmp/mxfp8_fourwave_round3_20260911/stride_asym_pairs8",
+      "source_sha256": "3d015855daa0843c75d37e8d18194a43323d21dcacf5b38f9536dcf840b2ce99",
+      "library_sha256": "5ea27d97b69cc5c562d3e9648c268868762ad719ff546cf0704944f8703b149a"
+    }
+  },
+  "pointers": {
+    "A": 139457384677376,
+    "B": 139456698908672,
+    "SFA": 139458833809408,
+    "SFB": 139458834333696,
+    "bf16": 139456562593792,
+    "fp32": 139456292061184
+  },
+  "input_pattern": "Exact CLI seed=1 generator and host FP8 type",
+  "timing": "HIP events around 100 C ABI launches, no preprocessing"
+}

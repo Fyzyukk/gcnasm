@@ -1,0 +1,34 @@
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.36619798839092255,
+    "min_ms": 0.35780850052833557,
+    "max_ms": 0.368962824344635,
+    "median_pflops": 3.002505919290449
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.3736244738101959,
+    "min_ms": 0.3723403513431549,
+    "max_ms": 0.38780659437179565,
+    "median_pflops": 2.9428254968505096
+  },
+  {
+    "name": "selected_register_roll",
+    "dtype": "bf16",
+    "median_ms": 0.3590832054615021,
+    "min_ms": 0.3587433099746704,
+    "max_ms": 0.3599439859390259,
+    "median_pflops": 3.061996804787576
+  },
+  {
+    "name": "selected_register_roll",
+    "dtype": "fp32",
+    "median_ms": 0.3715044856071472,
+    "min_ms": 0.3699387311935425,
+    "max_ms": 0.37188521027565,
+    "median_pflops": 2.9596187135643213
+  }
+]

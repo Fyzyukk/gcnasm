@@ -1,0 +1,50 @@
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.3454399871826172,
+    "min_ms": 0.3438592529296875,
+    "max_ms": 0.34559040069580077,
+    "median_pflops": 3.1829309534878547
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.35652164459228514,
+    "min_ms": 0.3556473541259766,
+    "max_ms": 0.3565760803222656,
+    "median_pflops": 3.083996846905021
+  },
+  {
+    "name": "pair_b_merge_roles",
+    "dtype": "bf16",
+    "median_ms": 0.3422768020629883,
+    "min_ms": 0.34179534912109377,
+    "max_ms": 0.3427867889404297,
+    "median_pflops": 3.2123463265665895
+  },
+  {
+    "name": "pair_b_merge_roles",
+    "dtype": "fp32",
+    "median_ms": 0.3572176742553711,
+    "min_ms": 0.3564166641235352,
+    "max_ms": 0.35755367279052735,
+    "median_pflops": 3.0779877565351677
+  },
+  {
+    "name": "pair_b_early_a_merge",
+    "dtype": "bf16",
+    "median_ms": 0.34328479766845704,
+    "min_ms": 0.34233306884765624,
+    "max_ms": 0.3435359573364258,
+    "median_pflops": 3.2029138349374375
+  },
+  {
+    "name": "pair_b_early_a_merge",
+    "dtype": "fp32",
+    "median_ms": 0.3560824966430664,
+    "min_ms": 0.35545150756835936,
+    "max_ms": 0.35625648498535156,
+    "median_pflops": 3.08780026578543
+  }
+]

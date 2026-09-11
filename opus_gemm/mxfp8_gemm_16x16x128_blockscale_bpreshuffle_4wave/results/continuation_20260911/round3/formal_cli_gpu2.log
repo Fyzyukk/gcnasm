@@ -1,0 +1,63 @@
+Physical GPU2, PCI 0000:65:00.0, HIP index 2
+1 baseline perf_bf16 PASS 0.358329849 ms / 3.068434377 P
+1 baseline perf_fp32 PASS 0.371693268 ms / 2.95811553 P
+1 selected_register_roll perf_bf16 PASS 0.361294289 ms / 3.043257705 P
+1 selected_register_roll perf_fp32 PASS 0.369544411 ms / 2.975316622 P
+2 selected_register_roll perf_bf16 PASS 0.353999939 ms / 3.105965586 P
+2 selected_register_roll perf_fp32 PASS 0.369717598 ms / 2.973922891 P
+2 baseline perf_bf16 PASS 0.359555092 ms / 3.0579781870000002 P
+2 baseline perf_fp32 PASS 0.371911011 ms / 2.95638364 P
+3 baseline perf_bf16 PASS 0.365622444 ms / 3.007232311 P
+3 baseline perf_fp32 PASS 0.371654015 ms / 2.958427959 P
+3 selected_register_roll perf_bf16 PASS 0.357576294 ms / 3.0749007870000002 P
+3 selected_register_roll perf_fp32 PASS 0.369550858 ms / 2.975264718 P
+4 selected_register_roll perf_bf16 PASS 0.357969704 ms / 3.071521463 P
+4 selected_register_roll perf_fp32 PASS 0.369553413 ms / 2.9752441399999996 P
+4 baseline perf_bf16 PASS 0.358653145 ms / 3.065668442 P
+4 baseline perf_fp32 PASS 0.377906837 ms / 2.909477995 P
+5 baseline perf_bf16 PASS 0.358363533 ms / 3.0681459650000003 P
+5 baseline perf_fp32 PASS 0.382039108 ms / 2.878008047 P
+5 selected_register_roll perf_bf16 PASS 0.357025375 ms / 3.079645604 P
+5 selected_register_roll perf_fp32 PASS 0.370748367 ms / 2.9656546720000003 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.358653145,
+    "min_ms": 0.358329849,
+    "max_ms": 0.365622444,
+    "median_pflops": 3.065668440676855
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.371911011,
+    "min_ms": 0.371654015,
+    "max_ms": 0.382039108,
+    "median_pflops": 2.9563836381709065
+  },
+  {
+    "name": "selected_register_roll",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.357576294,
+    "min_ms": 0.353999939,
+    "max_ms": 0.361294289,
+    "median_pflops": 3.0749007868401925
+  },
+  {
+    "name": "selected_register_roll",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.369553413,
+    "min_ms": 0.369544411,
+    "max_ms": 0.370748367,
+    "median_pflops": 2.9752441436009684
+  }
+]

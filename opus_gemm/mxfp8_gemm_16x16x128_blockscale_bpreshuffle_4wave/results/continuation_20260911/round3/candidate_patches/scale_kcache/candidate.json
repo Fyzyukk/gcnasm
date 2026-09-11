@@ -1,0 +1,66 @@
+{
+  "status": "complete: CPU audits and root GPU checks PASS; performance below current baseline",
+  "source_and_executable_frozen": true,
+  "candidate_count": 1,
+  "build_attempts": 1,
+  "gpu_launched_by_this_subtask": false,
+  "baseline_source_sha256": "97fc15711b5aaad38a91ea7387b42bdf1f0cd11f761f071a83bdb84c111d8ab2",
+  "measurement_binding": {
+    "file": "measurements/results.json",
+    "file_sha256": "8ea821e7f280c686199fcf9a78f5f79e88f39ee3025e741e3b761fb1d8c75e2f",
+    "source_sha256": "e038333b5dab5e74fbd024b8c14753d72733ad7a69ff878a31e56cbed3cc9910",
+    "traits_sha256": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+    "exe_sha256": "5a5ec201024748f9e799e692875a0cb7fcd7319a6acd6b1a33a4b543ef0218cc",
+    "all_commands_use_frozen_executable": true,
+    "all_returncodes_zero": true,
+    "performance": {
+      "perf_bf16": {
+        "ms": 0.361916389,
+        "pflops": 3.0380266270000003
+      },
+      "perf_fp32": {
+        "ms": 0.376444893,
+        "pflops": 2.920777114
+      }
+    }
+  },
+  "file_sha256": {
+    "Makefile": "f8530f55fdccc016060b2ac6e159f04a186cc8b2063d0531919568e5e1b975bf",
+    "README.md": "4f1bec7426024ec8fe960317e18d446b86b52f3e66617bc4223a21d09ea2b778",
+    "audit_isa.py": "57084a6e05ea92ed5e3f721ef3fe8ea02082b248b5f1deb6352d242c9e9e47bc",
+    "audit_layout.py": "e4722abd64e1440feb7b311e102bc92a512ce61f5c705983058b87e54e8b9564",
+    "baseline_manifest.json": "b5a88f6aa5a05571945d9c8b9cac33d140dc8455bbbe49c1a335efaa02051755",
+    "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+    "build/device.co": "c61f44b65a252f8aab7123ccc22000063d52c5f8f05c88b5d023b0f16c3f4503",
+    "build/device.fb": "1aab7732abaf80a9158a2b2cfd97a5276a65fd4055394885346c16e4dbc7a204",
+    "build/device.isa": "9b1128226b4e63acbcd6bf8a9c673c356fc2fb766bb060d525d410dbb857c0ee",
+    "build/device.notes": "024b5455d404cc6e204a610281c91083dd8f64cf650e2ee8e0973ae71c2cb042",
+    "build/gemm_a8w8_blockscale_bpreshuffle.exe": "5a5ec201024748f9e799e692875a0cb7fcd7319a6acd6b1a33a4b543ef0218cc",
+    "build/host.o": "38b91b6dee7175b68f38252ed3a4d212be6414ba0b65dbfc17858a304e78e41f",
+    "build/inspect.exe": "1a0ead41a0669638bdc6399c7aa424704e80eaef6f0b15b839fadc377c07f012",
+    "build/kernel.o": "9f80dd9e79427e77711e81f0f1e3bff40afe85a780775ceaddfbc6fe22439007",
+    "build/launch.o": "854fe333c42cda4c0fb88d0b536f9786d481ad02ca6b0c2f4a92dadff4e89c5f",
+    "build/libblockscale_bpreshuffle.so": "389fafe680171407f248d141d930d853b63b75e8a19220d55656de4afff22f3e",
+    "build.log": "0bc6a78f5b640538c3b014fd1efb1fed07fbf11d3d90f9c08388963fc18cfd81",
+    "change.patch": "35d0e63b8591d3fc0fcaa84bd11d6bd96194149e771be5cf9f32922699e87d18",
+    "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "67f918214451d8b4a90319ea570f83e13f520913baa596f6f2e0ec33580158e7",
+    "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+    "gemm_a8w8_mxfp8_scale_host.cc": "da5a1c7416a883144c21e82ffc53e0bd2cdd720395788fe87b757cac7ef27216",
+    "gemm_a8w8_mxfp8_scale_kernel.cc": "93e9706abb4ae2e5569b098cf4bbd093771b4eee5a28cf5f43d136af1fc38628",
+    "isa_audit.json": "d6e5447f6668bbe92dcc3d0ddcbfc4256239704216a0adf66e83eb33886c8dd0",
+    "isa_audit_run.log": "a649e085293411f947707e11c3dea0d607f98575adb02ab16e2ebc0017de9818",
+    "kernel_dispatch.hpp": "faab6c222596c2f0604b66c9337df6b82534f18f63690b01dfca14d5d106a6b7",
+    "layout_audit.json": "45fa366ae47895c881505072cc160cfd3316666599b1210e9b2757f05ae7f8e1",
+    "layout_audit_run.log": "45fa366ae47895c881505072cc160cfd3316666599b1210e9b2757f05ae7f8e1",
+    "measurements/perf_bf16.log": "b8f7d19514bb81e7633a193ff20202a1643e57e8baff6aea2fcfe2bb4399cafb",
+    "measurements/perf_fp32.log": "f2180ac7c33823ee66041cde77bb57dacb9f3a305feb3dc35fa1f874f4efb24f",
+    "measurements/results.json": "8ea821e7f280c686199fcf9a78f5f79e88f39ee3025e741e3b761fb1d8c75e2f",
+    "measurements/verify_bf16.log": "1f95dc4d6c2dde79456502abbcbfabaac53914476a799795b8106cb6fef66460",
+    "measurements/verify_fp32.log": "c24c958bdaa1b3fb188debad4db8b7193b5547e8b07473094efdd7cef2fb28e6",
+    "static_audit.json": "88dac10a664c678fd29cb88a0e9fe707213d6ae5405fe2945c2a10595b8ddd39",
+    "test_blockscale_bpreshuffle.py": "2d89d8919dbfb73ee208e56c7c83f3383992d584312fc10acc6475760274a229",
+    "tmpl.hpp": "e038333b5dab5e74fbd024b8c14753d72733ad7a69ff878a31e56cbed3cc9910",
+    "tmpl_generic.hpp": "3681ebf7093140a3f1216b1c6faab22e6d726dbd15c4ec3167b931029f84f180",
+    "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117"
+  }
+}

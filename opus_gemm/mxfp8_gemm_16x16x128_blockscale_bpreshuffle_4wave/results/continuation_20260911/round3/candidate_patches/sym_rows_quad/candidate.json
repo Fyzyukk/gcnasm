@@ -1,0 +1,16 @@
+{
+  "name": "sym_rows_quad",
+  "parent": "symmetric_single16",
+  "parent_sha256": "4c26ed7a358b8e90ecd09cc05a762ed5fe2aea3c9aa2754ea6a7d376b5a187b4",
+  "source_sha256": "d3c67f83fa7ed41d0b8cf7a035846a464d9b491fb46d1e10b692f83c40d9dcd6",
+  "lds_mapping_audit": "PASS: every A/B byte maps to the unchanged consumer layout, once per tile",
+  "immediate_groups": true,
+  "cached_vgpr_offsets": false,
+  "matrix_bytes_per_tile": 65536,
+  "changes": [
+    "A producer waves each own one M128 half",
+    "A and B have equal LDS row stride",
+    "scalar pair stride shared under enforced contiguous input contract"
+  ],
+  "not_a_full_gemm": false
+}

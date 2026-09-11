@@ -1,0 +1,12 @@
+Device identity: hip_device=0 pci=0000:65:00.0 arch=gfx950:sramecc+:xnack- cu=256 warp=64 name="AMD Instinct MI355X"
+Input generator: splitmix64-index-v1 seed=20260909
+Launching MXFP8 scaled-MFMA GEMM 4W exact-K64 branchless-wrap SFA-K8 raw/K4 queue + SFB-K16 dist22, 256x256x128, unified scale: M=256, N=256, K=8192, grid=(1,1,1), block=256, output_tiles_per_wg=1
+
+Validating GPU results against CPU reference...
+Validation stats: rel_mag=5.00e-05, abs_floor=1.00e-04, errors=0/65536, max_diff=0.005737 at 49537 (tol=0.332260, ref=-405.496216, result=-405.501953), max_ratio=0.025 at 35056
+[GEMM batch 1/1: 256x256x8192, block_256x256x128] VALID
+
+[Overall] ALL BATCHES VALID
+
+Kernel Performance: avg_time=0.083993569 ms, 12.783619 TFlops
+

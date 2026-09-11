@@ -1,0 +1,5 @@
+{
+  "parent": "/tmp/mxfp8_fourwave_round3_20260911/baseline",
+  "source_sha256": "983db05b1661c22f5c5a6d1fd25d489c0f06df804273e837c33c94e6dd22e548",
+  "change": "Use 8-aligned pair u64 struct for matrix LDS reads; all loads remain compiler-visible and data mapping unchanged."
+}

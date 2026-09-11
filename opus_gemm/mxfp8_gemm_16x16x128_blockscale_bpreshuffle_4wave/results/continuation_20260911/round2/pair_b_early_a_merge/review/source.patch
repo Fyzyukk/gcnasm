@@ -1,0 +1,172 @@
+--- baseline/tmpl.hpp
++++ candidate/tmpl.hpp
+@@ -397,7 +397,7 @@
+     auto s_b = make_smem(reinterpret_cast<D_B*>(smem_b));
+ 
+     alignas(8) __shared__ char smem_sfa[T::SFA_PANEL_BYTES];
+-    alignas(4) __shared__ char smem_sfb[T::SFB_PANEL_BYTES];
++    alignas(8) __shared__ char smem_sfb[T::SFB_PANEL_BYTES];
+     auto s_sfa = make_smem(reinterpret_cast<D_SF*>(smem_sfa));
+     auto s_sfb = make_smem(reinterpret_cast<D_SF*>(smem_sfb));
+     auto mma = make_tiled_mma<D_A, D_B, D_ACC>(
+@@ -481,6 +481,7 @@
+ 
+     D_SF_PACK v_sfa[2];
+     D_SF_PACK v_sfb[T::SCALE_N_HALVES];
++    opus::vector_t<D_SF_PACK, 2> v_sfb_next;
+     D_SF_PACK v_sfa1_next;
+     auto ga_offset = [&](int half_tile_m, int tile_k) { return half_tile_m * T::HALF_B_M * kargs.stride_a + tile_k * T::B_K; };
+     auto gb_offset = [&](int half_tile_n, int tile_k) { return half_tile_n * T::HALF_B_N * kargs.stride_b + tile_k * T::B_K * 16; };
+@@ -536,8 +537,12 @@
+         // The prologue already duplicated the compact byte across the
+         // dword. Every lane reads the same address, preserving op_sel.
+         return __builtin_bit_cast(D_SF_PACK,
+-            load<4>(s_sfb, (half_tile_n * T::SCALE_PANEL_K_TILES + k_tile) * 4));
++            load<4>(s_sfb, (k_tile * T::SCALE_N_HALVES + half_tile_n) * 4));
+     };
++
++    async_load<T::VEC_A>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(0, 0), ga_offset(0, 0));
++    async_load<T::VEC_A>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(0, 1), ga_offset(1, 0));
++    __builtin_amdgcn_sched_barrier(0);
+ 
+     // Prologue: preload both whole-K scale panels before the first barrier.
+     prefetch_sfa_panel();
+@@ -546,9 +551,7 @@
+         const auto raw = load<1>(g_sfb, lane_id, wave_id * kargs.stride_sfb);
+         panel_sfb_raw = static_cast<D_SF_PACK>(raw[0]);
+     }
+-    async_load<T::VEC_A>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(0, 0), ga_offset(0, 0));
+     async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(0, 0), gb_offset(0, 0));
+-    async_load<T::VEC_A>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(0, 1), ga_offset(1, 0));
+     async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(0, 1), gb_offset(1, 0));
+ 
+     s_waitcnt_vmcnt(0_I);
+@@ -557,7 +560,7 @@
+         const D_SF_PACK packed = panel_sfb_raw * 0x01010101u;
+         store<4>(s_sfb,
+             __builtin_bit_cast(opus::vector_t<D_SF, 4>, packed),
+-            (wave_id * T::SCALE_PANEL_K_TILES + lane_id) * 4);
++            (lane_id * T::SCALE_N_HALVES + wave_id) * 4);
+     }
+ 
+     s_waitcnt_lgkmcnt(0_I);
+@@ -579,6 +582,7 @@
+     v_sfa[0] = load_sfa_dword(0, 0);
+     v_sfa[1] = load_sfa_dword(0, 1);
+     v_sfb[0] = load_sfb_dword(0, 0);
++    v_sfb[1] = load_sfb_dword(0, 1);
+     v_b = load<T::VEC_B>(s_b, u_rb + sb_offset(stage, 0));
+     v_a[0] = load<T::VEC_A>(s_a, u_ra + sa_offset(stage, 0));
+     __builtin_amdgcn_sched_barrier(0);
+@@ -590,7 +594,7 @@
+         const int future_tile = (tile + 2) & 63;
+ 
+ 
+-        v_sfb[1] = load_sfb_dword(tile, 1);
++        // Both B scale halves were prefetched during the preceding K tile.
+         __builtin_amdgcn_sched_barrier(0);
+         const auto u_sa_next_0 = u_sa + sa_offset(next_stage, 0);
+         const auto u_sa_next_1 = u_sa + sa_offset(next_stage, 1);
+@@ -605,9 +609,10 @@
+         // One scaled MFMA occupies the XDL pipe for roughly 32 cycles on
+         // gfx950.  Place the four independent A0(t+1) DTLDS requests directly
+         // behind it so their issue work can co-execute with that XDL window.
+-        MXFP8_MMA_ONE(
+-            0, 0, 0, v_a[0], v_b, c00_0, v_sfa, v_sfb[0]);
+-        sched_barrier_one_scale();
++        // Co-execute both half-tile producer groups under one role branch.
++        MXFP8_MMA_PAIR(
++            0, 0, 0, v_a[0], v_b, c00_0, c00_1, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
+         if (wave_id_n == 0) {
+             async_load_issue_scale<T::VEC_A, 0>(
+                 g_a, s_a.ptr, u_ga_producer_0,
+@@ -641,13 +646,8 @@
+                 g_a, s_a.ptr, u_ga_producer_1,
+                 u_sa_producer_1 + sa_offset(next_stage, 0),
+                 ga_offset(0, tile + 1));
+-            __builtin_amdgcn_sched_group_barrier(0x20, 8, 0);
+-        }
+-
+-        MXFP8_MMA_ONE(
+-            0, 0, 1, v_a[0], v_b, c00_1, v_sfa, v_sfb[0]);
+-        sched_barrier_one_scale();
+-        if (wave_id_n == 0) {
++
++        
+             async_load_issue_scale<T::VEC_A, 0>(
+                 g_a, s_a.ptr, u_ga_producer_0,
+                 u_sa_producer_0 + sa_offset(next_stage, 1),
+@@ -680,7 +680,8 @@
+                 g_a, s_a.ptr, u_ga_producer_1,
+                 u_sa_producer_1 + sa_offset(next_stage, 1),
+                 ga_offset(1, tile + 1));
+-            __builtin_amdgcn_sched_group_barrier(0x20, 8, 0);
++
++                    __builtin_amdgcn_sched_group_barrier(0x20, 16, 0);
+         }
+         __builtin_amdgcn_sched_barrier(0);
+ 
+@@ -806,11 +807,10 @@
+ 
+         // The two producer waves issue eight requests per half around the
+         // original two single-MFMA windows. The old stage is now released.
+-        MXFP8_MMA_ONE(
+-            0, 1, 0, v_a[0], v_b_n1, c01_4, v_sfa, v_sfb[1]);
+-        sched_barrier_one_scale();
+-        // Scalar, wave-uniform role branch; all lanes of the selected
+-        // producer waves participate. MFMAs stay outside this branch.
++        // Co-execute both half-tile producer groups under one role branch.
++        MXFP8_MMA_PAIR(
++            0, 1, 0, v_a[0], v_b_n1, c01_4, c01_5, v_sfa, v_sfb[1]);
++        sched_barrier_pairs_scale();
+         if (wave_id_n == 1) {
+             async_load_issue_b_contiguous_scale<T, 0>(
+                 g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 0),
+@@ -836,15 +836,8 @@
+             async_load_issue_b_contiguous_scale<T, 3>(
+                 g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 0),
+                 gb_offset(0, future_tile), kargs.stride_b);
+-            __builtin_amdgcn_sched_group_barrier(0x20, 8, 0);
+-        }
+-
+-        MXFP8_MMA_ONE(
+-            0, 1, 1, v_a[0], v_b_n1, c01_5, v_sfa, v_sfb[1]);
+-        sched_barrier_one_scale();
+-        // Scalar, wave-uniform role branch; all lanes of the selected
+-        // producer waves participate. MFMAs stay outside this branch.
+-        if (wave_id_n == 1) {
++
++        
+             async_load_issue_b_contiguous_scale<T, 0>(
+                 g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 1),
+                 gb_offset(1, future_tile), kargs.stride_b);
+@@ -869,7 +862,8 @@
+             async_load_issue_b_contiguous_scale<T, 3>(
+                 g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 1),
+                 gb_offset(1, future_tile), kargs.stride_b);
+-            __builtin_amdgcn_sched_group_barrier(0x20, 8, 0);
++
++                    __builtin_amdgcn_sched_group_barrier(0x20, 16, 0);
+         }
+         __builtin_amdgcn_sched_barrier(0);
+ 
+@@ -881,7 +875,9 @@
+         // operands for tile t+1 from the newly published next_stage while the
+         // remaining twenty-six current-tile MFMAs execute.  The two future-B
+         // request groups above are already in flight before these DS reads.
+-        v_sfb[0] = load_sfb_dword(tile + 1, 0);
++        v_sfb_next = __builtin_bit_cast(opus::vector_t<D_SF_PACK, 2>,
++            load<8>(s_sfb, (tile + 1) * T::SCALE_N_HALVES * 4));
++        v_sfb[0] = v_sfb_next[0];
+         v_b = load<T::VEC_B>(s_b, u_rb + sb_offset(next_stage, 0));
+         __builtin_amdgcn_sched_barrier(0);
+ 
+@@ -968,6 +964,7 @@
+             1, 3, 1, v_a[1], v_b_n1, c11_14, c11_15, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
+         __builtin_amdgcn_s_setprio(0);
++        v_sfb[1] = v_sfb_next[1];
+         v_sfa[1] = v_sfa1_next;
+         stage = next_stage;
+     }

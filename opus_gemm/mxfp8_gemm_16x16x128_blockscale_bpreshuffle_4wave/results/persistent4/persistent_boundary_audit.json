@@ -1,0 +1,29 @@
+{
+  "status": "pass",
+  "gpu_executed": false,
+  "isa_sha256": "4a708bb0fd4ec6ff1ee0c209cbe54752066409ce9205d6cd6ec5b114037f0cc4",
+  "kernels": [
+    {
+      "kernel": "_Z28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEv21opus_gemm_scale_kargs",
+      "release_barrier_line": 361,
+      "release_drain_line": 360,
+      "next_tile_sfa_load_line": 400,
+      "all_mfma_to_new_prologue_paths_cross_release_barrier": true,
+      "new_prologue_is_reachable_after_mfmas": true,
+      "agpr_init_cfg_states": 1748,
+      "mfma_accumulator_uninitialized_since_tile_release": [],
+      "static_mfma_count": 384
+    },
+    {
+      "kernel": "_Z28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEv21opus_gemm_scale_kargs",
+      "release_barrier_line": 2499,
+      "release_drain_line": 2498,
+      "next_tile_sfa_load_line": 2538,
+      "all_mfma_to_new_prologue_paths_cross_release_barrier": true,
+      "new_prologue_is_reachable_after_mfmas": true,
+      "agpr_init_cfg_states": 2136,
+      "mfma_accumulator_uninitialized_since_tile_release": [],
+      "static_mfma_count": 384
+    }
+  ]
+}

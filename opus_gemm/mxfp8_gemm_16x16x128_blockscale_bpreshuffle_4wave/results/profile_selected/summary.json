@@ -1,0 +1,53 @@
+{
+  "wait_consumer": {
+    "stalls": {
+      "SQ_ACTIVE_INST_VMEM": 11074199.0,
+      "SQ_INSTS_MFMA": 16777216.0,
+      "SQ_LDS_BANK_CONFLICT": 18350080.0,
+      "SQ_WAIT_INST_LDS": 3240745.0,
+      "SQ_WAVE_CYCLES": 254363026.0
+    },
+    "schedule": {
+      "SQ_INSTS_BRANCH": 90112.0,
+      "SQ_INSTS_MFMA": 16777216.0,
+      "SQ_INSTS_SALU": 7634944.0,
+      "SQ_INSTS_VALU": 20099072.0,
+      "SQ_VALU_MFMA_BUSY_CYCLES": 536870912.0,
+      "SQ_WAIT_ANY": 75746375.0
+    }
+  },
+  "scale_panel_plain": {
+    "stalls": {
+      "SQ_ACTIVE_INST_VMEM": 10302987.0,
+      "SQ_INSTS_MFMA": 16777216.0,
+      "SQ_LDS_BANK_CONFLICT": 16908288.0,
+      "SQ_WAIT_INST_LDS": 2809441.0,
+      "SQ_WAVE_CYCLES": 200358895.0
+    },
+    "schedule": {
+      "SQ_INSTS_BRANCH": 159744.0,
+      "SQ_INSTS_MFMA": 16777216.0,
+      "SQ_INSTS_SALU": 6715392.0,
+      "SQ_INSTS_VALU": 20209664.0,
+      "SQ_VALU_MFMA_BUSY_CYCLES": 536870912.0,
+      "SQ_WAIT_ANY": 27796249.0
+    }
+  },
+  "plain_sfa_lds": {
+    "stalls": {
+      "SQ_ACTIVE_INST_VMEM": 11068408.0,
+      "SQ_INSTS_MFMA": 16777216.0,
+      "SQ_LDS_BANK_CONFLICT": 23068672.0,
+      "SQ_WAIT_INST_LDS": 4545917.0,
+      "SQ_WAVE_CYCLES": 202321112.0
+    },
+    "schedule": {
+      "SQ_INSTS_BRANCH": 90112.0,
+      "SQ_INSTS_MFMA": 16777216.0,
+      "SQ_INSTS_SALU": 7598080.0,
+      "SQ_INSTS_VALU": 21987328.0,
+      "SQ_VALU_MFMA_BUSY_CYCLES": 536870912.0,
+      "SQ_WAIT_ANY": 26200811.0
+    }
+  }
+}

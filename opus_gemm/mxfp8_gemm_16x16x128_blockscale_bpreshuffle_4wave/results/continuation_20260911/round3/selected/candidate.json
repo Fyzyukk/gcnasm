@@ -1,0 +1,13 @@
+{
+  "name": "selected_register_roll",
+  "parent": "regroll_release8",
+  "parent_sha256": "65cb2e45f4db60b4017021f6679c2f716ff130e3b3801b088b253a2f452c54de",
+  "source_sha256": "1b1c87b28c1ae645cd8986e00aae0f870f089044c8a8eac4d761e396deafe53a",
+  "changes": [
+    "Remove unused old asynchronous copy helpers and producer aliases",
+    "Update pipeline comments",
+    "Collapse repeated blank lines"
+  ],
+  "intended_machine_code_change": false,
+  "not_a_full_gemm": false
+}

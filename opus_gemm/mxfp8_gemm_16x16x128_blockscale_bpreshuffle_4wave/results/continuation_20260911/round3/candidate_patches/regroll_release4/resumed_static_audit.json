@@ -1,0 +1,170 @@
+{
+  "status": "PASS",
+  "hashes": {
+    "tmpl.hpp": "8a69fd685b60b213ad6964371121157bc843e1f897e082a3ce899fd63c4f5fe1",
+    "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+    "build/device.isa": "ed95c1c567f1ddbd384174d93d2f5e5fbc23987870c5f6405b1bb2ffa8296975",
+    "build/device.notes": "01191b72f9506eec5caa81fc20b009746d675655d217f3e5fc26e39b089d6fce",
+    "build/gemm_a8w8_blockscale_bpreshuffle.exe": "9d716fe08ebbfcfe778c3e077d1a2860e5cfa1e187ad41f16c9bfc18869da484",
+    "build/libblockscale_bpreshuffle.so": "d1a973a587e774d9dbc5e612fd1fc21ceee851f10c56ff04357493fde41ddb30"
+  },
+  "source_mfma_sequence_unchanged": true,
+  "kernels": [
+    {
+      "name": "_ZN16blockscale_panel28gemm_a8w8_mxfp8_scale_kernelI17WholeKScaleTraitsILb0EEEEv21opus_gemm_scale_kargs",
+      "resources": {
+        "vgpr_count": 464,
+        "sgpr_count": 48,
+        "group_segment_fixed_size": 152064,
+        "private_segment_fixed_size": 0,
+        "vgpr_spill_count": 0,
+        "sgpr_spill_count": 0,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      },
+      "generic_isa_identical": false,
+      "lds_wait": {
+        "name": "_ZN16blockscale_panel28gemm_a8w8_mxfp8_scale_kernelI17WholeKScaleTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "cfg_states": 2000,
+        "static_mfma_checked": 384,
+        "max_pending_lgkm_events": 35,
+        "hazards": []
+      },
+      "vmem_wait": {
+        "status": "PASS",
+        "cfg_states": 1676,
+        "hazards": [],
+        "barriers_with_zero_pending_vmem": [
+          637,
+          773,
+          909,
+          1044,
+          1179,
+          1338
+        ],
+        "scope": "VMEM register waits and full VMEM publication; LDS content lifetimes checked separately"
+      },
+      "exec_unchanged": true,
+      "native_mfma_tied_c256": true,
+      "no_additional_vmem_drains": true
+    },
+    {
+      "name": "_ZN16blockscale_panel28gemm_a8w8_mxfp8_scale_kernelI17WholeKScaleTraitsILb1EEEEv21opus_gemm_scale_kargs",
+      "resources": {
+        "vgpr_count": 476,
+        "sgpr_count": 48,
+        "group_segment_fixed_size": 152064,
+        "private_segment_fixed_size": 0,
+        "vgpr_spill_count": 0,
+        "sgpr_spill_count": 0,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      },
+      "generic_isa_identical": false,
+      "lds_wait": {
+        "name": "_ZN16blockscale_panel28gemm_a8w8_mxfp8_scale_kernelI17WholeKScaleTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "cfg_states": 2429,
+        "static_mfma_checked": 384,
+        "max_pending_lgkm_events": 35,
+        "hazards": []
+      },
+      "vmem_wait": {
+        "status": "PASS",
+        "cfg_states": 2105,
+        "hazards": [],
+        "barriers_with_zero_pending_vmem": [
+          2315,
+          2451,
+          2587,
+          2722,
+          2857,
+          3016
+        ],
+        "scope": "VMEM register waits and full VMEM publication; LDS content lifetimes checked separately"
+      },
+      "exec_unchanged": true,
+      "native_mfma_tied_c256": true,
+      "no_additional_vmem_drains": true
+    },
+    {
+      "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+      "resources": {
+        "vgpr_count": 408,
+        "sgpr_count": 70,
+        "group_segment_fixed_size": 139264,
+        "private_segment_fixed_size": 0,
+        "vgpr_spill_count": 0,
+        "sgpr_spill_count": 0,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      },
+      "generic_isa_identical": true,
+      "lds_wait": {
+        "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "cfg_states": 1869,
+        "static_mfma_checked": 384,
+        "max_pending_lgkm_events": 27,
+        "hazards": []
+      },
+      "vmem_wait": {
+        "status": "PASS",
+        "cfg_states": 2156,
+        "hazards": [],
+        "barriers_with_zero_pending_vmem": [
+          4002,
+          4473,
+          4647,
+          4822,
+          4996,
+          5209
+        ],
+        "scope": "VMEM register waits and full VMEM publication; LDS content lifetimes checked separately"
+      },
+      "exec_unchanged": true,
+      "native_mfma_tied_c256": true,
+      "no_additional_vmem_drains": true
+    },
+    {
+      "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+      "resources": {
+        "vgpr_count": 460,
+        "sgpr_count": 70,
+        "group_segment_fixed_size": 139264,
+        "private_segment_fixed_size": 0,
+        "vgpr_spill_count": 0,
+        "sgpr_spill_count": 0,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      },
+      "generic_isa_identical": true,
+      "lds_wait": {
+        "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "cfg_states": 2256,
+        "static_mfma_checked": 384,
+        "max_pending_lgkm_events": 27,
+        "hazards": []
+      },
+      "vmem_wait": {
+        "status": "PASS",
+        "cfg_states": 2930,
+        "hazards": [],
+        "barriers_with_zero_pending_vmem": [
+          5710,
+          6181,
+          6355,
+          6530,
+          6704,
+          6917
+        ],
+        "scope": "VMEM register waits and full VMEM publication; LDS content lifetimes checked separately"
+      },
+      "exec_unchanged": true,
+      "native_mfma_tied_c256": true,
+      "no_additional_vmem_drains": true
+    }
+  ]
+}

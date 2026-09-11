@@ -1,0 +1,67 @@
+{
+  "hip_visible_devices": 2,
+  "exe": "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_scale/4_wave_no_host_scale/build_reproduce_patched_retry_20260910/kernel.exe",
+  "exe_sha256": "25f0f752ec600a815bbcae4cbfe41ad1eda473e4d13a4d4badbf90e92c48857f",
+  "runs": [
+    {
+      "label": "performance",
+      "args": [
+        "-m",
+        "8192",
+        "-n",
+        "8192",
+        "-k",
+        "8192",
+        "-b",
+        "1",
+        "-v",
+        "0",
+        "-w",
+        "200",
+        "-i",
+        "100"
+      ],
+      "env_extra": {},
+      "returncode": 0,
+      "wall_seconds": 0.5911656999960542
+    },
+    {
+      "label": "small_reference",
+      "args": [
+        "-m",
+        "256",
+        "-n",
+        "256",
+        "-k",
+        "8192",
+        "-b",
+        "1",
+        "-v",
+        "1"
+      ],
+      "env_extra": {},
+      "returncode": 0,
+      "wall_seconds": 0.5137575099943206
+    },
+    {
+      "label": "full_hash",
+      "args": [
+        "-m",
+        "8192",
+        "-n",
+        "8192",
+        "-k",
+        "8192",
+        "-b",
+        "1",
+        "-v",
+        "0"
+      ],
+      "env_extra": {
+        "MXFP8_OUTPUT_HASH": "1"
+      },
+      "returncode": 0,
+      "wall_seconds": 0.5592231269693002
+    }
+  ]
+}

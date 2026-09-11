@@ -1,0 +1,69 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL selected_register_roll bf16 67108864 outputs
+FULL_BASELINE_EQUAL selected_register_roll fp32 67108864 outputs
+1 baseline bf16: 0.357808501 ms / 3.072905 P
+1 selected_register_roll bf16: 0.358743310 ms / 3.064898 P
+1 baseline bf16: 0.359034151 ms / 3.062415 P
+1 baseline fp32: 0.372388273 ms / 2.952595 P
+1 selected_register_roll fp32: 0.369938731 ms / 2.972145 P
+1 baseline fp32: 0.372340351 ms / 2.952975 P
+2 baseline bf16: 0.359435111 ms / 3.058999 P
+2 selected_register_roll bf16: 0.359258741 ms / 3.060501 P
+2 baseline bf16: 0.366055578 ms / 3.003674 P
+2 baseline fp32: 0.372696459 ms / 2.950153 P
+2 selected_register_roll fp32: 0.371209979 ms / 2.961967 P
+2 baseline fp32: 0.374013633 ms / 2.939764 P
+3 baseline bf16: 0.366340399 ms / 3.001339 P
+3 selected_register_roll bf16: 0.359036744 ms / 3.062393 P
+3 baseline bf16: 0.368743598 ms / 2.981778 P
+3 baseline fp32: 0.373210043 ms / 2.946093 P
+3 selected_register_roll fp32: 0.371885210 ms / 2.956589 P
+3 baseline fp32: 0.373996884 ms / 2.939895 P
+4 baseline bf16: 0.367900431 ms / 2.988612 P
+4 selected_register_roll bf16: 0.359083205 ms / 3.061997 P
+4 baseline bf16: 0.359825581 ms / 3.055679 P
+4 baseline fp32: 0.373619258 ms / 2.942867 P
+4 selected_register_roll fp32: 0.371504486 ms / 2.959619 P
+4 baseline fp32: 0.382278949 ms / 2.876202 P
+5 baseline bf16: 0.368962824 ms / 2.980007 P
+5 selected_register_roll bf16: 0.359943986 ms / 3.054674 P
+5 baseline bf16: 0.367797256 ms / 2.989450 P
+5 baseline fp32: 0.373629689 ms / 2.942784 P
+5 selected_register_roll fp32: 0.371804476 ms / 2.957231 P
+5 baseline fp32: 0.387806594 ms / 2.835206 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.36619798839092255,
+    "min_ms": 0.35780850052833557,
+    "max_ms": 0.368962824344635,
+    "median_pflops": 3.002505919290449
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.3736244738101959,
+    "min_ms": 0.3723403513431549,
+    "max_ms": 0.38780659437179565,
+    "median_pflops": 2.9428254968505096
+  },
+  {
+    "name": "selected_register_roll",
+    "dtype": "bf16",
+    "median_ms": 0.3590832054615021,
+    "min_ms": 0.3587433099746704,
+    "max_ms": 0.3599439859390259,
+    "median_pflops": 3.061996804787576
+  },
+  {
+    "name": "selected_register_roll",
+    "dtype": "fp32",
+    "median_ms": 0.3715044856071472,
+    "min_ms": 0.3699387311935425,
+    "max_ms": 0.37188521027565,
+    "median_pflops": 2.9596187135643213
+  }
+]

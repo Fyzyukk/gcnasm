@@ -1,0 +1,82 @@
+{
+  "name": "asym_pairs8",
+  "baseline_sha256": "97fc15711b5aaad38a91ea7387b42bdf1f0cd11f761f071a83bdb84c111d8ab2",
+  "source_sha256": "4b2441a72cf7ab096dfaa27ccd5b234533f147b46f16242d149e66669fc18abb",
+  "issue_sites": {
+    "0": [
+      [
+        2,
+        2
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        8,
+        2
+      ],
+      [
+        10,
+        2
+      ],
+      [
+        12,
+        2
+      ],
+      [
+        14,
+        2
+      ],
+      [
+        16,
+        2
+      ]
+    ],
+    "1": [
+      [
+        38,
+        2
+      ],
+      [
+        40,
+        2
+      ],
+      [
+        42,
+        2
+      ],
+      [
+        44,
+        2
+      ],
+      [
+        46,
+        2
+      ],
+      [
+        48,
+        2
+      ],
+      [
+        50,
+        2
+      ],
+      [
+        52,
+        2
+      ]
+    ]
+  },
+  "source_request_order_identical": true,
+  "publication_after_mfma": 36,
+  "a_last_issue_after_mfma": 16,
+  "b_first_issue_after_mfma": 38,
+  "matrix_addresses_and_data_unchanged": true,
+  "not_a_full_gemm": false,
+  "performance_status": "pending original GPU2 availability"
+}

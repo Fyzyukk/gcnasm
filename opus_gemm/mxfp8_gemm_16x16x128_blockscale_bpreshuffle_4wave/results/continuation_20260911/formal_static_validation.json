@@ -1,0 +1,107 @@
+{
+  "isa_exact_match": true,
+  "kernels": [
+    {
+      "name": "_ZN16blockscale_panel28gemm_a8w8_mxfp8_scale_kernelI17WholeKScaleTraitsILb0EEEEv21opus_gemm_scale_kargs",
+      "cfg_states": 2520,
+      "static_mfma_checked": 384,
+      "max_pending_lgkm_events": 27,
+      "hazards": []
+    },
+    {
+      "name": "_ZN16blockscale_panel28gemm_a8w8_mxfp8_scale_kernelI17WholeKScaleTraitsILb1EEEEv21opus_gemm_scale_kargs",
+      "cfg_states": 2956,
+      "static_mfma_checked": 384,
+      "max_pending_lgkm_events": 27,
+      "hazards": []
+    },
+    {
+      "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+      "cfg_states": 1869,
+      "static_mfma_checked": 384,
+      "max_pending_lgkm_events": 27,
+      "hazards": []
+    },
+    {
+      "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+      "cfg_states": 2256,
+      "static_mfma_checked": 384,
+      "max_pending_lgkm_events": 27,
+      "hazards": []
+    }
+  ],
+  "resources": {
+    "sgpr_count": [
+      "92",
+      "92",
+      "70",
+      "70"
+    ],
+    "vgpr_count": [
+      "440",
+      "448",
+      "408",
+      "460"
+    ],
+    "agpr_count": [
+      "256",
+      "256",
+      "256",
+      "256"
+    ],
+    "group_segment_fixed_size": [
+      "152064",
+      "152064",
+      "139264",
+      "139264"
+    ],
+    "private_segment_fixed_size": [
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "sgpr_spill_count": [
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "vgpr_spill_count": [
+      "0",
+      "0",
+      "0",
+      "0"
+    ]
+  },
+  "files": {
+    "tmpl.hpp": {
+      "formal_sha256": "e32de77d91f66768b2caeeb6e83682b5bf14e7f576bef6303cd0df825e1de0f3",
+      "candidate_sha256": "e32de77d91f66768b2caeeb6e83682b5bf14e7f576bef6303cd0df825e1de0f3"
+    },
+    "traits.hpp": {
+      "formal_sha256": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+      "candidate_sha256": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117"
+    },
+    "tmpl_generic.hpp": {
+      "formal_sha256": "3681ebf7093140a3f1216b1c6faab22e6d726dbd15c4ec3167b931029f84f180",
+      "candidate_sha256": "3681ebf7093140a3f1216b1c6faab22e6d726dbd15c4ec3167b931029f84f180"
+    },
+    "build/gemm_a8w8_blockscale_bpreshuffle.exe": {
+      "formal_sha256": "0e300b8f0d8a81ec63fa233a99ccf26dbc376d78ec913cb0d692729b6107ba18",
+      "candidate_sha256": "0e300b8f0d8a81ec63fa233a99ccf26dbc376d78ec913cb0d692729b6107ba18"
+    },
+    "build/libblockscale_bpreshuffle.so": {
+      "formal_sha256": "924c2d85bc35437ad05ccfa02aa2b121f89533a1f79df029adaa2b683a7c4b04",
+      "candidate_sha256": "924c2d85bc35437ad05ccfa02aa2b121f89533a1f79df029adaa2b683a7c4b04"
+    },
+    "build/device.isa": {
+      "formal_sha256": "3f6c30aa59217217a19eba492378954e89ca7a57e5d324e317d9f77d65f35278",
+      "candidate_sha256": "3f6c30aa59217217a19eba492378954e89ca7a57e5d324e317d9f77d65f35278"
+    },
+    "build/device.notes": {
+      "formal_sha256": "2eb4e05ab8fa64f125bc867635fa1e9ddedb2ff0b1b3d963810fb4fa054e1010",
+      "candidate_sha256": "2eb4e05ab8fa64f125bc867635fa1e9ddedb2ff0b1b3d963810fb4fa054e1010"
+    }
+  }
+}

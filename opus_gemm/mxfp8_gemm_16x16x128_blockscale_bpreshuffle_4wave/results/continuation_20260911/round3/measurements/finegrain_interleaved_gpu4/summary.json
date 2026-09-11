@@ -1,0 +1,82 @@
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "gpu": 4,
+    "rounds": 3,
+    "median_ms": 0.368739052,
+    "min_ms": 0.368622017,
+    "max_ms": 0.380221291,
+    "median_pflops": 2.981814976776585
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "gpu": 4,
+    "rounds": 3,
+    "median_ms": 0.394671326,
+    "min_ms": 0.383171349,
+    "max_ms": 0.395155296,
+    "median_pflops": 2.7858918430167385
+  },
+  {
+    "name": "asym_single16",
+    "dtype": "bf16",
+    "gpu": 4,
+    "rounds": 3,
+    "median_ms": 0.388113403,
+    "min_ms": 0.387885628,
+    "max_ms": 0.388297997,
+    "median_pflops": 2.832964848101368
+  },
+  {
+    "name": "asym_single16",
+    "dtype": "fp32",
+    "gpu": 4,
+    "rounds": 3,
+    "median_ms": 0.406489449,
+    "min_ms": 0.406299324,
+    "max_ms": 0.407073746,
+    "median_pflops": 2.704895860103862
+  },
+  {
+    "name": "asym_pairs8",
+    "dtype": "bf16",
+    "gpu": 4,
+    "rounds": 3,
+    "median_ms": 0.37000267,
+    "min_ms": 0.369892578,
+    "max_ms": 0.380058365,
+    "median_pflops": 2.971631604107073
+  },
+  {
+    "name": "asym_pairs8",
+    "dtype": "fp32",
+    "gpu": 4,
+    "rounds": 3,
+    "median_ms": 0.390284996,
+    "min_ms": 0.390231323,
+    "max_ms": 0.390296097,
+    "median_pflops": 2.817201888478439
+  },
+  {
+    "name": "asym_a_pairs_b_single",
+    "dtype": "bf16",
+    "gpu": 4,
+    "rounds": 3,
+    "median_ms": 0.379539299,
+    "min_ms": 0.379081345,
+    "max_ms": 0.380522881,
+    "median_pflops": 2.896963847150911
+  },
+  {
+    "name": "asym_a_pairs_b_single",
+    "dtype": "fp32",
+    "gpu": 4,
+    "rounds": 3,
+    "median_ms": 0.398245811,
+    "min_ms": 0.398050957,
+    "max_ms": 0.398259773,
+    "median_pflops": 2.7608868628526517
+  }
+]

@@ -1,0 +1,11 @@
+--- a/tmpl.hpp
++++ b/tmpl.hpp
+@@ -59,7 +59,7 @@
+     auto* dst = smem_base + smem_offsets[Issue];
+     mem.template async_load<Vec>(
+         reinterpret_cast<void*>(reinterpret_cast<__UINTPTR_TYPE__>(dst)),
+-        gmem_offsets[Issue], s_os, opus::number<0>{}, opus::number<0>{});
++        gmem_offsets[Issue], s_os, opus::number<0>{}, opus::number<1>{});
+ }
+ 
+ // Assign one producer wave to four adjacent padded LDS rows.  The four

@@ -1,0 +1,28 @@
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "gpu": 7,
+    "rounds": 3,
+    "median_ms": 0.368868752,
+    "min_ms": 0.368416405,
+    "max_ms": 0.369729958,
+    "median_pflops": 2.980766524175515,
+    "valid_performance_comparison": false,
+    "pci": "0000:f5:00.0",
+    "hip_index": 4
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "gpu": 7,
+    "rounds": 3,
+    "median_ms": 0.380800209,
+    "min_ms": 0.380526886,
+    "max_ms": 0.380925751,
+    "median_pflops": 2.8873713873828257,
+    "valid_performance_comparison": false,
+    "pci": "0000:f5:00.0",
+    "hip_index": 4
+  }
+]

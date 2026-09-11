@@ -1,0 +1,170 @@
+{
+  "wait_consumer": {
+    "isa": "/tmp/mxfp8_fourwave_bpreshuffle_20260910/wait_consumer/build/device.isa",
+    "isa_sha256": "b26e41703b13f7fd025be6a6fe2a4638bf7eaebdeccdf58293b42a9b51c525f8",
+    "kernels": [
+      {
+        "name": "_Z28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEv21opus_gemm_scale_kargs",
+        "cfg_states": 1710,
+        "static_mfma_checked": 384,
+        "max_pending_lgkm_events": 21,
+        "hazards": [],
+        "standalone_vmcnt0": 7,
+        "publication_vmcnt0_lgkmcnt0": 5,
+        "immediate_pre_tr8_vmcnt0_lines": [
+          689,
+          858,
+          1028,
+          1197,
+          1407
+        ]
+      },
+      {
+        "name": "_Z28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEv21opus_gemm_scale_kargs",
+        "cfg_states": 2097,
+        "static_mfma_checked": 384,
+        "max_pending_lgkm_events": 21,
+        "hazards": [],
+        "standalone_vmcnt0": 7,
+        "publication_vmcnt0_lgkmcnt0": 5,
+        "immediate_pre_tr8_vmcnt0_lines": [
+          2351,
+          2520,
+          2690,
+          2859,
+          3069
+        ]
+      }
+    ]
+  },
+  "plain_sfa_lds": {
+    "isa": "/tmp/mxfp8_fourwave_bpreshuffle_20260910/plain_sfa_lds/build/device.isa",
+    "isa_sha256": "510a65af868baaa6bb43d4421742079107aaebf0567201fe9cc4019db1766ffb",
+    "kernels": [
+      {
+        "name": "_Z28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEv21opus_gemm_scale_kargs",
+        "cfg_states": 1869,
+        "static_mfma_checked": 384,
+        "max_pending_lgkm_events": 27,
+        "hazards": [],
+        "standalone_vmcnt0": 2,
+        "publication_vmcnt0_lgkmcnt0": 5,
+        "immediate_pre_tr8_vmcnt0_lines": []
+      },
+      {
+        "name": "_Z28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEv21opus_gemm_scale_kargs",
+        "cfg_states": 2256,
+        "static_mfma_checked": 384,
+        "max_pending_lgkm_events": 27,
+        "hazards": [],
+        "standalone_vmcnt0": 2,
+        "publication_vmcnt0_lgkmcnt0": 5,
+        "immediate_pre_tr8_vmcnt0_lines": []
+      }
+    ]
+  },
+  "tr8_no_vmem_drain": {
+    "isa": "/tmp/mxfp8_fourwave_bpreshuffle_20260910/tr8_no_vmem_drain/build/device.isa",
+    "isa_sha256": "435f6029fa764e9b21dc351eeafb41ace973f29481550158923f37e2b87da581",
+    "kernels": [
+      {
+        "name": "_Z28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEv21opus_gemm_scale_kargs",
+        "cfg_states": 1759,
+        "static_mfma_checked": 384,
+        "max_pending_lgkm_events": 25,
+        "hazards": [],
+        "standalone_vmcnt0": 2,
+        "publication_vmcnt0_lgkmcnt0": 5,
+        "immediate_pre_tr8_vmcnt0_lines": []
+      },
+      {
+        "name": "_Z28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEv21opus_gemm_scale_kargs",
+        "cfg_states": 2146,
+        "static_mfma_checked": 384,
+        "max_pending_lgkm_events": 25,
+        "hazards": [],
+        "standalone_vmcnt0": 2,
+        "publication_vmcnt0_lgkmcnt0": 5,
+        "immediate_pre_tr8_vmcnt0_lines": []
+      }
+    ]
+  },
+  "scale_panel_plain": {
+    "isa": "/tmp/mxfp8_fourwave_bpreshuffle_20260910/scale_panel_plain/build/device.isa",
+    "isa_sha256": "1ad9241426ed42dc9e28f2ca1ff67256fab22a6d8d95a256f206730e5e7791b0",
+    "kernels": [
+      {
+        "name": "_Z28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEv21opus_gemm_scale_kargs",
+        "cfg_states": 1776,
+        "static_mfma_checked": 384,
+        "max_pending_lgkm_events": 27,
+        "hazards": [],
+        "standalone_vmcnt0": 3,
+        "publication_vmcnt0_lgkmcnt0": 5,
+        "immediate_pre_tr8_vmcnt0_lines": []
+      },
+      {
+        "name": "_Z28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEv21opus_gemm_scale_kargs",
+        "cfg_states": 2166,
+        "static_mfma_checked": 384,
+        "max_pending_lgkm_events": 27,
+        "hazards": [],
+        "standalone_vmcnt0": 3,
+        "publication_vmcnt0_lgkmcnt0": 5,
+        "immediate_pre_tr8_vmcnt0_lines": []
+      }
+    ]
+  },
+  "scale_panel_roll_a0": {
+    "isa": "/tmp/mxfp8_fourwave_bpreshuffle_20260910/scale_panel_roll_a0/build/device.isa",
+    "isa_sha256": "1ed4a134e652f830673fb96ca30bd2a295da6dfcc0f5091206e863d2bb424c8d",
+    "kernels": [
+      {
+        "name": "_Z28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEv21opus_gemm_scale_kargs",
+        "cfg_states": 1766,
+        "static_mfma_checked": 384,
+        "max_pending_lgkm_events": 27,
+        "hazards": [],
+        "standalone_vmcnt0": 3,
+        "publication_vmcnt0_lgkmcnt0": 5,
+        "immediate_pre_tr8_vmcnt0_lines": []
+      },
+      {
+        "name": "_Z28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEv21opus_gemm_scale_kargs",
+        "cfg_states": 2156,
+        "static_mfma_checked": 384,
+        "max_pending_lgkm_events": 27,
+        "hazards": [],
+        "standalone_vmcnt0": 3,
+        "publication_vmcnt0_lgkmcnt0": 5,
+        "immediate_pre_tr8_vmcnt0_lines": []
+      }
+    ]
+  },
+  "scale_panel_direct_pack": {
+    "isa": "/tmp/mxfp8_fourwave_bpreshuffle_20260910/scale_panel_direct_pack/build/device.isa",
+    "isa_sha256": "04ff150c5b1ce65f7f2429a26cbfb64ecd91eb421747d32269846b65051b97eb",
+    "kernels": [
+      {
+        "name": "_Z28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEv21opus_gemm_scale_kargs",
+        "cfg_states": 2122,
+        "static_mfma_checked": 384,
+        "max_pending_lgkm_events": 27,
+        "hazards": [],
+        "standalone_vmcnt0": 3,
+        "publication_vmcnt0_lgkmcnt0": 5,
+        "immediate_pre_tr8_vmcnt0_lines": []
+      },
+      {
+        "name": "_Z28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEv21opus_gemm_scale_kargs",
+        "cfg_states": 2510,
+        "static_mfma_checked": 384,
+        "max_pending_lgkm_events": 27,
+        "hazards": [],
+        "standalone_vmcnt0": 3,
+        "publication_vmcnt0_lgkmcnt0": 5,
+        "immediate_pre_tr8_vmcnt0_lines": []
+      }
+    ]
+  }
+}

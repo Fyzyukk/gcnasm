@@ -1,0 +1,40 @@
+{
+  "name": "regroll_release4",
+  "parent": "sym_rows_vaddr",
+  "parent_sha256": "76dcf272459f63747dc6ed6ffccb5f250c8f8ca3b82e864b8fc95a54c8bb51c6",
+  "source_sha256": "8a69fd685b60b213ad6964371121157bc843e1f897e082a3ce899fd63c4f5fe1",
+  "release_after_mfma": 4,
+  "global_issue_sites": [
+    4,
+    6,
+    8,
+    10,
+    12,
+    14,
+    16,
+    18,
+    20,
+    22,
+    24,
+    26,
+    28,
+    30,
+    32,
+    34
+  ],
+  "a1_next_read_sites": [
+    52,
+    56,
+    60,
+    64
+  ],
+  "b1_next_read_sites": [
+    62,
+    64
+  ],
+  "lifecycle": "Current matrix halves are seeded in prologue and carried in VGPRs. Full LGKM/VMEM publication follows all previous reads. Refill the released old stage with t+2, then roll t+1 from the other published stage only after each current operand slice is dead.",
+  "same_matrix_lds_mapping": true,
+  "same_mfma_sequence": true,
+  "extra_final_tile_reads": "Conservative original epilogue reloads retained",
+  "not_a_full_gemm": false
+}

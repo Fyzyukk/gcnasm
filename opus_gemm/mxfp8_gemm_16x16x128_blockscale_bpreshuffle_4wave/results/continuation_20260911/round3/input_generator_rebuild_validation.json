@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "records": [
+    {
+      "generator": "make_fp8",
+      "elements": 67108864,
+      "seed": 1,
+      "sha256": "2c01df1be9a78a4841a480de1bacc6c9a9f606d292be54c5cb1759fe905eb386",
+      "identical": true
+    },
+    {
+      "generator": "make_fp8",
+      "elements": 67108864,
+      "seed": 3549216002486605714,
+      "sha256": "bcc75ee5e5cac5c9f9e45f576dbb8ab6eff54f9994d3d576a592fccef6090c34",
+      "identical": true
+    },
+    {
+      "generator": "make_scale",
+      "elements": 524288,
+      "seed": 2817045651140218948,
+      "sha256": "2af3c6bb94e3cc386009ac07085c80a66c41932abbfa2e7274ede29b21abaf84",
+      "identical": true
+    },
+    {
+      "generator": "make_scale",
+      "elements": 4096,
+      "seed": 7640891576956012808,
+      "sha256": "96bea45dac268ba4e684a5ac772fa82e46278bffaf48be778762f256d79d369a",
+      "identical": true
+    }
+  ]
+}

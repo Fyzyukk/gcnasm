@@ -1,0 +1,50 @@
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.372633438,
+    "min_ms": 0.37249588,
+    "max_ms": 0.373015022,
+    "median_pflops": 2.950652076950754
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.382400703,
+    "min_ms": 0.38237545,
+    "max_ms": 0.382722359,
+    "median_pflops": 2.87528662774451
+  },
+  {
+    "name": "ab_store8",
+    "dtype": "bf16",
+    "median_ms": 0.360299568,
+    "min_ms": 0.360235519,
+    "max_ms": 0.360405846,
+    "median_pflops": 3.0516595783872824
+  },
+  {
+    "name": "ab_store8",
+    "dtype": "fp32",
+    "median_ms": 0.376721916,
+    "min_ms": 0.376545029,
+    "max_ms": 0.376776199,
+    "median_pflops": 2.9186293153595027
+  },
+  {
+    "name": "ab_store8_a0_mrepeat",
+    "dtype": "bf16",
+    "median_ms": 0.365320587,
+    "min_ms": 0.356733131,
+    "max_ms": 0.367876968,
+    "median_pflops": 3.0097171276471206
+  },
+  {
+    "name": "ab_store8_a0_mrepeat",
+    "dtype": "fp32",
+    "median_ms": 0.372593002,
+    "min_ms": 0.372520714,
+    "max_ms": 0.373219833,
+    "median_pflops": 2.950972299195249
+  }
+]

@@ -1,0 +1,258 @@
+{
+  "pci": "0000:95:00.0",
+  "hip_visible_devices": "7",
+  "shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "batch": 1,
+  "performance_measured": false,
+  "versions": {
+    "baseline": {
+      "tmpl.hpp": "97fc15711b5aaad38a91ea7387b42bdf1f0cd11f761f071a83bdb84c111d8ab2",
+      "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+      "build/libblockscale_bpreshuffle.so": "94ae6ebbe783a158254f2417e2c80f80c21136d471466ff3787a35e384905d91"
+    },
+    "sym_rows": {
+      "tmpl.hpp": "e7b453bd94d2c374fac208940007f136f234f0003b20742b842334301e2325d2",
+      "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+      "build/libblockscale_bpreshuffle.so": "36e9142b0048e5cfaa6366fa00033ed672631195c0efcf5b07ea677d11dc00e1"
+    },
+    "sym_rows_vaddr": {
+      "tmpl.hpp": "76dcf272459f63747dc6ed6ffccb5f250c8f8ca3b82e864b8fc95a54c8bb51c6",
+      "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+      "build/libblockscale_bpreshuffle.so": "68d9565ced1d4841c097eb396f107193f4cc81a31dcd28bcf6164f1da3aa0c2a"
+    },
+    "sym_rel24_vaddr": {
+      "tmpl.hpp": "2a80a9cf778a5df8b2cc275acbc69b976c716c1d7175d832afaebf2942fddeb3",
+      "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+      "build/libblockscale_bpreshuffle.so": "6cd2a6be1c2b5dc7008e2785d25802977a80de24f951e634dbed478355ab45e3"
+    },
+    "sym_release24_spread": {
+      "tmpl.hpp": "d85ba772a5c74461099678fca93481de3e522953c12bd00396560b1e15574bbc",
+      "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+      "build/libblockscale_bpreshuffle.so": "f52745f50559a4d154a455727fc620459348d2c9d3eda1e78895015bcf23ef31"
+    },
+    "stride_ab_const": {
+      "tmpl.hpp": "2e166a3ed7bf27d3400a8b267cdab09dd88779857d942365fa84667393b47491",
+      "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+      "build/libblockscale_bpreshuffle.so": "c6417cdcb5a819d22c0a4807487781263c099f8b3096b196a293e45c4cdbdcb2"
+    },
+    "stride_contract": {
+      "tmpl.hpp": "78587a6b5618ec87f201d7ae4594de9afc0325b6dfb22d0990fe61977bfa872d",
+      "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+      "build/libblockscale_bpreshuffle.so": "73fe4481c078bb440a253233e27032e3ec509319333dd49a3a226c4a0980cc60"
+    }
+  },
+  "records": [
+    {
+      "name": "baseline",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "baseline",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "sym_rows",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "sym_rows",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "sym_rows_vaddr",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "sym_rows_vaddr",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "sym_rel24_vaddr",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "sym_rel24_vaddr",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "sym_release24_spread",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "sym_release24_spread",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "stride_ab_const",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "stride_ab_const",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "stride_contract",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "stride_contract",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "sym_rows",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "sym_rows",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "sym_rows_vaddr",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "sym_rows_vaddr",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "sym_rel24_vaddr",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "sym_rel24_vaddr",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "sym_release24_spread",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "sym_release24_spread",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "stride_ab_const",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "stride_ab_const",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "stride_contract",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "stride_contract",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    }
+  ]
+}

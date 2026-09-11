@@ -1,0 +1,28 @@
+{
+  "branch": "mxfp8-final-pipeline-source-20260910",
+  "selected_fast_path": "scale_panel_direct_roll_a0",
+  "selected_generic_path": "plain_sfa_lds",
+  "source_and_docs_sha256": {
+    "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+    "test_blockscale_bpreshuffle.py": "2d89d8919dbfb73ee208e56c7c83f3383992d584312fc10acc6475760274a229",
+    "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+    "kernel_dispatch.hpp": "faab6c222596c2f0604b66c9337df6b82534f18f63690b01dfca14d5d106a6b7",
+    "OPTIMIZATION_LOG.md": "f059250ea26ad5a8dd13b15f10f0e8bfa953b0e7866548cb74a3c6d525d87e99",
+    ".gitignore": "fae6b0f70677b8b09cb270a74e6d11f6812622abbcd11d58deecd20788deb7a3",
+    "tmpl_generic.hpp": "3681ebf7093140a3f1216b1c6faab22e6d726dbd15c4ec3167b931029f84f180",
+    "Makefile": "f8530f55fdccc016060b2ac6e159f04a186cc8b2063d0531919568e5e1b975bf",
+    "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+    "gemm_a8w8_mxfp8_scale_host.cc": "da5a1c7416a883144c21e82ffc53e0bd2cdd720395788fe87b757cac7ef27216",
+    "README.md": "f232c3a0ff3ceab4423d47f9dd0393abb9bba2a58182d255c492f673915d103b",
+    "tmpl.hpp": "81f66e04172ef8969b2c31435576db3545b4f45095dc97b3b0935172abdf3cfd",
+    "gemm_a8w8_mxfp8_scale_kernel.cc": "93e9706abb4ae2e5569b098cf4bbd093771b4eee5a28cf5f43d136af1fc38628",
+    "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "67f918214451d8b4a90319ea570f83e13f520913baa596f6f2e0ec33580158e7"
+  },
+  "artifacts_sha256": {
+    "libblockscale_bpreshuffle.so": "b267b7bc1bd1d8cb4525fb3fe3920e31100c41580aec26b129678d643f03131d",
+    "device.isa": "f2b61e2baa939862cec149d07510ff06bb7b1985a9ef326d680f34419a655d85",
+    "gemm_a8w8_blockscale_bpreshuffle.exe": "c95712190e76124a079f5b348ae95a7c5ff4bb2e1ed15f8cd200ab8c90179240",
+    "device.notes": "fb749031c89560c3396c90d7a17708362feab64172b86372d55a749d4adccd7e",
+    "device.co": "1f26ce40a9cac0b115d764db29b54abf89887c0d1c491385805741c10cd7fd51"
+  }
+}

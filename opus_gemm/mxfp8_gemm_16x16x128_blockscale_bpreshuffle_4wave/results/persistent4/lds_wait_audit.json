@@ -1,0 +1,19 @@
+{
+  "isa": "/tmp/mxfp8_fourwave_bpreshuffle_20260910/scale_panel_persistent4/build/device.isa",
+  "kernels": [
+    {
+      "name": "_Z28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEv21opus_gemm_scale_kargs",
+      "cfg_states": 2080,
+      "static_mfma_checked": 384,
+      "max_pending_lgkm_events": 27,
+      "hazards": []
+    },
+    {
+      "name": "_Z28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEv21opus_gemm_scale_kargs",
+      "cfg_states": 2468,
+      "static_mfma_checked": 384,
+      "max_pending_lgkm_events": 27,
+      "hazards": []
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "valid_performance_comparison": false,
+  "reason": "Adjacent identical-baseline timings drifted by up to 284% during concurrent Python telemetry sampling. This run cannot support kernel speedup claims.",
+  "observation": "Outliers around 1.45 ms versus normal 0.38 ms, with no correctness failure.",
+  "followup": "Disable live telemetry; use native C++ repeat loop and adjacent baseline comparisons."
+}

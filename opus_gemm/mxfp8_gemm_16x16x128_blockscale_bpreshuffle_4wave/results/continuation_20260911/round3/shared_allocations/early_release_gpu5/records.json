@@ -1,0 +1,242 @@
+[
+  {
+    "round": 1,
+    "name": "baseline",
+    "dtype": "bf16",
+    "ms": 0.38385940551757813,
+    "pflops": 2.8643602630850475,
+    "timestamp_utc": "2026-09-11T07:23:50.898525+00:00"
+  },
+  {
+    "round": 1,
+    "name": "baseline",
+    "dtype": "fp32",
+    "ms": 0.3819186401367187,
+    "pflops": 2.878915853340906,
+    "timestamp_utc": "2026-09-11T07:23:51.013364+00:00"
+  },
+  {
+    "round": 1,
+    "name": "symmetric_single16",
+    "dtype": "bf16",
+    "ms": 0.3804854965209961,
+    "pflops": 2.889759630339356,
+    "timestamp_utc": "2026-09-11T07:23:51.125747+00:00"
+  },
+  {
+    "round": 1,
+    "name": "symmetric_single16",
+    "dtype": "fp32",
+    "ms": 0.37997440338134764,
+    "pflops": 2.893646566693901,
+    "timestamp_utc": "2026-09-11T07:23:51.239266+00:00"
+  },
+  {
+    "round": 1,
+    "name": "sym_release24_spread",
+    "dtype": "bf16",
+    "ms": 0.3822703552246094,
+    "pflops": 2.8762670522279015,
+    "timestamp_utc": "2026-09-11T07:23:51.354266+00:00"
+  },
+  {
+    "round": 1,
+    "name": "sym_release24_spread",
+    "dtype": "fp32",
+    "ms": 0.38472599029541016,
+    "pflops": 2.8579083698809766,
+    "timestamp_utc": "2026-09-11T07:23:51.469712+00:00"
+  },
+  {
+    "round": 1,
+    "name": "sym_release24_dense",
+    "dtype": "bf16",
+    "ms": 0.38750003814697265,
+    "pflops": 2.8374490826733094,
+    "timestamp_utc": "2026-09-11T07:23:51.585968+00:00"
+  },
+  {
+    "round": 1,
+    "name": "sym_release24_dense",
+    "dtype": "fp32",
+    "ms": 0.3868952560424805,
+    "pflops": 2.841884490967435,
+    "timestamp_utc": "2026-09-11T07:23:51.702033+00:00"
+  },
+  {
+    "round": 1,
+    "name": "sym_release28_dense",
+    "dtype": "bf16",
+    "ms": 0.3865472412109375,
+    "pflops": 2.844443086261739,
+    "timestamp_utc": "2026-09-11T07:23:51.818253+00:00"
+  },
+  {
+    "round": 1,
+    "name": "sym_release28_dense",
+    "dtype": "fp32",
+    "ms": 0.3870664978027344,
+    "pflops": 2.8406272152656262,
+    "timestamp_utc": "2026-09-11T07:23:51.934408+00:00"
+  },
+  {
+    "round": 2,
+    "name": "sym_release28_dense",
+    "dtype": "bf16",
+    "ms": 0.3870828628540039,
+    "pflops": 2.8405071195071296,
+    "timestamp_utc": "2026-09-11T07:23:52.050753+00:00"
+  },
+  {
+    "round": 2,
+    "name": "sym_release28_dense",
+    "dtype": "fp32",
+    "ms": 0.3879053497314453,
+    "pflops": 2.8344843105082567,
+    "timestamp_utc": "2026-09-11T07:23:52.167018+00:00"
+  },
+  {
+    "round": 2,
+    "name": "sym_release24_dense",
+    "dtype": "bf16",
+    "ms": 0.38561927795410156,
+    "pflops": 2.8512880206857023,
+    "timestamp_utc": "2026-09-11T07:23:52.283260+00:00"
+  },
+  {
+    "round": 2,
+    "name": "sym_release24_dense",
+    "dtype": "fp32",
+    "ms": 0.38763774871826173,
+    "pflops": 2.8364410623360987,
+    "timestamp_utc": "2026-09-11T07:23:52.399380+00:00"
+  },
+  {
+    "round": 2,
+    "name": "sym_release24_spread",
+    "dtype": "bf16",
+    "ms": 0.38490886688232423,
+    "pflops": 2.856550530211991,
+    "timestamp_utc": "2026-09-11T07:23:52.514898+00:00"
+  },
+  {
+    "round": 2,
+    "name": "sym_release24_spread",
+    "dtype": "fp32",
+    "ms": 0.3853872680664063,
+    "pflops": 2.8530045460311957,
+    "timestamp_utc": "2026-09-11T07:23:52.630417+00:00"
+  },
+  {
+    "round": 2,
+    "name": "symmetric_single16",
+    "dtype": "bf16",
+    "ms": 0.38822494506835936,
+    "pflops": 2.832150900510517,
+    "timestamp_utc": "2026-09-11T07:23:52.746967+00:00"
+  },
+  {
+    "round": 2,
+    "name": "symmetric_single16",
+    "dtype": "fp32",
+    "ms": 0.38803577423095703,
+    "pflops": 2.833531598871541,
+    "timestamp_utc": "2026-09-11T07:23:52.863403+00:00"
+  },
+  {
+    "round": 2,
+    "name": "baseline",
+    "dtype": "bf16",
+    "ms": 0.3899517440795898,
+    "pflops": 2.8196094631431823,
+    "timestamp_utc": "2026-09-11T07:23:52.979804+00:00"
+  },
+  {
+    "round": 2,
+    "name": "baseline",
+    "dtype": "fp32",
+    "ms": 0.4039794540405273,
+    "pflops": 2.7217018508711006,
+    "timestamp_utc": "2026-09-11T07:23:53.101302+00:00"
+  },
+  {
+    "round": 3,
+    "name": "baseline",
+    "dtype": "bf16",
+    "ms": 0.3870305252075195,
+    "pflops": 2.8408912376781124,
+    "timestamp_utc": "2026-09-11T07:23:53.217315+00:00"
+  },
+  {
+    "round": 3,
+    "name": "baseline",
+    "dtype": "fp32",
+    "ms": 0.40522228240966796,
+    "pflops": 2.713354313187609,
+    "timestamp_utc": "2026-09-11T07:23:53.338665+00:00"
+  },
+  {
+    "round": 3,
+    "name": "symmetric_single16",
+    "dtype": "bf16",
+    "ms": 0.3879161071777344,
+    "pflops": 2.8344057063663732,
+    "timestamp_utc": "2026-09-11T07:23:53.454739+00:00"
+  },
+  {
+    "round": 3,
+    "name": "symmetric_single16",
+    "dtype": "fp32",
+    "ms": 0.38930454254150393,
+    "pflops": 2.8242969388387773,
+    "timestamp_utc": "2026-09-11T07:23:53.571272+00:00"
+  },
+  {
+    "round": 3,
+    "name": "sym_release24_spread",
+    "dtype": "bf16",
+    "ms": 0.38444488525390624,
+    "pflops": 2.859998064611599,
+    "timestamp_utc": "2026-09-11T07:23:53.686921+00:00"
+  },
+  {
+    "round": 3,
+    "name": "sym_release24_spread",
+    "dtype": "fp32",
+    "ms": 0.3874125289916992,
+    "pflops": 2.8380900086986043,
+    "timestamp_utc": "2026-09-11T07:23:53.802846+00:00"
+  },
+  {
+    "round": 3,
+    "name": "sym_release24_dense",
+    "dtype": "bf16",
+    "ms": 0.38857574462890626,
+    "pflops": 2.829594082940109,
+    "timestamp_utc": "2026-09-11T07:23:53.919601+00:00"
+  },
+  {
+    "round": 3,
+    "name": "sym_release24_dense",
+    "dtype": "fp32",
+    "ms": 0.38699337005615236,
+    "pflops": 2.841163991043211,
+    "timestamp_utc": "2026-09-11T07:23:54.036035+00:00"
+  },
+  {
+    "round": 3,
+    "name": "sym_release28_dense",
+    "dtype": "bf16",
+    "ms": 0.38749534606933594,
+    "pflops": 2.837483440586304,
+    "timestamp_utc": "2026-09-11T07:23:54.152518+00:00"
+  },
+  {
+    "round": 3,
+    "name": "sym_release28_dense",
+    "dtype": "fp32",
+    "ms": 0.3880681610107422,
+    "pflops": 2.833295122465778,
+    "timestamp_utc": "2026-09-11T07:23:54.269028+00:00"
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.358653145,
+    "min_ms": 0.358329849,
+    "max_ms": 0.365622444,
+    "median_pflops": 3.065668440676855
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.371911011,
+    "min_ms": 0.371654015,
+    "max_ms": 0.382039108,
+    "median_pflops": 2.9563836381709065
+  },
+  {
+    "name": "selected_register_roll",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.357576294,
+    "min_ms": 0.353999939,
+    "max_ms": 0.361294289,
+    "median_pflops": 3.0749007868401925
+  },
+  {
+    "name": "selected_register_roll",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.369553413,
+    "min_ms": 0.369544411,
+    "max_ms": 0.370748367,
+    "median_pflops": 2.9752441436009684
+  }
+]

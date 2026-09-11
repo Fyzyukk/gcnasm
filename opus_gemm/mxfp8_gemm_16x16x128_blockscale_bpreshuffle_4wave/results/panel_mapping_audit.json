@@ -1,0 +1,13 @@
+{
+  "status": "pass",
+  "symbolic_quad_transpose": "pass",
+  "unique_global_scale_bytes": 16384,
+  "global_reads_per_byte": 1,
+  "unique_panel_dwords": 4096,
+  "panel_bytes": 16384,
+  "panel_writes_per_byte": 1,
+  "checked_a_consumer_words": 32768,
+  "b_panel_dwords": 128,
+  "b_prologue_and_main_loop_unchanged": true,
+  "gpu_executed": false
+}

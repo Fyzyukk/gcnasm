@@ -1,0 +1,79 @@
+{
+  "selected": "regroll_release8",
+  "source_sha256": "1b1c87b28c1ae645cd8986e00aae0f870f089044c8a8eac4d761e396deafe53a",
+  "baseline": "pair_b_early_a_merge",
+  "baseline_source_sha256": "97fc15711b5aaad38a91ea7387b42bdf1f0cd11f761f071a83bdb84c111d8ab2",
+  "target_pflops": 3.5,
+  "target_achieved": false,
+  "canonical_measurement": "measurements/formal_cli_gpu2",
+  "shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "batch": 1,
+  "warmup": 200,
+  "iterations": 100,
+  "seed": 1,
+  "physical_gpu": 2,
+  "pci": "0000:65:00.0",
+  "hip_index": 2,
+  "rounds": 5,
+  "idle_vram_reservation_percent": 18,
+  "gpu_preflight_activity_percent": [
+    0,
+    0,
+    0
+  ],
+  "results": [
+    {
+      "name": "baseline",
+      "dtype": "bf16",
+      "gpu": 2,
+      "rounds": 5,
+      "median_ms": 0.358653145,
+      "min_ms": 0.358329849,
+      "max_ms": 0.365622444,
+      "median_pflops": 3.065668440676855
+    },
+    {
+      "name": "baseline",
+      "dtype": "fp32",
+      "gpu": 2,
+      "rounds": 5,
+      "median_ms": 0.371911011,
+      "min_ms": 0.371654015,
+      "max_ms": 0.382039108,
+      "median_pflops": 2.9563836381709065
+    },
+    {
+      "name": "selected_register_roll",
+      "dtype": "bf16",
+      "gpu": 2,
+      "rounds": 5,
+      "median_ms": 0.357576294,
+      "min_ms": 0.353999939,
+      "max_ms": 0.361294289,
+      "median_pflops": 3.0749007868401925
+    },
+    {
+      "name": "selected_register_roll",
+      "dtype": "fp32",
+      "gpu": 2,
+      "rounds": 5,
+      "median_ms": 0.369553413,
+      "min_ms": 0.369544411,
+      "max_ms": 0.370748367,
+      "median_pflops": 2.9752441436009684
+    }
+  ],
+  "validation": {
+    "full_outputs": "full_validation/final_register_roll_gpu5/results.json",
+    "integration": "formal_integration.log",
+    "batch": "formal_batch_validation/results.json",
+    "static": "selected/resumed_static_audit.json",
+    "formal_binary_equivalence": "formal_build_equivalence.json"
+  },
+  "bf16_speedup_percent": 0.3011527939824843,
+  "fp32_speedup_percent": 0.6379586595781195
+}

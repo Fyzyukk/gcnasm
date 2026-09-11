@@ -1,0 +1,81 @@
+--- a/tmpl.hpp
++++ b/tmpl.hpp
+@@ -451,6 +451,9 @@
+ #undef MXFP8_PIN_C
+ 
+     D_SF_PACK v_sfa[2];
++    // One future odd-K word per half. Each refill reads the same half's
++    // even/odd K pair; it never pairs the two M halves of one K tile.
++    D_SF_PACK v_sfa_odd[2];
+     D_SF_PACK v_sfb[T::SCALE_N_HALVES];
+     opus::vector_t<D_SF_PACK, 2> v_sfb_next;
+     D_SF_PACK v_sfa1_next;
+@@ -504,6 +507,15 @@
+         return __builtin_bit_cast(D_SF_PACK, load<4>(s_sfa, addr));
+     };
+ 
++    auto load_sfa_kpair = [&](int even_k_tile, int half_tile_m) {
++        // The packed panel is unchanged. Corresponding dwords in adjacent
++        // K panels are 256 bytes apart, eligible for one ds_read2_b32.
++        // Ordinary LDS loads keep both results visible to LLVM's wait pass.
++        const D_SF_PACK even = load_sfa_dword(even_k_tile, half_tile_m);
++        const D_SF_PACK odd = load_sfa_dword(even_k_tile + 1, half_tile_m);
++        return opus::vector_t<D_SF_PACK, 2>{even, odd};
++    };
++
+     auto load_sfb_dword = [&](int k_tile, int half_tile_n) {
+         // The prologue already duplicated the compact byte across the
+         // dword. Every lane reads the same address, preserving op_sel.
+@@ -550,8 +562,12 @@
+     // Seed the register rolling used by CX1.  B-half0, SFB0, and both SFA
+     // dwords for the first K tile are loaded once here.  SFA0 is later reused
+     // in place, while SFA1 is carried in a dedicated next-tile VGPR.
+-    v_sfa[0] = load_sfa_dword(0, 0);
+-    v_sfa[1] = load_sfa_dword(0, 1);
++    const auto sfa0_seed = load_sfa_kpair(0, 0);
++    const auto sfa1_seed = load_sfa_kpair(0, 1);
++    v_sfa[0] = sfa0_seed[0];
++    v_sfa_odd[0] = sfa0_seed[1];
++    v_sfa[1] = sfa1_seed[0];
++    v_sfa_odd[1] = sfa1_seed[1];
+     v_sfb[0] = load_sfb_dword(0, 0);
+     v_sfb[1] = load_sfb_dword(0, 1);
+     v_b = load<T::VEC_B>(s_b, u_rb + sb_offset(stage, 0));
+@@ -563,6 +579,7 @@
+     for (tile = 0; tile + 1 < loops; ++tile) {
+         const int next_stage = stage ^ 1;
+         const int future_tile = (tile + 2) & 63;
++        const bool refill_sfa = (tile & 1) != 0;
+ 
+         // Both B scale halves were prefetched during the preceding K tile.
+         __builtin_amdgcn_sched_barrier(0);
+@@ -838,7 +855,13 @@
+ 
+         // Start panel SFA1 for tile t+1 in a dedicated VGPR; the remaining
+         // ten c01 plus sixteen c11 MFMAs cover this immutable panel read.
+-        v_sfa1_next = load_sfa_dword(tile + 1, 1);
++        if (refill_sfa) {
++            const auto pair = load_sfa_kpair(tile + 1, 1);
++            v_sfa1_next = pair[0];
++            v_sfa_odd[1] = pair[1];
++        } else {
++            v_sfa1_next = v_sfa_odd[1];
++        }
+ 
+         // The current tile no longer consumes B-half0 or SFB0. Read both
+         // next scale halves in one LDS b64; retain current SFB1 through c11.
+@@ -888,7 +911,13 @@
+         // MFMAs.  The true register anti-dependency prevents the read from
+         // moving above the last current-tile SFA0 consumer.
+         __builtin_amdgcn_sched_barrier(0);
+-        v_sfa[0] = load_sfa_dword(tile + 1, 0);
++        if (refill_sfa) {
++            const auto pair = load_sfa_kpair(tile + 1, 0);
++            v_sfa[0] = pair[0];
++            v_sfa_odd[0] = pair[1];
++        } else {
++            v_sfa[0] = v_sfa_odd[0];
++        }
+         // M3 is dead after c01_15. The earlier three slices already hold
+         // tile t+1, so these last two K64 pieces complete the A0 roll.
+         if constexpr (T::OUTPUT_BF16) {

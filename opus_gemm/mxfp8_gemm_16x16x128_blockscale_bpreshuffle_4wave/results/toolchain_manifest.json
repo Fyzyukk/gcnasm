@@ -1,0 +1,114 @@
+{
+  "created_utc": "2026-09-10T11:13:20.443054+00:00",
+  "source": "/root/toolchains/rocm-llvm23-46fcb339-pin-src",
+  "build": "/root/toolchains/rocm-llvm23-46fcb339-build",
+  "base_commit": "46fcb339fb61119b337f973c7ca9e710a319fdd0",
+  "source_isolation": "Independent working-tree files and build directory; git object alternates borrow the original object database read-only.",
+  "patches_in_application_order": [
+    {
+      "path": "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_scale/4_wave_no_host_scale/tools/compiler/clang23_amdgpu_hard_pin.patch",
+      "sha256": "e734ce3ed97439d8456eb521fe53b66076c5aec733b8e6aa1ef5a75e7ddb4080"
+    },
+    {
+      "path": "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_scale/4_wave_no_host_scale/tools/compiler/clang23_amdgpu_agpr_accumulator_pin.patch",
+      "sha256": "88dd00c238575db8920034ef770168410823828d61bdf1f9d0cc19a1fc931623"
+    }
+  ],
+  "patched_source_files_sha256": {
+    "clang/include/clang/Basic/Attr.td": "add73be67b390c86f870143253dcc9fe137847ea54f7084bc33c068bde68ec5c",
+    "clang/include/clang/Basic/AttrDocs.td": "bc31a05cba3cf3fe54b92e91f7878edb89a00cf870d779addc25593ebdd9eb78",
+    "clang/include/clang/Sema/SemaAMDGPU.h": "28726430e6339398af950efd3b16daecbc5fda6234316212364860d4badb64c6",
+    "clang/lib/CodeGen/CGDecl.cpp": "027f74a1a557abf801e87c6777e0679b779bfc9e902e0bdca1641aff57660b65",
+    "clang/lib/CodeGen/CGExpr.cpp": "6d9c8b4d906d411ff2992dbaaa84cecd813d4e1c6b6aa94e0a69922a8b766305",
+    "clang/lib/CodeGen/CodeGenFunction.h": "5612b0116667bb483cb672c20b874da46bb72ad2c75c30117f3430505027e918",
+    "clang/lib/Sema/SemaAMDGPU.cpp": "32539daea73cd40fa5fdad7915cbe620535436021b5247b156b1cb3031a026cb",
+    "clang/lib/Sema/SemaDeclAttr.cpp": "6aeb38662191e81770551fdd7ebf300227061300848389f2e5b11d8a996ed599",
+    "clang/lib/Sema/SemaTemplateInstantiateDecl.cpp": "d9e07d2b7a5f422439f4f43923d67d7c99b9e3104c797804815d9793ae0c678f",
+    "clang/test/CodeGenHIP/amdgpu-pin-attr.hip": "f002d492d1c8ae4b0f0f592207831ce6ca41c38c440fedbeb0d10d24e50f3ae3",
+    "clang/test/SemaHIP/amdgpu-pin-attr.hip": "2c41d3faa0e8266f3c33f27f6ce2544de813c9ffe7b4fc940f7e28bbd1c96706",
+    "llvm/include/llvm/IR/IntrinsicsAMDGPU.td": "2ccd01f24386c780e56c2f0c72f2b0cf7ce4081aa611e4346b687c82cd7ac3b0",
+    "llvm/lib/Target/AMDGPU/AMDGPU.h": "e4131c4a776cbf2608d5b874d769253f9227020f27aa6c4ca29fd8c7b787eaea",
+    "llvm/lib/Target/AMDGPU/AMDGPUAttributor.cpp": "c2c0e94299c2bd640646474a7312332c91cbbb86b08d51e78ea8c8f68ccb7cbb",
+    "llvm/lib/Target/AMDGPU/AMDGPUTargetMachine.cpp": "5eddeb9fd8336f96d583f08392a7e512eca86e18b19694b0e5fee7d4d53bf161",
+    "llvm/lib/Target/AMDGPU/CMakeLists.txt": "3cc5bdbc5616817e8e642c7b3430350bbfa85aad1f3fe4c738f9c0d34cef2076",
+    "llvm/lib/Target/AMDGPU/SIFoldOperands.cpp": "0db443c4d82ca7a666bec6d4f81c616753bb74ee2ea92d711fad05e938413f77",
+    "llvm/lib/Target/AMDGPU/SIInstrInfo.h": "c2c69d2176f9f4a3f98cc8fb931cf7ad66299fe2333e994dd221e0725436eb90",
+    "llvm/lib/Target/AMDGPU/SIInstrInfo.td": "9495faba9b1c8158e9e72296d24b4a5734e49b3e1feb7ee751a956c7626aaef9",
+    "llvm/lib/Target/AMDGPU/SIInstructions.td": "d0216b58b05f362c6afd944b8aebdc1f98cc2ef2344f60b2cc1dc11139943f15",
+    "llvm/lib/Target/AMDGPU/SIMachineFunctionInfo.h": "8045c948abe145392fdc4a9bc4108e758904104b86f46d3505f78012a8991426",
+    "llvm/lib/Target/AMDGPU/SIPreColorPins.cpp": "e21c2ce981fb2831b7bab0594be1d1af8e7c585643cf55fb0e3d968728753bef",
+    "llvm/lib/Target/AMDGPU/SIRegisterInfo.cpp": "fab8831bda2cf45d231d150ea8655cf0a96cac91e30307c224d1b4cf2f17501e",
+    "llvm/lib/Target/AMDGPU/SIRegisterInfo.h": "e050068cd7385f212fc6c6f033e87ef9bf333be48605913aecb76c8571fa515f",
+    "llvm/lib/Target/AMDGPU/VOP3PInstructions.td": "699aa16b2e1eab550b2a4fc80cad3f346cbf06e4606877f57dcde52e40458e78"
+  },
+  "configuration": "Release, clang;lld, AMDGPU;X86, assertions OFF, default linker lld, tests/benchmarks/examples OFF, 8 parallel link jobs",
+  "compile_jobs": 128,
+  "cmake_cache_sha256": "a8cbab91df8449f592044068a92e38e245f63cd6b7693ac23390237378c72cb0",
+  "bootstrap_tablegen": {
+    "llvm-tblgen": {
+      "path": "/root/toolchains/rocm-llvm23-bootstrap/bin/llvm-tblgen",
+      "sha256": "1cbfe43809a2092324a344a25e6af2ae809bb699f0108583ac253d1a647ac666",
+      "source": "Read-only copy of same-commit stock build generator"
+    },
+    "clang-tblgen": {
+      "path": "/root/toolchains/rocm-llvm23-bootstrap/bin/clang-tblgen",
+      "sha256": "b4132535193e50c7fe3fa13c5c5f250d3513c90c245ac9aca9fec72bc50a4d1c",
+      "source": "Read-only copy of same-commit stock build generator"
+    }
+  },
+  "required_tools": {
+    "clang++": {
+      "path": "/root/toolchains/rocm-llvm23-46fcb339-build/bin/clang++",
+      "sha256": "e72772f3bf165c991e405516c7c39e655e8887b37a02496c3b7a34b8fe11c802"
+    },
+    "llc": {
+      "path": "/root/toolchains/rocm-llvm23-46fcb339-build/bin/llc",
+      "sha256": "74d14016e5f1b866449862c0ecd92bf75c07bb2fa77e6e02807426b07e8b85c7"
+    },
+    "llvm-objcopy": {
+      "path": "/root/toolchains/rocm-llvm23-46fcb339-build/bin/llvm-objcopy",
+      "sha256": "9dbb01e2b27de5dbb2c9c6259ab6ed839374514d0b00a2bb5fb451d925f4df40"
+    },
+    "llvm-objdump": {
+      "path": "/root/toolchains/rocm-llvm23-46fcb339-build/bin/llvm-objdump",
+      "sha256": "1a5224c013c789b3abb34077de140e9d6378b91e921297df5fe3ce6f6388a967"
+    },
+    "llvm-readelf": {
+      "path": "/root/toolchains/rocm-llvm23-46fcb339-build/bin/llvm-readelf",
+      "sha256": "53c02db412a410fe578cf164656b0d8668d1196954530c80c93d9ca984201259"
+    },
+    "clang-offload-bundler": {
+      "path": "/root/toolchains/rocm-llvm23-46fcb339-build/bin/clang-offload-bundler",
+      "sha256": "0b900e38de5b01812ebadc0b0068f6177b2d88edf03e7f80101121815cf8937e"
+    },
+    "ld.lld": {
+      "path": "/root/toolchains/rocm-llvm23-46fcb339-build/bin/ld.lld",
+      "sha256": "50f10f5a038046fc243de2c62bc29039f5c9fa8c491cedaddb8da023c3a8189c"
+    },
+    "clang-linker-wrapper": {
+      "path": "/root/toolchains/rocm-llvm23-46fcb339-build/bin/clang-linker-wrapper",
+      "sha256": "b4f17058b0f452a801d5a5fa5746481ca00d599b394080921a8f8d7098d92efe"
+    },
+    "clang-offload-packager": {
+      "path": "/root/toolchains/rocm-llvm23-46fcb339-build/bin/clang-offload-packager",
+      "sha256": "486a5862368cda9fbb49597ecfae7fb0328eba124a21b4782e117eecbfdf3edc"
+    },
+    "llvm-link": {
+      "path": "/root/toolchains/rocm-llvm23-46fcb339-build/bin/llvm-link",
+      "sha256": "e5c895f1a52e773da743f040d6a29638705ae5d1a3bd1ef16148018bff7b92a1"
+    }
+  },
+  "compiler_version": "clang version 23.0.0git (/root/workspace/llvm-src 46fcb339fb61119b337f973c7ca9e710a319fdd0)\nTarget: x86_64-unknown-linux-gnu\nThread model: posix\nInstalledDir: /root/toolchains/rocm-llvm23-46fcb339-build/bin",
+  "original_source_status_after_build": "",
+  "original_fourwave_build": "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_scale/4_wave_no_host_scale/build_reproduce_patched_retry_20260910",
+  "original_build_command": "bash build.sh build_reproduce_patched_retry_20260910",
+  "original_static_gate": "PASS: exact selected native ISA reproduced (1920 instructions)",
+  "normalized_isa_sha256": "590bd0440b757862062a03a1c471c1e5f2d896a0c57f6555976e3017a4b937fa",
+  "gpu_executed": false,
+  "first_build_failure": "Missing same-version clang-linker-wrapper caused fallback to /opt/rocm/llvm/bin/clang-linker-wrapper and unsupported --should-extract=gfx950 at new ld.lld. Fixed by building same-version wrapper, packager and llvm-link; original failed directory retained.",
+  "logs": [
+    "/root/toolchains/rocm-llvm23-pin-configure.log",
+    "/root/toolchains/rocm-llvm23-pin-build.log",
+    "/root/toolchains/rocm-llvm23-pin-extra-tools.log"
+  ]
+}

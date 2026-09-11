@@ -1,0 +1,95 @@
+{
+  "status": "CPU audit PASS",
+  "report": "/tmp/mxfp8_fourwave_round2_20260911/pair_b_early_a_merge/review/audit_report.json",
+  "scale_and_boundary_audit": {
+    "status": "PASS",
+    "sfb_bytes_covered_once": 512,
+    "producer_words": 128,
+    "logical_scales": 128,
+    "all_four_selector_bytes_identical": true,
+    "paired_reads_dynamic": 63,
+    "paired_read_bounds": [
+      8,
+      511
+    ],
+    "last_pair": [
+      62,
+      504,
+      511
+    ],
+    "tail_resident_k": 63,
+    "last_matrix_prefetch": {
+      "a_next": 63,
+      "b_unused_wrap": 0
+    },
+    "sfa_panel_and_consumer_source_unchanged": true,
+    "source_native_mfma_calls_in_order": 128,
+    "a_b_request_expressions_unchanged": true
+  },
+  "kernels": [
+    {
+      "name": "_ZN16blockscale_panel28gemm_a8w8_mxfp8_scale_kernelI17WholeKScaleTraitsILb0EEEEv21opus_gemm_scale_kargs",
+      "resources": {
+        "vgpr_count": 432,
+        "sgpr_count": 91,
+        "private_segment_fixed_size": 0,
+        "group_segment_fixed_size": 152064,
+        "vgpr_spill_count": 0,
+        "sgpr_spill_count": 0,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      },
+      "generic_isa_identical": false,
+      "native_tied_mfma_C256": 384
+    },
+    {
+      "name": "_ZN16blockscale_panel28gemm_a8w8_mxfp8_scale_kernelI17WholeKScaleTraitsILb1EEEEv21opus_gemm_scale_kargs",
+      "resources": {
+        "vgpr_count": 448,
+        "sgpr_count": 91,
+        "private_segment_fixed_size": 0,
+        "group_segment_fixed_size": 152064,
+        "vgpr_spill_count": 0,
+        "sgpr_spill_count": 0,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      },
+      "generic_isa_identical": false,
+      "native_tied_mfma_C256": 384
+    },
+    {
+      "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+      "resources": {
+        "vgpr_count": 408,
+        "sgpr_count": 70,
+        "private_segment_fixed_size": 0,
+        "group_segment_fixed_size": 139264,
+        "vgpr_spill_count": 0,
+        "sgpr_spill_count": 0,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      },
+      "generic_isa_identical": true,
+      "native_tied_mfma_C256": 384
+    },
+    {
+      "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+      "resources": {
+        "vgpr_count": 460,
+        "sgpr_count": 70,
+        "private_segment_fixed_size": 0,
+        "group_segment_fixed_size": 139264,
+        "vgpr_spill_count": 0,
+        "sgpr_spill_count": 0,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      },
+      "generic_isa_identical": true,
+      "native_tied_mfma_C256": 384
+    }
+  ]
+}

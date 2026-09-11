@@ -1,0 +1,212 @@
+[
+  {
+    "round": 1,
+    "name": "baseline",
+    "dtype": "bf16",
+    "ms": 0.3438592529296875,
+    "pflops": 3.1975630098888996
+  },
+  {
+    "round": 1,
+    "name": "baseline",
+    "dtype": "fp32",
+    "ms": 0.3556473541259766,
+    "pflops": 3.0915782586886156
+  },
+  {
+    "round": 1,
+    "name": "pair_b_merge_roles",
+    "dtype": "bf16",
+    "ms": 0.34179534912109377,
+    "pflops": 3.2168712377255226
+  },
+  {
+    "round": 1,
+    "name": "pair_b_merge_roles",
+    "dtype": "fp32",
+    "ms": 0.3564166641235352,
+    "pflops": 3.0849052203544156
+  },
+  {
+    "round": 1,
+    "name": "pair_b_early_a_merge",
+    "dtype": "bf16",
+    "ms": 0.34233306884765624,
+    "pflops": 3.2118183366775486
+  },
+  {
+    "round": 1,
+    "name": "pair_b_early_a_merge",
+    "dtype": "fp32",
+    "ms": 0.35545150756835936,
+    "pflops": 3.0932816554858618
+  },
+  {
+    "round": 2,
+    "name": "pair_b_early_a_merge",
+    "dtype": "bf16",
+    "ms": 0.3431346893310547,
+    "pflops": 3.2043149875622063
+  },
+  {
+    "round": 2,
+    "name": "pair_b_early_a_merge",
+    "dtype": "fp32",
+    "ms": 0.35585239410400393,
+    "pflops": 3.0897969101611524
+  },
+  {
+    "round": 2,
+    "name": "pair_b_merge_roles",
+    "dtype": "bf16",
+    "ms": 0.34219951629638673,
+    "pflops": 3.213071835039323
+  },
+  {
+    "round": 2,
+    "name": "pair_b_merge_roles",
+    "dtype": "fp32",
+    "ms": 0.35712638854980466,
+    "pflops": 3.078774526410172
+  },
+  {
+    "round": 2,
+    "name": "baseline",
+    "dtype": "bf16",
+    "ms": 0.3449795150756836,
+    "pflops": 3.187179469293366
+  },
+  {
+    "round": 2,
+    "name": "baseline",
+    "dtype": "fp32",
+    "ms": 0.3559503936767578,
+    "pflops": 3.0889462332621487
+  },
+  {
+    "round": 3,
+    "name": "baseline",
+    "dtype": "bf16",
+    "ms": 0.3454971694946289,
+    "pflops": 3.182404155102906
+  },
+  {
+    "round": 3,
+    "name": "baseline",
+    "dtype": "fp32",
+    "ms": 0.35652164459228514,
+    "pflops": 3.083996846905021
+  },
+  {
+    "round": 3,
+    "name": "pair_b_merge_roles",
+    "dtype": "bf16",
+    "ms": 0.3425355529785156,
+    "pflops": 3.209919724289067
+  },
+  {
+    "round": 3,
+    "name": "pair_b_merge_roles",
+    "dtype": "fp32",
+    "ms": 0.3574064636230469,
+    "pflops": 3.076361900761941
+  },
+  {
+    "round": 3,
+    "name": "pair_b_early_a_merge",
+    "dtype": "bf16",
+    "ms": 0.3435359573364258,
+    "pflops": 3.2005721796954285
+  },
+  {
+    "round": 3,
+    "name": "pair_b_early_a_merge",
+    "dtype": "fp32",
+    "ms": 0.3560824966430664,
+    "pflops": 3.08780026578543
+  },
+  {
+    "round": 4,
+    "name": "pair_b_early_a_merge",
+    "dtype": "bf16",
+    "ms": 0.34328479766845704,
+    "pflops": 3.2029138349374375
+  },
+  {
+    "round": 4,
+    "name": "pair_b_early_a_merge",
+    "dtype": "fp32",
+    "ms": 0.3561129379272461,
+    "pflops": 3.0875363141134464
+  },
+  {
+    "round": 4,
+    "name": "pair_b_merge_roles",
+    "dtype": "bf16",
+    "ms": 0.3422768020629883,
+    "pflops": 3.2123463265665895
+  },
+  {
+    "round": 4,
+    "name": "pair_b_merge_roles",
+    "dtype": "fp32",
+    "ms": 0.3572176742553711,
+    "pflops": 3.0779877565351677
+  },
+  {
+    "round": 4,
+    "name": "baseline",
+    "dtype": "bf16",
+    "ms": 0.34559040069580077,
+    "pflops": 3.181545626158244
+  },
+  {
+    "round": 4,
+    "name": "baseline",
+    "dtype": "fp32",
+    "ms": 0.3565760803222656,
+    "pflops": 3.083526036806186
+  },
+  {
+    "round": 5,
+    "name": "baseline",
+    "dtype": "bf16",
+    "ms": 0.3454399871826172,
+    "pflops": 3.1829309534878547
+  },
+  {
+    "round": 5,
+    "name": "baseline",
+    "dtype": "fp32",
+    "ms": 0.35656646728515623,
+    "pflops": 3.0836091687126865
+  },
+  {
+    "round": 5,
+    "name": "pair_b_merge_roles",
+    "dtype": "bf16",
+    "ms": 0.3427867889404297,
+    "pflops": 3.207567103664184
+  },
+  {
+    "round": 5,
+    "name": "pair_b_merge_roles",
+    "dtype": "fp32",
+    "ms": 0.35755367279052735,
+    "pflops": 3.0750953253951008
+  },
+  {
+    "round": 5,
+    "name": "pair_b_early_a_merge",
+    "dtype": "bf16",
+    "ms": 0.34342361450195313,
+    "pflops": 3.201619170453833
+  },
+  {
+    "round": 5,
+    "name": "pair_b_early_a_merge",
+    "dtype": "fp32",
+    "ms": 0.35625648498535156,
+    "pflops": 3.0862922476238133
+  }
+]

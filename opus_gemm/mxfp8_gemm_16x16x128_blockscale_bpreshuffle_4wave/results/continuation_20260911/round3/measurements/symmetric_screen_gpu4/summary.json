@@ -1,0 +1,82 @@
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "gpu": 4,
+    "rounds": 1,
+    "median_ms": 0.369611282,
+    "min_ms": 0.369611282,
+    "max_ms": 0.369611282,
+    "median_pflops": 2.974778317984352
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "gpu": 4,
+    "rounds": 1,
+    "median_ms": 0.395934143,
+    "min_ms": 0.395934143,
+    "max_ms": 0.395934143,
+    "median_pflops": 2.7770063461690397
+  },
+  {
+    "name": "symmetric_batch16",
+    "dtype": "bf16",
+    "gpu": 4,
+    "rounds": 1,
+    "median_ms": 0.409379349,
+    "min_ms": 0.409379349,
+    "max_ms": 0.409379349,
+    "median_pflops": 2.6858013978032877
+  },
+  {
+    "name": "symmetric_batch16",
+    "dtype": "fp32",
+    "gpu": 4,
+    "rounds": 1,
+    "median_ms": 0.421781616,
+    "min_ms": 0.421781616,
+    "max_ms": 0.421781616,
+    "median_pflops": 2.606826817639202
+  },
+  {
+    "name": "symmetric_pairs8",
+    "dtype": "bf16",
+    "gpu": 4,
+    "rounds": 1,
+    "median_ms": 0.382304878,
+    "min_ms": 0.382304878,
+    "max_ms": 0.382304878,
+    "median_pflops": 2.8760073204611323
+  },
+  {
+    "name": "symmetric_pairs8",
+    "dtype": "fp32",
+    "gpu": 4,
+    "rounds": 1,
+    "median_ms": 0.383261375,
+    "min_ms": 0.383261375,
+    "max_ms": 0.383261375,
+    "median_pflops": 2.8688297321273244
+  },
+  {
+    "name": "symmetric_single16",
+    "dtype": "bf16",
+    "gpu": 4,
+    "rounds": 1,
+    "median_ms": 0.378808937,
+    "min_ms": 0.378808937,
+    "max_ms": 0.378808937,
+    "median_pflops": 2.902549333929785
+  },
+  {
+    "name": "symmetric_single16",
+    "dtype": "fp32",
+    "gpu": 4,
+    "rounds": 1,
+    "median_ms": 0.380721664,
+    "min_ms": 0.380721664,
+    "max_ms": 0.380721664,
+    "median_pflops": 2.887967068183438
+  }
+]

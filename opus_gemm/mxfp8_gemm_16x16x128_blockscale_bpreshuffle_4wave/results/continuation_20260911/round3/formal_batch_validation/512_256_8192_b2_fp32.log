@@ -1,0 +1,12 @@
+Launching 4-wave blockscale bpreshuffle GEMM: M=512, N=256, K=8192, batch=2, dtype=fp32, seed=1, grid=(2,1,2), block=256, output_tiles_per_wg=1 (auto)
+Input layout: A raw [B,M,K], B packed (16,16), SFA [B,K/128,M], SFB [B,N/128,K/128]
+
+Validating GPU results against CPU reference...
+Validation stats (fp32): errors=0/131072, max_diff=0.0169219971 at 34620, max_ratio=0.031, rel_mag=5.00e-05, abs_floor=1.00e-04
+[GEMM batch 1/2: 512x256x8192, dtype=fp32, tiles=1] VALID
+Validation stats (fp32): errors=0/131072, max_diff=0.015914917 at 60844, max_ratio=0.030, rel_mag=5.00e-05, abs_floor=1.00e-04
+[GEMM batch 2/2: 512x256x8192, dtype=fp32, tiles=1] VALID
+
+[Overall] ALL BATCHES VALID
+
+Kernel Performance: avg_time=0.087760001 ms, 48.939918 TFlops

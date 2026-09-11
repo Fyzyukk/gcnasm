@@ -1,0 +1,29 @@
+{
+  "name": "sym_release24_spread",
+  "parent": "symmetric_pairs8",
+  "parent_sha256": "a32a496879386e622f565f559b3222b3c0c348ac948ebf679d28eb699aec6e97",
+  "source_sha256": "d85ba772a5c74461099678fca93481de3e522953c12bd00396560b1e15574bbc",
+  "release_after_mfma": 24,
+  "producer_sites": [
+    24,
+    26,
+    28,
+    30,
+    32,
+    34,
+    36,
+    38,
+    40,
+    42,
+    44,
+    46,
+    50,
+    54,
+    58,
+    62
+  ],
+  "lifecycle": "Current matrix reads issue by MFMA20; full LGKM drain completes them before stage reuse. Full VMEM drain publishes both t+1 matrices. All new stores are t+2 after the barrier.",
+  "matrix_mapping": "Identical to independently enumerated symmetric_pairs8 mapping",
+  "mfma_sequence_unchanged": true,
+  "not_a_full_gemm": false
+}

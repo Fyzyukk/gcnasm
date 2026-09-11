@@ -1,0 +1,42 @@
+{
+  "env": {
+    "HIP_VISIBLE_DEVICES": "2",
+    "OMP_NUM_THREADS": "16",
+    "OMP_TOOL": "disabled"
+  },
+  "command": [
+    "rocprofv3",
+    "--pmc",
+    "SQ_INSTS_MFMA",
+    "SQ_LDS_BANK_CONFLICT",
+    "SQ_WAIT_INST_LDS",
+    "SQ_WAVE_CYCLES",
+    "SQ_ACTIVE_INST_VMEM",
+    "--kernel-iteration-range",
+    "201-203",
+    "-d",
+    "/tmp/mxfp8_fourwave_e8_continue_20260910/profile_coexecution/ab_store8/stalls",
+    "-o",
+    "profile",
+    "--output-format",
+    "csv",
+    "--",
+    "/tmp/mxfp8_fourwave_e8_continue_20260910/ab_store8/build/gemm_a8w8_blockscale_bpreshuffle.exe",
+    "-m",
+    "8192",
+    "-n",
+    "8192",
+    "-k",
+    "8192",
+    "-b",
+    "1",
+    "-w",
+    "200",
+    "-i",
+    "100",
+    "-v",
+    "0",
+    "--dtype",
+    "bf16"
+  ]
+}

@@ -1,0 +1,152 @@
+{
+  "candidate": "/tmp/mxfp8_fourwave_e8_continue_20260910/ab_role_split_safe_b",
+  "status": "PASS",
+  "source_sha256": "0dbee7b1831cc5a24c70822de167a22c2a8a42f6bc7776caf4d2ec645e7f91c0",
+  "baseline_source_sha256": "81f66e04172ef8969b2c31435576db3545b4f45095dc97b3b0935172abdf3cfd",
+  "scope": "CPU source mapping and lifecycle only; candidate and frozen artifacts not modified; no build or GPU launch",
+  "source_checks": {
+    "producer_branches": [
+      {
+        "matrix": "A",
+        "half": 0,
+        "wave_n": 0,
+        "calls": 8
+      },
+      {
+        "matrix": "A",
+        "half": 1,
+        "wave_n": 0,
+        "calls": 8
+      },
+      {
+        "matrix": "B",
+        "half": 0,
+        "wave_n": 1,
+        "calls": 8
+      },
+      {
+        "matrix": "B",
+        "half": 1,
+        "wave_n": 1,
+        "calls": 8
+      }
+    ],
+    "mfma_calls_unchanged": true,
+    "consumer_layouts_unchanged": true,
+    "explicit_waits_and_barriers_unchanged": true,
+    "prologue_and_tail_unchanged": true,
+    "scales_unchanged": true
+  },
+  "logical_role_coverage": {
+    "A": {
+      "physical_wave0": [
+        0,
+        2
+      ],
+      "physical_wave1": [
+        1,
+        3
+      ]
+    },
+    "B": {
+      "physical_wave2": [
+        0,
+        2
+      ],
+      "physical_wave3": [
+        1,
+        3
+      ]
+    }
+  },
+  "mapping": {
+    "A": {
+      "stage_count": 2,
+      "k_tiles": 64,
+      "compared_16byte_requests": 262144,
+      "compared_bytes": 4194304,
+      "requests_per_stage_tile": 2048,
+      "unique_bytes_per_stage_tile": 32768,
+      "requests_per_active_wave_per_lane": 16,
+      "requests_per_wave_per_lane": [
+        16,
+        16,
+        0,
+        0
+      ],
+      "missing_duplicate_changed_or_out_of_range_requests": 0
+    },
+    "B": {
+      "stage_count": 2,
+      "k_tiles": 64,
+      "compared_16byte_requests": 262144,
+      "compared_bytes": 4194304,
+      "requests_per_stage_tile": 2048,
+      "unique_bytes_per_stage_tile": 32768,
+      "requests_per_active_wave_per_lane": 16,
+      "requests_per_wave_per_lane": [
+        0,
+        0,
+        16,
+        16
+      ],
+      "missing_duplicate_changed_or_out_of_range_requests": 0
+    }
+  },
+  "formulas": {
+    "variables": "s=stage, h=half, t=K128 tile, r=logical wave_n role, w=physical_wave%2, i=issue, l=lane; P=2*r+w; K=8192",
+    "A_global": "(128*h + 2*((2*i+r)*8+l//8)+w)*K + 128*t + 16*(l%8) + byte",
+    "A_lds": "(2*s+h)*16896 + (4*i+2*r+w)*1056 + 16*l + byte",
+    "B_global": "(128*h+32*P+16*(i//2))*K + 2048*t + 1024*(i%2) + 16*l + byte",
+    "B_lds": "(2*s+h)*16896 + (4*P+i)*1056 + 16*l + byte"
+  },
+  "safe_b_unsigned_soffset": {
+    "immediates": [
+      0,
+      1024,
+      2112,
+      3168
+    ],
+    "lds_base_deltas": [
+      0,
+      32,
+      0,
+      0
+    ],
+    "per_issue_soffset_ranges": [
+      [
+        0,
+        1177600
+      ],
+      [
+        0,
+        1177600
+      ],
+      [
+        128960,
+        1306560
+      ],
+      [
+        128928,
+        1306528
+      ]
+    ],
+    "all_soffsets_nonnegative_and_u32": true,
+    "old_issue1_k0_half0_soffset": -32,
+    "old_effective_unsigned_delta": 4294968320,
+    "new_issue1_k0_half0_soffset": 0,
+    "new_effective_global_delta": 1024,
+    "new_effective_lds_delta": 1056
+  },
+  "lifecycle": {
+    "loop_iterations": 63,
+    "publication_after_mfma": 36,
+    "mfma_consumption_events": 4096,
+    "final_tile": 63,
+    "final_stage": 1,
+    "dead_wrapped_b_prefetch_stage": 0,
+    "a_tile64_loads": 0,
+    "premature_stage_reuse": 0
+  },
+  "conclusion": "No producer mapping, coverage, unsigned B address, or source stage lifecycle issue found. ISA EXEC/wait/tied-MFMA/resource review is owned by the parent agent."
+}

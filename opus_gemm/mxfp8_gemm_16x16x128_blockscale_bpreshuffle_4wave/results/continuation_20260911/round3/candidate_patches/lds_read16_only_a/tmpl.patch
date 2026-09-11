@@ -1,0 +1,106 @@
+--- a/tmpl.hpp
++++ b/tmpl.hpp
+@@ -8,6 +8,38 @@
+ namespace blockscale_panel {
+ 
+ using opus::operator""_I;
++
++// The source addresses remain 16-byte aligned. Expose 8-byte alignment to
++// LLVM so it may choose a paired b64 LDS instruction for the same 16 bytes.
++struct __attribute__((packed, aligned(8))) LdsRead16Pair {
++    unsigned long long lo;
++    unsigned long long hi;
++};
++static_assert(sizeof(LdsRead16Pair) == 16 && alignof(LdsRead16Pair) == 8);
++template<class Scalar>
++struct MatrixSmemPair {
++    using scalar_type = Scalar;
++    OPUS_LDS_ADDR char* ptr;
++    __device__ explicit MatrixSmemPair(void* p)
++        : ptr(reinterpret_cast<OPUS_LDS_ADDR char*>(reinterpret_cast<__UINTPTR_TYPE__>(p))) {}
++    template<int Vec> __device__ auto load(int offset) {
++        static_assert(Vec == 16 && sizeof(Scalar) == 1);
++        const auto raw = *reinterpret_cast<const OPUS_LDS_ADDR LdsRead16Pair*>(ptr + offset);
++        return __builtin_bit_cast(opus::vector_t<Scalar, Vec>, raw);
++    }
++    template<int Vec, class Layout, std::enable_if_t<opus::is_layout_v<Layout>, bool> = true>
++    __device__ auto load(const Layout& u) {
++        using LT = opus::layout_load_traits<Layout, Vec>;
++        constexpr int count = decltype(LT::r_elem)::value;
++        const auto offsets = opus::layout_to_offsets<Vec>(u);
++        opus::vector_t<Scalar, Vec * count> r;
++        opus::static_for<count>([&](auto i) {
++            opus::set_slice(r, load<Vec>(offsets[i]),
++                opus::number<i.value * Vec>{}, opus::number<(i.value + 1) * Vec>{});
++        });
++        return r;
++    }
++};
+ 
+ template<class T, int MRepeat, class Mem, class Offsets, class V>
+ __device__ inline void load_a_mrepeat_scale(
+@@ -364,7 +396,7 @@
+     constexpr int smem_b_elem = T::smem_n_rep * (T::smem_linear_wave + T::smem_padding);
+     __shared__ char smem_a[smem_a_elem * 4 * sizeof(D_A)];
+     __shared__ char smem_b[smem_b_elem * 4 * sizeof(D_B)];
+-    auto s_a = make_smem(reinterpret_cast<D_A*>(smem_a));
++    auto s_a = MatrixSmemPair<D_A>(smem_a);
+     auto s_b = make_smem(reinterpret_cast<D_B*>(smem_b));
+ 
+     alignas(8) __shared__ char smem_sfa[T::SFA_PANEL_BYTES];
+@@ -554,8 +586,8 @@
+     v_sfa[1] = load_sfa_dword(0, 1);
+     v_sfb[0] = load_sfb_dword(0, 0);
+     v_sfb[1] = load_sfb_dword(0, 1);
+-    v_b = load<T::VEC_B>(s_b, u_rb + sb_offset(stage, 0));
+-    v_a[0] = load<T::VEC_A>(s_a, u_ra + sa_offset(stage, 0));
++    v_b = s_b.template load<T::VEC_B>(u_rb + sb_offset(stage, 0));
++    v_a[0] = s_a.template load<T::VEC_A>(u_ra + sa_offset(stage, 0));
+     __builtin_amdgcn_sched_barrier(0);
+ 
+     // K64 specialization: the last dead B producer wraps to valid tile zero.
+@@ -656,7 +688,7 @@
+         }
+         __builtin_amdgcn_sched_barrier(0);
+ 
+-        v_a[1] = load<T::VEC_A>(s_a, u_ra + sa_offset(stage, 1));
++        v_a[1] = s_a.template load<T::VEC_A>(u_ra + sa_offset(stage, 1));
+         // A1 is independent of c00. Its first c10 consumer determines the
+         // required wait, with no eager whole-vector drain here.
+ 
+@@ -848,7 +880,7 @@
+         v_sfb_next = __builtin_bit_cast(opus::vector_t<D_SF_PACK, 2>,
+             load<8>(s_sfb, (tile + 1) * T::SCALE_N_HALVES * 4));
+         v_sfb[0] = v_sfb_next[0];
+-        v_b = load<T::VEC_B>(s_b, u_rb + sb_offset(next_stage, 0));
++        v_b = s_b.template load<T::VEC_B>(u_rb + sb_offset(next_stage, 0));
+         __builtin_amdgcn_sched_barrier(0);
+ 
+         MXFP8_MMA_PAIR(
+@@ -894,7 +926,7 @@
+         if constexpr (T::OUTPUT_BF16) {
+             // BF16 retains the full A0 roll; its vec8 epilogue and this
+             // schedule outperform per-M rolling in repeated measurements.
+-            v_a[0] = load<T::VEC_A>(s_a, u_ra + sa_offset(next_stage, 0));
++            v_a[0] = s_a.template load<T::VEC_A>(u_ra + sa_offset(next_stage, 0));
+         } else {
+             load_a_mrepeat_scale<T, 3>(s_a, ra0_next_offsets, v_a[0]);
+             __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+@@ -940,7 +972,7 @@
+     }
+ 
+     // Consume the final resident tile; A0 is already rolling in VGPRs.
+-    v_a[1] = load<T::VEC_A>(s_a, u_ra + sa_offset(stage, 1));
++    v_a[1] = s_a.template load<T::VEC_A>(u_ra + sa_offset(stage, 1));
+ 
+     s_waitcnt_lgkmcnt(0_I);
+     v_sfb[1] = load_sfb_dword(loops - 1, 1);
+@@ -1069,7 +1101,7 @@
+     MXFP8_STORE_QUADRANT(c00, 0, 0);
+     MXFP8_STORE_QUADRANT(c10, 1, 0);
+ 
+-    v_b = load<T::VEC_B>(s_b, u_rb + sb_offset(stage, 1));
++    v_b = s_b.template load<T::VEC_B>(u_rb + sb_offset(stage, 1));
+ 
+     MXFP8_MMA_PAIR(0, 0, 0, v_a[0], v_b, c01_0, c01_1, v_sfa, v_sfb[1]);
+     sched_barrier_pairs_scale();

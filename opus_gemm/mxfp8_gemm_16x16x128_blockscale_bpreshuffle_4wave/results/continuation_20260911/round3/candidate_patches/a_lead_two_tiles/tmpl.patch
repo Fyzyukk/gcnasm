@@ -1,0 +1,263 @@
+--- a/tmpl.hpp
++++ b/tmpl.hpp
+@@ -541,10 +541,10 @@
+     int stage = 0;
+     int tile = 0;
+ 
+-    // K=8192 always has a second tile. Its B data is ready by the first
+-    // main-loop VMEM drain; scales require no further global traffic.
+-    async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(1, 0), gb_offset(0, 1));
+-    async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(1, 1), gb_offset(1, 1));
++    // Preload A(t1). In steady state B(t+1) is issued early in each tile,
++    // while A(t+2) starts after publication and release at MFMA36.
++    async_load<T::VEC_A>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(1, 0), ga_offset(0, 1));
++    async_load<T::VEC_A>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(1, 1), ga_offset(1, 1));
+     __builtin_amdgcn_sched_barrier(0);
+ 
+     // Seed the register rolling used by CX1.  B-half0, SFB0, and both SFA
+@@ -585,72 +585,56 @@
+         MXFP8_MMA_PAIR(
+             0, 0, 0, v_a[0], v_b, c00_0, c00_1, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+-        if (wave_id_n == 0) {
+-            async_load_issue_scale<T::VEC_A, 0>(
+-                g_a, s_a.ptr, u_ga_producer_0,
+-                u_sa_producer_0 + sa_offset(next_stage, 0),
+-                ga_offset(0, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 1>(
+-                g_a, s_a.ptr, u_ga_producer_0,
+-                u_sa_producer_0 + sa_offset(next_stage, 0),
+-                ga_offset(0, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 2>(
+-                g_a, s_a.ptr, u_ga_producer_0,
+-                u_sa_producer_0 + sa_offset(next_stage, 0),
+-                ga_offset(0, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 3>(
+-                g_a, s_a.ptr, u_ga_producer_0,
+-                u_sa_producer_0 + sa_offset(next_stage, 0),
+-                ga_offset(0, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 0>(
+-                g_a, s_a.ptr, u_ga_producer_1,
+-                u_sa_producer_1 + sa_offset(next_stage, 0),
+-                ga_offset(0, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 1>(
+-                g_a, s_a.ptr, u_ga_producer_1,
+-                u_sa_producer_1 + sa_offset(next_stage, 0),
+-                ga_offset(0, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 2>(
+-                g_a, s_a.ptr, u_ga_producer_1,
+-                u_sa_producer_1 + sa_offset(next_stage, 0),
+-                ga_offset(0, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 3>(
+-                g_a, s_a.ptr, u_ga_producer_1,
+-                u_sa_producer_1 + sa_offset(next_stage, 0),
+-                ga_offset(0, tile + 1));
+-
+-            async_load_issue_scale<T::VEC_A, 0>(
+-                g_a, s_a.ptr, u_ga_producer_0,
+-                u_sa_producer_0 + sa_offset(next_stage, 1),
+-                ga_offset(1, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 1>(
+-                g_a, s_a.ptr, u_ga_producer_0,
+-                u_sa_producer_0 + sa_offset(next_stage, 1),
+-                ga_offset(1, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 2>(
+-                g_a, s_a.ptr, u_ga_producer_0,
+-                u_sa_producer_0 + sa_offset(next_stage, 1),
+-                ga_offset(1, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 3>(
+-                g_a, s_a.ptr, u_ga_producer_0,
+-                u_sa_producer_0 + sa_offset(next_stage, 1),
+-                ga_offset(1, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 0>(
+-                g_a, s_a.ptr, u_ga_producer_1,
+-                u_sa_producer_1 + sa_offset(next_stage, 1),
+-                ga_offset(1, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 1>(
+-                g_a, s_a.ptr, u_ga_producer_1,
+-                u_sa_producer_1 + sa_offset(next_stage, 1),
+-                ga_offset(1, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 2>(
+-                g_a, s_a.ptr, u_ga_producer_1,
+-                u_sa_producer_1 + sa_offset(next_stage, 1),
+-                ga_offset(1, tile + 1));
+-            async_load_issue_scale<T::VEC_A, 3>(
+-                g_a, s_a.ptr, u_ga_producer_1,
+-                u_sa_producer_1 + sa_offset(next_stage, 1),
+-                ga_offset(1, tile + 1));
++        if (wave_id_n == 1) {
++            async_load_issue_b_contiguous_scale<T, 0>(
++                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(next_stage, 0),
++                gb_offset(0, tile + 1), kargs.stride_b);
++            async_load_issue_b_contiguous_scale<T, 1>(
++                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(next_stage, 0),
++                gb_offset(0, tile + 1), kargs.stride_b);
++            async_load_issue_b_contiguous_scale<T, 2>(
++                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(next_stage, 0),
++                gb_offset(0, tile + 1), kargs.stride_b);
++            async_load_issue_b_contiguous_scale<T, 3>(
++                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(next_stage, 0),
++                gb_offset(0, tile + 1), kargs.stride_b);
++            async_load_issue_b_contiguous_scale<T, 0>(
++                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(next_stage, 0),
++                gb_offset(0, tile + 1), kargs.stride_b);
++            async_load_issue_b_contiguous_scale<T, 1>(
++                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(next_stage, 0),
++                gb_offset(0, tile + 1), kargs.stride_b);
++            async_load_issue_b_contiguous_scale<T, 2>(
++                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(next_stage, 0),
++                gb_offset(0, tile + 1), kargs.stride_b);
++            async_load_issue_b_contiguous_scale<T, 3>(
++                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(next_stage, 0),
++                gb_offset(0, tile + 1), kargs.stride_b);
++
++            async_load_issue_b_contiguous_scale<T, 0>(
++                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(next_stage, 1),
++                gb_offset(1, tile + 1), kargs.stride_b);
++            async_load_issue_b_contiguous_scale<T, 1>(
++                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(next_stage, 1),
++                gb_offset(1, tile + 1), kargs.stride_b);
++            async_load_issue_b_contiguous_scale<T, 2>(
++                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(next_stage, 1),
++                gb_offset(1, tile + 1), kargs.stride_b);
++            async_load_issue_b_contiguous_scale<T, 3>(
++                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(next_stage, 1),
++                gb_offset(1, tile + 1), kargs.stride_b);
++            async_load_issue_b_contiguous_scale<T, 0>(
++                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(next_stage, 1),
++                gb_offset(1, tile + 1), kargs.stride_b);
++            async_load_issue_b_contiguous_scale<T, 1>(
++                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(next_stage, 1),
++                gb_offset(1, tile + 1), kargs.stride_b);
++            async_load_issue_b_contiguous_scale<T, 2>(
++                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(next_stage, 1),
++                gb_offset(1, tile + 1), kargs.stride_b);
++            async_load_issue_b_contiguous_scale<T, 3>(
++                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(next_stage, 1),
++                gb_offset(1, tile + 1), kargs.stride_b);
+ 
+             __builtin_amdgcn_sched_group_barrier(0x20, 16, 0);
+         }
+@@ -781,56 +765,72 @@
+         MXFP8_MMA_PAIR(
+             0, 1, 0, v_a[0], v_b_n1, c01_4, c01_5, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
+-        if (wave_id_n == 1) {
+-            async_load_issue_b_contiguous_scale<T, 0>(
+-                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 1>(
+-                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 2>(
+-                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 3>(
+-                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 0>(
+-                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 1>(
+-                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 2>(
+-                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 3>(
+-                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 0),
+-                gb_offset(0, future_tile), kargs.stride_b);
+-
+-            async_load_issue_b_contiguous_scale<T, 0>(
+-                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 1>(
+-                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 2>(
+-                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 3>(
+-                g_b, s_b.ptr, u_gb_producer_0, u_sb_producer_0 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 0>(
+-                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 1>(
+-                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 2>(
+-                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
+-            async_load_issue_b_contiguous_scale<T, 3>(
+-                g_b, s_b.ptr, u_gb_producer_1, u_sb_producer_1 + sb_offset(stage, 1),
+-                gb_offset(1, future_tile), kargs.stride_b);
++        if (wave_id_n == 0) {
++            async_load_issue_scale<T::VEC_A, 0>(
++                g_a, s_a.ptr, u_ga_producer_0,
++                u_sa_producer_0 + sa_offset(stage, 0),
++                ga_offset(0, future_tile));
++            async_load_issue_scale<T::VEC_A, 1>(
++                g_a, s_a.ptr, u_ga_producer_0,
++                u_sa_producer_0 + sa_offset(stage, 0),
++                ga_offset(0, future_tile));
++            async_load_issue_scale<T::VEC_A, 2>(
++                g_a, s_a.ptr, u_ga_producer_0,
++                u_sa_producer_0 + sa_offset(stage, 0),
++                ga_offset(0, future_tile));
++            async_load_issue_scale<T::VEC_A, 3>(
++                g_a, s_a.ptr, u_ga_producer_0,
++                u_sa_producer_0 + sa_offset(stage, 0),
++                ga_offset(0, future_tile));
++            async_load_issue_scale<T::VEC_A, 0>(
++                g_a, s_a.ptr, u_ga_producer_1,
++                u_sa_producer_1 + sa_offset(stage, 0),
++                ga_offset(0, future_tile));
++            async_load_issue_scale<T::VEC_A, 1>(
++                g_a, s_a.ptr, u_ga_producer_1,
++                u_sa_producer_1 + sa_offset(stage, 0),
++                ga_offset(0, future_tile));
++            async_load_issue_scale<T::VEC_A, 2>(
++                g_a, s_a.ptr, u_ga_producer_1,
++                u_sa_producer_1 + sa_offset(stage, 0),
++                ga_offset(0, future_tile));
++            async_load_issue_scale<T::VEC_A, 3>(
++                g_a, s_a.ptr, u_ga_producer_1,
++                u_sa_producer_1 + sa_offset(stage, 0),
++                ga_offset(0, future_tile));
++
++            async_load_issue_scale<T::VEC_A, 0>(
++                g_a, s_a.ptr, u_ga_producer_0,
++                u_sa_producer_0 + sa_offset(stage, 1),
++                ga_offset(1, future_tile));
++            async_load_issue_scale<T::VEC_A, 1>(
++                g_a, s_a.ptr, u_ga_producer_0,
++                u_sa_producer_0 + sa_offset(stage, 1),
++                ga_offset(1, future_tile));
++            async_load_issue_scale<T::VEC_A, 2>(
++                g_a, s_a.ptr, u_ga_producer_0,
++                u_sa_producer_0 + sa_offset(stage, 1),
++                ga_offset(1, future_tile));
++            async_load_issue_scale<T::VEC_A, 3>(
++                g_a, s_a.ptr, u_ga_producer_0,
++                u_sa_producer_0 + sa_offset(stage, 1),
++                ga_offset(1, future_tile));
++            async_load_issue_scale<T::VEC_A, 0>(
++                g_a, s_a.ptr, u_ga_producer_1,
++                u_sa_producer_1 + sa_offset(stage, 1),
++                ga_offset(1, future_tile));
++            async_load_issue_scale<T::VEC_A, 1>(
++                g_a, s_a.ptr, u_ga_producer_1,
++                u_sa_producer_1 + sa_offset(stage, 1),
++                ga_offset(1, future_tile));
++            async_load_issue_scale<T::VEC_A, 2>(
++                g_a, s_a.ptr, u_ga_producer_1,
++                u_sa_producer_1 + sa_offset(stage, 1),
++                ga_offset(1, future_tile));
++            async_load_issue_scale<T::VEC_A, 3>(
++                g_a, s_a.ptr, u_ga_producer_1,
++                u_sa_producer_1 + sa_offset(stage, 1),
++                ga_offset(1, future_tile));
+ 
+             __builtin_amdgcn_sched_group_barrier(0x20, 16, 0);
+         }

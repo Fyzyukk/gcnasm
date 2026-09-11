@@ -1,0 +1,7 @@
+{
+  "valid_performance_comparison": false,
+  "reason": "HIP_VISIBLE_DEVICES=4 maps to physical GPU7, PCI 0000:f5:00.0, which was occupied. These measurements are excluded.",
+  "actual_physical_gpu": 7,
+  "actual_pci": "0000:f5:00.0",
+  "hip_index": 4
+}

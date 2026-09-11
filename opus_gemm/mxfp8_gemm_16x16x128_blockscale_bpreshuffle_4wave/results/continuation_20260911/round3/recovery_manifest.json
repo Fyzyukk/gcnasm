@@ -1,0 +1,37 @@
+{
+  "timestamp_utc": "2026-09-11T06:17:22.188650+00:00",
+  "source_directory": "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave",
+  "baseline_directory": "/tmp/mxfp8_fourwave_round3_20260911/baseline",
+  "hashes": {
+    "tmpl.hpp": "97fc15711b5aaad38a91ea7387b42bdf1f0cd11f761f071a83bdb84c111d8ab2",
+    "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+    "tmpl_generic.hpp": "3681ebf7093140a3f1216b1c6faab22e6d726dbd15c4ec3167b931029f84f180",
+    "build/device.isa": "f500d8227d6921bb50d1fc16e4c901713e1912958598dd3293f4c0bc1d3c9490",
+    "build/device.notes": "e8243c59f22771c08dc877ba505501260472422b8e5b6d33e9ded725b9e41258",
+    "build/gemm_a8w8_blockscale_bpreshuffle.exe": "6b2faa9ba7fa3eaab545e822b140b844b436876ca368c7a5bab939e22e4103c9",
+    "build/libblockscale_bpreshuffle.so": "94ae6ebbe783a158254f2417e2c80f80c21136d471466ff3787a35e384905d91"
+  },
+  "round2_hashes_match": true,
+  "recovered_unarchived_round3": true,
+  "previous_gpu": 2,
+  "working_gpu": 2,
+  "working_gpu_pci": "0000:65:00.0",
+  "target_pflops": 3.5,
+  "target_ms": 0.31414617936457145,
+  "benchmark": {
+    "m": 8192,
+    "n": 8192,
+    "k": 8192,
+    "b": 1,
+    "w": 200,
+    "i": 100,
+    "seed": 1,
+    "kernel_only": true
+  },
+  "working_hip_index": 2,
+  "excluded_misbound_measurements": "results/continuation_20260911/round3/measurements/resume_baseline_gpu4",
+  "validation_gpu": 4,
+  "validation_pci": "0000:85:00.0",
+  "validation_hip_index": 5,
+  "gpu4_screening_is_not_original_card_baseline": true
+}

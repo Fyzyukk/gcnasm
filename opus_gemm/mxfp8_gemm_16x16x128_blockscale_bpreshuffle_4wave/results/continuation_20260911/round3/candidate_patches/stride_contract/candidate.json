@@ -1,0 +1,21 @@
+{
+  "name": "stride_contract",
+  "parent": "baseline",
+  "parent_sha256": "97fc15711b5aaad38a91ea7387b42bdf1f0cd11f761f071a83bdb84c111d8ab2",
+  "source_sha256": "78587a6b5618ec87f201d7ae4594de9afc0325b6dfb22d0990fe61977bfa872d",
+  "replacements": {
+    "stride_a": "T::REQUIRED_K",
+    "stride_b": "T::REQUIRED_K",
+    "stride_c": "kargs.n",
+    "stride_sfa": "kargs.m",
+    "stride_sfb": "T::SCALE_PANEL_K_TILES",
+    "stride_a_batch": "(kargs.m * T::REQUIRED_K)",
+    "stride_b_batch": "(kargs.n * T::REQUIRED_K)",
+    "stride_c_batch": "(kargs.m * kargs.n)",
+    "stride_sfa_batch": "(kargs.m * T::SCALE_PANEL_K_TILES)",
+    "stride_sfb_batch": "((kargs.n / T::GROUP_N) * T::SCALE_PANEL_K_TILES)"
+  },
+  "contract": "Existing public C ABI rejects all incompatible strides; CLI constructs the same contiguous strides.",
+  "runtime_k_loop_preserved": true,
+  "not_a_full_gemm": false
+}

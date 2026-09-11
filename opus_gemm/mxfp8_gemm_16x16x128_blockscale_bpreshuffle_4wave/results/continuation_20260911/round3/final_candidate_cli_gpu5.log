@@ -1,0 +1,81 @@
+Physical GPU5, PCI 0000:95:00.0, HIP index 7
+1 baseline perf_bf16 PASS 0.369673653 ms / 2.9742764189999997 P
+1 baseline perf_fp32 PASS 0.402024155 ms / 2.7349392200000002 P
+1 regroll_release8 perf_bf16 PASS 0.375043678 ms / 2.931689538 P
+1 regroll_release8 perf_fp32 PASS 0.384853172 ms / 2.85696392 P
+1 sym_rel24_vaddr perf_bf16 PASS 0.376655769 ms / 2.919141872 P
+1 sym_rel24_vaddr perf_fp32 PASS 0.382581482 ms / 2.873927986 P
+2 sym_rel24_vaddr perf_bf16 PASS 0.368771858 ms / 2.981549712 P
+2 sym_rel24_vaddr perf_fp32 PASS 0.383171997 ms / 2.86949891 P
+2 regroll_release8 perf_bf16 PASS 0.369513512 ms / 2.9755654209999998 P
+2 regroll_release8 perf_fp32 PASS 0.385210419 ms / 2.854314355 P
+2 baseline perf_bf16 PASS 0.36885849 ms / 2.9808494519999997 P
+2 baseline perf_fp32 PASS 0.401906166 ms / 2.735742122 P
+3 baseline perf_bf16 PASS 0.369885979 ms / 2.972569092 P
+3 baseline perf_fp32 PASS 0.403620644 ms / 2.724121388 P
+3 regroll_release8 perf_bf16 PASS 0.368068542 ms / 2.987246941 P
+3 regroll_release8 perf_fp32 PASS 0.38560009 ms / 2.851429904 P
+3 sym_rel24_vaddr perf_bf16 PASS 0.377687683 ms / 2.911166228 P
+3 sym_rel24_vaddr perf_fp32 PASS 0.383792572 ms / 2.864859062 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "gpu": 5,
+    "rounds": 3,
+    "median_ms": 0.369673653,
+    "min_ms": 0.36885849,
+    "max_ms": 0.369885979,
+    "median_pflops": 2.9742764161123487
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "gpu": 5,
+    "rounds": 3,
+    "median_ms": 0.402024155,
+    "min_ms": 0.401906166,
+    "max_ms": 0.403620644,
+    "median_pflops": 2.7349392172119606
+  },
+  {
+    "name": "regroll_release8",
+    "dtype": "bf16",
+    "gpu": 5,
+    "rounds": 3,
+    "median_ms": 0.369513512,
+    "min_ms": 0.368068542,
+    "max_ms": 0.375043678,
+    "median_pflops": 2.9755654179596007
+  },
+  {
+    "name": "regroll_release8",
+    "dtype": "fp32",
+    "gpu": 5,
+    "rounds": 3,
+    "median_ms": 0.385210419,
+    "min_ms": 0.384853172,
+    "max_ms": 0.38560009,
+    "median_pflops": 2.8543143527382107
+  },
+  {
+    "name": "sym_rel24_vaddr",
+    "dtype": "bf16",
+    "gpu": 5,
+    "rounds": 3,
+    "median_ms": 0.376655769,
+    "min_ms": 0.368771858,
+    "max_ms": 0.377687683,
+    "median_pflops": 2.919141875073736
+  },
+  {
+    "name": "sym_rel24_vaddr",
+    "dtype": "fp32",
+    "gpu": 5,
+    "rounds": 3,
+    "median_ms": 0.383171997,
+    "min_ms": 0.382581482,
+    "max_ms": 0.383792572,
+    "median_pflops": 2.8694989101095505
+  }
+]

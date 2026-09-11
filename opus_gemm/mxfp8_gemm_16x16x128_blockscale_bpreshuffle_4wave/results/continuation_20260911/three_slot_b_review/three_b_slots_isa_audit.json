@@ -1,0 +1,1653 @@
+{
+  "status": "PASS",
+  "candidate": "/tmp/mxfp8_fourwave_e8_continue_20260910/audit_candidates/three_b_slots",
+  "release_point": 4,
+  "candidate_modified": false,
+  "gpu_launched": false,
+  "hashes": {
+    "tmpl.hpp": "7c997ced381e2746feae0e57b70685b65de04e15882db26e5eb54f6dcf1fa973",
+    "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+    "build/device.isa": "3e5177f828286c64f90b39eecce1c33bd8d2162f5e763dc247567c62e3d6e620",
+    "build/device.co": "97685fc306a780314f59888cc886ddee5b4732aaac969b3496218d3325caf71f",
+    "build/device.notes": "04e0ea63c8f6ab18a78827d4148b99b3c78a79375181d768cbbcb458e12666f3",
+    "build/gemm_a8w8_blockscale_bpreshuffle.exe": "395408daf0d2788a3662932bdcb3893a2e95ee88d39001698388d66da7062ebd"
+  },
+  "kernels": [
+    {
+      "name": "_ZN16blockscale_panel28gemm_a8w8_mxfp8_scale_kernelI17WholeKScaleTraitsILb0EEEEv21opus_gemm_scale_kargs",
+      "resources": {
+        "vgpr_count": 452,
+        "sgpr_count": 70,
+        "vgpr_spill_count": 0,
+        "sgpr_spill_count": 0,
+        "private_segment_fixed_size": 0,
+        "group_segment_fixed_size": 152064,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      },
+      "native_tied_C256_mfma": 384,
+      "generic_isa_unchanged": false,
+      "lds_wait": {
+        "name": "_ZN16blockscale_panel28gemm_a8w8_mxfp8_scale_kernelI17WholeKScaleTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "cfg_states": 2327,
+        "static_mfma_checked": 384,
+        "max_pending_lgkm_events": 27,
+        "hazards": []
+      },
+      "role_and_wait_proof": {
+        "prologue_B1_B2_selected_waves": [
+          2,
+          3
+        ],
+        "prologue_B1_B2_tickets_per_selected_wave": [
+          16,
+          16
+        ],
+        "prologue_DTLDS_lines": [
+          332,
+          335,
+          338,
+          339,
+          342,
+          345,
+          348,
+          349,
+          353,
+          356,
+          359,
+          360,
+          363,
+          366,
+          369,
+          370,
+          375,
+          378,
+          381,
+          382,
+          385,
+          388,
+          391,
+          392,
+          396,
+          399,
+          402,
+          403,
+          406,
+          409,
+          412,
+          413
+        ],
+        "role_branches": [
+          {
+            "line": 853,
+            "operand": "A",
+            "after_mfma": 5,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              857,
+              860,
+              863,
+              866,
+              869,
+              872,
+              875,
+              878
+            ],
+            "common_next_mfma_line": 879
+          },
+          {
+            "line": 881,
+            "operand": "A",
+            "after_mfma": 6,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              886,
+              889,
+              892,
+              895,
+              898,
+              901,
+              904,
+              907
+            ],
+            "common_next_mfma_line": 908
+          },
+          {
+            "line": 962,
+            "operand": "B",
+            "after_mfma": 37,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              969,
+              972,
+              975,
+              976,
+              979,
+              982,
+              985,
+              986
+            ],
+            "common_next_mfma_line": 987
+          },
+          {
+            "line": 989,
+            "operand": "B",
+            "after_mfma": 38,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              998,
+              1001,
+              1005,
+              1006,
+              1009,
+              1012,
+              1015,
+              1016
+            ],
+            "common_next_mfma_line": 1021
+          },
+          {
+            "line": 1096,
+            "operand": "A",
+            "after_mfma": 5,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              1100,
+              1103,
+              1106,
+              1109,
+              1112,
+              1115,
+              1118,
+              1121
+            ],
+            "common_next_mfma_line": 1122
+          },
+          {
+            "line": 1124,
+            "operand": "A",
+            "after_mfma": 6,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              1129,
+              1132,
+              1135,
+              1138,
+              1141,
+              1144,
+              1147,
+              1150
+            ],
+            "common_next_mfma_line": 1151
+          },
+          {
+            "line": 1205,
+            "operand": "B",
+            "after_mfma": 37,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              1212,
+              1215,
+              1218,
+              1219,
+              1222,
+              1225,
+              1228,
+              1229
+            ],
+            "common_next_mfma_line": 1230
+          },
+          {
+            "line": 1232,
+            "operand": "B",
+            "after_mfma": 38,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              1241,
+              1244,
+              1248,
+              1249,
+              1252,
+              1255,
+              1258,
+              1259
+            ],
+            "common_next_mfma_line": 1264
+          },
+          {
+            "line": 1339,
+            "operand": "A",
+            "after_mfma": 5,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              1343,
+              1346,
+              1349,
+              1352,
+              1355,
+              1358,
+              1361,
+              1364
+            ],
+            "common_next_mfma_line": 1365
+          },
+          {
+            "line": 1367,
+            "operand": "A",
+            "after_mfma": 6,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              1372,
+              1375,
+              1378,
+              1381,
+              1384,
+              1387,
+              1390,
+              1393
+            ],
+            "common_next_mfma_line": 1394
+          },
+          {
+            "line": 1448,
+            "operand": "B",
+            "after_mfma": 37,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              1455,
+              1458,
+              1461,
+              1462,
+              1465,
+              1468,
+              1471,
+              1472
+            ],
+            "common_next_mfma_line": 1473
+          },
+          {
+            "line": 1475,
+            "operand": "B",
+            "after_mfma": 38,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              1484,
+              1487,
+              1491,
+              1492,
+              1495,
+              1498,
+              1501,
+              1502
+            ],
+            "common_next_mfma_line": 1507
+          },
+          {
+            "line": 1581,
+            "operand": "A",
+            "after_mfma": 5,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              1585,
+              1588,
+              1591,
+              1594,
+              1597,
+              1600,
+              1603,
+              1606
+            ],
+            "common_next_mfma_line": 1607
+          },
+          {
+            "line": 1609,
+            "operand": "A",
+            "after_mfma": 6,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              1614,
+              1617,
+              1620,
+              1623,
+              1626,
+              1629,
+              1632,
+              1635
+            ],
+            "common_next_mfma_line": 1636
+          },
+          {
+            "line": 1690,
+            "operand": "B",
+            "after_mfma": 37,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              1697,
+              1700,
+              1703,
+              1704,
+              1707,
+              1710,
+              1713,
+              1714
+            ],
+            "common_next_mfma_line": 1715
+          },
+          {
+            "line": 1717,
+            "operand": "B",
+            "after_mfma": 38,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              1726,
+              1729,
+              1733,
+              1734,
+              1737,
+              1740,
+              1743,
+              1744
+            ],
+            "common_next_mfma_line": 768
+          },
+          {
+            "line": 1861,
+            "operand": "A",
+            "after_mfma": 5,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              1864,
+              1867,
+              1870,
+              1873,
+              1876,
+              1879,
+              1882,
+              1885
+            ],
+            "common_next_mfma_line": 1886
+          },
+          {
+            "line": 1888,
+            "operand": "A",
+            "after_mfma": 6,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              1892,
+              1895,
+              1898,
+              1901,
+              1904,
+              1907,
+              1910,
+              1913
+            ],
+            "common_next_mfma_line": 1914
+          },
+          {
+            "line": 1968,
+            "operand": "B",
+            "after_mfma": 37,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              1975,
+              1978,
+              1981,
+              1982,
+              1985,
+              1988,
+              1991,
+              1992
+            ],
+            "common_next_mfma_line": 1993
+          },
+          {
+            "line": 1995,
+            "operand": "B",
+            "after_mfma": 38,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              2004,
+              2007,
+              2011,
+              2012,
+              2015,
+              2018,
+              2021,
+              2022
+            ],
+            "common_next_mfma_line": 1770
+          }
+        ],
+        "releases": [
+          {
+            "line": 844,
+            "after_mfma": 4,
+            "vmem_drain": false
+          },
+          {
+            "line": 1089,
+            "after_mfma": 4,
+            "vmem_drain": false
+          },
+          {
+            "line": 1332,
+            "after_mfma": 4,
+            "vmem_drain": false
+          },
+          {
+            "line": 1574,
+            "after_mfma": 4,
+            "vmem_drain": false
+          },
+          {
+            "line": 1852,
+            "after_mfma": 4,
+            "vmem_drain": false
+          }
+        ],
+        "publications": [
+          {
+            "line": 958,
+            "after_mfma": 36,
+            "vmcnt_by_wave": [
+              [
+                0
+              ],
+              [
+                0
+              ],
+              [
+                16
+              ],
+              [
+                16
+              ]
+            ]
+          },
+          {
+            "line": 1201,
+            "after_mfma": 36,
+            "vmcnt_by_wave": [
+              [
+                0
+              ],
+              [
+                0
+              ],
+              [
+                16
+              ],
+              [
+                16
+              ]
+            ]
+          },
+          {
+            "line": 1444,
+            "after_mfma": 36,
+            "vmcnt_by_wave": [
+              [
+                0
+              ],
+              [
+                0
+              ],
+              [
+                16
+              ],
+              [
+                16
+              ]
+            ]
+          },
+          {
+            "line": 1686,
+            "after_mfma": 36,
+            "vmcnt_by_wave": [
+              [
+                0
+              ],
+              [
+                0
+              ],
+              [
+                16
+              ],
+              [
+                16
+              ]
+            ]
+          },
+          {
+            "line": 1964,
+            "after_mfma": 36,
+            "vmcnt_by_wave": [
+              [
+                0
+              ],
+              [
+                0
+              ],
+              [
+                16
+              ],
+              [
+                16
+              ]
+            ]
+          }
+        ],
+        "hidden_steady_vmem_waits": 0,
+        "exec_writes": 0
+      },
+      "vmem_wait": [
+        {
+          "physical_wave": 0,
+          "cfg_states": 1872,
+          "hazards": [],
+          "pending_vmem_at_barriers": {
+            "320": [
+              0
+            ],
+            "844": [
+              0
+            ],
+            "1852": [
+              0
+            ],
+            "958": [
+              0
+            ],
+            "1964": [
+              0
+            ],
+            "1089": [
+              0
+            ],
+            "1201": [
+              0
+            ],
+            "1332": [
+              0
+            ],
+            "1444": [
+              0
+            ],
+            "1574": [
+              0
+            ],
+            "1686": [
+              0
+            ]
+          }
+        },
+        {
+          "physical_wave": 1,
+          "cfg_states": 1872,
+          "hazards": [],
+          "pending_vmem_at_barriers": {
+            "320": [
+              0
+            ],
+            "844": [
+              0
+            ],
+            "1852": [
+              0
+            ],
+            "958": [
+              0
+            ],
+            "1964": [
+              0
+            ],
+            "1089": [
+              0
+            ],
+            "1201": [
+              0
+            ],
+            "1332": [
+              0
+            ],
+            "1444": [
+              0
+            ],
+            "1574": [
+              0
+            ],
+            "1686": [
+              0
+            ]
+          }
+        },
+        {
+          "physical_wave": 2,
+          "cfg_states": 3667,
+          "hazards": [],
+          "pending_vmem_at_barriers": {
+            "320": [
+              0
+            ],
+            "844": [
+              32
+            ],
+            "1852": [
+              32
+            ],
+            "958": [
+              16
+            ],
+            "1964": [
+              16
+            ],
+            "1089": [
+              32
+            ],
+            "1201": [
+              16
+            ],
+            "1332": [
+              32
+            ],
+            "1444": [
+              16
+            ],
+            "1574": [
+              32
+            ],
+            "1686": [
+              16
+            ]
+          }
+        },
+        {
+          "physical_wave": 3,
+          "cfg_states": 3667,
+          "hazards": [],
+          "pending_vmem_at_barriers": {
+            "320": [
+              0
+            ],
+            "844": [
+              32
+            ],
+            "1852": [
+              32
+            ],
+            "958": [
+              16
+            ],
+            "1964": [
+              16
+            ],
+            "1089": [
+              32
+            ],
+            "1201": [
+              16
+            ],
+            "1332": [
+              32
+            ],
+            "1444": [
+              16
+            ],
+            "1574": [
+              32
+            ],
+            "1686": [
+              16
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "_ZN16blockscale_panel28gemm_a8w8_mxfp8_scale_kernelI17WholeKScaleTraitsILb1EEEEv21opus_gemm_scale_kargs",
+      "resources": {
+        "vgpr_count": 468,
+        "sgpr_count": 71,
+        "vgpr_spill_count": 0,
+        "sgpr_spill_count": 0,
+        "private_segment_fixed_size": 0,
+        "group_segment_fixed_size": 152064,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      },
+      "native_tied_C256_mfma": 384,
+      "generic_isa_unchanged": false,
+      "lds_wait": {
+        "name": "_ZN16blockscale_panel28gemm_a8w8_mxfp8_scale_kernelI17WholeKScaleTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "cfg_states": 2758,
+        "static_mfma_checked": 384,
+        "max_pending_lgkm_events": 27,
+        "hazards": []
+      },
+      "role_and_wait_proof": {
+        "prologue_B1_B2_selected_waves": [
+          2,
+          3
+        ],
+        "prologue_B1_B2_tickets_per_selected_wave": [
+          16,
+          16
+        ],
+        "prologue_DTLDS_lines": [
+          2562,
+          2565,
+          2568,
+          2569,
+          2572,
+          2575,
+          2578,
+          2579,
+          2583,
+          2586,
+          2589,
+          2590,
+          2593,
+          2596,
+          2599,
+          2600,
+          2605,
+          2608,
+          2611,
+          2612,
+          2615,
+          2618,
+          2621,
+          2622,
+          2626,
+          2629,
+          2632,
+          2633,
+          2636,
+          2639,
+          2642,
+          2643
+        ],
+        "role_branches": [
+          {
+            "line": 3084,
+            "operand": "A",
+            "after_mfma": 5,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              3088,
+              3091,
+              3094,
+              3097,
+              3100,
+              3103,
+              3106,
+              3109
+            ],
+            "common_next_mfma_line": 3110
+          },
+          {
+            "line": 3112,
+            "operand": "A",
+            "after_mfma": 6,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              3117,
+              3120,
+              3123,
+              3126,
+              3129,
+              3132,
+              3135,
+              3138
+            ],
+            "common_next_mfma_line": 3139
+          },
+          {
+            "line": 3193,
+            "operand": "B",
+            "after_mfma": 37,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              3200,
+              3203,
+              3206,
+              3207,
+              3210,
+              3213,
+              3216,
+              3217
+            ],
+            "common_next_mfma_line": 3218
+          },
+          {
+            "line": 3220,
+            "operand": "B",
+            "after_mfma": 38,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              3229,
+              3232,
+              3236,
+              3237,
+              3240,
+              3243,
+              3246,
+              3247
+            ],
+            "common_next_mfma_line": 3252
+          },
+          {
+            "line": 3327,
+            "operand": "A",
+            "after_mfma": 5,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              3331,
+              3334,
+              3337,
+              3340,
+              3343,
+              3346,
+              3349,
+              3352
+            ],
+            "common_next_mfma_line": 3353
+          },
+          {
+            "line": 3355,
+            "operand": "A",
+            "after_mfma": 6,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              3360,
+              3363,
+              3366,
+              3369,
+              3372,
+              3375,
+              3378,
+              3381
+            ],
+            "common_next_mfma_line": 3382
+          },
+          {
+            "line": 3436,
+            "operand": "B",
+            "after_mfma": 37,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              3443,
+              3446,
+              3449,
+              3450,
+              3453,
+              3456,
+              3459,
+              3460
+            ],
+            "common_next_mfma_line": 3461
+          },
+          {
+            "line": 3463,
+            "operand": "B",
+            "after_mfma": 38,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              3472,
+              3475,
+              3479,
+              3480,
+              3483,
+              3486,
+              3489,
+              3490
+            ],
+            "common_next_mfma_line": 3495
+          },
+          {
+            "line": 3570,
+            "operand": "A",
+            "after_mfma": 5,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              3574,
+              3577,
+              3580,
+              3583,
+              3586,
+              3589,
+              3592,
+              3595
+            ],
+            "common_next_mfma_line": 3596
+          },
+          {
+            "line": 3598,
+            "operand": "A",
+            "after_mfma": 6,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              3603,
+              3606,
+              3609,
+              3612,
+              3615,
+              3618,
+              3621,
+              3624
+            ],
+            "common_next_mfma_line": 3625
+          },
+          {
+            "line": 3679,
+            "operand": "B",
+            "after_mfma": 37,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              3686,
+              3689,
+              3692,
+              3693,
+              3696,
+              3699,
+              3702,
+              3703
+            ],
+            "common_next_mfma_line": 3704
+          },
+          {
+            "line": 3706,
+            "operand": "B",
+            "after_mfma": 38,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              3715,
+              3718,
+              3722,
+              3723,
+              3726,
+              3729,
+              3732,
+              3733
+            ],
+            "common_next_mfma_line": 3738
+          },
+          {
+            "line": 3812,
+            "operand": "A",
+            "after_mfma": 5,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              3816,
+              3819,
+              3822,
+              3825,
+              3828,
+              3831,
+              3834,
+              3837
+            ],
+            "common_next_mfma_line": 3838
+          },
+          {
+            "line": 3840,
+            "operand": "A",
+            "after_mfma": 6,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              3845,
+              3848,
+              3851,
+              3854,
+              3857,
+              3860,
+              3863,
+              3866
+            ],
+            "common_next_mfma_line": 3867
+          },
+          {
+            "line": 3921,
+            "operand": "B",
+            "after_mfma": 37,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              3928,
+              3931,
+              3934,
+              3935,
+              3938,
+              3941,
+              3944,
+              3945
+            ],
+            "common_next_mfma_line": 3946
+          },
+          {
+            "line": 3948,
+            "operand": "B",
+            "after_mfma": 38,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              3957,
+              3960,
+              3964,
+              3965,
+              3968,
+              3971,
+              3974,
+              3975
+            ],
+            "common_next_mfma_line": 2999
+          },
+          {
+            "line": 4092,
+            "operand": "A",
+            "after_mfma": 5,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              4095,
+              4098,
+              4101,
+              4104,
+              4107,
+              4110,
+              4113,
+              4116
+            ],
+            "common_next_mfma_line": 4117
+          },
+          {
+            "line": 4119,
+            "operand": "A",
+            "after_mfma": 6,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              4123,
+              4126,
+              4129,
+              4132,
+              4135,
+              4138,
+              4141,
+              4144
+            ],
+            "common_next_mfma_line": 4145
+          },
+          {
+            "line": 4199,
+            "operand": "B",
+            "after_mfma": 37,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              4206,
+              4209,
+              4212,
+              4213,
+              4216,
+              4219,
+              4222,
+              4223
+            ],
+            "common_next_mfma_line": 4224
+          },
+          {
+            "line": 4226,
+            "operand": "B",
+            "after_mfma": 38,
+            "loads_per_selected_wave": 8,
+            "load_lines": [
+              4235,
+              4238,
+              4242,
+              4243,
+              4246,
+              4249,
+              4252,
+              4253
+            ],
+            "common_next_mfma_line": 4001
+          }
+        ],
+        "releases": [
+          {
+            "line": 3075,
+            "after_mfma": 4,
+            "vmem_drain": false
+          },
+          {
+            "line": 3320,
+            "after_mfma": 4,
+            "vmem_drain": false
+          },
+          {
+            "line": 3563,
+            "after_mfma": 4,
+            "vmem_drain": false
+          },
+          {
+            "line": 3805,
+            "after_mfma": 4,
+            "vmem_drain": false
+          },
+          {
+            "line": 4083,
+            "after_mfma": 4,
+            "vmem_drain": false
+          }
+        ],
+        "publications": [
+          {
+            "line": 3189,
+            "after_mfma": 36,
+            "vmcnt_by_wave": [
+              [
+                0
+              ],
+              [
+                0
+              ],
+              [
+                16
+              ],
+              [
+                16
+              ]
+            ]
+          },
+          {
+            "line": 3432,
+            "after_mfma": 36,
+            "vmcnt_by_wave": [
+              [
+                0
+              ],
+              [
+                0
+              ],
+              [
+                16
+              ],
+              [
+                16
+              ]
+            ]
+          },
+          {
+            "line": 3675,
+            "after_mfma": 36,
+            "vmcnt_by_wave": [
+              [
+                0
+              ],
+              [
+                0
+              ],
+              [
+                16
+              ],
+              [
+                16
+              ]
+            ]
+          },
+          {
+            "line": 3917,
+            "after_mfma": 36,
+            "vmcnt_by_wave": [
+              [
+                0
+              ],
+              [
+                0
+              ],
+              [
+                16
+              ],
+              [
+                16
+              ]
+            ]
+          },
+          {
+            "line": 4195,
+            "after_mfma": 36,
+            "vmcnt_by_wave": [
+              [
+                0
+              ],
+              [
+                0
+              ],
+              [
+                16
+              ],
+              [
+                16
+              ]
+            ]
+          }
+        ],
+        "hidden_steady_vmem_waits": 0,
+        "exec_writes": 0
+      },
+      "vmem_wait": [
+        {
+          "physical_wave": 0,
+          "cfg_states": 2303,
+          "hazards": [],
+          "pending_vmem_at_barriers": {
+            "2550": [
+              0
+            ],
+            "3075": [
+              0
+            ],
+            "4083": [
+              0
+            ],
+            "3189": [
+              0
+            ],
+            "4195": [
+              0
+            ],
+            "3320": [
+              0
+            ],
+            "3432": [
+              0
+            ],
+            "3563": [
+              0
+            ],
+            "3675": [
+              0
+            ],
+            "3805": [
+              0
+            ],
+            "3917": [
+              0
+            ]
+          }
+        },
+        {
+          "physical_wave": 1,
+          "cfg_states": 2303,
+          "hazards": [],
+          "pending_vmem_at_barriers": {
+            "2550": [
+              0
+            ],
+            "3075": [
+              0
+            ],
+            "4083": [
+              0
+            ],
+            "3189": [
+              0
+            ],
+            "4195": [
+              0
+            ],
+            "3320": [
+              0
+            ],
+            "3432": [
+              0
+            ],
+            "3563": [
+              0
+            ],
+            "3675": [
+              0
+            ],
+            "3805": [
+              0
+            ],
+            "3917": [
+              0
+            ]
+          }
+        },
+        {
+          "physical_wave": 2,
+          "cfg_states": 5818,
+          "hazards": [],
+          "pending_vmem_at_barriers": {
+            "2550": [
+              0
+            ],
+            "3075": [
+              32
+            ],
+            "4083": [
+              32
+            ],
+            "3189": [
+              16
+            ],
+            "4195": [
+              16
+            ],
+            "3320": [
+              32
+            ],
+            "3432": [
+              16
+            ],
+            "3563": [
+              32
+            ],
+            "3675": [
+              16
+            ],
+            "3805": [
+              32
+            ],
+            "3917": [
+              16
+            ]
+          }
+        },
+        {
+          "physical_wave": 3,
+          "cfg_states": 5818,
+          "hazards": [],
+          "pending_vmem_at_barriers": {
+            "2550": [
+              0
+            ],
+            "3075": [
+              32
+            ],
+            "4083": [
+              32
+            ],
+            "3189": [
+              16
+            ],
+            "4195": [
+              16
+            ],
+            "3320": [
+              32
+            ],
+            "3432": [
+              16
+            ],
+            "3563": [
+              32
+            ],
+            "3675": [
+              16
+            ],
+            "3805": [
+              32
+            ],
+            "3917": [
+              16
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+      "resources": {
+        "vgpr_count": 408,
+        "sgpr_count": 70,
+        "vgpr_spill_count": 0,
+        "sgpr_spill_count": 0,
+        "private_segment_fixed_size": 0,
+        "group_segment_fixed_size": 139264,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      },
+      "native_tied_C256_mfma": 384,
+      "generic_isa_unchanged": true,
+      "lds_wait": {
+        "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "cfg_states": 1869,
+        "static_mfma_checked": 384,
+        "max_pending_lgkm_events": 27,
+        "hazards": []
+      },
+      "role_and_wait_proof": null,
+      "vmem_wait": [
+        {
+          "physical_wave": 0,
+          "cfg_states": 2488,
+          "hazards": [],
+          "pending_vmem_at_barriers": {
+            "5107": [
+              0
+            ],
+            "5578": [
+              0
+            ],
+            "6314": [
+              0
+            ],
+            "5752": [
+              0
+            ],
+            "5927": [
+              0
+            ],
+            "6101": [
+              0
+            ]
+          }
+        },
+        {
+          "physical_wave": 1,
+          "cfg_states": 2488,
+          "hazards": [],
+          "pending_vmem_at_barriers": {
+            "5107": [
+              0
+            ],
+            "5578": [
+              0
+            ],
+            "6314": [
+              0
+            ],
+            "5752": [
+              0
+            ],
+            "5927": [
+              0
+            ],
+            "6101": [
+              0
+            ]
+          }
+        },
+        {
+          "physical_wave": 2,
+          "cfg_states": 2488,
+          "hazards": [],
+          "pending_vmem_at_barriers": {
+            "5107": [
+              0
+            ],
+            "5578": [
+              0
+            ],
+            "6314": [
+              0
+            ],
+            "5752": [
+              0
+            ],
+            "5927": [
+              0
+            ],
+            "6101": [
+              0
+            ]
+          }
+        },
+        {
+          "physical_wave": 3,
+          "cfg_states": 2488,
+          "hazards": [],
+          "pending_vmem_at_barriers": {
+            "5107": [
+              0
+            ],
+            "5578": [
+              0
+            ],
+            "6314": [
+              0
+            ],
+            "5752": [
+              0
+            ],
+            "5927": [
+              0
+            ],
+            "6101": [
+              0
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+      "resources": {
+        "vgpr_count": 460,
+        "sgpr_count": 70,
+        "vgpr_spill_count": 0,
+        "sgpr_spill_count": 0,
+        "private_segment_fixed_size": 0,
+        "group_segment_fixed_size": 139264,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      },
+      "native_tied_C256_mfma": 384,
+      "generic_isa_unchanged": true,
+      "lds_wait": {
+        "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "cfg_states": 2256,
+        "static_mfma_checked": 384,
+        "max_pending_lgkm_events": 27,
+        "hazards": []
+      },
+      "role_and_wait_proof": null,
+      "vmem_wait": [
+        {
+          "physical_wave": 0,
+          "cfg_states": 3649,
+          "hazards": [],
+          "pending_vmem_at_barriers": {
+            "6815": [
+              0
+            ],
+            "7286": [
+              0
+            ],
+            "8022": [
+              0
+            ],
+            "7460": [
+              0
+            ],
+            "7635": [
+              0
+            ],
+            "7809": [
+              0
+            ]
+          }
+        },
+        {
+          "physical_wave": 1,
+          "cfg_states": 3649,
+          "hazards": [],
+          "pending_vmem_at_barriers": {
+            "6815": [
+              0
+            ],
+            "7286": [
+              0
+            ],
+            "8022": [
+              0
+            ],
+            "7460": [
+              0
+            ],
+            "7635": [
+              0
+            ],
+            "7809": [
+              0
+            ]
+          }
+        },
+        {
+          "physical_wave": 2,
+          "cfg_states": 3649,
+          "hazards": [],
+          "pending_vmem_at_barriers": {
+            "6815": [
+              0
+            ],
+            "7286": [
+              0
+            ],
+            "8022": [
+              0
+            ],
+            "7460": [
+              0
+            ],
+            "7635": [
+              0
+            ],
+            "7809": [
+              0
+            ]
+          }
+        },
+        {
+          "physical_wave": 3,
+          "cfg_states": 3649,
+          "hazards": [],
+          "pending_vmem_at_barriers": {
+            "6815": [
+              0
+            ],
+            "7286": [
+              0
+            ],
+            "8022": [
+              0
+            ],
+            "7460": [
+              0
+            ],
+            "7635": [
+              0
+            ],
+            "7809": [
+              0
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

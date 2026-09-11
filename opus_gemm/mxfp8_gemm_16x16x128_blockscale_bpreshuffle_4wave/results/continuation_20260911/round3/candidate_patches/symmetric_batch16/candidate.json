@@ -1,0 +1,16 @@
+{
+  "name": "symmetric_batch16",
+  "baseline_sha256": "97fc15711b5aaad38a91ea7387b42bdf1f0cd11f761f071a83bdb84c111d8ab2",
+  "source_sha256": "9265a54bc4b0629c8f1e5edc4d305116be8c342bf2f49900e1122bc27f24dc32",
+  "issue_sites": [
+    [
+      38,
+      16
+    ]
+  ],
+  "mapping_audit": "PASS",
+  "bytes_per_matrix_per_tile": 32768,
+  "two_slot_lifecycle": "K0/K1 seeded, publish t+1 and release t after MFMA36, write t+2 to released stage",
+  "extra_dead_prefetch": "A gains one wrapped K0 prefetch at t=62, matching B's existing valid wrap",
+  "not_a_full_gemm": false
+}

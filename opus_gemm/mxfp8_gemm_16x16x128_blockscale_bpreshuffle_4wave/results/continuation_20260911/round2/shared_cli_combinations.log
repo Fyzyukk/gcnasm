@@ -1,0 +1,114 @@
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL pair_b_merge_roles bf16 67108864 outputs
+FULL_BASELINE_EQUAL pair_b_merge_roles fp32 67108864 outputs
+FULL_BASELINE_EQUAL pair_b_early_a_merge bf16 67108864 outputs
+FULL_BASELINE_EQUAL pair_b_early_a_merge fp32 67108864 outputs
+FULL_BASELINE_EQUAL coexec/b_vmem_nt bf16 67108864 outputs
+FULL_BASELINE_EQUAL coexec/b_vmem_nt fp32 67108864 outputs
+1 baseline bf16: 0.360566635 ms / 3.049399 P
+1 baseline fp32: 0.372876854 ms / 2.948726 P
+1 pair_b_merge_roles bf16: 0.358029213 ms / 3.071011 P
+1 pair_b_merge_roles fp32: 0.374083710 ms / 2.939213 P
+1 pair_b_early_a_merge bf16: 0.359379997 ms / 3.059468 P
+1 pair_b_early_a_merge fp32: 0.372676964 ms / 2.950307 P
+1 coexec/b_vmem_nt bf16: 0.381831512 ms / 2.879573 P
+1 coexec/b_vmem_nt fp32: 0.410121422 ms / 2.680942 P
+2 coexec/b_vmem_nt bf16: 0.383097916 ms / 2.870054 P
+2 coexec/b_vmem_nt fp32: 0.410285110 ms / 2.679872 P
+2 pair_b_early_a_merge bf16: 0.360158424 ms / 3.052856 P
+2 pair_b_early_a_merge fp32: 0.373074226 ms / 2.947166 P
+2 pair_b_merge_roles bf16: 0.366009331 ms / 3.004054 P
+2 pair_b_merge_roles fp32: 0.374455833 ms / 2.936292 P
+2 baseline bf16: 0.362259674 ms / 3.035148 P
+2 baseline fp32: 0.374489441 ms / 2.936028 P
+3 baseline bf16: 0.362060471 ms / 3.036818 P
+3 baseline fp32: 0.374601440 ms / 2.935151 P
+3 pair_b_merge_roles bf16: 0.366920547 ms / 2.996593 P
+3 pair_b_merge_roles fp32: 0.381575584 ms / 2.881504 P
+3 pair_b_early_a_merge bf16: 0.367064209 ms / 2.995420 P
+3 pair_b_early_a_merge fp32: 0.373817444 ms / 2.941306 P
+3 coexec/b_vmem_nt bf16: 0.383811607 ms / 2.864717 P
+3 coexec/b_vmem_nt fp32: 0.412175522 ms / 2.667581 P
+4 coexec/b_vmem_nt bf16: 0.383555183 ms / 2.866632 P
+4 coexec/b_vmem_nt fp32: 0.412596779 ms / 2.664858 P
+4 pair_b_early_a_merge bf16: 0.369318619 ms / 2.977136 P
+4 pair_b_early_a_merge fp32: 0.382257996 ms / 2.876360 P
+4 pair_b_merge_roles bf16: 0.370031433 ms / 2.971401 P
+4 pair_b_merge_roles fp32: 0.375822716 ms / 2.925612 P
+4 baseline bf16: 0.362402115 ms / 3.033955 P
+4 baseline fp32: 0.375070953 ms / 2.931476 P
+5 baseline bf16: 0.362307358 ms / 3.034748 P
+5 baseline fp32: 0.386670074 ms / 2.843539 P
+5 pair_b_merge_roles bf16: 0.370469055 ms / 2.967891 P
+5 pair_b_merge_roles fp32: 0.375403938 ms / 2.928876 P
+5 pair_b_early_a_merge bf16: 0.360910110 ms / 3.046497 P
+5 pair_b_early_a_merge fp32: 0.374245529 ms / 2.937942 P
+5 coexec/b_vmem_nt bf16: 0.384068413 ms / 2.862801 P
+5 coexec/b_vmem_nt fp32: 0.411923561 ms / 2.669213 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.3622596740722656,
+    "min_ms": 0.36056663513183596,
+    "max_ms": 0.36240211486816404,
+    "median_pflops": 3.0351477309524193
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.3746014404296875,
+    "min_ms": 0.37287685394287107,
+    "max_ms": 0.38667007446289064,
+    "median_pflops": 2.935150560325669
+  },
+  {
+    "name": "pair_b_merge_roles",
+    "dtype": "bf16",
+    "median_ms": 0.3669205474853516,
+    "min_ms": 0.3580292129516602,
+    "max_ms": 0.37046905517578127,
+    "median_pflops": 2.9965932279109975
+  },
+  {
+    "name": "pair_b_merge_roles",
+    "dtype": "fp32",
+    "median_ms": 0.37540393829345703,
+    "min_ms": 0.3740837097167969,
+    "max_ms": 0.3815755844116211,
+    "median_pflops": 2.928876113485258
+  },
+  {
+    "name": "pair_b_early_a_merge",
+    "dtype": "bf16",
+    "median_ms": 0.3609101104736328,
+    "min_ms": 0.35937999725341796,
+    "max_ms": 0.3693186187744141,
+    "median_pflops": 3.046497163332662
+  },
+  {
+    "name": "pair_b_early_a_merge",
+    "dtype": "fp32",
+    "median_ms": 0.37381744384765625,
+    "min_ms": 0.37267696380615234,
+    "max_ms": 0.38225799560546875,
+    "median_pflops": 2.941306367244033
+  },
+  {
+    "name": "coexec/b_vmem_nt",
+    "dtype": "bf16",
+    "median_ms": 0.38355518341064454,
+    "min_ms": 0.38183151245117186,
+    "max_ms": 0.3840684127807617,
+    "median_pflops": 2.866632170106363
+  },
+  {
+    "name": "coexec/b_vmem_nt",
+    "dtype": "fp32",
+    "median_ms": 0.4119235610961914,
+    "min_ms": 0.4101214218139648,
+    "max_ms": 0.4125967788696289,
+    "median_pflops": 2.6692127657132114
+  }
+]

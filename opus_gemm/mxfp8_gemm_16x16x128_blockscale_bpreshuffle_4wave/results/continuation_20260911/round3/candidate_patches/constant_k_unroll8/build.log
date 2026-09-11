@@ -1,0 +1,18 @@
+mkdir -p build
+/root/toolchains/rocm-llvm23-46fcb339-build/bin/clang++ -x hip gemm_a8w8_mxfp8_scale_kernel.cc -I. -I/root/workspace/aiter/csrc/include -std=c++17 -O3 -ffast-math -fPIC --offload-arch=gfx950 --rocm-path=/opt/rocm -D__HIPCC_RTC__ -c -o build/kernel.o
+/root/toolchains/rocm-llvm23-46fcb339-build/bin/clang++ -x hip gemm_a8w8_mxfp8_scale_host.cc -I. -I/root/workspace/aiter/csrc/include -std=c++17 -O3 -ffast-math -fPIC --offload-arch=gfx950 --rocm-path=/opt/rocm -fno-finite-math-only -fopenmp -I/opt/rocm/lib/llvm/include -c -o build/host.o
+In file included from gemm_a8w8_mxfp8_scale_kernel.cc:14:
+In file included from ./tmpl.hpp:4:
+/root/workspace/aiter/csrc/include/opus/opus.hpp:331:45: warning: use of CUDA/HIP target attributes on deduction guides is deprecated; they will be rejected in a future version of Clang [-Wdeprecated-attributes]
+  331 | template<typename... T> __host__ __device__ tuple(T&&...) -> tuple<remove_cvref_t<T>...>;
+      |                                             ^
+/root/toolchains/rocm-llvm23-46fcb339-build/bin/clang++ -x hip gemm_a8w8_blockscale_bpreshuffle_launch.cc -I. -I/root/workspace/aiter/csrc/include -std=c++17 -O3 -ffast-math -fPIC --offload-arch=gfx950 --rocm-path=/opt/rocm -c -o build/launch.o
+fatal error: error in backend: conflicting AMDGPU hard-pin hints were coalesced: vreg 2147485547 -> 2147485549, targets 4968 and 4972
+clang++: error: clang frontend command failed with exit code 70 (use -v to see invocation)
+clang version 23.0.0git (/root/workspace/llvm-src 46fcb339fb61119b337f973c7ca9e710a319fdd0)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /root/toolchains/rocm-llvm23-46fcb339-build/bin
+clang++: note: diagnostic msg: Error generating preprocessed source(s).
+make: *** [Makefile:26: build/kernel.o] Error 1
+make: *** Waiting for unfinished jobs....

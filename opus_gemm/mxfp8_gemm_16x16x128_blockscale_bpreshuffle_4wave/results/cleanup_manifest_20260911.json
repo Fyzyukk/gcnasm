@@ -1,0 +1,17 @@
+{
+  "timestamp_utc": "2026-09-11T08:00:39.990784+00:00",
+  "archive_path": "/root/workspace/gcnasm_new/archives/mxfp8_4wave_round3_20260911_080037/raw_workspace_and_candidates.tar.gz",
+  "archive_sha256": "fa73967cc216aaa3001e0aeedd711aefd6779b3ff298d03fb45bcd5e4dbc5ab1",
+  "archive_bytes": 31124358,
+  "archive_file_count": 3452,
+  "archive_contents": [
+    "project: complete pre-cleanup workspace except live formal CLI output retained in project",
+    "work: recovered and newly generated candidates with binaries"
+  ],
+  "all_archived_files_hash_verified": true,
+  "removed_files": 1803,
+  "removed_bytes": 85609493,
+  "kept_result_files": 725,
+  "removed_manifest": "/root/workspace/gcnasm_new/archives/mxfp8_4wave_round3_20260911_080037/removed_files.json",
+  "scope": "Only this 4-wave directory; repository siblings and original inputs untouched"
+}

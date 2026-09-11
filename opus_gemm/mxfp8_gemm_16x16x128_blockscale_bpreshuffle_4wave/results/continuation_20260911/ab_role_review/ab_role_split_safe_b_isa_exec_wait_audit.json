@@ -1,0 +1,1074 @@
+{
+  "candidate": "/tmp/mxfp8_fourwave_e8_continue_20260910/ab_role_split_safe_b",
+  "status": "PASS",
+  "gpu_launched": false,
+  "candidate_files_modified": false,
+  "hashes": {
+    "tmpl.hpp": "0dbee7b1831cc5a24c70822de167a22c2a8a42f6bc7776caf4d2ec645e7f91c0",
+    "tmpl_generic.hpp": "3681ebf7093140a3f1216b1c6faab22e6d726dbd15c4ec3167b931029f84f180",
+    "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+    "build/device.co": "03957f6a4d56ef5e49de64df1f58a5bdaa476070c8d40ad92dfb35bc9dcd81c1",
+    "build/device.isa": "3dae804ecdff56f81292fe33de67c9a201bfb7f972a9ec2426cf42f38e139193",
+    "build/device.notes": "f241d5c3356fda8848ba89eaf9daa151be8d048463fed9d8f61d1996e03789c1",
+    "build/gemm_a8w8_blockscale_bpreshuffle.exe": "c9d78aa1d9c184482e74fa5face8ffb528d9e6d4e65b00040c68ae11568d1299",
+    "build/libblockscale_bpreshuffle.so": "88dc75b4ac666f091d77d5c0bba440b70c93a01b66aa130884e2c4ad1ca28ea9"
+  },
+  "source_mfma_call_order_unchanged": true,
+  "external_abi_files_unchanged": true,
+  "kernels": [
+    {
+      "name": "_ZN16blockscale_panel28gemm_a8w8_mxfp8_scale_kernelI17WholeKScaleTraitsILb0EEEEv21opus_gemm_scale_kargs",
+      "resources": {
+        "vgpr_count": 416,
+        "sgpr_count": 92,
+        "group_segment_fixed_size": 152064,
+        "private_segment_fixed_size": 0,
+        "vgpr_spill_count": 0,
+        "sgpr_spill_count": 0,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      },
+      "instructions": 2100,
+      "native_tied_mfma_C256": 384,
+      "exec_writes": 0,
+      "generic_isa_unchanged": false,
+      "lds_wait": {
+        "name": "_ZN16blockscale_panel28gemm_a8w8_mxfp8_scale_kernelI17WholeKScaleTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "cfg_states": 2531,
+        "static_mfma_checked": 384,
+        "max_pending_lgkm_events": 27,
+        "hazards": []
+      },
+      "vmem_wait": {
+        "cfg_states": 12591,
+        "hazards": [],
+        "barriers_with_zero_pending_vmem": [
+          591,
+          905,
+          1129,
+          1354,
+          1577,
+          1842
+        ]
+      },
+      "roles": {
+        "role_branches": [
+          {
+            "branch_line": 788,
+            "operand": "A",
+            "producer_waves": [
+              0,
+              1
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              792,
+              795,
+              798,
+              801,
+              804,
+              807,
+              810,
+              813
+            ],
+            "common_next_mfma_line": 814,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 816,
+            "operand": "A",
+            "producer_waves": [
+              0,
+              1
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              821,
+              824,
+              827,
+              830,
+              833,
+              836,
+              839,
+              842
+            ],
+            "common_next_mfma_line": 845,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 909,
+            "operand": "B",
+            "producer_waves": [
+              2,
+              3
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              914,
+              917,
+              920,
+              921,
+              924,
+              927,
+              930,
+              931
+            ],
+            "common_next_mfma_line": 932,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 934,
+            "operand": "B",
+            "producer_waves": [
+              2,
+              3
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              940,
+              943,
+              946,
+              947,
+              950,
+              953,
+              956,
+              957
+            ],
+            "common_next_mfma_line": 958,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 1010,
+            "operand": "A",
+            "producer_waves": [
+              0,
+              1
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              1014,
+              1017,
+              1020,
+              1023,
+              1026,
+              1029,
+              1032,
+              1035
+            ],
+            "common_next_mfma_line": 1036,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 1038,
+            "operand": "A",
+            "producer_waves": [
+              0,
+              1
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              1043,
+              1046,
+              1049,
+              1052,
+              1055,
+              1058,
+              1061,
+              1064
+            ],
+            "common_next_mfma_line": 1067,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 1133,
+            "operand": "B",
+            "producer_waves": [
+              2,
+              3
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              1138,
+              1141,
+              1144,
+              1145,
+              1148,
+              1151,
+              1154,
+              1155
+            ],
+            "common_next_mfma_line": 1156,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 1158,
+            "operand": "B",
+            "producer_waves": [
+              2,
+              3
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              1164,
+              1167,
+              1170,
+              1171,
+              1174,
+              1177,
+              1180,
+              1181
+            ],
+            "common_next_mfma_line": 1182,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 1234,
+            "operand": "A",
+            "producer_waves": [
+              0,
+              1
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              1238,
+              1241,
+              1244,
+              1247,
+              1250,
+              1253,
+              1256,
+              1259
+            ],
+            "common_next_mfma_line": 1260,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 1262,
+            "operand": "A",
+            "producer_waves": [
+              0,
+              1
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              1267,
+              1270,
+              1273,
+              1276,
+              1279,
+              1282,
+              1285,
+              1288
+            ],
+            "common_next_mfma_line": 1291,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 1358,
+            "operand": "B",
+            "producer_waves": [
+              2,
+              3
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              1363,
+              1366,
+              1369,
+              1370,
+              1373,
+              1376,
+              1379,
+              1380
+            ],
+            "common_next_mfma_line": 1381,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 1383,
+            "operand": "B",
+            "producer_waves": [
+              2,
+              3
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              1389,
+              1392,
+              1395,
+              1396,
+              1399,
+              1402,
+              1405,
+              1406
+            ],
+            "common_next_mfma_line": 1407,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 1459,
+            "operand": "A",
+            "producer_waves": [
+              0,
+              1
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              1462,
+              1465,
+              1468,
+              1471,
+              1474,
+              1477,
+              1480,
+              1483
+            ],
+            "common_next_mfma_line": 1484,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 1486,
+            "operand": "A",
+            "producer_waves": [
+              0,
+              1
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              1490,
+              1493,
+              1496,
+              1499,
+              1502,
+              1505,
+              1508,
+              1511
+            ],
+            "common_next_mfma_line": 1514,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 1581,
+            "operand": "B",
+            "producer_waves": [
+              2,
+              3
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              1586,
+              1589,
+              1592,
+              1593,
+              1596,
+              1599,
+              1602,
+              1603
+            ],
+            "common_next_mfma_line": 1604,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 1606,
+            "operand": "B",
+            "producer_waves": [
+              2,
+              3
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              1612,
+              1615,
+              1618,
+              1619,
+              1622,
+              1625,
+              1628,
+              1629
+            ],
+            "common_next_mfma_line": 727,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 1721,
+            "operand": "A",
+            "producer_waves": [
+              0,
+              1
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              1725,
+              1728,
+              1731,
+              1734,
+              1737,
+              1740,
+              1743,
+              1746
+            ],
+            "common_next_mfma_line": 1747,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 1749,
+            "operand": "A",
+            "producer_waves": [
+              0,
+              1
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              1754,
+              1757,
+              1760,
+              1763,
+              1766,
+              1769,
+              1772,
+              1775
+            ],
+            "common_next_mfma_line": 1779,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 1846,
+            "operand": "B",
+            "producer_waves": [
+              2,
+              3
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              1853,
+              1856,
+              1859,
+              1860,
+              1863,
+              1866,
+              1869,
+              1870
+            ],
+            "common_next_mfma_line": 1871,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 1873,
+            "operand": "B",
+            "producer_waves": [
+              2,
+              3
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              1882,
+              1885,
+              1888,
+              1889,
+              1892,
+              1895,
+              1898,
+              1899
+            ],
+            "common_next_mfma_line": 1651,
+            "predicate_uniform_in_each_wave": true
+          }
+        ],
+        "all_role_branches_join_before_mfma": true,
+        "predicate_proof": "CFG reaching definitions from v0 thread IDs, scalar wave-N comparison, and full-lane masks"
+      },
+      "output": {
+        "stores": 64
+      }
+    },
+    {
+      "name": "_ZN16blockscale_panel28gemm_a8w8_mxfp8_scale_kernelI17WholeKScaleTraitsILb1EEEEv21opus_gemm_scale_kargs",
+      "resources": {
+        "vgpr_count": 460,
+        "sgpr_count": 92,
+        "group_segment_fixed_size": 152064,
+        "private_segment_fixed_size": 0,
+        "vgpr_spill_count": 0,
+        "sgpr_spill_count": 0,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      },
+      "instructions": 2487,
+      "native_tied_mfma_C256": 384,
+      "exec_writes": 0,
+      "generic_isa_unchanged": false,
+      "lds_wait": {
+        "name": "_ZN16blockscale_panel28gemm_a8w8_mxfp8_scale_kernelI17WholeKScaleTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "cfg_states": 2918,
+        "static_mfma_checked": 384,
+        "max_pending_lgkm_events": 27,
+        "hazards": []
+      },
+      "vmem_wait": {
+        "cfg_states": 15687,
+        "hazards": [],
+        "barriers_with_zero_pending_vmem": [
+          2694,
+          3008,
+          3232,
+          3457,
+          3680,
+          3945
+        ]
+      },
+      "roles": {
+        "role_branches": [
+          {
+            "branch_line": 2891,
+            "operand": "A",
+            "producer_waves": [
+              0,
+              1
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              2895,
+              2898,
+              2901,
+              2904,
+              2907,
+              2910,
+              2913,
+              2916
+            ],
+            "common_next_mfma_line": 2917,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 2919,
+            "operand": "A",
+            "producer_waves": [
+              0,
+              1
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              2924,
+              2927,
+              2930,
+              2933,
+              2936,
+              2939,
+              2942,
+              2945
+            ],
+            "common_next_mfma_line": 2948,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 3012,
+            "operand": "B",
+            "producer_waves": [
+              2,
+              3
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              3017,
+              3020,
+              3023,
+              3024,
+              3027,
+              3030,
+              3033,
+              3034
+            ],
+            "common_next_mfma_line": 3035,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 3037,
+            "operand": "B",
+            "producer_waves": [
+              2,
+              3
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              3043,
+              3046,
+              3049,
+              3050,
+              3053,
+              3056,
+              3059,
+              3060
+            ],
+            "common_next_mfma_line": 3061,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 3113,
+            "operand": "A",
+            "producer_waves": [
+              0,
+              1
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              3117,
+              3120,
+              3123,
+              3126,
+              3129,
+              3132,
+              3135,
+              3138
+            ],
+            "common_next_mfma_line": 3139,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 3141,
+            "operand": "A",
+            "producer_waves": [
+              0,
+              1
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              3146,
+              3149,
+              3152,
+              3155,
+              3158,
+              3161,
+              3164,
+              3167
+            ],
+            "common_next_mfma_line": 3170,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 3236,
+            "operand": "B",
+            "producer_waves": [
+              2,
+              3
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              3241,
+              3244,
+              3247,
+              3248,
+              3251,
+              3254,
+              3257,
+              3258
+            ],
+            "common_next_mfma_line": 3259,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 3261,
+            "operand": "B",
+            "producer_waves": [
+              2,
+              3
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              3267,
+              3270,
+              3273,
+              3274,
+              3277,
+              3280,
+              3283,
+              3284
+            ],
+            "common_next_mfma_line": 3285,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 3337,
+            "operand": "A",
+            "producer_waves": [
+              0,
+              1
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              3341,
+              3344,
+              3347,
+              3350,
+              3353,
+              3356,
+              3359,
+              3362
+            ],
+            "common_next_mfma_line": 3363,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 3365,
+            "operand": "A",
+            "producer_waves": [
+              0,
+              1
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              3370,
+              3373,
+              3376,
+              3379,
+              3382,
+              3385,
+              3388,
+              3391
+            ],
+            "common_next_mfma_line": 3394,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 3461,
+            "operand": "B",
+            "producer_waves": [
+              2,
+              3
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              3466,
+              3469,
+              3472,
+              3473,
+              3476,
+              3479,
+              3482,
+              3483
+            ],
+            "common_next_mfma_line": 3484,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 3486,
+            "operand": "B",
+            "producer_waves": [
+              2,
+              3
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              3492,
+              3495,
+              3498,
+              3499,
+              3502,
+              3505,
+              3508,
+              3509
+            ],
+            "common_next_mfma_line": 3510,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 3562,
+            "operand": "A",
+            "producer_waves": [
+              0,
+              1
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              3565,
+              3568,
+              3571,
+              3574,
+              3577,
+              3580,
+              3583,
+              3586
+            ],
+            "common_next_mfma_line": 3587,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 3589,
+            "operand": "A",
+            "producer_waves": [
+              0,
+              1
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              3593,
+              3596,
+              3599,
+              3602,
+              3605,
+              3608,
+              3611,
+              3614
+            ],
+            "common_next_mfma_line": 3617,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 3684,
+            "operand": "B",
+            "producer_waves": [
+              2,
+              3
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              3689,
+              3692,
+              3695,
+              3696,
+              3699,
+              3702,
+              3705,
+              3706
+            ],
+            "common_next_mfma_line": 3707,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 3709,
+            "operand": "B",
+            "producer_waves": [
+              2,
+              3
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              3715,
+              3718,
+              3721,
+              3722,
+              3725,
+              3728,
+              3731,
+              3732
+            ],
+            "common_next_mfma_line": 2830,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 3824,
+            "operand": "A",
+            "producer_waves": [
+              0,
+              1
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              3828,
+              3831,
+              3834,
+              3837,
+              3840,
+              3843,
+              3846,
+              3849
+            ],
+            "common_next_mfma_line": 3850,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 3852,
+            "operand": "A",
+            "producer_waves": [
+              0,
+              1
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              3857,
+              3860,
+              3863,
+              3866,
+              3869,
+              3872,
+              3875,
+              3878
+            ],
+            "common_next_mfma_line": 3882,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 3949,
+            "operand": "B",
+            "producer_waves": [
+              2,
+              3
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              3956,
+              3959,
+              3962,
+              3963,
+              3966,
+              3969,
+              3972,
+              3973
+            ],
+            "common_next_mfma_line": 3974,
+            "predicate_uniform_in_each_wave": true
+          },
+          {
+            "branch_line": 3976,
+            "operand": "B",
+            "producer_waves": [
+              2,
+              3
+            ],
+            "producer_dtlds": 8,
+            "other_dtlds": 0,
+            "producer_load_lines": [
+              3985,
+              3988,
+              3991,
+              3992,
+              3995,
+              3998,
+              4001,
+              4002
+            ],
+            "common_next_mfma_line": 3754,
+            "predicate_uniform_in_each_wave": true
+          }
+        ],
+        "all_role_branches_join_before_mfma": true,
+        "predicate_proof": "CFG reaching definitions from v0 thread IDs, scalar wave-N comparison, and full-lane masks"
+      },
+      "output": {
+        "stores": 64
+      }
+    },
+    {
+      "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+      "resources": {
+        "vgpr_count": 408,
+        "sgpr_count": 70,
+        "group_segment_fixed_size": 139264,
+        "private_segment_fixed_size": 0,
+        "vgpr_spill_count": 0,
+        "sgpr_spill_count": 0,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      },
+      "instructions": 1705,
+      "native_tied_mfma_C256": 384,
+      "exec_writes": 0,
+      "generic_isa_unchanged": true,
+      "lds_wait": {
+        "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "cfg_states": 1869,
+        "static_mfma_checked": 384,
+        "max_pending_lgkm_events": 27,
+        "hazards": []
+      },
+      "vmem_wait": {
+        "cfg_states": 2488,
+        "hazards": [],
+        "barriers_with_zero_pending_vmem": [
+          4809,
+          5280,
+          5454,
+          5629,
+          5803,
+          6016
+        ]
+      },
+      "roles": null,
+      "output": {
+        "stores": 64
+      }
+    },
+    {
+      "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+      "resources": {
+        "vgpr_count": 460,
+        "sgpr_count": 70,
+        "group_segment_fixed_size": 139264,
+        "private_segment_fixed_size": 0,
+        "vgpr_spill_count": 0,
+        "sgpr_spill_count": 0,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      },
+      "instructions": 2092,
+      "native_tied_mfma_C256": 384,
+      "exec_writes": 0,
+      "generic_isa_unchanged": true,
+      "lds_wait": {
+        "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "cfg_states": 2256,
+        "static_mfma_checked": 384,
+        "max_pending_lgkm_events": 27,
+        "hazards": []
+      },
+      "vmem_wait": {
+        "cfg_states": 3649,
+        "hazards": [],
+        "barriers_with_zero_pending_vmem": [
+          6517,
+          6988,
+          7162,
+          7337,
+          7511,
+          7724
+        ]
+      },
+      "roles": null,
+      "output": {
+        "stores": 64
+      }
+    }
+  ]
+}

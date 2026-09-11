@@ -1,0 +1,34 @@
+{
+  "gemm_dispatch_count": 1,
+  "total_trace_dispatch_count": 2,
+  "runtime_input_copy_kernels": [
+    "__amd_rocclr_copyBuffer"
+  ],
+  "explicit_hip_malloc_count": 5,
+  "algorithm_extra_workspace_bytes": 0,
+  "explanation": "The CLI allocates A/B/C/SFA/SFB and copies inputs before timing; one rocclr copyBuffer runtime kernel appears in that preparation. The GEMM adapter itself launches exactly one kernel and allocates no workspace.",
+  "gemm": {
+    "Kind": "KERNEL_DISPATCH",
+    "Agent_Id": "Agent 4",
+    "Queue_Id": "1",
+    "Stream_Id": "0",
+    "Thread_Id": "3753910",
+    "Dispatch_Id": "2",
+    "Kernel_Id": "13",
+    "Kernel_Name": "void blockscale_panel::gemm_a8w8_mxfp8_scale_kernel<WholeKScaleTraits<true> >(opus_gemm_scale_kargs)",
+    "Correlation_Id": "21",
+    "Start_Timestamp": "891252276078029",
+    "End_Timestamp": "891252276497472",
+    "LDS_Block_Size": "152064",
+    "Scratch_Size": "0",
+    "VGPR_Count": "232",
+    "Accum_VGPR_Count": "0",
+    "SGPR_Count": "112",
+    "Workgroup_Size_X": "256",
+    "Workgroup_Size_Y": "1",
+    "Workgroup_Size_Z": "1",
+    "Grid_Size_X": "262144",
+    "Grid_Size_Y": "1",
+    "Grid_Size_Z": "1"
+  }
+}
