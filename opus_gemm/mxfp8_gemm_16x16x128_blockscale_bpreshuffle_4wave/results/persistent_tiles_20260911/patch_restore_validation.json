@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "method": "Executed the README restoration snippet; verified every candidate source hash against its recorded manifest",
+  "candidates": [
+    {
+      "name": "tile2",
+      "status": "PASS",
+      "files": 10
+    },
+    {
+      "name": "tile4",
+      "status": "PASS",
+      "files": 10
+    }
+  ]
+}

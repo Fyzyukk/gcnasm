@@ -1,0 +1,11 @@
+--- a/traits.hpp
++++ b/traits.hpp
+@@ -40,7 +40,7 @@
+     static constexpr int VEC_B = 16;
+     static constexpr int VEC_C = 4;
+     static constexpr bool OUTPUT_BF16 = OutputBF16;
+-    static constexpr int OUTPUT_TILES_PER_WG = 1;
++    static constexpr int OUTPUT_TILES_PER_WG = 4;
+ 
+     static constexpr int GROUP_M = 1;
+     static constexpr int GROUP_N = 128;

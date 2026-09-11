@@ -1,11 +1,13 @@
 gfx950 4-wave blockscale bpreshuffle GEMM
 =========================================
 
-本目录从 `../mxfp8_gemm_16x16x128_scale/4_wave_no_host_scale` 的 4-wave 流水线移植，接收 AITER 标准预排 B 及紧凑 block scales。2026-09-11 第三轮选入 `regroll_release8`：A/B 共用预取指令位置、缓存地址、滚动预读全部矩阵操作数，并在第8条 MFMA 后交接 LDS stage。保留完整 K scale 面板和 BF16 vec8 写回。
+本目录提供 gfx950 的 4-wave MXFP8 blockscale GEMM，接收 AITER 标准预排 B 和紧凑 E8M0 scales。最新 K8192 实现已放入 **`tmpl.hpp`**：分散 A0/B0 寄存器读取，在第4条 MFMA 后交接 LDS，主循环展开8次，单独处理 K62 以去掉末尾无用预取，并调整 C11 的末尾读取次序。
 
-**当前执行模式为 4wave + tile1。** 本项目的 `tile1` / `tile4` 按每个工作组处理的完整 **256×256 输出块数量**命名：tile1 每WG处理1块；tile4 为每WG连续处理4块的持久化方案。当前 `OUTPUT_TILES_PER_WG=1`，接口 `tiles=0`（auto）也选择1，CLI、Python与C ABI均只接受0/1。K方向的2-stage LDS双缓冲单独计数。历史 `scale_panel_persistent4` 实验及未选入正式路径的结论保存在 [优化日志](OPTIMIZATION_LOG.md) 和 [tile4测量记录](results/persistent4/measurements/results.json)。
+**执行模式为 4wave + tile1。** 本项目的 tile 数量指每个工作组处理的完整 **256×256 输出块数量**：tile1 每WG独立处理1块；tile2/tile4 为每WG连续处理2/4块的持久化方案。当前 `traits.hpp` 的 `OUTPUT_TILES_PER_WG=1`，接口 `tiles=0`（auto）也选择1，CLI、Python与C ABI均只接受0/1。K方向另有2-stage LDS双缓冲。
 
-GPU2（PCI `0000:65:00.0`）、8192³、b1/w200/i100、CLI seed=1，最终五轮交替中位数为 **BF16 0.357576294 ms / 3.074901P、FP32 0.369553413 ms / 2.975244P**。同轮第二轮基线为3.065668P和2.956384P，提升约0.30%和0.64%。BF16最快单轮约3.106P；正式数值取中位数。测前GPU计算活动为0%，另有18%显存驻留；同地址比较和GPU5对照另行记录。**3.5P目标尚未达到。** 最新流程、测量条件及清理记录见 [第三轮续记](CONTINUATION_20260911_ROUND3.md)。
+GPU2（PCI `0000:65:00.0`），8192³、batch1、warmup200、iterations100、CLI seed1，五轮交替中位数：**BF16 0.347990036 ms / 3.159607P，FP32 0.364447136 ms / 3.016930P**。同期冻结基线 `regroll_release8` 为3.066602P / 2.969736P，吞吐分别提升 **3.03% / 1.59%**。短期3.2P尚未达到，BF16还需减少约4.393µs。版本、资源、验证和测量口径见 [本轮续记](CONTINUATION_20260911_TARGET32.md) 和 [实验记录](results/tile1_target32_20260911/README.md)。
+
+此前约3.08P对应 `regroll_release8` 的 tile1；其源码现冻结在 `results/tile1_target32_20260911/baseline_source/`。该版本的 [tile1 / tile2 / tile4 同期对照](results/persistent_tiles_20260911/README.md) 已完成，GPU2五轮CLI的BF16分别为3.082924P / 3.055072P / 3.071371P。tile2与tile4出现spill，后续按用户要求回到tile1优化。第三轮历史结果见 [第三轮续记](CONTINUATION_20260911_ROUND3.md)。
 
 输入和输出
 ----------
@@ -44,9 +46,9 @@ K=8192 路径在 kernel 开头读取本输出 tile 所需的全部紧凑 scales�
 
 K8192先加载完整scale面板和矩阵K0/K1，种入K0的A0/A1/B0/B1寄存器。wave0/1各负责一个A的M128 half，wave2/3各负责一个B的N128 half。资源描述符按wave选择一次，16个不可变地址提前缓存到VGPR；主循环的预取指令位置由四个wave共用。
 
-第8条MFMA后，完整VMEM/LGKM等待与barrier发布t+1并释放t的LDS stage。随后在MFMA8、10、…、38后各发一次t+2预取。四个相邻LDS行利用MUBUF immediate共享m0基址；global和LDS两端的地址补偿一致。最后无消费者的A/B预取均回绕到有效的K0。
+第4条MFMA后，完整VMEM/LGKM等待与barrier发布t+1并释放t的LDS stage。主循环仍在MFMA8、10、…、38后各发一次t+2预取；四个相邻LDS行利用MUBUF immediate共享m0基址，global和LDS两端的地址补偿一致。主循环处理K0..K61，单独的K62段只发布并滚入K63，不再发无消费者的全局矩阵请求；最后由直接写回段处理K63。
 
-B0在MFMA38后读取t+1。BF16在MFMA48后整体滚入下一A0；FP32按M repeat在36、40、44、48后滚入。A1各M repeat在52、56、60、64的最后消费者之后读取下一tile；B1的两组N repeat分别在62、64之后滚入。这样下一轮的矩阵操作数已有寄存器预读，前半段可以集中发global预取，后半段完成LDS读取。MFMA顺序及scale字节选择保持一致。
+两种输出的A0均按M repeat在MFMA36、40、44、48后读取t+1；B0在32、34、36、38后分四对读取。C11前8条维持按行次序，后8条在M repeat 2/3间交替，使B1四个N repeat分别在58、60、62、64后读取，A1四个M repeat在52、56、63、64后读取。只调整同一K块内独立累加器的执行次序，每个累加器的K顺序、操作数和scale字节选择一致。
 
 BF16写回仍使用 `permlane16_swap` 合并为vec8，每wave32次16B store；FP32保持原写回。完整路径LDS为 **152064字节**，普通VGPR为FP32 **216** / BF16 **220**，另有固定 **256 AGPR**，SGPR **48**，零spill/scratch。metadata combined VGPR为472/476，已经包含AGPR。通用K路径的源代码和机器指令保持不变。
 
@@ -66,13 +68,13 @@ HIP_VISIBLE_DEVICES=2 OMP_TOOL=disabled OMP_NUM_THREADS=16 \
 
 Makefile 默认 `TOOLCHAIN=/root/toolchains/rocm-llvm23-46fcb339-build`，`OPUS_INCLUDE_DIR=/root/workspace/aiter/csrc/include`，均可覆盖。编译器基线、补丁顺序和哈希保存在 `results/toolchain_manifest.json`；补丁原件仍在原 4-wave 目录的 `tools/compiler/`。
 
-按物理卡号重建第二轮基线和当前版本，并进行同地址、相邻基线对照：
+按物理卡号重建冻结的 `regroll_release8` tile1 基线和当前版本，进行同地址、相邻基线对照：
 
 ```bash
-python3 tools/compare_versions.py --gpu 5 --rounds 5 --validate
+python3 tools/compare_versions.py --gpu 2 --rounds 5 --validate --max-initial-vram-percent 20
 ```
 
-此工具按PCI地址解析HIP索引，要求GPU计算活动不超过5%，默认也要求显存占用不超过1%。若显存只是空闲驻留，可显式设置 `--max-initial-vram-percent`；初始状态写入结果。构建和结果保存在隔离目录及 `results/continuation_20260911/round3/shared_allocations/`。原始trace和重复实验产物的归档索引见 [清理记录](results/ARCHIVE_20260911.md)。
+此工具按PCI地址解析HIP索引，要求GPU计算活动不超过5%，默认也要求显存占用不超过1%。若显存只是空闲驻留，可显式设置 `--max-initial-vram-percent`；初始状态写入结果。构建和结果保存在隔离目录及 `results/tile1_target32_20260911/shared_allocations/`。本轮原始trace与编译副本的保存位置见 [本轮实验记录](results/tile1_target32_20260911/README.md)；历史归档见 [清理记录](results/ARCHIVE_20260911.md)。
 
 Python 调用：
 

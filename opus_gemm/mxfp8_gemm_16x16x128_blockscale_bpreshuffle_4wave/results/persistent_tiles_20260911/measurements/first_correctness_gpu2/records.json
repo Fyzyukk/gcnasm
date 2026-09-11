@@ -1,0 +1,100 @@
+[
+  {
+    "name": "tile4",
+    "round": 1,
+    "dtype": "bf16",
+    "label": "verify_bf16",
+    "command": [
+      "/tmp/mxfp8_current_tile4_20260911_74_ug_dv/tile4/build/gemm_a8w8_blockscale_bpreshuffle.exe",
+      "-m",
+      "256",
+      "-n",
+      "512",
+      "-k",
+      "8192",
+      "-b",
+      "1",
+      "-w",
+      "0",
+      "-i",
+      "1",
+      "-v",
+      "1",
+      "--dtype",
+      "bf16",
+      "--seed",
+      "1"
+    ],
+    "gpu": 2,
+    "pci": "0000:65:00.0",
+    "hip_index": 2,
+    "timestamp_utc": "2026-09-11T08:40:35.789233+00:00",
+    "returncode": 0,
+    "wall_seconds": 0.5480259130708873,
+    "hashes": {
+      "tmpl.hpp": "c158be3af3763f31f58e107ca3d897bd3977c5878e5433e65f801e51b7718339",
+      "traits.hpp": "8aee7bef43bb534b52a7dcc2446e4a2b293121d770a09c0977bb42b45cf62a8b",
+      "tmpl_generic.hpp": "3681ebf7093140a3f1216b1c6faab22e6d726dbd15c4ec3167b931029f84f180",
+      "build/gemm_a8w8_blockscale_bpreshuffle.exe": "01881305e286d7563629453c051fc29616a0cdbcf37e4b662e179b3747e2ba91"
+    },
+    "log": "r1_tile4_verify_bf16.log",
+    "ms": 0.084480003,
+    "pflops": 0.025420023,
+    "valid": true,
+    "output_tiles_per_wg": 4,
+    "grid": [
+      2,
+      1,
+      1
+    ]
+  },
+  {
+    "name": "tile4",
+    "round": 1,
+    "dtype": "fp32",
+    "label": "verify_fp32",
+    "command": [
+      "/tmp/mxfp8_current_tile4_20260911_74_ug_dv/tile4/build/gemm_a8w8_blockscale_bpreshuffle.exe",
+      "-m",
+      "256",
+      "-n",
+      "512",
+      "-k",
+      "8192",
+      "-b",
+      "1",
+      "-w",
+      "0",
+      "-i",
+      "1",
+      "-v",
+      "1",
+      "--dtype",
+      "fp32",
+      "--seed",
+      "1"
+    ],
+    "gpu": 2,
+    "pci": "0000:65:00.0",
+    "hip_index": 2,
+    "timestamp_utc": "2026-09-11T08:40:36.359192+00:00",
+    "returncode": 0,
+    "wall_seconds": 0.5694578700931743,
+    "hashes": {
+      "tmpl.hpp": "c158be3af3763f31f58e107ca3d897bd3977c5878e5433e65f801e51b7718339",
+      "traits.hpp": "8aee7bef43bb534b52a7dcc2446e4a2b293121d770a09c0977bb42b45cf62a8b",
+      "tmpl_generic.hpp": "3681ebf7093140a3f1216b1c6faab22e6d726dbd15c4ec3167b931029f84f180",
+      "build/gemm_a8w8_blockscale_bpreshuffle.exe": "01881305e286d7563629453c051fc29616a0cdbcf37e4b662e179b3747e2ba91"
+    },
+    "log": "r1_tile4_verify_fp32.log",
+    "ms": 0.089840002,
+    "pflops": 0.023903424,
+    "valid": true,
+    "output_tiles_per_wg": 4,
+    "grid": [
+      2,
+      1,
+      1
+    ]
+  }
+]

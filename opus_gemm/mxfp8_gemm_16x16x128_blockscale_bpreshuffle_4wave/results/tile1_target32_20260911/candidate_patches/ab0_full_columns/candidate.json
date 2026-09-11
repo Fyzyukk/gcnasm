@@ -1,0 +1,41 @@
+{
+  "name": "ab0_full_columns",
+  "parent": "ab0_spread",
+  "config": {
+    "c11_order": [
+      0,
+      4,
+      8,
+      12,
+      1,
+      5,
+      9,
+      13,
+      2,
+      6,
+      10,
+      14,
+      3,
+      7,
+      11,
+      15
+    ],
+    "last_a": {
+      "0": 12,
+      "1": 13,
+      "2": 14,
+      "3": 15
+    },
+    "last_b": {
+      "0": 3,
+      "1": 7,
+      "2": 11,
+      "3": 15
+    }
+  },
+  "source_sha256": "b08adb2d998587e48a2f6851489fa91feecb7af14290fb46958ea87ad6c292b7",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "source_mfma_order_unchanged": false,
+  "per_accumulator_k_order_unchanged": true
+}

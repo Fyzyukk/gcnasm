@@ -1,0 +1,11 @@
+{
+  "name": "ab0_unroll2",
+  "parent": "ab0_spread",
+  "config": {
+    "unroll": 2
+  },
+  "source_sha256": "b2e3f2e3c4ebce7ab1ad7f90d8eca7904df7df19764173d60e10f3a144880f73",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "source_mfma_order_unchanged": true
+}

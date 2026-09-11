@@ -1,0 +1,123 @@
+{
+  "selected_candidate": "peel8_tail_columns",
+  "formal_source": "tmpl.hpp",
+  "formal_source_sha256": "4193c75a9fac14d7782c7f8d91fac58f95700b56989fb2b5242a21e5216cc1b0",
+  "baseline": "regroll_release8",
+  "baseline_source_sha256": "1b1c87b28c1ae645cd8986e00aae0f870f089044c8a8eac4d761e396deafe53a",
+  "physical_gpu": 2,
+  "pci": "0000:65:00.0",
+  "hip_index": 2,
+  "shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "batch": 1,
+  "warmup": 200,
+  "iterations": 100,
+  "seed": 1,
+  "rounds": 5,
+  "target_bf16_pflops": 3.2,
+  "target_achieved": false,
+  "target_ms": 0.34359738368,
+  "measurements": [
+    {
+      "dtype": "bf16",
+      "baseline": {
+        "name": "baseline",
+        "dtype": "bf16",
+        "gpu": 2,
+        "rounds": 5,
+        "median_ms": 0.358544006,
+        "min_ms": 0.35689827,
+        "max_ms": 0.360773125,
+        "median_pflops": 3.0666016147987145
+      },
+      "current": {
+        "name": "peel8_tail_columns",
+        "dtype": "bf16",
+        "gpu": 2,
+        "rounds": 5,
+        "median_ms": 0.347990036,
+        "min_ms": 0.347481804,
+        "max_ms": 0.348342285,
+        "median_pflops": 3.1596066382084573
+      },
+      "throughput_gain_percent": 3.03283683674207
+    },
+    {
+      "dtype": "fp32",
+      "baseline": {
+        "name": "baseline",
+        "dtype": "fp32",
+        "gpu": 2,
+        "rounds": 5,
+        "median_ms": 0.370238876,
+        "min_ms": 0.36963089,
+        "max_ms": 0.370663986,
+        "median_pflops": 2.969735754534864
+      },
+      "current": {
+        "name": "peel8_tail_columns",
+        "dtype": "fp32",
+        "gpu": 2,
+        "rounds": 5,
+        "median_ms": 0.364447136,
+        "min_ms": 0.364020729,
+        "max_ms": 0.364731865,
+        "median_pflops": 3.0169303560558096
+      },
+      "throughput_gain_percent": 1.5891852145052843
+    }
+  ],
+  "evidence": "measurements/final_selection_gpu2",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "same_address_confirmation": {
+    "evidence": "shared_allocations/formal_same_address_gpu2",
+    "rounds": 5,
+    "summary": [
+      {
+        "name": "baseline",
+        "dtype": "bf16",
+        "median_ms": 0.359796479344368,
+        "min_ms": 0.3575107157230377,
+        "max_ms": 0.37970706820487976,
+        "median_pflops": 3.055926588774752
+      },
+      {
+        "name": "baseline",
+        "dtype": "fp32",
+        "median_ms": 0.37098920345306396,
+        "min_ms": 0.36822962760925293,
+        "max_ms": 0.3903587758541107,
+        "median_pflops": 2.963729449649889
+      },
+      {
+        "name": "current",
+        "dtype": "bf16",
+        "median_ms": 0.34850287437438965,
+        "min_ms": 0.3445795178413391,
+        "max_ms": 0.3556499779224396,
+        "median_pflops": 3.154957128401807
+      },
+      {
+        "name": "current",
+        "dtype": "fp32",
+        "median_ms": 0.3641493320465088,
+        "min_ms": 0.3636452555656433,
+        "max_ms": 0.3645745515823364,
+        "median_pflops": 3.019397623488079
+      }
+    ],
+    "paired_median_speedup_percent": {
+      "bf16": 4.14729110573453,
+      "fp32": 1.8908383914712612
+    }
+  },
+  "comment_only_revision": {
+    "previous_source_sha256": "9c1ef9ec661dc75e65472ccefc048d3a786eb98568c919f69ce61a8f3c82161b",
+    "evidence": "selected/comment_only_equivalence.json",
+    "description": "Correct prefetch comment to K2..K63; executable statements unchanged"
+  }
+}

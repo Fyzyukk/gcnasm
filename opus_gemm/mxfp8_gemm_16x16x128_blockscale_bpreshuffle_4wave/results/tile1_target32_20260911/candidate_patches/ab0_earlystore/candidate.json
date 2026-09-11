@@ -1,0 +1,11 @@
+{
+  "name": "ab0_earlystore",
+  "parent": "ab0_spread",
+  "config": {
+    "epilogue": "resident operands and early C00/C01 stores"
+  },
+  "source_sha256": "0bfa6c3d367a2cbd3bffcae6ba628309a6057a43889f2f8b55aea821365201dc",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "source_mfma_order_unchanged": true
+}

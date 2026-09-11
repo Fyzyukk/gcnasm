@@ -1,0 +1,10 @@
+{
+  "name": "epilogue_resident",
+  "config": {
+    "reason": "Reuse final resident A1/B1/scales; remove redundant reloads"
+  },
+  "source_sha256": "d40df5cb1affcbe076ef09bf7c0479e9c5834ac640798af931ea8f887c05e610",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "source_mfma_order_unchanged": true
+}

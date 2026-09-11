@@ -1,0 +1,82 @@
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.358029137,
+    "min_ms": 0.355784607,
+    "max_ms": 0.358160324,
+    "median_pflops": 3.071011585786103
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.369874458,
+    "min_ms": 0.369509315,
+    "max_ms": 0.370484009,
+    "median_pflops": 2.972661680185551
+  },
+  {
+    "name": "ab0_r4_peel_unroll8",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.349141884,
+    "min_ms": 0.348366623,
+    "max_ms": 0.349523125,
+    "median_pflops": 3.1491828341511727
+  },
+  {
+    "name": "ab0_r4_peel_unroll8",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.366750832,
+    "min_ms": 0.36600544,
+    "max_ms": 0.367027588,
+    "median_pflops": 2.997979913992397
+  },
+  {
+    "name": "peel8_pad64",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.348558655,
+    "min_ms": 0.348439713,
+    "max_ms": 0.349211388,
+    "median_pflops": 3.1544522335157623
+  },
+  {
+    "name": "peel8_pad64",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.366376343,
+    "min_ms": 0.366135406,
+    "max_ms": 0.366988335,
+    "median_pflops": 3.001044278058095
+  },
+  {
+    "name": "peel8_pad96",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.348600616,
+    "min_ms": 0.348169136,
+    "max_ms": 0.349288559,
+    "median_pflops": 3.154072532608491
+  },
+  {
+    "name": "peel8_pad96",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.366711044,
+    "min_ms": 0.366247025,
+    "max_ms": 0.367194748,
+    "median_pflops": 2.9983051936008778
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "name": "early_store_resident",
+  "config": {
+    "reason": "Reuse resident operands and store C00/C01 earlier"
+  },
+  "source_sha256": "c6c9ede9d0ec7a6775e69b1938e7fa8c1121ca7c8091b43bbb4b24929c1f4859",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "source_mfma_order_unchanged": true
+}

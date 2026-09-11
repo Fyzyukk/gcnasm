@@ -1,0 +1,184 @@
+{
+  "pci": "0000:65:00.0",
+  "hip_visible_devices": "2",
+  "shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "batch": 1,
+  "performance_measured": false,
+  "versions": {
+    "baseline": {
+      "tmpl.hpp": "1b1c87b28c1ae645cd8986e00aae0f870f089044c8a8eac4d761e396deafe53a",
+      "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+      "build/libblockscale_bpreshuffle.so": "0e10606a5d0065d34cb9f12a0a3fef499d30472171bafbdf147edd76af69a01d"
+    },
+    "peel8_pad16": {
+      "tmpl.hpp": "fad4441e96ce43678b1b80ed371c8a125da5593002758c2b87f59c56f9d96c73",
+      "traits.hpp": "3af5d0eaacf478c2acad8caad6d85224e2a011d021d0c0f38be5cb2abeb3d3be",
+      "build/libblockscale_bpreshuffle.so": "d8d0049de3afe260117d9459de6192108c27ab8f7be6e308bfb9e39e45264284"
+    },
+    "peel8_pad48": {
+      "tmpl.hpp": "fad4441e96ce43678b1b80ed371c8a125da5593002758c2b87f59c56f9d96c73",
+      "traits.hpp": "3bc9f5ef0543eef2e638f69dea4bd071109b2b4f0ec70ad57c528417f0fab316",
+      "build/libblockscale_bpreshuffle.so": "bdaeb6bff27239101f1be9f6a7e24e042810cbee135c5958628b2b8b69f5757f"
+    },
+    "peel8_pad64": {
+      "tmpl.hpp": "fad4441e96ce43678b1b80ed371c8a125da5593002758c2b87f59c56f9d96c73",
+      "traits.hpp": "af52b986e5a190626a5d361f0acd75354e42a0f93f0e3993180ba1cf33e467a5",
+      "build/libblockscale_bpreshuffle.so": "08e54043c163e9bdea3db1ee75fbf771fb4b02328b2bb6161f874a45febf7c8a"
+    },
+    "peel8_pad96": {
+      "tmpl.hpp": "fad4441e96ce43678b1b80ed371c8a125da5593002758c2b87f59c56f9d96c73",
+      "traits.hpp": "feab8e54cdadf1b1b71d9352cc7a51b8f4af38f8752b432ae1098b7f542fca2c",
+      "build/libblockscale_bpreshuffle.so": "8bd9ec18adcfde1c7f850526f26b6c2a9c73a032cc50c3fffa1b2e8d32c70a2c"
+    }
+  },
+  "records": [
+    {
+      "name": "baseline",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "baseline",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "peel8_pad16",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "peel8_pad16",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "peel8_pad48",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "peel8_pad48",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "peel8_pad64",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "peel8_pad64",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "peel8_pad96",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "peel8_pad96",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "peel8_pad16",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "peel8_pad16",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "peel8_pad48",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "peel8_pad48",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "peel8_pad64",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "peel8_pad64",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "peel8_pad96",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "peel8_pad96",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "gpu": "AMD Instinct MI355X",
+  "physical_card": "card2",
+  "hip_visible_devices": "2",
+  "pci": "0000:65:00.0",
+  "comparison_scope": "Contemporaneous same-device, same-tensor-address comparison; report this card and this run baseline",
+  "timestamp_utc": "2026-09-11T10:37:13.809986+00:00",
+  "initial_device_status": {
+    "GPU use (%)": "0",
+    "GFX Activity": "2929540278",
+    "GPU Memory Allocated (VRAM%)": "18",
+    "GPU Memory Read/Write Activity (%)": "0",
+    "Memory Activity": "1624719918",
+    "Avg. Memory Bandwidth": "0",
+    "PCI Bus": "0000:65:00.0"
+  },
+  "shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "batch": 1,
+  "warmup": 200,
+  "iterations": 100,
+  "rounds": 3,
+  "versions": {
+    "baseline": {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/baseline",
+      "source_sha256": "1b1c87b28c1ae645cd8986e00aae0f870f089044c8a8eac4d761e396deafe53a",
+      "library_sha256": "0e10606a5d0065d34cb9f12a0a3fef499d30472171bafbdf147edd76af69a01d"
+    },
+    "ab0_r4_peel": {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_r4_peel",
+      "source_sha256": "2e4994e0531676d61a1e902c6268a8e7df76f81e552413317f0c55e9da55d3aa",
+      "library_sha256": "6a3e9125c77dc158cca965737aa8ec717844c2119cb7ee7275e93d515dc32790"
+    },
+    "direct_ab_regroll": {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/direct_ab_regroll",
+      "source_sha256": "3b01247a25d414531f8c01dff5a464e9dc2eec51cff1c6bd419f0070f41234cd",
+      "library_sha256": "b0f0b875a504490edb63ff18842958e13fcfbe32789694a3d80ee0b780104b03"
+    }
+  },
+  "pointers": {
+    "A": 139826147885056,
+    "B": 139825378230272,
+    "SFA": 139827485868032,
+    "SFB": 139827486392320,
+    "bf16": 139825241915392,
+    "fp32": 139824971382784
+  },
+  "input_pattern": "Exact CLI seed=1 generator and host FP8 type",
+  "timing": "HIP events around 100 C ABI launches, no preprocessing",
+  "bracketed": true,
+  "telemetry_enabled": false,
+  "native_timing": true,
+  "benchmark_helper_sha256": "e1725b8fbc942b4b83df5f6e798546790b8e2687011d7d3841e4e5971f2286c3"
+}

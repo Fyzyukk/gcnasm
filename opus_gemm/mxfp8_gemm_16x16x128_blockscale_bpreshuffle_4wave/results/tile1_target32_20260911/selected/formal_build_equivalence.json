@@ -1,0 +1,26 @@
+{
+  "tmpl.hpp": {
+    "equal": true,
+    "sha256": "4193c75a9fac14d7782c7f8d91fac58f95700b56989fb2b5242a21e5216cc1b0"
+  },
+  "traits.hpp": {
+    "equal": true,
+    "sha256": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117"
+  },
+  "build/device.isa": {
+    "equal": true,
+    "sha256": "1730236821b4982d8b61a11f2e9ab506e09a857d8739fe93d68f4f40dc39e844"
+  },
+  "build/device.notes": {
+    "equal": true,
+    "sha256": "5af89f956a9eeacff3295d9e7d20bac4a2a3e86beaf2659ae359b90798d80cf5"
+  },
+  "build/gemm_a8w8_blockscale_bpreshuffle.exe": {
+    "equal": true,
+    "sha256": "1ccab1b4c30081e3d08ac0f19093ed39e4b60861e52ad2aea2e5f5c650d77a80"
+  },
+  "build/libblockscale_bpreshuffle.so": {
+    "equal": true,
+    "sha256": "8986394037f8c59de48f19db7e89db0907fc960986d3bae1d71aa367bc86f102"
+  }
+}

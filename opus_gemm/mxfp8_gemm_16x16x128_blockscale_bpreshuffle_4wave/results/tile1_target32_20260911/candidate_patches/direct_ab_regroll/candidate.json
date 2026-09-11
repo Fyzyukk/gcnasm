@@ -1,0 +1,13 @@
+{
+  "name": "direct_ab_regroll",
+  "parent": "ab0_resident",
+  "config": {
+    "direct_ab_global": true,
+    "expected_lds_bytes": 16896
+  },
+  "source_sha256": "3b01247a25d414531f8c01dff5a464e9dc2eec51cff1c6bd419f0070f41234cd",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "source_mfma_order_unchanged": true,
+  "global_matrix_traffic": "Each wave loads its own operands; twice the aggregate bytes of shared LDS staging"
+}

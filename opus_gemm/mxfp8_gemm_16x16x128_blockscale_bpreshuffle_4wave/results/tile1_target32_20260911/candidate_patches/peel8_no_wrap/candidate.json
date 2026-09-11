@@ -1,0 +1,13 @@
+{
+  "name": "peel8_no_wrap",
+  "parent": "ab0_r4_peel_unroll8",
+  "config": {
+    "final_iteration_peeled": true,
+    "unroll": 8,
+    "no_unused_wrap": true
+  },
+  "source_sha256": "51bf0338b1e8b0b6c6a46087bf6e899a4ec47f85445bbdad6da0072cbe7764d9",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "per_accumulator_k_order_unchanged": true
+}

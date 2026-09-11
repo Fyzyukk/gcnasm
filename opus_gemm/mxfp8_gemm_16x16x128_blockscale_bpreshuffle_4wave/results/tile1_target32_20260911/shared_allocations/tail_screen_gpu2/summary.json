@@ -1,0 +1,98 @@
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.3601783365011215,
+    "min_ms": 0.3553675711154938,
+    "max_ms": 0.3613555431365967,
+    "median_pflops": 3.0526867286272124
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.3726276755332947,
+    "min_ms": 0.3715483844280243,
+    "max_ms": 0.3733128607273102,
+    "median_pflops": 2.9506977070407037
+  },
+  {
+    "name": "ab0_release4_keep",
+    "dtype": "bf16",
+    "median_ms": 0.35120388865470886,
+    "min_ms": 0.3495875895023346,
+    "max_ms": 0.35178428888320923,
+    "median_pflops": 3.130693204986123
+  },
+  {
+    "name": "ab0_release4_keep",
+    "dtype": "fp32",
+    "median_ms": 0.3692028522491455,
+    "min_ms": 0.3673211634159088,
+    "max_ms": 0.3693504333496094,
+    "median_pflops": 2.978069159211228
+  },
+  {
+    "name": "ab0_tail_columns",
+    "dtype": "bf16",
+    "median_ms": 0.35162827372550964,
+    "min_ms": 0.3495984673500061,
+    "max_ms": 0.35271748900413513,
+    "median_pflops": 3.1269147276658074
+  },
+  {
+    "name": "ab0_tail_columns",
+    "dtype": "fp32",
+    "median_ms": 0.36941924691200256,
+    "min_ms": 0.3691067397594452,
+    "max_ms": 0.370342493057251,
+    "median_pflops": 2.9763246960381275
+  },
+  {
+    "name": "ab0_full_columns",
+    "dtype": "bf16",
+    "median_ms": 0.3544919192790985,
+    "min_ms": 0.35123658180236816,
+    "max_ms": 0.3556714951992035,
+    "median_pflops": 3.101654982748232
+  },
+  {
+    "name": "ab0_full_columns",
+    "dtype": "fp32",
+    "median_ms": 0.3753392696380615,
+    "min_ms": 0.3747020363807678,
+    "max_ms": 0.37578245997428894,
+    "median_pflops": 2.9293807408861205
+  },
+  {
+    "name": "ab0_r4_tail_columns",
+    "dtype": "bf16",
+    "median_ms": 0.3501654863357544,
+    "min_ms": 0.3494225740432739,
+    "max_ms": 0.3502766788005829,
+    "median_pflops": 3.1399771556061893
+  },
+  {
+    "name": "ab0_r4_tail_columns",
+    "dtype": "fp32",
+    "median_ms": 0.3672972023487091,
+    "min_ms": 0.3671868145465851,
+    "max_ms": 0.3677128255367279,
+    "median_pflops": 2.993520290231158
+  },
+  {
+    "name": "ab0_r4_full_columns",
+    "dtype": "bf16",
+    "median_ms": 0.3536859154701233,
+    "min_ms": 0.3529026508331299,
+    "max_ms": 0.35432788729667664,
+    "median_pflops": 3.108723247615096
+  },
+  {
+    "name": "ab0_r4_full_columns",
+    "dtype": "fp32",
+    "median_ms": 0.3736720681190491,
+    "min_ms": 0.37283048033714294,
+    "max_ms": 0.3742464780807495,
+    "median_pflops": 2.942450671549001
+  }
+]

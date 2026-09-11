@@ -1,0 +1,55 @@
+--- a/tmpl.hpp
++++ b/tmpl.hpp
+@@ -849,12 +849,8 @@
+         stage = next_stage;
+     }
+ 
+-    // Consume the final resident tile with the original direct-store
+-    // epilogue. Retain its conservative A1 and B1 reloads.
+-    v_a[1] = load<T::VEC_A>(s_a, u_ra + sa_offset(stage, 1));
+-
+-    s_waitcnt_lgkmcnt(0_I);
+-    v_sfb[1] = load_sfb_dword(loops - 1, 1);
++    // The final A1/B1 operands and scale words were rolled by the K loop.
++    // Keep their register values; compiler-visible reads retain operand waits.
+ 
+     __builtin_amdgcn_s_setprio(1);
+     auto p_coord_c = opus::make_tuple(
+@@ -951,6 +947,8 @@
+     MXFP8_MMA_PAIR(0, 3, 1, v_a[0], v_b, c00_14, c00_15, v_sfa, v_sfb[0]);
+     sched_barrier_pairs_scale();
+ 
++    MXFP8_STORE_QUADRANT(c00, 0, 0);
++
+     MXFP8_MMA_PAIR(1, 0, 0, v_a[1], v_b, c10_0, c10_1, v_sfa, v_sfb[0]);
+     sched_barrier_pairs_scale();
+ 
+@@ -977,10 +975,9 @@
+ 
+     // B-half0 is dead on the final K tile.  Start the direct AGPR stores for
+     // both completed C quadrants before the B-half1 MFMAs occupy the XDL pipe.
+-    MXFP8_STORE_QUADRANT(c00, 0, 0);
+     MXFP8_STORE_QUADRANT(c10, 1, 0);
+ 
+-    v_b = load<T::VEC_B>(s_b, u_rb + sb_offset(stage, 1));
++    v_b = v_b_second;
+ 
+     MXFP8_MMA_PAIR(0, 0, 0, v_a[0], v_b, c01_0, c01_1, v_sfa, v_sfb[1]);
+     sched_barrier_pairs_scale();
+@@ -1006,6 +1003,8 @@
+     MXFP8_MMA_PAIR(0, 3, 1, v_a[0], v_b, c01_14, c01_15, v_sfa, v_sfb[1]);
+     sched_barrier_pairs_scale();
+ 
++    MXFP8_STORE_QUADRANT(c01, 0, 1);
++
+     MXFP8_MMA_PAIR(1, 0, 0, v_a[1], v_b, c11_0, c11_1, v_sfa, v_sfb[1]);
+     sched_barrier_pairs_scale();
+ 
+@@ -1031,7 +1030,6 @@
+     sched_barrier_pairs_scale();
+     __builtin_amdgcn_s_setprio(0);
+ 
+-    MXFP8_STORE_QUADRANT(c01, 0, 1);
+     MXFP8_STORE_QUADRANT(c11, 1, 1);
+ #undef MXFP8_STORE_QUADRANT
+ #undef MXFP8_STORE_AGPR_PAIR8

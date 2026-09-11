@@ -1,0 +1,44 @@
+--- a/tmpl.hpp
++++ b/tmpl.hpp
+@@ -695,7 +695,7 @@
+             opus::layout_to_offsets<T::VEC_A>(u_ra + sa_offset(next_stage, 1));
+         const auto rb1_next_offsets =
+             opus::layout_to_offsets<T::VEC_B>(u_rb + sb_offset(next_stage, 1));
+-        if constexpr (!T::OUTPUT_BF16) {
++        if constexpr (true) {
+             load_a_mrepeat_scale<T, 0>(s_a, ra0_next_offsets, v_a[0]);
+             __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+         }
+@@ -734,7 +734,7 @@
+         sched_barrier_pairs_scale();
+ 
+         // M1 is dead after c01_7; M2/M3 still use their current-tile slices.
+-        if constexpr (!T::OUTPUT_BF16) {
++        if constexpr (true) {
+             load_a_mrepeat_scale<T, 1>(s_a, ra0_next_offsets, v_a[0]);
+             __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+         }
+@@ -748,7 +748,7 @@
+         sched_barrier_pairs_scale();
+ 
+         // M2 is dead after c01_11. Keep the old SFA0 pack through M3.
+-        if constexpr (!T::OUTPUT_BF16) {
++        if constexpr (true) {
+             load_a_mrepeat_scale<T, 2>(s_a, ra0_next_offsets, v_a[0]);
+             __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+         }
+@@ -769,14 +769,8 @@
+         v_sfa[0] = load_sfa_dword(tile + 1, 0);
+         // M3 is dead after c01_15. The earlier three slices already hold
+         // tile t+1, so these last two K64 pieces complete the A0 roll.
+-        if constexpr (T::OUTPUT_BF16) {
+-            // BF16 retains the full A0 roll; its vec8 epilogue and this
+-            // schedule outperform per-M rolling in repeated measurements.
+-            v_a[0] = load<T::VEC_A>(s_a, u_ra + sa_offset(next_stage, 0));
+-        } else {
+             load_a_mrepeat_scale<T, 3>(s_a, ra0_next_offsets, v_a[0]);
+             __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+-        }
+         __builtin_amdgcn_sched_barrier(0);
+ 
+         // A half 1 x B half 1 -> C[1][1] (128x128 wave quadrant).

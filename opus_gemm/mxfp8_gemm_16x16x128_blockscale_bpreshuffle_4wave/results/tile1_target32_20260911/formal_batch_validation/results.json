@@ -1,0 +1,57 @@
+{
+  "pci": "0000:65:00.0",
+  "hip_visible_devices": "2",
+  "exe_sha256": "1ccab1b4c30081e3d08ac0f19093ed39e4b60861e52ad2aea2e5f5c650d77a80",
+  "records": [
+    {
+      "command": [
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/build/gemm_a8w8_blockscale_bpreshuffle.exe",
+        "-m",
+        "256",
+        "-n",
+        "512",
+        "-k",
+        "8192",
+        "-b",
+        "2",
+        "-w",
+        "0",
+        "-i",
+        "1",
+        "-v",
+        "1",
+        "--dtype",
+        "bf16",
+        "--seed",
+        "1"
+      ],
+      "returncode": 0,
+      "valid": true
+    },
+    {
+      "command": [
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/build/gemm_a8w8_blockscale_bpreshuffle.exe",
+        "-m",
+        "512",
+        "-n",
+        "256",
+        "-k",
+        "8192",
+        "-b",
+        "2",
+        "-w",
+        "0",
+        "-i",
+        "1",
+        "-v",
+        "1",
+        "--dtype",
+        "fp32",
+        "--seed",
+        "1"
+      ],
+      "returncode": 0,
+      "valid": true
+    }
+  ]
+}

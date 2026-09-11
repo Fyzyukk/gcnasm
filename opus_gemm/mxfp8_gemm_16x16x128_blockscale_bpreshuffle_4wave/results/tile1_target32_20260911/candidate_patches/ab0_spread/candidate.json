@@ -1,0 +1,10 @@
+{
+  "name": "ab0_spread",
+  "config": {
+    "reason": "Combine A0 per-M roll and B0 spread"
+  },
+  "source_sha256": "b1c642b5e0da2a4bf3d5b422efe26d07af3fceaa6436073b99421106308490b3",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "source_mfma_order_unchanged": true
+}

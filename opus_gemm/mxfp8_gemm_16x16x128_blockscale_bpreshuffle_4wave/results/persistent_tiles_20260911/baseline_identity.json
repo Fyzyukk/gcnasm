@@ -1,0 +1,7 @@
+{
+  "tmpl.hpp": "1b1c87b28c1ae645cd8986e00aae0f870f089044c8a8eac4d761e396deafe53a",
+  "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+  "tmpl_generic.hpp": "3681ebf7093140a3f1216b1c6faab22e6d726dbd15c4ec3167b931029f84f180",
+  "build/gemm_a8w8_blockscale_bpreshuffle.exe": "2acf07ec2ed42a6f3c39a3158608581ec5a2bd15ff83f71160d4bab5f1a6240f",
+  "build/libblockscale_bpreshuffle.so": "0e10606a5d0065d34cb9f12a0a3fef499d30472171bafbdf147edd76af69a01d"
+}

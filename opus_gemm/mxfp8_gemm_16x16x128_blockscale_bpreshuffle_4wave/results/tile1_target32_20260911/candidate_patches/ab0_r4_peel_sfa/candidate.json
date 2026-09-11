@@ -1,0 +1,12 @@
+{
+  "name": "ab0_r4_peel_sfa",
+  "parent": "ab0_release4_keep",
+  "config": {
+    "final_iteration_peeled": true,
+    "sfa_next_pair": true
+  },
+  "source_sha256": "a587a2f548805529776f69bb474a8591507346b7054d820d97b076712188be6a",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "per_accumulator_k_order_unchanged": true
+}

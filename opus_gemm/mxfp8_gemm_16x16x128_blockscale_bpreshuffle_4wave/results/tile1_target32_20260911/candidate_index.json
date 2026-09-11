@@ -1,0 +1,920 @@
+{
+  "baseline": "frozen regroll_release8 tile1",
+  "baseline_tmpl_sha256": "1b1c87b28c1ae645cd8986e00aae0f870f089044c8a8eac4d761e396deafe53a",
+  "base_commit": "f8040182670b270cd7cddb8ab062c0acd1d6c794",
+  "target_bf16_pflops": 3.2,
+  "shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "work_directory": "/tmp/mxfp8_tile1_target32_20260911_txgcogip",
+  "candidates": [
+    {
+      "name": "release0_pairs",
+      "config": {
+        "release": 0,
+        "sites": [
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          12,
+          14,
+          16,
+          18,
+          20,
+          22,
+          24,
+          26,
+          28,
+          30
+        ]
+      },
+      "source_sha256": "3d4840dee631b2214e8555fc6afd3ee855d8a8cfc9bae501d0205267863eae5a",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "release12_pairs",
+      "config": {
+        "release": 12,
+        "sites": [
+          12,
+          14,
+          16,
+          18,
+          20,
+          22,
+          24,
+          26,
+          28,
+          30,
+          32,
+          34,
+          36,
+          38,
+          40,
+          42
+        ]
+      },
+      "source_sha256": "3a57a436214145d464db0774b233f29da35bb17016d3f14e0c93d844b3a0601c",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "release8_dense2",
+      "config": {
+        "release": 8,
+        "sites": [
+          8,
+          8,
+          10,
+          10,
+          12,
+          12,
+          14,
+          14,
+          16,
+          16,
+          18,
+          18,
+          20,
+          20,
+          22,
+          22
+        ]
+      },
+      "source_sha256": "93a3bd634082f469b849ebf22a6911a18b6d5f3268133f50fdc3b4d679571d06",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "release0_dense2",
+      "config": {
+        "release": 0,
+        "sites": [
+          0,
+          0,
+          2,
+          2,
+          4,
+          4,
+          6,
+          6,
+          8,
+          8,
+          10,
+          10,
+          12,
+          12,
+          14,
+          14
+        ]
+      },
+      "source_sha256": "847ce850727fc2e260c59cb0f2461ed37022df2890a332e23f9f02429aaefe4d",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "release8_groups4",
+      "config": {
+        "release": 8,
+        "sites": [
+          8,
+          8,
+          8,
+          8,
+          16,
+          16,
+          16,
+          16,
+          24,
+          24,
+          24,
+          24,
+          32,
+          32,
+          32,
+          32
+        ]
+      },
+      "source_sha256": "06273fc462920f787ff986df5264a0b6dc3c076def5e35e72ae9c1effb906e68",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "release8_burst16",
+      "config": {
+        "release": 8,
+        "sites": [
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ]
+      },
+      "source_sha256": "99a52cb469797dc3b483c3ab7fbd3b2cef69223f8fb505e055fc97b97a91d827",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "unroll1",
+      "config": {
+        "unroll": 1
+      },
+      "source_sha256": "058b59bb5aa5335d44052edbac4beaef49d499b280863cf497b08f9341b27c36",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "unroll2",
+      "config": {
+        "unroll": 2
+      },
+      "source_sha256": "35f15d2e106b719bc6bfae2579a00aed492da63f2dfb76e6105e4bfc8650750a",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "a0_per_m",
+      "config": {
+        "reason": "BF16 A0 reads after its M-repeat last use at 36/40/44/48"
+      },
+      "source_sha256": "694330e908c75a375fe3fb6605be1405d708796df9f125873db722d39617f93b",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "b0_spread",
+      "config": {
+        "reason": "B0 reads spread in pairs after MFMA32/34/36/38"
+      },
+      "source_sha256": "4ba03753e205aabc88bfa741ce663a16c4fbca6a88b972366d1926e1e7d47208",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "ab0_spread",
+      "config": {
+        "reason": "Combine A0 per-M roll and B0 spread"
+      },
+      "source_sha256": "b1c642b5e0da2a4bf3d5b422efe26d07af3fceaa6436073b99421106308490b3",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "epilogue_resident",
+      "config": {
+        "reason": "Reuse final resident A1/B1/scales; remove redundant reloads"
+      },
+      "source_sha256": "d40df5cb1affcbe076ef09bf7c0479e9c5834ac640798af931ea8f887c05e610",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "early_store_resident",
+      "config": {
+        "reason": "Reuse resident operands and store C00/C01 earlier"
+      },
+      "source_sha256": "c6c9ede9d0ec7a6775e69b1938e7fa8c1121ca7c8091b43bbb4b24929c1f4859",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "roll_relaxed",
+      "config": {
+        "reason": "Let LLVM interleave A1/B1 roll reads without extra scheduling fences"
+      },
+      "source_sha256": "bbd6eb972cdde70cc78359801edd10248de0a718d23647cb48a07347ff53f7cb",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "ab0_release4",
+      "parent": "ab0_spread",
+      "config": {
+        "release": 4,
+        "request_sites": [
+          4,
+          6,
+          8,
+          10,
+          12,
+          14,
+          16,
+          18,
+          20,
+          22,
+          24,
+          26,
+          28,
+          30,
+          32,
+          34
+        ]
+      },
+      "source_sha256": "02785dda5d3cd0f4df38ad67f23d9def345ab3f37f4da81e560d5958e08a349e",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "ab0_release4_keep",
+      "parent": "ab0_spread",
+      "config": {
+        "release": 4,
+        "request_sites": [
+          8,
+          10,
+          12,
+          14,
+          16,
+          18,
+          20,
+          22,
+          24,
+          26,
+          28,
+          30,
+          32,
+          34,
+          36,
+          38
+        ]
+      },
+      "source_sha256": "23362f753f99c0f16851ac96c8cf3a0caa19b55a440661af07381cdebe762d89",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "ab0_release12",
+      "parent": "ab0_spread",
+      "config": {
+        "release": 12,
+        "request_sites": [
+          12,
+          14,
+          16,
+          18,
+          20,
+          22,
+          24,
+          26,
+          28,
+          30,
+          32,
+          34,
+          36,
+          38,
+          40,
+          42
+        ]
+      },
+      "source_sha256": "046b01afe7eabb744c305bba3e9509713fdd1f6add54e1d6a91cee5af39da117",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "ab0_release0",
+      "parent": "ab0_spread",
+      "config": {
+        "release": 0,
+        "request_sites": [
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          12,
+          14,
+          16,
+          18,
+          20,
+          22,
+          24,
+          26,
+          28,
+          30
+        ]
+      },
+      "source_sha256": "1565f57b203709fe5de0b7df66eaa1981f39bd66ed1545fb824016993480439d",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "ab0_noprio",
+      "parent": "ab0_spread",
+      "config": {
+        "priority": "default throughout"
+      },
+      "source_sha256": "ac314b14faa49027fe514cf0a1e7d0c6d56432ec8ad7d50bc6ad067937c25026",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "ab0_unroll2",
+      "parent": "ab0_spread",
+      "config": {
+        "unroll": 2
+      },
+      "source_sha256": "b2e3f2e3c4ebce7ab1ad7f90d8eca7904df7df19764173d60e10f3a144880f73",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "ab0_resident",
+      "parent": "ab0_spread",
+      "config": {
+        "epilogue": "reuse final resident operands"
+      },
+      "source_sha256": "8a06d7c12d7feda920abb73f4ea4165441d64930cdb4fa2c8cfd7df7a26f93b6",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "ab0_earlystore",
+      "parent": "ab0_spread",
+      "config": {
+        "epilogue": "resident operands and early C00/C01 stores"
+      },
+      "source_sha256": "0bfa6c3d367a2cbd3bffcae6ba628309a6057a43889f2f8b55aea821365201dc",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "ab0_tail_columns",
+      "parent": "ab0_spread",
+      "config": {
+        "c11_order": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          12,
+          9,
+          13,
+          10,
+          14,
+          11,
+          15
+        ],
+        "last_a": {
+          "0": 3,
+          "1": 7,
+          "2": 14,
+          "3": 15
+        },
+        "last_b": {
+          "0": 9,
+          "1": 11,
+          "2": 13,
+          "3": 15
+        }
+      },
+      "source_sha256": "986c1532791dd7532b432095cde110e72705ca18b4c4b34bb870d4dd51e6c29e",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": false,
+      "per_accumulator_k_order_unchanged": true
+    },
+    {
+      "name": "ab0_full_columns",
+      "parent": "ab0_spread",
+      "config": {
+        "c11_order": [
+          0,
+          4,
+          8,
+          12,
+          1,
+          5,
+          9,
+          13,
+          2,
+          6,
+          10,
+          14,
+          3,
+          7,
+          11,
+          15
+        ],
+        "last_a": {
+          "0": 12,
+          "1": 13,
+          "2": 14,
+          "3": 15
+        },
+        "last_b": {
+          "0": 3,
+          "1": 7,
+          "2": 11,
+          "3": 15
+        }
+      },
+      "source_sha256": "b08adb2d998587e48a2f6851489fa91feecb7af14290fb46958ea87ad6c292b7",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": false,
+      "per_accumulator_k_order_unchanged": true
+    },
+    {
+      "name": "ab0_r4_tail_columns",
+      "parent": "ab0_release4_keep",
+      "config": {
+        "c11_order": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          12,
+          9,
+          13,
+          10,
+          14,
+          11,
+          15
+        ],
+        "last_a": {
+          "0": 3,
+          "1": 7,
+          "2": 14,
+          "3": 15
+        },
+        "last_b": {
+          "0": 9,
+          "1": 11,
+          "2": 13,
+          "3": 15
+        }
+      },
+      "source_sha256": "6c22e24ff04f0c330f521fc0ad2bbd58add1fc0948df2cefe8287f470c6984e0",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": false,
+      "per_accumulator_k_order_unchanged": true
+    },
+    {
+      "name": "ab0_r4_full_columns",
+      "parent": "ab0_release4_keep",
+      "config": {
+        "c11_order": [
+          0,
+          4,
+          8,
+          12,
+          1,
+          5,
+          9,
+          13,
+          2,
+          6,
+          10,
+          14,
+          3,
+          7,
+          11,
+          15
+        ],
+        "last_a": {
+          "0": 12,
+          "1": 13,
+          "2": 14,
+          "3": 15
+        },
+        "last_b": {
+          "0": 3,
+          "1": 7,
+          "2": 11,
+          "3": 15
+        }
+      },
+      "source_sha256": "a7e417faaf7f3a26d5d9177cdd05e33657b534cff504ad15f57915cfbceefdb7",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": false,
+      "per_accumulator_k_order_unchanged": true
+    },
+    {
+      "name": "ab0_r4_group2",
+      "parent": "ab0_release4_keep",
+      "config": {
+        "group_m": 2
+      },
+      "source_sha256": "9bda04fad7c0ff96f63798fbd5ceb0d4533d4b3a7b6158385e8446b9e66e6cd3",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "ab0_r4_group4",
+      "parent": "ab0_release4_keep",
+      "config": {
+        "group_m": 4
+      },
+      "source_sha256": "9c8a3794832c990fff0a3c7fc377afeb1fc6027dd19fe337da5310e3dcbe1cb0",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "ab0_r4_group8",
+      "parent": "ab0_release4_keep",
+      "config": {
+        "group_m": 8
+      },
+      "source_sha256": "d072748647034b31acb61c80d33d4f43ed2ac2d0c62364d34e5c4b801640fd32",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "ab0_r4_diagonal",
+      "parent": "ab0_release4_keep",
+      "config": {
+        "grid": "diagonal"
+      },
+      "source_sha256": "a6de9045f8e33938c6e0ff8f12736544b38f603a9ca8b9917363d52050e3f2a0",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "ab0_r4_xor",
+      "parent": "ab0_release4_keep",
+      "config": {
+        "grid": "xor for power-of-two N tile counts, diagonal otherwise"
+      },
+      "source_sha256": "0a99e00b800f205cee4fc4d28276548ca1c0dcf4386c52f14a21745e03f7d420",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true
+    },
+    {
+      "name": "ab0_r4_peel",
+      "parent": "ab0_release4_keep",
+      "config": {
+        "final_iteration_peeled": true
+      },
+      "source_sha256": "2e4994e0531676d61a1e902c6268a8e7df76f81e552413317f0c55e9da55d3aa",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "per_accumulator_k_order_unchanged": true
+    },
+    {
+      "name": "ab0_r4_sfa_pair",
+      "parent": "ab0_release4_keep",
+      "config": {
+        "sfa_next_pair": true
+      },
+      "source_sha256": "c11ddc2e6b8e1cf20d53b0fed267fe36199daa0ac8adefd73eb235be4233540f",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "per_accumulator_k_order_unchanged": true
+    },
+    {
+      "name": "ab0_r4_peel_sfa",
+      "parent": "ab0_release4_keep",
+      "config": {
+        "final_iteration_peeled": true,
+        "sfa_next_pair": true
+      },
+      "source_sha256": "a587a2f548805529776f69bb474a8591507346b7054d820d97b076712188be6a",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "per_accumulator_k_order_unchanged": true
+    },
+    {
+      "name": "direct_ab_regroll",
+      "parent": "ab0_resident",
+      "config": {
+        "direct_ab_global": true,
+        "expected_lds_bytes": 16896
+      },
+      "source_sha256": "3b01247a25d414531f8c01dff5a464e9dc2eec51cff1c6bd419f0070f41234cd",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "source_mfma_order_unchanged": true,
+      "global_matrix_traffic": "Each wave loads its own operands; twice the aggregate bytes of shared LDS staging"
+    },
+    {
+      "name": "ab0_r4_unroll8",
+      "parent": "ab0_release4_keep",
+      "config": {
+        "unroll": 8,
+        "final_iteration_peeled": false
+      },
+      "source_sha256": "f0527cd9b39c96ebb87efa76565c278cc3e4b616c7c52f645a2cb44a9aba8eb7",
+      "num_waves": 4,
+      "output_tiles_per_wg": 1,
+      "per_accumulator_k_order_unchanged": true
+    },
+    {
+      "name": "ab0_r4_unroll16",
+      "parent": "ab0_release4_keep",
+      "config": {
+        "unroll": 16,
+        "final_iteration_peeled": false
+      },
+      "source_sha256": "d217d291afc94bf583054d57556fc1f3c8e0f33d9aed4275d0131b229f01a8da",
+      "num_waves": 4,
+      "output_tiles_per_wg": 1,
+      "per_accumulator_k_order_unchanged": true
+    },
+    {
+      "name": "ab0_r4_peel_unroll8",
+      "parent": "ab0_r4_peel",
+      "config": {
+        "unroll": 8,
+        "final_iteration_peeled": true
+      },
+      "source_sha256": "fad4441e96ce43678b1b80ed371c8a125da5593002758c2b87f59c56f9d96c73",
+      "num_waves": 4,
+      "output_tiles_per_wg": 1,
+      "per_accumulator_k_order_unchanged": true
+    },
+    {
+      "name": "ab0_r4_peel_unroll16",
+      "parent": "ab0_r4_peel",
+      "config": {
+        "unroll": 16,
+        "final_iteration_peeled": true
+      },
+      "source_sha256": "15ccace4aa7b4e202fbafaab92539b14b44fb480a1ed28d0a7b6929134464f58",
+      "num_waves": 4,
+      "output_tiles_per_wg": 1,
+      "per_accumulator_k_order_unchanged": true
+    },
+    {
+      "name": "peel_early_a01",
+      "parent": "ab0_r4_peel",
+      "config": {
+        "a_sites": {
+          "0": 12,
+          "1": 16
+        },
+        "b_sites": {},
+        "final_iteration_peeled": true
+      },
+      "source_sha256": "7c350e7f8687475efa302afb9db1fe04090aa237b08bc68cc6cd43e561bd917b",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "per_accumulator_k_order_unchanged": true
+    },
+    {
+      "name": "peel_early_b01",
+      "parent": "ab0_r4_peel",
+      "config": {
+        "a_sites": {},
+        "b_sites": {
+          "0": 16,
+          "1": 20
+        },
+        "final_iteration_peeled": true
+      },
+      "source_sha256": "ccbd902bdbe987c35e5f120f7e087fcba55119f6492f28d815a6c201c21fc4a9",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "per_accumulator_k_order_unchanged": true
+    },
+    {
+      "name": "peel_early_a0b0",
+      "parent": "ab0_r4_peel",
+      "config": {
+        "a_sites": {
+          "0": 12
+        },
+        "b_sites": {
+          "0": 20
+        },
+        "final_iteration_peeled": true
+      },
+      "source_sha256": "b1b2e2b80874f43c1e8d9d05ceac9f5e3c34816859a884808572c1ef485c08c1",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "per_accumulator_k_order_unchanged": true
+    },
+    {
+      "name": "peel8_pad16",
+      "parent": "ab0_r4_peel_unroll8",
+      "config": {
+        "final_iteration_peeled": true,
+        "unroll": 8,
+        "wholek_padding": 16,
+        "expected_lds_bytes": 150016
+      },
+      "num_waves": 4,
+      "output_tiles_per_wg": 1,
+      "per_accumulator_k_order_unchanged": true,
+      "source_sha256": "fad4441e96ce43678b1b80ed371c8a125da5593002758c2b87f59c56f9d96c73",
+      "traits_sha256": "3af5d0eaacf478c2acad8caad6d85224e2a011d021d0c0f38be5cb2abeb3d3be"
+    },
+    {
+      "name": "peel8_pad48",
+      "parent": "ab0_r4_peel_unroll8",
+      "config": {
+        "final_iteration_peeled": true,
+        "unroll": 8,
+        "wholek_padding": 48,
+        "expected_lds_bytes": 154112
+      },
+      "num_waves": 4,
+      "output_tiles_per_wg": 1,
+      "per_accumulator_k_order_unchanged": true,
+      "source_sha256": "fad4441e96ce43678b1b80ed371c8a125da5593002758c2b87f59c56f9d96c73",
+      "traits_sha256": "3bc9f5ef0543eef2e638f69dea4bd071109b2b4f0ec70ad57c528417f0fab316"
+    },
+    {
+      "name": "peel8_pad64",
+      "parent": "ab0_r4_peel_unroll8",
+      "config": {
+        "final_iteration_peeled": true,
+        "unroll": 8,
+        "wholek_padding": 64,
+        "expected_lds_bytes": 156160
+      },
+      "num_waves": 4,
+      "output_tiles_per_wg": 1,
+      "per_accumulator_k_order_unchanged": true,
+      "source_sha256": "fad4441e96ce43678b1b80ed371c8a125da5593002758c2b87f59c56f9d96c73",
+      "traits_sha256": "af52b986e5a190626a5d361f0acd75354e42a0f93f0e3993180ba1cf33e467a5"
+    },
+    {
+      "name": "peel8_pad96",
+      "parent": "ab0_r4_peel_unroll8",
+      "config": {
+        "final_iteration_peeled": true,
+        "unroll": 8,
+        "wholek_padding": 96,
+        "expected_lds_bytes": 160256
+      },
+      "num_waves": 4,
+      "output_tiles_per_wg": 1,
+      "per_accumulator_k_order_unchanged": true,
+      "source_sha256": "fad4441e96ce43678b1b80ed371c8a125da5593002758c2b87f59c56f9d96c73",
+      "traits_sha256": "feab8e54cdadf1b1b71d9352cc7a51b8f4af38f8752b432ae1098b7f542fca2c"
+    },
+    {
+      "name": "peel8_no_wrap",
+      "parent": "ab0_r4_peel_unroll8",
+      "config": {
+        "final_iteration_peeled": true,
+        "unroll": 8,
+        "no_unused_wrap": true
+      },
+      "source_sha256": "51bf0338b1e8b0b6c6a46087bf6e899a4ec47f85445bbdad6da0072cbe7764d9",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "per_accumulator_k_order_unchanged": true
+    },
+    {
+      "name": "peel8_tail_columns",
+      "parent": "ab0_r4_peel_unroll8",
+      "config": {
+        "final_iteration_peeled": true,
+        "unroll": 8,
+        "c11_order": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          12,
+          9,
+          13,
+          10,
+          14,
+          11,
+          15
+        ]
+      },
+      "source_sha256": "d5f2e80d6569639666b7251eac36dfb715bd0324892d672dc6e96c26537dc3c9",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "per_accumulator_k_order_unchanged": true
+    },
+    {
+      "name": "selected_clean",
+      "parent": "ab0_r4_peel_unroll8",
+      "config": {
+        "final_iteration_peeled": true,
+        "unroll": 8,
+        "c11_order": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          12,
+          9,
+          13,
+          10,
+          14,
+          11,
+          15
+        ]
+      },
+      "source_sha256": "4193c75a9fac14d7782c7f8d91fac58f95700b56989fb2b5242a21e5216cc1b0",
+      "output_tiles_per_wg": 1,
+      "num_waves": 4,
+      "per_accumulator_k_order_unchanged": true,
+      "selected_from": "peel8_tail_columns",
+      "description": "4wave tile1: A0/B0 spread, MFMA4 publication, unroll8, peeled final prefetch, partial column C11 tail"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "baseline": "current regroll_release8 tile1",
+  "base_commit": "f8040182670b270cd7cddb8ab062c0acd1d6c794",
+  "baseline_tmpl_sha256": "1b1c87b28c1ae645cd8986e00aae0f870f089044c8a8eac4d761e396deafe53a",
+  "candidate": "current regroll_release8 with persistent tile2",
+  "required_k": 8192,
+  "num_waves": 4,
+  "output_tile_shape": [
+    256,
+    256
+  ],
+  "output_tiles_per_wg": 2,
+  "mapping": "block_m=(wgid/num_tiles_n)*2+output_tile; block_n=wgid%num_tiles_n",
+  "tile_boundary": [
+    "vmcnt(0)",
+    "lgkmcnt(0)",
+    "s_barrier",
+    "sched_barrier(0)"
+  ],
+  "inner_body_preserved_except_six_hoisted_declarations": true,
+  "normalized_inner_body_sha256": "ee6bab8dd48f8fde6f3a1fccfe5f19e63935fe20005511f30c1dd42b0fdab4bb",
+  "candidate_source_sha256": {
+    "Makefile": "f8530f55fdccc016060b2ac6e159f04a186cc8b2063d0531919568e5e1b975bf",
+    "tmpl.hpp": "b798a1ca1cb732f73b1eb8c84032ba54ecc484c9c06cf840e3f7a06420a8a92b",
+    "tmpl_generic.hpp": "3681ebf7093140a3f1216b1c6faab22e6d726dbd15c4ec3167b931029f84f180",
+    "traits.hpp": "4f86f4ed8221c0844a864ccf40a96acaf34e7fd48f612a10c7e835a7d9778be3",
+    "kernel_dispatch.hpp": "faab6c222596c2f0604b66c9337df6b82534f18f63690b01dfca14d5d106a6b7",
+    "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+    "gemm_a8w8_mxfp8_scale_host.cc": "f4f20c24e25989b504a213ba6b58babf3d8366d1698c8f09b4b7df8391370636",
+    "gemm_a8w8_mxfp8_scale_kernel.cc": "93e9706abb4ae2e5569b098cf4bbd093771b4eee5a28cf5f43d136af1fc38628",
+    "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "f32a14c6f7bfd401b36bf3ef6d926874b3f75c6ceeebf50e3352a95acc4e98ef",
+    "blockscale_bpreshuffle.py": "dc2f73d127b34bb26f8aecd72a66adf71f72b333095cf56d10447d6bd9c3f16c"
+  },
+  "work_directory": "/tmp/mxfp8_current_tile4_20260911_74_ug_dv"
+}

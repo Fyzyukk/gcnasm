@@ -1,0 +1,42 @@
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.357957039,
+    "min_ms": 0.356387444,
+    "max_ms": 0.358345375,
+    "median_pflops": 3.0716301342966466
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.369731102,
+    "min_ms": 0.369450226,
+    "max_ms": 0.370079193,
+    "median_pflops": 2.9738142715837848
+  },
+  {
+    "name": "ab0_spread",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.351413345,
+    "min_ms": 0.351112556,
+    "max_ms": 0.351531754,
+    "median_pflops": 3.1288271871860758
+  },
+  {
+    "name": "ab0_spread",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.369376144,
+    "min_ms": 0.368762283,
+    "max_ms": 0.369783821,
+    "median_pflops": 2.9766720066686276
+  }
+]

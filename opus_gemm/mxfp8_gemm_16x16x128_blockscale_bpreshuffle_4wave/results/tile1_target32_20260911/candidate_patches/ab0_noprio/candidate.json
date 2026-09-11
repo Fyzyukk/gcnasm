@@ -1,0 +1,11 @@
+{
+  "name": "ab0_noprio",
+  "parent": "ab0_spread",
+  "config": {
+    "priority": "default throughout"
+  },
+  "source_sha256": "ac314b14faa49027fe514cf0a1e7d0c6d56432ec8ad7d50bc6ad067937c25026",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "source_mfma_order_unchanged": true
+}

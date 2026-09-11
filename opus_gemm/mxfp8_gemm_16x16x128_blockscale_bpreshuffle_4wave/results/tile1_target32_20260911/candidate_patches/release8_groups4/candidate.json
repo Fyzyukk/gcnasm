@@ -1,0 +1,28 @@
+{
+  "name": "release8_groups4",
+  "config": {
+    "release": 8,
+    "sites": [
+      8,
+      8,
+      8,
+      8,
+      16,
+      16,
+      16,
+      16,
+      24,
+      24,
+      24,
+      24,
+      32,
+      32,
+      32,
+      32
+    ]
+  },
+  "source_sha256": "06273fc462920f787ff986df5264a0b6dc3c076def5e35e72ae9c1effb906e68",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "source_mfma_order_unchanged": true
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.356645737,
+    "min_ms": 0.35606163,
+    "max_ms": 0.359274178,
+    "median_pflops": 3.0829237916167775
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.369552803,
+    "min_ms": 0.369146576,
+    "max_ms": 0.370078163,
+    "median_pflops": 2.975249054668921
+  },
+  {
+    "name": "tile2",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.359897118,
+    "min_ms": 0.358512802,
+    "max_ms": 0.362220459,
+    "median_pflops": 3.055072054719816
+  },
+  {
+    "name": "tile2",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.371023293,
+    "min_ms": 0.370823746,
+    "max_ms": 0.371521416,
+    "median_pflops": 2.963457142772974
+  },
+  {
+    "name": "tile4",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.357987289,
+    "min_ms": 0.357512703,
+    "max_ms": 0.362995758,
+    "median_pflops": 3.071370580914676
+  },
+  {
+    "name": "tile4",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.36979496,
+    "min_ms": 0.369475784,
+    "max_ms": 0.370166969,
+    "median_pflops": 2.9733007388094204
+  }
+]

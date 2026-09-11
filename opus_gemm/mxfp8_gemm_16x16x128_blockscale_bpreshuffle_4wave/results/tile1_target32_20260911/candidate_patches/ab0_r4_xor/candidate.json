@@ -1,0 +1,11 @@
+{
+  "name": "ab0_r4_xor",
+  "parent": "ab0_release4_keep",
+  "config": {
+    "grid": "xor for power-of-two N tile counts, diagonal otherwise"
+  },
+  "source_sha256": "0a99e00b800f205cee4fc4d28276548ca1c0dcf4386c52f14a21745e03f7d420",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "source_mfma_order_unchanged": true
+}

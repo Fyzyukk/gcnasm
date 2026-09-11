@@ -1,0 +1,69 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL current bf16 67108864 outputs
+FULL_BASELINE_EQUAL current fp32 67108864 outputs
+1 baseline bf16: 0.361997157 ms / 3.037349 P
+1 current bf16: 0.344579518 ms / 3.190879 P
+1 baseline bf16: 0.357510716 ms / 3.075465 P
+1 baseline fp32: 0.368229628 ms / 2.985940 P
+1 current fp32: 0.363645256 ms / 3.023583 P
+1 baseline fp32: 0.370220542 ms / 2.969883 P
+2 baseline bf16: 0.358561635 ms / 3.066451 P
+2 current bf16: 0.347233951 ms / 3.166487 P
+2 baseline bf16: 0.359999686 ms / 3.054202 P
+2 baseline fp32: 0.370310545 ms / 2.969161 P
+2 current fp32: 0.364149332 ms / 3.019398 P
+2 baseline fp32: 0.370957375 ms / 2.963984 P
+3 baseline bf16: 0.359593272 ms / 3.057654 P
+3 current bf16: 0.348503202 ms / 3.154954 P
+3 baseline bf16: 0.359392136 ms / 3.059365 P
+3 baseline fp32: 0.370738178 ms / 2.965736 P
+3 current fp32: 0.364142150 ms / 3.019457 P
+3 baseline fp32: 0.371390998 ms / 2.960523 P
+4 baseline bf16: 0.358237267 ms / 3.069227 P
+4 current bf16: 0.348502874 ms / 3.154957 P
+4 baseline bf16: 0.371871442 ms / 2.956698 P
+4 baseline fp32: 0.390358776 ms / 2.816669 P
+4 current fp32: 0.364306957 ms / 3.018091 P
+4 baseline fp32: 0.371572226 ms / 2.959079 P
+5 baseline bf16: 0.379707068 ms / 2.895684 P
+5 current bf16: 0.355649978 ms / 3.091555 P
+5 baseline bf16: 0.361092567 ms / 3.044958 P
+5 baseline fp32: 0.371021032 ms / 2.963475 P
+5 current fp32: 0.364574552 ms / 3.015876 P
+5 baseline fp32: 0.371915102 ms / 2.956351 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.359796479344368,
+    "min_ms": 0.3575107157230377,
+    "max_ms": 0.37970706820487976,
+    "median_pflops": 3.055926588774752
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.37098920345306396,
+    "min_ms": 0.36822962760925293,
+    "max_ms": 0.3903587758541107,
+    "median_pflops": 2.963729449649889
+  },
+  {
+    "name": "current",
+    "dtype": "bf16",
+    "median_ms": 0.34850287437438965,
+    "min_ms": 0.3445795178413391,
+    "max_ms": 0.3556499779224396,
+    "median_pflops": 3.154957128401807
+  },
+  {
+    "name": "current",
+    "dtype": "fp32",
+    "median_ms": 0.3641493320465088,
+    "min_ms": 0.3636452555656433,
+    "max_ms": 0.3645745515823364,
+    "median_pflops": 3.019397623488079
+  }
+]

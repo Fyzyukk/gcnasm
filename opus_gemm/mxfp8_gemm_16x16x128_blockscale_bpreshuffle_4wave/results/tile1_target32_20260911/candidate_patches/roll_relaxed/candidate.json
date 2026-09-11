@@ -1,0 +1,10 @@
+{
+  "name": "roll_relaxed",
+  "config": {
+    "reason": "Let LLVM interleave A1/B1 roll reads without extra scheduling fences"
+  },
+  "source_sha256": "bbd6eb972cdde70cc78359801edd10248de0a718d23647cb48a07347ff53f7cb",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "source_mfma_order_unchanged": true
+}

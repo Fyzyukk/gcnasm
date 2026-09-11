@@ -1,0 +1,10 @@
+{
+  "name": "unroll2",
+  "config": {
+    "unroll": 2
+  },
+  "source_sha256": "35f15d2e106b719bc6bfae2579a00aed492da63f2dfb76e6105e4bfc8650750a",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "source_mfma_order_unchanged": true
+}

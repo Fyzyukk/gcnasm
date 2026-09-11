@@ -1,0 +1,11 @@
+{
+  "name": "ab0_r4_group8",
+  "parent": "ab0_release4_keep",
+  "config": {
+    "group_m": 8
+  },
+  "source_sha256": "d072748647034b31acb61c80d33d4f43ed2ac2d0c62364d34e5c4b801640fd32",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "source_mfma_order_unchanged": true
+}

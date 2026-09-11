@@ -1,0 +1,11 @@
+--- a/tmpl.hpp
++++ b/tmpl.hpp
+@@ -534,7 +534,7 @@
+     __builtin_amdgcn_sched_barrier(0);
+ 
+     // K64 specialization: final unused A/B producers wrap to valid tile zero.
+-#pragma unroll 4
++#pragma unroll 1
+     for (tile = 0; tile + 1 < loops; ++tile) {
+         const int next_stage = stage ^ 1;
+         const int future_tile = (tile + 2) & 63;

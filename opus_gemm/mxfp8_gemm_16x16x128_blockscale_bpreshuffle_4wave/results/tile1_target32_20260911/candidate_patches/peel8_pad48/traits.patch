@@ -1,0 +1,24 @@
+--- a/traits.hpp
++++ b/traits.hpp
+@@ -102,14 +102,19 @@
+ template<bool OutputBF16 = false>
+ struct WholeKScaleTraits : FourWaveTraits<OutputBF16> {
+     using Base = FourWaveTraits<OutputBF16>;
++    static constexpr int smem_padding = 48;
++    static constexpr int SMEM_A_ELEMS =
++        Base::smem_m_rep * (Base::smem_linear_wave + smem_padding) * 4;
++    static constexpr int SMEM_B_ELEMS =
++        Base::smem_n_rep * (Base::smem_linear_wave + smem_padding) * 4;
+     static constexpr int SCALE_PANEL_K_TILES = 64;
+     static constexpr int REQUIRED_K = SCALE_PANEL_K_TILES * Base::B_K;
+     static constexpr int SFA_PANEL_PITCH = Base::B_M;
+     static constexpr int SFA_PANEL_BYTES = SFA_PANEL_PITCH * SCALE_PANEL_K_TILES;
+     static constexpr int SFB_PANEL_BYTES = Base::SCALE_N_HALVES * SCALE_PANEL_K_TILES * 4;
+     static constexpr int LDS_BYTES =
+-        Base::SMEM_A_ELEMS + Base::SMEM_B_ELEMS + SFA_PANEL_BYTES + SFB_PANEL_BYTES;
++        SMEM_A_ELEMS + SMEM_B_ELEMS + SFA_PANEL_BYTES + SFB_PANEL_BYTES;
+     static_assert(REQUIRED_K == 8192);
+     static_assert(SFA_PANEL_BYTES == 16384 && SFB_PANEL_BYTES == 512);
+-    static_assert(LDS_BYTES == 152064 && LDS_BYTES <= 163840);
++    static_assert(LDS_BYTES == 154112 && LDS_BYTES <= 163840);
+ };

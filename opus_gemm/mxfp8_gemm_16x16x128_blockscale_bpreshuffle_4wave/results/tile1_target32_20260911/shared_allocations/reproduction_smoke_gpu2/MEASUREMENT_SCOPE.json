@@ -1,0 +1,6 @@
+{
+  "scope": "Single-round end-to-end reproduction smoke test",
+  "correctness_and_tooling": "PASS",
+  "use_for_official_performance": false,
+  "reason": "Single-round BF16 3.223786P did not persist in the five-round confirmation; official CLI median is 3.159607P"
+}

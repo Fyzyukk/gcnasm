@@ -1,0 +1,123 @@
+Physical GPU2, PCI 0000:65:00.0, HIP index 2
+1 baseline perf_bf16 PASS 0.35689827 ms / 3.080742389 P
+1 baseline perf_fp32 PASS 0.36963089 ms / 2.974620514 P
+1 ab0_r4_peel_unroll8 perf_bf16 PASS 0.34825119 ms / 3.157237244 P
+1 ab0_r4_peel_unroll8 perf_fp32 PASS 0.366346016 ms / 3.001292712 P
+1 peel8_pad64 perf_bf16 PASS 0.347966461 ms / 3.159820702 P
+1 peel8_pad64 perf_fp32 PASS 0.367072067 ms / 2.9953562959999998 P
+1 peel8_tail_columns perf_bf16 PASS 0.347791138 ms / 3.161413586 P
+1 peel8_tail_columns perf_fp32 PASS 0.364020729 ms / 3.0204643310000003 P
+2 peel8_tail_columns perf_bf16 PASS 0.347481804 ms / 3.164227926 P
+2 peel8_tail_columns perf_fp32 PASS 0.364447136 ms / 3.016930357 P
+2 peel8_pad64 perf_bf16 PASS 0.348387794 ms / 3.155999278 P
+2 peel8_pad64 perf_fp32 PASS 0.366383209 ms / 3.000988037 P
+2 ab0_r4_peel_unroll8 perf_bf16 PASS 0.348805466 ms / 3.1522201799999996 P
+2 ab0_r4_peel_unroll8 perf_fp32 PASS 0.366521683 ms / 2.99985425 P
+2 baseline perf_bf16 PASS 0.360773125 ms / 3.04765392 P
+2 baseline perf_fp32 PASS 0.370663986 ms / 2.966329799 P
+3 baseline perf_bf16 PASS 0.359025955 ms / 3.0624850710000002 P
+3 baseline perf_fp32 PASS 0.370238876 ms / 2.969735752 P
+3 ab0_r4_peel_unroll8 perf_bf16 PASS 0.348730049 ms / 3.1529018809999996 P
+3 ab0_r4_peel_unroll8 perf_fp32 PASS 0.36603199 ms / 3.003867579 P
+3 peel8_pad64 perf_bf16 PASS 0.348335876 ms / 3.156469666 P
+3 peel8_pad64 perf_fp32 PASS 0.366504059 ms / 2.9999985029999996 P
+3 peel8_tail_columns perf_bf16 PASS 0.347990036 ms / 3.159606638 P
+3 peel8_tail_columns perf_fp32 PASS 0.364329033 ms / 3.017908342 P
+4 peel8_tail_columns perf_bf16 PASS 0.348342285 ms / 3.1564115950000002 P
+4 peel8_tail_columns perf_fp32 PASS 0.364731865 ms / 3.014575181 P
+4 peel8_pad64 perf_bf16 PASS 0.348357697 ms / 3.1562719550000002 P
+4 peel8_pad64 perf_fp32 PASS 0.366657562 ms / 2.998742535 P
+4 ab0_r4_peel_unroll8 perf_bf16 PASS 0.348791428 ms / 3.15234705 P
+4 ab0_r4_peel_unroll8 perf_fp32 PASS 0.366709099 ms / 2.998321098 P
+4 baseline perf_bf16 PASS 0.358544006 ms / 3.066601612 P
+4 baseline perf_fp32 PASS 0.370156326 ms / 2.970398044 P
+5 baseline perf_bf16 PASS 0.358325615 ms / 3.068470637 P
+5 baseline perf_fp32 PASS 0.370330467 ms / 2.969001271 P
+5 ab0_r4_peel_unroll8 perf_bf16 PASS 0.348589554 ms / 3.1541726239999996 P
+5 ab0_r4_peel_unroll8 perf_fp32 PASS 0.366391029 ms / 3.000923985 P
+5 peel8_pad64 perf_bf16 PASS 0.349189987 ms / 3.148749014 P
+5 peel8_pad64 perf_fp32 PASS 0.366809692 ms / 2.997498841 P
+5 peel8_tail_columns perf_bf16 PASS 0.348159523 ms / 3.158068515 P
+5 peel8_tail_columns perf_fp32 PASS 0.364565582 ms / 3.015950164 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.358544006,
+    "min_ms": 0.35689827,
+    "max_ms": 0.360773125,
+    "median_pflops": 3.0666016147987145
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.370238876,
+    "min_ms": 0.36963089,
+    "max_ms": 0.370663986,
+    "median_pflops": 2.969735754534864
+  },
+  {
+    "name": "ab0_r4_peel_unroll8",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.348730049,
+    "min_ms": 0.34825119,
+    "max_ms": 0.348805466,
+    "median_pflops": 3.152901881925294
+  },
+  {
+    "name": "ab0_r4_peel_unroll8",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.366391029,
+    "min_ms": 0.36603199,
+    "max_ms": 0.366709099,
+    "median_pflops": 3.00092398762307
+  },
+  {
+    "name": "peel8_pad64",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.348357697,
+    "min_ms": 0.347966461,
+    "max_ms": 0.349189987,
+    "median_pflops": 3.1562719504831267
+  },
+  {
+    "name": "peel8_pad64",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.366657562,
+    "min_ms": 0.366383209,
+    "max_ms": 0.367072067,
+    "median_pflops": 2.998742537256057
+  },
+  {
+    "name": "peel8_tail_columns",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.347990036,
+    "min_ms": 0.347481804,
+    "max_ms": 0.348342285,
+    "median_pflops": 3.1596066382084573
+  },
+  {
+    "name": "peel8_tail_columns",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.364447136,
+    "min_ms": 0.364020729,
+    "max_ms": 0.364731865,
+    "median_pflops": 3.0169303560558096
+  }
+]

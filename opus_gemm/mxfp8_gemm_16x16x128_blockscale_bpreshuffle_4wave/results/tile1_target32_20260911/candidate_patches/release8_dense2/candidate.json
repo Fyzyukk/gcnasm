@@ -1,0 +1,28 @@
+{
+  "name": "release8_dense2",
+  "config": {
+    "release": 8,
+    "sites": [
+      8,
+      8,
+      10,
+      10,
+      12,
+      12,
+      14,
+      14,
+      16,
+      16,
+      18,
+      18,
+      20,
+      20,
+      22,
+      22
+    ]
+  },
+  "source_sha256": "93a3bd634082f469b849ebf22a6911a18b6d5f3268133f50fdc3b4d679571d06",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "source_mfma_order_unchanged": true
+}

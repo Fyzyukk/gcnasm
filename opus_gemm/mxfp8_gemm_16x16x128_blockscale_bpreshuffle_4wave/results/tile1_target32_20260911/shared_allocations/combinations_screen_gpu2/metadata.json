@@ -1,0 +1,92 @@
+{
+  "gpu": "AMD Instinct MI355X",
+  "physical_card": "card2",
+  "hip_visible_devices": "2",
+  "pci": "0000:65:00.0",
+  "comparison_scope": "Contemporaneous same-device, same-tensor-address comparison; report this card and this run baseline",
+  "timestamp_utc": "2026-09-11T10:09:08.910646+00:00",
+  "initial_device_status": {
+    "GPU use (%)": "0",
+    "GFX Activity": "2924304111",
+    "GPU Memory Allocated (VRAM%)": "18",
+    "GPU Memory Read/Write Activity (%)": "0",
+    "Memory Activity": "1624361695",
+    "Avg. Memory Bandwidth": "0",
+    "PCI Bus": "0000:65:00.0"
+  },
+  "shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "batch": 1,
+  "warmup": 200,
+  "iterations": 100,
+  "rounds": 3,
+  "versions": {
+    "baseline": {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/baseline",
+      "source_sha256": "1b1c87b28c1ae645cd8986e00aae0f870f089044c8a8eac4d761e396deafe53a",
+      "library_sha256": "0e10606a5d0065d34cb9f12a0a3fef499d30472171bafbdf147edd76af69a01d"
+    },
+    "ab0_spread": {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_spread",
+      "source_sha256": "b1c642b5e0da2a4bf3d5b422efe26d07af3fceaa6436073b99421106308490b3",
+      "library_sha256": "45ade93fa751eb60997e825d78460044f488ddd01cdc8448132c1d2c033c38d9"
+    },
+    "ab0_release4": {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_release4",
+      "source_sha256": "02785dda5d3cd0f4df38ad67f23d9def345ab3f37f4da81e560d5958e08a349e",
+      "library_sha256": "5c82b16a9d5c839530c1692d9b85f5f6f1c94387dcd5f1ae4e367a221dcb8c39"
+    },
+    "ab0_release4_keep": {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_release4_keep",
+      "source_sha256": "23362f753f99c0f16851ac96c8cf3a0caa19b55a440661af07381cdebe762d89",
+      "library_sha256": "882811802b2941cf6b97ac6397659c163350035eb047bb4f30bad9277e975afa"
+    },
+    "ab0_release12": {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_release12",
+      "source_sha256": "046b01afe7eabb744c305bba3e9509713fdd1f6add54e1d6a91cee5af39da117",
+      "library_sha256": "9c6a663d1c2ce81c060ceb22221989a5553730c48e176bba8ac9698858de2faf"
+    },
+    "ab0_release0": {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_release0",
+      "source_sha256": "1565f57b203709fe5de0b7df66eaa1981f39bd66ed1545fb824016993480439d",
+      "library_sha256": "173491e91baa7d0b63f3a53cac08b178671e0f550eb8ed3ebf87bf6c5dcfa63f"
+    },
+    "ab0_noprio": {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_noprio",
+      "source_sha256": "ac314b14faa49027fe514cf0a1e7d0c6d56432ec8ad7d50bc6ad067937c25026",
+      "library_sha256": "89ffff6949f55db89e2b581bdc97697f4e6fc28cbc96e1bfe06dd371aadd52ed"
+    },
+    "ab0_unroll2": {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_unroll2",
+      "source_sha256": "b2e3f2e3c4ebce7ab1ad7f90d8eca7904df7df19764173d60e10f3a144880f73",
+      "library_sha256": "7c9392344ffa26b558b081f9b99e96bc94b389b3ae0261c8984a96e4abeb0f6d"
+    },
+    "ab0_resident": {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_resident",
+      "source_sha256": "8a06d7c12d7feda920abb73f4ea4165441d64930cdb4fa2c8cfd7df7a26f93b6",
+      "library_sha256": "c1b46f591d17c83070ecb5fbac3ccf23bedc73ff96c9738542d1fec6a11abc75"
+    },
+    "ab0_earlystore": {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_earlystore",
+      "source_sha256": "0bfa6c3d367a2cbd3bffcae6ba628309a6057a43889f2f8b55aea821365201dc",
+      "library_sha256": "cc0db0375b26377825330bc540364ccca30949696ff51bbce534fb40b101efc9"
+    }
+  },
+  "pointers": {
+    "A": 140180952449024,
+    "B": 140180266680320,
+    "SFA": 140182315597824,
+    "SFB": 140182316122112,
+    "bf16": 140180130365440,
+    "fp32": 140179859832832
+  },
+  "input_pattern": "Exact CLI seed=1 generator and host FP8 type",
+  "timing": "HIP events around 100 C ABI launches, no preprocessing",
+  "bracketed": true,
+  "telemetry_enabled": false,
+  "native_timing": true,
+  "benchmark_helper_sha256": "e1725b8fbc942b4b83df5f6e798546790b8e2687011d7d3841e4e5971f2286c3"
+}

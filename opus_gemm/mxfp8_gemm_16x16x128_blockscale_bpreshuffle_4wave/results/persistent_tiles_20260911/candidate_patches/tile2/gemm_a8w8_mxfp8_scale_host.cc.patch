@@ -1,0 +1,49 @@
+--- a/gemm_a8w8_mxfp8_scale_host.cc
++++ b/gemm_a8w8_mxfp8_scale_host.cc
+@@ -40,7 +40,7 @@
+ struct Options {
+     int m = 256;
+     int n = 512;
+-    int k = 256;
++    int k = 8192;
+     int batch = 8;
+     int verify = 0;
+     int warmup = 200;
+@@ -53,9 +53,9 @@
+ void print_usage(const char* program) {
+     std::printf(
+         "Usage: %s [-m M] [-n N] [-k K] [-b BATCH] [-v 0|1] [-w WARMUP] [-i ITERATIONS]\n"
+-        "          [--dtype bf16|fp32] [--tiles 0|1] [--seed SEED]\n"
+-        "M/N must be multiples of 256; K must be a multiple of 128.\n"
+-        "Defaults: M=256 N=512 K=256 batch=8 verify=0 warmup=200 iterations=100,\n"
++        "          [--dtype bf16|fp32] [--tiles 0|2] [--seed SEED]\n"
++        "M/N must be multiples of 256; This tile2 experiment requires K=8192.\n"
++        "Defaults: M=256 N=512 K=8192 batch=8 verify=0 warmup=200 iterations=100,\n"
+         "          dtype=bf16 tiles=0 (auto) seed=1. Options also accept --name=value.\n",
+         program);
+ }
+@@ -117,12 +117,13 @@
+         throw std::invalid_argument("M/N/K/batch/iterations must be positive; warmup and seed must be non-negative");
+     }
+     if (opts.verify != 0 && opts.verify != 1) throw std::invalid_argument("--verify must be 0 or 1");
+-    if (opts.tiles != 0 && opts.tiles != 1) {
+-        throw std::invalid_argument("--tiles must be 0 (auto) or 1");
++    if (opts.tiles != 0 && opts.tiles != 2) {
++        throw std::invalid_argument("--tiles must be 0 (auto) or 2");
+     }
+     if (opts.m % GemmTraits::B_M || opts.n % GemmTraits::B_N || opts.k % GemmTraits::B_K) {
+         throw std::invalid_argument("M/N/K must be multiples of 256/256/128");
+     }
++    if (opts.k != 8192) throw std::invalid_argument("tile2 experiment requires K=8192");
+     return opts;
+ }
+ 
+@@ -290,7 +291,7 @@
+     return errors == 0;
+ }
+ 
+-int pick_output_tiles_per_wg(int, int, int) { return 1; }
++int pick_output_tiles_per_wg(int, int, int) { return 2; }
+ 
+ template<class Traits>
+ void run_kernel(const opus_gemm_scale_kargs& kargs, dim3 grid, dim3 block,

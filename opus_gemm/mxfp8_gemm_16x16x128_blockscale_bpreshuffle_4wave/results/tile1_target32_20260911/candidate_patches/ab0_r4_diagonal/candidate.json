@@ -1,0 +1,11 @@
+{
+  "name": "ab0_r4_diagonal",
+  "parent": "ab0_release4_keep",
+  "config": {
+    "grid": "diagonal"
+  },
+  "source_sha256": "a6de9045f8e33938c6e0ff8f12736544b38f603a9ca8b9917363d52050e3f2a0",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "source_mfma_order_unchanged": true
+}

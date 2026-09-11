@@ -1,0 +1,14 @@
+{
+  "baseline": "current regroll_release8 tile1; not the older second-round baseline",
+  "output_tile_shape": [
+    256,
+    256
+  ],
+  "output_tiles_per_wg": {
+    "baseline": 1,
+    "tile2": 2
+  },
+  "tiles_argument": 0,
+  "driver": "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/continuation_20260911/round3/verify_full.py",
+  "driver_sha256": "1858944d0a61a40ebe6972a23f8808640b7f4daee478eae2c9dfcefba1a2acc9"
+}

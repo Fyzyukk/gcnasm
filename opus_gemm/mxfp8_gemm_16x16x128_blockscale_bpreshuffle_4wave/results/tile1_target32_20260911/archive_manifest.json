@@ -1,0 +1,330 @@
+{
+  "archive": "/root/workspace/gcnasm_new/archives/mxfp8_4wave_tile1_target32_20260911_113513/raw_workspaces.tar.gz",
+  "archive_bytes": 21802279,
+  "archive_sha256": "4cbddf6381988f3acfd4e514e3b8ffe831c28b5ad3d2c261690e8192b2e1f509",
+  "file_manifest": "/root/workspace/gcnasm_new/archives/mxfp8_4wave_tile1_target32_20260911_113513/file_manifest.json",
+  "verified_files": 1126,
+  "original_workspaces": {
+    "tile1_work": "/tmp/mxfp8_tile1_target32_20260911_txgcogip",
+    "persistent_work": "/tmp/mxfp8_current_tile4_20260911_74_ug_dv"
+  },
+  "restore": "Extract into an isolated directory; use MXFP8_WORK_DIR for tile1 drivers or copy the restored work path into a local work_path.txt",
+  "cleaned": [
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/a0_per_m/build",
+      "archive_prefix": "tile1_work/a0_per_m/build",
+      "verified_files": 10,
+      "bytes": 1434764
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_earlystore/build",
+      "archive_prefix": "tile1_work/ab0_earlystore/build",
+      "verified_files": 10,
+      "bytes": 1435046
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_full_columns/build",
+      "archive_prefix": "tile1_work/ab0_full_columns/build",
+      "verified_files": 10,
+      "bytes": 1438198
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_noprio/build",
+      "archive_prefix": "tile1_work/ab0_noprio/build",
+      "verified_files": 10,
+      "bytes": 1433630
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_r4_diagonal/build",
+      "archive_prefix": "tile1_work/ab0_r4_diagonal/build",
+      "verified_files": 10,
+      "bytes": 1437858
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_r4_full_columns/build",
+      "archive_prefix": "tile1_work/ab0_r4_full_columns/build",
+      "verified_files": 10,
+      "bytes": 1432626
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_r4_group2/build",
+      "archive_prefix": "tile1_work/ab0_r4_group2/build",
+      "verified_files": 10,
+      "bytes": 1441798
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_r4_group4/build",
+      "archive_prefix": "tile1_work/ab0_r4_group4/build",
+      "verified_files": 10,
+      "bytes": 1441798
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_r4_group8/build",
+      "archive_prefix": "tile1_work/ab0_r4_group8/build",
+      "verified_files": 10,
+      "bytes": 1441798
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_r4_peel/build",
+      "archive_prefix": "tile1_work/ab0_r4_peel/build",
+      "verified_files": 10,
+      "bytes": 1475384
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_r4_peel_sfa/build",
+      "archive_prefix": "tile1_work/ab0_r4_peel_sfa/build",
+      "verified_files": 10,
+      "bytes": 1474875
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_r4_peel_unroll16/build",
+      "archive_prefix": "tile1_work/ab0_r4_peel_unroll16/build",
+      "verified_files": 10,
+      "bytes": 2104856
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_r4_peel_unroll8/build",
+      "archive_prefix": "tile1_work/ab0_r4_peel_unroll8/build",
+      "verified_files": 10,
+      "bytes": 1686248
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_r4_sfa_pair/build",
+      "archive_prefix": "tile1_work/ab0_r4_sfa_pair/build",
+      "verified_files": 10,
+      "bytes": 1432364
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_r4_tail_columns/build",
+      "archive_prefix": "tile1_work/ab0_r4_tail_columns/build",
+      "verified_files": 10,
+      "bytes": 1432658
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_r4_unroll16/build",
+      "archive_prefix": "tile1_work/ab0_r4_unroll16/build",
+      "verified_files": 10,
+      "bytes": 2064874
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_r4_unroll8/build",
+      "archive_prefix": "tile1_work/ab0_r4_unroll8/build",
+      "verified_files": 10,
+      "bytes": 1644618
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_r4_xor/build",
+      "archive_prefix": "tile1_work/ab0_r4_xor/build",
+      "verified_files": 10,
+      "bytes": 1440976
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_release0/build",
+      "archive_prefix": "tile1_work/ab0_release0/build",
+      "verified_files": 10,
+      "bytes": 1432712
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_release12/build",
+      "archive_prefix": "tile1_work/ab0_release12/build",
+      "verified_files": 10,
+      "bytes": 1437346
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_release4/build",
+      "archive_prefix": "tile1_work/ab0_release4/build",
+      "verified_files": 10,
+      "bytes": 1436478
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_release4_keep/build",
+      "archive_prefix": "tile1_work/ab0_release4_keep/build",
+      "verified_files": 10,
+      "bytes": 1432626
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_resident/build",
+      "archive_prefix": "tile1_work/ab0_resident/build",
+      "verified_files": 10,
+      "bytes": 1429778
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_spread/build",
+      "archive_prefix": "tile1_work/ab0_spread/build",
+      "verified_files": 10,
+      "bytes": 1438198
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_tail_columns/build",
+      "archive_prefix": "tile1_work/ab0_tail_columns/build",
+      "verified_files": 10,
+      "bytes": 1438230
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/ab0_unroll2/build",
+      "archive_prefix": "tile1_work/ab0_unroll2/build",
+      "verified_files": 10,
+      "bytes": 1322712
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/b0_spread/build",
+      "archive_prefix": "tile1_work/b0_spread/build",
+      "verified_files": 10,
+      "bytes": 1438214
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/direct_ab_regroll/build",
+      "archive_prefix": "tile1_work/direct_ab_regroll/build",
+      "verified_files": 10,
+      "bytes": 1392865
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/early_store_resident/build",
+      "archive_prefix": "tile1_work/early_store_resident/build",
+      "verified_files": 10,
+      "bytes": 1431782
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/epilogue_resident/build",
+      "archive_prefix": "tile1_work/epilogue_resident/build",
+      "verified_files": 10,
+      "bytes": 1428058
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/peel8_no_wrap/build",
+      "archive_prefix": "tile1_work/peel8_no_wrap/build",
+      "verified_files": 10,
+      "bytes": 1685904
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/peel8_pad16/build",
+      "archive_prefix": "tile1_work/peel8_pad16/build",
+      "verified_files": 10,
+      "bytes": 1686248
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/peel8_pad48/build",
+      "archive_prefix": "tile1_work/peel8_pad48/build",
+      "verified_files": 10,
+      "bytes": 1686248
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/peel8_pad64/build",
+      "archive_prefix": "tile1_work/peel8_pad64/build",
+      "verified_files": 10,
+      "bytes": 1686252
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/peel8_pad96/build",
+      "archive_prefix": "tile1_work/peel8_pad96/build",
+      "verified_files": 10,
+      "bytes": 1686942
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/peel_early_a01/build",
+      "archive_prefix": "tile1_work/peel_early_a01/build",
+      "verified_files": 10,
+      "bytes": 1487608
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/peel_early_a0b0/build",
+      "archive_prefix": "tile1_work/peel_early_a0b0/build",
+      "verified_files": 10,
+      "bytes": 1498472
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/peel_early_b01/build",
+      "archive_prefix": "tile1_work/peel_early_b01/build",
+      "verified_files": 10,
+      "bytes": 1487922
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/release0_dense2/build",
+      "archive_prefix": "tile1_work/release0_dense2/build",
+      "verified_files": 10,
+      "bytes": 1439058
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/release0_pairs/build",
+      "archive_prefix": "tile1_work/release0_pairs/build",
+      "verified_files": 10,
+      "bytes": 1432540
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/release12_pairs/build",
+      "archive_prefix": "tile1_work/release12_pairs/build",
+      "verified_files": 10,
+      "bytes": 1437198
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/release8_burst16/build",
+      "archive_prefix": "tile1_work/release8_burst16/build",
+      "verified_files": 10,
+      "bytes": 1441638
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/release8_dense2/build",
+      "archive_prefix": "tile1_work/release8_dense2/build",
+      "verified_files": 10,
+      "bytes": 1439746
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/release8_groups4/build",
+      "archive_prefix": "tile1_work/release8_groups4/build",
+      "verified_files": 10,
+      "bytes": 1439058
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/roll_relaxed/build",
+      "archive_prefix": "tile1_work/roll_relaxed/build",
+      "verified_files": 10,
+      "bytes": 1434796
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/unroll1/build",
+      "archive_prefix": "tile1_work/unroll1/build",
+      "verified_files": 10,
+      "bytes": 1212296
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/unroll2/build",
+      "archive_prefix": "tile1_work/unroll2/build",
+      "verified_files": 10,
+      "bytes": 1321500
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_20260911_txgcogip/profiles",
+      "archive_prefix": "tile1_work/profiles",
+      "verified_files": 58,
+      "bytes": 19031220
+    },
+    {
+      "path": "/tmp/mxfp8_current_tile4_20260911_74_ug_dv/baseline/build",
+      "archive_prefix": "persistent_work/baseline/build",
+      "verified_files": 10,
+      "bytes": 1434780
+    },
+    {
+      "path": "/tmp/mxfp8_current_tile4_20260911_74_ug_dv/tile2/build",
+      "archive_prefix": "persistent_work/tile2/build",
+      "verified_files": 10,
+      "bytes": 1463949
+    },
+    {
+      "path": "/tmp/mxfp8_current_tile4_20260911_74_ug_dv/tile4/build",
+      "archive_prefix": "persistent_work/tile4/build",
+      "verified_files": 10,
+      "bytes": 1464019
+    }
+  ],
+  "cleaned_files": 558,
+  "cleaned_bytes": 93650762,
+  "cleanup_utc": "2026-09-11T11:51:56.074355+00:00",
+  "retained_tile1_builds": [
+    "baseline",
+    "peel8_tail_columns",
+    "selected_clean"
+  ],
+  "archive_scope": "Raw measured workspaces before the final comment-only source correction; current source is reconstructed by the saved selected_clean patch. Historical source and binary hashes remain unchanged in raw measurement records.",
+  "final_comment_revision_evidence": "results/tile1_target32_20260911/selected/comment_only_equivalence.json"
+}

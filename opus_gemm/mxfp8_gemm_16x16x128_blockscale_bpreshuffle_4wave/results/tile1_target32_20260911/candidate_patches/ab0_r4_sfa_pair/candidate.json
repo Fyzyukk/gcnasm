@@ -1,0 +1,11 @@
+{
+  "name": "ab0_r4_sfa_pair",
+  "parent": "ab0_release4_keep",
+  "config": {
+    "sfa_next_pair": true
+  },
+  "source_sha256": "c11ddc2e6b8e1cf20d53b0fed267fe36199daa0ac8adefd73eb235be4233540f",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "per_accumulator_k_order_unchanged": true
+}

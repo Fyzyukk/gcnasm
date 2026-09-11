@@ -1,0 +1,10 @@
+{
+  "name": "a0_per_m",
+  "config": {
+    "reason": "BF16 A0 reads after its M-repeat last use at 36/40/44/48"
+  },
+  "source_sha256": "694330e908c75a375fe3fb6605be1405d708796df9f125873db722d39617f93b",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "source_mfma_order_unchanged": true
+}

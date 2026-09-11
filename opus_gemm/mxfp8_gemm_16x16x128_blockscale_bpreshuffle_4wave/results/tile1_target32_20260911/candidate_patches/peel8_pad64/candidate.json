@@ -1,0 +1,15 @@
+{
+  "name": "peel8_pad64",
+  "parent": "ab0_r4_peel_unroll8",
+  "config": {
+    "final_iteration_peeled": true,
+    "unroll": 8,
+    "wholek_padding": 64,
+    "expected_lds_bytes": 156160
+  },
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true,
+  "source_sha256": "fad4441e96ce43678b1b80ed371c8a125da5593002758c2b87f59c56f9d96c73",
+  "traits_sha256": "af52b986e5a190626a5d361f0acd75354e42a0f93f0e3993180ba1cf33e467a5"
+}

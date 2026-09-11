@@ -1,0 +1,12 @@
+{
+  "name": "ab0_r4_unroll8",
+  "parent": "ab0_release4_keep",
+  "config": {
+    "unroll": 8,
+    "final_iteration_peeled": false
+  },
+  "source_sha256": "f0527cd9b39c96ebb87efa76565c278cc3e4b616c7c52f645a2cb44a9aba8eb7",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true
+}

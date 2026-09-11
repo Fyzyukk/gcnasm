@@ -1,10 +1,14 @@
 # 4-wave E8M0 优化续记：第三轮（2026-09-11）
 
+本文件保留第三轮历史结论。后续tile1优化、最新正式源码与3.2P短期目标的进展见 [本轮续记](CONTINUATION_20260911_TARGET32.md)。
+
 本轮正式选入 `regroll_release8`，清理后的源码已放入 `tmpl.hpp`。它让A/B producer共用指令位置，提前缓存地址，按最后消费者滚动预读A1/B1，并把LDS交接提前到第8条MFMA之后。**GPU2最终五轮CLI中位数：BF16 3.074901P、FP32 2.975244P；目标3.5P尚未达到。**
 
 **执行模式明确为 4wave + tile1：每WG独立计算一个256×256输出块。** 项目中tile数量指每WG处理的完整256×256输出块数量；tile4指每WG连续处理4块的持久化方案。第二轮基线与本轮正式版本均为 `OUTPUT_TILES_PER_WG=1`，8192³、batch1的grid均为 `(1024,1,1)`。最终五轮、两种输出、两版共20条CLI日志全部记录 `output_tiles_per_wg=1 (auto)`。K方向另有2-stage LDS双缓冲。
 
 历史tile4候选 `scale_panel_persistent4` 的记录保存在 `OPTIMIZATION_LOG.md` 和 `results/persistent4/`；当时FP32/BF16单轮为2.873824256P/2.949399654P，未选入正式路径。这是早期候选的历史测量；本轮3.074901P/2.975244P对应上述tile1。
+
+后续在第三轮版本的隔离副本中试验tile4，并应用户要求补测tile2。GPU2同期五轮CLI中位数：tile1 BF16/FP32为 **3.082924P / 2.975249P**，tile2为 **3.055072P / 2.963457P**，tile4为 **3.071371P / 2.973301P**。tile2与tile4的BF16/FP32 scratch均为44/48B每线程；同地址配对也未见收益，因此正式选择仍为tile1。实际grid、持久化循环、ISA变化、全量及尾块/batch2验证见 [持久化tile对照记录](results/persistent_tiles_20260911/README.md)。本节之后的正式选择表保留此前测量窗口的数据。
 
 ## 最终对照与基线身份
 
@@ -80,7 +84,7 @@ GPU2历史约3.08P的记录有效：第二轮 `wg_group_m32` 的BF16三轮中位
 
 ## 保存、清理与继续复现
 
-当前正式 `tmpl.hpp` SHA256：`1b1c87b28c1ae645cd8986e00aae0f870f089044c8a8eac4d761e396deafe53a`。
+第三轮选定 `tmpl.hpp` SHA256：`1b1c87b28c1ae645cd8986e00aae0f870f089044c8a8eac4d761e396deafe53a`。
 
 原始trace、编译副本、失败实验全量文件和临时工作目录已归档并逐文件验哈希，清理1803个冗余结果文件、约81.6MiB。提交内容保留正式源码、基线源码、候选补丁、静态/正确性证据、关键同期测量和本续记。归档位置、SHA256和历史路径恢复方式见 `results/ARCHIVE_20260911.md`。归档本体保留在本机仓库外，不进入Git。
 

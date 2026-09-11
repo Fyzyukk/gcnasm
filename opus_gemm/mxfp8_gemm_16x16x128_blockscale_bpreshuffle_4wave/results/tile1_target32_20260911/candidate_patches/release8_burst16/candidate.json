@@ -1,0 +1,28 @@
+{
+  "name": "release8_burst16",
+  "config": {
+    "release": 8,
+    "sites": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+    ]
+  },
+  "source_sha256": "99a52cb469797dc3b483c3ab7fbd3b2cef69223f8fb505e055fc97b97a91d827",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "source_mfma_order_unchanged": true
+}

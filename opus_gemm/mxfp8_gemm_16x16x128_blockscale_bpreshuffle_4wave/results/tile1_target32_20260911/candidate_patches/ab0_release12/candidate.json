@@ -1,0 +1,29 @@
+{
+  "name": "ab0_release12",
+  "parent": "ab0_spread",
+  "config": {
+    "release": 12,
+    "request_sites": [
+      12,
+      14,
+      16,
+      18,
+      20,
+      22,
+      24,
+      26,
+      28,
+      30,
+      32,
+      34,
+      36,
+      38,
+      40,
+      42
+    ]
+  },
+  "source_sha256": "046b01afe7eabb744c305bba3e9509713fdd1f6add54e1d6a91cee5af39da117",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "source_mfma_order_unchanged": true
+}

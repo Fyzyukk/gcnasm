@@ -1,0 +1,16 @@
+{
+  "name": "peel_early_b01",
+  "parent": "ab0_r4_peel",
+  "config": {
+    "a_sites": {},
+    "b_sites": {
+      "0": 16,
+      "1": 20
+    },
+    "final_iteration_peeled": true
+  },
+  "source_sha256": "ccbd902bdbe987c35e5f120f7e087fcba55119f6492f28d815a6c201c21fc4a9",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "per_accumulator_k_order_unchanged": true
+}

@@ -1,0 +1,115 @@
+--- a/tmpl.hpp
++++ b/tmpl.hpp
+@@ -534,7 +534,7 @@
+     __builtin_amdgcn_sched_barrier(0);
+ 
+     // K64 specialization: final unused A/B producers wrap to valid tile zero.
+-#pragma unroll 4
++#pragma unroll 2
+     for (tile = 0; tile + 1 < loops; ++tile) {
+         const int next_stage = stage ^ 1;
+         const int future_tile = (tile + 2) & 63;
+@@ -546,6 +546,9 @@
+         const auto u_sa_next_0 = u_sa + sa_offset(next_stage, 0);
+         const auto u_sa_next_1 = u_sa + sa_offset(next_stage, 1);
+         __builtin_amdgcn_sched_barrier(0);
++
++        const auto rb0_next_offsets =
++            opus::layout_to_offsets<T::VEC_B>(u_rb + sb_offset(next_stage, 0));
+ 
+         // All LDS reads here are compiler-visible intrinsics. Let LLVM's
+         // waitcnt pass wait at actual operand consumers. The A/B data stage
+@@ -666,6 +669,10 @@
+         MXFP8_MMA_PAIR(
+             1, 3, 1, v_a[1], v_b, c10_14, c10_15, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
++        // Spread the dead B0 operand reads after MFMA32.
++        load_b_range_scale<T, 0, 2>(s_b, rb0_next_offsets, v_b);
++        __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
++        __builtin_amdgcn_sched_barrier(0);
+         prefetch_matrix_issue(opus::number<12>{}, stage, future_tile);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+@@ -676,6 +683,10 @@
+         MXFP8_MMA_PAIR(
+             0, 0, 0, v_a[0], v_b_n1, c01_0, c01_1, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
++        // Spread the dead B0 operand reads after MFMA34.
++        load_b_range_scale<T, 2, 4>(s_b, rb0_next_offsets, v_b);
++        __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
++        __builtin_amdgcn_sched_barrier(0);
+         prefetch_matrix_issue(opus::number<13>{}, stage, future_tile);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+@@ -683,6 +694,10 @@
+         MXFP8_MMA_PAIR(
+             0, 0, 1, v_a[0], v_b_n1, c01_2, c01_3, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
++        // Spread the dead B0 operand reads after MFMA36.
++        load_b_range_scale<T, 4, 6>(s_b, rb0_next_offsets, v_b);
++        __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
++        __builtin_amdgcn_sched_barrier(0);
+         prefetch_matrix_issue(opus::number<14>{}, stage, future_tile);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+@@ -695,7 +710,7 @@
+             opus::layout_to_offsets<T::VEC_A>(u_ra + sa_offset(next_stage, 1));
+         const auto rb1_next_offsets =
+             opus::layout_to_offsets<T::VEC_B>(u_rb + sb_offset(next_stage, 1));
+-        if constexpr (!T::OUTPUT_BF16) {
++        if constexpr (true) {
+             load_a_mrepeat_scale<T, 0>(s_a, ra0_next_offsets, v_a[0]);
+             __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+         }
+@@ -709,6 +724,10 @@
+         __builtin_amdgcn_sched_barrier(0);
+         MXFP8_MMA_ONE(
+             0, 1, 1, v_a[0], v_b_n1, c01_5, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        // Spread the dead B0 operand reads after MFMA38.
++        load_b_range_scale<T, 6, 8>(s_b, rb0_next_offsets, v_b);
++        __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+         __builtin_amdgcn_sched_barrier(0);
+         prefetch_matrix_issue(opus::number<15>{}, stage, future_tile);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+@@ -726,7 +745,6 @@
+         v_sfb_next = __builtin_bit_cast(opus::vector_t<D_SF_PACK, 2>,
+             load<8>(s_sfb, (tile + 1) * T::SCALE_N_HALVES * 4));
+         v_sfb[0] = v_sfb_next[0];
+-        v_b = load<T::VEC_B>(s_b, u_rb + sb_offset(next_stage, 0));
+         __builtin_amdgcn_sched_barrier(0);
+ 
+         MXFP8_MMA_PAIR(
+@@ -734,7 +752,7 @@
+         sched_barrier_pairs_scale();
+ 
+         // M1 is dead after c01_7; M2/M3 still use their current-tile slices.
+-        if constexpr (!T::OUTPUT_BF16) {
++        if constexpr (true) {
+             load_a_mrepeat_scale<T, 1>(s_a, ra0_next_offsets, v_a[0]);
+             __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+         }
+@@ -748,7 +766,7 @@
+         sched_barrier_pairs_scale();
+ 
+         // M2 is dead after c01_11. Keep the old SFA0 pack through M3.
+-        if constexpr (!T::OUTPUT_BF16) {
++        if constexpr (true) {
+             load_a_mrepeat_scale<T, 2>(s_a, ra0_next_offsets, v_a[0]);
+             __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+         }
+@@ -769,14 +787,8 @@
+         v_sfa[0] = load_sfa_dword(tile + 1, 0);
+         // M3 is dead after c01_15. The earlier three slices already hold
+         // tile t+1, so these last two K64 pieces complete the A0 roll.
+-        if constexpr (T::OUTPUT_BF16) {
+-            // BF16 retains the full A0 roll; its vec8 epilogue and this
+-            // schedule outperform per-M rolling in repeated measurements.
+-            v_a[0] = load<T::VEC_A>(s_a, u_ra + sa_offset(next_stage, 0));
+-        } else {
+             load_a_mrepeat_scale<T, 3>(s_a, ra0_next_offsets, v_a[0]);
+             __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+-        }
+         __builtin_amdgcn_sched_barrier(0);
+ 
+         // A half 1 x B half 1 -> C[1][1] (128x128 wave quadrant).

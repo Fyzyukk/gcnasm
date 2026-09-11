@@ -1,0 +1,60 @@
+GPU2, PCI 0000:65:00.0, HIP 2; work directory: /tmp/mxfp8_4wave_compare_7jalydqs
+make: Nothing to be done for 'all'.
+current PASS [(472, 704), (476, 704)]
+[aiter] import [module_aiter_core] under /sgl-workspace/aiter/aiter/jit/module_aiter_core.so
+[aiter] ROCm/HIP JIT runtime not available: cannot import name 'fly_values' from 'flydsl.compiler.protocol' (/opt/venv/lib/python3.10/site-packages/flydsl/compiler/protocol.py). CK and HIP ops are disabled. Triton ops remain available.
+/opt/venv/lib/python3.10/site-packages/torch/__init__.py:1605: UserWarning: Please use the new API settings to control TF32 behavior, such as torch.backends.cudnn.conv.fp32_precision = 'tf32' or torch.backends.cuda.matmul.fp32_precision = 'ieee'. Old settings, e.g, torch.backends.cuda.matmul.allow_tf32 = True, torch.backends.cudnn.allow_tf32 = True, allowTF32CuDNN() and allowTF32CuBLAS() will be deprecated after Pytorch 2.9. Please see https://pytorch.org/docs/main/notes/cuda.html#tensorfloat-32-tf32-on-ampere-and-later-devices (Triggered internally at /app/pytorch/aten/src/ATen/Context.cpp:80.)
+  _C._set_float32_matmul_precision(precision)
+PASS dyadic_independent_dequantized_gemm baseline fp32 67108864 outputs exactly equal
+PASS dyadic_independent_dequantized_gemm baseline bf16 67108864 outputs exactly equal
+PASS dyadic_independent_dequantized_gemm current fp32 67108864 outputs exactly equal
+PASS dyadic_independent_dequantized_gemm current bf16 67108864 outputs exactly equal
+PASS cli_seed1_validated_baseline current fp32 67108864 outputs exactly equal
+PASS cli_seed1_validated_baseline current bf16 67108864 outputs exactly equal
+ALL FULL OUTPUT CHECKS PASSED; no performance timing
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL current bf16 67108864 outputs
+FULL_BASELINE_EQUAL current fp32 67108864 outputs
+1 baseline bf16: 0.357558340 ms / 3.075055 P
+1 current bf16: 0.341062248 ms / 3.223786 P
+1 baseline bf16: 0.357271969 ms / 3.077520 P
+1 baseline fp32: 0.367402941 ms / 2.992659 P
+1 current fp32: 0.363693237 ms / 3.023184 P
+1 baseline fp32: 0.370121717 ms / 2.970676 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.3574151545763016,
+    "min_ms": 0.3572719693183899,
+    "max_ms": 0.35755833983421326,
+    "median_pflops": 3.0762870955469643
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.3687623292207718,
+    "min_ms": 0.36740294098854065,
+    "max_ms": 0.37012171745300293,
+    "median_pflops": 2.9816267569937733
+  },
+  {
+    "name": "current",
+    "dtype": "bf16",
+    "median_ms": 0.3410622477531433,
+    "min_ms": 0.3410622477531433,
+    "max_ms": 0.3410622477531433,
+    "median_pflops": 3.223785789894322
+  },
+  {
+    "name": "current",
+    "dtype": "fp32",
+    "median_ms": 0.3636932373046875,
+    "min_ms": 0.3636932373046875,
+    "max_ms": 0.3636932373046875,
+    "median_pflops": 3.0231841425604338
+  }
+]
+Results: /root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/tile1_target32_20260911/shared_allocations/reproduction_smoke_gpu2

@@ -1,0 +1,153 @@
+Physical GPU2, PCI 0000:65:00.0, HIP index 2
+1 baseline perf_bf16 PASS 0.358753319 ms / 3.064812422 P
+1 baseline perf_fp32 PASS 0.369796715 ms / 2.97328663 P
+1 ab0_r4_peel perf_bf16 PASS 0.349013252 ms / 3.150343492 P
+1 ab0_r4_peel perf_fp32 PASS 0.366811714 ms / 2.9974823190000004 P
+1 ab0_r4_unroll16 perf_bf16 PASS 0.350781593 ms / 3.1344621520000002 P
+1 ab0_r4_unroll16 perf_fp32 PASS 0.36790535 ms / 2.9885720019999997 P
+1 ab0_r4_peel_unroll8 perf_bf16 PASS 0.348677559 ms / 3.153376521 P
+1 ab0_r4_peel_unroll8 perf_fp32 PASS 0.366916962 ms / 2.9966225129999997 P
+1 peel_early_a01 perf_bf16 PASS 0.350030937 ms / 3.1411841380000003 P
+1 peel_early_a01 perf_fp32 PASS 0.367692947 ms / 2.9902983880000003 P
+2 peel_early_a01 perf_bf16 PASS 0.349481697 ms / 3.146120775 P
+2 peel_early_a01 perf_fp32 PASS 0.3673106 ms / 2.993411099 P
+2 ab0_r4_peel_unroll8 perf_bf16 PASS 0.348703804 ms / 3.153139183 P
+2 ab0_r4_peel_unroll8 perf_fp32 PASS 0.366247215 ms / 3.002102356 P
+2 ab0_r4_unroll16 perf_bf16 PASS 0.351345177 ms / 3.129434245 P
+2 ab0_r4_unroll16 perf_fp32 PASS 0.368922653 ms / 2.980331021 P
+2 ab0_r4_peel perf_bf16 PASS 0.348969269 ms / 3.150740555 P
+2 ab0_r4_peel perf_fp32 PASS 0.366604576 ms / 2.9991759499999997 P
+2 baseline perf_bf16 PASS 0.35798111 ms / 3.071423598 P
+2 baseline perf_fp32 PASS 0.370921822 ms / 2.9642678420000004 P
+3 baseline perf_bf16 PASS 0.356486549 ms / 3.084300459 P
+3 baseline perf_fp32 PASS 0.369864388 ms / 2.9727426180000003 P
+3 ab0_r4_peel perf_bf16 PASS 0.349357262 ms / 3.147241373 P
+3 ab0_r4_peel perf_fp32 PASS 0.366941833 ms / 2.996419398 P
+3 ab0_r4_unroll16 perf_bf16 PASS 0.350843201 ms / 3.1339117460000003 P
+3 ab0_r4_unroll16 perf_fp32 PASS 0.368325424 ms / 2.9851635419999996 P
+3 ab0_r4_peel_unroll8 perf_bf16 PASS 0.348680878 ms / 3.153346507 P
+3 ab0_r4_peel_unroll8 perf_fp32 PASS 0.366311531 ms / 3.001575256 P
+3 peel_early_a01 perf_bf16 PASS 0.349494057 ms / 3.1460095150000003 P
+3 peel_early_a01 perf_fp32 PASS 0.367552948 ms / 2.99143738 P
+4 peel_early_a01 perf_bf16 PASS 0.349450836 ms / 3.146398617 P
+4 peel_early_a01 perf_fp32 PASS 0.368111 ms / 2.986902395 P
+4 ab0_r4_peel_unroll8 perf_bf16 PASS 0.34836483 ms / 3.156207324 P
+4 ab0_r4_peel_unroll8 perf_fp32 PASS 0.366166191 ms / 3.0027666519999996 P
+4 ab0_r4_unroll16 perf_bf16 PASS 0.350693436 ms / 3.135250096 P
+4 ab0_r4_unroll16 perf_fp32 PASS 0.367927856 ms / 2.988389187 P
+4 ab0_r4_peel perf_bf16 PASS 0.349500923 ms / 3.145947707 P
+4 ab0_r4_peel perf_fp32 PASS 0.366975441 ms / 2.996144987 P
+4 baseline perf_bf16 PASS 0.359258385 ms / 3.060503734 P
+4 baseline perf_fp32 PASS 0.369887123 ms / 2.972559895 P
+5 baseline perf_bf16 PASS 0.358875351 ms / 3.063770261 P
+5 baseline perf_fp32 PASS 0.370504074 ms / 2.967610088 P
+5 ab0_r4_peel perf_bf16 PASS 0.350070038 ms / 3.140833287 P
+5 ab0_r4_peel perf_fp32 PASS 0.366640167 ms / 2.998884809 P
+5 ab0_r4_unroll16 perf_bf16 PASS 0.351626091 ms / 3.126934138 P
+5 ab0_r4_unroll16 perf_fp32 PASS 0.368306656 ms / 2.985315661 P
+5 ab0_r4_peel_unroll8 perf_bf16 PASS 0.348617668 ms / 3.153918256 P
+5 ab0_r4_peel_unroll8 perf_fp32 PASS 0.366650543 ms / 2.998799942 P
+5 peel_early_a01 perf_bf16 PASS 0.351400108 ms / 3.128945045 P
+5 peel_early_a01 perf_fp32 PASS 0.367627792 ms / 2.9908283609999997 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.358753319,
+    "min_ms": 0.356486549,
+    "max_ms": 0.359258385,
+    "median_pflops": 3.064812419968162
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.369887123,
+    "min_ms": 0.369796715,
+    "max_ms": 0.370921822,
+    "median_pflops": 2.972559895727973
+  },
+  {
+    "name": "ab0_r4_peel",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.349357262,
+    "min_ms": 0.348969269,
+    "max_ms": 0.350070038,
+    "median_pflops": 3.1472413697128183
+  },
+  {
+    "name": "ab0_r4_peel",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.366811714,
+    "min_ms": 0.366604576,
+    "max_ms": 0.366975441,
+    "median_pflops": 2.997482320796331
+  },
+  {
+    "name": "ab0_r4_unroll16",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.350843201,
+    "min_ms": 0.350693436,
+    "max_ms": 0.351626091,
+    "median_pflops": 3.1339117435996715
+  },
+  {
+    "name": "ab0_r4_unroll16",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.368306656,
+    "min_ms": 0.36790535,
+    "max_ms": 0.368922653,
+    "median_pflops": 2.9853156598288573
+  },
+  {
+    "name": "ab0_r4_peel_unroll8",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.348677559,
+    "min_ms": 0.34836483,
+    "max_ms": 0.348703804,
+    "median_pflops": 3.1533765205004203
+  },
+  {
+    "name": "ab0_r4_peel_unroll8",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.366311531,
+    "min_ms": 0.366166191,
+    "max_ms": 0.366916962,
+    "median_pflops": 3.0015752569252316
+  },
+  {
+    "name": "peel_early_a01",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.349494057,
+    "min_ms": 0.349450836,
+    "max_ms": 0.351400108,
+    "median_pflops": 3.14600951219036
+  },
+  {
+    "name": "peel_early_a01",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.367627792,
+    "min_ms": 0.3673106,
+    "max_ms": 0.368111,
+    "median_pflops": 2.9908283641841744
+  }
+]

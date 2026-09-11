@@ -1,0 +1,30 @@
+{
+  "name": "peel8_tail_columns",
+  "parent": "ab0_r4_peel_unroll8",
+  "config": {
+    "final_iteration_peeled": true,
+    "unroll": 8,
+    "c11_order": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      12,
+      9,
+      13,
+      10,
+      14,
+      11,
+      15
+    ]
+  },
+  "source_sha256": "d5f2e80d6569639666b7251eac36dfb715bd0324892d672dc6e96c26537dc3c9",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "per_accumulator_k_order_unchanged": true
+}

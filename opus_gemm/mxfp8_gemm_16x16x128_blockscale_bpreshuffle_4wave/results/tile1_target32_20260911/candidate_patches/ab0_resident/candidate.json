@@ -1,0 +1,11 @@
+{
+  "name": "ab0_resident",
+  "parent": "ab0_spread",
+  "config": {
+    "epilogue": "reuse final resident operands"
+  },
+  "source_sha256": "8a06d7c12d7feda920abb73f4ea4165441d64930cdb4fa2c8cfd7df7a26f93b6",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "source_mfma_order_unchanged": true
+}

@@ -1,0 +1,1830 @@
+[
+  {
+    "kernel": "_ZN16blockscale_panel28gemm_a8w8_mxfp8_scale_kernelI17WholeKScaleTraitsILb0EEEEv21opus_gemm_scale_kargs",
+    "tile2_instruction_count": 1793,
+    "tile4_instruction_count": 1794,
+    "differences": [
+      {
+        "tile2": [
+          "s_lshl_b32 s5, s0, 9"
+        ],
+        "tile4": [
+          "s_lshl_b32 s5, s0, 10"
+        ]
+      },
+      {
+        "tile2": [
+          "s_mov_b64 s[28:29], -1"
+        ],
+        "tile4": []
+      },
+      {
+        "tile2": [
+          "s_branch 463"
+        ],
+        "tile4": [
+          "s_branch 464"
+        ]
+      },
+      {
+        "tile2": [
+          "s_mul_i32 s24, s15, s10"
+        ],
+        "tile4": [
+          "s_mul_i32 s2, s28, s10"
+        ]
+      },
+      {
+        "tile2": [
+          "s_ashr_i32 s25, s24, 31"
+        ],
+        "tile4": [
+          "s_ashr_i32 s3, s2, 31"
+        ]
+      },
+      {
+        "tile2": [
+          "s_xor_b64 s[2:3], s[28:29], -1",
+          "s_lshl_b64 s[24:25], s[24:25], 2",
+          "v_readlane_b32 s15, v255, 2",
+          "s_add_u32 s28, s15, s24",
+          "v_readlane_b32 s15, v255, 3",
+          "s_addc_u32 s15, s15, s25",
+          "s_and_b32 s29, s15, 0xffff"
+        ],
+        "tile4": [
+          "s_lshl_b64 s[2:3], s[2:3], 2",
+          "v_readlane_b32 s24, v255, 2",
+          "s_add_u32 s28, s24, s2",
+          "v_readlane_b32 s2, v255, 3",
+          "s_addc_u32 s2, s2, s3",
+          "s_and_b32 s29, s2, 0xffff"
+        ]
+      },
+      {
+        "tile2": [
+          "v_add_u32_e32 v6, s26, v23"
+        ],
+        "tile4": []
+      },
+      {
+        "tile2": [
+          "s_nop 9"
+        ],
+        "tile4": [
+          "s_nop 10"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[16:19], v[130:137], v[90:97], a[16:19], v4, v0 op_sel:[0,1,0] op_sel_hi:[0,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[16:19], v[130:137], v[98:105], a[16:19], v4, v0 op_sel:[0,1,0] op_sel_hi:[0,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[20:23], v[138:145], v[90:97], a[20:23], v4, v0 op_sel:[1,1,0] op_sel_hi:[0,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[20:23], v[138:145], v[98:105], a[20:23], v4, v0 op_sel:[1,1,0] op_sel_hi:[0,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[24:27], v[122:129], v[90:97], a[24:27], v4, v0 op_sel:[0,1,0] op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[24:27], v[122:129], v[98:105], a[24:27], v4, v0 op_sel:[0,1,0] op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[28:31], v[114:121], v[90:97], a[28:31], v4, v0 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[28:31], v[114:121], v[98:105], a[28:31], v4, v0 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[32:35], v[130:137], v[98:105], a[32:35], v4, v0 op_sel_hi:[0,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[32:35], v[130:137], v[82:89], a[32:35], v4, v0 op_sel_hi:[0,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[36:39], v[138:145], v[98:105], a[36:39], v4, v0 op_sel:[1,0,0] op_sel_hi:[0,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[36:39], v[138:145], v[82:89], a[36:39], v4, v0 op_sel:[1,0,0] op_sel_hi:[0,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[40:43], v[122:129], v[98:105], a[40:43], v4, v0 op_sel_hi:[1,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[40:43], v[122:129], v[82:89], a[40:43], v4, v0 op_sel_hi:[1,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[44:47], v[114:121], v[98:105], a[44:47], v4, v0 op_sel:[1,0,0] op_sel_hi:[1,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[44:47], v[114:121], v[82:89], a[44:47], v4, v0 op_sel:[1,0,0] op_sel_hi:[1,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[48:51], v[130:137], v[82:89], a[48:51], v4, v0 op_sel:[0,1,0] op_sel_hi:[0,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[48:51], v[130:137], v[90:97], a[48:51], v4, v0 op_sel:[0,1,0] op_sel_hi:[0,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[52:55], v[138:145], v[82:89], a[52:55], v4, v0 op_sel:[1,1,0] op_sel_hi:[0,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[52:55], v[138:145], v[90:97], a[52:55], v4, v0 op_sel:[1,1,0] op_sel_hi:[0,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[56:59], v[122:129], v[82:89], a[56:59], v4, v0 op_sel:[0,1,0] op_sel_hi:[1,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[56:59], v[122:129], v[90:97], a[56:59], v4, v0 op_sel:[0,1,0] op_sel_hi:[1,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[60:63], v[114:121], v[82:89], a[60:63], v4, v0 op_sel:[1,1,0] op_sel_hi:[1,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[60:63], v[114:121], v[90:97], a[60:63], v4, v0 op_sel:[1,1,0] op_sel_hi:[1,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "ds_read_b128 v[130:133], v6 offset:8448",
+          "ds_read_b128 v[134:137], v6 offset:9504"
+        ],
+        "tile4": []
+      },
+      {
+        "tile2": [
+          "ds_read_b128 v[138:141], v6 offset:12672",
+          "ds_read_b128 v[142:145], v6 offset:13728",
+          "s_nop 5"
+        ],
+        "tile4": [
+          "s_nop 9"
+        ]
+      },
+      {
+        "tile2": [
+          "ds_read_b128 v[122:125], v6 offset:4224",
+          "ds_read_b128 v[126:129], v6 offset:5280"
+        ],
+        "tile4": []
+      },
+      {
+        "tile2": [
+          "ds_read_b128 v[114:117], v6",
+          "ds_read_b128 v[118:121], v6 offset:1056",
+          "s_nop 5"
+        ],
+        "tile4": [
+          "v_add_u32_e32 v4, s26, v23",
+          "ds_read_b128 v[114:117], v4",
+          "ds_read_b128 v[118:121], v4 offset:1056",
+          "ds_read_b128 v[122:125], v4 offset:4224",
+          "ds_read_b128 v[126:129], v4 offset:5280",
+          "ds_read_b128 v[130:133], v4 offset:8448",
+          "ds_read_b128 v[134:137], v4 offset:9504",
+          "ds_read_b128 v[138:141], v4 offset:12672",
+          "ds_read_b128 v[142:145], v4 offset:13728",
+          "s_waitcnt lgkmcnt(6)",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[64:67], v[114:121], v[106:113], a[64:67], v5, v0 op_sel_hi:[0,0,0]"
+        ]
+      },
+      {
+        "tile2": [],
+        "tile4": [
+          "buffer_store_dwordx4 a[188:191], v40, s[28:31], s85 offen nt",
+          "s_waitcnt lgkmcnt(4)",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[68:71], v[122:129], v[106:113], a[68:71], v5, v0 op_sel:[1,0,0] op_sel_hi:[0,0,0]",
+          "s_waitcnt lgkmcnt(2)",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[72:75], v[130:137], v[106:113], a[72:75], v5, v0 op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[64:67], v[114:121], v[106:113], a[64:67], v5, v0 op_sel_hi:[0,0,0]",
+          "s_nop 0",
+          "buffer_store_dwordx4 a[188:191], v40, s[28:31], s85 offen nt",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[68:71], v[122:129], v[106:113], a[68:71], v5, v0 op_sel:[1,0,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[72:75], v[130:137], v[106:113], a[72:75], v5, v0 op_sel_hi:[1,0,0]"
+        ],
+        "tile4": []
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[80:83], v[114:121], v[90:97], a[80:83], v5, v0 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[84:87], v[122:129], v[90:97], a[84:87], v5, v0 op_sel:[1,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[88:91], v[130:137], v[90:97], a[88:91], v5, v0 op_sel:[0,1,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[92:95], v[138:145], v[90:97], a[92:95], v5, v0 op_sel:[1,1,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[96:99], v[114:121], v[98:105], a[96:99], v5, v0 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[100:103], v[122:129], v[98:105], a[100:103], v5, v0 op_sel:[1,0,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[104:107], v[130:137], v[98:105], a[104:107], v5, v0 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[108:111], v[138:145], v[98:105], a[108:111], v5, v0 op_sel:[1,0,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[112:115], v[114:121], v[82:89], a[112:115], v5, v0 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[116:119], v[122:129], v[82:89], a[116:119], v5, v0 op_sel:[1,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[120:123], v[130:137], v[82:89], a[120:123], v5, v0 op_sel:[0,1,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[124:127], v[138:145], v[82:89], a[124:127], v5, v0 op_sel:[1,1,0] op_sel_hi:[1,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[80:83], v[114:121], v[98:105], a[80:83], v5, v0 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[84:87], v[122:129], v[98:105], a[84:87], v5, v0 op_sel:[1,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[88:91], v[130:137], v[98:105], a[88:91], v5, v0 op_sel:[0,1,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[92:95], v[138:145], v[98:105], a[92:95], v5, v0 op_sel:[1,1,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[96:99], v[114:121], v[82:89], a[96:99], v5, v0 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[100:103], v[122:129], v[82:89], a[100:103], v5, v0 op_sel:[1,0,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[104:107], v[130:137], v[82:89], a[104:107], v5, v0 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[108:111], v[138:145], v[82:89], a[108:111], v5, v0 op_sel:[1,0,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[112:115], v[114:121], v[90:97], a[112:115], v5, v0 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[116:119], v[122:129], v[90:97], a[116:119], v5, v0 op_sel:[1,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[120:123], v[130:137], v[90:97], a[120:123], v5, v0 op_sel:[0,1,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[124:127], v[138:145], v[90:97], a[124:127], v5, v0 op_sel:[1,1,0] op_sel_hi:[1,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "s_movk_i32 s15, 0x100",
+          "s_mov_b64 s[28:29], 0"
+        ],
+        "tile4": [
+          "s_add_i32 s15, s15, 1",
+          "s_cmp_eq_u32 s15, 4",
+          "s_cselect_b64 s[2:3], -1, 0"
+        ]
+      },
+      {
+        "tile2": [
+          "s_cbranch_vccnz 2671",
+          "s_or_b32 s15, s15, s5",
+          "s_cmp_ge_i32 s15, s4"
+        ],
+        "tile4": [
+          "s_cbranch_vccnz 2672",
+          "s_lshl_b32 s28, s15, 8",
+          "s_add_i32 s28, s28, s5",
+          "s_cmp_ge_i32 s28, s4"
+        ]
+      },
+      {
+        "tile2": [
+          "s_cbranch_scc1 65528",
+          "s_mul_i32 s2, s15, s8"
+        ],
+        "tile4": [
+          "s_cbranch_scc1 65529",
+          "s_mul_i32 s2, s28, s8"
+        ]
+      },
+      {
+        "tile2": [
+          "s_ashr_i32 s2, s15, 31"
+        ],
+        "tile4": [
+          "s_ashr_i32 s2, s28, 31"
+        ]
+      },
+      {
+        "tile2": [
+          "s_add_u32 s24, s46, s15"
+        ],
+        "tile4": [
+          "s_add_u32 s24, s46, s28"
+        ]
+      },
+      {
+        "tile2": [
+          "s_sub_i32 s26, s18, s15"
+        ],
+        "tile4": [
+          "s_sub_i32 s26, s18, s28"
+        ]
+      },
+      {
+        "tile2": [
+          "ds_read_b128 v[90:93], v24 offset:4224",
+          "ds_read_b128 v[94:97], v24 offset:4288",
+          "ds_read_b128 v[98:101], v24 offset:8448",
+          "ds_read_b128 v[102:105], v24 offset:8512",
+          "ds_read_b128 v[82:85], v24 offset:12672",
+          "ds_read_b128 v[86:89], v24 offset:12736"
+        ],
+        "tile4": [
+          "ds_read_b128 v[98:101], v24 offset:4224",
+          "ds_read_b128 v[102:105], v24 offset:4288",
+          "ds_read_b128 v[82:85], v24 offset:8448",
+          "ds_read_b128 v[86:89], v24 offset:8512",
+          "ds_read_b128 v[90:93], v24 offset:12672",
+          "ds_read_b128 v[94:97], v24 offset:12736"
+        ]
+      },
+      {
+        "tile2": [
+          "s_cbranch_vccnz 64393"
+        ],
+        "tile4": [
+          "s_cbranch_vccnz 64391"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[16:19], v[130:137], v[90:97], a[16:19], v4, v0 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[20:23], v[138:145], v[90:97], a[20:23], v4, v0 op_sel:[1,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[24:27], v[122:129], v[90:97], a[24:27], v4, v0 op_sel:[0,1,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[28:31], v[114:121], v[90:97], a[28:31], v4, v0 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[16:19], v[130:137], v[98:105], a[16:19], v4, v0 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[20:23], v[138:145], v[98:105], a[20:23], v4, v0 op_sel:[1,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[24:27], v[122:129], v[98:105], a[24:27], v4, v0 op_sel:[0,1,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[28:31], v[114:121], v[98:105], a[28:31], v4, v0 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[32:35], v[130:137], v[98:105], a[32:35], v4, v0 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[36:39], v[138:145], v[98:105], a[36:39], v4, v0 op_sel:[1,0,0] op_sel_hi:[0,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[32:35], v[130:137], v[82:89], a[32:35], v4, v0 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[36:39], v[138:145], v[82:89], a[36:39], v4, v0 op_sel:[1,0,0] op_sel_hi:[0,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[40:43], v[122:129], v[98:105], a[40:43], v4, v0 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[44:47], v[114:121], v[98:105], a[44:47], v4, v0 op_sel:[1,0,0] op_sel_hi:[1,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[40:43], v[122:129], v[82:89], a[40:43], v4, v0 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[44:47], v[114:121], v[82:89], a[44:47], v4, v0 op_sel:[1,0,0] op_sel_hi:[1,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[48:51], v[130:137], v[82:89], a[48:51], v4, v0 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[52:55], v[138:145], v[82:89], a[52:55], v4, v0 op_sel:[1,1,0] op_sel_hi:[0,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[48:51], v[130:137], v[90:97], a[48:51], v4, v0 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[52:55], v[138:145], v[90:97], a[52:55], v4, v0 op_sel:[1,1,0] op_sel_hi:[0,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[56:59], v[122:129], v[82:89], a[56:59], v4, v0 op_sel:[0,1,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[60:63], v[114:121], v[82:89], a[60:63], v4, v0 op_sel:[1,1,0] op_sel_hi:[1,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[56:59], v[122:129], v[90:97], a[56:59], v4, v0 op_sel:[0,1,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[60:63], v[114:121], v[90:97], a[60:63], v4, v0 op_sel:[1,1,0] op_sel_hi:[1,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "ds_read_b128 v[218:221], v24 offset:33792",
+          "ds_read_b128 v[222:225], v24 offset:33856"
+        ],
+        "tile4": [
+          "ds_read_b128 v[210:213], v24 offset:33792",
+          "ds_read_b128 v[214:217], v24 offset:33856"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[80:83], v[186:193], v[90:97], a[80:83], v5, v0 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[84:87], v[178:185], v[90:97], a[84:87], v5, v0 op_sel:[1,1,0] op_sel_hi:[0,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[80:83], v[186:193], v[98:105], a[80:83], v5, v0 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[84:87], v[178:185], v[98:105], a[84:87], v5, v0 op_sel:[1,1,0] op_sel_hi:[0,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[88:91], v[202:209], v[90:97], a[88:91], v5, v0 op_sel:[0,1,0] op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[88:91], v[202:209], v[98:105], a[88:91], v5, v0 op_sel:[0,1,0] op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "ds_read_b128 v[226:229], v23 offset:33792",
+          "ds_read_b128 v[230:233], v23 offset:34848",
+          "ds_read_b128 v[234:237], v23 offset:38016",
+          "ds_read_b128 v[238:241], v23 offset:39072"
+        ],
+        "tile4": [
+          "ds_read_b128 v[218:221], v23 offset:33792",
+          "ds_read_b128 v[222:225], v23 offset:34848",
+          "ds_read_b128 v[226:229], v23 offset:38016",
+          "ds_read_b128 v[230:233], v23 offset:39072"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[92:95], v[194:201], v[90:97], a[92:95], v5, v0 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[92:95], v[194:201], v[98:105], a[92:95], v5, v0 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[96:99], v[186:193], v[98:105], a[96:99], v5, v0 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[100:103], v[178:185], v[98:105], a[100:103], v5, v0 op_sel:[1,0,0] op_sel_hi:[0,1,0]",
+          "ds_read_b128 v[138:141], v24 offset:38016",
+          "ds_read_b128 v[142:145], v24 offset:38080",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[104:107], v[202:209], v[98:105], a[104:107], v5, v0 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[108:111], v[194:201], v[98:105], a[108:111], v5, v0 op_sel:[1,0,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[112:115], v[186:193], v[82:89], a[112:115], v5, v0 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[116:119], v[178:185], v[82:89], a[116:119], v5, v0 op_sel:[1,1,0] op_sel_hi:[0,1,0]",
+          "ds_read_b128 v[210:213], v24 offset:42240",
+          "ds_read_b128 v[214:217], v24 offset:42304",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[120:123], v[202:209], v[82:89], a[120:123], v5, v0 op_sel:[0,1,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[124:127], v[194:201], v[82:89], a[124:127], v5, v0 op_sel:[1,1,0] op_sel_hi:[1,1,0]",
+          "ds_read_b128 v[122:125], v24 offset:46464",
+          "ds_read_b128 v[126:129], v24 offset:46528"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[96:99], v[186:193], v[82:89], a[96:99], v5, v0 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[100:103], v[178:185], v[82:89], a[100:103], v5, v0 op_sel:[1,0,0] op_sel_hi:[0,1,0]",
+          "ds_read_b128 v[122:125], v24 offset:38016",
+          "ds_read_b128 v[126:129], v24 offset:38080",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[104:107], v[202:209], v[82:89], a[104:107], v5, v0 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[108:111], v[194:201], v[82:89], a[108:111], v5, v0 op_sel:[1,0,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[112:115], v[186:193], v[90:97], a[112:115], v5, v0 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[116:119], v[178:185], v[90:97], a[116:119], v5, v0 op_sel:[1,1,0] op_sel_hi:[0,1,0]",
+          "ds_read_b128 v[130:133], v24 offset:42240",
+          "ds_read_b128 v[134:137], v24 offset:42304",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[120:123], v[202:209], v[90:97], a[120:123], v5, v0 op_sel:[0,1,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[124:127], v[194:201], v[90:97], a[124:127], v5, v0 op_sel:[1,1,0] op_sel_hi:[1,1,0]",
+          "ds_read_b128 v[90:93], v24 offset:46464",
+          "ds_read_b128 v[94:97], v24 offset:46528"
+        ]
+      },
+      {
+        "tile2": [
+          "ds_read_b128 v[90:93], v24 offset:50688",
+          "ds_read_b128 v[94:97], v24 offset:50752"
+        ],
+        "tile4": [
+          "ds_read_b128 v[98:101], v24 offset:50688",
+          "ds_read_b128 v[102:105], v24 offset:50752"
+        ]
+      },
+      {
+        "tile2": [
+          "ds_read_b128 v[98:101], v24 offset:54912",
+          "ds_read_b128 v[102:105], v24 offset:54976"
+        ],
+        "tile4": [
+          "ds_read_b128 v[106:109], v24 offset:54912",
+          "ds_read_b128 v[110:113], v24 offset:54976"
+        ]
+      },
+      {
+        "tile2": [
+          "ds_read_b128 v[106:109], v24 offset:59136",
+          "ds_read_b128 v[110:113], v24 offset:59200"
+        ],
+        "tile4": [
+          "ds_read_b128 v[114:117], v24 offset:59136",
+          "ds_read_b128 v[118:121], v24 offset:59200"
+        ]
+      },
+      {
+        "tile2": [
+          "ds_read_b128 v[130:133], v23 offset:50688",
+          "ds_read_b128 v[134:137], v23 offset:51744",
+          "ds_read_b128 v[114:117], v23 offset:54912",
+          "ds_read_b128 v[118:121], v23 offset:55968"
+        ],
+        "tile4": [
+          "ds_read_b128 v[162:165], v23 offset:50688",
+          "ds_read_b128 v[166:169], v23 offset:51744",
+          "ds_read_b128 v[138:141], v23 offset:54912",
+          "ds_read_b128 v[142:145], v23 offset:55968"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[0:3], v[226:233], v[218:225], a[0:3], v6, v81 op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[4:7], v[234:241], v[218:225], a[4:7], v6, v81 op_sel:[1,0,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[8:11], v[52:59], v[218:225], a[8:11], v6, v81 op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[12:15], v[44:51], v[218:225], a[12:15], v6, v81 op_sel:[1,0,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[16:19], v[226:233], v[138:145], a[16:19], v6, v81 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[20:23], v[234:241], v[138:145], a[20:23], v6, v81 op_sel:[1,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[24:27], v[52:59], v[138:145], a[24:27], v6, v81 op_sel:[0,1,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[28:31], v[44:51], v[138:145], a[28:31], v6, v81 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[0:3], v[218:225], v[210:217], a[0:3], v6, v81 op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[4:7], v[226:233], v[210:217], a[4:7], v6, v81 op_sel:[1,0,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[8:11], v[52:59], v[210:217], a[8:11], v6, v81 op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[12:15], v[44:51], v[210:217], a[12:15], v6, v81 op_sel:[1,0,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[16:19], v[218:225], v[122:129], a[16:19], v6, v81 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[20:23], v[226:233], v[122:129], a[20:23], v6, v81 op_sel:[1,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[24:27], v[52:59], v[122:129], a[24:27], v6, v81 op_sel:[0,1,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[28:31], v[44:51], v[122:129], a[28:31], v6, v81 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[32:35], v[226:233], v[210:217], a[32:35], v6, v81 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[36:39], v[234:241], v[210:217], a[36:39], v6, v81 op_sel:[1,0,0] op_sel_hi:[0,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[32:35], v[218:225], v[130:137], a[32:35], v6, v81 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[36:39], v[226:233], v[130:137], a[36:39], v6, v81 op_sel:[1,0,0] op_sel_hi:[0,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[40:43], v[52:59], v[210:217], a[40:43], v6, v81 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[44:47], v[44:51], v[210:217], a[44:47], v6, v81 op_sel:[1,0,0] op_sel_hi:[1,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[40:43], v[52:59], v[130:137], a[40:43], v6, v81 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[44:47], v[44:51], v[130:137], a[44:47], v6, v81 op_sel:[1,0,0] op_sel_hi:[1,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[48:51], v[226:233], v[122:129], a[48:51], v6, v81 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[52:55], v[234:241], v[122:129], a[52:55], v6, v81 op_sel:[1,1,0] op_sel_hi:[0,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[48:51], v[218:225], v[90:97], a[48:51], v6, v81 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[52:55], v[226:233], v[90:97], a[52:55], v6, v81 op_sel:[1,1,0] op_sel_hi:[0,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[56:59], v[52:59], v[122:129], a[56:59], v6, v81 op_sel:[0,1,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[60:63], v[44:51], v[122:129], a[60:63], v6, v81 op_sel:[1,1,0] op_sel_hi:[1,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[56:59], v[52:59], v[90:97], a[56:59], v6, v81 op_sel:[0,1,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[60:63], v[44:51], v[90:97], a[60:63], v6, v81 op_sel:[1,1,0] op_sel_hi:[1,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[128:131], v[226:233], v[90:97], a[128:131], v6, v80 op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[132:135], v[234:241], v[90:97], a[132:135], v6, v80 op_sel:[1,0,0] op_sel_hi:[0,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[128:131], v[218:225], v[98:105], a[128:131], v6, v80 op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[132:135], v[226:233], v[98:105], a[132:135], v6, v80 op_sel:[1,0,0] op_sel_hi:[0,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[136:139], v[52:59], v[90:97], a[136:139], v6, v80 op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[140:143], v[44:51], v[90:97], a[140:143], v6, v80 op_sel:[1,0,0] op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[136:139], v[52:59], v[98:105], a[136:139], v6, v80 op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[140:143], v[44:51], v[98:105], a[140:143], v6, v80 op_sel:[1,0,0] op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[144:147], v[226:233], v[98:105], a[144:147], v6, v80 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[148:151], v[234:241], v[98:105], a[148:151], v6, v80 op_sel:[1,1,0] op_sel_hi:[0,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[144:147], v[218:225], v[106:113], a[144:147], v6, v80 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[148:151], v[226:233], v[106:113], a[148:151], v6, v80 op_sel:[1,1,0] op_sel_hi:[0,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[152:155], v[52:59], v[98:105], a[152:155], v6, v80 op_sel:[0,1,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[156:159], v[44:51], v[98:105], a[156:159], v6, v80 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[152:155], v[52:59], v[106:113], a[152:155], v6, v80 op_sel:[0,1,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[156:159], v[44:51], v[106:113], a[156:159], v6, v80 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[160:163], v[226:233], v[106:113], a[160:163], v6, v80 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[164:167], v[234:241], v[106:113], a[164:167], v6, v80 op_sel:[1,0,0] op_sel_hi:[0,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[160:163], v[218:225], v[114:121], a[160:163], v6, v80 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[164:167], v[226:233], v[114:121], a[164:167], v6, v80 op_sel:[1,0,0] op_sel_hi:[0,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[168:171], v[52:59], v[106:113], a[168:171], v6, v80 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[172:175], v[44:51], v[106:113], a[172:175], v6, v80 op_sel:[1,0,0] op_sel_hi:[1,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[168:171], v[52:59], v[114:121], a[168:171], v6, v80 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[172:175], v[44:51], v[114:121], a[172:175], v6, v80 op_sel:[1,0,0] op_sel_hi:[1,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[176:179], v[226:233], v[82:89], a[176:179], v6, v80 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[180:183], v[234:241], v[82:89], a[180:183], v6, v80 op_sel:[1,1,0] op_sel_hi:[0,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[176:179], v[218:225], v[82:89], a[176:179], v6, v80 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[180:183], v[226:233], v[82:89], a[180:183], v6, v80 op_sel:[1,1,0] op_sel_hi:[0,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[64:67], v[130:137], v[218:225], a[64:67], v7, v81 op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[68:71], v[114:121], v[218:225], a[68:71], v7, v81 op_sel:[1,0,0] op_sel_hi:[0,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[64:67], v[162:169], v[210:217], a[64:67], v7, v81 op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[68:71], v[138:145], v[210:217], a[68:71], v7, v81 op_sel:[1,0,0] op_sel_hi:[0,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[72:75], v[170:177], v[218:225], a[72:75], v7, v81 op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[76:79], v[146:153], v[218:225], a[76:79], v7, v81 op_sel:[1,0,0] op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[72:75], v[170:177], v[210:217], a[72:75], v7, v81 op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[76:79], v[146:153], v[210:217], a[76:79], v7, v81 op_sel:[1,0,0] op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[80:83], v[130:137], v[138:145], a[80:83], v7, v81 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[84:87], v[114:121], v[138:145], a[84:87], v7, v81 op_sel:[1,1,0] op_sel_hi:[0,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[80:83], v[162:169], v[122:129], a[80:83], v7, v81 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[84:87], v[138:145], v[122:129], a[84:87], v7, v81 op_sel:[1,1,0] op_sel_hi:[0,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[88:91], v[170:177], v[138:145], a[88:91], v7, v81 op_sel:[0,1,0] op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[88:91], v[170:177], v[122:129], a[88:91], v7, v81 op_sel:[0,1,0] op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "ds_read_b128 v[202:205], v23 offset:8448",
+          "ds_read_b128 v[206:209], v23 offset:9504",
+          "ds_read_b128 v[186:189], v23 offset:12672",
+          "ds_read_b128 v[190:193], v23 offset:13728"
+        ],
+        "tile4": [
+          "ds_read_b128 v[186:189], v23 offset:8448",
+          "ds_read_b128 v[190:193], v23 offset:9504",
+          "ds_read_b128 v[178:181], v23 offset:12672",
+          "ds_read_b128 v[182:185], v23 offset:13728"
+        ]
+      },
+      {
+        "tile2": [
+          "ds_read_b128 v[218:221], v23",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[92:95], v[146:153], v[138:145], a[92:95], v7, v81 op_sel:[1,1,0] op_sel_hi:[1,0,0]",
+          "ds_read_b128 v[222:225], v23 offset:1056"
+        ],
+        "tile4": [
+          "ds_read_b128 v[210:213], v23",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[92:95], v[146:153], v[122:129], a[92:95], v7, v81 op_sel:[1,1,0] op_sel_hi:[1,0,0]",
+          "ds_read_b128 v[214:217], v23 offset:1056"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[96:99], v[130:137], v[210:217], a[96:99], v7, v81 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[100:103], v[114:121], v[210:217], a[100:103], v7, v81 op_sel:[1,0,0] op_sel_hi:[0,1,0]",
+          "ds_read_b128 v[138:141], v24 offset:4224",
+          "ds_read_b128 v[142:145], v24 offset:4288",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[104:107], v[170:177], v[210:217], a[104:107], v7, v81 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[108:111], v[146:153], v[210:217], a[108:111], v7, v81 op_sel:[1,0,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[112:115], v[130:137], v[122:129], a[112:115], v7, v81 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[116:119], v[114:121], v[122:129], a[116:119], v7, v81 op_sel:[1,1,0] op_sel_hi:[0,1,0]",
+          "ds_read_b128 v[162:165], v24 offset:8448",
+          "ds_read_b128 v[166:169], v24 offset:8512",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[120:123], v[170:177], v[122:129], a[120:123], v7, v81 op_sel:[0,1,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[124:127], v[146:153], v[122:129], a[124:127], v7, v81 op_sel:[1,1,0] op_sel_hi:[1,1,0]",
+          "ds_read_b128 v[122:125], v24 offset:12672",
+          "ds_read_b128 v[126:129], v24 offset:12736"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[96:99], v[162:169], v[130:137], a[96:99], v7, v81 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[100:103], v[138:145], v[130:137], a[100:103], v7, v81 op_sel:[1,0,0] op_sel_hi:[0,1,0]",
+          "ds_read_b128 v[122:125], v24 offset:4224",
+          "ds_read_b128 v[126:129], v24 offset:4288",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[104:107], v[170:177], v[130:137], a[104:107], v7, v81 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[108:111], v[146:153], v[130:137], a[108:111], v7, v81 op_sel:[1,0,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[112:115], v[162:169], v[90:97], a[112:115], v7, v81 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[116:119], v[138:145], v[90:97], a[116:119], v7, v81 op_sel:[1,1,0] op_sel_hi:[0,1,0]",
+          "ds_read_b128 v[130:133], v24 offset:8448",
+          "ds_read_b128 v[134:137], v24 offset:8512",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[120:123], v[170:177], v[90:97], a[120:123], v7, v81 op_sel:[0,1,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[124:127], v[146:153], v[90:97], a[124:127], v7, v81 op_sel:[1,1,0] op_sel_hi:[1,1,0]",
+          "ds_read_b128 v[90:93], v24 offset:12672",
+          "ds_read_b128 v[94:97], v24 offset:12736"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[192:195], v[130:137], v[90:97], a[192:195], v7, v80 op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[196:199], v[114:121], v[90:97], a[196:199], v7, v80 op_sel:[1,0,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[200:203], v[170:177], v[90:97], a[200:203], v7, v80 op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[204:207], v[146:153], v[90:97], a[204:207], v7, v80 op_sel:[1,0,0] op_sel_hi:[1,0,0]",
+          "ds_read_b128 v[90:93], v24 offset:16896",
+          "ds_read_b128 v[94:97], v24 offset:16960",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[208:211], v[130:137], v[98:105], a[208:211], v7, v80 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[212:215], v[114:121], v[98:105], a[212:215], v7, v80 op_sel:[1,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[216:219], v[170:177], v[98:105], a[216:219], v7, v80 op_sel:[0,1,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[220:223], v[146:153], v[98:105], a[220:223], v7, v80 op_sel:[1,1,0] op_sel_hi:[1,0,0]",
+          "ds_read_b128 v[98:101], v24 offset:21120",
+          "ds_read_b128 v[102:105], v24 offset:21184",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[224:227], v[130:137], v[106:113], a[224:227], v7, v80 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[228:231], v[114:121], v[106:113], a[228:231], v7, v80 op_sel:[1,0,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[232:235], v[170:177], v[106:113], a[232:235], v7, v80 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[236:239], v[146:153], v[106:113], a[236:239], v7, v80 op_sel:[1,0,0] op_sel_hi:[1,1,0]",
+          "ds_read_b128 v[106:109], v24 offset:25344",
+          "ds_read_b128 v[110:113], v24 offset:25408",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[240:243], v[130:137], v[82:89], a[240:243], v7, v80 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[244:247], v[114:121], v[82:89], a[244:247], v7, v80 op_sel:[1,1,0] op_sel_hi:[0,1,0]",
+          "ds_read_b128 v[178:181], v23 offset:16896",
+          "ds_read_b128 v[182:185], v23 offset:17952",
+          "ds_read_b128 v[130:133], v23 offset:21120",
+          "ds_read_b128 v[134:137], v23 offset:22176"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[192:195], v[162:169], v[98:105], a[192:195], v7, v80 op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[196:199], v[138:145], v[98:105], a[196:199], v7, v80 op_sel:[1,0,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[200:203], v[170:177], v[98:105], a[200:203], v7, v80 op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[204:207], v[146:153], v[98:105], a[204:207], v7, v80 op_sel:[1,0,0] op_sel_hi:[1,0,0]",
+          "ds_read_b128 v[98:101], v24 offset:16896",
+          "ds_read_b128 v[102:105], v24 offset:16960",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[208:211], v[162:169], v[106:113], a[208:211], v7, v80 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[212:215], v[138:145], v[106:113], a[212:215], v7, v80 op_sel:[1,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[216:219], v[170:177], v[106:113], a[216:219], v7, v80 op_sel:[0,1,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[220:223], v[146:153], v[106:113], a[220:223], v7, v80 op_sel:[1,1,0] op_sel_hi:[1,0,0]",
+          "ds_read_b128 v[106:109], v24 offset:21120",
+          "ds_read_b128 v[110:113], v24 offset:21184",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[224:227], v[162:169], v[114:121], a[224:227], v7, v80 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[228:231], v[138:145], v[114:121], a[228:231], v7, v80 op_sel:[1,0,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[232:235], v[170:177], v[114:121], a[232:235], v7, v80 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[236:239], v[146:153], v[114:121], a[236:239], v7, v80 op_sel:[1,0,0] op_sel_hi:[1,1,0]",
+          "ds_read_b128 v[114:117], v24 offset:25344",
+          "ds_read_b128 v[118:121], v24 offset:25408",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[240:243], v[162:169], v[82:89], a[240:243], v7, v80 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[244:247], v[138:145], v[82:89], a[244:247], v7, v80 op_sel:[1,1,0] op_sel_hi:[0,1,0]",
+          "ds_read_b128 v[194:197], v23 offset:16896",
+          "ds_read_b128 v[198:201], v23 offset:17952",
+          "ds_read_b128 v[138:141], v23 offset:21120",
+          "ds_read_b128 v[142:145], v23 offset:22176"
+        ]
+      },
+      {
+        "tile2": [
+          "ds_read_b128 v[114:117], v24 offset:29568",
+          "ds_read_b128 v[118:121], v24 offset:29632",
+          "ds_read_b128 v[194:197], v23 offset:25344",
+          "ds_read_b128 v[198:201], v23 offset:26400"
+        ],
+        "tile4": [
+          "ds_read_b128 v[82:85], v24 offset:29568",
+          "ds_read_b128 v[86:89], v24 offset:29632",
+          "ds_read_b128 v[202:205], v23 offset:25344",
+          "ds_read_b128 v[206:209], v23 offset:26400"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[0:3], v[218:225], v[154:161], a[0:3], v0, v81 op_sel_hi:[0,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[0:3], v[210:217], v[154:161], a[0:3], v0, v81 op_sel_hi:[0,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[8:11], v[202:209], v[154:161], a[8:11], v0, v81 op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[12:15], v[186:193], v[154:161], a[12:15], v0, v81 op_sel:[1,0,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[16:19], v[218:225], v[138:145], a[16:19], v0, v81 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[20:23], v[44:51], v[138:145], a[20:23], v0, v81 op_sel:[1,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[24:27], v[202:209], v[138:145], a[24:27], v0, v81 op_sel:[0,1,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[28:31], v[186:193], v[138:145], a[28:31], v0, v81 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[8:11], v[186:193], v[154:161], a[8:11], v0, v81 op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[12:15], v[178:185], v[154:161], a[12:15], v0, v81 op_sel:[1,0,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[16:19], v[210:217], v[122:129], a[16:19], v0, v81 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[20:23], v[44:51], v[122:129], a[20:23], v0, v81 op_sel:[1,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[24:27], v[186:193], v[122:129], a[24:27], v0, v81 op_sel:[0,1,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[28:31], v[178:185], v[122:129], a[28:31], v0, v81 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[32:35], v[218:225], v[162:169], a[32:35], v0, v81 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[36:39], v[44:51], v[162:169], a[36:39], v0, v81 op_sel:[1,0,0] op_sel_hi:[0,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[32:35], v[210:217], v[130:137], a[32:35], v0, v81 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[36:39], v[44:51], v[130:137], a[36:39], v0, v81 op_sel:[1,0,0] op_sel_hi:[0,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[40:43], v[202:209], v[162:169], a[40:43], v0, v81 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[44:47], v[186:193], v[162:169], a[44:47], v0, v81 op_sel:[1,0,0] op_sel_hi:[1,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[40:43], v[186:193], v[130:137], a[40:43], v0, v81 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[44:47], v[178:185], v[130:137], a[44:47], v0, v81 op_sel:[1,0,0] op_sel_hi:[1,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[48:51], v[218:225], v[122:129], a[48:51], v0, v81 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[52:55], v[44:51], v[122:129], a[52:55], v0, v81 op_sel:[1,1,0] op_sel_hi:[0,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[48:51], v[210:217], v[90:97], a[48:51], v0, v81 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[52:55], v[44:51], v[90:97], a[52:55], v0, v81 op_sel:[1,1,0] op_sel_hi:[0,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[56:59], v[202:209], v[122:129], a[56:59], v0, v81 op_sel:[0,1,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[60:63], v[186:193], v[122:129], a[60:63], v0, v81 op_sel:[1,1,0] op_sel_hi:[1,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[56:59], v[186:193], v[90:97], a[56:59], v0, v81 op_sel:[0,1,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[60:63], v[178:185], v[90:97], a[60:63], v0, v81 op_sel:[1,1,0] op_sel_hi:[1,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[128:131], v[218:225], v[90:97], a[128:131], v0, v5 op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[132:135], v[44:51], v[90:97], a[132:135], v0, v5 op_sel:[1,0,0] op_sel_hi:[0,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[128:131], v[210:217], v[98:105], a[128:131], v0, v5 op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[132:135], v[44:51], v[98:105], a[132:135], v0, v5 op_sel:[1,0,0] op_sel_hi:[0,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[136:139], v[202:209], v[90:97], a[136:139], v0, v5 op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[140:143], v[186:193], v[90:97], a[140:143], v0, v5 op_sel:[1,0,0] op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[136:139], v[186:193], v[98:105], a[136:139], v0, v5 op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[140:143], v[178:185], v[98:105], a[140:143], v0, v5 op_sel:[1,0,0] op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[144:147], v[218:225], v[98:105], a[144:147], v0, v5 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[148:151], v[44:51], v[98:105], a[148:151], v0, v5 op_sel:[1,1,0] op_sel_hi:[0,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[144:147], v[210:217], v[106:113], a[144:147], v0, v5 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[148:151], v[44:51], v[106:113], a[148:151], v0, v5 op_sel:[1,1,0] op_sel_hi:[0,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[152:155], v[202:209], v[98:105], a[152:155], v0, v5 op_sel:[0,1,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[156:159], v[186:193], v[98:105], a[156:159], v0, v5 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[152:155], v[186:193], v[106:113], a[152:155], v0, v5 op_sel:[0,1,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[156:159], v[178:185], v[106:113], a[156:159], v0, v5 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[160:163], v[218:225], v[106:113], a[160:163], v0, v5 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[164:167], v[44:51], v[106:113], a[164:167], v0, v5 op_sel:[1,0,0] op_sel_hi:[0,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[160:163], v[210:217], v[114:121], a[160:163], v0, v5 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[164:167], v[44:51], v[114:121], a[164:167], v0, v5 op_sel:[1,0,0] op_sel_hi:[0,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[168:171], v[202:209], v[106:113], a[168:171], v0, v5 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[172:175], v[186:193], v[106:113], a[172:175], v0, v5 op_sel:[1,0,0] op_sel_hi:[1,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[168:171], v[186:193], v[114:121], a[168:171], v0, v5 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[172:175], v[178:185], v[114:121], a[172:175], v0, v5 op_sel:[1,0,0] op_sel_hi:[1,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[176:179], v[218:225], v[114:121], a[176:179], v0, v5 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[180:183], v[44:51], v[114:121], a[180:183], v0, v5 op_sel:[1,1,0] op_sel_hi:[0,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[176:179], v[210:217], v[82:89], a[176:179], v0, v5 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[180:183], v[44:51], v[82:89], a[180:183], v0, v5 op_sel:[1,1,0] op_sel_hi:[0,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[184:187], v[202:209], v[114:121], a[184:187], v0, v5 op_sel:[0,1,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[188:191], v[186:193], v[114:121], a[188:191], v0, v5 op_sel:[1,1,0] op_sel_hi:[1,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[184:187], v[186:193], v[82:89], a[184:187], v0, v5 op_sel:[0,1,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[188:191], v[178:185], v[82:89], a[188:191], v0, v5 op_sel:[1,1,0] op_sel_hi:[1,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[64:67], v[178:185], v[154:161], a[64:67], v1, v81 op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[68:71], v[130:137], v[154:161], a[68:71], v1, v81 op_sel:[1,0,0] op_sel_hi:[0,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[64:67], v[194:201], v[154:161], a[64:67], v1, v81 op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[68:71], v[138:145], v[154:161], a[68:71], v1, v81 op_sel:[1,0,0] op_sel_hi:[0,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[72:75], v[194:201], v[154:161], a[72:75], v1, v81 op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[72:75], v[202:209], v[154:161], a[72:75], v1, v81 op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "ds_read_b128 v[210:213], v24 offset:33792",
+          "ds_read_b128 v[214:217], v24 offset:33856"
+        ],
+        "tile4": [
+          "ds_read_b128 v[218:221], v24 offset:33792",
+          "ds_read_b128 v[222:225], v24 offset:33856"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[80:83], v[178:185], v[138:145], a[80:83], v1, v81 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[84:87], v[130:137], v[138:145], a[84:87], v1, v81 op_sel:[1,1,0] op_sel_hi:[0,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[80:83], v[194:201], v[122:129], a[80:83], v1, v81 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[84:87], v[138:145], v[122:129], a[84:87], v1, v81 op_sel:[1,1,0] op_sel_hi:[0,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[88:91], v[194:201], v[138:145], a[88:91], v1, v81 op_sel:[0,1,0] op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[88:91], v[202:209], v[122:129], a[88:91], v1, v81 op_sel:[0,1,0] op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[92:95], v[170:177], v[138:145], a[92:95], v1, v81 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[92:95], v[170:177], v[122:129], a[92:95], v1, v81 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[96:99], v[178:185], v[162:169], a[96:99], v1, v81 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[100:103], v[130:137], v[162:169], a[100:103], v1, v81 op_sel:[1,0,0] op_sel_hi:[0,1,0]",
+          "ds_read_b128 v[186:189], v24 offset:38016",
+          "ds_read_b128 v[190:193], v24 offset:38080",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[104:107], v[194:201], v[162:169], a[104:107], v1, v81 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[108:111], v[170:177], v[162:169], a[108:111], v1, v81 op_sel:[1,0,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[112:115], v[178:185], v[122:129], a[112:115], v1, v81 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[116:119], v[130:137], v[122:129], a[116:119], v1, v81 op_sel:[1,1,0] op_sel_hi:[0,1,0]",
+          "ds_read_b128 v[218:221], v24 offset:42240",
+          "ds_read_b128 v[222:225], v24 offset:42304",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[120:123], v[194:201], v[122:129], a[120:123], v1, v81 op_sel:[0,1,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[124:127], v[170:177], v[122:129], a[124:127], v1, v81 op_sel:[1,1,0] op_sel_hi:[1,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[96:99], v[194:201], v[130:137], a[96:99], v1, v81 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[100:103], v[138:145], v[130:137], a[100:103], v1, v81 op_sel:[1,0,0] op_sel_hi:[0,1,0]",
+          "ds_read_b128 v[178:181], v24 offset:38016",
+          "ds_read_b128 v[182:185], v24 offset:38080",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[104:107], v[202:209], v[130:137], a[104:107], v1, v81 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[108:111], v[170:177], v[130:137], a[108:111], v1, v81 op_sel:[1,0,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[112:115], v[194:201], v[90:97], a[112:115], v1, v81 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[116:119], v[138:145], v[90:97], a[116:119], v1, v81 op_sel:[1,1,0] op_sel_hi:[0,1,0]",
+          "ds_read_b128 v[186:189], v24 offset:42240",
+          "ds_read_b128 v[190:193], v24 offset:42304",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[120:123], v[202:209], v[90:97], a[120:123], v1, v81 op_sel:[0,1,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[124:127], v[170:177], v[90:97], a[124:127], v1, v81 op_sel:[1,1,0] op_sel_hi:[1,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "ds_read_b128 v[82:85], v24 offset:46464",
+          "ds_read_b128 v[86:89], v24 offset:46528",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[192:195], v[178:185], v[90:97], a[192:195], v1, v5 op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[196:199], v[130:137], v[90:97], a[196:199], v1, v5 op_sel:[1,0,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[200:203], v[194:201], v[90:97], a[200:203], v1, v5 op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[204:207], v[170:177], v[90:97], a[204:207], v1, v5 op_sel:[1,0,0] op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "ds_read_b128 v[90:93], v24 offset:46464",
+          "ds_read_b128 v[94:97], v24 offset:46528",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[192:195], v[194:201], v[98:105], a[192:195], v1, v5 op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[196:199], v[138:145], v[98:105], a[196:199], v1, v5 op_sel:[1,0,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[200:203], v[202:209], v[98:105], a[200:203], v1, v5 op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[204:207], v[170:177], v[98:105], a[204:207], v1, v5 op_sel:[1,0,0] op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[208:211], v[178:185], v[98:105], a[208:211], v1, v5 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[212:215], v[130:137], v[98:105], a[212:215], v1, v5 op_sel:[1,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[216:219], v[194:201], v[98:105], a[216:219], v1, v5 op_sel:[0,1,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[220:223], v[170:177], v[98:105], a[220:223], v1, v5 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[208:211], v[194:201], v[106:113], a[208:211], v1, v5 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[212:215], v[138:145], v[106:113], a[212:215], v1, v5 op_sel:[1,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[216:219], v[202:209], v[106:113], a[216:219], v1, v5 op_sel:[0,1,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[220:223], v[170:177], v[106:113], a[220:223], v1, v5 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[224:227], v[178:185], v[106:113], a[224:227], v1, v5 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[228:231], v[130:137], v[106:113], a[228:231], v1, v5 op_sel:[1,0,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[232:235], v[194:201], v[106:113], a[232:235], v1, v5 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[236:239], v[170:177], v[106:113], a[236:239], v1, v5 op_sel:[1,0,0] op_sel_hi:[1,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[224:227], v[194:201], v[114:121], a[224:227], v1, v5 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[228:231], v[138:145], v[114:121], a[228:231], v1, v5 op_sel:[1,0,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[232:235], v[202:209], v[114:121], a[232:235], v1, v5 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[236:239], v[170:177], v[114:121], a[236:239], v1, v5 op_sel:[1,0,0] op_sel_hi:[1,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[240:243], v[178:185], v[114:121], a[240:243], v1, v5 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[244:247], v[130:137], v[114:121], a[244:247], v1, v5 op_sel:[1,1,0] op_sel_hi:[0,1,0]",
+          "ds_read_b128 v[202:205], v23 offset:50688",
+          "ds_read_b128 v[206:209], v23 offset:51744",
+          "ds_read_b128 v[178:181], v23 offset:54912",
+          "ds_read_b128 v[182:185], v23 offset:55968",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[248:251], v[194:201], v[114:121], a[248:251], v1, v5 op_sel:[0,1,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[252:255], v[170:177], v[114:121], a[252:255], v1, v5 op_sel:[1,1,0] op_sel_hi:[1,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[240:243], v[194:201], v[82:89], a[240:243], v1, v5 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[244:247], v[138:145], v[82:89], a[244:247], v1, v5 op_sel:[1,1,0] op_sel_hi:[0,1,0]",
+          "ds_read_b128 v[194:197], v23 offset:54912",
+          "ds_read_b128 v[198:201], v23 offset:55968",
+          "ds_read_b128 v[210:213], v23 offset:50688",
+          "ds_read_b128 v[214:217], v23 offset:51744",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[248:251], v[202:209], v[82:89], a[248:251], v1, v5 op_sel:[0,1,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[252:255], v[170:177], v[82:89], a[252:255], v1, v5 op_sel:[1,1,0] op_sel_hi:[1,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "ds_read_b128 v[194:197], v23 offset:63360",
+          "ds_read_b128 v[198:201], v23 offset:64416"
+        ],
+        "tile4": [
+          "ds_read_b128 v[202:205], v23 offset:63360",
+          "ds_read_b128 v[206:209], v23 offset:64416"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[0:3], v[44:51], v[210:217], a[0:3], v6, v0 op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[4:7], v[52:59], v[210:217], a[4:7], v6, v0 op_sel:[1,0,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[8:11], v[242:249], v[210:217], a[8:11], v6, v0 op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[12:15], v[234:241], v[210:217], a[12:15], v6, v0 op_sel:[1,0,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[16:19], v[44:51], v[186:193], a[16:19], v6, v0 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[20:23], v[52:59], v[186:193], a[20:23], v6, v0 op_sel:[1,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[24:27], v[242:249], v[186:193], a[24:27], v6, v0 op_sel:[0,1,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[28:31], v[234:241], v[186:193], a[28:31], v6, v0 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[0:3], v[44:51], v[218:225], a[0:3], v6, v0 op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[4:7], v[52:59], v[218:225], a[4:7], v6, v0 op_sel:[1,0,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[8:11], v[242:249], v[218:225], a[8:11], v6, v0 op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[12:15], v[234:241], v[218:225], a[12:15], v6, v0 op_sel:[1,0,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[16:19], v[44:51], v[178:185], a[16:19], v6, v0 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[20:23], v[52:59], v[178:185], a[20:23], v6, v0 op_sel:[1,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[24:27], v[242:249], v[178:185], a[24:27], v6, v0 op_sel:[0,1,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[28:31], v[234:241], v[178:185], a[28:31], v6, v0 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[32:35], v[44:51], v[218:225], a[32:35], v6, v0 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[36:39], v[52:59], v[218:225], a[36:39], v6, v0 op_sel:[1,0,0] op_sel_hi:[0,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[32:35], v[44:51], v[186:193], a[32:35], v6, v0 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[36:39], v[52:59], v[186:193], a[36:39], v6, v0 op_sel:[1,0,0] op_sel_hi:[0,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[40:43], v[242:249], v[218:225], a[40:43], v6, v0 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[44:47], v[234:241], v[218:225], a[44:47], v6, v0 op_sel:[1,0,0] op_sel_hi:[1,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[40:43], v[242:249], v[186:193], a[40:43], v6, v0 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[44:47], v[234:241], v[186:193], a[44:47], v6, v0 op_sel:[1,0,0] op_sel_hi:[1,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[48:51], v[44:51], v[82:89], a[48:51], v6, v0 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[52:55], v[52:59], v[82:89], a[52:55], v6, v0 op_sel:[1,1,0] op_sel_hi:[0,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[48:51], v[44:51], v[90:97], a[48:51], v6, v0 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[52:55], v[52:59], v[90:97], a[52:55], v6, v0 op_sel:[1,1,0] op_sel_hi:[0,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[56:59], v[242:249], v[82:89], a[56:59], v6, v0 op_sel:[0,1,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[60:63], v[234:241], v[82:89], a[60:63], v6, v0 op_sel:[1,1,0] op_sel_hi:[1,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[56:59], v[242:249], v[90:97], a[56:59], v6, v0 op_sel:[0,1,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[60:63], v[234:241], v[90:97], a[60:63], v6, v0 op_sel:[1,1,0] op_sel_hi:[1,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[64:67], v[202:209], v[210:217], a[64:67], v7, v0 op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[68:71], v[178:185], v[210:217], a[68:71], v7, v0 op_sel:[1,0,0] op_sel_hi:[0,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[64:67], v[210:217], v[218:225], a[64:67], v7, v0 op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[68:71], v[194:201], v[218:225], a[68:71], v7, v0 op_sel:[1,0,0] op_sel_hi:[0,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[72:75], v[226:233], v[210:217], a[72:75], v7, v0 op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[76:79], v[194:201], v[210:217], a[76:79], v7, v0 op_sel:[1,0,0] op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[72:75], v[226:233], v[218:225], a[72:75], v7, v0 op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[76:79], v[202:209], v[218:225], a[76:79], v7, v0 op_sel:[1,0,0] op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[80:83], v[202:209], v[186:193], a[80:83], v7, v0 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[84:87], v[178:185], v[186:193], a[84:87], v7, v0 op_sel:[1,1,0] op_sel_hi:[0,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[80:83], v[210:217], v[178:185], a[80:83], v7, v0 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[84:87], v[194:201], v[178:185], a[84:87], v7, v0 op_sel:[1,1,0] op_sel_hi:[0,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[88:91], v[226:233], v[186:193], a[88:91], v7, v0 op_sel:[0,1,0] op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[88:91], v[226:233], v[178:185], a[88:91], v7, v0 op_sel:[0,1,0] op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[92:95], v[194:201], v[186:193], a[92:95], v7, v0 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[92:95], v[202:209], v[178:185], a[92:95], v7, v0 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[96:99], v[202:209], v[218:225], a[96:99], v7, v0 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[100:103], v[178:185], v[218:225], a[100:103], v7, v0 op_sel:[1,0,0] op_sel_hi:[0,1,0]",
+          "ds_read_b128 v[90:93], v24 offset:4224",
+          "ds_read_b128 v[94:97], v24 offset:4288",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[104:107], v[226:233], v[218:225], a[104:107], v7, v0 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[108:111], v[194:201], v[218:225], a[108:111], v7, v0 op_sel:[1,0,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[112:115], v[202:209], v[82:89], a[112:115], v7, v0 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[116:119], v[178:185], v[82:89], a[116:119], v7, v0 op_sel:[1,1,0] op_sel_hi:[0,1,0]",
+          "ds_read_b128 v[98:101], v24 offset:8448",
+          "ds_read_b128 v[102:105], v24 offset:8512",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[120:123], v[226:233], v[82:89], a[120:123], v7, v0 op_sel:[0,1,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[124:127], v[194:201], v[82:89], a[124:127], v7, v0 op_sel:[1,1,0] op_sel_hi:[1,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[96:99], v[210:217], v[186:193], a[96:99], v7, v0 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[100:103], v[194:201], v[186:193], a[100:103], v7, v0 op_sel:[1,0,0] op_sel_hi:[0,1,0]",
+          "ds_read_b128 v[98:101], v24 offset:4224",
+          "ds_read_b128 v[102:105], v24 offset:4288",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[104:107], v[226:233], v[186:193], a[104:107], v7, v0 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[108:111], v[202:209], v[186:193], a[108:111], v7, v0 op_sel:[1,0,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[112:115], v[210:217], v[90:97], a[112:115], v7, v0 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[116:119], v[194:201], v[90:97], a[116:119], v7, v0 op_sel:[1,1,0] op_sel_hi:[0,1,0]",
+          "ds_read_b128 v[82:85], v24 offset:8448",
+          "ds_read_b128 v[86:89], v24 offset:8512",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[120:123], v[226:233], v[90:97], a[120:123], v7, v0 op_sel:[0,1,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[124:127], v[202:209], v[90:97], a[124:127], v7, v0 op_sel:[1,1,0] op_sel_hi:[1,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "ds_read_b128 v[82:85], v24 offset:12672",
+          "ds_read_b128 v[86:89], v24 offset:12736",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[192:195], v[202:209], v[146:153], a[192:195], v7, v80 op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[196:199], v[178:185], v[146:153], a[196:199], v7, v80 op_sel:[1,0,0] op_sel_hi:[0,0,0]"
+        ],
+        "tile4": [
+          "ds_read_b128 v[90:93], v24 offset:12672",
+          "ds_read_b128 v[94:97], v24 offset:12736",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[192:195], v[210:217], v[146:153], a[192:195], v7, v80 op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[196:199], v[194:201], v[146:153], a[196:199], v7, v80 op_sel:[1,0,0] op_sel_hi:[0,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[204:207], v[194:201], v[146:153], a[204:207], v7, v80 op_sel:[1,0,0] op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[204:207], v[202:209], v[146:153], a[204:207], v7, v80 op_sel:[1,0,0] op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[208:211], v[202:209], v[154:161], a[208:211], v7, v80 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[212:215], v[178:185], v[154:161], a[212:215], v7, v80 op_sel:[1,1,0] op_sel_hi:[0,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[208:211], v[210:217], v[154:161], a[208:211], v7, v80 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[212:215], v[194:201], v[154:161], a[212:215], v7, v80 op_sel:[1,1,0] op_sel_hi:[0,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[220:223], v[194:201], v[154:161], a[220:223], v7, v80 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[220:223], v[202:209], v[154:161], a[220:223], v7, v80 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[224:227], v[202:209], v[162:169], a[224:227], v7, v80 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[228:231], v[178:185], v[162:169], a[228:231], v7, v80 op_sel:[1,0,0] op_sel_hi:[0,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[224:227], v[210:217], v[162:169], a[224:227], v7, v80 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[228:231], v[194:201], v[162:169], a[228:231], v7, v80 op_sel:[1,0,0] op_sel_hi:[0,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[236:239], v[194:201], v[162:169], a[236:239], v7, v80 op_sel:[1,0,0] op_sel_hi:[1,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[236:239], v[202:209], v[162:169], a[236:239], v7, v80 op_sel:[1,0,0] op_sel_hi:[1,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[240:243], v[202:209], v[170:177], a[240:243], v7, v80 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[244:247], v[178:185], v[170:177], a[244:247], v7, v80 op_sel:[1,1,0] op_sel_hi:[0,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[240:243], v[210:217], v[170:177], a[240:243], v7, v80 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[244:247], v[194:201], v[170:177], a[244:247], v7, v80 op_sel:[1,1,0] op_sel_hi:[0,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[252:255], v[194:201], v[170:177], a[252:255], v7, v80 op_sel:[1,1,0] op_sel_hi:[1,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[252:255], v[202:209], v[170:177], a[252:255], v7, v80 op_sel:[1,1,0] op_sel_hi:[1,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "s_cbranch_vccz 62820"
+        ],
+        "tile4": [
+          "s_cbranch_vccz 62818"
+        ]
+      },
+      {
+        "tile2": [
+          "s_cbranch_execz 62816",
+          "s_mov_b32 s31, 0"
+        ],
+        "tile4": [
+          "s_cbranch_execz 62814",
+          "s_mov_b32 s29, 0"
+        ]
+      },
+      {
+        "tile2": [
+          "s_xor_b32 s26, s31, 1"
+        ],
+        "tile4": [
+          "s_xor_b32 s26, s29, 1"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[16:19], v[130:137], v[90:97], a[16:19], v6, v0 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[20:23], v[138:145], v[90:97], a[20:23], v6, v0 op_sel:[1,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[24:27], v[122:129], v[90:97], a[24:27], v6, v0 op_sel:[0,1,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[28:31], v[114:121], v[90:97], a[28:31], v6, v0 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[16:19], v[130:137], v[98:105], a[16:19], v6, v0 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[20:23], v[138:145], v[98:105], a[20:23], v6, v0 op_sel:[1,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[24:27], v[122:129], v[98:105], a[24:27], v6, v0 op_sel:[0,1,0] op_sel_hi:[1,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[28:31], v[114:121], v[98:105], a[28:31], v6, v0 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "s_mul_i32 s31, s31, 0x8400",
+          "s_add_i32 s31, s89, s31"
+        ],
+        "tile4": [
+          "s_mul_i32 s29, s29, 0x8400",
+          "s_add_i32 s29, s89, s29"
+        ]
+      },
+      {
+        "tile2": [
+          "s_mov_b32 m0, s31"
+        ],
+        "tile4": [
+          "s_mov_b32 m0, s29"
+        ]
+      },
+      {
+        "tile2": [
+          "s_add_i32 m0, s31, 32",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[32:35], v[130:137], v[98:105], a[32:35], v6, v0 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[36:39], v[138:145], v[98:105], a[36:39], v6, v0 op_sel:[1,0,0] op_sel_hi:[0,1,0]"
+        ],
+        "tile4": [
+          "s_add_i32 m0, s29, 32",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[32:35], v[130:137], v[82:89], a[32:35], v6, v0 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[36:39], v[138:145], v[82:89], a[36:39], v6, v0 op_sel:[1,0,0] op_sel_hi:[0,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[40:43], v[122:129], v[98:105], a[40:43], v6, v0 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[44:47], v[114:121], v[98:105], a[44:47], v6, v0 op_sel:[1,0,0] op_sel_hi:[1,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[40:43], v[122:129], v[82:89], a[40:43], v6, v0 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[44:47], v[114:121], v[82:89], a[44:47], v6, v0 op_sel:[1,0,0] op_sel_hi:[1,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[48:51], v[130:137], v[82:89], a[48:51], v6, v0 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[52:55], v[138:145], v[82:89], a[52:55], v6, v0 op_sel:[1,1,0] op_sel_hi:[0,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[48:51], v[130:137], v[90:97], a[48:51], v6, v0 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[52:55], v[138:145], v[90:97], a[52:55], v6, v0 op_sel:[1,1,0] op_sel_hi:[0,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "s_add_i32 m0, s31, 0x1080",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[56:59], v[122:129], v[82:89], a[56:59], v6, v0 op_sel:[0,1,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[60:63], v[114:121], v[82:89], a[60:63], v6, v0 op_sel:[1,1,0] op_sel_hi:[1,1,0]"
+        ],
+        "tile4": [
+          "s_add_i32 m0, s29, 0x1080",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[56:59], v[122:129], v[90:97], a[56:59], v6, v0 op_sel:[0,1,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[60:63], v[114:121], v[90:97], a[60:63], v6, v0 op_sel:[1,1,0] op_sel_hi:[1,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "s_add_i32 m0, s31, 0x10a0"
+        ],
+        "tile4": [
+          "s_add_i32 m0, s29, 0x10a0"
+        ]
+      },
+      {
+        "tile2": [
+          "s_add_i32 m0, s31, 0x2100"
+        ],
+        "tile4": [
+          "s_add_i32 m0, s29, 0x2100"
+        ]
+      },
+      {
+        "tile2": [
+          "s_add_i32 m0, s31, 0x2120"
+        ],
+        "tile4": [
+          "s_add_i32 m0, s29, 0x2120"
+        ]
+      },
+      {
+        "tile2": [
+          "s_add_i32 m0, s31, 0x3180"
+        ],
+        "tile4": [
+          "s_add_i32 m0, s29, 0x3180"
+        ]
+      },
+      {
+        "tile2": [
+          "s_add_i32 m0, s31, 0x31a0"
+        ],
+        "tile4": [
+          "s_add_i32 m0, s29, 0x31a0"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[80:83], v[186:193], v[90:97], a[80:83], v7, v0 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[84:87], v[178:185], v[90:97], a[84:87], v7, v0 op_sel:[1,1,0] op_sel_hi:[0,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[80:83], v[186:193], v[98:105], a[80:83], v7, v0 op_sel:[0,1,0] op_sel_hi:[0,0,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[84:87], v[178:185], v[98:105], a[84:87], v7, v0 op_sel:[1,1,0] op_sel_hi:[0,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[88:91], v[202:209], v[90:97], a[88:91], v7, v0 op_sel:[0,1,0] op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[88:91], v[202:209], v[98:105], a[88:91], v7, v0 op_sel:[0,1,0] op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[92:95], v[194:201], v[90:97], a[92:95], v7, v0 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[92:95], v[194:201], v[98:105], a[92:95], v7, v0 op_sel:[1,1,0] op_sel_hi:[1,0,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[96:99], v[186:193], v[98:105], a[96:99], v7, v0 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[100:103], v[178:185], v[98:105], a[100:103], v7, v0 op_sel:[1,0,0] op_sel_hi:[0,1,0]",
+          "ds_read_b128 v[90:93], v6 offset:4224",
+          "ds_read_b128 v[94:97], v6 offset:4288",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[104:107], v[202:209], v[98:105], a[104:107], v7, v0 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[108:111], v[194:201], v[98:105], a[108:111], v7, v0 op_sel:[1,0,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[112:115], v[186:193], v[82:89], a[112:115], v7, v0 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[116:119], v[178:185], v[82:89], a[116:119], v7, v0 op_sel:[1,1,0] op_sel_hi:[0,1,0]",
+          "ds_read_b128 v[98:101], v6 offset:8448",
+          "ds_read_b128 v[102:105], v6 offset:8512",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[120:123], v[202:209], v[82:89], a[120:123], v7, v0 op_sel:[0,1,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[124:127], v[194:201], v[82:89], a[124:127], v7, v0 op_sel:[1,1,0] op_sel_hi:[1,1,0]"
+        ],
+        "tile4": [
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[96:99], v[186:193], v[82:89], a[96:99], v7, v0 op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[100:103], v[178:185], v[82:89], a[100:103], v7, v0 op_sel:[1,0,0] op_sel_hi:[0,1,0]",
+          "ds_read_b128 v[98:101], v6 offset:4224",
+          "ds_read_b128 v[102:105], v6 offset:4288",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[104:107], v[202:209], v[82:89], a[104:107], v7, v0 op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[108:111], v[194:201], v[82:89], a[108:111], v7, v0 op_sel:[1,0,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[112:115], v[186:193], v[90:97], a[112:115], v7, v0 op_sel:[0,1,0] op_sel_hi:[0,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[116:119], v[178:185], v[90:97], a[116:119], v7, v0 op_sel:[1,1,0] op_sel_hi:[0,1,0]",
+          "ds_read_b128 v[82:85], v6 offset:8448",
+          "ds_read_b128 v[86:89], v6 offset:8512",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[120:123], v[202:209], v[90:97], a[120:123], v7, v0 op_sel:[0,1,0] op_sel_hi:[1,1,0]",
+          "v_mfma_scale_f32_16x16x128_f8f6f4 a[124:127], v[194:201], v[90:97], a[124:127], v7, v0 op_sel:[1,1,0] op_sel_hi:[1,1,0]"
+        ]
+      },
+      {
+        "tile2": [
+          "ds_read_b128 v[82:85], v6 offset:12672",
+          "ds_read_b128 v[86:89], v6 offset:12736"
+        ],
+        "tile4": [
+          "ds_read_b128 v[90:93], v6 offset:12672",
+          "ds_read_b128 v[94:97], v6 offset:12736"
+        ]
+      },
+      {
+        "tile2": [
+          "s_mov_b32 s31, s26"
+        ],
+        "tile4": [
+          "s_mov_b32 s29, s26"
+        ]
+      },
+      {
+        "tile2": [
+          "s_branch 62403"
+        ],
+        "tile4": [
+          "s_branch 62401"
+        ]
+      }
+    ]
+  },
+  {
+    "kernel": "_ZN16blockscale_panel28gemm_a8w8_mxfp8_scale_kernelI17WholeKScaleTraitsILb1EEEEv21opus_gemm_scale_kargs",
+    "tile2_instruction_count": 2223,
+    "tile4_instruction_count": 2223,
+    "differences": [
+      {
+        "tile2": [
+          "s_lshl_b32 s5, s0, 9"
+        ],
+        "tile4": [
+          "s_lshl_b32 s5, s0, 10"
+        ]
+      },
+      {
+        "tile2": [
+          "s_mov_b64 s[28:29], -1"
+        ],
+        "tile4": []
+      },
+      {
+        "tile2": [
+          "s_mul_i32 s24, s15, s10"
+        ],
+        "tile4": [
+          "s_mul_i32 s2, s28, s10"
+        ]
+      },
+      {
+        "tile2": [
+          "s_ashr_i32 s25, s24, 31"
+        ],
+        "tile4": [
+          "s_ashr_i32 s3, s2, 31"
+        ]
+      },
+      {
+        "tile2": [
+          "s_xor_b64 s[2:3], s[28:29], -1",
+          "s_lshl_b64 s[24:25], s[24:25], 1",
+          "v_readlane_b32 s15, v255, 2",
+          "s_add_u32 s28, s15, s24",
+          "v_readlane_b32 s15, v255, 3",
+          "s_addc_u32 s15, s15, s25",
+          "s_and_b32 s29, s15, 0xffff"
+        ],
+        "tile4": [
+          "s_lshl_b64 s[2:3], s[2:3], 1",
+          "v_readlane_b32 s24, v255, 2",
+          "s_add_u32 s28, s24, s2",
+          "v_readlane_b32 s2, v255, 3",
+          "s_addc_u32 s2, s2, s3",
+          "s_and_b32 s29, s2, 0xffff"
+        ]
+      },
+      {
+        "tile2": [
+          "s_movk_i32 s15, 0x100",
+          "s_mov_b64 s[28:29], 0"
+        ],
+        "tile4": [
+          "s_add_i32 s15, s15, 1",
+          "s_cmp_eq_u32 s15, 4",
+          "s_cselect_b64 s[2:3], -1, 0"
+        ]
+      },
+      {
+        "tile2": [
+          "s_cbranch_vccnz 2685",
+          "s_or_b32 s15, s15, s5",
+          "s_cmp_ge_i32 s15, s4"
+        ],
+        "tile4": [
+          "s_cbranch_vccnz 2686",
+          "s_lshl_b32 s28, s15, 8",
+          "s_add_i32 s28, s28, s5",
+          "s_cmp_ge_i32 s28, s4"
+        ]
+      },
+      {
+        "tile2": [
+          "s_cbranch_scc1 65528",
+          "s_mul_i32 s2, s15, s8"
+        ],
+        "tile4": [
+          "s_cbranch_scc1 65529",
+          "s_mul_i32 s2, s28, s8"
+        ]
+      },
+      {
+        "tile2": [
+          "s_ashr_i32 s2, s15, 31"
+        ],
+        "tile4": [
+          "s_ashr_i32 s2, s28, 31"
+        ]
+      },
+      {
+        "tile2": [
+          "s_add_u32 s24, s46, s15"
+        ],
+        "tile4": [
+          "s_add_u32 s24, s46, s28"
+        ]
+      },
+      {
+        "tile2": [
+          "s_sub_i32 s26, s18, s15"
+        ],
+        "tile4": [
+          "s_sub_i32 s26, s18, s28"
+        ]
+      },
+      {
+        "tile2": [
+          "s_cbranch_vccnz 63559"
+        ],
+        "tile4": [
+          "s_cbranch_vccnz 63558"
+        ]
+      },
+      {
+        "tile2": [
+          "s_cbranch_vccz 61972"
+        ],
+        "tile4": [
+          "s_cbranch_vccz 61971"
+        ]
+      },
+      {
+        "tile2": [
+          "s_cbranch_execz 61968",
+          "s_mov_b32 s31, 0"
+        ],
+        "tile4": [
+          "s_cbranch_execz 61967",
+          "s_mov_b32 s29, 0"
+        ]
+      },
+      {
+        "tile2": [
+          "s_xor_b32 s26, s31, 1"
+        ],
+        "tile4": [
+          "s_xor_b32 s26, s29, 1"
+        ]
+      },
+      {
+        "tile2": [
+          "s_mul_i32 s31, s31, 0x8400",
+          "s_add_i32 s31, s89, s31"
+        ],
+        "tile4": [
+          "s_mul_i32 s29, s29, 0x8400",
+          "s_add_i32 s29, s89, s29"
+        ]
+      },
+      {
+        "tile2": [
+          "s_mov_b32 m0, s31"
+        ],
+        "tile4": [
+          "s_mov_b32 m0, s29"
+        ]
+      },
+      {
+        "tile2": [
+          "s_add_i32 m0, s31, 32"
+        ],
+        "tile4": [
+          "s_add_i32 m0, s29, 32"
+        ]
+      },
+      {
+        "tile2": [
+          "s_add_i32 m0, s31, 0x1080"
+        ],
+        "tile4": [
+          "s_add_i32 m0, s29, 0x1080"
+        ]
+      },
+      {
+        "tile2": [
+          "s_add_i32 m0, s31, 0x10a0"
+        ],
+        "tile4": [
+          "s_add_i32 m0, s29, 0x10a0"
+        ]
+      },
+      {
+        "tile2": [
+          "s_add_i32 m0, s31, 0x2100"
+        ],
+        "tile4": [
+          "s_add_i32 m0, s29, 0x2100"
+        ]
+      },
+      {
+        "tile2": [
+          "s_add_i32 m0, s31, 0x2120"
+        ],
+        "tile4": [
+          "s_add_i32 m0, s29, 0x2120"
+        ]
+      },
+      {
+        "tile2": [
+          "s_add_i32 m0, s31, 0x3180"
+        ],
+        "tile4": [
+          "s_add_i32 m0, s29, 0x3180"
+        ]
+      },
+      {
+        "tile2": [
+          "s_add_i32 m0, s31, 0x31a0"
+        ],
+        "tile4": [
+          "s_add_i32 m0, s29, 0x31a0"
+        ]
+      },
+      {
+        "tile2": [
+          "s_mov_b32 s31, s26"
+        ],
+        "tile4": [
+          "s_mov_b32 s29, s26"
+        ]
+      },
+      {
+        "tile2": [
+          "s_branch 61555"
+        ],
+        "tile4": [
+          "s_branch 61554"
+        ]
+      }
+    ]
+  },
+  {
+    "kernel": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+    "tile2_instruction_count": 1705,
+    "tile4_instruction_count": 1705,
+    "differences": []
+  },
+  {
+    "kernel": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+    "tile2_instruction_count": 2092,
+    "tile4_instruction_count": 2092,
+    "differences": []
+  }
+]

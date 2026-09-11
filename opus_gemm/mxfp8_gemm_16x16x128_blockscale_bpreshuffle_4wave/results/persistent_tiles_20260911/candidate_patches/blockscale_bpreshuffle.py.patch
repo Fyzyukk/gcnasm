@@ -1,0 +1,22 @@
+--- a/blockscale_bpreshuffle.py
++++ b/blockscale_bpreshuffle.py
+@@ -42,7 +42,7 @@
+     A_scale accepts either true column-major strides (1,M), or a contiguous
+     [M,K/128] tensor whose bytes were transposed by the quantizer, as in aiter.
+     A contiguous row-major scale with ordinary logical values is NOT that format.
+-    M/N must be multiples of 256 and K a multiple of 128. `tiles` may be 0/1.
++    M/N must be multiples of 256 and K a multiple of 128. This experiment requires K=8192; `tiles` may be 0/4.
+     """
+     tensors = (A, B, A_scale, B_scale)
+     if any(t.ndim != 2 for t in tensors):
+@@ -58,8 +58,8 @@
+     n, bk = B.shape
+     if min(m, n, k) <= 0 or k != bk or m % 256 or n % 256 or k % 128:
+         raise ValueError("requires matching K, M/N % 256 == 0, K % 128 == 0")
+-    if dtype not in (torch.bfloat16, torch.float32) or tiles not in (0, 1):
+-        raise ValueError("dtype must be bf16/fp32; tiles must be 0 or 1")
++    if dtype not in (torch.bfloat16, torch.float32) or tiles not in (0, 4):
++        raise ValueError("dtype must be bf16/fp32; tiles must be 0 or 4")
+     if not A.is_contiguous() or not B.is_contiguous() or not B_scale.is_contiguous():
+         raise ValueError("A, packed B and B_scale must be contiguous")
+     if A_scale.shape != (m, k // 128) or B_scale.shape != (n // 128, k // 128):

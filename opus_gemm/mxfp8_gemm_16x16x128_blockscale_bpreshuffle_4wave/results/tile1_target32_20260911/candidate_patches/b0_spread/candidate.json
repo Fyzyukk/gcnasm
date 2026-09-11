@@ -1,0 +1,10 @@
+{
+  "name": "b0_spread",
+  "config": {
+    "reason": "B0 reads spread in pairs after MFMA32/34/36/38"
+  },
+  "source_sha256": "4ba03753e205aabc88bfa741ce663a16c4fbca6a88b972366d1926e1e7d47208",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "source_mfma_order_unchanged": true
+}

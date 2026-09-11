@@ -1,0 +1,193 @@
+{
+  "baseline": "current regroll_release8 tile1",
+  "baseline_commit": "f8040182670b270cd7cddb8ab062c0acd1d6c794",
+  "baseline_tmpl_sha256": "1b1c87b28c1ae645cd8986e00aae0f870f089044c8a8eac4d761e396deafe53a",
+  "physical_gpu": 2,
+  "hip_index": 2,
+  "pci": "0000:65:00.0",
+  "shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "batch": 1,
+  "warmup": 200,
+  "iterations": 100,
+  "seed": 1,
+  "rounds": 5,
+  "output_tile_shape": [
+    256,
+    256
+  ],
+  "output_tiles_per_wg": {
+    "tile1": 1,
+    "tile2": 2,
+    "tile4": 4
+  },
+  "workgroups": {
+    "tile1": 1024,
+    "tile2": 512,
+    "tile4": 256
+  },
+  "canonical_cli": "measurements/current_tile1_tile2_tile4_gpu2",
+  "cli": [
+    {
+      "name": "baseline",
+      "dtype": "bf16",
+      "gpu": 2,
+      "rounds": 5,
+      "median_ms": 0.356645737,
+      "min_ms": 0.35606163,
+      "max_ms": 0.359274178,
+      "median_pflops": 3.0829237916167775,
+      "tile_mode": "tile1",
+      "throughput_change_percent": 0.0
+    },
+    {
+      "name": "baseline",
+      "dtype": "fp32",
+      "gpu": 2,
+      "rounds": 5,
+      "median_ms": 0.369552803,
+      "min_ms": 0.369146576,
+      "max_ms": 0.370078163,
+      "median_pflops": 2.975249054668921,
+      "tile_mode": "tile1",
+      "throughput_change_percent": 0.0
+    },
+    {
+      "name": "tile2",
+      "dtype": "bf16",
+      "gpu": 2,
+      "rounds": 5,
+      "median_ms": 0.359897118,
+      "min_ms": 0.358512802,
+      "max_ms": 0.362220459,
+      "median_pflops": 3.055072054719816,
+      "tile_mode": "tile2",
+      "throughput_change_percent": -0.9034195711453363
+    },
+    {
+      "name": "tile2",
+      "dtype": "fp32",
+      "gpu": 2,
+      "rounds": 5,
+      "median_ms": 0.371023293,
+      "min_ms": 0.370823746,
+      "max_ms": 0.371521416,
+      "median_pflops": 2.963457142772974,
+      "tile_mode": "tile2",
+      "throughput_change_percent": -0.3963336070115786
+    },
+    {
+      "name": "tile4",
+      "dtype": "bf16",
+      "gpu": 2,
+      "rounds": 5,
+      "median_ms": 0.357987289,
+      "min_ms": 0.357512703,
+      "max_ms": 0.362995758,
+      "median_pflops": 3.071370580914676,
+      "tile_mode": "tile4",
+      "throughput_change_percent": -0.37474850119609826
+    },
+    {
+      "name": "tile4",
+      "dtype": "fp32",
+      "gpu": 2,
+      "rounds": 5,
+      "median_ms": 0.36979496,
+      "min_ms": 0.369475784,
+      "max_ms": 0.370166969,
+      "median_pflops": 2.9733007388094204,
+      "tile_mode": "tile4",
+      "throughput_change_percent": -0.06548412666306236
+    }
+  ],
+  "same_allocation": "shared_allocations/current_tile1_tile2_tile4_gpu2",
+  "paired": [
+    {
+      "name": "tile2",
+      "dtype": "bf16",
+      "rounds": 5,
+      "median_throughput_change_percent": -0.7130367973428142,
+      "all_rounds_slower": true
+    },
+    {
+      "name": "tile2",
+      "dtype": "fp32",
+      "rounds": 5,
+      "median_throughput_change_percent": -0.4689038661362943,
+      "all_rounds_slower": true
+    },
+    {
+      "name": "tile4",
+      "dtype": "bf16",
+      "rounds": 5,
+      "median_throughput_change_percent": -0.1996265944164577,
+      "all_rounds_slower": true
+    },
+    {
+      "name": "tile4",
+      "dtype": "fp32",
+      "rounds": 5,
+      "median_throughput_change_percent": -0.027436509088551997,
+      "all_rounds_slower": false
+    }
+  ],
+  "resources": {
+    "tile2": {
+      "fp32": {
+        "vgpr_count": 512,
+        "sgpr_count": 106,
+        "group_segment_fixed_size": 152064,
+        "private_segment_fixed_size": 48,
+        "vgpr_spill_count": 11,
+        "sgpr_spill_count": 15,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      },
+      "bf16": {
+        "vgpr_count": 512,
+        "sgpr_count": 106,
+        "group_segment_fixed_size": 152064,
+        "private_segment_fixed_size": 44,
+        "vgpr_spill_count": 10,
+        "sgpr_spill_count": 15,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      }
+    },
+    "tile4": {
+      "fp32": {
+        "vgpr_count": 512,
+        "sgpr_count": 106,
+        "group_segment_fixed_size": 152064,
+        "private_segment_fixed_size": 48,
+        "vgpr_spill_count": 11,
+        "sgpr_spill_count": 15,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      },
+      "bf16": {
+        "vgpr_count": 512,
+        "sgpr_count": 106,
+        "group_segment_fixed_size": 152064,
+        "private_segment_fixed_size": 44,
+        "vgpr_spill_count": 10,
+        "sgpr_spill_count": 15,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      }
+    }
+  },
+  "all_correctness_checks_pass": true,
+  "retained_formal_mode": "tile1",
+  "candidates_promoted": false,
+  "target_pflops": 3.5,
+  "target_achieved": false
+}

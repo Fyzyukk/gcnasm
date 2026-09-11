@@ -1,0 +1,42 @@
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.357376556,
+    "min_ms": 0.356372414,
+    "max_ms": 0.361999397,
+    "median_pflops": 3.076619350979475
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.369704933,
+    "min_ms": 0.369063873,
+    "max_ms": 0.370252151,
+    "median_pflops": 2.9740247684928782
+  },
+  {
+    "name": "tile4",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.360265999,
+    "min_ms": 0.359258652,
+    "max_ms": 0.362945442,
+    "median_pflops": 3.0519439270648463
+  },
+  {
+    "name": "tile4",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.370076332,
+    "min_ms": 0.370055313,
+    "max_ms": 0.370747871,
+    "median_pflops": 2.9710401144377965
+  }
+]

@@ -1,0 +1,165 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL ab0_r4_peel bf16 67108864 outputs
+FULL_BASELINE_EQUAL ab0_r4_peel fp32 67108864 outputs
+FULL_BASELINE_EQUAL peel_early_a01 bf16 67108864 outputs
+FULL_BASELINE_EQUAL peel_early_a01 fp32 67108864 outputs
+FULL_BASELINE_EQUAL peel_early_b01 bf16 67108864 outputs
+FULL_BASELINE_EQUAL peel_early_b01 fp32 67108864 outputs
+FULL_BASELINE_EQUAL peel_early_a0b0 bf16 67108864 outputs
+FULL_BASELINE_EQUAL peel_early_a0b0 fp32 67108864 outputs
+1 baseline bf16: 0.355407268 ms / 3.093667 P
+1 ab0_r4_peel bf16: 0.343212008 ms / 3.203593 P
+1 baseline bf16: 0.358704120 ms / 3.065233 P
+1 baseline bf16: 0.358880579 ms / 3.063726 P
+1 peel_early_a01 bf16: 0.345530093 ms / 3.182101 P
+1 baseline bf16: 0.358433753 ms / 3.067545 P
+1 baseline bf16: 0.358667761 ms / 3.065544 P
+1 peel_early_b01 bf16: 0.345731765 ms / 3.180245 P
+1 baseline bf16: 0.358837813 ms / 3.064091 P
+1 baseline bf16: 0.359325498 ms / 3.059932 P
+1 peel_early_a0b0 bf16: 0.349928170 ms / 3.142107 P
+1 baseline bf16: 0.358127773 ms / 3.070166 P
+1 baseline fp32: 0.370369107 ms / 2.968692 P
+1 ab0_r4_peel fp32: 0.366817474 ms / 2.997435 P
+1 baseline fp32: 0.370990753 ms / 2.963717 P
+1 baseline fp32: 0.371306300 ms / 2.961198 P
+1 peel_early_a01 fp32: 0.367660344 ms / 2.990564 P
+1 baseline fp32: 0.371115118 ms / 2.962724 P
+1 baseline fp32: 0.371331513 ms / 2.960997 P
+1 peel_early_b01 fp32: 0.368869513 ms / 2.980760 P
+1 baseline fp32: 0.371182323 ms / 2.962187 P
+1 baseline fp32: 0.371153116 ms / 2.962421 P
+1 peel_early_a0b0 fp32: 0.367545515 ms / 2.991498 P
+1 baseline fp32: 0.371735930 ms / 2.957776 P
+2 baseline bf16: 0.359624267 ms / 3.057390 P
+2 peel_early_a0b0 bf16: 0.345650971 ms / 3.180988 P
+2 baseline bf16: 0.360289037 ms / 3.051749 P
+2 baseline bf16: 0.360138237 ms / 3.053027 P
+2 peel_early_b01 bf16: 0.348162562 ms / 3.158041 P
+2 baseline bf16: 0.360467076 ms / 3.050241 P
+2 baseline bf16: 0.359430671 ms / 3.059037 P
+2 peel_early_a01 bf16: 0.345905334 ms / 3.178649 P
+2 baseline bf16: 0.360365480 ms / 3.051101 P
+2 baseline bf16: 0.360132664 ms / 3.053074 P
+2 ab0_r4_peel bf16: 0.345728159 ms / 3.180278 P
+2 baseline bf16: 0.360631078 ms / 3.048854 P
+2 baseline fp32: 0.371842772 ms / 2.956926 P
+2 peel_early_a0b0 fp32: 0.367819935 ms / 2.989266 P
+2 baseline fp32: 0.371983558 ms / 2.955807 P
+2 baseline fp32: 0.372138739 ms / 2.954575 P
+2 peel_early_b01 fp32: 0.369374782 ms / 2.976683 P
+2 baseline fp32: 0.372270346 ms / 2.953530 P
+2 baseline fp32: 0.372321963 ms / 2.953121 P
+2 peel_early_a01 fp32: 0.368392348 ms / 2.984621 P
+2 baseline fp32: 0.371567965 ms / 2.959113 P
+2 baseline fp32: 0.372101188 ms / 2.954873 P
+2 ab0_r4_peel fp32: 0.367936701 ms / 2.988317 P
+2 baseline fp32: 0.372125208 ms / 2.954682 P
+3 baseline bf16: 0.360683888 ms / 3.048408 P
+3 ab0_r4_peel bf16: 0.349293798 ms / 3.147813 P
+3 baseline bf16: 0.361444652 ms / 3.041992 P
+3 baseline bf16: 0.360671461 ms / 3.048513 P
+3 peel_early_a01 bf16: 0.346260935 ms / 3.175385 P
+3 baseline bf16: 0.361782312 ms / 3.039153 P
+3 baseline bf16: 0.359645069 ms / 3.057213 P
+3 peel_early_b01 bf16: 0.348612607 ms / 3.153964 P
+3 baseline bf16: 0.360662699 ms / 3.048587 P
+3 baseline bf16: 0.360559881 ms / 3.049456 P
+3 peel_early_a0b0 bf16: 0.351400644 ms / 3.128940 P
+3 baseline bf16: 0.360464275 ms / 3.050265 P
+3 baseline fp32: 0.372489154 ms / 2.951795 P
+3 ab0_r4_peel fp32: 0.368277937 ms / 2.985548 P
+3 baseline fp32: 0.372023165 ms / 2.955492 P
+3 baseline fp32: 0.372479171 ms / 2.951874 P
+3 peel_early_a01 fp32: 0.368875951 ms / 2.980708 P
+3 baseline fp32: 0.372481942 ms / 2.951852 P
+3 baseline fp32: 0.371904373 ms / 2.956436 P
+3 peel_early_b01 fp32: 0.369693935 ms / 2.974113 P
+3 baseline fp32: 0.372282386 ms / 2.953434 P
+3 baseline fp32: 0.372335196 ms / 2.953016 P
+3 peel_early_a0b0 fp32: 0.368331909 ms / 2.985111 P
+3 baseline fp32: 0.372349560 ms / 2.952902 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.3601354509592056,
+    "min_ms": 0.3554072678089142,
+    "max_ms": 0.3617823123931885,
+    "median_pflops": 3.0530502477539967
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.37200336158275604,
+    "min_ms": 0.3703691065311432,
+    "max_ms": 0.37248915433883667,
+    "median_pflops": 2.9556497099862957
+  },
+  {
+    "name": "ab0_r4_peel",
+    "dtype": "bf16",
+    "median_ms": 0.34572815895080566,
+    "min_ms": 0.3432120084762573,
+    "max_ms": 0.3492937982082367,
+    "median_pflops": 3.180277912891821
+  },
+  {
+    "name": "ab0_r4_peel",
+    "dtype": "fp32",
+    "median_ms": 0.3679367005825043,
+    "min_ms": 0.3668174743652344,
+    "max_ms": 0.3682779371738434,
+    "median_pflops": 2.988317354684358
+  },
+  {
+    "name": "peel_early_a01",
+    "dtype": "bf16",
+    "median_ms": 0.3459053337574005,
+    "min_ms": 0.34553009271621704,
+    "max_ms": 0.3462609350681305,
+    "median_pflops": 3.178648955286531
+  },
+  {
+    "name": "peel_early_a01",
+    "dtype": "fp32",
+    "median_ms": 0.36839234828948975,
+    "min_ms": 0.3676603436470032,
+    "max_ms": 0.3688759505748749,
+    "median_pflops": 2.984621241133876
+  },
+  {
+    "name": "peel_early_b01",
+    "dtype": "bf16",
+    "median_ms": 0.34816256165504456,
+    "min_ms": 0.3457317650318146,
+    "max_ms": 0.34861260652542114,
+    "median_pflops": 3.1580409523335926
+  },
+  {
+    "name": "peel_early_b01",
+    "dtype": "fp32",
+    "median_ms": 0.3693747818470001,
+    "min_ms": 0.36886951327323914,
+    "max_ms": 0.36969393491744995,
+    "median_pflops": 2.9766829838194857
+  },
+  {
+    "name": "peel_early_a0b0",
+    "dtype": "bf16",
+    "median_ms": 0.3499281704425812,
+    "min_ms": 0.34565097093582153,
+    "max_ms": 0.3514006435871124,
+    "median_pflops": 3.142106639729413
+  },
+  {
+    "name": "peel_early_a0b0",
+    "dtype": "fp32",
+    "median_ms": 0.3678199350833893,
+    "min_ms": 0.3675455152988434,
+    "max_ms": 0.3683319091796875,
+    "median_pflops": 2.989266004646342
+  }
+]

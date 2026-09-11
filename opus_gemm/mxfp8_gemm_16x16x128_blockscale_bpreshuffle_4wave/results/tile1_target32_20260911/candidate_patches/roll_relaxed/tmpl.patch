@@ -1,0 +1,59 @@
+--- a/tmpl.hpp
++++ b/tmpl.hpp
+@@ -788,10 +788,7 @@
+             1, 0, 1, v_a[1], v_b_n1, c11_2, c11_3, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
+         // A1 M-repeat 0 has no further current-tile consumers.
+-        __builtin_amdgcn_sched_barrier(0);
+         load_a_mrepeat_scale<T, 0>(s_a, ra1_next_offsets, v_a[1]);
+-        __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+-        __builtin_amdgcn_sched_barrier(0);
+ 
+         MXFP8_MMA_PAIR(
+             1, 1, 0, v_a[1], v_b_n1, c11_4, c11_5, v_sfa, v_sfb[1]);
+@@ -801,10 +798,7 @@
+             1, 1, 1, v_a[1], v_b_n1, c11_6, c11_7, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
+         // A1 M-repeat 1 has no further current-tile consumers.
+-        __builtin_amdgcn_sched_barrier(0);
+         load_a_mrepeat_scale<T, 1>(s_a, ra1_next_offsets, v_a[1]);
+-        __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+-        __builtin_amdgcn_sched_barrier(0);
+ 
+         MXFP8_MMA_PAIR(
+             1, 2, 0, v_a[1], v_b_n1, c11_8, c11_9, v_sfa, v_sfb[1]);
+@@ -814,34 +808,22 @@
+             1, 2, 1, v_a[1], v_b_n1, c11_10, c11_11, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
+         // A1 M-repeat 2 has no further current-tile consumers.
+-        __builtin_amdgcn_sched_barrier(0);
+         load_a_mrepeat_scale<T, 2>(s_a, ra1_next_offsets, v_a[1]);
+-        __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+-        __builtin_amdgcn_sched_barrier(0);
+ 
+         MXFP8_MMA_PAIR(
+             1, 3, 0, v_a[1], v_b_n1, c11_12, c11_13, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
+         // B1 N-repeats 0 and 1 are dead after MFMA62.
+-        __builtin_amdgcn_sched_barrier(0);
+         load_b_range_scale<T, 0, 4>(s_b, rb1_next_offsets, v_b_second);
+-        __builtin_amdgcn_sched_group_barrier(0x100, 4, 0);
+-        __builtin_amdgcn_sched_barrier(0);
+ 
+         MXFP8_MMA_PAIR(
+             1, 3, 1, v_a[1], v_b_n1, c11_14, c11_15, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
+         // A1 M-repeat 3 has no further current-tile consumers.
+-        __builtin_amdgcn_sched_barrier(0);
+         load_a_mrepeat_scale<T, 3>(s_a, ra1_next_offsets, v_a[1]);
+-        __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+-        __builtin_amdgcn_sched_barrier(0);
+ 
+         // B1 N-repeats 2 and 3 are dead after MFMA64.
+-        __builtin_amdgcn_sched_barrier(0);
+         load_b_range_scale<T, 4, 8>(s_b, rb1_next_offsets, v_b_second);
+-        __builtin_amdgcn_sched_group_barrier(0x100, 4, 0);
+-        __builtin_amdgcn_sched_barrier(0);
+ 
+         __builtin_amdgcn_s_setprio(0);
+         v_sfb[1] = v_sfb_next[1];

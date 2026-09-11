@@ -1,0 +1,32 @@
+{
+  "name": "selected_clean",
+  "parent": "ab0_r4_peel_unroll8",
+  "config": {
+    "final_iteration_peeled": true,
+    "unroll": 8,
+    "c11_order": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      12,
+      9,
+      13,
+      10,
+      14,
+      11,
+      15
+    ]
+  },
+  "source_sha256": "4193c75a9fac14d7782c7f8d91fac58f95700b56989fb2b5242a21e5216cc1b0",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "per_accumulator_k_order_unchanged": true,
+  "selected_from": "peel8_tail_columns",
+  "description": "4wave tile1: A0/B0 spread, MFMA4 publication, unroll8, peeled final prefetch, partial column C11 tail"
+}

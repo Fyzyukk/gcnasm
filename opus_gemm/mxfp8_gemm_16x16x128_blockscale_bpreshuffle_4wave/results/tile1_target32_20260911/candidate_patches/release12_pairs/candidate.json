@@ -1,0 +1,28 @@
+{
+  "name": "release12_pairs",
+  "config": {
+    "release": 12,
+    "sites": [
+      12,
+      14,
+      16,
+      18,
+      20,
+      22,
+      24,
+      26,
+      28,
+      30,
+      32,
+      34,
+      36,
+      38,
+      40,
+      42
+    ]
+  },
+  "source_sha256": "3a57a436214145d464db0774b233f29da35bb17016d3f14e0c93d844b3a0601c",
+  "output_tiles_per_wg": 1,
+  "num_waves": 4,
+  "source_mfma_order_unchanged": true
+}
