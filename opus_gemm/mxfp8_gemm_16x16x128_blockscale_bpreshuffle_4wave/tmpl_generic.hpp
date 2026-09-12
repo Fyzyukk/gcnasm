@@ -85,20 +85,6 @@ __device__ inline auto mma_scale_one(
         opus::number<N_REPEAT>{});
 }
 
-#define MXFP8_MMA_PAIR(HALF_TILE_M, M_REPEAT, N_GROUP, VA, VB, C0, C1, SFA, SFB) \
-    do {                                                                          \
-        C0 = mma_scale_one<T, HALF_TILE_M, M_REPEAT, (N_GROUP) * 2>(              \
-            mma, VA, VB, C0, (SFA)[HALF_TILE_M], SFB);                            \
-        C1 = mma_scale_one<T, HALF_TILE_M, M_REPEAT, (N_GROUP) * 2 + 1>(          \
-            mma, VA, VB, C1, (SFA)[HALF_TILE_M], SFB);                            \
-    } while (false)
-
-#define MXFP8_MMA_ONE(HALF_TILE_M, M_REPEAT, N_REPEAT, VA, VB, C, SFA, SFB) \
-    do {                                                                     \
-        C = mma_scale_one<T, HALF_TILE_M, M_REPEAT, N_REPEAT>(               \
-            mma, VA, VB, C, (SFA)[HALF_TILE_M], SFB);                        \
-    } while (false)
-
 template<class T>
 __device__ inline auto make_layout_ga_scale(int lane_id, int wave_id_m, int wave_id_n, int stride_a) {
     constexpr int threads_k = T::B_K / T::VEC_A; // 8
@@ -354,92 +340,70 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
     using AccFragment = typename decltype(mma)::MMA::vtype_c;
     static_assert(decltype(mma)::mma_c_len == 4);
 
-#define MXFP8_PIN_C(NAME, BASE) \
-    __attribute__((amdgpu_pin_agpr(BASE))) AccFragment NAME = {}
-    MXFP8_PIN_C(c00_0, 0);
-    MXFP8_PIN_C(c00_1, 4);
-    MXFP8_PIN_C(c00_2, 8);
-    MXFP8_PIN_C(c00_3, 12);
-    MXFP8_PIN_C(c00_4, 16);
-    MXFP8_PIN_C(c00_5, 20);
-    MXFP8_PIN_C(c00_6, 24);
-    MXFP8_PIN_C(c00_7, 28);
-    MXFP8_PIN_C(c00_8, 32);
-    MXFP8_PIN_C(c00_9, 36);
-    MXFP8_PIN_C(c00_10, 40);
-    MXFP8_PIN_C(c00_11, 44);
-    MXFP8_PIN_C(c00_12, 48);
-    MXFP8_PIN_C(c00_13, 52);
-    MXFP8_PIN_C(c00_14, 56);
-    MXFP8_PIN_C(c00_15, 60);
-    MXFP8_PIN_C(c01_0, 64);
-    MXFP8_PIN_C(c01_1, 68);
-    MXFP8_PIN_C(c01_2, 72);
-    MXFP8_PIN_C(c01_3, 76);
-    MXFP8_PIN_C(c01_4, 80);
-    MXFP8_PIN_C(c01_5, 84);
-    MXFP8_PIN_C(c01_6, 88);
-    MXFP8_PIN_C(c01_7, 92);
-    MXFP8_PIN_C(c01_8, 96);
-    MXFP8_PIN_C(c01_9, 100);
-    MXFP8_PIN_C(c01_10, 104);
-    MXFP8_PIN_C(c01_11, 108);
-    MXFP8_PIN_C(c01_12, 112);
-    MXFP8_PIN_C(c01_13, 116);
-    MXFP8_PIN_C(c01_14, 120);
-    MXFP8_PIN_C(c01_15, 124);
-    MXFP8_PIN_C(c10_0, 128);
-    MXFP8_PIN_C(c10_1, 132);
-    MXFP8_PIN_C(c10_2, 136);
-    MXFP8_PIN_C(c10_3, 140);
-    MXFP8_PIN_C(c10_4, 144);
-    MXFP8_PIN_C(c10_5, 148);
-    MXFP8_PIN_C(c10_6, 152);
-    MXFP8_PIN_C(c10_7, 156);
-    MXFP8_PIN_C(c10_8, 160);
-    MXFP8_PIN_C(c10_9, 164);
-    MXFP8_PIN_C(c10_10, 168);
-    MXFP8_PIN_C(c10_11, 172);
-    MXFP8_PIN_C(c10_12, 176);
-    MXFP8_PIN_C(c10_13, 180);
-    MXFP8_PIN_C(c10_14, 184);
-    MXFP8_PIN_C(c10_15, 188);
-    MXFP8_PIN_C(c11_0, 192);
-    MXFP8_PIN_C(c11_1, 196);
-    MXFP8_PIN_C(c11_2, 200);
-    MXFP8_PIN_C(c11_3, 204);
-    MXFP8_PIN_C(c11_4, 208);
-    MXFP8_PIN_C(c11_5, 212);
-    MXFP8_PIN_C(c11_6, 216);
-    MXFP8_PIN_C(c11_7, 220);
-    MXFP8_PIN_C(c11_8, 224);
-    MXFP8_PIN_C(c11_9, 228);
-    MXFP8_PIN_C(c11_10, 232);
-    MXFP8_PIN_C(c11_11, 236);
-    MXFP8_PIN_C(c11_12, 240);
-    MXFP8_PIN_C(c11_13, 244);
-    MXFP8_PIN_C(c11_14, 248);
-    MXFP8_PIN_C(c11_15, 252);
-#undef MXFP8_PIN_C
-
-// These input uses place AGPR zeroing under outstanding prologue loads.
-#define MXFP8_MATERIALIZE_C_QUADRANT(PREFIX) \
-    asm volatile("" : : "a"(PREFIX##_0)); \
-    asm volatile("" : : "a"(PREFIX##_1)); \
-    asm volatile("" : : "a"(PREFIX##_2)); \
-    asm volatile("" : : "a"(PREFIX##_3)); \
-    asm volatile("" : : "a"(PREFIX##_4)); \
-    asm volatile("" : : "a"(PREFIX##_5)); \
-    asm volatile("" : : "a"(PREFIX##_6)); \
-    asm volatile("" : : "a"(PREFIX##_7)); \
-    asm volatile("" : : "a"(PREFIX##_8)); \
-    asm volatile("" : : "a"(PREFIX##_9)); \
-    asm volatile("" : : "a"(PREFIX##_10)); \
-    asm volatile("" : : "a"(PREFIX##_11)); \
-    asm volatile("" : : "a"(PREFIX##_12)); \
-    asm volatile("" : : "a"(PREFIX##_13)); \
-    asm volatile("" : : "a"(PREFIX##_14)); \
-    asm volatile("" : : "a"(PREFIX##_15))
+    __attribute__((amdgpu_pin_agpr(0))) AccFragment c00_0 = {};
+    __attribute__((amdgpu_pin_agpr(4))) AccFragment c00_1 = {};
+    __attribute__((amdgpu_pin_agpr(8))) AccFragment c00_2 = {};
+    __attribute__((amdgpu_pin_agpr(12))) AccFragment c00_3 = {};
+    __attribute__((amdgpu_pin_agpr(16))) AccFragment c00_4 = {};
+    __attribute__((amdgpu_pin_agpr(20))) AccFragment c00_5 = {};
+    __attribute__((amdgpu_pin_agpr(24))) AccFragment c00_6 = {};
+    __attribute__((amdgpu_pin_agpr(28))) AccFragment c00_7 = {};
+    __attribute__((amdgpu_pin_agpr(32))) AccFragment c00_8 = {};
+    __attribute__((amdgpu_pin_agpr(36))) AccFragment c00_9 = {};
+    __attribute__((amdgpu_pin_agpr(40))) AccFragment c00_10 = {};
+    __attribute__((amdgpu_pin_agpr(44))) AccFragment c00_11 = {};
+    __attribute__((amdgpu_pin_agpr(48))) AccFragment c00_12 = {};
+    __attribute__((amdgpu_pin_agpr(52))) AccFragment c00_13 = {};
+    __attribute__((amdgpu_pin_agpr(56))) AccFragment c00_14 = {};
+    __attribute__((amdgpu_pin_agpr(60))) AccFragment c00_15 = {};
+    __attribute__((amdgpu_pin_agpr(64))) AccFragment c01_0 = {};
+    __attribute__((amdgpu_pin_agpr(68))) AccFragment c01_1 = {};
+    __attribute__((amdgpu_pin_agpr(72))) AccFragment c01_2 = {};
+    __attribute__((amdgpu_pin_agpr(76))) AccFragment c01_3 = {};
+    __attribute__((amdgpu_pin_agpr(80))) AccFragment c01_4 = {};
+    __attribute__((amdgpu_pin_agpr(84))) AccFragment c01_5 = {};
+    __attribute__((amdgpu_pin_agpr(88))) AccFragment c01_6 = {};
+    __attribute__((amdgpu_pin_agpr(92))) AccFragment c01_7 = {};
+    __attribute__((amdgpu_pin_agpr(96))) AccFragment c01_8 = {};
+    __attribute__((amdgpu_pin_agpr(100))) AccFragment c01_9 = {};
+    __attribute__((amdgpu_pin_agpr(104))) AccFragment c01_10 = {};
+    __attribute__((amdgpu_pin_agpr(108))) AccFragment c01_11 = {};
+    __attribute__((amdgpu_pin_agpr(112))) AccFragment c01_12 = {};
+    __attribute__((amdgpu_pin_agpr(116))) AccFragment c01_13 = {};
+    __attribute__((amdgpu_pin_agpr(120))) AccFragment c01_14 = {};
+    __attribute__((amdgpu_pin_agpr(124))) AccFragment c01_15 = {};
+    __attribute__((amdgpu_pin_agpr(128))) AccFragment c10_0 = {};
+    __attribute__((amdgpu_pin_agpr(132))) AccFragment c10_1 = {};
+    __attribute__((amdgpu_pin_agpr(136))) AccFragment c10_2 = {};
+    __attribute__((amdgpu_pin_agpr(140))) AccFragment c10_3 = {};
+    __attribute__((amdgpu_pin_agpr(144))) AccFragment c10_4 = {};
+    __attribute__((amdgpu_pin_agpr(148))) AccFragment c10_5 = {};
+    __attribute__((amdgpu_pin_agpr(152))) AccFragment c10_6 = {};
+    __attribute__((amdgpu_pin_agpr(156))) AccFragment c10_7 = {};
+    __attribute__((amdgpu_pin_agpr(160))) AccFragment c10_8 = {};
+    __attribute__((amdgpu_pin_agpr(164))) AccFragment c10_9 = {};
+    __attribute__((amdgpu_pin_agpr(168))) AccFragment c10_10 = {};
+    __attribute__((amdgpu_pin_agpr(172))) AccFragment c10_11 = {};
+    __attribute__((amdgpu_pin_agpr(176))) AccFragment c10_12 = {};
+    __attribute__((amdgpu_pin_agpr(180))) AccFragment c10_13 = {};
+    __attribute__((amdgpu_pin_agpr(184))) AccFragment c10_14 = {};
+    __attribute__((amdgpu_pin_agpr(188))) AccFragment c10_15 = {};
+    __attribute__((amdgpu_pin_agpr(192))) AccFragment c11_0 = {};
+    __attribute__((amdgpu_pin_agpr(196))) AccFragment c11_1 = {};
+    __attribute__((amdgpu_pin_agpr(200))) AccFragment c11_2 = {};
+    __attribute__((amdgpu_pin_agpr(204))) AccFragment c11_3 = {};
+    __attribute__((amdgpu_pin_agpr(208))) AccFragment c11_4 = {};
+    __attribute__((amdgpu_pin_agpr(212))) AccFragment c11_5 = {};
+    __attribute__((amdgpu_pin_agpr(216))) AccFragment c11_6 = {};
+    __attribute__((amdgpu_pin_agpr(220))) AccFragment c11_7 = {};
+    __attribute__((amdgpu_pin_agpr(224))) AccFragment c11_8 = {};
+    __attribute__((amdgpu_pin_agpr(228))) AccFragment c11_9 = {};
+    __attribute__((amdgpu_pin_agpr(232))) AccFragment c11_10 = {};
+    __attribute__((amdgpu_pin_agpr(236))) AccFragment c11_11 = {};
+    __attribute__((amdgpu_pin_agpr(240))) AccFragment c11_12 = {};
+    __attribute__((amdgpu_pin_agpr(244))) AccFragment c11_13 = {};
+    __attribute__((amdgpu_pin_agpr(248))) AccFragment c11_14 = {};
+    __attribute__((amdgpu_pin_agpr(252))) AccFragment c11_15 = {};
 
     D_SF_PACK v_sfa[2];
     D_SF_PACK v_sfb[T::SCALE_N_HALVES];
@@ -557,8 +521,38 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
     // Prologue: preload the first bounded scale panel before the first barrier.
     load_sfa_panel(0);
     // Initialize C while the four SFA requests progress.
-    MXFP8_MATERIALIZE_C_QUADRANT(c00);
-    MXFP8_MATERIALIZE_C_QUADRANT(c01);
+    asm volatile("" : : "a"(c00_0));
+    asm volatile("" : : "a"(c00_1));
+    asm volatile("" : : "a"(c00_2));
+    asm volatile("" : : "a"(c00_3));
+    asm volatile("" : : "a"(c00_4));
+    asm volatile("" : : "a"(c00_5));
+    asm volatile("" : : "a"(c00_6));
+    asm volatile("" : : "a"(c00_7));
+    asm volatile("" : : "a"(c00_8));
+    asm volatile("" : : "a"(c00_9));
+    asm volatile("" : : "a"(c00_10));
+    asm volatile("" : : "a"(c00_11));
+    asm volatile("" : : "a"(c00_12));
+    asm volatile("" : : "a"(c00_13));
+    asm volatile("" : : "a"(c00_14));
+    asm volatile("" : : "a"(c00_15));
+    asm volatile("" : : "a"(c01_0));
+    asm volatile("" : : "a"(c01_1));
+    asm volatile("" : : "a"(c01_2));
+    asm volatile("" : : "a"(c01_3));
+    asm volatile("" : : "a"(c01_4));
+    asm volatile("" : : "a"(c01_5));
+    asm volatile("" : : "a"(c01_6));
+    asm volatile("" : : "a"(c01_7));
+    asm volatile("" : : "a"(c01_8));
+    asm volatile("" : : "a"(c01_9));
+    asm volatile("" : : "a"(c01_10));
+    asm volatile("" : : "a"(c01_11));
+    asm volatile("" : : "a"(c01_12));
+    asm volatile("" : : "a"(c01_13));
+    asm volatile("" : : "a"(c01_14));
+    asm volatile("" : : "a"(c01_15));
 
     D_SF_PACK panel_sfb_raw = 0;
     if (wave_id < T::SCALE_N_HALVES) {
@@ -570,9 +564,38 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
     async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(0, 1), gb_offset(1, 0));
 
     // Finish C initialization while the initial B requests progress.
-    MXFP8_MATERIALIZE_C_QUADRANT(c10);
-    MXFP8_MATERIALIZE_C_QUADRANT(c11);
-#undef MXFP8_MATERIALIZE_C_QUADRANT
+    asm volatile("" : : "a"(c10_0));
+    asm volatile("" : : "a"(c10_1));
+    asm volatile("" : : "a"(c10_2));
+    asm volatile("" : : "a"(c10_3));
+    asm volatile("" : : "a"(c10_4));
+    asm volatile("" : : "a"(c10_5));
+    asm volatile("" : : "a"(c10_6));
+    asm volatile("" : : "a"(c10_7));
+    asm volatile("" : : "a"(c10_8));
+    asm volatile("" : : "a"(c10_9));
+    asm volatile("" : : "a"(c10_10));
+    asm volatile("" : : "a"(c10_11));
+    asm volatile("" : : "a"(c10_12));
+    asm volatile("" : : "a"(c10_13));
+    asm volatile("" : : "a"(c10_14));
+    asm volatile("" : : "a"(c10_15));
+    asm volatile("" : : "a"(c11_0));
+    asm volatile("" : : "a"(c11_1));
+    asm volatile("" : : "a"(c11_2));
+    asm volatile("" : : "a"(c11_3));
+    asm volatile("" : : "a"(c11_4));
+    asm volatile("" : : "a"(c11_5));
+    asm volatile("" : : "a"(c11_6));
+    asm volatile("" : : "a"(c11_7));
+    asm volatile("" : : "a"(c11_8));
+    asm volatile("" : : "a"(c11_9));
+    asm volatile("" : : "a"(c11_10));
+    asm volatile("" : : "a"(c11_11));
+    asm volatile("" : : "a"(c11_12));
+    asm volatile("" : : "a"(c11_13));
+    asm volatile("" : : "a"(c11_14));
+    asm volatile("" : : "a"(c11_15));
 
     // B matrix requests can progress while the scale transpose publishes.
     publish_sfa_panel();
@@ -657,7 +680,10 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         // After publication at MFMA5, all waves issue one t+2 request
         // after MFMA7,9,...,37. Wave-uniform resources select the A or B
         // producer without role branches inside the K loop.
-        MXFP8_MMA_PAIR(0, 0, 0, v_a[0], v_b, c00_0, c00_1, v_sfa, v_sfb[0]);
+        c00_0 = mma_scale_one<T, 0, 0, 0>(
+            mma, v_a[0], v_b, c00_0, v_sfa[0], v_sfb[0]);
+        c00_1 = mma_scale_one<T, 0, 0, 1>(
+            mma, v_a[0], v_b, c00_1, v_sfa[0], v_sfb[0]);
         sched_barrier_pairs_scale();
 
         // Prefetch published scales ahead of the operand roll.
@@ -666,10 +692,14 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
                 + (wave_id_m * T::W_M + (lane_id & 15)) * 8));
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_PAIR(0, 0, 1, v_a[0], v_b, c00_2, c00_3, v_sfa, v_sfb[0]);
+        c00_2 = mma_scale_one<T, 0, 0, 2>(
+            mma, v_a[0], v_b, c00_2, v_sfa[0], v_sfb[0]);
+        c00_3 = mma_scale_one<T, 0, 0, 3>(
+            mma, v_a[0], v_b, c00_3, v_sfa[0], v_sfb[0]);
         sched_barrier_pairs_scale();
 
-        MXFP8_MMA_ONE(0, 1, 0, v_a[0], v_b, c00_4, v_sfa, v_sfb[0]);
+        c00_4 = mma_scale_one<T, 0, 1, 0>(
+            mma, v_a[0], v_b, c00_4, v_sfa[0], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
 
         // MFMA5: publish t+1 and release stage t between independent MFMAs.
@@ -678,64 +708,79 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         __builtin_amdgcn_s_barrier();
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(0, 1, 1, v_a[0], v_b, c00_5, v_sfa, v_sfb[0]);
+        c00_5 = mma_scale_one<T, 0, 1, 1>(
+            mma, v_a[0], v_b, c00_5, v_sfa[0], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(0, 1, 2, v_a[0], v_b, c00_6, v_sfa, v_sfb[0]);
+        c00_6 = mma_scale_one<T, 0, 1, 2>(
+            mma, v_a[0], v_b, c00_6, v_sfa[0], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
         prefetch_matrix_issue(opus::number<0>{}, stage, future_tile);
         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
         __builtin_amdgcn_sched_barrier(0);
-        MXFP8_MMA_ONE(0, 1, 3, v_a[0], v_b, c00_7, v_sfa, v_sfb[0]);
+        c00_7 = mma_scale_one<T, 0, 1, 3>(
+            mma, v_a[0], v_b, c00_7, v_sfa[0], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(0, 2, 0, v_a[0], v_b, c00_8, v_sfa, v_sfb[0]);
+        c00_8 = mma_scale_one<T, 0, 2, 0>(
+            mma, v_a[0], v_b, c00_8, v_sfa[0], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
         prefetch_matrix_issue(opus::number<1>{}, stage, future_tile);
         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
         __builtin_amdgcn_sched_barrier(0);
-        MXFP8_MMA_ONE(0, 2, 1, v_a[0], v_b, c00_9, v_sfa, v_sfb[0]);
+        c00_9 = mma_scale_one<T, 0, 2, 1>(
+            mma, v_a[0], v_b, c00_9, v_sfa[0], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(0, 2, 2, v_a[0], v_b, c00_10, v_sfa, v_sfb[0]);
+        c00_10 = mma_scale_one<T, 0, 2, 2>(
+            mma, v_a[0], v_b, c00_10, v_sfa[0], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
         prefetch_matrix_issue(opus::number<2>{}, stage, future_tile);
         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
         __builtin_amdgcn_sched_barrier(0);
-        MXFP8_MMA_ONE(0, 2, 3, v_a[0], v_b, c00_11, v_sfa, v_sfb[0]);
+        c00_11 = mma_scale_one<T, 0, 2, 3>(
+            mma, v_a[0], v_b, c00_11, v_sfa[0], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(0, 3, 0, v_a[0], v_b, c00_12, v_sfa, v_sfb[0]);
+        c00_12 = mma_scale_one<T, 0, 3, 0>(
+            mma, v_a[0], v_b, c00_12, v_sfa[0], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
         prefetch_matrix_issue(opus::number<3>{}, stage, future_tile);
         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
         __builtin_amdgcn_sched_barrier(0);
-        MXFP8_MMA_ONE(0, 3, 1, v_a[0], v_b, c00_13, v_sfa, v_sfb[0]);
+        c00_13 = mma_scale_one<T, 0, 3, 1>(
+            mma, v_a[0], v_b, c00_13, v_sfa[0], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(0, 3, 2, v_a[0], v_b, c00_14, v_sfa, v_sfb[0]);
+        c00_14 = mma_scale_one<T, 0, 3, 2>(
+            mma, v_a[0], v_b, c00_14, v_sfa[0], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
         prefetch_matrix_issue(opus::number<4>{}, stage, future_tile);
         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
         __builtin_amdgcn_sched_barrier(0);
-        MXFP8_MMA_ONE(0, 3, 3, v_a[0], v_b, c00_15, v_sfa, v_sfb[0]);
+        c00_15 = mma_scale_one<T, 0, 3, 3>(
+            mma, v_a[0], v_b, c00_15, v_sfa[0], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
 
         // A half 1 x B half 0 -> C[1][0] (128x128 wave quadrant).
-        MXFP8_MMA_ONE(1, 0, 0, v_a[1], v_b, c10_0, v_sfa, v_sfb[0]);
+        c10_0 = mma_scale_one<T, 1, 0, 0>(
+            mma, v_a[1], v_b, c10_0, v_sfa[1], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
         prefetch_matrix_issue(opus::number<5>{}, stage, future_tile);
         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
         __builtin_amdgcn_sched_barrier(0);
-        MXFP8_MMA_ONE(1, 0, 1, v_a[1], v_b, c10_1, v_sfa, v_sfb[0]);
+        c10_1 = mma_scale_one<T, 1, 0, 1>(
+            mma, v_a[1], v_b, c10_1, v_sfa[1], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(1, 0, 2, v_a[1], v_b, c10_2, v_sfa, v_sfb[0]);
+        c10_2 = mma_scale_one<T, 1, 0, 2>(
+            mma, v_a[1], v_b, c10_2, v_sfa[1], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
         prefetch_matrix_issue(opus::number<6>{}, stage, future_tile);
         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
         __builtin_amdgcn_sched_barrier(0);
-        MXFP8_MMA_ONE(1, 0, 3, v_a[1], v_b, c10_3, v_sfa, v_sfb[0]);
+        c10_3 = mma_scale_one<T, 1, 0, 3>(
+            mma, v_a[1], v_b, c10_3, v_sfa[1], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
 
         // Prefetch published scales ahead of the operand roll.
@@ -743,44 +788,54 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
             load<8>(s_sfb, ((tile + 1) & panel_mask) * T::SCALE_N_HALVES * 4));
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(1, 1, 0, v_a[1], v_b, c10_4, v_sfa, v_sfb[0]);
+        c10_4 = mma_scale_one<T, 1, 1, 0>(
+            mma, v_a[1], v_b, c10_4, v_sfa[1], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
         prefetch_matrix_issue(opus::number<7>{}, stage, future_tile);
         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
         __builtin_amdgcn_sched_barrier(0);
-        MXFP8_MMA_ONE(1, 1, 1, v_a[1], v_b, c10_5, v_sfa, v_sfb[0]);
+        c10_5 = mma_scale_one<T, 1, 1, 1>(
+            mma, v_a[1], v_b, c10_5, v_sfa[1], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(1, 1, 2, v_a[1], v_b, c10_6, v_sfa, v_sfb[0]);
+        c10_6 = mma_scale_one<T, 1, 1, 2>(
+            mma, v_a[1], v_b, c10_6, v_sfa[1], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
         prefetch_matrix_issue(opus::number<8>{}, stage, future_tile);
         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
         __builtin_amdgcn_sched_barrier(0);
-        MXFP8_MMA_ONE(1, 1, 3, v_a[1], v_b, c10_7, v_sfa, v_sfb[0]);
+        c10_7 = mma_scale_one<T, 1, 1, 3>(
+            mma, v_a[1], v_b, c10_7, v_sfa[1], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(1, 2, 0, v_a[1], v_b, c10_8, v_sfa, v_sfb[0]);
+        c10_8 = mma_scale_one<T, 1, 2, 0>(
+            mma, v_a[1], v_b, c10_8, v_sfa[1], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
         prefetch_matrix_issue(opus::number<9>{}, stage, future_tile);
         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
         __builtin_amdgcn_sched_barrier(0);
-        MXFP8_MMA_ONE(1, 2, 1, v_a[1], v_b, c10_9, v_sfa, v_sfb[0]);
+        c10_9 = mma_scale_one<T, 1, 2, 1>(
+            mma, v_a[1], v_b, c10_9, v_sfa[1], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(1, 2, 2, v_a[1], v_b, c10_10, v_sfa, v_sfb[0]);
+        c10_10 = mma_scale_one<T, 1, 2, 2>(
+            mma, v_a[1], v_b, c10_10, v_sfa[1], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
         prefetch_matrix_issue(opus::number<10>{}, stage, future_tile);
         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
         __builtin_amdgcn_sched_barrier(0);
-        MXFP8_MMA_ONE(1, 2, 3, v_a[1], v_b, c10_11, v_sfa, v_sfb[0]);
+        c10_11 = mma_scale_one<T, 1, 2, 3>(
+            mma, v_a[1], v_b, c10_11, v_sfa[1], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(1, 3, 0, v_a[1], v_b, c10_12, v_sfa, v_sfb[0]);
+        c10_12 = mma_scale_one<T, 1, 3, 0>(
+            mma, v_a[1], v_b, c10_12, v_sfa[1], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
         prefetch_matrix_issue(opus::number<11>{}, stage, future_tile);
         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
         __builtin_amdgcn_sched_barrier(0);
-        MXFP8_MMA_ONE(1, 3, 1, v_a[1], v_b, c10_13, v_sfa, v_sfb[0]);
+        c10_13 = mma_scale_one<T, 1, 3, 1>(
+            mma, v_a[1], v_b, c10_13, v_sfa[1], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
 
         // Read next A0/M0 while its current-K operand is still live.
@@ -792,12 +847,14 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(1, 3, 2, v_a[1], v_b, c10_14, v_sfa, v_sfb[0]);
+        c10_14 = mma_scale_one<T, 1, 3, 2>(
+            mma, v_a[1], v_b, c10_14, v_sfa[1], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
         prefetch_matrix_issue(opus::number<12>{}, stage, future_tile);
         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
         __builtin_amdgcn_sched_barrier(0);
-        MXFP8_MMA_ONE(1, 3, 3, v_a[1], v_b, c10_15, v_sfa, v_sfb[0]);
+        c10_15 = mma_scale_one<T, 1, 3, 3>(
+            mma, v_a[1], v_b, c10_15, v_sfa[1], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
 
         // Spread the dead B0 operand reads after MFMA32.
@@ -808,12 +865,14 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         const auto& v_b_n1 = v_b_second;
 
         // A half 0 x B half 1 -> C[0][1] (128x128 wave quadrant).
-        MXFP8_MMA_ONE(0, 0, 0, v_a[0], v_b_n1, c01_0, v_sfa, v_sfb[1]);
+        c01_0 = mma_scale_one<T, 0, 0, 0>(
+            mma, v_a[0], v_b_n1, c01_0, v_sfa[0], v_sfb[1]);
         __builtin_amdgcn_sched_barrier(0);
         prefetch_matrix_issue(opus::number<13>{}, stage, future_tile);
         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
         __builtin_amdgcn_sched_barrier(0);
-        MXFP8_MMA_ONE(0, 0, 1, v_a[0], v_b_n1, c01_1, v_sfa, v_sfb[1]);
+        c01_1 = mma_scale_one<T, 0, 0, 1>(
+            mma, v_a[0], v_b_n1, c01_1, v_sfa[0], v_sfb[1]);
         __builtin_amdgcn_sched_barrier(0);
 
         // Spread the dead B0 operand reads after MFMA34.
@@ -821,12 +880,14 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(0, 0, 2, v_a[0], v_b_n1, c01_2, v_sfa, v_sfb[1]);
+        c01_2 = mma_scale_one<T, 0, 0, 2>(
+            mma, v_a[0], v_b_n1, c01_2, v_sfa[0], v_sfb[1]);
         __builtin_amdgcn_sched_barrier(0);
         prefetch_matrix_issue(opus::number<14>{}, stage, future_tile);
         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
         __builtin_amdgcn_sched_barrier(0);
-        MXFP8_MMA_ONE(0, 0, 3, v_a[0], v_b_n1, c01_3, v_sfa, v_sfb[1]);
+        c01_3 = mma_scale_one<T, 0, 0, 3>(
+            mma, v_a[0], v_b_n1, c01_3, v_sfa[0], v_sfb[1]);
         __builtin_amdgcn_sched_barrier(0);
 
         // Spread the dead B0 operand reads after MFMA36.
@@ -847,14 +908,14 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
 
         // Continue C01 while next-tile operands roll into dead registers.
-        MXFP8_MMA_ONE(
-            0, 1, 0, v_a[0], v_b_n1, c01_4, v_sfa, v_sfb[1]);
+        c01_4 = mma_scale_one<T, 0, 1, 0>(
+            mma, v_a[0], v_b_n1, c01_4, v_sfa[0], v_sfb[1]);
         __builtin_amdgcn_sched_barrier(0);
         prefetch_matrix_issue(opus::number<15>{}, stage, future_tile);
         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
         __builtin_amdgcn_sched_barrier(0);
-        MXFP8_MMA_ONE(
-            0, 1, 1, v_a[0], v_b_n1, c01_5, v_sfa, v_sfb[1]);
+        c01_5 = mma_scale_one<T, 0, 1, 1>(
+            mma, v_a[0], v_b_n1, c01_5, v_sfa[0], v_sfb[1]);
         __builtin_amdgcn_sched_barrier(0);
 
         // Spread the dead B0 operand reads after MFMA38.
@@ -868,32 +929,42 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         v_sfb[0] = v_sfb_next[0];
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_PAIR(
-            0, 1, 1, v_a[0], v_b_n1, c01_6, c01_7, v_sfa, v_sfb[1]);
+        c01_6 = mma_scale_one<T, 0, 1, 2>(
+            mma, v_a[0], v_b_n1, c01_6, v_sfa[0], v_sfb[1]);
+        c01_7 = mma_scale_one<T, 0, 1, 3>(
+            mma, v_a[0], v_b_n1, c01_7, v_sfa[0], v_sfb[1]);
         sched_barrier_pairs_scale();
 
         // M1 is dead after c01_7; M2/M3 still use their current-tile slices.
         load_a_mrepeat_scale<T, 1>(s_a, ra0_next_offsets, v_a[0]);
         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
 
-        MXFP8_MMA_PAIR(
-            0, 2, 0, v_a[0], v_b_n1, c01_8, c01_9, v_sfa, v_sfb[1]);
+        c01_8 = mma_scale_one<T, 0, 2, 0>(
+            mma, v_a[0], v_b_n1, c01_8, v_sfa[0], v_sfb[1]);
+        c01_9 = mma_scale_one<T, 0, 2, 1>(
+            mma, v_a[0], v_b_n1, c01_9, v_sfa[0], v_sfb[1]);
         sched_barrier_pairs_scale();
 
-        MXFP8_MMA_PAIR(
-            0, 2, 1, v_a[0], v_b_n1, c01_10, c01_11, v_sfa, v_sfb[1]);
+        c01_10 = mma_scale_one<T, 0, 2, 2>(
+            mma, v_a[0], v_b_n1, c01_10, v_sfa[0], v_sfb[1]);
+        c01_11 = mma_scale_one<T, 0, 2, 3>(
+            mma, v_a[0], v_b_n1, c01_11, v_sfa[0], v_sfb[1]);
         sched_barrier_pairs_scale();
 
         // M2 is dead after c01_11. Keep the old SFA0 pack through M3.
         load_a_mrepeat_scale<T, 2>(s_a, ra0_next_offsets, v_a[0]);
         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
 
-        MXFP8_MMA_PAIR(
-            0, 3, 0, v_a[0], v_b_n1, c01_12, c01_13, v_sfa, v_sfb[1]);
+        c01_12 = mma_scale_one<T, 0, 3, 0>(
+            mma, v_a[0], v_b_n1, c01_12, v_sfa[0], v_sfb[1]);
+        c01_13 = mma_scale_one<T, 0, 3, 1>(
+            mma, v_a[0], v_b_n1, c01_13, v_sfa[0], v_sfb[1]);
         sched_barrier_pairs_scale();
 
-        MXFP8_MMA_PAIR(
-            0, 3, 1, v_a[0], v_b_n1, c01_14, c01_15, v_sfa, v_sfb[1]);
+        c01_14 = mma_scale_one<T, 0, 3, 2>(
+            mma, v_a[0], v_b_n1, c01_14, v_sfa[0], v_sfb[1]);
+        c01_15 = mma_scale_one<T, 0, 3, 3>(
+            mma, v_a[0], v_b_n1, c01_15, v_sfa[0], v_sfb[1]);
         sched_barrier_pairs_scale();
 
         // C01 has consumed current SFA0. Install the low dword of the
@@ -907,10 +978,16 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         __builtin_amdgcn_sched_barrier(0);
 
         // C11: reorder independent accumulators and roll each operand after its last use.
-        MXFP8_MMA_PAIR(1, 0, 0, v_a[1], v_b_n1, c11_0, c11_1, v_sfa, v_sfb[1]);
+        c11_0 = mma_scale_one<T, 1, 0, 0>(
+            mma, v_a[1], v_b_n1, c11_0, v_sfa[1], v_sfb[1]);
+        c11_1 = mma_scale_one<T, 1, 0, 1>(
+            mma, v_a[1], v_b_n1, c11_1, v_sfa[1], v_sfb[1]);
         sched_barrier_pairs_scale();
 
-        MXFP8_MMA_PAIR(1, 0, 1, v_a[1], v_b_n1, c11_2, c11_3, v_sfa, v_sfb[1]);
+        c11_2 = mma_scale_one<T, 1, 0, 2>(
+            mma, v_a[1], v_b_n1, c11_2, v_sfa[1], v_sfb[1]);
+        c11_3 = mma_scale_one<T, 1, 0, 3>(
+            mma, v_a[1], v_b_n1, c11_3, v_sfa[1], v_sfb[1]);
         sched_barrier_pairs_scale();
         // MFMA52: these operand slices have no remaining current-K consumers.
         __builtin_amdgcn_sched_barrier(0);
@@ -918,10 +995,16 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_PAIR(1, 1, 0, v_a[1], v_b_n1, c11_4, c11_5, v_sfa, v_sfb[1]);
+        c11_4 = mma_scale_one<T, 1, 1, 0>(
+            mma, v_a[1], v_b_n1, c11_4, v_sfa[1], v_sfb[1]);
+        c11_5 = mma_scale_one<T, 1, 1, 1>(
+            mma, v_a[1], v_b_n1, c11_5, v_sfa[1], v_sfb[1]);
         sched_barrier_pairs_scale();
 
-        MXFP8_MMA_PAIR(1, 1, 1, v_a[1], v_b_n1, c11_6, c11_7, v_sfa, v_sfb[1]);
+        c11_6 = mma_scale_one<T, 1, 1, 2>(
+            mma, v_a[1], v_b_n1, c11_6, v_sfa[1], v_sfb[1]);
+        c11_7 = mma_scale_one<T, 1, 1, 3>(
+            mma, v_a[1], v_b_n1, c11_7, v_sfa[1], v_sfb[1]);
         sched_barrier_pairs_scale();
         // MFMA56: these operand slices have no remaining current-K consumers.
         __builtin_amdgcn_sched_barrier(0);
@@ -935,10 +1018,12 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(1, 2, 0, v_a[1], v_b_n1, c11_8, v_sfa, v_sfb[1]);
+        c11_8 = mma_scale_one<T, 1, 2, 0>(
+            mma, v_a[1], v_b_n1, c11_8, v_sfa[1], v_sfb[1]);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(1, 3, 0, v_a[1], v_b_n1, c11_12, v_sfa, v_sfb[1]);
+        c11_12 = mma_scale_one<T, 1, 3, 0>(
+            mma, v_a[1], v_b_n1, c11_12, v_sfa[1], v_sfb[1]);
         __builtin_amdgcn_sched_barrier(0);
         // MFMA58: these operand slices have no remaining current-K consumers.
         __builtin_amdgcn_sched_barrier(0);
@@ -946,10 +1031,12 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(1, 2, 1, v_a[1], v_b_n1, c11_9, v_sfa, v_sfb[1]);
+        c11_9 = mma_scale_one<T, 1, 2, 1>(
+            mma, v_a[1], v_b_n1, c11_9, v_sfa[1], v_sfb[1]);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(1, 3, 1, v_a[1], v_b_n1, c11_13, v_sfa, v_sfb[1]);
+        c11_13 = mma_scale_one<T, 1, 3, 1>(
+            mma, v_a[1], v_b_n1, c11_13, v_sfa[1], v_sfb[1]);
         __builtin_amdgcn_sched_barrier(0);
         // MFMA60: these operand slices have no remaining current-K consumers.
         __builtin_amdgcn_sched_barrier(0);
@@ -957,10 +1044,12 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(1, 2, 2, v_a[1], v_b_n1, c11_10, v_sfa, v_sfb[1]);
+        c11_10 = mma_scale_one<T, 1, 2, 2>(
+            mma, v_a[1], v_b_n1, c11_10, v_sfa[1], v_sfb[1]);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(1, 3, 2, v_a[1], v_b_n1, c11_14, v_sfa, v_sfb[1]);
+        c11_14 = mma_scale_one<T, 1, 3, 2>(
+            mma, v_a[1], v_b_n1, c11_14, v_sfa[1], v_sfb[1]);
         __builtin_amdgcn_sched_barrier(0);
         // MFMA62: these operand slices have no remaining current-K consumers.
         __builtin_amdgcn_sched_barrier(0);
@@ -968,7 +1057,8 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(1, 2, 3, v_a[1], v_b_n1, c11_11, v_sfa, v_sfb[1]);
+        c11_11 = mma_scale_one<T, 1, 2, 3>(
+            mma, v_a[1], v_b_n1, c11_11, v_sfa[1], v_sfb[1]);
         __builtin_amdgcn_sched_barrier(0);
         // MFMA63: these operand slices have no remaining current-K consumers.
         __builtin_amdgcn_sched_barrier(0);
@@ -976,7 +1066,8 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(1, 3, 3, v_a[1], v_b_n1, c11_15, v_sfa, v_sfb[1]);
+        c11_15 = mma_scale_one<T, 1, 3, 3>(
+            mma, v_a[1], v_b_n1, c11_15, v_sfa[1], v_sfb[1]);
         __builtin_amdgcn_sched_barrier(0);
         // MFMA64: these operand slices have no remaining current-K consumers.
         __builtin_amdgcn_sched_barrier(0);
@@ -1016,7 +1107,10 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         // A half 0 x B half 0 -> C[0][0] (128x128 wave quadrant).
         // Publish the final block at MFMA5, then finish its predecessor
         // and roll its successor without any further global matrix requests.
-        MXFP8_MMA_PAIR(0, 0, 0, v_a[0], v_b, c00_0, c00_1, v_sfa, v_sfb[0]);
+        c00_0 = mma_scale_one<T, 0, 0, 0>(
+            mma, v_a[0], v_b, c00_0, v_sfa[0], v_sfb[0]);
+        c00_1 = mma_scale_one<T, 0, 0, 1>(
+            mma, v_a[0], v_b, c00_1, v_sfa[0], v_sfb[0]);
         sched_barrier_pairs_scale();
 
         // Prefetch published scales ahead of the operand roll.
@@ -1025,10 +1119,14 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
                 + (wave_id_m * T::W_M + (lane_id & 15)) * 8));
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_PAIR(0, 0, 1, v_a[0], v_b, c00_2, c00_3, v_sfa, v_sfb[0]);
+        c00_2 = mma_scale_one<T, 0, 0, 2>(
+            mma, v_a[0], v_b, c00_2, v_sfa[0], v_sfb[0]);
+        c00_3 = mma_scale_one<T, 0, 0, 3>(
+            mma, v_a[0], v_b, c00_3, v_sfa[0], v_sfb[0]);
         sched_barrier_pairs_scale();
 
-        MXFP8_MMA_ONE(0, 1, 0, v_a[0], v_b, c00_4, v_sfa, v_sfb[0]);
+        c00_4 = mma_scale_one<T, 0, 1, 0>(
+            mma, v_a[0], v_b, c00_4, v_sfa[0], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
 
         // MFMA5: publish t+1 and release stage t between independent MFMAs.
@@ -1039,35 +1137,51 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         __builtin_amdgcn_sched_barrier(0);
         __builtin_amdgcn_s_setprio(1);
 
-        MXFP8_MMA_ONE(0, 1, 1, v_a[0], v_b, c00_5, v_sfa, v_sfb[0]);
+        c00_5 = mma_scale_one<T, 0, 1, 1>(
+            mma, v_a[0], v_b, c00_5, v_sfa[0], v_sfb[0]);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_PAIR(0, 1, 1, v_a[0], v_b, c00_6, c00_7, v_sfa, v_sfb[0]);
+        c00_6 = mma_scale_one<T, 0, 1, 2>(
+            mma, v_a[0], v_b, c00_6, v_sfa[0], v_sfb[0]);
+        c00_7 = mma_scale_one<T, 0, 1, 3>(
+            mma, v_a[0], v_b, c00_7, v_sfa[0], v_sfb[0]);
         sched_barrier_pairs_scale();
 
-        MXFP8_MMA_PAIR(
-            0, 2, 0, v_a[0], v_b, c00_8, c00_9, v_sfa, v_sfb[0]);
+        c00_8 = mma_scale_one<T, 0, 2, 0>(
+            mma, v_a[0], v_b, c00_8, v_sfa[0], v_sfb[0]);
+        c00_9 = mma_scale_one<T, 0, 2, 1>(
+            mma, v_a[0], v_b, c00_9, v_sfa[0], v_sfb[0]);
         sched_barrier_pairs_scale();
 
-        MXFP8_MMA_PAIR(
-            0, 2, 1, v_a[0], v_b, c00_10, c00_11, v_sfa, v_sfb[0]);
+        c00_10 = mma_scale_one<T, 0, 2, 2>(
+            mma, v_a[0], v_b, c00_10, v_sfa[0], v_sfb[0]);
+        c00_11 = mma_scale_one<T, 0, 2, 3>(
+            mma, v_a[0], v_b, c00_11, v_sfa[0], v_sfb[0]);
         sched_barrier_pairs_scale();
 
-        MXFP8_MMA_PAIR(
-            0, 3, 0, v_a[0], v_b, c00_12, c00_13, v_sfa, v_sfb[0]);
+        c00_12 = mma_scale_one<T, 0, 3, 0>(
+            mma, v_a[0], v_b, c00_12, v_sfa[0], v_sfb[0]);
+        c00_13 = mma_scale_one<T, 0, 3, 1>(
+            mma, v_a[0], v_b, c00_13, v_sfa[0], v_sfb[0]);
         sched_barrier_pairs_scale();
 
-        MXFP8_MMA_PAIR(
-            0, 3, 1, v_a[0], v_b, c00_14, c00_15, v_sfa, v_sfb[0]);
+        c00_14 = mma_scale_one<T, 0, 3, 2>(
+            mma, v_a[0], v_b, c00_14, v_sfa[0], v_sfb[0]);
+        c00_15 = mma_scale_one<T, 0, 3, 3>(
+            mma, v_a[0], v_b, c00_15, v_sfa[0], v_sfb[0]);
         sched_barrier_pairs_scale();
 
         // A half 1 x B half 0 -> C[1][0] (128x128 wave quadrant).
-        MXFP8_MMA_PAIR(
-            1, 0, 0, v_a[1], v_b, c10_0, c10_1, v_sfa, v_sfb[0]);
+        c10_0 = mma_scale_one<T, 1, 0, 0>(
+            mma, v_a[1], v_b, c10_0, v_sfa[1], v_sfb[0]);
+        c10_1 = mma_scale_one<T, 1, 0, 1>(
+            mma, v_a[1], v_b, c10_1, v_sfa[1], v_sfb[0]);
         sched_barrier_pairs_scale();
 
-        MXFP8_MMA_PAIR(
-            1, 0, 1, v_a[1], v_b, c10_2, c10_3, v_sfa, v_sfb[0]);
+        c10_2 = mma_scale_one<T, 1, 0, 2>(
+            mma, v_a[1], v_b, c10_2, v_sfa[1], v_sfb[0]);
+        c10_3 = mma_scale_one<T, 1, 0, 3>(
+            mma, v_a[1], v_b, c10_3, v_sfa[1], v_sfb[0]);
         sched_barrier_pairs_scale();
 
         // Prefetch published scales ahead of the operand roll.
@@ -1075,24 +1189,34 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
             load<8>(s_sfb, ((tile + 1) & panel_mask) * T::SCALE_N_HALVES * 4));
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_PAIR(
-            1, 1, 0, v_a[1], v_b, c10_4, c10_5, v_sfa, v_sfb[0]);
+        c10_4 = mma_scale_one<T, 1, 1, 0>(
+            mma, v_a[1], v_b, c10_4, v_sfa[1], v_sfb[0]);
+        c10_5 = mma_scale_one<T, 1, 1, 1>(
+            mma, v_a[1], v_b, c10_5, v_sfa[1], v_sfb[0]);
         sched_barrier_pairs_scale();
 
-        MXFP8_MMA_PAIR(
-            1, 1, 1, v_a[1], v_b, c10_6, c10_7, v_sfa, v_sfb[0]);
+        c10_6 = mma_scale_one<T, 1, 1, 2>(
+            mma, v_a[1], v_b, c10_6, v_sfa[1], v_sfb[0]);
+        c10_7 = mma_scale_one<T, 1, 1, 3>(
+            mma, v_a[1], v_b, c10_7, v_sfa[1], v_sfb[0]);
         sched_barrier_pairs_scale();
 
-        MXFP8_MMA_PAIR(
-            1, 2, 0, v_a[1], v_b, c10_8, c10_9, v_sfa, v_sfb[0]);
+        c10_8 = mma_scale_one<T, 1, 2, 0>(
+            mma, v_a[1], v_b, c10_8, v_sfa[1], v_sfb[0]);
+        c10_9 = mma_scale_one<T, 1, 2, 1>(
+            mma, v_a[1], v_b, c10_9, v_sfa[1], v_sfb[0]);
         sched_barrier_pairs_scale();
 
-        MXFP8_MMA_PAIR(
-            1, 2, 1, v_a[1], v_b, c10_10, c10_11, v_sfa, v_sfb[0]);
+        c10_10 = mma_scale_one<T, 1, 2, 2>(
+            mma, v_a[1], v_b, c10_10, v_sfa[1], v_sfb[0]);
+        c10_11 = mma_scale_one<T, 1, 2, 3>(
+            mma, v_a[1], v_b, c10_11, v_sfa[1], v_sfb[0]);
         sched_barrier_pairs_scale();
 
-        MXFP8_MMA_PAIR(
-            1, 3, 0, v_a[1], v_b, c10_12, c10_13, v_sfa, v_sfb[0]);
+        c10_12 = mma_scale_one<T, 1, 3, 0>(
+            mma, v_a[1], v_b, c10_12, v_sfa[1], v_sfb[0]);
+        c10_13 = mma_scale_one<T, 1, 3, 1>(
+            mma, v_a[1], v_b, c10_13, v_sfa[1], v_sfb[0]);
         sched_barrier_pairs_scale();
 
         // Read next A0/M0 while its current-K operand is still live.
@@ -1104,8 +1228,10 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_PAIR(
-            1, 3, 1, v_a[1], v_b, c10_14, c10_15, v_sfa, v_sfb[0]);
+        c10_14 = mma_scale_one<T, 1, 3, 2>(
+            mma, v_a[1], v_b, c10_14, v_sfa[1], v_sfb[0]);
+        c10_15 = mma_scale_one<T, 1, 3, 3>(
+            mma, v_a[1], v_b, c10_15, v_sfa[1], v_sfb[0]);
         sched_barrier_pairs_scale();
 
         // Spread the dead B0 operand reads after MFMA32.
@@ -1116,8 +1242,10 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         const auto& v_b_n1 = v_b_second;
 
         // A half 0 x B half 1 -> C[0][1] (128x128 wave quadrant).
-        MXFP8_MMA_PAIR(
-            0, 0, 0, v_a[0], v_b_n1, c01_0, c01_1, v_sfa, v_sfb[1]);
+        c01_0 = mma_scale_one<T, 0, 0, 0>(
+            mma, v_a[0], v_b_n1, c01_0, v_sfa[0], v_sfb[1]);
+        c01_1 = mma_scale_one<T, 0, 0, 1>(
+            mma, v_a[0], v_b_n1, c01_1, v_sfa[0], v_sfb[1]);
         sched_barrier_pairs_scale();
 
         // Spread the dead B0 operand reads after MFMA34.
@@ -1125,8 +1253,10 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_PAIR(
-            0, 0, 1, v_a[0], v_b_n1, c01_2, c01_3, v_sfa, v_sfb[1]);
+        c01_2 = mma_scale_one<T, 0, 0, 2>(
+            mma, v_a[0], v_b_n1, c01_2, v_sfa[0], v_sfb[1]);
+        c01_3 = mma_scale_one<T, 0, 0, 3>(
+            mma, v_a[0], v_b_n1, c01_3, v_sfa[0], v_sfb[1]);
         sched_barrier_pairs_scale();
 
         // Spread the dead B0 operand reads after MFMA36.
@@ -1149,11 +1279,11 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         __builtin_amdgcn_s_setprio(1);
 
         // Continue C01 while next-tile operands roll into dead registers.
-        MXFP8_MMA_ONE(
-            0, 1, 0, v_a[0], v_b_n1, c01_4, v_sfa, v_sfb[1]);
+        c01_4 = mma_scale_one<T, 0, 1, 0>(
+            mma, v_a[0], v_b_n1, c01_4, v_sfa[0], v_sfb[1]);
         __builtin_amdgcn_sched_barrier(0);
-        MXFP8_MMA_ONE(
-            0, 1, 1, v_a[0], v_b_n1, c01_5, v_sfa, v_sfb[1]);
+        c01_5 = mma_scale_one<T, 0, 1, 1>(
+            mma, v_a[0], v_b_n1, c01_5, v_sfa[0], v_sfb[1]);
         __builtin_amdgcn_sched_barrier(0);
 
         // Spread the dead B0 operand reads after MFMA38.
@@ -1167,32 +1297,42 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         v_sfb[0] = v_sfb_next[0];
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_PAIR(
-            0, 1, 1, v_a[0], v_b_n1, c01_6, c01_7, v_sfa, v_sfb[1]);
+        c01_6 = mma_scale_one<T, 0, 1, 2>(
+            mma, v_a[0], v_b_n1, c01_6, v_sfa[0], v_sfb[1]);
+        c01_7 = mma_scale_one<T, 0, 1, 3>(
+            mma, v_a[0], v_b_n1, c01_7, v_sfa[0], v_sfb[1]);
         sched_barrier_pairs_scale();
 
         // M1 is dead after c01_7; M2/M3 still use their current-tile slices.
         load_a_mrepeat_scale<T, 1>(s_a, ra0_next_offsets, v_a[0]);
         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
 
-        MXFP8_MMA_PAIR(
-            0, 2, 0, v_a[0], v_b_n1, c01_8, c01_9, v_sfa, v_sfb[1]);
+        c01_8 = mma_scale_one<T, 0, 2, 0>(
+            mma, v_a[0], v_b_n1, c01_8, v_sfa[0], v_sfb[1]);
+        c01_9 = mma_scale_one<T, 0, 2, 1>(
+            mma, v_a[0], v_b_n1, c01_9, v_sfa[0], v_sfb[1]);
         sched_barrier_pairs_scale();
 
-        MXFP8_MMA_PAIR(
-            0, 2, 1, v_a[0], v_b_n1, c01_10, c01_11, v_sfa, v_sfb[1]);
+        c01_10 = mma_scale_one<T, 0, 2, 2>(
+            mma, v_a[0], v_b_n1, c01_10, v_sfa[0], v_sfb[1]);
+        c01_11 = mma_scale_one<T, 0, 2, 3>(
+            mma, v_a[0], v_b_n1, c01_11, v_sfa[0], v_sfb[1]);
         sched_barrier_pairs_scale();
 
         // M2 is dead after c01_11. Keep the old SFA0 pack through M3.
         load_a_mrepeat_scale<T, 2>(s_a, ra0_next_offsets, v_a[0]);
         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
 
-        MXFP8_MMA_PAIR(
-            0, 3, 0, v_a[0], v_b_n1, c01_12, c01_13, v_sfa, v_sfb[1]);
+        c01_12 = mma_scale_one<T, 0, 3, 0>(
+            mma, v_a[0], v_b_n1, c01_12, v_sfa[0], v_sfb[1]);
+        c01_13 = mma_scale_one<T, 0, 3, 1>(
+            mma, v_a[0], v_b_n1, c01_13, v_sfa[0], v_sfb[1]);
         sched_barrier_pairs_scale();
 
-        MXFP8_MMA_PAIR(
-            0, 3, 1, v_a[0], v_b_n1, c01_14, c01_15, v_sfa, v_sfb[1]);
+        c01_14 = mma_scale_one<T, 0, 3, 2>(
+            mma, v_a[0], v_b_n1, c01_14, v_sfa[0], v_sfb[1]);
+        c01_15 = mma_scale_one<T, 0, 3, 3>(
+            mma, v_a[0], v_b_n1, c01_15, v_sfa[0], v_sfb[1]);
         sched_barrier_pairs_scale();
 
         // C01 has consumed current SFA0. Install the low dword of the
@@ -1206,10 +1346,16 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         __builtin_amdgcn_sched_barrier(0);
 
         // C11: reorder independent accumulators and roll each operand after its last use.
-        MXFP8_MMA_PAIR(1, 0, 0, v_a[1], v_b_n1, c11_0, c11_1, v_sfa, v_sfb[1]);
+        c11_0 = mma_scale_one<T, 1, 0, 0>(
+            mma, v_a[1], v_b_n1, c11_0, v_sfa[1], v_sfb[1]);
+        c11_1 = mma_scale_one<T, 1, 0, 1>(
+            mma, v_a[1], v_b_n1, c11_1, v_sfa[1], v_sfb[1]);
         sched_barrier_pairs_scale();
 
-        MXFP8_MMA_PAIR(1, 0, 1, v_a[1], v_b_n1, c11_2, c11_3, v_sfa, v_sfb[1]);
+        c11_2 = mma_scale_one<T, 1, 0, 2>(
+            mma, v_a[1], v_b_n1, c11_2, v_sfa[1], v_sfb[1]);
+        c11_3 = mma_scale_one<T, 1, 0, 3>(
+            mma, v_a[1], v_b_n1, c11_3, v_sfa[1], v_sfb[1]);
         sched_barrier_pairs_scale();
         // MFMA52: these operand slices have no remaining current-K consumers.
         __builtin_amdgcn_sched_barrier(0);
@@ -1217,10 +1363,16 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_PAIR(1, 1, 0, v_a[1], v_b_n1, c11_4, c11_5, v_sfa, v_sfb[1]);
+        c11_4 = mma_scale_one<T, 1, 1, 0>(
+            mma, v_a[1], v_b_n1, c11_4, v_sfa[1], v_sfb[1]);
+        c11_5 = mma_scale_one<T, 1, 1, 1>(
+            mma, v_a[1], v_b_n1, c11_5, v_sfa[1], v_sfb[1]);
         sched_barrier_pairs_scale();
 
-        MXFP8_MMA_PAIR(1, 1, 1, v_a[1], v_b_n1, c11_6, c11_7, v_sfa, v_sfb[1]);
+        c11_6 = mma_scale_one<T, 1, 1, 2>(
+            mma, v_a[1], v_b_n1, c11_6, v_sfa[1], v_sfb[1]);
+        c11_7 = mma_scale_one<T, 1, 1, 3>(
+            mma, v_a[1], v_b_n1, c11_7, v_sfa[1], v_sfb[1]);
         sched_barrier_pairs_scale();
         // MFMA56: these operand slices have no remaining current-K consumers.
         __builtin_amdgcn_sched_barrier(0);
@@ -1234,10 +1386,12 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(1, 2, 0, v_a[1], v_b_n1, c11_8, v_sfa, v_sfb[1]);
+        c11_8 = mma_scale_one<T, 1, 2, 0>(
+            mma, v_a[1], v_b_n1, c11_8, v_sfa[1], v_sfb[1]);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(1, 3, 0, v_a[1], v_b_n1, c11_12, v_sfa, v_sfb[1]);
+        c11_12 = mma_scale_one<T, 1, 3, 0>(
+            mma, v_a[1], v_b_n1, c11_12, v_sfa[1], v_sfb[1]);
         __builtin_amdgcn_sched_barrier(0);
         // MFMA58: these operand slices have no remaining current-K consumers.
         __builtin_amdgcn_sched_barrier(0);
@@ -1245,10 +1399,12 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(1, 2, 1, v_a[1], v_b_n1, c11_9, v_sfa, v_sfb[1]);
+        c11_9 = mma_scale_one<T, 1, 2, 1>(
+            mma, v_a[1], v_b_n1, c11_9, v_sfa[1], v_sfb[1]);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(1, 3, 1, v_a[1], v_b_n1, c11_13, v_sfa, v_sfb[1]);
+        c11_13 = mma_scale_one<T, 1, 3, 1>(
+            mma, v_a[1], v_b_n1, c11_13, v_sfa[1], v_sfb[1]);
         __builtin_amdgcn_sched_barrier(0);
         // MFMA60: these operand slices have no remaining current-K consumers.
         __builtin_amdgcn_sched_barrier(0);
@@ -1256,10 +1412,12 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(1, 2, 2, v_a[1], v_b_n1, c11_10, v_sfa, v_sfb[1]);
+        c11_10 = mma_scale_one<T, 1, 2, 2>(
+            mma, v_a[1], v_b_n1, c11_10, v_sfa[1], v_sfb[1]);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(1, 3, 2, v_a[1], v_b_n1, c11_14, v_sfa, v_sfb[1]);
+        c11_14 = mma_scale_one<T, 1, 3, 2>(
+            mma, v_a[1], v_b_n1, c11_14, v_sfa[1], v_sfb[1]);
         __builtin_amdgcn_sched_barrier(0);
         // MFMA62: these operand slices have no remaining current-K consumers.
         __builtin_amdgcn_sched_barrier(0);
@@ -1267,7 +1425,8 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(1, 2, 3, v_a[1], v_b_n1, c11_11, v_sfa, v_sfb[1]);
+        c11_11 = mma_scale_one<T, 1, 2, 3>(
+            mma, v_a[1], v_b_n1, c11_11, v_sfa[1], v_sfb[1]);
         __builtin_amdgcn_sched_barrier(0);
         // MFMA63: these operand slices have no remaining current-K consumers.
         __builtin_amdgcn_sched_barrier(0);
@@ -1275,7 +1434,8 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
         __builtin_amdgcn_sched_barrier(0);
 
-        MXFP8_MMA_ONE(1, 3, 3, v_a[1], v_b_n1, c11_15, v_sfa, v_sfb[1]);
+        c11_15 = mma_scale_one<T, 1, 3, 3>(
+            mma, v_a[1], v_b_n1, c11_15, v_sfa[1], v_sfb[1]);
         __builtin_amdgcn_sched_barrier(0);
         // MFMA64: these operand slices have no remaining current-K consumers.
         __builtin_amdgcn_sched_barrier(0);
@@ -1330,177 +1490,177 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
     };
 
     const auto gc_offsets = opus::layout_to_offsets<T::VEC_C>(u_gc);
-#define MXFP8_STORE_FRAGMENT(ACC, INDEX)                                   \
-    do {                                                                        \
-        if constexpr (T::OUTPUT_BF16) {                                         \
-            s_c.template store<T::VEC_C>(cast<D_C>(ACC),                         \
-                gc_offsets[INDEX] + soff);                                      \
-        } else {                                                                \
-            g_c.template store<T::VEC_C>(ACC, gc_offsets[INDEX], soff,            \
-                opus::number<2>{});                                              \
-        }                                                                       \
-    } while (false)
-// Store two native four-element MFMA fragments. BF16 goes to padded LDS;
-// FP32 writes directly to C. No lane exchange is used by this final version.
-#define MXFP8_STORE_TWO_FRAGMENTS(ACC0, ACC1, INDEX) \
-    do { \
-        MXFP8_STORE_FRAGMENT(ACC0, INDEX); \
-        MXFP8_STORE_FRAGMENT(ACC1, (INDEX) + 1); \
-    } while (false)
-#define MXFP8_STORE_QUADRANT(PREFIX, HALF_M, HALF_N) \
-    do { \
-        const int soff = c_offset(HALF_M, HALF_N); \
-        if constexpr (T::OUTPUT_BF16) { \
-            MXFP8_STORE_TWO_FRAGMENTS(PREFIX##_0, PREFIX##_1, 0); \
-            MXFP8_STORE_TWO_FRAGMENTS(PREFIX##_2, PREFIX##_3, 2); \
-            MXFP8_STORE_TWO_FRAGMENTS(PREFIX##_4, PREFIX##_5, 4); \
-            MXFP8_STORE_TWO_FRAGMENTS(PREFIX##_6, PREFIX##_7, 6); \
-            MXFP8_STORE_TWO_FRAGMENTS(PREFIX##_8, PREFIX##_9, 8); \
-            MXFP8_STORE_TWO_FRAGMENTS(PREFIX##_10, PREFIX##_11, 10); \
-            MXFP8_STORE_TWO_FRAGMENTS(PREFIX##_12, PREFIX##_13, 12); \
-            MXFP8_STORE_TWO_FRAGMENTS(PREFIX##_14, PREFIX##_15, 14); \
-        } else { \
-            MXFP8_STORE_FRAGMENT(PREFIX##_0, 0); \
-            MXFP8_STORE_FRAGMENT(PREFIX##_1, 1); \
-            MXFP8_STORE_FRAGMENT(PREFIX##_2, 2); \
-            MXFP8_STORE_FRAGMENT(PREFIX##_3, 3); \
-            MXFP8_STORE_FRAGMENT(PREFIX##_4, 4); \
-            MXFP8_STORE_FRAGMENT(PREFIX##_5, 5); \
-            MXFP8_STORE_FRAGMENT(PREFIX##_6, 6); \
-            MXFP8_STORE_FRAGMENT(PREFIX##_7, 7); \
-            MXFP8_STORE_FRAGMENT(PREFIX##_8, 8); \
-            MXFP8_STORE_FRAGMENT(PREFIX##_9, 9); \
-            MXFP8_STORE_FRAGMENT(PREFIX##_10, 10); \
-            MXFP8_STORE_FRAGMENT(PREFIX##_11, 11); \
-            MXFP8_STORE_FRAGMENT(PREFIX##_12, 12); \
-            MXFP8_STORE_FRAGMENT(PREFIX##_13, 13); \
-            MXFP8_STORE_FRAGMENT(PREFIX##_14, 14); \
-            MXFP8_STORE_FRAGMENT(PREFIX##_15, 15); \
-        } \
-    } while (false)
+    // Output type is selected at compile time inside these helpers.
+    auto stage_output_row = [&](auto index_i, int half_m, int half_n,
+                                const AccFragment& c0, const AccFragment& c1,
+                                const AccFragment& c2, const AccFragment& c3) {
+        if constexpr (T::OUTPUT_BF16) {
+            constexpr int index = decltype(index_i)::value;
+            const int soff = c_offset(half_m, half_n);
+            s_c.template store<T::VEC_C>(cast<D_C>(c0), gc_offsets[index] + soff);
+            s_c.template store<T::VEC_C>(cast<D_C>(c1), gc_offsets[index + 1] + soff);
+            s_c.template store<T::VEC_C>(cast<D_C>(c2), gc_offsets[index + 2] + soff);
+            s_c.template store<T::VEC_C>(cast<D_C>(c3), gc_offsets[index + 3] + soff);
+        }
+    };
+    auto store_output_quadrant = [&](int half_m, int half_n, const auto&... fragments) {
+        if constexpr (!T::OUTPUT_BF16) {
+            static_assert(sizeof...(fragments) == 16);
+            const int soff = c_offset(half_m, half_n);
+            int index = 0;
+            (g_c.template store<T::VEC_C>(fragments, gc_offsets[index++], soff,
+                                         opus::number<2>{}), ...);
+        }
+    };
+    auto publish_output_quarter = [&](auto half_m_i, auto half_n_i) {
+        if constexpr (T::OUTPUT_BF16) {
+            constexpr int half_m = decltype(half_m_i)::value;
+            constexpr int half_n = decltype(half_n_i)::value;
+            __builtin_amdgcn_sched_barrier(0);
+            // C10 can publish while the independent C00 global stores finish.
+            if constexpr (!(half_m == 1 && half_n == 0)) {
+                s_waitcnt_vmcnt(0_I);
+            }
+            s_waitcnt_lgkmcnt(0_I);
+            __builtin_amdgcn_s_barrier();
+            __builtin_amdgcn_sched_barrier(0);
+            opus::static_for<8>([&](auto copy_i) {
+                copy_output_quarter(half_m, half_n, decltype(copy_i)::value);
+            });
+        }
+    };
 
-    MXFP8_MMA_PAIR(0, 0, 0, v_a[0], v_b, c00_0, c00_1, v_sfa, v_sfb[0]);
+    c00_0 = mma_scale_one<T, 0, 0, 0>(
+        mma, v_a[0], v_b, c00_0, v_sfa[0], v_sfb[0]);
+    c00_1 = mma_scale_one<T, 0, 0, 1>(
+        mma, v_a[0], v_b, c00_1, v_sfa[0], v_sfb[0]);
     sched_barrier_pairs_scale();
 
-    MXFP8_MMA_PAIR(0, 0, 1, v_a[0], v_b, c00_2, c00_3, v_sfa, v_sfb[0]);
+    c00_2 = mma_scale_one<T, 0, 0, 2>(
+        mma, v_a[0], v_b, c00_2, v_sfa[0], v_sfb[0]);
+    c00_3 = mma_scale_one<T, 0, 0, 3>(
+        mma, v_a[0], v_b, c00_3, v_sfa[0], v_sfb[0]);
     sched_barrier_pairs_scale();
 
-    MXFP8_MMA_PAIR(0, 1, 0, v_a[0], v_b, c00_4, c00_5, v_sfa, v_sfb[0]);
+    c00_4 = mma_scale_one<T, 0, 1, 0>(
+        mma, v_a[0], v_b, c00_4, v_sfa[0], v_sfb[0]);
+    c00_5 = mma_scale_one<T, 0, 1, 1>(
+        mma, v_a[0], v_b, c00_5, v_sfa[0], v_sfb[0]);
     sched_barrier_pairs_scale();
 
-    MXFP8_MMA_PAIR(0, 1, 1, v_a[0], v_b, c00_6, c00_7, v_sfa, v_sfb[0]);
-    sched_barrier_pairs_scale();
-
-    // Stage this completed output row while later independent MFMAs execute.
-    if constexpr (T::OUTPUT_BF16) {
-        const int soff = c_offset(0, 0);
-        MXFP8_STORE_TWO_FRAGMENTS(c00_0, c00_1, 0);
-        MXFP8_STORE_TWO_FRAGMENTS(c00_2, c00_3, 2);
-    }
-
-    MXFP8_MMA_PAIR(0, 2, 0, v_a[0], v_b, c00_8, c00_9, v_sfa, v_sfb[0]);
-    sched_barrier_pairs_scale();
-
-    MXFP8_MMA_PAIR(0, 2, 1, v_a[0], v_b, c00_10, c00_11, v_sfa, v_sfb[0]);
+    c00_6 = mma_scale_one<T, 0, 1, 2>(
+        mma, v_a[0], v_b, c00_6, v_sfa[0], v_sfb[0]);
+    c00_7 = mma_scale_one<T, 0, 1, 3>(
+        mma, v_a[0], v_b, c00_7, v_sfa[0], v_sfb[0]);
     sched_barrier_pairs_scale();
 
     // Stage this completed output row while later independent MFMAs execute.
-    if constexpr (T::OUTPUT_BF16) {
-        const int soff = c_offset(0, 0);
-        MXFP8_STORE_TWO_FRAGMENTS(c00_4, c00_5, 4);
-        MXFP8_STORE_TWO_FRAGMENTS(c00_6, c00_7, 6);
-    }
+    stage_output_row(opus::number<0>{}, 0, 0, c00_0, c00_1, c00_2, c00_3);
 
-    MXFP8_MMA_PAIR(0, 3, 0, v_a[0], v_b, c00_12, c00_13, v_sfa, v_sfb[0]);
+    c00_8 = mma_scale_one<T, 0, 2, 0>(
+        mma, v_a[0], v_b, c00_8, v_sfa[0], v_sfb[0]);
+    c00_9 = mma_scale_one<T, 0, 2, 1>(
+        mma, v_a[0], v_b, c00_9, v_sfa[0], v_sfb[0]);
     sched_barrier_pairs_scale();
 
-    MXFP8_MMA_PAIR(0, 3, 1, v_a[0], v_b, c00_14, c00_15, v_sfa, v_sfb[0]);
-    sched_barrier_pairs_scale();
-
-    // Stage this completed output row while later independent MFMAs execute.
-    if constexpr (T::OUTPUT_BF16) {
-        const int soff = c_offset(0, 0);
-        MXFP8_STORE_TWO_FRAGMENTS(c00_8, c00_9, 8);
-        MXFP8_STORE_TWO_FRAGMENTS(c00_10, c00_11, 10);
-    }
-
-    MXFP8_MMA_PAIR(1, 0, 0, v_a[1], v_b, c10_0, c10_1, v_sfa, v_sfb[0]);
-    sched_barrier_pairs_scale();
-
-    MXFP8_MMA_PAIR(1, 0, 1, v_a[1], v_b, c10_2, c10_3, v_sfa, v_sfb[0]);
+    c00_10 = mma_scale_one<T, 0, 2, 2>(
+        mma, v_a[0], v_b, c00_10, v_sfa[0], v_sfb[0]);
+    c00_11 = mma_scale_one<T, 0, 2, 3>(
+        mma, v_a[0], v_b, c00_11, v_sfa[0], v_sfb[0]);
     sched_barrier_pairs_scale();
 
     // Stage this completed output row while later independent MFMAs execute.
-    if constexpr (T::OUTPUT_BF16) {
-        const int soff = c_offset(0, 0);
-        MXFP8_STORE_TWO_FRAGMENTS(c00_12, c00_13, 12);
-        MXFP8_STORE_TWO_FRAGMENTS(c00_14, c00_15, 14);
-    }
+    stage_output_row(opus::number<4>{}, 0, 0, c00_4, c00_5, c00_6, c00_7);
 
-    if constexpr (T::OUTPUT_BF16) {
-        // Publish only the completed output quadrant before copying it.
-        __builtin_amdgcn_sched_barrier(0);
-        s_waitcnt_vmcnt(0_I);
-        s_waitcnt_lgkmcnt(0_I);
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);
-        copy_output_quarter(0, 0, 0);
-        copy_output_quarter(0, 0, 1);
-        copy_output_quarter(0, 0, 2);
-        copy_output_quarter(0, 0, 3);
-        copy_output_quarter(0, 0, 4);
-        copy_output_quarter(0, 0, 5);
-        copy_output_quarter(0, 0, 6);
-        copy_output_quarter(0, 0, 7);
-    }
-
-    MXFP8_MMA_PAIR(1, 1, 0, v_a[1], v_b, c10_4, c10_5, v_sfa, v_sfb[0]);
+    c00_12 = mma_scale_one<T, 0, 3, 0>(
+        mma, v_a[0], v_b, c00_12, v_sfa[0], v_sfb[0]);
+    c00_13 = mma_scale_one<T, 0, 3, 1>(
+        mma, v_a[0], v_b, c00_13, v_sfa[0], v_sfb[0]);
     sched_barrier_pairs_scale();
 
-    MXFP8_MMA_PAIR(1, 1, 1, v_a[1], v_b, c10_6, c10_7, v_sfa, v_sfb[0]);
+    c00_14 = mma_scale_one<T, 0, 3, 2>(
+        mma, v_a[0], v_b, c00_14, v_sfa[0], v_sfb[0]);
+    c00_15 = mma_scale_one<T, 0, 3, 3>(
+        mma, v_a[0], v_b, c00_15, v_sfa[0], v_sfb[0]);
     sched_barrier_pairs_scale();
 
     // Stage this completed output row while later independent MFMAs execute.
-    if constexpr (T::OUTPUT_BF16) {
-        const int soff = c_offset(1, 0);
-        MXFP8_STORE_TWO_FRAGMENTS(c10_0, c10_1, 0);
-        MXFP8_STORE_TWO_FRAGMENTS(c10_2, c10_3, 2);
-    }
+    stage_output_row(opus::number<8>{}, 0, 0, c00_8, c00_9, c00_10, c00_11);
 
-    MXFP8_MMA_PAIR(1, 2, 0, v_a[1], v_b, c10_8, c10_9, v_sfa, v_sfb[0]);
+    c10_0 = mma_scale_one<T, 1, 0, 0>(
+        mma, v_a[1], v_b, c10_0, v_sfa[1], v_sfb[0]);
+    c10_1 = mma_scale_one<T, 1, 0, 1>(
+        mma, v_a[1], v_b, c10_1, v_sfa[1], v_sfb[0]);
     sched_barrier_pairs_scale();
 
-    MXFP8_MMA_PAIR(1, 2, 1, v_a[1], v_b, c10_10, c10_11, v_sfa, v_sfb[0]);
-    sched_barrier_pairs_scale();
-
-    // Stage this completed output row while later independent MFMAs execute.
-    if constexpr (T::OUTPUT_BF16) {
-        const int soff = c_offset(1, 0);
-        MXFP8_STORE_TWO_FRAGMENTS(c10_4, c10_5, 4);
-        MXFP8_STORE_TWO_FRAGMENTS(c10_6, c10_7, 6);
-    }
-
-    MXFP8_MMA_PAIR(1, 3, 0, v_a[1], v_b, c10_12, c10_13, v_sfa, v_sfb[0]);
-    sched_barrier_pairs_scale();
-
-    MXFP8_MMA_PAIR(1, 3, 1, v_a[1], v_b, c10_14, c10_15, v_sfa, v_sfb[0]);
+    c10_2 = mma_scale_one<T, 1, 0, 2>(
+        mma, v_a[1], v_b, c10_2, v_sfa[1], v_sfb[0]);
+    c10_3 = mma_scale_one<T, 1, 0, 3>(
+        mma, v_a[1], v_b, c10_3, v_sfa[1], v_sfb[0]);
     sched_barrier_pairs_scale();
 
     // Stage this completed output row while later independent MFMAs execute.
-    if constexpr (T::OUTPUT_BF16) {
-        const int soff = c_offset(1, 0);
-        MXFP8_STORE_TWO_FRAGMENTS(c10_8, c10_9, 8);
-        MXFP8_STORE_TWO_FRAGMENTS(c10_10, c10_11, 10);
-    }
+    stage_output_row(opus::number<12>{}, 0, 0, c00_12, c00_13, c00_14, c00_15);
+
+    publish_output_quarter(opus::number<0>{}, opus::number<0>{});
+
+    c10_4 = mma_scale_one<T, 1, 1, 0>(
+        mma, v_a[1], v_b, c10_4, v_sfa[1], v_sfb[0]);
+    c10_5 = mma_scale_one<T, 1, 1, 1>(
+        mma, v_a[1], v_b, c10_5, v_sfa[1], v_sfb[0]);
+    sched_barrier_pairs_scale();
+
+    c10_6 = mma_scale_one<T, 1, 1, 2>(
+        mma, v_a[1], v_b, c10_6, v_sfa[1], v_sfb[0]);
+    c10_7 = mma_scale_one<T, 1, 1, 3>(
+        mma, v_a[1], v_b, c10_7, v_sfa[1], v_sfb[0]);
+    sched_barrier_pairs_scale();
+
+    // Stage this completed output row while later independent MFMAs execute.
+    stage_output_row(opus::number<0>{}, 1, 0, c10_0, c10_1, c10_2, c10_3);
+
+    c10_8 = mma_scale_one<T, 1, 2, 0>(
+        mma, v_a[1], v_b, c10_8, v_sfa[1], v_sfb[0]);
+    c10_9 = mma_scale_one<T, 1, 2, 1>(
+        mma, v_a[1], v_b, c10_9, v_sfa[1], v_sfb[0]);
+    sched_barrier_pairs_scale();
+
+    c10_10 = mma_scale_one<T, 1, 2, 2>(
+        mma, v_a[1], v_b, c10_10, v_sfa[1], v_sfb[0]);
+    c10_11 = mma_scale_one<T, 1, 2, 3>(
+        mma, v_a[1], v_b, c10_11, v_sfa[1], v_sfb[0]);
+    sched_barrier_pairs_scale();
+
+    // Stage this completed output row while later independent MFMAs execute.
+    stage_output_row(opus::number<4>{}, 1, 0, c10_4, c10_5, c10_6, c10_7);
+
+    c10_12 = mma_scale_one<T, 1, 3, 0>(
+        mma, v_a[1], v_b, c10_12, v_sfa[1], v_sfb[0]);
+    c10_13 = mma_scale_one<T, 1, 3, 1>(
+        mma, v_a[1], v_b, c10_13, v_sfa[1], v_sfb[0]);
+    sched_barrier_pairs_scale();
+
+    c10_14 = mma_scale_one<T, 1, 3, 2>(
+        mma, v_a[1], v_b, c10_14, v_sfa[1], v_sfb[0]);
+    c10_15 = mma_scale_one<T, 1, 3, 3>(
+        mma, v_a[1], v_b, c10_15, v_sfa[1], v_sfb[0]);
+    sched_barrier_pairs_scale();
+
+    // Stage this completed output row while later independent MFMAs execute.
+    stage_output_row(opus::number<8>{}, 1, 0, c10_8, c10_9, c10_10, c10_11);
 
     // B-half0 is dead on the final K tile.  Start the direct AGPR stores for
     // both completed C quadrants before the B-half1 MFMAs occupy the XDL pipe.
-    if constexpr (!T::OUTPUT_BF16) {
-        MXFP8_STORE_QUADRANT(c00, 0, 0);
-    }
-    if constexpr (!T::OUTPUT_BF16) {
-        MXFP8_STORE_QUADRANT(c10, 1, 0);
-    }
+    store_output_quadrant(0, 0,
+        c00_0, c00_1, c00_2, c00_3,
+        c00_4, c00_5, c00_6, c00_7,
+        c00_8, c00_9, c00_10, c00_11,
+        c00_12, c00_13, c00_14, c00_15);
+    store_output_quadrant(1, 0,
+        c10_0, c10_1, c10_2, c10_3,
+        c10_4, c10_5, c10_6, c10_7,
+        c10_8, c10_9, c10_10, c10_11,
+        c10_12, c10_13, c10_14, c10_15);
 
     if constexpr (T::OUTPUT_BF16) {
         // Final B1 is resident from the operand seed or the penultimate block.
@@ -1509,177 +1669,146 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         v_b = load<T::VEC_B>(s_b, u_rb + sb_offset(stage, 1));
     }
 
-    MXFP8_MMA_PAIR(0, 0, 0, v_a[0], v_b, c01_0, c01_1, v_sfa, v_sfb[1]);
+    c01_0 = mma_scale_one<T, 0, 0, 0>(
+        mma, v_a[0], v_b, c01_0, v_sfa[0], v_sfb[1]);
+    c01_1 = mma_scale_one<T, 0, 0, 1>(
+        mma, v_a[0], v_b, c01_1, v_sfa[0], v_sfb[1]);
     sched_barrier_pairs_scale();
 
-    MXFP8_MMA_PAIR(0, 0, 1, v_a[0], v_b, c01_2, c01_3, v_sfa, v_sfb[1]);
-    sched_barrier_pairs_scale();
-
-    // Stage this completed output row while later independent MFMAs execute.
-    if constexpr (T::OUTPUT_BF16) {
-        const int soff = c_offset(1, 0);
-        MXFP8_STORE_TWO_FRAGMENTS(c10_12, c10_13, 12);
-        MXFP8_STORE_TWO_FRAGMENTS(c10_14, c10_15, 14);
-    }
-
-    if constexpr (T::OUTPUT_BF16) {
-        // C10 LDS writes must finish before publication. Prior global
-        // C00 stores are independent and may remain in flight here;
-        // all matrix loads retired before output reused their LDS.
-        __builtin_amdgcn_sched_barrier(0);
-        s_waitcnt_lgkmcnt(0_I);
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);
-        copy_output_quarter(1, 0, 0);
-        copy_output_quarter(1, 0, 1);
-        copy_output_quarter(1, 0, 2);
-        copy_output_quarter(1, 0, 3);
-        copy_output_quarter(1, 0, 4);
-        copy_output_quarter(1, 0, 5);
-        copy_output_quarter(1, 0, 6);
-        copy_output_quarter(1, 0, 7);
-    }
-
-    MXFP8_MMA_PAIR(0, 1, 0, v_a[0], v_b, c01_4, c01_5, v_sfa, v_sfb[1]);
-    sched_barrier_pairs_scale();
-
-    MXFP8_MMA_PAIR(0, 1, 1, v_a[0], v_b, c01_6, c01_7, v_sfa, v_sfb[1]);
+    c01_2 = mma_scale_one<T, 0, 0, 2>(
+        mma, v_a[0], v_b, c01_2, v_sfa[0], v_sfb[1]);
+    c01_3 = mma_scale_one<T, 0, 0, 3>(
+        mma, v_a[0], v_b, c01_3, v_sfa[0], v_sfb[1]);
     sched_barrier_pairs_scale();
 
     // Stage this completed output row while later independent MFMAs execute.
-    if constexpr (T::OUTPUT_BF16) {
-        const int soff = c_offset(0, 1);
-        MXFP8_STORE_TWO_FRAGMENTS(c01_0, c01_1, 0);
-        MXFP8_STORE_TWO_FRAGMENTS(c01_2, c01_3, 2);
-    }
+    stage_output_row(opus::number<12>{}, 1, 0, c10_12, c10_13, c10_14, c10_15);
 
-    MXFP8_MMA_PAIR(0, 2, 0, v_a[0], v_b, c01_8, c01_9, v_sfa, v_sfb[1]);
+    publish_output_quarter(opus::number<1>{}, opus::number<0>{});
+
+    c01_4 = mma_scale_one<T, 0, 1, 0>(
+        mma, v_a[0], v_b, c01_4, v_sfa[0], v_sfb[1]);
+    c01_5 = mma_scale_one<T, 0, 1, 1>(
+        mma, v_a[0], v_b, c01_5, v_sfa[0], v_sfb[1]);
     sched_barrier_pairs_scale();
 
-    MXFP8_MMA_PAIR(0, 2, 1, v_a[0], v_b, c01_10, c01_11, v_sfa, v_sfb[1]);
-    sched_barrier_pairs_scale();
-
-    // Stage this completed output row while later independent MFMAs execute.
-    if constexpr (T::OUTPUT_BF16) {
-        const int soff = c_offset(0, 1);
-        MXFP8_STORE_TWO_FRAGMENTS(c01_4, c01_5, 4);
-        MXFP8_STORE_TWO_FRAGMENTS(c01_6, c01_7, 6);
-    }
-
-    MXFP8_MMA_PAIR(0, 3, 0, v_a[0], v_b, c01_12, c01_13, v_sfa, v_sfb[1]);
-    sched_barrier_pairs_scale();
-
-    MXFP8_MMA_PAIR(0, 3, 1, v_a[0], v_b, c01_14, c01_15, v_sfa, v_sfb[1]);
+    c01_6 = mma_scale_one<T, 0, 1, 2>(
+        mma, v_a[0], v_b, c01_6, v_sfa[0], v_sfb[1]);
+    c01_7 = mma_scale_one<T, 0, 1, 3>(
+        mma, v_a[0], v_b, c01_7, v_sfa[0], v_sfb[1]);
     sched_barrier_pairs_scale();
 
     // Stage this completed output row while later independent MFMAs execute.
-    if constexpr (T::OUTPUT_BF16) {
-        const int soff = c_offset(0, 1);
-        MXFP8_STORE_TWO_FRAGMENTS(c01_8, c01_9, 8);
-        MXFP8_STORE_TWO_FRAGMENTS(c01_10, c01_11, 10);
-    }
+    stage_output_row(opus::number<0>{}, 0, 1, c01_0, c01_1, c01_2, c01_3);
 
-    MXFP8_MMA_PAIR(1, 0, 0, v_a[1], v_b, c11_0, c11_1, v_sfa, v_sfb[1]);
+    c01_8 = mma_scale_one<T, 0, 2, 0>(
+        mma, v_a[0], v_b, c01_8, v_sfa[0], v_sfb[1]);
+    c01_9 = mma_scale_one<T, 0, 2, 1>(
+        mma, v_a[0], v_b, c01_9, v_sfa[0], v_sfb[1]);
     sched_barrier_pairs_scale();
 
-    MXFP8_MMA_PAIR(1, 0, 1, v_a[1], v_b, c11_2, c11_3, v_sfa, v_sfb[1]);
-    sched_barrier_pairs_scale();
-
-    // Stage this completed output row while later independent MFMAs execute.
-    if constexpr (T::OUTPUT_BF16) {
-        const int soff = c_offset(0, 1);
-        MXFP8_STORE_TWO_FRAGMENTS(c01_12, c01_13, 12);
-        MXFP8_STORE_TWO_FRAGMENTS(c01_14, c01_15, 14);
-    }
-
-    if constexpr (T::OUTPUT_BF16) {
-        // Publish only the completed output quadrant before copying it.
-        __builtin_amdgcn_sched_barrier(0);
-        s_waitcnt_vmcnt(0_I);
-        s_waitcnt_lgkmcnt(0_I);
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);
-        copy_output_quarter(0, 1, 0);
-        copy_output_quarter(0, 1, 1);
-        copy_output_quarter(0, 1, 2);
-        copy_output_quarter(0, 1, 3);
-        copy_output_quarter(0, 1, 4);
-        copy_output_quarter(0, 1, 5);
-        copy_output_quarter(0, 1, 6);
-        copy_output_quarter(0, 1, 7);
-    }
-
-    MXFP8_MMA_PAIR(1, 1, 0, v_a[1], v_b, c11_4, c11_5, v_sfa, v_sfb[1]);
-    sched_barrier_pairs_scale();
-
-    MXFP8_MMA_PAIR(1, 1, 1, v_a[1], v_b, c11_6, c11_7, v_sfa, v_sfb[1]);
+    c01_10 = mma_scale_one<T, 0, 2, 2>(
+        mma, v_a[0], v_b, c01_10, v_sfa[0], v_sfb[1]);
+    c01_11 = mma_scale_one<T, 0, 2, 3>(
+        mma, v_a[0], v_b, c01_11, v_sfa[0], v_sfb[1]);
     sched_barrier_pairs_scale();
 
     // Stage this completed output row while later independent MFMAs execute.
-    if constexpr (T::OUTPUT_BF16) {
-        const int soff = c_offset(1, 1);
-        MXFP8_STORE_TWO_FRAGMENTS(c11_0, c11_1, 0);
-        MXFP8_STORE_TWO_FRAGMENTS(c11_2, c11_3, 2);
-    }
+    stage_output_row(opus::number<4>{}, 0, 1, c01_4, c01_5, c01_6, c01_7);
 
-    MXFP8_MMA_PAIR(1, 2, 0, v_a[1], v_b, c11_8, c11_9, v_sfa, v_sfb[1]);
+    c01_12 = mma_scale_one<T, 0, 3, 0>(
+        mma, v_a[0], v_b, c01_12, v_sfa[0], v_sfb[1]);
+    c01_13 = mma_scale_one<T, 0, 3, 1>(
+        mma, v_a[0], v_b, c01_13, v_sfa[0], v_sfb[1]);
     sched_barrier_pairs_scale();
 
-    MXFP8_MMA_PAIR(1, 2, 1, v_a[1], v_b, c11_10, c11_11, v_sfa, v_sfb[1]);
-    sched_barrier_pairs_scale();
-
-    // Stage this completed output row while later independent MFMAs execute.
-    if constexpr (T::OUTPUT_BF16) {
-        const int soff = c_offset(1, 1);
-        MXFP8_STORE_TWO_FRAGMENTS(c11_4, c11_5, 4);
-        MXFP8_STORE_TWO_FRAGMENTS(c11_6, c11_7, 6);
-    }
-
-    MXFP8_MMA_PAIR(1, 3, 0, v_a[1], v_b, c11_12, c11_13, v_sfa, v_sfb[1]);
-    sched_barrier_pairs_scale();
-
-    MXFP8_MMA_PAIR(1, 3, 1, v_a[1], v_b, c11_14, c11_15, v_sfa, v_sfb[1]);
+    c01_14 = mma_scale_one<T, 0, 3, 2>(
+        mma, v_a[0], v_b, c01_14, v_sfa[0], v_sfb[1]);
+    c01_15 = mma_scale_one<T, 0, 3, 3>(
+        mma, v_a[0], v_b, c01_15, v_sfa[0], v_sfb[1]);
     sched_barrier_pairs_scale();
 
     // Stage this completed output row while later independent MFMAs execute.
-    if constexpr (T::OUTPUT_BF16) {
-        const int soff = c_offset(1, 1);
-        MXFP8_STORE_TWO_FRAGMENTS(c11_8, c11_9, 8);
-        MXFP8_STORE_TWO_FRAGMENTS(c11_10, c11_11, 10);
-    }
+    stage_output_row(opus::number<8>{}, 0, 1, c01_8, c01_9, c01_10, c01_11);
+
+    c11_0 = mma_scale_one<T, 1, 0, 0>(
+        mma, v_a[1], v_b, c11_0, v_sfa[1], v_sfb[1]);
+    c11_1 = mma_scale_one<T, 1, 0, 1>(
+        mma, v_a[1], v_b, c11_1, v_sfa[1], v_sfb[1]);
+    sched_barrier_pairs_scale();
+
+    c11_2 = mma_scale_one<T, 1, 0, 2>(
+        mma, v_a[1], v_b, c11_2, v_sfa[1], v_sfb[1]);
+    c11_3 = mma_scale_one<T, 1, 0, 3>(
+        mma, v_a[1], v_b, c11_3, v_sfa[1], v_sfb[1]);
+    sched_barrier_pairs_scale();
 
     // Stage this completed output row while later independent MFMAs execute.
-    if constexpr (T::OUTPUT_BF16) {
-        const int soff = c_offset(1, 1);
-        MXFP8_STORE_TWO_FRAGMENTS(c11_12, c11_13, 12);
-        MXFP8_STORE_TWO_FRAGMENTS(c11_14, c11_15, 14);
-    }
+    stage_output_row(opus::number<12>{}, 0, 1, c01_12, c01_13, c01_14, c01_15);
+
+    publish_output_quarter(opus::number<0>{}, opus::number<1>{});
+
+    c11_4 = mma_scale_one<T, 1, 1, 0>(
+        mma, v_a[1], v_b, c11_4, v_sfa[1], v_sfb[1]);
+    c11_5 = mma_scale_one<T, 1, 1, 1>(
+        mma, v_a[1], v_b, c11_5, v_sfa[1], v_sfb[1]);
+    sched_barrier_pairs_scale();
+
+    c11_6 = mma_scale_one<T, 1, 1, 2>(
+        mma, v_a[1], v_b, c11_6, v_sfa[1], v_sfb[1]);
+    c11_7 = mma_scale_one<T, 1, 1, 3>(
+        mma, v_a[1], v_b, c11_7, v_sfa[1], v_sfb[1]);
+    sched_barrier_pairs_scale();
+
+    // Stage this completed output row while later independent MFMAs execute.
+    stage_output_row(opus::number<0>{}, 1, 1, c11_0, c11_1, c11_2, c11_3);
+
+    c11_8 = mma_scale_one<T, 1, 2, 0>(
+        mma, v_a[1], v_b, c11_8, v_sfa[1], v_sfb[1]);
+    c11_9 = mma_scale_one<T, 1, 2, 1>(
+        mma, v_a[1], v_b, c11_9, v_sfa[1], v_sfb[1]);
+    sched_barrier_pairs_scale();
+
+    c11_10 = mma_scale_one<T, 1, 2, 2>(
+        mma, v_a[1], v_b, c11_10, v_sfa[1], v_sfb[1]);
+    c11_11 = mma_scale_one<T, 1, 2, 3>(
+        mma, v_a[1], v_b, c11_11, v_sfa[1], v_sfb[1]);
+    sched_barrier_pairs_scale();
+
+    // Stage this completed output row while later independent MFMAs execute.
+    stage_output_row(opus::number<4>{}, 1, 1, c11_4, c11_5, c11_6, c11_7);
+
+    c11_12 = mma_scale_one<T, 1, 3, 0>(
+        mma, v_a[1], v_b, c11_12, v_sfa[1], v_sfb[1]);
+    c11_13 = mma_scale_one<T, 1, 3, 1>(
+        mma, v_a[1], v_b, c11_13, v_sfa[1], v_sfb[1]);
+    sched_barrier_pairs_scale();
+
+    c11_14 = mma_scale_one<T, 1, 3, 2>(
+        mma, v_a[1], v_b, c11_14, v_sfa[1], v_sfb[1]);
+    c11_15 = mma_scale_one<T, 1, 3, 3>(
+        mma, v_a[1], v_b, c11_15, v_sfa[1], v_sfb[1]);
+    sched_barrier_pairs_scale();
+
+    // Stage this completed output row while later independent MFMAs execute.
+    stage_output_row(opus::number<8>{}, 1, 1, c11_8, c11_9, c11_10, c11_11);
+
+    // Stage this completed output row while later independent MFMAs execute.
+    stage_output_row(opus::number<12>{}, 1, 1, c11_12, c11_13, c11_14, c11_15);
     __builtin_amdgcn_s_setprio(0);
 
-    if constexpr (!T::OUTPUT_BF16) {
-        MXFP8_STORE_QUADRANT(c01, 0, 1);
-    }
-    if constexpr (!T::OUTPUT_BF16) {
-        MXFP8_STORE_QUADRANT(c11, 1, 1);
-    }
+    store_output_quadrant(0, 1,
+        c01_0, c01_1, c01_2, c01_3,
+        c01_4, c01_5, c01_6, c01_7,
+        c01_8, c01_9, c01_10, c01_11,
+        c01_12, c01_13, c01_14, c01_15);
+    store_output_quadrant(1, 1,
+        c11_0, c11_1, c11_2, c11_3,
+        c11_4, c11_5, c11_6, c11_7,
+        c11_8, c11_9, c11_10, c11_11,
+        c11_12, c11_13, c11_14, c11_15);
 
-    if constexpr (T::OUTPUT_BF16) {
-        // The padded LDS rows distribute stores from the MFMA lane layout.
-        // Retire first-half copies and publish the remaining output half.
-        __builtin_amdgcn_sched_barrier(0);
-        s_waitcnt_vmcnt(0_I);
-        s_waitcnt_lgkmcnt(0_I);
-        __builtin_amdgcn_s_barrier();
-        __builtin_amdgcn_sched_barrier(0);
-        opus::static_for<T::HALF_B_M * T::HALF_B_N / (T::BLOCK_SIZE * 8)>([&](auto copy_i) {
-            copy_output_quarter(1, 1, decltype(copy_i)::value);
-        });
-    }
-#undef MXFP8_STORE_QUADRANT
-#undef MXFP8_STORE_TWO_FRAGMENTS
-#undef MXFP8_STORE_FRAGMENT
-#undef MXFP8_MMA_ONE
-#undef MXFP8_MMA_PAIR
+    publish_output_quarter(opus::number<1>{}, opus::number<1>{});
 }
 
 } // namespace blockscale_generic

@@ -5,9 +5,11 @@ gfx950 4-wave blockscale bpreshuffle GEMM
 
 **执行模式为 4wave + tile1。** 本项目的 tile 数量指每个工作组处理的完整 **256×256 输出块数量**：tile1 每WG独立处理1块；tile2/tile4 为每WG连续处理2/4块的持久化方案。当前 `traits.hpp` 的 `OUTPUT_TILES_PER_WG=1`，接口 `tiles=0`（auto）也选择1，CLI、Python与C ABI均只接受0/1。K方向另有2-stage LDS双缓冲。
 
-当前版本为 `generic_tile1_issue_20260912`，基于通过五轮确认的 `grid2d_unroll4` 清理而来。本轮在提交 `9229d1a` 的通用版本上继续优化矩阵请求发射、m0基址复用、主循环优先级、二维grid与循环展开。构建只含通用kernel的BF16/FP32两种输出实例，清理前后的全部有效机器指令一致。源码、正确性和测量见 [本轮记录](results/generic_issue_20260912/README.md)。
+当前源码版本为 `generic_tile1_cpp_20260912`，GPU执行代码与 `f483077` 的 `generic_tile1_issue_20260912` 完全相同。`tmpl_generic.hpp` 已移除全部自定义宏，改为显式MMA赋值和局部输出helper；`if constexpr` 从29处收敛到7处，仅用于编译期选择。完整device code object、共享库内嵌GPU代码和设备元数据均逐字节相同，见 [源码清理记录](results/generic_source_cleanup_20260912/README.md)。
 
-最终构建在GPU2（HIP2，PCI `0000:65:00.0`）实测，M=N=K、batch1、warmup200、iterations100、CLI seed1，五轮中位数：
+性能版本基于通过五轮确认的 `grid2d_unroll4`，在提交 `9229d1a` 的通用版本上优化矩阵请求发射、m0基址复用、主循环优先级、二维grid与循环展开。构建只含通用kernel的BF16/FP32两种输出实例。源码、正确性和历史测量见 [发射调度轮记录](results/generic_issue_20260912/README.md)。
+
+以下为同一GPU内核在源码清理前于GPU2（HIP2，PCI `0000:65:00.0`）测得的历史成绩，M=N=K、batch1、warmup200、iterations100、CLI seed1，五轮中位数：
 
 | M=N=K | BF16 ms | BF16 P | FP32 ms | FP32 P |
 | ---: | ---: | ---: | ---: | ---: |

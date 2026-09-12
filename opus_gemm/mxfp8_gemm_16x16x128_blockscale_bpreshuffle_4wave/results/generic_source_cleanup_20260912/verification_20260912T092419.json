@@ -1,0 +1,58 @@
+{
+  "status": "PASS",
+  "timestamp_utc": "2026-09-12T09:24:19.547259+00:00",
+  "work_directory": "/tmp/mxfp8_cleanup_verify_x5jnjmiz",
+  "gpu_launched": false,
+  "baseline_commit": "f483077e0263bc8d39ad810ad4c1f03b93727702",
+  "source_hashes": {
+    "baseline": {
+      "tmpl_generic.hpp": "69ef190d32fc10127deee1d06286233ecdde498e543a2d6c07d02b11696955be",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    },
+    "cleaned": {
+      "tmpl_generic.hpp": "ad3fc41bb598e1534d170efa3839f4a169fcbd8cb7323c9bcc3cbdbb03620261",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  "artifacts": {
+    "baseline": {
+      "device.co": "0c1581177fffdc40dc46826ee46bd6fade6db57d14d07af46da275534d0ed169",
+      "device.fb": "8559e60d074354726f59d79e4c01f24a6e4516b973edcb3ad4ff28a0ecdf7e3b",
+      "device.notes": "fbdce6e600ca246531e0f8431a5caa29cc0e4746d98aa087cab14cf8c70de7f5",
+      "library.fb": "8559e60d074354726f59d79e4c01f24a6e4516b973edcb3ad4ff28a0ecdf7e3b",
+      "libblockscale_bpreshuffle.so": "23dfdd845601a82cba1611fb666a68db3747823347adf7f82b731bd530c610bf",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "26cdb4255847ad273cc889d1b014b54c1a3af7490010370c4f0242b643123b54"
+    },
+    "cleaned": {
+      "device.co": "0c1581177fffdc40dc46826ee46bd6fade6db57d14d07af46da275534d0ed169",
+      "device.fb": "8559e60d074354726f59d79e4c01f24a6e4516b973edcb3ad4ff28a0ecdf7e3b",
+      "device.notes": "fbdce6e600ca246531e0f8431a5caa29cc0e4746d98aa087cab14cf8c70de7f5",
+      "library.fb": "8559e60d074354726f59d79e4c01f24a6e4516b973edcb3ad4ff28a0ecdf7e3b",
+      "libblockscale_bpreshuffle.so": "23dfdd845601a82cba1611fb666a68db3747823347adf7f82b731bd530c610bf",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "26cdb4255847ad273cc889d1b014b54c1a3af7490010370c4f0242b643123b54"
+    }
+  },
+  "changed_source_files": [
+    "tmpl_generic.hpp"
+  ],
+  "macro_definitions": 0,
+  "macro_undefinitions": 0,
+  "if_constexpr_count": 7,
+  "executable_device_code_objects_identical": true,
+  "shared_library_device_fatbins_identical": true,
+  "complete_device_metadata_identical": true
+}

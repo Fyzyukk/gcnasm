@@ -1,0 +1,402 @@
+[
+  {
+    "name": "cpp_mma",
+    "source_sha256": "dc0ef92b06ff89401b3480021d277059744896409e63c9eb93a7726c0b19f645",
+    "build_returncode": 2,
+    "gpu_launched": false,
+    "source_directory": "/tmp/mxfp8_source_cleanup_20260912_ju5my6v6/cpp_mma",
+    "diagnostics": [
+      "fatal error: error in backend: AMDGPU hard-pin target is outside the allocation order for its register class"
+    ],
+    "raw_evidence_directory": "/tmp/mxfp8_source_cleanup_20260912_ju5my6v6/cpp_mma/cleanup_evidence"
+  },
+  {
+    "name": "cpp_mma_stores",
+    "source_sha256": "e75e4fb1aad493b2f922c4246e4994e422aafea6791f6f12cc465a7e359d1639",
+    "build_returncode": 2,
+    "gpu_launched": false,
+    "source_directory": "/tmp/mxfp8_source_cleanup_20260912_ju5my6v6/cpp_mma_stores",
+    "diagnostics": [
+      "fatal error: error in backend: AMDGPU hard-pin target is outside the allocation order for its register class"
+    ],
+    "raw_evidence_directory": "/tmp/mxfp8_source_cleanup_20260912_ju5my6v6/cpp_mma_stores/cleanup_evidence"
+  },
+  {
+    "name": "direct_mma",
+    "source_sha256": "ae064bcb7090c69fdc44758fbacccd92d4d2eef74222f014d4f961a4e91f6e0d",
+    "build_returncode": 0,
+    "gpu_launched": false,
+    "source_directory": "/tmp/mxfp8_source_cleanup_20260912_ju5my6v6/direct_mma",
+    "comparison": {
+      "name": "direct_mma",
+      "status": "IDENTICAL",
+      "baseline_commit": "f483077e0263bc8d39ad810ad4c1f03b93727702",
+      "baseline_source_sha256": "69ef190d32fc10127deee1d06286233ecdde498e543a2d6c07d02b11696955be",
+      "source_sha256": "ae064bcb7090c69fdc44758fbacccd92d4d2eef74222f014d4f961a4e91f6e0d",
+      "library_sha256": "23dfdd845601a82cba1611fb666a68db3747823347adf7f82b731bd530c610bf",
+      "gpu_launched": false,
+      "kernels": [
+        {
+          "symbol": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+          "identical_instructions": true,
+          "identical_resources": true,
+          "resources": {
+            "vgpr_count": 500,
+            "sgpr_count": 62,
+            "group_segment_fixed_size": 152064,
+            "private_segment_fixed_size": 0,
+            "vgpr_spill_count": 0,
+            "sgpr_spill_count": 0,
+            "wavefront_size": 64,
+            "max_flat_workgroup_size": 256,
+            "agpr_count": 256
+          },
+          "ordinary_vgpr": 244,
+          "mfma_count": 448,
+          "instruction_count": 2179,
+          "baseline_instruction_count": 2179,
+          "encoding_sha256": "06eea74b57ed997e2b1502fd9562a9dccfd85a2fe6e2e3055a1a3665a4cd9773",
+          "baseline_encoding_sha256": "06eea74b57ed997e2b1502fd9562a9dccfd85a2fe6e2e3055a1a3665a4cd9773"
+        },
+        {
+          "symbol": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+          "identical_instructions": true,
+          "identical_resources": true,
+          "resources": {
+            "vgpr_count": 512,
+            "sgpr_count": 62,
+            "group_segment_fixed_size": 152064,
+            "private_segment_fixed_size": 0,
+            "vgpr_spill_count": 0,
+            "sgpr_spill_count": 0,
+            "wavefront_size": 64,
+            "max_flat_workgroup_size": 256,
+            "agpr_count": 256
+          },
+          "ordinary_vgpr": 256,
+          "mfma_count": 448,
+          "instruction_count": 2761,
+          "baseline_instruction_count": 2761,
+          "encoding_sha256": "fcebbf5c7115deded3f6ff94ecdf054ad09828a7da528fe1a328cde559ba30e0",
+          "baseline_encoding_sha256": "fcebbf5c7115deded3f6ff94ecdf054ad09828a7da528fe1a328cde559ba30e0"
+        }
+      ]
+    },
+    "raw_evidence_directory": "/tmp/mxfp8_source_cleanup_20260912_ju5my6v6/direct_mma/cleanup_evidence"
+  },
+  {
+    "name": "direct_mma_value_stores",
+    "source_sha256": "e4dabb2ed6c585a98ecd87e56c2ed7c21dbbdc6b71f5167f031c320b90748311",
+    "build_returncode": 0,
+    "gpu_launched": false,
+    "source_directory": "/tmp/mxfp8_source_cleanup_20260912_ju5my6v6/direct_mma_value_stores",
+    "comparison": {
+      "name": "direct_mma_value_stores",
+      "status": "CHANGED",
+      "baseline_commit": "f483077e0263bc8d39ad810ad4c1f03b93727702",
+      "baseline_source_sha256": "69ef190d32fc10127deee1d06286233ecdde498e543a2d6c07d02b11696955be",
+      "source_sha256": "e4dabb2ed6c585a98ecd87e56c2ed7c21dbbdc6b71f5167f031c320b90748311",
+      "library_sha256": "b97c704a2ae142f1ea50bf8e495b67c27076775c802a1bccec1d65a836dd2b35",
+      "gpu_launched": false,
+      "kernels": [
+        {
+          "symbol": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+          "identical_instructions": false,
+          "identical_resources": true,
+          "resources": {
+            "vgpr_count": 500,
+            "sgpr_count": 62,
+            "group_segment_fixed_size": 152064,
+            "private_segment_fixed_size": 0,
+            "vgpr_spill_count": 0,
+            "sgpr_spill_count": 0,
+            "wavefront_size": 64,
+            "max_flat_workgroup_size": 256,
+            "agpr_count": 256
+          },
+          "ordinary_vgpr": 244,
+          "mfma_count": 448,
+          "instruction_count": 2179,
+          "baseline_instruction_count": 2179,
+          "encoding_sha256": "ee250a9ba474c80c1373e5f747b695cd6fef5061a17b408033f857cb87bf8404",
+          "baseline_encoding_sha256": "06eea74b57ed997e2b1502fd9562a9dccfd85a2fe6e2e3055a1a3665a4cd9773"
+        },
+        {
+          "symbol": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+          "identical_instructions": false,
+          "identical_resources": true,
+          "resources": {
+            "vgpr_count": 512,
+            "sgpr_count": 62,
+            "group_segment_fixed_size": 152064,
+            "private_segment_fixed_size": 0,
+            "vgpr_spill_count": 0,
+            "sgpr_spill_count": 0,
+            "wavefront_size": 64,
+            "max_flat_workgroup_size": 256,
+            "agpr_count": 256
+          },
+          "ordinary_vgpr": 256,
+          "mfma_count": 448,
+          "instruction_count": 2761,
+          "baseline_instruction_count": 2761,
+          "encoding_sha256": "d4774a2106105429c5b4289d8777b570ed5e93fe9845e9b83adb449a691a058e",
+          "baseline_encoding_sha256": "fcebbf5c7115deded3f6ff94ecdf054ad09828a7da528fe1a328cde559ba30e0"
+        }
+      ]
+    },
+    "raw_evidence_directory": "/tmp/mxfp8_source_cleanup_20260912_ju5my6v6/direct_mma_value_stores/cleanup_evidence"
+  },
+  {
+    "name": "direct_all",
+    "source_sha256": "b9b6438723936253b4adffc2c3be9c4bab65cb2b76c9f73739e4b446346f3d2e",
+    "build_returncode": 0,
+    "gpu_launched": false,
+    "source_directory": "/tmp/mxfp8_source_cleanup_20260912_ju5my6v6/direct_all",
+    "comparison": {
+      "name": "direct_all",
+      "status": "IDENTICAL",
+      "baseline_commit": "f483077e0263bc8d39ad810ad4c1f03b93727702",
+      "baseline_source_sha256": "69ef190d32fc10127deee1d06286233ecdde498e543a2d6c07d02b11696955be",
+      "source_sha256": "b9b6438723936253b4adffc2c3be9c4bab65cb2b76c9f73739e4b446346f3d2e",
+      "library_sha256": "23dfdd845601a82cba1611fb666a68db3747823347adf7f82b731bd530c610bf",
+      "gpu_launched": false,
+      "kernels": [
+        {
+          "symbol": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+          "identical_instructions": true,
+          "identical_resources": true,
+          "resources": {
+            "vgpr_count": 500,
+            "sgpr_count": 62,
+            "group_segment_fixed_size": 152064,
+            "private_segment_fixed_size": 0,
+            "vgpr_spill_count": 0,
+            "sgpr_spill_count": 0,
+            "wavefront_size": 64,
+            "max_flat_workgroup_size": 256,
+            "agpr_count": 256
+          },
+          "ordinary_vgpr": 244,
+          "mfma_count": 448,
+          "instruction_count": 2179,
+          "baseline_instruction_count": 2179,
+          "encoding_sha256": "06eea74b57ed997e2b1502fd9562a9dccfd85a2fe6e2e3055a1a3665a4cd9773",
+          "baseline_encoding_sha256": "06eea74b57ed997e2b1502fd9562a9dccfd85a2fe6e2e3055a1a3665a4cd9773"
+        },
+        {
+          "symbol": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+          "identical_instructions": true,
+          "identical_resources": true,
+          "resources": {
+            "vgpr_count": 512,
+            "sgpr_count": 62,
+            "group_segment_fixed_size": 152064,
+            "private_segment_fixed_size": 0,
+            "vgpr_spill_count": 0,
+            "sgpr_spill_count": 0,
+            "wavefront_size": 64,
+            "max_flat_workgroup_size": 256,
+            "agpr_count": 256
+          },
+          "ordinary_vgpr": 256,
+          "mfma_count": 448,
+          "instruction_count": 2761,
+          "baseline_instruction_count": 2761,
+          "encoding_sha256": "fcebbf5c7115deded3f6ff94ecdf054ad09828a7da528fe1a328cde559ba30e0",
+          "baseline_encoding_sha256": "fcebbf5c7115deded3f6ff94ecdf054ad09828a7da528fe1a328cde559ba30e0"
+        }
+      ]
+    },
+    "raw_evidence_directory": "/tmp/mxfp8_source_cleanup_20260912_ju5my6v6/direct_all/cleanup_evidence"
+  },
+  {
+    "name": "direct_mma_ref_stores",
+    "source_sha256": "9736f917fee41e76931cf833649d72c9af7f69c3efa0b52333e8cac32d039a24",
+    "build_returncode": 0,
+    "gpu_launched": false,
+    "source_directory": "/tmp/mxfp8_source_cleanup_20260912_ju5my6v6/direct_mma_ref_stores",
+    "comparison": {
+      "name": "direct_mma_ref_stores",
+      "status": "IDENTICAL",
+      "baseline_commit": "f483077e0263bc8d39ad810ad4c1f03b93727702",
+      "baseline_source_sha256": "69ef190d32fc10127deee1d06286233ecdde498e543a2d6c07d02b11696955be",
+      "source_sha256": "9736f917fee41e76931cf833649d72c9af7f69c3efa0b52333e8cac32d039a24",
+      "library_sha256": "23dfdd845601a82cba1611fb666a68db3747823347adf7f82b731bd530c610bf",
+      "gpu_launched": false,
+      "kernels": [
+        {
+          "symbol": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+          "identical_instructions": true,
+          "identical_resources": true,
+          "resources": {
+            "vgpr_count": 500,
+            "sgpr_count": 62,
+            "group_segment_fixed_size": 152064,
+            "private_segment_fixed_size": 0,
+            "vgpr_spill_count": 0,
+            "sgpr_spill_count": 0,
+            "wavefront_size": 64,
+            "max_flat_workgroup_size": 256,
+            "agpr_count": 256
+          },
+          "ordinary_vgpr": 244,
+          "mfma_count": 448,
+          "instruction_count": 2179,
+          "baseline_instruction_count": 2179,
+          "encoding_sha256": "06eea74b57ed997e2b1502fd9562a9dccfd85a2fe6e2e3055a1a3665a4cd9773",
+          "baseline_encoding_sha256": "06eea74b57ed997e2b1502fd9562a9dccfd85a2fe6e2e3055a1a3665a4cd9773"
+        },
+        {
+          "symbol": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+          "identical_instructions": true,
+          "identical_resources": true,
+          "resources": {
+            "vgpr_count": 512,
+            "sgpr_count": 62,
+            "group_segment_fixed_size": 152064,
+            "private_segment_fixed_size": 0,
+            "vgpr_spill_count": 0,
+            "sgpr_spill_count": 0,
+            "wavefront_size": 64,
+            "max_flat_workgroup_size": 256,
+            "agpr_count": 256
+          },
+          "ordinary_vgpr": 256,
+          "mfma_count": 448,
+          "instruction_count": 2761,
+          "baseline_instruction_count": 2761,
+          "encoding_sha256": "fcebbf5c7115deded3f6ff94ecdf054ad09828a7da528fe1a328cde559ba30e0",
+          "baseline_encoding_sha256": "fcebbf5c7115deded3f6ff94ecdf054ad09828a7da528fe1a328cde559ba30e0"
+        }
+      ]
+    },
+    "raw_evidence_directory": "/tmp/mxfp8_source_cleanup_20260912_ju5my6v6/direct_mma_ref_stores/cleanup_evidence"
+  },
+  {
+    "name": "central_output",
+    "source_sha256": "1021d072dc673c53c17aa7ce3548fe03e11e4c633a7657b376527c055bd630ec",
+    "build_returncode": 0,
+    "gpu_launched": false,
+    "source_directory": "/tmp/mxfp8_source_cleanup_20260912_ju5my6v6/central_output",
+    "comparison": {
+      "name": "central_output",
+      "status": "CHANGED",
+      "baseline_commit": "f483077e0263bc8d39ad810ad4c1f03b93727702",
+      "baseline_source_sha256": "69ef190d32fc10127deee1d06286233ecdde498e543a2d6c07d02b11696955be",
+      "source_sha256": "1021d072dc673c53c17aa7ce3548fe03e11e4c633a7657b376527c055bd630ec",
+      "library_sha256": "b97c704a2ae142f1ea50bf8e495b67c27076775c802a1bccec1d65a836dd2b35",
+      "gpu_launched": false,
+      "kernels": [
+        {
+          "symbol": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+          "identical_instructions": false,
+          "identical_resources": true,
+          "resources": {
+            "vgpr_count": 500,
+            "sgpr_count": 62,
+            "group_segment_fixed_size": 152064,
+            "private_segment_fixed_size": 0,
+            "vgpr_spill_count": 0,
+            "sgpr_spill_count": 0,
+            "wavefront_size": 64,
+            "max_flat_workgroup_size": 256,
+            "agpr_count": 256
+          },
+          "ordinary_vgpr": 244,
+          "mfma_count": 448,
+          "instruction_count": 2179,
+          "baseline_instruction_count": 2179,
+          "encoding_sha256": "ee250a9ba474c80c1373e5f747b695cd6fef5061a17b408033f857cb87bf8404",
+          "baseline_encoding_sha256": "06eea74b57ed997e2b1502fd9562a9dccfd85a2fe6e2e3055a1a3665a4cd9773"
+        },
+        {
+          "symbol": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+          "identical_instructions": false,
+          "identical_resources": true,
+          "resources": {
+            "vgpr_count": 512,
+            "sgpr_count": 62,
+            "group_segment_fixed_size": 152064,
+            "private_segment_fixed_size": 0,
+            "vgpr_spill_count": 0,
+            "sgpr_spill_count": 0,
+            "wavefront_size": 64,
+            "max_flat_workgroup_size": 256,
+            "agpr_count": 256
+          },
+          "ordinary_vgpr": 256,
+          "mfma_count": 448,
+          "instruction_count": 2761,
+          "baseline_instruction_count": 2761,
+          "encoding_sha256": "d4774a2106105429c5b4289d8777b570ed5e93fe9845e9b83adb449a691a058e",
+          "baseline_encoding_sha256": "fcebbf5c7115deded3f6ff94ecdf054ad09828a7da528fe1a328cde559ba30e0"
+        }
+      ]
+    },
+    "raw_evidence_directory": "/tmp/mxfp8_source_cleanup_20260912_ju5my6v6/central_output/cleanup_evidence"
+  },
+  {
+    "name": "central_output_refs",
+    "source_sha256": "ad3fc41bb598e1534d170efa3839f4a169fcbd8cb7323c9bcc3cbdbb03620261",
+    "build_returncode": 0,
+    "gpu_launched": false,
+    "source_directory": "/tmp/mxfp8_source_cleanup_20260912_ju5my6v6/central_output_refs",
+    "comparison": {
+      "name": "central_output_refs",
+      "status": "IDENTICAL",
+      "baseline_commit": "f483077e0263bc8d39ad810ad4c1f03b93727702",
+      "baseline_source_sha256": "69ef190d32fc10127deee1d06286233ecdde498e543a2d6c07d02b11696955be",
+      "source_sha256": "ad3fc41bb598e1534d170efa3839f4a169fcbd8cb7323c9bcc3cbdbb03620261",
+      "library_sha256": "23dfdd845601a82cba1611fb666a68db3747823347adf7f82b731bd530c610bf",
+      "gpu_launched": false,
+      "kernels": [
+        {
+          "symbol": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+          "identical_instructions": true,
+          "identical_resources": true,
+          "resources": {
+            "vgpr_count": 500,
+            "sgpr_count": 62,
+            "group_segment_fixed_size": 152064,
+            "private_segment_fixed_size": 0,
+            "vgpr_spill_count": 0,
+            "sgpr_spill_count": 0,
+            "wavefront_size": 64,
+            "max_flat_workgroup_size": 256,
+            "agpr_count": 256
+          },
+          "ordinary_vgpr": 244,
+          "mfma_count": 448,
+          "instruction_count": 2179,
+          "baseline_instruction_count": 2179,
+          "encoding_sha256": "06eea74b57ed997e2b1502fd9562a9dccfd85a2fe6e2e3055a1a3665a4cd9773",
+          "baseline_encoding_sha256": "06eea74b57ed997e2b1502fd9562a9dccfd85a2fe6e2e3055a1a3665a4cd9773"
+        },
+        {
+          "symbol": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+          "identical_instructions": true,
+          "identical_resources": true,
+          "resources": {
+            "vgpr_count": 512,
+            "sgpr_count": 62,
+            "group_segment_fixed_size": 152064,
+            "private_segment_fixed_size": 0,
+            "vgpr_spill_count": 0,
+            "sgpr_spill_count": 0,
+            "wavefront_size": 64,
+            "max_flat_workgroup_size": 256,
+            "agpr_count": 256
+          },
+          "ordinary_vgpr": 256,
+          "mfma_count": 448,
+          "instruction_count": 2761,
+          "baseline_instruction_count": 2761,
+          "encoding_sha256": "fcebbf5c7115deded3f6ff94ecdf054ad09828a7da528fe1a328cde559ba30e0",
+          "baseline_encoding_sha256": "fcebbf5c7115deded3f6ff94ecdf054ad09828a7da528fe1a328cde559ba30e0"
+        }
+      ]
+    },
+    "raw_evidence_directory": "/tmp/mxfp8_source_cleanup_20260912_ju5my6v6/central_output_refs/cleanup_evidence"
+  }
+]

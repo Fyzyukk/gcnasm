@@ -1,0 +1,21 @@
+{
+  "status": "IDENTICAL",
+  "gpu_launched": false,
+  "scope": "Complete executable device code object, its metadata, and complete device fatbin embedded in the actually loaded shared library are byte-identical.",
+  "artifacts": {
+    "baseline": {
+      "cleanup_library.fb": "8559e60d074354726f59d79e4c01f24a6e4516b973edcb3ad4ff28a0ecdf7e3b",
+      "device.fb": "8559e60d074354726f59d79e4c01f24a6e4516b973edcb3ad4ff28a0ecdf7e3b",
+      "device.co": "0c1581177fffdc40dc46826ee46bd6fade6db57d14d07af46da275534d0ed169",
+      "device.notes": "fbdce6e600ca246531e0f8431a5caa29cc0e4746d98aa087cab14cf8c70de7f5",
+      "libblockscale_bpreshuffle.so": "23dfdd845601a82cba1611fb666a68db3747823347adf7f82b731bd530c610bf"
+    },
+    "cleaned": {
+      "cleanup_library.fb": "8559e60d074354726f59d79e4c01f24a6e4516b973edcb3ad4ff28a0ecdf7e3b",
+      "device.fb": "8559e60d074354726f59d79e4c01f24a6e4516b973edcb3ad4ff28a0ecdf7e3b",
+      "device.co": "0c1581177fffdc40dc46826ee46bd6fade6db57d14d07af46da275534d0ed169",
+      "device.notes": "fbdce6e600ca246531e0f8431a5caa29cc0e4746d98aa087cab14cf8c70de7f5",
+      "libblockscale_bpreshuffle.so": "23dfdd845601a82cba1611fb666a68db3747823347adf7f82b731bd530c610bf"
+    }
+  }
+}

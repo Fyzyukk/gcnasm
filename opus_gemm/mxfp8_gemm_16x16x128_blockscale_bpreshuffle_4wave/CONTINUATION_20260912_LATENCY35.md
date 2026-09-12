@@ -4,15 +4,17 @@
 
 ## 当前生产与本轮基线
 
-- 顶层 `tmpl_generic.hpp` 尚未修改，正式版本仍是 `f483077e0263bc8d39ad810ad4c1f03b93727702`，BF16 3.286311P / FP32 3.076707P。
+- 顶层 `tmpl_generic.hpp` 已按用户要求完成无宏清理，源码版本为 `generic_tile1_cpp_20260912`；完整 GPU 代码与 `f483077e0263bc8d39ad810ad4c1f03b93727702` 逐字节相同，仍引用历史 BF16 3.286311P / FP32 3.076707P。
 - **本轮比较基线就是 f483077**。9229d1a 和 f0b117c 是旧轮次基线。
-- HPP SHA256：`69ef190d32fc10127deee1d06286233ecdde498e543a2d6c07d02b11696955be`。
+- 冻结基线 HPP SHA256：`69ef190d32fc10127deee1d06286233ecdde498e543a2d6c07d02b11696955be`；正式无宏源码为 `ad3fc41bb598e1534d170efa3839f4a169fcbd8cb7323c9bcc3cbdbb03620261`。
 - 九份冻结源码：`results/generic_latency_20260912/baseline_source/`。
 - 工作区：`/tmp/mxfp8_generic_latency_20260912_86xlkzt9`；候选源码、构建均在该目录，Git 保存可精确恢复的 patch/metadata。
 - tile1 = 每 WG 一个完整 256×256 输出块，4 个 Wave64。所有新分工和 grid 变化仍是 tile1。
 - 保持 M/N 正 256 倍数、K 正 128 倍数、现有 ABI 上限与连续 batch；原生 16×16×128 MFMA、256 AGPR、E8M0/AITER 输入、零额外 workspace。
 - 物理 GPU2 = HIP2 = PCI `0000:65:00.0`。同进程同地址、相邻基线夹测，不改频率/功耗，计时不采 telemetry。
 - 不使用子 agent；不修改或暂存相邻 fp32scale 目录。
+
+用户新增要求是“不想用这种宏，清理代码”。正式头文件全部7个自定义宏/undef已删除；MMA直接调用已有内联模板，输出分为三个局部helper，`if constexpr` 从29处减少到7处。可执行文件和共享库的完整GPU payload、完整设备元数据均相同，正式重建和独立干净重建也通过；没有运行GPU或增加性能成绩。详见 `results/generic_source_cleanup_20260912/README.md`。19个候选保持原始源码和二进制，比较基线仍是冻结的f483077；最终采用候选时也要保持正式代码无自定义宏。
 
 ## 历史五轮候选成绩，需空闲复测
 

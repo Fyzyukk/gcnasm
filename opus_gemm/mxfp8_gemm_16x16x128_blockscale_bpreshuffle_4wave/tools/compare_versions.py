@@ -61,7 +61,8 @@ print(json.dumps(out))
         with (dest / 'build.log').open('w') as log:
             subprocess.run(['make', '-j2', 'all', 'inspect'], cwd=dest, stdout=log, stderr=subprocess.STDOUT, check=True)
     shutil.copy2(evidence / 'baseline_source/candidate.json', work / 'baseline/candidate.json')
-    shutil.copy2(evidence / 'selected/candidate.json', work / 'current/candidate.json')
+    shutil.copy2(root / 'results/generic_source_cleanup_20260912/selected/candidate.json',
+                 work / 'current/candidate.json')
     subprocess.run(['make', '-j2', 'all'], cwd=support, check=True)
     env.update(HIP_VISIBLE_DEVICES=str(hip_index), MXFP8_EXPECTED_PCI=pci,
                MXFP8_WORK_DIR=str(work), MXFP8_SHARED_ROUNDS=str(args.rounds),

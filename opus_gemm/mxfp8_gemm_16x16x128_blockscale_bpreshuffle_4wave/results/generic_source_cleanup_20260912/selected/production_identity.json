@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "gpu_launched": false,
+  "scope": "Actual rebuilt production executable/device metadata and shared-library device payload equal frozen f483077 byte for byte.",
+  "source_sha256": "ad3fc41bb598e1534d170efa3839f4a169fcbd8cb7323c9bcc3cbdbb03620261",
+  "artifacts": {
+    "device.co": "0c1581177fffdc40dc46826ee46bd6fade6db57d14d07af46da275534d0ed169",
+    "device.fb": "8559e60d074354726f59d79e4c01f24a6e4516b973edcb3ad4ff28a0ecdf7e3b",
+    "device.notes": "fbdce6e600ca246531e0f8431a5caa29cc0e4746d98aa087cab14cf8c70de7f5",
+    "cleanup_library.fb": "8559e60d074354726f59d79e4c01f24a6e4516b973edcb3ad4ff28a0ecdf7e3b",
+    "libblockscale_bpreshuffle.so": "23dfdd845601a82cba1611fb666a68db3747823347adf7f82b731bd530c610bf",
+    "gemm_a8w8_blockscale_bpreshuffle.exe": "26cdb4255847ad273cc889d1b014b54c1a3af7490010370c4f0242b643123b54"
+  }
+}
