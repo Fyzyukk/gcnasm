@@ -1,0 +1,5 @@
+{
+  "status": "REJECTED_BEFORE_GPU",
+  "reason": "Conservative CFG audit reaches final BF16 LDS retirement with 16 pending matrix DMA requests; add explicit VMEM drain at the common runtime-K retirement point",
+  "executed_on_gpu": false
+}

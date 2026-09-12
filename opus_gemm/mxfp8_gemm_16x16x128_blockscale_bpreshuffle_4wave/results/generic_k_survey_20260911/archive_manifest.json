@@ -1,0 +1,280 @@
+{
+  "archive": "/root/workspace/gcnasm_new/archives/mxfp8_4wave_target35_checkpoint_20260911_155723/raw_workspaces.tar.gz",
+  "archive_bytes": 24739579,
+  "archive_sha256": "7603f509dbcb3b10c025f104854a406ad8660410866cd7ca452b3ba5b8bb615f",
+  "file_manifest": "/root/workspace/gcnasm_new/archives/mxfp8_4wave_target35_checkpoint_20260911_155723/file_manifest.json",
+  "verified_files": 1233,
+  "original_workspaces": {
+    "round2_work": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4",
+    "generic_work": "/tmp/mxfp8_generic_k_survey_20260911_kshb6ubh"
+  },
+  "retained_round2_builds": [
+    "baseline",
+    "lds_rows4_vec4",
+    "selected_32_clean",
+    "tail_a3_prefetch56",
+    "tail_b3_prefetch60"
+  ],
+  "generic_comparison_builds_retained": true,
+  "cleaned": [
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/a_first_c10_columns/build",
+      "verified_files": 10,
+      "bytes": 1713131
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/a_first_c10_rows/build",
+      "verified_files": 10,
+      "bytes": 1713193
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/bf16_lds_epilogue_aux0/build",
+      "verified_files": 10,
+      "bytes": 1720719
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/bf16_lds_epilogue_aux2/build",
+      "verified_files": 10,
+      "bytes": 1720719
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/bf16_resident_epilogue/build",
+      "verified_files": 10,
+      "bytes": 1685502
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/bf16_store_cache2/build",
+      "verified_files": 10,
+      "bytes": 1686320
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/bf16_store_rows4/build",
+      "verified_files": 10,
+      "bytes": 1686462
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/bf16_store_rows8/build",
+      "verified_files": 10,
+      "bytes": 1686376
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/c10_full_columns/build",
+      "verified_files": 10,
+      "bytes": 1692512
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/c10_pair_columns/build",
+      "verified_files": 10,
+      "bytes": 1686320
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/c10_tail_columns/build",
+      "verified_files": 10,
+      "bytes": 1689416
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/early_scalar_offset/build",
+      "verified_files": 10,
+      "bytes": 1686320
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/first_k_control_runtime/build",
+      "verified_files": 2,
+      "bytes": 58336
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/first_k_peeled_control/build",
+      "verified_files": 2,
+      "bytes": 58336
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/first_k_zero_asm/build",
+      "verified_files": 2,
+      "bytes": 58336
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/first_k_zero_i32/build",
+      "verified_files": 2,
+      "bytes": 58336
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/first_k_zero_runtime/build",
+      "verified_files": 2,
+      "bytes": 58336
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/first_k_zero_runtime_u2/build",
+      "verified_files": 2,
+      "bytes": 58336
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/keep_loop_priority/build",
+      "verified_files": 10,
+      "bytes": 1684600
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/lds_copy_group16/build",
+      "verified_files": 10,
+      "bytes": 1698542
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/lds_copy_group32/build",
+      "verified_files": 10,
+      "bytes": 1697252
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/lds_copy_group4/build",
+      "verified_files": 10,
+      "bytes": 1698714
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/lds_copy_group8/build",
+      "verified_files": 10,
+      "bytes": 1698714
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/lds_copy_scalar/build",
+      "verified_files": 10,
+      "bytes": 1705714
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/lds_release5_k1/build",
+      "verified_files": 10,
+      "bytes": 1713719
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/lds_rows0/build",
+      "verified_files": 10,
+      "bytes": 1720443
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/lds_rows4/build",
+      "verified_files": 10,
+      "bytes": 1719995
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/lds_rows8/build",
+      "verified_files": 10,
+      "bytes": 1720239
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/lds_vec4/build",
+      "verified_files": 10,
+      "bytes": 1719727
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/lds_vec4_copy_scalar/build",
+      "verified_files": 10,
+      "bytes": 1704550
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/matrix_shift/build",
+      "verified_files": 10,
+      "bytes": 1686320
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/release1_single/build",
+      "verified_files": 10,
+      "bytes": 1686320
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/release2/build",
+      "verified_files": 10,
+      "bytes": 1686320
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/release3_single/build",
+      "verified_files": 10,
+      "bytes": 1686320
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/release5_single/build",
+      "verified_files": 10,
+      "bytes": 1686320
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/release6/build",
+      "verified_files": 10,
+      "bytes": 1686320
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/release7_single/build",
+      "verified_files": 10,
+      "bytes": 1687868
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/tail_a2_54_a3_56/build",
+      "verified_files": 10,
+      "bytes": 1723399
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/tail_a3_56_b2_58/build",
+      "verified_files": 10,
+      "bytes": 1728617
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/tail_a3_56_b3_60/build",
+      "verified_files": 10,
+      "bytes": 1728633
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/tail_a3_prefetch52/build",
+      "verified_files": 10,
+      "bytes": 1720063
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/tail_a3_prefetch54/build",
+      "verified_files": 10,
+      "bytes": 1719993
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/tail_a3_prefetch58/build",
+      "verified_files": 10,
+      "bytes": 1719999
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/tail_a3_prefetch60/build",
+      "verified_files": 10,
+      "bytes": 1719999
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/tail_ab3_prefetch48/build",
+      "verified_files": 10,
+      "bytes": 1728809
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/tail_ab3_prefetch56/build",
+      "verified_files": 10,
+      "bytes": 1728601
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/tail_b3_prefetch56/build",
+      "verified_files": 10,
+      "bytes": 1725651
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/unified_k0/build",
+      "verified_files": 10,
+      "bytes": 1680740
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/unified_k1/build",
+      "verified_files": 10,
+      "bytes": 1679316
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/unified_prologue/build",
+      "verified_files": 10,
+      "bytes": 1668856
+    },
+    {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/profiles",
+      "verified_files": 84,
+      "bytes": 27890613
+    }
+  ],
+  "cleaned_files": 536,
+  "cleaned_bytes": 103168292,
+  "cleanup_utc": "2026-09-11T15:57:26.451081+00:00",
+  "restore": "Extract to an isolated directory and set MXFP8_WORK_DIR to round2_work or generic_work; recreate generic_work/baseline as a symlink to the restored specialized directory if necessary."
+}

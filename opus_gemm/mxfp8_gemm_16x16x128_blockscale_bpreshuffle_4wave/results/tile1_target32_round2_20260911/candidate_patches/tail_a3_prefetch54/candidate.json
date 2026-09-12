@@ -1,0 +1,22 @@
+{
+  "name": "tail_a3_prefetch54",
+  "parent": "lds_release5_k1",
+  "config": {
+    "tail_prefetch_schedule": [
+      [
+        "a",
+        3,
+        54
+      ]
+    ],
+    "bf16_lds_epilogue": true,
+    "release_mfma": 5,
+    "unified_initial_matrix_stages": [
+      1
+    ]
+  },
+  "source_sha256": "b8d70d06f07b3fbeb7511026156352e2f2019e1d5784405cef69eb8eaca9c4c4",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true
+}

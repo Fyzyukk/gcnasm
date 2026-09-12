@@ -1,0 +1,28 @@
+{
+  "name": "stream64_rows4",
+  "parent": "preserved lds_rows4_vec4",
+  "config": {
+    "lds_output": true,
+    "release_mfma": 5,
+    "unified_k1": true,
+    "early_a1_m3": true,
+    "scale_panel_tiles": 64,
+    "unroll": 8,
+    "explicit_retire_vmem_wait": true,
+    "output_rows": true,
+    "store_delay": 4,
+    "lds_vector_elements": 4
+  },
+  "source_hashes": {
+    "tmpl_generic.hpp": "1c4697d9867305f60977b2a0d62e0eaf11c631b7247f921967619e5933b3357d",
+    "traits.hpp": "ef8ae2054b2c5d69f086c9b8acfb0256826467411a2ac75983e069c143581f39"
+  },
+  "generic_runtime_k": true,
+  "performance_shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "waves": 4,
+  "output_tiles_per_wg": 1
+}

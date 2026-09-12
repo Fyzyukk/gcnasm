@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "output_elements": 65536,
+  "lds_matrix_allocation_bytes": 135168,
+  "output_row_pitch_bytes": 528,
+  "extra_lds_bytes": 0,
+  "boundary_before_first_output_write": "lgkmcnt(0) + workgroup barrier; no subsequent matrix LDS read",
+  "boundary_before_global_copy": "lgkmcnt(0) + workgroup barrier",
+  "output_tiles_per_wg": 1
+}

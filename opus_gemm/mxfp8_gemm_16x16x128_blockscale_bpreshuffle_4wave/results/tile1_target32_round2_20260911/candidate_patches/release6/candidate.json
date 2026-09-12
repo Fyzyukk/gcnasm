@@ -1,0 +1,11 @@
+{
+  "name": "release6",
+  "config": {
+    "release_mfma": 6,
+    "request_sites_unchanged": true
+  },
+  "source_sha256": "0c02bf5f119b1de6d8f19217c8b294156c0560ccbf2f84fad97443cae5f72b27",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true
+}

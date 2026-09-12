@@ -1,0 +1,192 @@
+{
+  "status": "PASS",
+  "source_mfma_sequence_unchanged": false,
+  "final_iteration_peeled": true,
+  "per_accumulator_k_order_unchanged": true,
+  "source_reordered_with_identical_operands": true,
+  "kernels": [
+    {
+      "name": "_ZN16blockscale_panel28gemm_a8w8_mxfp8_scale_kernelI17WholeKScaleTraitsILb0EEEEv21opus_gemm_scale_kargs",
+      "resources": {
+        "vgpr_count": 472,
+        "sgpr_count": 48,
+        "group_segment_fixed_size": 152064,
+        "private_segment_fixed_size": 0,
+        "vgpr_spill_count": 0,
+        "sgpr_spill_count": 0,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      },
+      "generic_isa_identical": false,
+      "native_mfma_tied_c256": true,
+      "exec_unchanged": true,
+      "static_mfma_count": 704,
+      "uniform_static_updates_per_accumulator": 11,
+      "static_vmcnt_zero_count": 13,
+      "lds_wait": {
+        "name": "_ZN16blockscale_panel28gemm_a8w8_mxfp8_scale_kernelI17WholeKScaleTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "cfg_states": 2678,
+        "static_mfma_checked": 704,
+        "max_pending_lgkm_events": 35,
+        "hazards": []
+      },
+      "vmem_wait": {
+        "status": "PASS",
+        "cfg_states": 2339,
+        "hazards": [],
+        "barriers_with_zero_pending_vmem": [
+          639,
+          772,
+          910,
+          1047,
+          1184,
+          1321,
+          1458,
+          1596,
+          1734,
+          1894,
+          2066
+        ],
+        "scope": "VMEM register waits and full VMEM publication; LDS content lifetimes checked separately"
+      }
+    },
+    {
+      "name": "_ZN16blockscale_panel28gemm_a8w8_mxfp8_scale_kernelI17WholeKScaleTraitsILb1EEEEv21opus_gemm_scale_kargs",
+      "resources": {
+        "vgpr_count": 488,
+        "sgpr_count": 48,
+        "group_segment_fixed_size": 152064,
+        "private_segment_fixed_size": 0,
+        "vgpr_spill_count": 0,
+        "sgpr_spill_count": 0,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      },
+      "generic_isa_identical": false,
+      "native_mfma_tied_c256": true,
+      "exec_unchanged": true,
+      "static_mfma_count": 704,
+      "uniform_static_updates_per_accumulator": 11,
+      "static_vmcnt_zero_count": 13,
+      "lds_wait": {
+        "name": "_ZN16blockscale_panel28gemm_a8w8_mxfp8_scale_kernelI17WholeKScaleTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "cfg_states": 3104,
+        "static_mfma_checked": 704,
+        "max_pending_lgkm_events": 35,
+        "hazards": []
+      },
+      "vmem_wait": {
+        "status": "PASS",
+        "cfg_states": 2767,
+        "hazards": [],
+        "barriers_with_zero_pending_vmem": [
+          2981,
+          3114,
+          3252,
+          3389,
+          3526,
+          3663,
+          3800,
+          3938,
+          4076,
+          4236,
+          4407
+        ],
+        "scope": "VMEM register waits and full VMEM publication; LDS content lifetimes checked separately"
+      }
+    },
+    {
+      "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+      "resources": {
+        "vgpr_count": 408,
+        "sgpr_count": 70,
+        "group_segment_fixed_size": 139264,
+        "private_segment_fixed_size": 0,
+        "vgpr_spill_count": 0,
+        "sgpr_spill_count": 0,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      },
+      "generic_isa_identical": true,
+      "native_mfma_tied_c256": true,
+      "exec_unchanged": true,
+      "static_mfma_count": 384,
+      "uniform_static_updates_per_accumulator": 6,
+      "static_vmcnt_zero_count": 7,
+      "lds_wait": {
+        "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "cfg_states": 1869,
+        "static_mfma_checked": 384,
+        "max_pending_lgkm_events": 27,
+        "hazards": []
+      },
+      "vmem_wait": {
+        "status": "PASS",
+        "cfg_states": 2156,
+        "hazards": [],
+        "barriers_with_zero_pending_vmem": [
+          5328,
+          5799,
+          5973,
+          6148,
+          6322,
+          6535
+        ],
+        "scope": "VMEM register waits and full VMEM publication; LDS content lifetimes checked separately"
+      }
+    },
+    {
+      "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+      "resources": {
+        "vgpr_count": 460,
+        "sgpr_count": 70,
+        "group_segment_fixed_size": 139264,
+        "private_segment_fixed_size": 0,
+        "vgpr_spill_count": 0,
+        "sgpr_spill_count": 0,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      },
+      "generic_isa_identical": true,
+      "native_mfma_tied_c256": true,
+      "exec_unchanged": true,
+      "static_mfma_count": 384,
+      "uniform_static_updates_per_accumulator": 6,
+      "static_vmcnt_zero_count": 7,
+      "lds_wait": {
+        "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "cfg_states": 2256,
+        "static_mfma_checked": 384,
+        "max_pending_lgkm_events": 27,
+        "hazards": []
+      },
+      "vmem_wait": {
+        "status": "PASS",
+        "cfg_states": 2930,
+        "hazards": [],
+        "barriers_with_zero_pending_vmem": [
+          7036,
+          7507,
+          7681,
+          7856,
+          8030,
+          8243
+        ],
+        "scope": "VMEM register waits and full VMEM publication; LDS content lifetimes checked separately"
+      }
+    }
+  ],
+  "hashes": {
+    "tmpl.hpp": "31ea97887fe44fef8118f0422c2f400df7b66508150dd23869db120526fa0afa",
+    "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+    "build/device.isa": "2f16a41c36b235398b44e575a898f1025178ae2868ede7807c3f638028536122",
+    "build/device.notes": "175e96a43953759b09c1a2fe3a87a74524fe8230a00ab44ff0b8621b1b5d700c",
+    "build/gemm_a8w8_blockscale_bpreshuffle.exe": "df997b2c14f9d566ee798420cc4c49322ec42248fce6c78863556b91c4ef8096",
+    "build/libblockscale_bpreshuffle.so": "23618a1a0949995df2ec206a3480a9ed101c27a52f8eeb7cc974372dc005facb"
+  },
+  "scope": "Static loop counts may change with unrolling; full-output checks recorded separately"
+}

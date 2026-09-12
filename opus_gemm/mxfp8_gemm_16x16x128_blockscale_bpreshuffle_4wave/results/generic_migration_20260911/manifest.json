@@ -1,0 +1,33 @@
+{
+  "timestamp_utc": "2026-09-11T16:07:56.932293+00:00",
+  "objective": "Generic K-multiple-of-128 4wave/tile1 kernel; use M=N=K=8192 as compute-bound benchmark toward 3.5P",
+  "performance_shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "correctness_other_k": true,
+  "physical_gpu": 2,
+  "hip_index": 2,
+  "pci": "0000:65:00.0",
+  "specialized_checkpoint": "../tile1_target32_round2_20260911/selected",
+  "specialized_ideas": "../../CONTINUATION_20260911_TARGET35.md",
+  "baseline_generic_sha256": "3681ebf7093140a3f1216b1c6faab22e6d726dbd15c4ec3167b931029f84f180",
+  "preserved_specialized_sha256": "bdfc2445113a3b404a1d194a5f2110ddbf998fdcd407ca0b786730e00fa1fa25",
+  "formal_dispatch_initially_unchanged": true,
+  "baseline_dispatch": "All K forced to unchanged generic; specialized is separate frozen control",
+  "work": "/tmp/mxfp8_generic_migration_20260911_gwrg_q94",
+  "candidate_index": "candidate_index.json",
+  "formal_dispatch": "Direct blockscale_generic launch for every legal K, including benchmark K",
+  "migration_checkpoint": "migration_checkpoint",
+  "selected": "selected",
+  "continuation": "../../CONTINUATION_20260911_GENERIC35.md",
+  "final_selection": "selected/selection.json",
+  "final_results": "../final_generic_20260912",
+  "additional_performance_shapes_requested_20260912": [
+    1024,
+    2048,
+    4096
+  ],
+  "production_single_generic": true
+}

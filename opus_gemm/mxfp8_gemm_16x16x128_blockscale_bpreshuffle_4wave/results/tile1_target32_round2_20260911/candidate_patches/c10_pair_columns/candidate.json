@@ -1,0 +1,33 @@
+{
+  "name": "c10_pair_columns",
+  "config": {
+    "c10_order": [
+      0,
+      1,
+      4,
+      5,
+      8,
+      9,
+      12,
+      13,
+      2,
+      3,
+      6,
+      7,
+      10,
+      11,
+      14,
+      15
+    ],
+    "b0_load_sites": {
+      "0": 24,
+      "1": 24,
+      "2": 32,
+      "3": 32
+    }
+  },
+  "source_sha256": "94322aab99ebafb8ccff643bace2ffd0b1ce3f950348df42c9e190e809388620",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true
+}

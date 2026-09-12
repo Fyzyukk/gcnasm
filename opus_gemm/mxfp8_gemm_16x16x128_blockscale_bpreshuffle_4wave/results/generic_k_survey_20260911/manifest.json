@@ -1,0 +1,36 @@
+{
+  "timestamp_utc": "2026-09-11T15:41:08.390614+00:00",
+  "work": "/tmp/mxfp8_generic_k_survey_20260911_kshb6ubh",
+  "specialized": "selected_32_clean; validated tail_a3_prefetch56",
+  "source_hashes": {
+    "Makefile": "f8530f55fdccc016060b2ac6e159f04a186cc8b2063d0531919568e5e1b975bf",
+    "tmpl.hpp": "bdfc2445113a3b404a1d194a5f2110ddbf998fdcd407ca0b786730e00fa1fa25",
+    "tmpl_generic.hpp": "3681ebf7093140a3f1216b1c6faab22e6d726dbd15c4ec3167b931029f84f180",
+    "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+    "kernel_dispatch.hpp": "faab6c222596c2f0604b66c9337df6b82534f18f63690b01dfca14d5d106a6b7",
+    "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+    "gemm_a8w8_mxfp8_scale_host.cc": "da5a1c7416a883144c21e82ffc53e0bd2cdd720395788fe87b757cac7ef27216",
+    "gemm_a8w8_mxfp8_scale_kernel.cc": "93e9706abb4ae2e5569b098cf4bbd093771b4eee5a28cf5f43d136af1fc38628",
+    "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "67f918214451d8b4a90319ea570f83e13f520913baa596f6f2e0ec33580158e7",
+    "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f"
+  },
+  "forced_generic_dispatch": "#pragma once\n\n#include <hip/hip_runtime.h>\n#include \"traits.hpp\"\n\nnamespace blockscale_panel {\ntemplate<class Traits>\n__global__ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs);\n}\nnamespace blockscale_generic {\ntemplate<class Traits>\n__global__ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs);\n}\n\n// The CLI and C ABI share this selection; each call launches one GEMM.\ntemplate<bool OutputBF16>\ninline void launch_blockscale_kernel(const opus_gemm_scale_kargs& args,\n                                    dim3 grid, dim3 block,\n                                    hipStream_t stream = nullptr) {\n    if (false) { // Survey harness: force the unchanged generic kernel.\n        blockscale_panel::gemm_a8w8_mxfp8_scale_kernel<WholeKScaleTraits<OutputBF16>>\n            <<<grid, block, 0, stream>>>(args);\n    } else {\n        blockscale_generic::gemm_a8w8_mxfp8_scale_kernel<FourWaveTraits<OutputBF16>>\n            <<<grid, block, 0, stream>>>(args);\n    }\n}\n",
+  "scope": "Read-only comparison of frozen kernels; only the isolated harness dispatch is forced generic; no formal dispatch change",
+  "physical_gpu": 6,
+  "pci": "0000:e5:00.0",
+  "m": 8192,
+  "n": 8192,
+  "k_values": [
+    8192
+  ],
+  "performance_scope": "User narrowed request: both specialized and forced generic paths at M=N=K=8192 only",
+  "hip_index": 6,
+  "gpu2_timing": "Aborted by idle guard; external GPU load; no accepted performance data",
+  "completed_prior_validation_k_values": [
+    1024,
+    2048,
+    4096,
+    8192,
+    16384
+  ]
+}

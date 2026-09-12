@@ -1,0 +1,259 @@
+--- a/tmpl.hpp
++++ b/tmpl.hpp
+@@ -289,10 +289,15 @@
+     auto u_rb = make_layout_rb_scale<T>(lane_id, wave_id_n);
+     constexpr int smem_a_elem = T::smem_m_rep * (T::smem_linear_wave + T::smem_padding);
+     constexpr int smem_b_elem = T::smem_n_rep * (T::smem_linear_wave + T::smem_padding);
+-    __shared__ char smem_a[smem_a_elem * 4 * sizeof(D_A)];
+-    __shared__ char smem_b[smem_b_elem * 4 * sizeof(D_B)];
+-    auto s_a = make_smem(reinterpret_cast<D_A*>(smem_a));
+-    auto s_b = make_smem(reinterpret_cast<D_B*>(smem_b));
++    // One owned allocation lets the final output reuse both retired matrices.
++    constexpr int matrix_lds_bytes = smem_a_elem * 4 * sizeof(D_A)
++                                   + smem_b_elem * 4 * sizeof(D_B);
++    alignas(16) __shared__ char smem_matrix[matrix_lds_bytes];
++    auto s_a = make_smem(reinterpret_cast<D_A*>(smem_matrix));
++    auto s_b = make_smem(reinterpret_cast<D_B*>(smem_matrix + smem_a_elem * 4 * sizeof(D_A)));
++    auto s_c = make_smem(reinterpret_cast<D_C*>(smem_matrix));
++    constexpr int c_lds_pitch = T::B_N + 8;
++    static_assert(!T::OUTPUT_BF16 || T::B_M * c_lds_pitch * sizeof(D_C) == matrix_lds_bytes);
+ 
+     // Both matrix producer pairs now own contiguous padded LDS rows.
+     // A wave owns one M128 half and alternates row parity across requests.
+@@ -509,13 +514,19 @@
+ 
+     // Both matrices preload K1. Main-loop publications release the matrix
+     // stage for t+2 prefetches covering K2..K63; K62 issues no future request.
+-    async_load<T::VEC_A>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(1, 0), ga_offset(0, 1));
+-    async_load<T::VEC_A>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(1, 1), ga_offset(1, 1));
++    // The main-loop producer mapping also covers this initial matrix stage.
++    opus::static_for<8>([&](auto initial_issue) {
++        using Issue = opus::number<decltype(initial_issue)::value + 0>;
++        prefetch_matrix_issue(Issue{}, 1, 1);
++    });
+ 
+     // K=8192 always has a second tile. Its B data is ready by the first
+     // main-loop VMEM drain; scales require no further global traffic.
+-    async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(1, 0), gb_offset(0, 1));
+-    async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(1, 1), gb_offset(1, 1));
++    // The main-loop producer mapping also covers this initial matrix stage.
++    opus::static_for<8>([&](auto initial_issue) {
++        using Issue = opus::number<decltype(initial_issue)::value + 8>;
++        prefetch_matrix_issue(Issue{}, 1, 1);
++    });
+     __builtin_amdgcn_sched_barrier(0);
+ 
+     // Seed the register rolling used by CX1.  B-half0, SFB0, and both SFA
+@@ -557,18 +568,19 @@
+         __builtin_amdgcn_s_setprio(1);
+ 
+         // A half 0 x B half 0 -> C[0][0] (128x128 wave quadrant).
+-        // After publication at MFMA4, all waves issue one t+2 request
++        // After publication at MFMA5, all waves issue one t+2 request
+         // behind each pair through MFMA38. Wave-uniform resources select
+         // the A or B producer without role branches inside the K loop.
+-        MXFP8_MMA_PAIR(
+-            0, 0, 0, v_a[0], v_b, c00_0, c00_1, v_sfa, v_sfb[0]);
+-        sched_barrier_pairs_scale();
+-
+-        MXFP8_MMA_PAIR(
+-            0, 0, 1, v_a[0], v_b, c00_2, c00_3, v_sfa, v_sfb[0]);
+-        sched_barrier_pairs_scale();
+-
+-        // MFMA4: complete operand reads, publish t+1, and release stage t.
++        MXFP8_MMA_PAIR(0, 0, 0, v_a[0], v_b, c00_0, c00_1, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++
++        MXFP8_MMA_PAIR(0, 0, 1, v_a[0], v_b, c00_2, c00_3, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++
++        MXFP8_MMA_ONE(0, 1, 0, v_a[0], v_b, c00_4, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++
++        // MFMA5: publish t+1 and release stage t between independent MFMAs.
+         __builtin_amdgcn_s_setprio(0);
+         s_waitcnt_vmcnt(0_I);
+         s_waitcnt_lgkmcnt(0_I);
+@@ -577,12 +589,10 @@
+         __builtin_amdgcn_s_setprio(1);
+ 
+ 
+-        MXFP8_MMA_PAIR(
+-            0, 1, 0, v_a[0], v_b, c00_4, c00_5, v_sfa, v_sfb[0]);
+-        sched_barrier_pairs_scale();
+-
+-        MXFP8_MMA_PAIR(
+-            0, 1, 1, v_a[0], v_b, c00_6, c00_7, v_sfa, v_sfb[0]);
++        MXFP8_MMA_ONE(0, 1, 1, v_a[0], v_b, c00_5, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++
++        MXFP8_MMA_PAIR(0, 1, 1, v_a[0], v_b, c00_6, c00_7, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+         prefetch_matrix_issue(opus::number<0>{}, stage, future_tile);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+@@ -813,6 +823,12 @@
+         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
++        // MFMA52: preload the final operand slices into independent registers.
++        auto a1_m3_next_0 = s_a.template load<16>(ra1_next_offsets[6]);
++        auto a1_m3_next_1 = s_a.template load<16>(ra1_next_offsets[7]);
++        __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
++        __builtin_amdgcn_sched_barrier(0);
++
+         MXFP8_MMA_PAIR(1, 1, 0, v_a[1], v_b_n1, c11_4, c11_5, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
+ 
+@@ -869,7 +885,8 @@
+         __builtin_amdgcn_sched_barrier(0);
+         // MFMA64: these operand slices have no remaining current-K consumers.
+         __builtin_amdgcn_sched_barrier(0);
+-        load_a_mrepeat_scale<T, 3>(s_a, ra1_next_offsets, v_a[1]);
++        opus::set_slice(v_a[1], a1_m3_next_0, opus::number<96>{}, opus::number<112>{});
++        opus::set_slice(v_a[1], a1_m3_next_1, opus::number<112>{}, opus::number<128>{});
+         load_b_range_scale<T, 6, 8>(s_b, rb1_next_offsets, v_b_second);
+         __builtin_amdgcn_sched_group_barrier(0x100, 4, 0);
+         __builtin_amdgcn_sched_barrier(0);
+@@ -901,17 +918,18 @@
+         __builtin_amdgcn_s_setprio(1);
+ 
+         // A half 0 x B half 0 -> C[0][0] (128x128 wave quadrant).
+-        // Publish the final K63 operands at MFMA4, then finish K62
++        // Publish the final K63 operands at MFMA5, then finish K62
+         // and roll its successor without any further global matrix requests.
+-        MXFP8_MMA_PAIR(
+-            0, 0, 0, v_a[0], v_b, c00_0, c00_1, v_sfa, v_sfb[0]);
+-        sched_barrier_pairs_scale();
+-
+-        MXFP8_MMA_PAIR(
+-            0, 0, 1, v_a[0], v_b, c00_2, c00_3, v_sfa, v_sfb[0]);
+-        sched_barrier_pairs_scale();
+-
+-        // MFMA4: complete operand reads, publish t+1, and release stage t.
++        MXFP8_MMA_PAIR(0, 0, 0, v_a[0], v_b, c00_0, c00_1, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++
++        MXFP8_MMA_PAIR(0, 0, 1, v_a[0], v_b, c00_2, c00_3, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++
++        MXFP8_MMA_ONE(0, 1, 0, v_a[0], v_b, c00_4, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++
++        // MFMA5: publish t+1 and release stage t between independent MFMAs.
+         __builtin_amdgcn_s_setprio(0);
+         s_waitcnt_vmcnt(0_I);
+         s_waitcnt_lgkmcnt(0_I);
+@@ -920,12 +938,10 @@
+         __builtin_amdgcn_s_setprio(1);
+ 
+ 
+-        MXFP8_MMA_PAIR(
+-            0, 1, 0, v_a[0], v_b, c00_4, c00_5, v_sfa, v_sfb[0]);
+-        sched_barrier_pairs_scale();
+-
+-        MXFP8_MMA_PAIR(
+-            0, 1, 1, v_a[0], v_b, c00_6, c00_7, v_sfa, v_sfb[0]);
++        MXFP8_MMA_ONE(0, 1, 1, v_a[0], v_b, c00_5, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++
++        MXFP8_MMA_PAIR(0, 1, 1, v_a[0], v_b, c00_6, c00_7, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+ 
+ 
+@@ -1108,6 +1124,12 @@
+         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
++        // MFMA52: preload the final operand slices into independent registers.
++        auto a1_m3_next_0 = s_a.template load<16>(ra1_next_offsets[6]);
++        auto a1_m3_next_1 = s_a.template load<16>(ra1_next_offsets[7]);
++        __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
++        __builtin_amdgcn_sched_barrier(0);
++
+         MXFP8_MMA_PAIR(1, 1, 0, v_a[1], v_b_n1, c11_4, c11_5, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
+ 
+@@ -1164,7 +1186,8 @@
+         __builtin_amdgcn_sched_barrier(0);
+         // MFMA64: these operand slices have no remaining current-K consumers.
+         __builtin_amdgcn_sched_barrier(0);
+-        load_a_mrepeat_scale<T, 3>(s_a, ra1_next_offsets, v_a[1]);
++        opus::set_slice(v_a[1], a1_m3_next_0, opus::number<96>{}, opus::number<112>{});
++        opus::set_slice(v_a[1], a1_m3_next_1, opus::number<112>{}, opus::number<128>{});
+         load_b_range_scale<T, 6, 8>(s_b, rb1_next_offsets, v_b_second);
+         __builtin_amdgcn_sched_group_barrier(0x100, 4, 0);
+         __builtin_amdgcn_sched_barrier(0);
+@@ -1180,6 +1203,11 @@
+     v_a[1] = load<T::VEC_A>(s_a, u_ra + sa_offset(stage, 1));
+ 
+     s_waitcnt_lgkmcnt(0_I);
++    if constexpr (T::OUTPUT_BF16) {
++        // Every wave has completed all K63 matrix reads before any output write.
++        __builtin_amdgcn_s_barrier();
++        __builtin_amdgcn_sched_barrier(0);
++    }
+     v_sfb[1] = load_sfb_dword(loops - 1, 1);
+ 
+     __builtin_amdgcn_s_setprio(1);
+@@ -1190,7 +1218,7 @@
+         mma, opus::make_tuple(kargs.stride_c, 1_I), p_coord_c);
+ 
+     auto c_offset = [&](int half_tile_m, int half_tile_n) {
+-        return half_tile_m * T::HALF_B_M * kargs.stride_c +
++        return half_tile_m * T::HALF_B_M * (T::OUTPUT_BF16 ? c_lds_pitch : kargs.stride_c) +
+                half_tile_n * T::HALF_B_N;
+     };
+ 
+@@ -1215,11 +1243,11 @@
+         const auto x0 = __builtin_amdgcn_permlane16_swap(w0[0], w1[0], false, true); \
+         const auto x1 = __builtin_amdgcn_permlane16_swap(w0[1], w1[1], false, true); \
+         const opus::vector_t<unsigned int, 4> packed = {x0[0], x1[0], x0[1], x1[1]}; \
+-        const int offset = (wave_id_m * 16 + (lane_id & 15) + ((INDEX) / 4) * 32) * kargs.stride_c \
++        const int offset = (wave_id_m * 16 + (lane_id & 15) + ((INDEX) / 4) * 32) * c_lds_pitch \
+             + wave_id_n * 16 + ((INDEX) % 4 / 2) * 64 \
+             + ((lane_id / 16) & 1) * 32 + (lane_id / 32) * 8; \
+-        g_c.template store<8>(__builtin_bit_cast(opus::vector_t<D_C, 8>, packed), \
+-            offset, soff, opus::number<0>{}); \
++        s_c.template store<8>(__builtin_bit_cast(opus::vector_t<D_C, 8>, packed), \
++            offset + soff); \
+     } while (false)
+ #define MXFP8_STORE_QUADRANT(PREFIX, HALF_M, HALF_N) \
+     do { \
+@@ -1306,7 +1334,12 @@
+     MXFP8_STORE_QUADRANT(c00, 0, 0);
+     MXFP8_STORE_QUADRANT(c10, 1, 0);
+ 
+-    v_b = load<T::VEC_B>(s_b, u_rb + sb_offset(stage, 1));
++    if constexpr (T::OUTPUT_BF16) {
++        // K63 B1 was rolled into registers by the peeled K62 segment.
++        v_b = v_b_second;
++    } else {
++        v_b = load<T::VEC_B>(s_b, u_rb + sb_offset(stage, 1));
++    }
+ 
+     MXFP8_MMA_PAIR(0, 0, 0, v_a[0], v_b, c01_0, c01_1, v_sfa, v_sfb[1]);
+     sched_barrier_pairs_scale();
+@@ -1359,6 +1392,23 @@
+ 
+     MXFP8_STORE_QUADRANT(c01, 0, 1);
+     MXFP8_STORE_QUADRANT(c11, 1, 1);
++
++    if constexpr (T::OUTPUT_BF16) {
++        // The padded LDS rows distribute stores from the MFMA lane layout.
++        // Publish the complete output, then write contiguous rows per wave.
++        __builtin_amdgcn_sched_barrier(0);
++        s_waitcnt_lgkmcnt(0_I);
++        __builtin_amdgcn_s_barrier();
++        __builtin_amdgcn_sched_barrier(0);
++        opus::static_for<T::B_M * T::B_N / (T::BLOCK_SIZE * 8)>([&](auto copy_i) {
++            const int linear = thread_id_x() * 8 + decltype(copy_i)::value * T::BLOCK_SIZE * 8;
++            const int output_row = linear / T::B_N;
++            const int output_col = linear % T::B_N;
++            const auto value = s_c.template load<8>(output_row * c_lds_pitch + output_col);
++            g_c.template store<8>(value, output_row * kargs.stride_c + output_col,
++                                  0, opus::number<2>{});
++        });
++    }
+ #undef MXFP8_STORE_QUADRANT
+ #undef MXFP8_STORE_AGPR_PAIR8
+ #undef MXFP8_STORE_AGPR_FRAGMENT

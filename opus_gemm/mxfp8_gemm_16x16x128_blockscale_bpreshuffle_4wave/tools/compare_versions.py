@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build and compare frozen regroll_release8 tile1 with the current source.
+"""Build and compare the frozen original generic kernel with the current generic.
 
 The GPU argument is the physical rocm-smi card, resolved to HIP by PCI address.
 Every candidate uses the same inputs and output pointers within one process.
@@ -27,7 +27,7 @@ def main():
     if args.rounds <= 0 or not 0 <= args.max_initial_vram_percent <= 100:
         parser.error('rounds must be positive and the VRAM threshold must be in [0,100]')
     root = Path(__file__).resolve().parents[1]
-    evidence = root / 'results/tile1_target32_20260911'
+    evidence = root / 'results/generic_migration_20260911'
     support = root / 'results/continuation_20260911/round3/support'
     status = json.loads(subprocess.check_output(
         ['rocm-smi', '--showbus', '--showuse', '--showmemuse', '--json'], text=True))
@@ -68,7 +68,7 @@ print(json.dumps(out))
                MXFP8_MAX_INITIAL_VRAM_PERCENT=str(args.max_initial_vram_percent),
                MXFP8_AUDIT_OUTPUT_DIR=str(work / 'audits'),
                OMP_TOOL='disabled', OMP_NUM_THREADS='16')
-    subprocess.run([sys.executable, str(evidence / 'audit_unroll.py'), 'current'], env=env, check=True)
+    subprocess.run([sys.executable, str(evidence / 'audit.py'), 'current'], env=env, check=True)
     if args.validate:
         subprocess.run([sys.executable, str(evidence / 'run.py'), 'verify', '--tag', tag,
                         '--pci', pci, 'current'], env=env, check=True)

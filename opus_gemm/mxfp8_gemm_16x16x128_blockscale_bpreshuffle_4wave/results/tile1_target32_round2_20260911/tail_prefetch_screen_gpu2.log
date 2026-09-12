@@ -1,0 +1,165 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL tail_a3_prefetch56 bf16 67108864 outputs
+FULL_BASELINE_EQUAL tail_a3_prefetch56 fp32 67108864 outputs
+FULL_BASELINE_EQUAL tail_b3_prefetch56 bf16 67108864 outputs
+FULL_BASELINE_EQUAL tail_b3_prefetch56 fp32 67108864 outputs
+FULL_BASELINE_EQUAL tail_ab3_prefetch56 bf16 67108864 outputs
+FULL_BASELINE_EQUAL tail_ab3_prefetch56 fp32 67108864 outputs
+FULL_BASELINE_EQUAL tail_ab3_prefetch48 bf16 67108864 outputs
+FULL_BASELINE_EQUAL tail_ab3_prefetch48 fp32 67108864 outputs
+1 baseline bf16: 0.347322881 ms / 3.165676 P
+1 tail_a3_prefetch56 bf16: 0.341664076 ms / 3.218107 P
+1 baseline bf16: 0.346442521 ms / 3.173720 P
+1 baseline bf16: 0.346175432 ms / 3.176169 P
+1 tail_b3_prefetch56 bf16: 0.341584176 ms / 3.218860 P
+1 baseline bf16: 0.346934289 ms / 3.169222 P
+1 baseline bf16: 0.347025454 ms / 3.168389 P
+1 tail_ab3_prefetch56 bf16: 0.344181418 ms / 3.194570 P
+1 baseline bf16: 0.347330630 ms / 3.165605 P
+1 baseline bf16: 0.347357064 ms / 3.165364 P
+1 tail_ab3_prefetch48 bf16: 0.345948637 ms / 3.178251 P
+1 baseline bf16: 0.347391933 ms / 3.165047 P
+1 baseline fp32: 0.364334017 ms / 3.017867 P
+1 tail_a3_prefetch56 fp32: 0.361153156 ms / 3.044447 P
+1 baseline fp32: 0.364704400 ms / 3.014802 P
+1 baseline fp32: 0.364687204 ms / 3.014944 P
+1 tail_b3_prefetch56 fp32: 0.361745596 ms / 3.039461 P
+1 baseline fp32: 0.364549607 ms / 3.016082 P
+1 baseline fp32: 0.364617616 ms / 3.015520 P
+1 tail_ab3_prefetch56 fp32: 0.365436822 ms / 3.008760 P
+1 baseline fp32: 0.364915609 ms / 3.013057 P
+1 baseline fp32: 0.365092814 ms / 3.011595 P
+1 tail_ab3_prefetch48 fp32: 0.366686910 ms / 2.998503 P
+1 baseline fp32: 0.365019977 ms / 3.012196 P
+2 baseline bf16: 0.348199457 ms / 3.157706 P
+2 tail_ab3_prefetch48 bf16: 0.347075462 ms / 3.167932 P
+2 baseline bf16: 0.348252714 ms / 3.157223 P
+2 baseline bf16: 0.348328322 ms / 3.156538 P
+2 tail_ab3_prefetch56 bf16: 0.345709532 ms / 3.180449 P
+2 baseline bf16: 0.348438710 ms / 3.155538 P
+2 baseline bf16: 0.348677099 ms / 3.153381 P
+2 tail_b3_prefetch56 bf16: 0.343028307 ms / 3.205309 P
+2 baseline bf16: 0.348465115 ms / 3.155299 P
+2 baseline bf16: 0.349130720 ms / 3.149284 P
+2 tail_a3_prefetch56 bf16: 0.342625856 ms / 3.209074 P
+2 baseline bf16: 0.348535120 ms / 3.154665 P
+2 baseline fp32: 0.365176439 ms / 3.010905 P
+2 tail_ab3_prefetch48 fp32: 0.367271245 ms / 2.993732 P
+2 baseline fp32: 0.365424424 ms / 3.008862 P
+2 baseline fp32: 0.365290046 ms / 3.009969 P
+2 tail_ab3_prefetch56 fp32: 0.365685225 ms / 3.006716 P
+2 baseline fp32: 0.365396053 ms / 3.009096 P
+2 baseline fp32: 0.365474880 ms / 3.008447 P
+2 tail_b3_prefetch56 fp32: 0.362213999 ms / 3.035530 P
+2 baseline fp32: 0.365212888 ms / 3.010605 P
+2 baseline fp32: 0.365370452 ms / 3.009306 P
+2 tail_a3_prefetch56 fp32: 0.361848831 ms / 3.038594 P
+2 baseline fp32: 0.365634501 ms / 3.007133 P
+3 baseline bf16: 0.348629534 ms / 3.153811 P
+3 tail_a3_prefetch56 bf16: 0.342938274 ms / 3.206150 P
+3 baseline bf16: 0.348871529 ms / 3.151623 P
+3 baseline bf16: 0.349085927 ms / 3.149688 P
+3 tail_b3_prefetch56 bf16: 0.343262672 ms / 3.203120 P
+3 baseline bf16: 0.348860323 ms / 3.151724 P
+3 baseline bf16: 0.349217117 ms / 3.148504 P
+3 tail_ab3_prefetch56 bf16: 0.345847905 ms / 3.179177 P
+3 baseline bf16: 0.348480731 ms / 3.155158 P
+3 baseline bf16: 0.348810732 ms / 3.152173 P
+3 tail_ab3_prefetch48 bf16: 0.347771108 ms / 3.161596 P
+3 baseline bf16: 0.348808318 ms / 3.152194 P
+3 baseline fp32: 0.365878016 ms / 3.005132 P
+3 tail_a3_prefetch56 fp32: 0.362057596 ms / 3.036842 P
+3 baseline fp32: 0.365905643 ms / 3.004905 P
+3 baseline fp32: 0.366004437 ms / 3.004094 P
+3 tail_b3_prefetch56 fp32: 0.362478822 ms / 3.033313 P
+3 baseline fp32: 0.365850061 ms / 3.005361 P
+3 baseline fp32: 0.365780860 ms / 3.005930 P
+3 tail_ab3_prefetch56 fp32: 0.366055667 ms / 3.003673 P
+3 baseline fp32: 0.366276085 ms / 3.001866 P
+3 baseline fp32: 0.365693659 ms / 3.006647 P
+3 tail_ab3_prefetch48 fp32: 0.367815286 ms / 2.989304 P
+3 baseline fp32: 0.365952849 ms / 3.004517 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.3484519124031067,
+    "min_ms": 0.3461754322052002,
+    "max_ms": 0.34921711683273315,
+    "median_pflops": 3.155418548841338
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.36538325250148773,
+    "min_ms": 0.36433401703834534,
+    "max_ms": 0.3662760853767395,
+    "median_pflops": 3.009200942431052
+  },
+  {
+    "name": "tail_a3_prefetch56",
+    "dtype": "bf16",
+    "median_ms": 0.34262585639953613,
+    "min_ms": 0.34166407585144043,
+    "max_ms": 0.34293827414512634,
+    "median_pflops": 3.209073708943493
+  },
+  {
+    "name": "tail_a3_prefetch56",
+    "dtype": "fp32",
+    "median_ms": 0.3618488311767578,
+    "min_ms": 0.36115315556526184,
+    "max_ms": 0.3620575964450836,
+    "median_pflops": 3.038593835443135
+  },
+  {
+    "name": "tail_b3_prefetch56",
+    "dtype": "bf16",
+    "median_ms": 0.34302830696105957,
+    "min_ms": 0.341584175825119,
+    "max_ms": 0.3432626724243164,
+    "median_pflops": 3.205308732438854
+  },
+  {
+    "name": "tail_b3_prefetch56",
+    "dtype": "fp32",
+    "median_ms": 0.36221399903297424,
+    "min_ms": 0.36174559593200684,
+    "max_ms": 0.3624788224697113,
+    "median_pflops": 3.035530461858007
+  },
+  {
+    "name": "tail_ab3_prefetch56",
+    "dtype": "bf16",
+    "median_ms": 0.34570953249931335,
+    "min_ms": 0.3441814184188843,
+    "max_ms": 0.3458479046821594,
+    "median_pflops": 3.180449262787348
+  },
+  {
+    "name": "tail_ab3_prefetch56",
+    "dtype": "fp32",
+    "median_ms": 0.36568522453308105,
+    "min_ms": 0.3654368221759796,
+    "max_ms": 0.3660556674003601,
+    "median_pflops": 3.0067160333860703
+  },
+  {
+    "name": "tail_ab3_prefetch48",
+    "dtype": "bf16",
+    "median_ms": 0.3470754623413086,
+    "min_ms": 0.34594863653182983,
+    "max_ms": 0.3477711081504822,
+    "median_pflops": 3.167932473125275
+  },
+  {
+    "name": "tail_ab3_prefetch48",
+    "dtype": "fp32",
+    "median_ms": 0.3672712445259094,
+    "min_ms": 0.3666869103908539,
+    "max_ms": 0.3678152859210968,
+    "median_pflops": 2.993731864838207
+  }
+]

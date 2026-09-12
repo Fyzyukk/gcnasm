@@ -1,0 +1,165 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL lds_copy_group4 bf16 67108864 outputs
+FULL_BASELINE_EQUAL lds_copy_group4 fp32 67108864 outputs
+FULL_BASELINE_EQUAL lds_copy_group8 bf16 67108864 outputs
+FULL_BASELINE_EQUAL lds_copy_group8 fp32 67108864 outputs
+FULL_BASELINE_EQUAL lds_copy_group16 bf16 67108864 outputs
+FULL_BASELINE_EQUAL lds_copy_group16 fp32 67108864 outputs
+FULL_BASELINE_EQUAL lds_copy_group32 bf16 67108864 outputs
+FULL_BASELINE_EQUAL lds_copy_group32 fp32 67108864 outputs
+1 baseline bf16: 0.343933105 ms / 3.196876 P
+1 lds_copy_group4 bf16: 0.340912551 ms / 3.225201 P
+1 baseline bf16: 0.345961422 ms / 3.178134 P
+1 baseline bf16: 0.345664889 ms / 3.180860 P
+1 lds_copy_group8 bf16: 0.342941821 ms / 3.206117 P
+1 baseline bf16: 0.346575767 ms / 3.172500 P
+1 baseline bf16: 0.346879452 ms / 3.169723 P
+1 lds_copy_group16 bf16: 0.343276292 ms / 3.202993 P
+1 baseline bf16: 0.347207844 ms / 3.166725 P
+1 baseline bf16: 0.347751915 ms / 3.161770 P
+1 lds_copy_group32 bf16: 0.343817800 ms / 3.197949 P
+1 baseline bf16: 0.347597510 ms / 3.163175 P
+1 baseline fp32: 0.364713550 ms / 3.014727 P
+1 lds_copy_group4 fp32: 0.363437563 ms / 3.025311 P
+1 baseline fp32: 0.364329189 ms / 3.017907 P
+1 baseline fp32: 0.364194423 ms / 3.019024 P
+1 lds_copy_group8 fp32: 0.363374799 ms / 3.025833 P
+1 baseline fp32: 0.364677250 ms / 3.015027 P
+1 baseline fp32: 0.364821196 ms / 3.013837 P
+1 lds_copy_group16 fp32: 0.363722503 ms / 3.022941 P
+1 baseline fp32: 0.364627242 ms / 3.015440 P
+1 baseline fp32: 0.364876449 ms / 3.013381 P
+1 lds_copy_group32 fp32: 0.363956004 ms / 3.021001 P
+1 baseline fp32: 0.364759624 ms / 3.014346 P
+2 baseline bf16: 0.348388702 ms / 3.155991 P
+2 lds_copy_group32 bf16: 0.345326662 ms / 3.183975 P
+2 baseline bf16: 0.348661125 ms / 3.153525 P
+2 baseline bf16: 0.348554701 ms / 3.154488 P
+2 lds_copy_group16 bf16: 0.344360650 ms / 3.192907 P
+2 baseline bf16: 0.348534733 ms / 3.154669 P
+2 baseline bf16: 0.348945111 ms / 3.150959 P
+2 lds_copy_group8 bf16: 0.344936669 ms / 3.187575 P
+2 baseline bf16: 0.348864704 ms / 3.151685 P
+2 baseline bf16: 0.348887533 ms / 3.151479 P
+2 lds_copy_group4 bf16: 0.344257891 ms / 3.193860 P
+2 baseline bf16: 0.348755926 ms / 3.152668 P
+2 baseline fp32: 0.365153223 ms / 3.011097 P
+2 lds_copy_group32 fp32: 0.364082783 ms / 3.019950 P
+2 baseline fp32: 0.365124047 ms / 3.011337 P
+2 baseline fp32: 0.365587652 ms / 3.007519 P
+2 lds_copy_group16 fp32: 0.364064395 ms / 3.020102 P
+2 baseline fp32: 0.365367234 ms / 3.009333 P
+2 baseline fp32: 0.365362078 ms / 3.009375 P
+2 lds_copy_group8 fp32: 0.364246011 ms / 3.018596 P
+2 baseline fp32: 0.365371257 ms / 3.009300 P
+2 baseline fp32: 0.365387231 ms / 3.009168 P
+2 lds_copy_group4 fp32: 0.364194840 ms / 3.019020 P
+2 baseline fp32: 0.365460426 ms / 3.008565 P
+3 baseline bf16: 0.348705113 ms / 3.153127 P
+3 lds_copy_group4 bf16: 0.344616294 ms / 3.190539 P
+3 baseline bf16: 0.346142322 ms / 3.176473 P
+3 baseline bf16: 0.346766323 ms / 3.170757 P
+3 lds_copy_group8 bf16: 0.344223469 ms / 3.194180 P
+3 baseline bf16: 0.348086745 ms / 3.158729 P
+3 baseline bf16: 0.347378314 ms / 3.165171 P
+3 lds_copy_group16 bf16: 0.344963491 ms / 3.187328 P
+3 baseline bf16: 0.349072307 ms / 3.149811 P
+3 baseline bf16: 0.347829938 ms / 3.161061 P
+3 lds_copy_group32 bf16: 0.345310330 ms / 3.184126 P
+3 baseline bf16: 0.348048717 ms / 3.159074 P
+3 baseline fp32: 0.365298420 ms / 3.009900 P
+3 lds_copy_group4 fp32: 0.363972425 ms / 3.020865 P
+3 baseline fp32: 0.364952058 ms / 3.012756 P
+3 baseline fp32: 0.365167707 ms / 3.010977 P
+3 lds_copy_group8 fp32: 0.364256054 ms / 3.018513 P
+3 baseline fp32: 0.365369260 ms / 3.009316 P
+3 baseline fp32: 0.365274042 ms / 3.010101 P
+3 lds_copy_group16 fp32: 0.364392459 ms / 3.017383 P
+3 baseline fp32: 0.365250438 ms / 3.010295 P
+3 baseline fp32: 0.365390480 ms / 3.009141 P
+3 lds_copy_group32 fp32: 0.364301652 ms / 3.018135 P
+3 baseline fp32: 0.365423620 ms / 3.008869 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.3479393273591995,
+    "min_ms": 0.34393310546875,
+    "max_ms": 0.34907230734825134,
+    "median_pflops": 3.160067118946015
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.36520907282829285,
+    "min_ms": 0.36419442296028137,
+    "max_ms": 0.36558765172958374,
+    "median_pflops": 3.010636124839505
+  },
+  {
+    "name": "lds_copy_group4",
+    "dtype": "bf16",
+    "median_ms": 0.3442578911781311,
+    "min_ms": 0.3409125506877899,
+    "max_ms": 0.3446162939071655,
+    "median_pflops": 3.193860347000947
+  },
+  {
+    "name": "lds_copy_group4",
+    "dtype": "fp32",
+    "median_ms": 0.36397242546081543,
+    "min_ms": 0.36343756318092346,
+    "max_ms": 0.3641948401927948,
+    "median_pflops": 3.0208651833554114
+  },
+  {
+    "name": "lds_copy_group8",
+    "dtype": "bf16",
+    "median_ms": 0.3442234694957733,
+    "min_ms": 0.3429418206214905,
+    "max_ms": 0.34493666887283325,
+    "median_pflops": 3.194179726869265
+  },
+  {
+    "name": "lds_copy_group8",
+    "dtype": "fp32",
+    "median_ms": 0.3642460107803345,
+    "min_ms": 0.363374799489975,
+    "max_ms": 0.3642560541629791,
+    "median_pflops": 3.01859621034829
+  },
+  {
+    "name": "lds_copy_group16",
+    "dtype": "bf16",
+    "median_ms": 0.3443606495857239,
+    "min_ms": 0.3432762920856476,
+    "max_ms": 0.3449634909629822,
+    "median_pflops": 3.192907288038704
+  },
+  {
+    "name": "lds_copy_group16",
+    "dtype": "fp32",
+    "median_ms": 0.36406439542770386,
+    "min_ms": 0.3637225031852722,
+    "max_ms": 0.3643924593925476,
+    "median_pflops": 3.0201020522325197
+  },
+  {
+    "name": "lds_copy_group32",
+    "dtype": "bf16",
+    "median_ms": 0.3453103303909302,
+    "min_ms": 0.343817800283432,
+    "max_ms": 0.34532666206359863,
+    "median_pflops": 3.184126077349696
+  },
+  {
+    "name": "lds_copy_group32",
+    "dtype": "fp32",
+    "median_ms": 0.36408278346061707,
+    "min_ms": 0.3639560043811798,
+    "max_ms": 0.3643016517162323,
+    "median_pflops": 3.0199495217134715
+  }
+]

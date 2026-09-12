@@ -1,0 +1,18 @@
+--- a/tmpl.hpp
++++ b/tmpl.hpp
+@@ -874,7 +874,6 @@
+         __builtin_amdgcn_sched_group_barrier(0x100, 4, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+-        __builtin_amdgcn_s_setprio(0);
+         v_sfb[1] = v_sfb_next[1];
+         v_sfa[1] = v_sfa1_next;
+         stage = next_stage;
+@@ -1169,7 +1168,6 @@
+         __builtin_amdgcn_sched_group_barrier(0x100, 4, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+-        __builtin_amdgcn_s_setprio(0);
+         v_sfb[1] = v_sfb_next[1];
+         v_sfa[1] = v_sfa1_next;
+         stage = next_stage;

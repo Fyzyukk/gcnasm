@@ -1,0 +1,31 @@
+{
+  "name": "stream64_scale_packed6",
+  "parent": "stream64_rows4",
+  "config": {
+    "lds_output": true,
+    "release_mfma": 5,
+    "unified_k1": true,
+    "early_a1_m3": true,
+    "scale_panel_tiles": 64,
+    "unroll": 8,
+    "explicit_retire_vmem_wait": true,
+    "output_rows": true,
+    "store_delay": 4,
+    "lds_vector_elements": 4,
+    "sfa_next_read_mfma": 6,
+    "sfb_next_read_mfma": 6,
+    "sfa_read_pair": true
+  },
+  "source_hashes": {
+    "tmpl_generic.hpp": "b46c41a92f06600c025acfaf499f487a0bf5171f5ff42eb733cca53bdec98267",
+    "traits.hpp": "ef8ae2054b2c5d69f086c9b8acfb0256826467411a2ac75983e069c143581f39"
+  },
+  "generic_runtime_k": true,
+  "performance_shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "waves": 4,
+  "output_tiles_per_wg": 1
+}

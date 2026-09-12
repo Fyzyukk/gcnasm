@@ -1,0 +1,10 @@
+{
+  "name": "early_scalar_offset",
+  "config": {
+    "matrix_byte_offset_materialized_before_mfma": true
+  },
+  "source_sha256": "eb684a4ee455a6b01a5be84ff0868cfc68a8b4952a8dbb4c87052a5bf0b685e9",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true
+}

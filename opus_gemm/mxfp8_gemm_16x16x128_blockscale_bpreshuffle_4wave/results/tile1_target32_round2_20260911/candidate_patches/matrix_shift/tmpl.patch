@@ -1,0 +1,20 @@
+--- a/tmpl.hpp
++++ b/tmpl.hpp
+@@ -305,7 +305,7 @@
+     // Both public launch paths enforce stride_a == stride_b == k.
+     const int matrix_pair_stride = 16 * kargs.stride_a;
+     const int matrix_odd_stride = produces_a ? kargs.stride_a : 1024;
+-    const int matrix_k_stride = produces_a ? T::B_K : T::B_K * 16;
++    const int matrix_k_shift = produces_a ? 7 : 11;
+     constexpr int matrix_pitch = T::smem_linear_wave + T::smem_padding;
+     auto* matrix_lds_base = (produces_a ? s_a.ptr : s_b.ptr) + wave_id_m * smem_a_elem;
+     static_assert(smem_a_elem == smem_b_elem);
+@@ -329,7 +329,7 @@
+             + (issue / 4) * 4 * matrix_pitch + (local ? 32 : 0);
+         g_matrix.template async_load<16>(
+             reinterpret_cast<void*>(reinterpret_cast<__UINTPTR_TYPE__>(dst)),
+-            matrix_addresses[issue], k_tile * matrix_k_stride,
++            matrix_addresses[issue], k_tile << matrix_k_shift,
+             opus::number<immediate>{}, opus::number<0>{});
+     };
+ 

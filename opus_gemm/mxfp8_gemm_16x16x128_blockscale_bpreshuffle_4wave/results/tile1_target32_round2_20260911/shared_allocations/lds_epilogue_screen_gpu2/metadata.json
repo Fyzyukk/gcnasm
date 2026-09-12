@@ -1,0 +1,57 @@
+{
+  "gpu": "AMD Instinct MI355X",
+  "physical_card": "card2",
+  "hip_visible_devices": "2",
+  "pci": "0000:65:00.0",
+  "comparison_scope": "Contemporaneous same-device, same-tensor-address comparison; report this card and this run baseline",
+  "timestamp_utc": "2026-09-11T14:33:24.826534+00:00",
+  "initial_device_status": {
+    "GPU use (%)": "0",
+    "GFX Activity": "2942415464",
+    "GPU Memory Allocated (VRAM%)": "0",
+    "GPU Memory Read/Write Activity (%)": "0",
+    "Memory Activity": "1625346110",
+    "Avg. Memory Bandwidth": "0",
+    "PCI Bus": "0000:65:00.0"
+  },
+  "shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "batch": 1,
+  "warmup": 200,
+  "iterations": 100,
+  "rounds": 3,
+  "versions": {
+    "baseline": {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/baseline",
+      "source_sha256": "4193c75a9fac14d7782c7f8d91fac58f95700b56989fb2b5242a21e5216cc1b0",
+      "library_sha256": "8986394037f8c59de48f19db7e89db0907fc960986d3bae1d71aa367bc86f102"
+    },
+    "bf16_lds_epilogue_aux0": {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/bf16_lds_epilogue_aux0",
+      "source_sha256": "a3eccd29fbbe78aaae761180f21da120c2fdaa9a9311043249cccddd753df41d",
+      "library_sha256": "3b68d75ee449da864212a81fe58fea2df4e6943138dd482e1155a54a201b5f10"
+    },
+    "bf16_lds_epilogue_aux2": {
+      "path": "/tmp/mxfp8_tile1_target32_round2_20260911_fs062km4/bf16_lds_epilogue_aux2",
+      "source_sha256": "08c90347da50a4bc60c9ae76a68d462c0c037a8088f0c538e7b3dda24db958fa",
+      "library_sha256": "dba803207386faa7c576235481e8471ecf9a5d43d0395a728df57219a7fdde6b"
+    }
+  },
+  "pointers": {
+    "A": 140140955566080,
+    "B": 140140185911296,
+    "SFA": 140142218051584,
+    "SFB": 140142218575872,
+    "bf16": 140140049596416,
+    "fp32": 140139779063808
+  },
+  "input_pattern": "Exact CLI seed=1 generator and host FP8 type",
+  "timing": "HIP events around 100 C ABI launches, no preprocessing",
+  "bracketed": true,
+  "telemetry_enabled": false,
+  "native_timing": true,
+  "benchmark_helper_sha256": "e1725b8fbc942b4b83df5f6e798546790b8e2687011d7d3841e4e5971f2286c3"
+}

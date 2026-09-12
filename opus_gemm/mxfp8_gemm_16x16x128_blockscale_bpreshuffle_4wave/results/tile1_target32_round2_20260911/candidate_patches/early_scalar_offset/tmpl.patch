@@ -1,0 +1,164 @@
+--- a/tmpl.hpp
++++ b/tmpl.hpp
+@@ -329,7 +329,7 @@
+             + (issue / 4) * 4 * matrix_pitch + (local ? 32 : 0);
+         g_matrix.template async_load<16>(
+             reinterpret_cast<void*>(reinterpret_cast<__UINTPTR_TYPE__>(dst)),
+-            matrix_addresses[issue], k_tile * matrix_k_stride,
++            matrix_addresses[issue], k_tile,
+             opus::number<immediate>{}, opus::number<0>{});
+     };
+ 
+@@ -539,6 +539,8 @@
+     for (tile = 0; tile + 2 < loops; ++tile) {
+         const int next_stage = stage ^ 1;
+         const int future_tile = (tile + 2) & 63;
++        int future_byte_offset = future_tile * matrix_k_stride;
++        asm volatile("" : "+s"(future_byte_offset));
+ 
+         // Both B scale halves were prefetched during the preceding K tile.
+         __builtin_amdgcn_sched_barrier(0);
+@@ -584,7 +586,7 @@
+         MXFP8_MMA_PAIR(
+             0, 1, 1, v_a[0], v_b, c00_6, c00_7, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+-        prefetch_matrix_issue(opus::number<0>{}, stage, future_tile);
++        prefetch_matrix_issue(opus::number<0>{}, stage, future_byte_offset);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+@@ -594,7 +596,7 @@
+         MXFP8_MMA_PAIR(
+             0, 2, 0, v_a[0], v_b, c00_8, c00_9, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+-        prefetch_matrix_issue(opus::number<1>{}, stage, future_tile);
++        prefetch_matrix_issue(opus::number<1>{}, stage, future_byte_offset);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+@@ -602,7 +604,7 @@
+         MXFP8_MMA_PAIR(
+             0, 2, 1, v_a[0], v_b, c00_10, c00_11, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+-        prefetch_matrix_issue(opus::number<2>{}, stage, future_tile);
++        prefetch_matrix_issue(opus::number<2>{}, stage, future_byte_offset);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+@@ -610,7 +612,7 @@
+         MXFP8_MMA_PAIR(
+             0, 3, 0, v_a[0], v_b, c00_12, c00_13, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+-        prefetch_matrix_issue(opus::number<3>{}, stage, future_tile);
++        prefetch_matrix_issue(opus::number<3>{}, stage, future_byte_offset);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+@@ -618,7 +620,7 @@
+         MXFP8_MMA_PAIR(
+             0, 3, 1, v_a[0], v_b, c00_14, c00_15, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+-        prefetch_matrix_issue(opus::number<4>{}, stage, future_tile);
++        prefetch_matrix_issue(opus::number<4>{}, stage, future_byte_offset);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+@@ -627,7 +629,7 @@
+         MXFP8_MMA_PAIR(
+             1, 0, 0, v_a[1], v_b, c10_0, c10_1, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+-        prefetch_matrix_issue(opus::number<5>{}, stage, future_tile);
++        prefetch_matrix_issue(opus::number<5>{}, stage, future_byte_offset);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+@@ -635,7 +637,7 @@
+         MXFP8_MMA_PAIR(
+             1, 0, 1, v_a[1], v_b, c10_2, c10_3, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+-        prefetch_matrix_issue(opus::number<6>{}, stage, future_tile);
++        prefetch_matrix_issue(opus::number<6>{}, stage, future_byte_offset);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+@@ -643,7 +645,7 @@
+         MXFP8_MMA_PAIR(
+             1, 1, 0, v_a[1], v_b, c10_4, c10_5, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+-        prefetch_matrix_issue(opus::number<7>{}, stage, future_tile);
++        prefetch_matrix_issue(opus::number<7>{}, stage, future_byte_offset);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+@@ -651,7 +653,7 @@
+         MXFP8_MMA_PAIR(
+             1, 1, 1, v_a[1], v_b, c10_6, c10_7, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+-        prefetch_matrix_issue(opus::number<8>{}, stage, future_tile);
++        prefetch_matrix_issue(opus::number<8>{}, stage, future_byte_offset);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+@@ -659,7 +661,7 @@
+         MXFP8_MMA_PAIR(
+             1, 2, 0, v_a[1], v_b, c10_8, c10_9, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+-        prefetch_matrix_issue(opus::number<9>{}, stage, future_tile);
++        prefetch_matrix_issue(opus::number<9>{}, stage, future_byte_offset);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+@@ -667,7 +669,7 @@
+         MXFP8_MMA_PAIR(
+             1, 2, 1, v_a[1], v_b, c10_10, c10_11, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+-        prefetch_matrix_issue(opus::number<10>{}, stage, future_tile);
++        prefetch_matrix_issue(opus::number<10>{}, stage, future_byte_offset);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+@@ -675,7 +677,7 @@
+         MXFP8_MMA_PAIR(
+             1, 3, 0, v_a[1], v_b, c10_12, c10_13, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+-        prefetch_matrix_issue(opus::number<11>{}, stage, future_tile);
++        prefetch_matrix_issue(opus::number<11>{}, stage, future_byte_offset);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+@@ -683,7 +685,7 @@
+         MXFP8_MMA_PAIR(
+             1, 3, 1, v_a[1], v_b, c10_14, c10_15, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+-        prefetch_matrix_issue(opus::number<12>{}, stage, future_tile);
++        prefetch_matrix_issue(opus::number<12>{}, stage, future_byte_offset);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+@@ -698,7 +700,7 @@
+         MXFP8_MMA_PAIR(
+             0, 0, 0, v_a[0], v_b_n1, c01_0, c01_1, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
+-        prefetch_matrix_issue(opus::number<13>{}, stage, future_tile);
++        prefetch_matrix_issue(opus::number<13>{}, stage, future_byte_offset);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+@@ -710,7 +712,7 @@
+         MXFP8_MMA_PAIR(
+             0, 0, 1, v_a[0], v_b_n1, c01_2, c01_3, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
+-        prefetch_matrix_issue(opus::number<14>{}, stage, future_tile);
++        prefetch_matrix_issue(opus::number<14>{}, stage, future_byte_offset);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+@@ -739,7 +741,7 @@
+         MXFP8_MMA_ONE(
+             0, 1, 1, v_a[0], v_b_n1, c01_5, v_sfa, v_sfb[1]);
+         __builtin_amdgcn_sched_barrier(0);
+-        prefetch_matrix_issue(opus::number<15>{}, stage, future_tile);
++        prefetch_matrix_issue(opus::number<15>{}, stage, future_byte_offset);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 

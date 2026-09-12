@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_k_survey_20260911/run.py", line 17, in <module>
+    exec(compile(source, str(previous / driver), "exec"), namespace)
+  File "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/continuation_20260911/round3/benchmark_shared_cli.py", line 15, in <module>
+    assert int(card_status['GPU use (%)'])<=5 and int(card_status['GPU Memory Allocated (VRAM%)'])<=max_initial_vram,card_status
+AssertionError: {'GPU use (%)': '14', 'GFX Activity': '2949653826', 'GPU Memory Allocated (VRAM%)': '28', 'GPU Memory Read/Write Activity (%)': '0', 'Memory Activity': '1625808983', 'Avg. Memory Bandwidth': '0', 'PCI Bus': '0000:65:00.0'}

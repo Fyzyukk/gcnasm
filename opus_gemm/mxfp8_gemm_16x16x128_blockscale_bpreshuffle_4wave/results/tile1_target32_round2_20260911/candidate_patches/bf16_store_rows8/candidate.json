@@ -1,0 +1,10 @@
+{
+  "name": "bf16_store_rows8",
+  "config": {
+    "epilogue_row_store_delay": 8
+  },
+  "source_sha256": "ef3ec43c94d2fa4474b8b86140385757196ea18defeb044b5b782caf1401ae08",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true
+}

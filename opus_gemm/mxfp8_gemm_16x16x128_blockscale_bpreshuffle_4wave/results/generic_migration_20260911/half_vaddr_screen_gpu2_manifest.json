@@ -1,0 +1,75 @@
+{
+  "tag": "half_vaddr_screen_gpu2",
+  "physical_gpu": 2,
+  "hip_index": 2,
+  "pci": "0000:65:00.0",
+  "initial_status": {
+    "GPU use (%)": "1",
+    "GFX Activity": "2982952513",
+    "GPU Memory Allocated (VRAM%)": "0",
+    "GPU Memory Read/Write Activity (%)": "0",
+    "Memory Activity": "1631346321",
+    "Avg. Memory Bandwidth": "0",
+    "PCI Bus": "0000:65:00.0"
+  },
+  "timing_reference": "stream64_rows4",
+  "candidates": [
+    "stream32_prefetch_rows4_vaddr",
+    "stream32_prefetch_pair8_vaddr"
+  ],
+  "performance_shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "jobs": [
+    [
+      "audit",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_migration_20260911/audit.py",
+        "stream32_prefetch_rows4_vaddr",
+        "stream32_prefetch_pair8_vaddr"
+      ]
+    ],
+    [
+      "shapes",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_migration_20260911/verify_shapes.py",
+        "--tag",
+        "half_vaddr_screen_gpu2",
+        "--pci",
+        "0000:65:00.0",
+        "stream32_prefetch_rows4_vaddr",
+        "stream32_prefetch_pair8_vaddr"
+      ]
+    ],
+    [
+      "full",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_migration_20260911/run.py",
+        "verify",
+        "--tag",
+        "half_vaddr_screen_gpu2",
+        "--pci",
+        "0000:65:00.0",
+        "stream32_prefetch_rows4_vaddr",
+        "stream32_prefetch_pair8_vaddr"
+      ]
+    ],
+    [
+      "shared",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_migration_20260911/run.py",
+        "shared",
+        "half_vaddr_screen_gpu2",
+        "specialized",
+        "stream32_prefetch_rows4_vaddr",
+        "stream32_prefetch_pair8_vaddr"
+      ]
+    ]
+  ]
+}

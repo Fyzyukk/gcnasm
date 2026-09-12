@@ -1,0 +1,200 @@
+[
+  {
+    "round": 1,
+    "name": "c10_tail_columns",
+    "dtype": "bf16",
+    "candidate_ms": 0.3477720618247986,
+    "baseline_before_ms": 0.3470764458179474,
+    "baseline_after_ms": 0.3466232717037201,
+    "reference_ms": 0.34684985876083374,
+    "speedup_percent": -0.2651745684014828,
+    "baseline_drift_percent": -0.1305689624541695
+  },
+  {
+    "round": 1,
+    "name": "c10_full_columns",
+    "dtype": "bf16",
+    "candidate_ms": 0.34686022996902466,
+    "baseline_before_ms": 0.34631550312042236,
+    "baseline_after_ms": 0.3468005657196045,
+    "reference_ms": 0.3465580344200134,
+    "speedup_percent": -0.08712314727987724,
+    "baseline_drift_percent": 0.14006378426940636
+  },
+  {
+    "round": 1,
+    "name": "c10_pair_columns",
+    "dtype": "bf16",
+    "candidate_ms": 0.3485122621059418,
+    "baseline_before_ms": 0.34713658690452576,
+    "baseline_after_ms": 0.34739577770233154,
+    "reference_ms": 0.34726618230342865,
+    "speedup_percent": -0.3575425997878745,
+    "baseline_drift_percent": 0.07466536446563143
+  },
+  {
+    "round": 1,
+    "name": "c10_tail_columns",
+    "dtype": "fp32",
+    "candidate_ms": 0.364508718252182,
+    "baseline_before_ms": 0.36395278573036194,
+    "baseline_after_ms": 0.3642440140247345,
+    "reference_ms": 0.3640983998775482,
+    "speedup_percent": -0.11256750636892132,
+    "baseline_drift_percent": 0.08001815229636833
+  },
+  {
+    "round": 1,
+    "name": "c10_full_columns",
+    "dtype": "fp32",
+    "candidate_ms": 0.3640388250350952,
+    "baseline_before_ms": 0.3643748462200165,
+    "baseline_after_ms": 0.36452481150627136,
+    "reference_ms": 0.3644498288631439,
+    "speedup_percent": 0.11290109729618081,
+    "baseline_drift_percent": 0.04115687123042999
+  },
+  {
+    "round": 1,
+    "name": "c10_pair_columns",
+    "dtype": "fp32",
+    "candidate_ms": 0.36706405878067017,
+    "baseline_before_ms": 0.36470794677734375,
+    "baseline_after_ms": 0.3643932044506073,
+    "reference_ms": 0.3645505756139755,
+    "speedup_percent": -0.6847532757753627,
+    "baseline_drift_percent": -0.08629982689370985
+  },
+  {
+    "round": 2,
+    "name": "c10_pair_columns",
+    "dtype": "bf16",
+    "candidate_ms": 0.34882986545562744,
+    "baseline_before_ms": 0.34799668192863464,
+    "baseline_after_ms": 0.34818026423454285,
+    "reference_ms": 0.34808847308158875,
+    "speedup_percent": -0.21253695496236125,
+    "baseline_drift_percent": 0.052754039173819045
+  },
+  {
+    "round": 2,
+    "name": "c10_full_columns",
+    "dtype": "bf16",
+    "candidate_ms": 0.3482810854911804,
+    "baseline_before_ms": 0.34826308488845825,
+    "baseline_after_ms": 0.348659873008728,
+    "reference_ms": 0.34846147894859314,
+    "speedup_percent": 0.05179536441328736,
+    "baseline_drift_percent": 0.1139334421266236
+  },
+  {
+    "round": 2,
+    "name": "c10_tail_columns",
+    "dtype": "bf16",
+    "candidate_ms": 0.34860703349113464,
+    "baseline_before_ms": 0.34829264879226685,
+    "baseline_after_ms": 0.34830185770988464,
+    "reference_ms": 0.34829725325107574,
+    "speedup_percent": -0.08886230348154056,
+    "baseline_drift_percent": 0.0026440172222308433
+  },
+  {
+    "round": 2,
+    "name": "c10_pair_columns",
+    "dtype": "fp32",
+    "candidate_ms": 0.3671407997608185,
+    "baseline_before_ms": 0.3649692237377167,
+    "baseline_after_ms": 0.364980012178421,
+    "reference_ms": 0.36497461795806885,
+    "speedup_percent": -0.5900139140517346,
+    "baseline_drift_percent": 0.002955986423702761
+  },
+  {
+    "round": 2,
+    "name": "c10_full_columns",
+    "dtype": "fp32",
+    "candidate_ms": 0.365225613117218,
+    "baseline_before_ms": 0.3652955889701843,
+    "baseline_after_ms": 0.3651267886161804,
+    "reference_ms": 0.3652111887931824,
+    "speedup_percent": -0.003949428385519038,
+    "baseline_drift_percent": -0.0462092505633005
+  },
+  {
+    "round": 2,
+    "name": "c10_tail_columns",
+    "dtype": "fp32",
+    "candidate_ms": 0.3651715815067291,
+    "baseline_before_ms": 0.3651108145713806,
+    "baseline_after_ms": 0.36510199308395386,
+    "reference_ms": 0.36510640382766724,
+    "speedup_percent": -0.017848508033668775,
+    "baseline_drift_percent": -0.002416112334857612
+  },
+  {
+    "round": 3,
+    "name": "c10_tail_columns",
+    "dtype": "bf16",
+    "candidate_ms": 0.3494310677051544,
+    "baseline_before_ms": 0.348358690738678,
+    "baseline_after_ms": 0.34871307015419006,
+    "reference_ms": 0.348535880446434,
+    "speedup_percent": -0.25618422099655813,
+    "baseline_drift_percent": 0.101728311919147
+  },
+  {
+    "round": 3,
+    "name": "c10_full_columns",
+    "dtype": "bf16",
+    "candidate_ms": 0.3490442633628845,
+    "baseline_before_ms": 0.3489414155483246,
+    "baseline_after_ms": 0.3489038944244385,
+    "reference_ms": 0.34892265498638153,
+    "speedup_percent": -0.034840388245127585,
+    "baseline_drift_percent": -0.010752843375483323
+  },
+  {
+    "round": 3,
+    "name": "c10_pair_columns",
+    "dtype": "bf16",
+    "candidate_ms": 0.3502531051635742,
+    "baseline_before_ms": 0.3486526906490326,
+    "baseline_after_ms": 0.34809067845344543,
+    "reference_ms": 0.348371684551239,
+    "speedup_percent": -0.5371602948263776,
+    "baseline_drift_percent": -0.16119542761622307
+  },
+  {
+    "round": 3,
+    "name": "c10_tail_columns",
+    "dtype": "fp32",
+    "candidate_ms": 0.3656727969646454,
+    "baseline_before_ms": 0.365337610244751,
+    "baseline_after_ms": 0.3655408024787903,
+    "reference_ms": 0.36543920636177063,
+    "speedup_percent": -0.06387967735465017,
+    "baseline_drift_percent": 0.055617661128071205
+  },
+  {
+    "round": 3,
+    "name": "c10_full_columns",
+    "dtype": "fp32",
+    "candidate_ms": 0.36516639590263367,
+    "baseline_before_ms": 0.36554038524627686,
+    "baseline_after_ms": 0.36531201004981995,
+    "reference_ms": 0.3654261976480484,
+    "speedup_percent": 0.07114612634948614,
+    "baseline_drift_percent": -0.06247605071134643
+  },
+  {
+    "round": 3,
+    "name": "c10_pair_columns",
+    "dtype": "fp32",
+    "candidate_ms": 0.3680376410484314,
+    "baseline_before_ms": 0.3654616177082062,
+    "baseline_after_ms": 0.36536160111427307,
+    "reference_ms": 0.3654116094112396,
+    "speedup_percent": -0.7135225706020099,
+    "baseline_drift_percent": -0.027367195099803343
+  }
+]

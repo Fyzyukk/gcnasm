@@ -1,0 +1,49 @@
+{
+  "timestamp_utc": "2026-09-12T03:10:56.738473+00:00",
+  "archive": "/root/workspace/gcnasm_new/archives/mxfp8_4wave_generic_final_20260912_031055/raw_workspaces.tar.gz",
+  "archive_sha256": "6a2c993fc98feee1a4d39a12cdfd19d9ee9e7584b3ddc0bcbfbb9d75da82522e",
+  "archive_bytes": 13583076,
+  "files_manifest": "/root/workspace/gcnasm_new/archives/mxfp8_4wave_generic_final_20260912_031055/files.json",
+  "archived_files": 590,
+  "every_archived_file_hash_verified": true,
+  "removed_directories": [
+    "/tmp/mxfp8_generic_migration_20260911_gwrg_q94/stream64_direct",
+    "/tmp/mxfp8_generic_migration_20260911_gwrg_q94/stream64_lds",
+    "/tmp/mxfp8_generic_migration_20260911_gwrg_q94/stream64_lds_fence",
+    "/tmp/mxfp8_generic_migration_20260911_gwrg_q94/stream64_segmented",
+    "/tmp/mxfp8_generic_migration_20260911_gwrg_q94/stream64_rows4",
+    "/tmp/mxfp8_generic_migration_20260911_gwrg_q94/stream64_rows4_segmented",
+    "/tmp/mxfp8_generic_migration_20260911_gwrg_q94/stream32_prefetch_rows4",
+    "/tmp/mxfp8_generic_migration_20260911_gwrg_q94/stream32_prefetch_pair8",
+    "/tmp/mxfp8_generic_migration_20260911_gwrg_q94/stream32_prefetch_rows4_vaddr",
+    "/tmp/mxfp8_generic_migration_20260911_gwrg_q94/stream32_prefetch_pair8_vaddr",
+    "/tmp/mxfp8_generic_migration_20260911_gwrg_q94/stream64_output_spread",
+    "/tmp/mxfp8_generic_migration_20260911_gwrg_q94/stream64_output_burst",
+    "/tmp/mxfp8_generic_migration_20260911_gwrg_q94/stream32_prologue_next",
+    "/tmp/mxfp8_generic_migration_20260911_gwrg_q94/stream64_batch_scale",
+    "/tmp/mxfp8_generic_migration_20260911_gwrg_q94/stream64_output_async",
+    "/tmp/mxfp8_generic_migration_20260911_gwrg_q94/stream64_batch_output_spread",
+    "/tmp/mxfp8_generic_migration_20260911_gwrg_q94/stream64_scale_early6",
+    "/tmp/mxfp8_generic_migration_20260911_gwrg_q94/stream64_scale_split8_20",
+    "/tmp/mxfp8_generic_migration_20260911_gwrg_q94/stream64_scale_packed6",
+    "/tmp/mxfp8_generic_migration_20260911_gwrg_q94/stream64_pin_a0",
+    "/tmp/mxfp8_generic_migration_20260911_gwrg_q94/stream64_pin_a01",
+    "/tmp/mxfp8_generic_migration_20260911_gwrg_q94/stream64_pin_ab",
+    "/tmp/mxfp8_generic_migration_20260911_gwrg_q94/profiles",
+    "/tmp/mxfp8_4wave_compare_wjhyekus"
+  ],
+  "removed_files": 525,
+  "removed_bytes": 62521751,
+  "retained_workspaces": [
+    "/tmp/mxfp8_generic_migration_20260911_gwrg_q94/baseline",
+    "/tmp/mxfp8_generic_migration_20260911_gwrg_q94/specialized",
+    "/tmp/mxfp8_generic_migration_20260911_gwrg_q94/stream64_batch_output_burst"
+  ],
+  "preserved_in_git": "Candidate baseline-relative patches, baseline sources, final selection, all measurements and summaries",
+  "source_cleanup": [
+    "Removed active tmpl.hpp specialized implementation",
+    "Removed WholeKScaleTraits and legacy traits alias",
+    "Only final generic BF16/FP32 kernel instances remain"
+  ],
+  "cleanup_completed": true
+}

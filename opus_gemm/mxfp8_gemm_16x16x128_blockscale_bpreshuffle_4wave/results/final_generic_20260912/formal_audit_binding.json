@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "formal_files_equal_to_audited_reproduction": {
+    "tmpl_generic.hpp": true,
+    "traits.hpp": true,
+    "kernel_dispatch.hpp": true,
+    "build/device.isa": true,
+    "build/device.notes": true,
+    "build/libblockscale_bpreshuffle.so": true,
+    "build/gemm_a8w8_blockscale_bpreshuffle.exe": true
+  }
+}

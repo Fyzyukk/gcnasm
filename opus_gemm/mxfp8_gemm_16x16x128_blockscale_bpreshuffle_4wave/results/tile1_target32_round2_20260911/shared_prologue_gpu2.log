@@ -1,0 +1,201 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL unified_prologue bf16 67108864 outputs
+FULL_BASELINE_EQUAL unified_prologue fp32 67108864 outputs
+FULL_BASELINE_EQUAL unified_k0 bf16 67108864 outputs
+FULL_BASELINE_EQUAL unified_k0 fp32 67108864 outputs
+FULL_BASELINE_EQUAL unified_k1 bf16 67108864 outputs
+FULL_BASELINE_EQUAL unified_k1 fp32 67108864 outputs
+FULL_BASELINE_EQUAL early_scalar_offset bf16 67108864 outputs
+FULL_BASELINE_EQUAL early_scalar_offset fp32 67108864 outputs
+FULL_BASELINE_EQUAL matrix_shift bf16 67108864 outputs
+FULL_BASELINE_EQUAL matrix_shift fp32 67108864 outputs
+1 baseline bf16: 0.347302437 ms / 3.165862 P
+1 unified_prologue bf16: 0.346901745 ms / 3.169519 P
+1 baseline bf16: 0.347026557 ms / 3.168379 P
+1 baseline bf16: 0.346682101 ms / 3.171527 P
+1 unified_k0 bf16: 0.347404093 ms / 3.164936 P
+1 baseline bf16: 0.346823692 ms / 3.170232 P
+1 baseline bf16: 0.347406387 ms / 3.164915 P
+1 unified_k1 bf16: 0.347005576 ms / 3.168570 P
+1 baseline bf16: 0.347249210 ms / 3.166347 P
+1 baseline bf16: 0.348073274 ms / 3.158851 P
+1 early_scalar_offset bf16: 0.347529143 ms / 3.163797 P
+1 baseline bf16: 0.347905993 ms / 3.160370 P
+1 baseline bf16: 0.348069161 ms / 3.158888 P
+1 matrix_shift bf16: 0.347831964 ms / 3.161043 P
+1 baseline bf16: 0.347421616 ms / 3.164776 P
+1 baseline fp32: 0.364387661 ms / 3.017423 P
+1 unified_prologue fp32: 0.363835305 ms / 3.022004 P
+1 baseline fp32: 0.364387751 ms / 3.017422 P
+1 baseline fp32: 0.364397317 ms / 3.017343 P
+1 unified_k0 fp32: 0.364698917 ms / 3.014848 P
+1 baseline fp32: 0.364433289 ms / 3.017045 P
+1 baseline fp32: 0.364550084 ms / 3.016078 P
+1 unified_k1 fp32: 0.364522099 ms / 3.016310 P
+1 baseline fp32: 0.364385724 ms / 3.017439 P
+1 baseline fp32: 0.364948452 ms / 3.012786 P
+1 early_scalar_offset fp32: 0.364712536 ms / 3.014735 P
+1 baseline fp32: 0.364888072 ms / 3.013285 P
+1 baseline fp32: 0.364810526 ms / 3.013925 P
+1 matrix_shift fp32: 0.364682466 ms / 3.014984 P
+1 baseline fp32: 0.365040481 ms / 3.012027 P
+2 baseline bf16: 0.347970784 ms / 3.159781 P
+2 matrix_shift bf16: 0.348683208 ms / 3.153325 P
+2 baseline bf16: 0.348623961 ms / 3.153861 P
+2 baseline bf16: 0.348764002 ms / 3.152595 P
+2 early_scalar_offset bf16: 0.345052719 ms / 3.186503 P
+2 baseline bf16: 0.348060369 ms / 3.158968 P
+2 baseline bf16: 0.347821146 ms / 3.161141 P
+2 unified_k1 bf16: 0.347017527 ms / 3.168461 P
+2 baseline bf16: 0.346745133 ms / 3.170950 P
+2 baseline bf16: 0.349219978 ms / 3.148479 P
+2 unified_k0 bf16: 0.348925561 ms / 3.151135 P
+2 baseline bf16: 0.348848343 ms / 3.151833 P
+2 baseline bf16: 0.349051982 ms / 3.149994 P
+2 unified_prologue bf16: 0.349029154 ms / 3.150200 P
+2 baseline bf16: 0.348992765 ms / 3.150528 P
+2 baseline fp32: 0.365401685 ms / 3.009049 P
+2 matrix_shift fp32: 0.365033269 ms / 3.012086 P
+2 baseline fp32: 0.365099311 ms / 3.011541 P
+2 baseline fp32: 0.365257263 ms / 3.010239 P
+2 early_scalar_offset fp32: 0.365200073 ms / 3.010710 P
+2 baseline fp32: 0.364904493 ms / 3.013149 P
+2 baseline fp32: 0.365243256 ms / 3.010354 P
+2 unified_k1 fp32: 0.365052879 ms / 3.011924 P
+2 baseline fp32: 0.365316480 ms / 3.009751 P
+2 baseline fp32: 0.365252495 ms / 3.010278 P
+2 unified_k0 fp32: 0.365116477 ms / 3.011400 P
+2 baseline fp32: 0.365312070 ms / 3.009787 P
+2 baseline fp32: 0.365064085 ms / 3.011832 P
+2 unified_prologue fp32: 0.364832491 ms / 3.013744 P
+2 baseline fp32: 0.365316480 ms / 3.009751 P
+3 baseline bf16: 0.348857164 ms / 3.151753 P
+3 unified_prologue bf16: 0.349016756 ms / 3.150312 P
+3 baseline bf16: 0.349401981 ms / 3.146839 P
+3 baseline bf16: 0.348736763 ms / 3.152841 P
+3 unified_k0 bf16: 0.348724365 ms / 3.152953 P
+3 baseline bf16: 0.348177135 ms / 3.157909 P
+3 baseline bf16: 0.348125160 ms / 3.158380 P
+3 unified_k1 bf16: 0.347765118 ms / 3.161650 P
+3 baseline bf16: 0.348278761 ms / 3.156987 P
+3 baseline bf16: 0.347766310 ms / 3.161639 P
+3 early_scalar_offset bf16: 0.349011958 ms / 3.150355 P
+3 baseline bf16: 0.348403543 ms / 3.155857 P
+3 baseline bf16: 0.348294705 ms / 3.156843 P
+3 matrix_shift bf16: 0.348855555 ms / 3.151768 P
+3 baseline bf16: 0.349157155 ms / 3.149045 P
+3 baseline fp32: 0.365503281 ms / 3.008213 P
+3 unified_prologue fp32: 0.365178078 ms / 3.010892 P
+3 baseline fp32: 0.365800470 ms / 3.005769 P
+3 baseline fp32: 0.365319282 ms / 3.009728 P
+3 unified_k0 fp32: 0.365929306 ms / 3.004711 P
+3 baseline fp32: 0.365493685 ms / 3.008292 P
+3 baseline fp32: 0.365561306 ms / 3.007735 P
+3 unified_k1 fp32: 0.365358889 ms / 3.009402 P
+3 baseline fp32: 0.366316497 ms / 3.001535 P
+3 baseline fp32: 0.365853697 ms / 3.005331 P
+3 early_scalar_offset fp32: 0.366042852 ms / 3.003778 P
+3 baseline fp32: 0.365863681 ms / 3.005249 P
+3 baseline fp32: 0.365900487 ms / 3.004947 P
+3 matrix_shift fp32: 0.366158873 ms / 3.002827 P
+3 baseline fp32: 0.365735292 ms / 3.006304 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.3480992168188095,
+    "min_ms": 0.3466821014881134,
+    "max_ms": 0.34940198063850403,
+    "median_pflops": 3.158615632129707
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.36525487899780273,
+    "min_ms": 0.364385724067688,
+    "max_ms": 0.3663164973258972,
+    "median_pflops": 3.010258564629918
+  },
+  {
+    "name": "unified_prologue",
+    "dtype": "bf16",
+    "median_ms": 0.3490167558193207,
+    "min_ms": 0.3469017446041107,
+    "max_ms": 0.34902915358543396,
+    "median_pflops": 3.15031186739125
+  },
+  {
+    "name": "unified_prologue",
+    "dtype": "fp32",
+    "median_ms": 0.36483249068260193,
+    "min_ms": 0.36383530497550964,
+    "max_ms": 0.36517807841300964,
+    "median_pflops": 3.013743720354546
+  },
+  {
+    "name": "unified_k0",
+    "dtype": "bf16",
+    "median_ms": 0.348724365234375,
+    "min_ms": 0.3474040925502777,
+    "max_ms": 0.34892556071281433,
+    "median_pflops": 3.152953270234004
+  },
+  {
+    "name": "unified_k0",
+    "dtype": "fp32",
+    "median_ms": 0.3651164770126343,
+    "min_ms": 0.3646989166736603,
+    "max_ms": 0.3659293055534363,
+    "median_pflops": 3.01139964093692
+  },
+  {
+    "name": "unified_k1",
+    "dtype": "bf16",
+    "median_ms": 0.3470175266265869,
+    "min_ms": 0.34700557589530945,
+    "max_ms": 0.34776511788368225,
+    "median_pflops": 3.1684613698464426
+  },
+  {
+    "name": "unified_k1",
+    "dtype": "fp32",
+    "median_ms": 0.36505287885665894,
+    "min_ms": 0.3645220994949341,
+    "max_ms": 0.3653588891029358,
+    "median_pflops": 3.011924275791652
+  },
+  {
+    "name": "early_scalar_offset",
+    "dtype": "bf16",
+    "median_ms": 0.3475291430950165,
+    "min_ms": 0.34505271911621094,
+    "max_ms": 0.34901195764541626,
+    "median_pflops": 3.1637969063083355
+  },
+  {
+    "name": "early_scalar_offset",
+    "dtype": "fp32",
+    "median_ms": 0.36520007252693176,
+    "min_ms": 0.36471253633499146,
+    "max_ms": 0.3660428524017334,
+    "median_pflops": 3.0107103215181215
+  },
+  {
+    "name": "matrix_shift",
+    "dtype": "bf16",
+    "median_ms": 0.3486832082271576,
+    "min_ms": 0.34783196449279785,
+    "max_ms": 0.34885555505752563,
+    "median_pflops": 3.153325430743709
+  },
+  {
+    "name": "matrix_shift",
+    "dtype": "fp32",
+    "median_ms": 0.36503326892852783,
+    "min_ms": 0.36468246579170227,
+    "max_ms": 0.3661588728427887,
+    "median_pflops": 3.0120860791767456
+  }
+]

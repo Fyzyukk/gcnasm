@@ -1,0 +1,241 @@
+--- a/tmpl.hpp
++++ b/tmpl.hpp
+@@ -623,73 +623,63 @@
+         __builtin_amdgcn_sched_barrier(0);
+ 
+ 
+-        // A half 1 x B half 0 -> C[1][0] (128x128 wave quadrant).
+-        MXFP8_MMA_PAIR(
+-            1, 0, 0, v_a[1], v_b, c10_0, c10_1, v_sfa, v_sfb[0]);
++        // C10 visits independent accumulators in the recorded order.
++        MXFP8_MMA_PAIR(1, 0, 0, v_a[1], v_b, c10_0, c10_1, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+         prefetch_matrix_issue(opus::number<5>{}, stage, future_tile);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+-
+-        MXFP8_MMA_PAIR(
+-            1, 0, 1, v_a[1], v_b, c10_2, c10_3, v_sfa, v_sfb[0]);
++        MXFP8_MMA_PAIR(1, 1, 0, v_a[1], v_b, c10_4, c10_5, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+         prefetch_matrix_issue(opus::number<6>{}, stage, future_tile);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+-
+-        MXFP8_MMA_PAIR(
+-            1, 1, 0, v_a[1], v_b, c10_4, c10_5, v_sfa, v_sfb[0]);
++        MXFP8_MMA_PAIR(1, 2, 0, v_a[1], v_b, c10_8, c10_9, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+         prefetch_matrix_issue(opus::number<7>{}, stage, future_tile);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+-
+-        MXFP8_MMA_PAIR(
+-            1, 1, 1, v_a[1], v_b, c10_6, c10_7, v_sfa, v_sfb[0]);
++        MXFP8_MMA_PAIR(1, 3, 0, v_a[1], v_b, c10_12, c10_13, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+         prefetch_matrix_issue(opus::number<8>{}, stage, future_tile);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+-
+-
+-        MXFP8_MMA_PAIR(
+-            1, 2, 0, v_a[1], v_b, c10_8, c10_9, v_sfa, v_sfb[0]);
++        // MFMA24: these B0 slices have no remaining current-K consumer.
++        load_b_range_scale<T, 0, 2>(s_b, rb0_next_offsets, v_b);
++        load_b_range_scale<T, 2, 4>(s_b, rb0_next_offsets, v_b);
++        __builtin_amdgcn_sched_group_barrier(0x100, 4, 0);
++        __builtin_amdgcn_sched_barrier(0);
++
++        MXFP8_MMA_PAIR(1, 0, 1, v_a[1], v_b, c10_2, c10_3, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+         prefetch_matrix_issue(opus::number<9>{}, stage, future_tile);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+-
+-        MXFP8_MMA_PAIR(
+-            1, 2, 1, v_a[1], v_b, c10_10, c10_11, v_sfa, v_sfb[0]);
++        MXFP8_MMA_PAIR(1, 1, 1, v_a[1], v_b, c10_6, c10_7, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+         prefetch_matrix_issue(opus::number<10>{}, stage, future_tile);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+-
+-        MXFP8_MMA_PAIR(
+-            1, 3, 0, v_a[1], v_b, c10_12, c10_13, v_sfa, v_sfb[0]);
++        MXFP8_MMA_PAIR(1, 2, 1, v_a[1], v_b, c10_10, c10_11, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+         prefetch_matrix_issue(opus::number<11>{}, stage, future_tile);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+-
+-        MXFP8_MMA_PAIR(
+-            1, 3, 1, v_a[1], v_b, c10_14, c10_15, v_sfa, v_sfb[0]);
++        MXFP8_MMA_PAIR(1, 3, 1, v_a[1], v_b, c10_14, c10_15, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+         prefetch_matrix_issue(opus::number<12>{}, stage, future_tile);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+-
+-        // Spread the dead B0 operand reads after MFMA32.
+-        load_b_range_scale<T, 0, 2>(s_b, rb0_next_offsets, v_b);
+-        __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
++        // MFMA32: these B0 slices have no remaining current-K consumer.
++        load_b_range_scale<T, 4, 6>(s_b, rb0_next_offsets, v_b);
++        load_b_range_scale<T, 6, 8>(s_b, rb0_next_offsets, v_b);
++        __builtin_amdgcn_sched_group_barrier(0x100, 4, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+         const auto& v_b_n1 = v_b_second;
+@@ -702,10 +692,6 @@
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+-        // Spread the dead B0 operand reads after MFMA34.
+-        load_b_range_scale<T, 2, 4>(s_b, rb0_next_offsets, v_b);
+-        __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+-        __builtin_amdgcn_sched_barrier(0);
+ 
+         MXFP8_MMA_PAIR(
+             0, 0, 1, v_a[0], v_b_n1, c01_2, c01_3, v_sfa, v_sfb[1]);
+@@ -714,10 +700,6 @@
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+-        // Spread the dead B0 operand reads after MFMA36.
+-        load_b_range_scale<T, 4, 6>(s_b, rb0_next_offsets, v_b);
+-        __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+-        __builtin_amdgcn_sched_barrier(0);
+ 
+         // M0's four c01 consumers are complete, and the early publication
+         // barrier has published next_stage. Roll only its two K64 pieces.
+@@ -743,10 +725,6 @@
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+-        // Spread the dead B0 operand reads after MFMA38.
+-        load_b_range_scale<T, 6, 8>(s_b, rb0_next_offsets, v_b);
+-        __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+-        __builtin_amdgcn_sched_barrier(0);
+ 
+         // Start panel SFA1 for tile t+1 in a dedicated VGPR; the remaining
+         // ten c01 plus sixteen c11 MFMAs cover this immutable panel read.
+@@ -951,49 +929,39 @@
+         sched_barrier_pairs_scale();
+ 
+ 
+-        // A half 1 x B half 0 -> C[1][0] (128x128 wave quadrant).
+-        MXFP8_MMA_PAIR(
+-            1, 0, 0, v_a[1], v_b, c10_0, c10_1, v_sfa, v_sfb[0]);
+-        sched_barrier_pairs_scale();
+-
+-
+-        MXFP8_MMA_PAIR(
+-            1, 0, 1, v_a[1], v_b, c10_2, c10_3, v_sfa, v_sfb[0]);
+-        sched_barrier_pairs_scale();
+-
+-
+-        MXFP8_MMA_PAIR(
+-            1, 1, 0, v_a[1], v_b, c10_4, c10_5, v_sfa, v_sfb[0]);
+-        sched_barrier_pairs_scale();
+-
+-
+-        MXFP8_MMA_PAIR(
+-            1, 1, 1, v_a[1], v_b, c10_6, c10_7, v_sfa, v_sfb[0]);
+-        sched_barrier_pairs_scale();
+-
+-
+-        MXFP8_MMA_PAIR(
+-            1, 2, 0, v_a[1], v_b, c10_8, c10_9, v_sfa, v_sfb[0]);
+-        sched_barrier_pairs_scale();
+-
+-
+-        MXFP8_MMA_PAIR(
+-            1, 2, 1, v_a[1], v_b, c10_10, c10_11, v_sfa, v_sfb[0]);
+-        sched_barrier_pairs_scale();
+-
+-
+-        MXFP8_MMA_PAIR(
+-            1, 3, 0, v_a[1], v_b, c10_12, c10_13, v_sfa, v_sfb[0]);
+-        sched_barrier_pairs_scale();
+-
+-
+-        MXFP8_MMA_PAIR(
+-            1, 3, 1, v_a[1], v_b, c10_14, c10_15, v_sfa, v_sfb[0]);
+-        sched_barrier_pairs_scale();
+-
+-        // Spread the dead B0 operand reads after MFMA32.
++        // C10 visits independent accumulators in the recorded order.
++        MXFP8_MMA_PAIR(1, 0, 0, v_a[1], v_b, c10_0, c10_1, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++
++        MXFP8_MMA_PAIR(1, 1, 0, v_a[1], v_b, c10_4, c10_5, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++
++        MXFP8_MMA_PAIR(1, 2, 0, v_a[1], v_b, c10_8, c10_9, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++
++        MXFP8_MMA_PAIR(1, 3, 0, v_a[1], v_b, c10_12, c10_13, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++        // MFMA24: these B0 slices have no remaining current-K consumer.
+         load_b_range_scale<T, 0, 2>(s_b, rb0_next_offsets, v_b);
+-        __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
++        load_b_range_scale<T, 2, 4>(s_b, rb0_next_offsets, v_b);
++        __builtin_amdgcn_sched_group_barrier(0x100, 4, 0);
++        __builtin_amdgcn_sched_barrier(0);
++
++        MXFP8_MMA_PAIR(1, 0, 1, v_a[1], v_b, c10_2, c10_3, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++
++        MXFP8_MMA_PAIR(1, 1, 1, v_a[1], v_b, c10_6, c10_7, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++
++        MXFP8_MMA_PAIR(1, 2, 1, v_a[1], v_b, c10_10, c10_11, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++
++        MXFP8_MMA_PAIR(1, 3, 1, v_a[1], v_b, c10_14, c10_15, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++        // MFMA32: these B0 slices have no remaining current-K consumer.
++        load_b_range_scale<T, 4, 6>(s_b, rb0_next_offsets, v_b);
++        load_b_range_scale<T, 6, 8>(s_b, rb0_next_offsets, v_b);
++        __builtin_amdgcn_sched_group_barrier(0x100, 4, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+         const auto& v_b_n1 = v_b_second;
+@@ -1003,19 +971,11 @@
+             0, 0, 0, v_a[0], v_b_n1, c01_0, c01_1, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
+ 
+-        // Spread the dead B0 operand reads after MFMA34.
+-        load_b_range_scale<T, 2, 4>(s_b, rb0_next_offsets, v_b);
+-        __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+-        __builtin_amdgcn_sched_barrier(0);
+ 
+         MXFP8_MMA_PAIR(
+             0, 0, 1, v_a[0], v_b_n1, c01_2, c01_3, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
+ 
+-        // Spread the dead B0 operand reads after MFMA36.
+-        load_b_range_scale<T, 4, 6>(s_b, rb0_next_offsets, v_b);
+-        __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+-        __builtin_amdgcn_sched_barrier(0);
+ 
+         // M0's four c01 consumers are complete, and the early publication
+         // barrier has published next_stage. Roll only its two K64 pieces.
+@@ -1038,10 +998,6 @@
+             0, 1, 1, v_a[0], v_b_n1, c01_5, v_sfa, v_sfb[1]);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+-        // Spread the dead B0 operand reads after MFMA38.
+-        load_b_range_scale<T, 6, 8>(s_b, rb0_next_offsets, v_b);
+-        __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+-        __builtin_amdgcn_sched_barrier(0);
+ 
+         // Start panel SFA1 for tile t+1 in a dedicated VGPR; the remaining
+         // ten c01 plus sixteen c11 MFMAs cover this immutable panel read.

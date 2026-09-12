@@ -1,0 +1,200 @@
+[
+  {
+    "round": 1,
+    "name": "specialized",
+    "dtype": "bf16",
+    "candidate_ms": 0.34173667430877686,
+    "baseline_before_ms": 0.3447733223438263,
+    "baseline_after_ms": 0.34424635767936707,
+    "reference_ms": 0.3445098400115967,
+    "speedup_percent": 0.811491979439749,
+    "baseline_drift_percent": -0.1528438049895664
+  },
+  {
+    "round": 1,
+    "name": "stream32_prefetch_rows4_vaddr",
+    "dtype": "bf16",
+    "candidate_ms": 0.3446674346923828,
+    "baseline_before_ms": 0.3436802327632904,
+    "baseline_after_ms": 0.3445580005645752,
+    "reference_ms": 0.3441191166639328,
+    "speedup_percent": -0.15908611410863083,
+    "baseline_drift_percent": 0.25540246939059763
+  },
+  {
+    "round": 1,
+    "name": "stream32_prefetch_pair8_vaddr",
+    "dtype": "bf16",
+    "candidate_ms": 0.34555038809776306,
+    "baseline_before_ms": 0.34466230869293213,
+    "baseline_after_ms": 0.34459438920021057,
+    "reference_ms": 0.34462834894657135,
+    "speedup_percent": -0.2668320404058844,
+    "baseline_drift_percent": -0.01970609811647872
+  },
+  {
+    "round": 1,
+    "name": "specialized",
+    "dtype": "fp32",
+    "candidate_ms": 0.36068570613861084,
+    "baseline_before_ms": 0.3655325174331665,
+    "baseline_after_ms": 0.36532577872276306,
+    "reference_ms": 0.3654291480779648,
+    "speedup_percent": 1.3151178043997902,
+    "baseline_drift_percent": -0.05655822684537126
+  },
+  {
+    "round": 1,
+    "name": "stream32_prefetch_rows4_vaddr",
+    "dtype": "fp32",
+    "candidate_ms": 0.36449775099754333,
+    "baseline_before_ms": 0.36551937460899353,
+    "baseline_after_ms": 0.36552971601486206,
+    "reference_ms": 0.3655245453119278,
+    "speedup_percent": 0.2817011385047863,
+    "baseline_drift_percent": 0.002829236036960836
+  },
+  {
+    "round": 1,
+    "name": "stream32_prefetch_pair8_vaddr",
+    "dtype": "fp32",
+    "candidate_ms": 0.3646877408027649,
+    "baseline_before_ms": 0.36584576964378357,
+    "baseline_after_ms": 0.36595138907432556,
+    "reference_ms": 0.36589857935905457,
+    "speedup_percent": 0.33202063596224907,
+    "baseline_drift_percent": 0.028869933536435077
+  },
+  {
+    "round": 2,
+    "name": "stream32_prefetch_pair8_vaddr",
+    "dtype": "bf16",
+    "candidate_ms": 0.3463299870491028,
+    "baseline_before_ms": 0.3455623984336853,
+    "baseline_after_ms": 0.34532085061073303,
+    "reference_ms": 0.34544162452220917,
+    "speedup_percent": -0.2565075390851601,
+    "baseline_drift_percent": -0.06989991505068627
+  },
+  {
+    "round": 2,
+    "name": "stream32_prefetch_rows4_vaddr",
+    "dtype": "bf16",
+    "candidate_ms": 0.3461371958255768,
+    "baseline_before_ms": 0.3451920449733734,
+    "baseline_after_ms": 0.34573477506637573,
+    "reference_ms": 0.3454634100198746,
+    "speedup_percent": -0.19465859602149083,
+    "baseline_drift_percent": 0.15722555050310394
+  },
+  {
+    "round": 2,
+    "name": "specialized",
+    "dtype": "bf16",
+    "candidate_ms": 0.34241917729377747,
+    "baseline_before_ms": 0.34570324420928955,
+    "baseline_after_ms": 0.34539639949798584,
+    "reference_ms": 0.3455498218536377,
+    "speedup_percent": 0.9142725546514407,
+    "baseline_drift_percent": -0.0887595694988419
+  },
+  {
+    "round": 2,
+    "name": "stream32_prefetch_pair8_vaddr",
+    "dtype": "fp32",
+    "candidate_ms": 0.36531776189804077,
+    "baseline_before_ms": 0.3661397695541382,
+    "baseline_after_ms": 0.36631980538368225,
+    "reference_ms": 0.3662297874689102,
+    "speedup_percent": 0.24965267665360003,
+    "baseline_drift_percent": 0.0491713396125526
+  },
+  {
+    "round": 2,
+    "name": "stream32_prefetch_rows4_vaddr",
+    "dtype": "fp32",
+    "candidate_ms": 0.3652033507823944,
+    "baseline_before_ms": 0.3665681481361389,
+    "baseline_after_ms": 0.3662073612213135,
+    "reference_ms": 0.3663877546787262,
+    "speedup_percent": 0.32431353485513625,
+    "baseline_drift_percent": -0.09842287625367874
+  },
+  {
+    "round": 2,
+    "name": "specialized",
+    "dtype": "fp32",
+    "candidate_ms": 0.36116015911102295,
+    "baseline_before_ms": 0.3663489818572998,
+    "baseline_after_ms": 0.3665117621421814,
+    "reference_ms": 0.3664303719997406,
+    "speedup_percent": 1.4592453668450078,
+    "baseline_drift_percent": 0.04443312058801663
+  },
+  {
+    "round": 3,
+    "name": "specialized",
+    "dtype": "bf16",
+    "candidate_ms": 0.34293362498283386,
+    "baseline_before_ms": 0.34603920578956604,
+    "baseline_after_ms": 0.34600478410720825,
+    "reference_ms": 0.34602199494838715,
+    "speedup_percent": 0.9005736797340624,
+    "baseline_drift_percent": -0.009947335961324466
+  },
+  {
+    "round": 3,
+    "name": "stream32_prefetch_rows4_vaddr",
+    "dtype": "bf16",
+    "candidate_ms": 0.3467995822429657,
+    "baseline_before_ms": 0.346176415681839,
+    "baseline_after_ms": 0.34627559781074524,
+    "reference_ms": 0.3462260067462921,
+    "speedup_percent": -0.16539105755661865,
+    "baseline_drift_percent": 0.028650746964054008
+  },
+  {
+    "round": 3,
+    "name": "stream32_prefetch_pair8_vaddr",
+    "dtype": "bf16",
+    "candidate_ms": 0.3471832275390625,
+    "baseline_before_ms": 0.3459208011627197,
+    "baseline_after_ms": 0.3459363877773285,
+    "reference_ms": 0.3459285944700241,
+    "speedup_percent": -0.3613749079791728,
+    "baseline_drift_percent": 0.004505833287948846
+  },
+  {
+    "round": 3,
+    "name": "specialized",
+    "dtype": "fp32",
+    "candidate_ms": 0.36137017607688904,
+    "baseline_before_ms": 0.3667314052581787,
+    "baseline_after_ms": 0.36673739552497864,
+    "reference_ms": 0.3667344003915787,
+    "speedup_percent": 1.484412569107052,
+    "baseline_drift_percent": 0.0016334207308288384
+  },
+  {
+    "round": 3,
+    "name": "stream32_prefetch_rows4_vaddr",
+    "dtype": "fp32",
+    "candidate_ms": 0.36528900265693665,
+    "baseline_before_ms": 0.3666902184486389,
+    "baseline_after_ms": 0.3666326105594635,
+    "reference_ms": 0.3666614145040512,
+    "speedup_percent": 0.3757057664294017,
+    "baseline_drift_percent": -0.015710233400589857
+  },
+  {
+    "round": 3,
+    "name": "stream32_prefetch_pair8_vaddr",
+    "dtype": "fp32",
+    "candidate_ms": 0.3659098148345947,
+    "baseline_before_ms": 0.36675941944122314,
+    "baseline_after_ms": 0.36694538593292236,
+    "reference_ms": 0.36685240268707275,
+    "speedup_percent": 0.25760113947861374,
+    "baseline_drift_percent": 0.05070530757806946
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "name": "keep_loop_priority",
+  "config": {
+    "omit_loop_tail_priority_reset": true
+  },
+  "source_sha256": "ccc8f6b3ef0aa7fdc0522a93ca2d9fadbce1592cc85c970fb80fb05fd2f86045",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true
+}

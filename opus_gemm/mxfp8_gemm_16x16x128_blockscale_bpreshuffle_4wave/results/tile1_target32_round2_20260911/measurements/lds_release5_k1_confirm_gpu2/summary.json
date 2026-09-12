@@ -1,0 +1,62 @@
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.347978783,
+    "min_ms": 0.34749279,
+    "max_ms": 0.348346901,
+    "median_pflops": 3.159708814131924
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.364598236,
+    "min_ms": 0.363912964,
+    "max_ms": 0.364998245,
+    "median_pflops": 3.015680053306676
+  },
+  {
+    "name": "bf16_lds_epilogue_aux2",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.345149193,
+    "min_ms": 0.344867096,
+    "max_ms": 0.345653267,
+    "median_pflops": 3.1856126280324233
+  },
+  {
+    "name": "bf16_lds_epilogue_aux2",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.364423637,
+    "min_ms": 0.364074593,
+    "max_ms": 0.364743004,
+    "median_pflops": 3.0171248957048307
+  },
+  {
+    "name": "lds_release5_k1",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.344299164,
+    "min_ms": 0.343720093,
+    "max_ms": 0.34446228,
+    "median_pflops": 3.193477483366762
+  },
+  {
+    "name": "lds_release5_k1",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.363869247,
+    "min_ms": 0.362958565,
+    "max_ms": 0.363880959,
+    "median_pflops": 3.0217217773724085
+  }
+]

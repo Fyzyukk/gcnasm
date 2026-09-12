@@ -1,0 +1,93 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL a_first_c10_rows bf16 67108864 outputs
+FULL_BASELINE_EQUAL a_first_c10_rows fp32 67108864 outputs
+FULL_BASELINE_EQUAL a_first_c10_columns bf16 67108864 outputs
+FULL_BASELINE_EQUAL a_first_c10_columns fp32 67108864 outputs
+1 baseline bf16: 0.347187281 ms / 3.166912 P
+1 a_first_c10_rows bf16: 0.345428169 ms / 3.183040 P
+1 baseline bf16: 0.347152561 ms / 3.167229 P
+1 baseline bf16: 0.347530514 ms / 3.163784 P
+1 a_first_c10_columns bf16: 0.344606638 ms / 3.190628 P
+1 baseline bf16: 0.347336620 ms / 3.165551 P
+1 baseline fp32: 0.363895178 ms / 3.021506 P
+1 a_first_c10_rows fp32: 0.366168410 ms / 3.002748 P
+1 baseline fp32: 0.363678813 ms / 3.023304 P
+1 baseline fp32: 0.364059597 ms / 3.020142 P
+1 a_first_c10_columns fp32: 0.366485178 ms / 3.000153 P
+1 baseline fp32: 0.364033550 ms / 3.020358 P
+2 baseline bf16: 0.348259896 ms / 3.157158 P
+2 a_first_c10_columns bf16: 0.345102668 ms / 3.186042 P
+2 baseline bf16: 0.348394752 ms / 3.155936 P
+2 baseline bf16: 0.348366618 ms / 3.156191 P
+2 a_first_c10_rows bf16: 0.346437484 ms / 3.173766 P
+2 baseline bf16: 0.348208696 ms / 3.157623 P
+2 baseline fp32: 0.364721179 ms / 3.014664 P
+2 a_first_c10_columns fp32: 0.367048442 ms / 2.995549 P
+2 baseline fp32: 0.364576787 ms / 3.015857 P
+2 baseline fp32: 0.364498794 ms / 3.016503 P
+2 a_first_c10_rows fp32: 0.366966069 ms / 2.996222 P
+2 baseline fp32: 0.365096062 ms / 3.011568 P
+3 baseline bf16: 0.348680735 ms / 3.153348 P
+3 a_first_c10_rows bf16: 0.346659899 ms / 3.171730 P
+3 baseline bf16: 0.349523515 ms / 3.145744 P
+3 baseline bf16: 0.349037141 ms / 3.150128 P
+3 a_first_c10_columns bf16: 0.346146286 ms / 3.176436 P
+3 baseline bf16: 0.348863512 ms / 3.151696 P
+3 baseline fp32: 0.364877582 ms / 3.013371 P
+3 a_first_c10_rows fp32: 0.367781252 ms / 2.989580 P
+3 baseline fp32: 0.364663243 ms / 3.015142 P
+3 baseline fp32: 0.364619642 ms / 3.015503 P
+3 a_first_c10_columns fp32: 0.366814047 ms / 2.997463 P
+3 baseline fp32: 0.364762843 ms / 3.014319 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.34831325709819794,
+    "min_ms": 0.34715256094932556,
+    "max_ms": 0.34952351450920105,
+    "median_pflops": 3.1566746466558437
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.36459821462631226,
+    "min_ms": 0.36367881298065186,
+    "max_ms": 0.3650960624217987,
+    "median_pflops": 3.015680230093619
+  },
+  {
+    "name": "a_first_c10_rows",
+    "dtype": "bf16",
+    "median_ms": 0.3464374840259552,
+    "min_ms": 0.3454281687736511,
+    "max_ms": 0.34665989875793457,
+    "median_pflops": 3.1737663459466305
+  },
+  {
+    "name": "a_first_c10_rows",
+    "dtype": "fp32",
+    "median_ms": 0.3669660687446594,
+    "min_ms": 0.36616840958595276,
+    "max_ms": 0.36778125166893005,
+    "median_pflops": 2.9962215077194423
+  },
+  {
+    "name": "a_first_c10_columns",
+    "dtype": "bf16",
+    "median_ms": 0.3451026678085327,
+    "min_ms": 0.3446066379547119,
+    "max_ms": 0.34614628553390503,
+    "median_pflops": 3.186042098017112
+  },
+  {
+    "name": "a_first_c10_columns",
+    "dtype": "fp32",
+    "median_ms": 0.3668140470981598,
+    "min_ms": 0.3664851784706116,
+    "max_ms": 0.367048442363739,
+    "median_pflops": 2.9974632554946012
+  }
+]

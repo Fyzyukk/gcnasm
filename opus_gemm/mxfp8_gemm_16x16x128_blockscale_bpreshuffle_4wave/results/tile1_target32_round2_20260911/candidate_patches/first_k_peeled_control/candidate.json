@@ -1,0 +1,24 @@
+{
+  "name": "first_k_peeled_control",
+  "parent": "tail_a3_prefetch56",
+  "config": {
+    "first_k_peeled": true,
+    "zero_src_c_initialization": false,
+    "bf16_lds_epilogue": true,
+    "release_mfma": 5,
+    "tail_prefetch_schedule": [
+      [
+        "a",
+        3,
+        56
+      ]
+    ],
+    "unified_initial_matrix_stages": [
+      1
+    ]
+  },
+  "source_sha256": "2b38e6412bd415125f9491bbe434f4a76edeedce9b3495606189663fa0e528bc",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true
+}

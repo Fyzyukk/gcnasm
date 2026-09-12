@@ -1,0 +1,22 @@
+{
+  "name": "a_first_c10_columns",
+  "parent": "lds_release5_k1",
+  "config": {
+    "quadrant_order": [
+      "c00",
+      "c01",
+      "c10",
+      "c11"
+    ],
+    "c10_order": "columns",
+    "release_mfma": 5,
+    "bf16_lds_epilogue": true,
+    "unified_initial_matrix_stages": [
+      1
+    ]
+  },
+  "source_sha256": "f55ec20016533574db06284438bb38eb80c861418b275f8d9dbd515ca5d9fb23",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true
+}

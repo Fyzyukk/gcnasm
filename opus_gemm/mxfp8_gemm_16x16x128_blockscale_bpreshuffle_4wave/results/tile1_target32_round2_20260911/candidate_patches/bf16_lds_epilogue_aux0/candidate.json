@@ -1,0 +1,12 @@
+{
+  "name": "bf16_lds_epilogue_aux0",
+  "config": {
+    "bf16_lds_epilogue": true,
+    "bf16_store_aux": 0,
+    "c_lds_pitch": 264
+  },
+  "source_sha256": "a3eccd29fbbe78aaae761180f21da120c2fdaa9a9311043249cccddd753df41d",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true
+}

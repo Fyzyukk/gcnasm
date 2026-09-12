@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "generic_source_sha256": "3681ebf7093140a3f1216b1c6faab22e6d726dbd15c4ec3167b931029f84f180",
+  "kernel_reports": [
+    {
+      "name": "_ZN16blockscale_panel28gemm_a8w8_mxfp8_scale_kernelI17WholeKScaleTraitsILb0EEEEv21opus_gemm_scale_kargs",
+      "isa_identical": true,
+      "instruction_count": 2300
+    },
+    {
+      "name": "_ZN16blockscale_panel28gemm_a8w8_mxfp8_scale_kernelI17WholeKScaleTraitsILb1EEEEv21opus_gemm_scale_kargs",
+      "isa_identical": true,
+      "instruction_count": 2984
+    },
+    {
+      "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+      "isa_identical": true,
+      "instruction_count": 1705
+    },
+    {
+      "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+      "isa_identical": true,
+      "instruction_count": 2092
+    }
+  ],
+  "scope": "Both specialized and generic device kernels are unchanged; isolated host dispatch selects generic unconditionally"
+}

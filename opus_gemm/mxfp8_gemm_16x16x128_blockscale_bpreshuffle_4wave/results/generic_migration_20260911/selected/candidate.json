@@ -1,0 +1,49 @@
+{
+  "name": "generic_tile1_final_20260912",
+  "parent": "stream64_batch_output_burst",
+  "config": {
+    "lds_output": true,
+    "release_mfma": 5,
+    "unified_k1": true,
+    "early_a1_m3": true,
+    "scale_panel_tiles": 64,
+    "unroll": 8,
+    "explicit_retire_vmem_wait": true,
+    "output_rows": true,
+    "store_delay": 4,
+    "lds_vector_elements": 4,
+    "panel_global_loads": "four_before_transpose",
+    "initial_publish": "after_B_requests",
+    "output_half_overlap": "burst",
+    "first_half_publication_mfma": 36,
+    "final_barrier_vmem_drain": true
+  },
+  "source_hashes": {
+    "tmpl_generic.hpp": "681e64526624bdafd7f8d6c2117cd95dc516866f8d25f5aa8159a90c21687fd6",
+    "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+    "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+    "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+    "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+  },
+  "generic_runtime_k": true,
+  "performance_shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "waves": 4,
+  "output_tiles_per_wg": 1,
+  "production_single_generic": true,
+  "expected_generic_isa": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2820,
+      "encoding_sha256": "0f196aa0681074aa9f649792c8ea55c41079da3c23a3f47557dcd82b88fc119e",
+      "words": 6080
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3428,
+      "encoding_sha256": "2d7afce012e03d089c93113176f5e6eaa708e291d63e096c49e624697814fc57",
+      "words": 7234
+    }
+  }
+}

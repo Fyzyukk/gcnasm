@@ -1,0 +1,93 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL bf16_lds_epilogue_aux0 bf16 67108864 outputs
+FULL_BASELINE_EQUAL bf16_lds_epilogue_aux0 fp32 67108864 outputs
+FULL_BASELINE_EQUAL bf16_lds_epilogue_aux2 bf16 67108864 outputs
+FULL_BASELINE_EQUAL bf16_lds_epilogue_aux2 fp32 67108864 outputs
+1 baseline bf16: 0.347076565 ms / 3.167922 P
+1 bf16_lds_epilogue_aux0 bf16: 0.344470292 ms / 3.191891 P
+1 baseline bf16: 0.347101450 ms / 3.167695 P
+1 baseline bf16: 0.346596628 ms / 3.172309 P
+1 bf16_lds_epilogue_aux2 bf16: 0.344126314 ms / 3.195082 P
+1 baseline bf16: 0.347060293 ms / 3.168071 P
+1 baseline fp32: 0.363930434 ms / 3.021214 P
+1 bf16_lds_epilogue_aux0 fp32: 0.363923192 ms / 3.021274 P
+1 baseline fp32: 0.364182979 ms / 3.019119 P
+1 baseline fp32: 0.364641219 ms / 3.015325 P
+1 bf16_lds_epilogue_aux2 fp32: 0.364708483 ms / 3.014768 P
+1 baseline fp32: 0.364684522 ms / 3.014967 P
+2 baseline bf16: 0.347989619 ms / 3.159610 P
+2 bf16_lds_epilogue_aux2 bf16: 0.345378309 ms / 3.183499 P
+2 baseline bf16: 0.348064721 ms / 3.158929 P
+2 baseline bf16: 0.348521143 ms / 3.154792 P
+2 bf16_lds_epilogue_aux0 bf16: 0.346046805 ms / 3.177349 P
+2 baseline bf16: 0.348734736 ms / 3.152860 P
+2 baseline fp32: 0.364763290 ms / 3.014315 P
+2 bf16_lds_epilogue_aux2 fp32: 0.364963710 ms / 3.012660 P
+2 baseline fp32: 0.365314931 ms / 3.009764 P
+2 baseline fp32: 0.364999741 ms / 3.012363 P
+2 bf16_lds_epilogue_aux0 fp32: 0.365330100 ms / 3.009639 P
+2 baseline fp32: 0.364992857 ms / 3.012420 P
+3 baseline bf16: 0.348889530 ms / 3.151461 P
+3 bf16_lds_epilogue_aux0 bf16: 0.346730769 ms / 3.171082 P
+3 baseline bf16: 0.348509938 ms / 3.154893 P
+3 baseline bf16: 0.348806351 ms / 3.152212 P
+3 bf16_lds_epilogue_aux2 bf16: 0.345776737 ms / 3.179831 P
+3 baseline bf16: 0.348701566 ms / 3.153159 P
+3 baseline fp32: 0.365276575 ms / 3.010080 P
+3 bf16_lds_epilogue_aux0 fp32: 0.365678906 ms / 3.006768 P
+3 baseline fp32: 0.365095705 ms / 3.011571 P
+3 baseline fp32: 0.365126520 ms / 3.011317 P
+3 bf16_lds_epilogue_aux2 fp32: 0.365448922 ms / 3.008660 P
+3 baseline fp32: 0.365602583 ms / 3.007396 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.34828732907772064,
+    "min_ms": 0.3465966284275055,
+    "max_ms": 0.3488895297050476,
+    "median_pflops": 3.156909643217721
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.3649962991476059,
+    "min_ms": 0.36393043398857117,
+    "max_ms": 0.3656025826931,
+    "median_pflops": 3.012391167646753
+  },
+  {
+    "name": "bf16_lds_epilogue_aux0",
+    "dtype": "bf16",
+    "median_ms": 0.3460468053817749,
+    "min_ms": 0.3444702923297882,
+    "max_ms": 0.3467307686805725,
+    "median_pflops": 3.1773494529532433
+  },
+  {
+    "name": "bf16_lds_epilogue_aux0",
+    "dtype": "fp32",
+    "median_ms": 0.3653301000595093,
+    "min_ms": 0.36392319202423096,
+    "max_ms": 0.36567890644073486,
+    "median_pflops": 3.009638755735973
+  },
+  {
+    "name": "bf16_lds_epilogue_aux2",
+    "dtype": "bf16",
+    "median_ms": 0.3453783094882965,
+    "min_ms": 0.34412631392478943,
+    "max_ms": 0.3457767367362976,
+    "median_pflops": 3.1834993616275664
+  },
+  {
+    "name": "bf16_lds_epilogue_aux2",
+    "dtype": "fp32",
+    "median_ms": 0.36496371030807495,
+    "min_ms": 0.36470848321914673,
+    "max_ms": 0.365448921918869,
+    "median_pflops": 3.012660154205126
+  }
+]

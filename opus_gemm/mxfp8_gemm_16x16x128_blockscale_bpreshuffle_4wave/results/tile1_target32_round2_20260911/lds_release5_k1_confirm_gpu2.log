@@ -1,0 +1,93 @@
+Physical GPU2, PCI 0000:65:00.0, HIP index 2
+1 baseline perf_bf16 PASS 0.34749279 ms / 3.164127886 P
+1 baseline perf_fp32 PASS 0.363912964 ms / 3.0213587779999997 P
+1 bf16_lds_epilogue_aux2 perf_bf16 PASS 0.345227165 ms / 3.184893133 P
+1 bf16_lds_epilogue_aux2 perf_fp32 PASS 0.364370232 ms / 3.017567113 P
+1 lds_release5_k1 perf_bf16 PASS 0.344240875 ms / 3.194018221 P
+1 lds_release5_k1 perf_fp32 PASS 0.363799744 ms / 3.0222990719999996 P
+2 lds_release5_k1 perf_bf16 PASS 0.344351311 ms / 3.19299388 P
+2 lds_release5_k1 perf_fp32 PASS 0.362958565 ms / 3.029303437 P
+2 bf16_lds_epilogue_aux2 perf_bf16 PASS 0.345149193 ms / 3.18561263 P
+2 bf16_lds_epilogue_aux2 perf_fp32 PASS 0.364554176 ms / 3.016044526 P
+2 baseline perf_bf16 PASS 0.348346901 ms / 3.156369771 P
+2 baseline perf_fp32 PASS 0.364598236 ms / 3.015680053 P
+3 baseline perf_bf16 PASS 0.347750549 ms / 3.1617825760000002 P
+3 baseline perf_fp32 PASS 0.364436874 ms / 3.0170153049999997 P
+3 bf16_lds_epilogue_aux2 perf_bf16 PASS 0.345653267 ms / 3.180966978 P
+3 bf16_lds_epilogue_aux2 perf_fp32 PASS 0.364423637 ms / 3.017124892 P
+3 lds_release5_k1 perf_bf16 PASS 0.344299164 ms / 3.193477485 P
+3 lds_release5_k1 perf_fp32 PASS 0.363869247 ms / 3.021721774 P
+4 lds_release5_k1 perf_bf16 PASS 0.34446228 ms / 3.191965248 P
+4 lds_release5_k1 perf_fp32 PASS 0.363871422 ms / 3.021703717 P
+4 bf16_lds_epilogue_aux2 perf_bf16 PASS 0.345121613 ms / 3.185867207 P
+4 bf16_lds_epilogue_aux2 perf_fp32 PASS 0.364743004 ms / 3.014483119 P
+4 baseline perf_bf16 PASS 0.347978783 ms / 3.1597088170000003 P
+4 baseline perf_fp32 PASS 0.364796371 ms / 3.014042117 P
+5 baseline perf_bf16 PASS 0.3480196 ms / 3.159338233 P
+5 baseline perf_fp32 PASS 0.364998245 ms / 3.012375106 P
+5 bf16_lds_epilogue_aux2 perf_bf16 PASS 0.344867096 ms / 3.18821842 P
+5 bf16_lds_epilogue_aux2 perf_fp32 PASS 0.364074593 ms / 3.020017464 P
+5 lds_release5_k1 perf_bf16 PASS 0.343720093 ms / 3.198857591 P
+5 lds_release5_k1 perf_fp32 PASS 0.363880959 ms / 3.021624523 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.347978783,
+    "min_ms": 0.34749279,
+    "max_ms": 0.348346901,
+    "median_pflops": 3.159708814131924
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.364598236,
+    "min_ms": 0.363912964,
+    "max_ms": 0.364998245,
+    "median_pflops": 3.015680053306676
+  },
+  {
+    "name": "bf16_lds_epilogue_aux2",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.345149193,
+    "min_ms": 0.344867096,
+    "max_ms": 0.345653267,
+    "median_pflops": 3.1856126280324233
+  },
+  {
+    "name": "bf16_lds_epilogue_aux2",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.364423637,
+    "min_ms": 0.364074593,
+    "max_ms": 0.364743004,
+    "median_pflops": 3.0171248957048307
+  },
+  {
+    "name": "lds_release5_k1",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.344299164,
+    "min_ms": 0.343720093,
+    "max_ms": 0.34446228,
+    "median_pflops": 3.193477483366762
+  },
+  {
+    "name": "lds_release5_k1",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.363869247,
+    "min_ms": 0.362958565,
+    "max_ms": 0.363880959,
+    "median_pflops": 3.0217217773724085
+  }
+]

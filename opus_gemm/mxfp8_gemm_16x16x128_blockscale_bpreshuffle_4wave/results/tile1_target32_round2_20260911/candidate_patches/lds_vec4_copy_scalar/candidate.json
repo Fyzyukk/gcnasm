@@ -1,0 +1,15 @@
+{
+  "name": "lds_vec4_copy_scalar",
+  "parent": "bf16_lds_epilogue_aux2",
+  "config": {
+    "bf16_lds_epilogue": true,
+    "bf16_store_aux": 2,
+    "c_lds_pitch": 264,
+    "lds_fragment_elements": 4,
+    "scalar_copy_offsets": true
+  },
+  "source_sha256": "c3450a58fd4a7d7cd073f762ab0f7cae06333cba5785c7e9d0fccf9cabed130e",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true
+}

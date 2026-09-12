@@ -1,0 +1,10 @@
+{
+  "name": "bf16_resident_epilogue",
+  "config": {
+    "bf16_epilogue_resident": true
+  },
+  "source_sha256": "4ec1b348d2c5dc22244a3d3b5c96a7eefeeef616cc9921c7ed690f259e556dab",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true
+}

@@ -1,0 +1,93 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL stream64_lds_fence bf16 67108864 outputs
+FULL_BASELINE_EQUAL stream64_lds_fence fp32 67108864 outputs
+FULL_BASELINE_EQUAL specialized bf16 67108864 outputs
+FULL_BASELINE_EQUAL specialized fp32 67108864 outputs
+FULL_BASELINE_EQUAL stream64_rows4 bf16 67108864 outputs
+FULL_BASELINE_EQUAL stream64_rows4 fp32 67108864 outputs
+1 stream64_lds_fence bf16: 0.345840633 ms / 3.179244 P
+1 specialized bf16: 0.341829479 ms / 3.216550 P
+1 stream64_lds_fence bf16: 0.344085962 ms / 3.195456 P
+1 stream64_lds_fence bf16: 0.344275296 ms / 3.193699 P
+1 stream64_rows4 bf16: 0.344399184 ms / 3.192550 P
+1 stream64_lds_fence bf16: 0.344692826 ms / 3.189830 P
+1 stream64_lds_fence fp32: 0.365320623 ms / 3.009717 P
+1 specialized fp32: 0.360759050 ms / 3.047773 P
+1 stream64_lds_fence fp32: 0.365645528 ms / 3.007042 P
+1 stream64_lds_fence fp32: 0.365689516 ms / 3.006681 P
+1 stream64_rows4 fp32: 0.365745902 ms / 3.006217 P
+1 stream64_lds_fence fp32: 0.365435064 ms / 3.008774 P
+2 stream64_lds_fence bf16: 0.345487326 ms / 3.182495 P
+2 stream64_rows4 bf16: 0.345389366 ms / 3.183397 P
+2 stream64_lds_fence bf16: 0.345433772 ms / 3.182988 P
+2 stream64_lds_fence bf16: 0.345556557 ms / 3.181857 P
+2 specialized bf16: 0.342340916 ms / 3.211745 P
+2 stream64_lds_fence bf16: 0.345383376 ms / 3.183453 P
+2 stream64_lds_fence fp32: 0.366291493 ms / 3.001739 P
+2 stream64_rows4 fp32: 0.366107970 ms / 3.003244 P
+2 stream64_lds_fence fp32: 0.366261572 ms / 3.001985 P
+2 stream64_lds_fence fp32: 0.366235971 ms / 3.002195 P
+2 specialized fp32: 0.361044735 ms / 3.045361 P
+2 stream64_lds_fence fp32: 0.366185158 ms / 3.002611 P
+3 stream64_lds_fence bf16: 0.345929414 ms / 3.178428 P
+3 specialized bf16: 0.341968566 ms / 3.215242 P
+3 stream64_lds_fence bf16: 0.345966160 ms / 3.178090 P
+3 stream64_lds_fence bf16: 0.346165389 ms / 3.176261 P
+3 stream64_rows4 bf16: 0.345902175 ms / 3.178678 P
+3 stream64_lds_fence bf16: 0.346279025 ms / 3.175219 P
+3 stream64_lds_fence fp32: 0.366568416 ms / 2.999472 P
+3 specialized fp32: 0.361445129 ms / 3.041988 P
+3 stream64_lds_fence fp32: 0.366491556 ms / 3.000101 P
+3 stream64_lds_fence fp32: 0.366388351 ms / 3.000946 P
+3 stream64_rows4 fp32: 0.366687179 ms / 2.998500 P
+3 stream64_lds_fence fp32: 0.366589189 ms / 2.999302 P
+[
+  {
+    "name": "stream64_lds_fence",
+    "dtype": "bf16",
+    "median_ms": 0.345521941781044,
+    "min_ms": 0.3440859615802765,
+    "max_ms": 0.3462790250778198,
+    "median_pflops": 3.1821759918007073
+  },
+  {
+    "name": "stream64_lds_fence",
+    "dtype": "fp32",
+    "median_ms": 0.3662487715482712,
+    "min_ms": 0.36532062292099,
+    "max_ms": 0.36658918857574463,
+    "median_pflops": 3.0020895991758585
+  },
+  {
+    "name": "specialized",
+    "dtype": "bf16",
+    "median_ms": 0.3419685661792755,
+    "min_ms": 0.34182947874069214,
+    "max_ms": 0.3423409163951874,
+    "median_pflops": 3.2152417985680763
+  },
+  {
+    "name": "specialized",
+    "dtype": "fp32",
+    "median_ms": 0.3610447347164154,
+    "min_ms": 0.36075904965400696,
+    "max_ms": 0.3614451289176941,
+    "median_pflops": 3.0453612033412356
+  },
+  {
+    "name": "stream64_rows4",
+    "dtype": "bf16",
+    "median_ms": 0.34538936614990234,
+    "min_ms": 0.34439918398857117,
+    "max_ms": 0.3459021747112274,
+    "median_pflops": 3.1833974509186285
+  },
+  {
+    "name": "stream64_rows4",
+    "dtype": "fp32",
+    "median_ms": 0.3661079704761505,
+    "min_ms": 0.3657459020614624,
+    "max_ms": 0.36668717861175537,
+    "median_pflops": 3.003244169598394
+  }
+]

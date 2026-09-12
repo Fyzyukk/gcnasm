@@ -1,0 +1,25 @@
+--- a/traits.hpp
++++ b/traits.hpp
+@@ -80,15 +80,19 @@
+         smem_m_rep * (smem_linear_wave + smem_padding) * 4;
+     static constexpr int SMEM_B_ELEMS =
+         smem_n_rep * (smem_linear_wave + smem_padding) * 4;
++    // Scale-panel capacity is independent of the runtime GEMM K extent.
++    static constexpr int SCALE_PANEL_K_TILES = 64;
++    static constexpr int SFA_PANEL_PITCH = B_M;
++    static constexpr int SFA_PANEL_BYTES = SFA_PANEL_PITCH * SCALE_PANEL_K_TILES;
++    static constexpr int SFB_PANEL_BYTES = SCALE_N_HALVES * SCALE_PANEL_K_TILES * 4;
+     static constexpr int LDS_BYTES =
+-        SMEM_A_ELEMS + SMEM_B_ELEMS
+-        + 2 * packed_sfa_tile_elem + 2 * packed_sfb_tile_elem;
++        SMEM_A_ELEMS + SMEM_B_ELEMS + SFA_PANEL_BYTES + SFB_PANEL_BYTES;
+ 
+     static_assert(E_M == 4 && E_N == 4 && E_K == 1);
+     static_assert(a_ds_read_insts == 8 && b_ds_read_insts == 8);
+     static_assert(packed_sfa_tile_elem == 1024);
+     static_assert(packed_sfb_tile_elem == 1024);
+-    static_assert(LDS_BYTES == 139264);
++    static_assert(LDS_BYTES == 152064);
+ 
+     static constexpr int IDENTITY_E8M0 = 127;
+ };

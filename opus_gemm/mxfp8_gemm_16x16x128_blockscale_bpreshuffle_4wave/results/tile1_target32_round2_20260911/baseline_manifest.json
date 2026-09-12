@@ -1,0 +1,24 @@
+{
+  "selection": "peel8_tail_columns (formal selected_clean)",
+  "commit": "aabad812aca199d3b91bbb567f176f26f92cf6e0",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "output_tile_shape": [
+    256,
+    256
+  ],
+  "hashes": {
+    "Makefile": "f8530f55fdccc016060b2ac6e159f04a186cc8b2063d0531919568e5e1b975bf",
+    "tmpl.hpp": "4193c75a9fac14d7782c7f8d91fac58f95700b56989fb2b5242a21e5216cc1b0",
+    "tmpl_generic.hpp": "3681ebf7093140a3f1216b1c6faab22e6d726dbd15c4ec3167b931029f84f180",
+    "traits.hpp": "bbb6948f173d7352557ac8dcb1ae2ed33f826fee310a36ef42ffc2703d900117",
+    "kernel_dispatch.hpp": "faab6c222596c2f0604b66c9337df6b82534f18f63690b01dfca14d5d106a6b7",
+    "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+    "gemm_a8w8_mxfp8_scale_host.cc": "da5a1c7416a883144c21e82ffc53e0bd2cdd720395788fe87b757cac7ef27216",
+    "gemm_a8w8_mxfp8_scale_kernel.cc": "93e9706abb4ae2e5569b098cf4bbd093771b4eee5a28cf5f43d136af1fc38628",
+    "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "67f918214451d8b4a90319ea570f83e13f520913baa596f6f2e0ec33580158e7",
+    "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f"
+  },
+  "previous_cli_bf16_P": 3.1596066382084573,
+  "previous_cli_fp32_P": 3.0169303560558096
+}

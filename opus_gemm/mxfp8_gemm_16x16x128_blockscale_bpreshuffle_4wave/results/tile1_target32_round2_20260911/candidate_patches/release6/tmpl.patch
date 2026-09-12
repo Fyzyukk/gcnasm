@@ -1,0 +1,54 @@
+--- a/tmpl.hpp
++++ b/tmpl.hpp
+@@ -568,7 +568,13 @@
+             0, 0, 1, v_a[0], v_b, c00_2, c00_3, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+ 
+-        // MFMA4: complete operand reads, publish t+1, and release stage t.
++
++
++        MXFP8_MMA_PAIR(
++            0, 1, 0, v_a[0], v_b, c00_4, c00_5, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++
++        // MFMA6: complete operand reads, publish t+1, and release stage t.
+         __builtin_amdgcn_s_setprio(0);
+         s_waitcnt_vmcnt(0_I);
+         s_waitcnt_lgkmcnt(0_I);
+@@ -576,10 +582,6 @@
+         __builtin_amdgcn_sched_barrier(0);
+         __builtin_amdgcn_s_setprio(1);
+ 
+-
+-        MXFP8_MMA_PAIR(
+-            0, 1, 0, v_a[0], v_b, c00_4, c00_5, v_sfa, v_sfb[0]);
+-        sched_barrier_pairs_scale();
+ 
+         MXFP8_MMA_PAIR(
+             0, 1, 1, v_a[0], v_b, c00_6, c00_7, v_sfa, v_sfb[0]);
+@@ -911,7 +913,13 @@
+             0, 0, 1, v_a[0], v_b, c00_2, c00_3, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+ 
+-        // MFMA4: complete operand reads, publish t+1, and release stage t.
++
++
++        MXFP8_MMA_PAIR(
++            0, 1, 0, v_a[0], v_b, c00_4, c00_5, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++
++        // MFMA6: complete operand reads, publish t+1, and release stage t.
+         __builtin_amdgcn_s_setprio(0);
+         s_waitcnt_vmcnt(0_I);
+         s_waitcnt_lgkmcnt(0_I);
+@@ -919,10 +927,6 @@
+         __builtin_amdgcn_sched_barrier(0);
+         __builtin_amdgcn_s_setprio(1);
+ 
+-
+-        MXFP8_MMA_PAIR(
+-            0, 1, 0, v_a[0], v_b, c00_4, c00_5, v_sfa, v_sfb[0]);
+-        sched_barrier_pairs_scale();
+ 
+         MXFP8_MMA_PAIR(
+             0, 1, 1, v_a[0], v_b, c00_6, c00_7, v_sfa, v_sfb[0]);

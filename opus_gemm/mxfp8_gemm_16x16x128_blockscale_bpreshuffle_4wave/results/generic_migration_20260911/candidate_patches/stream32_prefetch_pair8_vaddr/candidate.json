@@ -1,0 +1,30 @@
+{
+  "name": "stream32_prefetch_pair8_vaddr",
+  "parent": "stream32_prefetch_pair8",
+  "config": {
+    "lds_output": true,
+    "release_mfma": 5,
+    "unified_k1": true,
+    "early_a1_m3": true,
+    "scale_panel_tiles": 64,
+    "unroll": 8,
+    "explicit_retire_vmem_wait": true,
+    "scale_load_batch": 32,
+    "scale_refill": "alternating_half_prefetch",
+    "scale_load_mfma": 0,
+    "scale_publish_mfma": 6,
+    "b_scale_half_in_vector_address": true
+  },
+  "source_hashes": {
+    "tmpl_generic.hpp": "5b5cd810ed47d4659b15374a874d115ae4dbb24ac224bc9b1061ff5ea498e4d5",
+    "traits.hpp": "ef8ae2054b2c5d69f086c9b8acfb0256826467411a2ac75983e069c143581f39"
+  },
+  "generic_runtime_k": true,
+  "performance_shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "waves": 4,
+  "output_tiles_per_wg": 1
+}

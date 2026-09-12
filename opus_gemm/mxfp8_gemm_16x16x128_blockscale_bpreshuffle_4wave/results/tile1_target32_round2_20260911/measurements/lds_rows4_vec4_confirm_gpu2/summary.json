@@ -1,0 +1,62 @@
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.347519417,
+    "min_ms": 0.346873703,
+    "max_ms": 0.348309517,
+    "median_pflops": 3.16388545212137
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.364487801,
+    "min_ms": 0.364274178,
+    "max_ms": 0.364713402,
+    "median_pflops": 3.016593764618202
+  },
+  {
+    "name": "tail_a3_prefetch56",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.342173233,
+    "min_ms": 0.341885643,
+    "max_ms": 0.342250328,
+    "median_pflops": 3.2133186401988376
+  },
+  {
+    "name": "tail_a3_prefetch56",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.361844063,
+    "min_ms": 0.360932274,
+    "max_ms": 0.361945305,
+    "median_pflops": 3.0386338763170477
+  },
+  {
+    "name": "lds_rows4_vec4",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.341847916,
+    "min_ms": 0.341677399,
+    "max_ms": 0.341985664,
+    "median_pflops": 3.216376570732115
+  },
+  {
+    "name": "lds_rows4_vec4",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.361287041,
+    "min_ms": 0.360904961,
+    "max_ms": 0.361660194,
+    "median_pflops": 3.0433187548955014
+  }
+]

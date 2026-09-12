@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_migration_20260911/audit.py", line 76, in <module>
+    assert not any(re.match(r"\S+\s+exec(?:_lo|_hi)?(?:\s|,)",text) or text.startswith("v_cmpx") or "saveexec" in text for text in code)
+AssertionError

@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "measured_parent": "stream64_batch_output_burst",
+  "production_kernel_count": 2,
+  "generic_code_identical": true,
+  "fingerprints": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2820,
+      "encoding_sha256": "0f196aa0681074aa9f649792c8ea55c41079da3c23a3f47557dcd82b88fc119e",
+      "words": 6080
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3428,
+      "encoding_sha256": "2d7afce012e03d089c93113176f5e6eaa708e291d63e096c49e624697814fc57",
+      "words": 7234
+    }
+  },
+  "source_hashes": {
+    "tmpl_generic.hpp": "681e64526624bdafd7f8d6c2117cd95dc516866f8d25f5aa8159a90c21687fd6",
+    "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+    "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+    "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+    "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+  },
+  "scope": "Identical encoded generic instructions through s_endpgm; unused specialized kernels removed"
+}

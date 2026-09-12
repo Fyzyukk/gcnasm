@@ -1,0 +1,27 @@
+{
+  "name": "first_k_zero_runtime",
+  "parent": "first_k_zero_i32",
+  "config": {
+    "first_k_peeled": true,
+    "zero_src_c_initialization": true,
+    "inline_operands": "i32x8",
+    "bf16_lds_epilogue": true,
+    "release_mfma": 5,
+    "tail_prefetch_schedule": [
+      [
+        "a",
+        3,
+        56
+      ]
+    ],
+    "unified_initial_matrix_stages": [
+      1
+    ],
+    "runtime_first_compute_tile": true,
+    "unroll": 8
+  },
+  "source_sha256": "d741ee589cec29640da00f5c1aaad20e1fb4540180ee84149e743f5d901b77b3",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true
+}

@@ -1,0 +1,42 @@
+[
+  {
+    "name": "specialized",
+    "k": 8192,
+    "dtype": "bf16",
+    "rounds": 5,
+    "median_ms": 0.359153709,
+    "min_ms": 0.356951904,
+    "max_ms": 0.360179176,
+    "median_pflops": 3.0613957206160998
+  },
+  {
+    "name": "specialized",
+    "k": 8192,
+    "dtype": "fp32",
+    "rounds": 5,
+    "median_ms": 0.37627079,
+    "min_ms": 0.375627632,
+    "max_ms": 0.379557648,
+    "median_pflops": 2.9221285760077205
+  },
+  {
+    "name": "generic",
+    "k": 8192,
+    "dtype": "bf16",
+    "rounds": 5,
+    "median_ms": 0.389636078,
+    "min_ms": 0.389398384,
+    "max_ms": 0.38997612,
+    "median_pflops": 2.8218937871969856
+  },
+  {
+    "name": "generic",
+    "k": 8192,
+    "dtype": "fp32",
+    "rounds": 5,
+    "median_ms": 0.402216148,
+    "min_ms": 0.401675491,
+    "max_ms": 0.403815422,
+    "median_pflops": 2.733633727147126
+  }
+]

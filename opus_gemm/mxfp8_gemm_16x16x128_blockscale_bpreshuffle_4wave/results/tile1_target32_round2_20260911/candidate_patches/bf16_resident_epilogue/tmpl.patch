@@ -1,0 +1,25 @@
+--- a/tmpl.hpp
++++ b/tmpl.hpp
+@@ -1177,10 +1177,10 @@
+ 
+     // Consume the final resident tile with the original direct-store
+     // epilogue. Retain its conservative A1 and B1 reloads.
+-    v_a[1] = load<T::VEC_A>(s_a, u_ra + sa_offset(stage, 1));
++    if constexpr (!T::OUTPUT_BF16) v_a[1] = load<T::VEC_A>(s_a, u_ra + sa_offset(stage, 1));
+ 
+     s_waitcnt_lgkmcnt(0_I);
+-    v_sfb[1] = load_sfb_dword(loops - 1, 1);
++    if constexpr (!T::OUTPUT_BF16) v_sfb[1] = load_sfb_dword(loops - 1, 1);
+ 
+     __builtin_amdgcn_s_setprio(1);
+     auto p_coord_c = opus::make_tuple(
+@@ -1306,7 +1306,8 @@
+     MXFP8_STORE_QUADRANT(c00, 0, 0);
+     MXFP8_STORE_QUADRANT(c10, 1, 0);
+ 
+-    v_b = load<T::VEC_B>(s_b, u_rb + sb_offset(stage, 1));
++    if constexpr (T::OUTPUT_BF16) v_b = v_b_second;
++    else v_b = load<T::VEC_B>(s_b, u_rb + sb_offset(stage, 1));
+ 
+     MXFP8_MMA_PAIR(0, 0, 0, v_a[0], v_b, c01_0, c01_1, v_sfa, v_sfb[1]);
+     sched_barrier_pairs_scale();

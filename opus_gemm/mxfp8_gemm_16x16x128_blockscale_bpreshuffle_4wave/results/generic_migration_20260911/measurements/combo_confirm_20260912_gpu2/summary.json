@@ -1,0 +1,102 @@
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.380816765,
+    "min_ms": 0.380496368,
+    "max_ms": 0.381453896,
+    "median_pflops": 2.887245858978924
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.393438873,
+    "min_ms": 0.393075256,
+    "max_ms": 0.394238892,
+    "median_pflops": 2.7946186897907266
+  },
+  {
+    "name": "stream64_rows4",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.3453508,
+    "min_ms": 0.344996948,
+    "max_ms": 0.345858536,
+    "median_pflops": 3.183752948526542
+  },
+  {
+    "name": "stream64_rows4",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.365835114,
+    "min_ms": 0.364866714,
+    "max_ms": 0.365954208,
+    "median_pflops": 3.005484125769294
+  },
+  {
+    "name": "stream64_batch_output_burst",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.342152557,
+    "min_ms": 0.341928406,
+    "max_ms": 0.342686882,
+    "median_pflops": 3.2135128184238586
+  },
+  {
+    "name": "stream64_batch_output_burst",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.362943382,
+    "min_ms": 0.362823029,
+    "max_ms": 0.363246651,
+    "median_pflops": 3.029430159925054
+  },
+  {
+    "name": "stream64_batch_output_spread",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.342981758,
+    "min_ms": 0.342637291,
+    "max_ms": 0.343256111,
+    "median_pflops": 3.205743752051093
+  },
+  {
+    "name": "stream64_batch_output_spread",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.362706947,
+    "min_ms": 0.362370949,
+    "max_ms": 0.363243866,
+    "median_pflops": 3.031404931364604
+  },
+  {
+    "name": "specialized",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.342075729,
+    "min_ms": 0.34164608,
+    "max_ms": 0.342320976,
+    "median_pflops": 3.21423455265369
+  },
+  {
+    "name": "specialized",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.361426964,
+    "min_ms": 0.360982666,
+    "max_ms": 0.361621056,
+    "median_pflops": 3.0421405630820617
+  }
+]

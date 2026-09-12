@@ -1,0 +1,13 @@
+{
+  "name": "unified_prologue",
+  "config": {
+    "unified_initial_matrix_stages": [
+      0,
+      1
+    ]
+  },
+  "source_sha256": "816fe41745a609be2d780df3844237cf9bd741bbe20eab7c304ff030f72ed724",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true
+}

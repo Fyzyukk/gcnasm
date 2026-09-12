@@ -1,0 +1,25 @@
+{
+  "name": "stream64_lds_fence",
+  "parent": "stream64_lds",
+  "config": {
+    "lds_output": true,
+    "release_mfma": 5,
+    "unified_k1": true,
+    "early_a1_m3": true,
+    "scale_panel_tiles": 64,
+    "unroll": 8,
+    "explicit_retire_vmem_wait": true
+  },
+  "source_hashes": {
+    "tmpl_generic.hpp": "077ae218c128c0dc435a8141cc03657d5f3f0fb3fd00edae38292a284fdc271a",
+    "traits.hpp": "ef8ae2054b2c5d69f086c9b8acfb0256826467411a2ac75983e069c143581f39"
+  },
+  "generic_runtime_k": true,
+  "performance_shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "waves": 4,
+  "output_tiles_per_wg": 1
+}

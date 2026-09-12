@@ -1,0 +1,12 @@
+{
+  "name": "unified_k1",
+  "config": {
+    "unified_initial_matrix_stages": [
+      1
+    ]
+  },
+  "source_sha256": "de1f25ff39c8630fd21a4537db004aea8e24d6cdcb1b8ed0b21d9774662e0537",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true
+}

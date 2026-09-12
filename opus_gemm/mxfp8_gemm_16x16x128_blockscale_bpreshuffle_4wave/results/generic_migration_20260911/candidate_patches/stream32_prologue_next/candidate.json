@@ -1,0 +1,34 @@
+{
+  "name": "stream32_prologue_next",
+  "parent": "stream32_prefetch_rows4_vaddr",
+  "config": {
+    "lds_output": true,
+    "release_mfma": 5,
+    "unified_k1": true,
+    "early_a1_m3": true,
+    "scale_panel_tiles": 64,
+    "unroll": 8,
+    "explicit_retire_vmem_wait": true,
+    "output_rows": true,
+    "store_delay": 4,
+    "lds_vector_elements": 4,
+    "scale_load_batch": 32,
+    "scale_refill": "alternating_half_prefetch",
+    "scale_load_mfma": 0,
+    "scale_publish_mfma": 6,
+    "b_scale_half_in_vector_address": true,
+    "initial_next_half_load": "before_operand_seed"
+  },
+  "source_hashes": {
+    "tmpl_generic.hpp": "3ed3a484160fbbd76fa362956c2773ab1694b73fad816c1b8d6f1ca8cf8819cb",
+    "traits.hpp": "ef8ae2054b2c5d69f086c9b8acfb0256826467411a2ac75983e069c143581f39"
+  },
+  "generic_runtime_k": true,
+  "performance_shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "waves": 4,
+  "output_tiles_per_wg": 1
+}

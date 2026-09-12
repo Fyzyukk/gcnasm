@@ -1,0 +1,17 @@
+{
+  "name": "lds_release5_k1",
+  "parent": "bf16_lds_epilogue_aux2",
+  "config": {
+    "bf16_lds_epilogue": true,
+    "bf16_store_aux": 2,
+    "c_lds_pitch": 264,
+    "release_mfma": 5,
+    "unified_initial_matrix_stages": [
+      1
+    ]
+  },
+  "source_sha256": "7e3175980ec01b7bb57baadb376f53ad146a26dcb870406c6166bdf7fe304a8f",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true
+}

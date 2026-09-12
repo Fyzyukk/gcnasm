@@ -1,0 +1,14 @@
+{
+  "name": "lds_copy_scalar",
+  "parent": "bf16_lds_epilogue_aux2",
+  "config": {
+    "bf16_lds_epilogue": true,
+    "bf16_store_aux": 2,
+    "c_lds_pitch": 264,
+    "scalar_copy_offsets": true
+  },
+  "source_sha256": "577ad5e7ff960c0b2636892768fd1d9dd58770352815c39ce0b670587c899f63",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true
+}

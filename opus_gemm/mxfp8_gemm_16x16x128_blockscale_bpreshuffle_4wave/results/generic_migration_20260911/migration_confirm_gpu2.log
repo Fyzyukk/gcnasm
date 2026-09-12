@@ -1,0 +1,123 @@
+Physical GPU2, PCI 0000:65:00.0, HIP index 2
+1 baseline perf_bf16 PASS 0.380795898 ms / 2.887404072 P
+1 baseline perf_fp32 PASS 0.39378109 ms / 2.792190017 P
+1 specialized perf_bf16 PASS 0.342150078 ms / 3.213536103 P
+1 specialized perf_fp32 PASS 0.361309662 ms / 3.043128219 P
+1 stream64_lds_fence perf_bf16 PASS 0.345081711 ms / 3.186235588 P
+1 stream64_lds_fence perf_fp32 PASS 0.365679092 ms / 3.006766453 P
+1 stream64_rows4 perf_bf16 PASS 0.344495773 ms / 3.1916549140000003 P
+1 stream64_rows4 perf_fp32 PASS 0.365564842 ms / 3.00770616 P
+2 stream64_rows4 perf_bf16 PASS 0.345556946 ms / 3.181853646 P
+2 stream64_rows4 perf_fp32 PASS 0.365529633 ms / 3.007995877 P
+2 stream64_lds_fence perf_bf16 PASS 0.344822388 ms / 3.1886317909999997 P
+2 stream64_lds_fence perf_fp32 PASS 0.365383911 ms / 3.009195518 P
+2 specialized perf_bf16 PASS 0.342108917 ms / 3.213922737 P
+2 specialized perf_fp32 PASS 0.361665955 ms / 3.040130302 P
+2 baseline perf_bf16 PASS 0.38033287 ms / 2.8909192790000002 P
+2 baseline perf_fp32 PASS 0.394033051 ms / 2.790404577 P
+3 baseline perf_bf16 PASS 0.380784111 ms / 2.887493454 P
+3 baseline perf_fp32 PASS 0.394353676 ms / 2.788135867 P
+3 specialized perf_bf16 PASS 0.341988258 ms / 3.21505666 P
+3 specialized perf_fp32 PASS 0.361935616 ms / 3.037865246 P
+3 stream64_lds_fence perf_bf16 PASS 0.345828438 ms / 3.179355737 P
+3 stream64_lds_fence perf_fp32 PASS 0.365359154 ms / 3.009399427 P
+3 stream64_rows4 perf_bf16 PASS 0.345407333 ms / 3.183231859 P
+3 stream64_rows4 perf_fp32 PASS 0.365759125 ms / 3.006108538 P
+4 stream64_rows4 perf_bf16 PASS 0.344792938 ms / 3.1889041390000004 P
+4 stream64_rows4 perf_fp32 PASS 0.365336723 ms / 3.0095841930000002 P
+4 stream64_lds_fence perf_bf16 PASS 0.345556679 ms / 3.181856104 P
+4 stream64_lds_fence perf_fp32 PASS 0.365359993 ms / 3.009392514 P
+4 specialized perf_bf16 PASS 0.342047615 ms / 3.214498741 P
+4 specialized perf_fp32 PASS 0.360862007 ms / 3.046903265 P
+4 baseline perf_bf16 PASS 0.381194229 ms / 2.884386866 P
+4 baseline perf_fp32 PASS 0.393523216 ms / 2.794019723 P
+5 baseline perf_bf16 PASS 0.38107048 ms / 2.885323541 P
+5 baseline perf_fp32 PASS 0.393583069 ms / 2.793594834 P
+5 specialized perf_bf16 PASS 0.341890945 ms / 3.215971767 P
+5 specialized perf_fp32 PASS 0.361187706 ms / 3.0441557379999997 P
+5 stream64_lds_fence perf_bf16 PASS 0.34559185 ms / 3.181532281 P
+5 stream64_lds_fence perf_fp32 PASS 0.365577507 ms / 3.007601963 P
+5 stream64_rows4 perf_bf16 PASS 0.345158386 ms / 3.1855277799999997 P
+5 stream64_rows4 perf_fp32 PASS 0.365688515 ms / 3.006688981 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.380795898,
+    "min_ms": 0.38033287,
+    "max_ms": 0.381194229,
+    "median_pflops": 2.8874040753873875
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.39378109,
+    "min_ms": 0.393523216,
+    "max_ms": 0.394353676,
+    "median_pflops": 2.792190015462652
+  },
+  {
+    "name": "specialized",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.342047615,
+    "min_ms": 0.341890945,
+    "max_ms": 0.342150078,
+    "median_pflops": 3.2144987409896135
+  },
+  {
+    "name": "specialized",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.361309662,
+    "min_ms": 0.360862007,
+    "max_ms": 0.361935616,
+    "median_pflops": 3.0431282177447003
+  },
+  {
+    "name": "stream64_lds_fence",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.345556679,
+    "min_ms": 0.344822388,
+    "max_ms": 0.345828438,
+    "median_pflops": 3.1818561023269933
+  },
+  {
+    "name": "stream64_lds_fence",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.365383911,
+    "min_ms": 0.365359154,
+    "max_ms": 0.365679092,
+    "median_pflops": 3.0091955192192357
+  },
+  {
+    "name": "stream64_rows4",
+    "dtype": "bf16",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.345158386,
+    "min_ms": 0.344495773,
+    "max_ms": 0.345556946,
+    "median_pflops": 3.1855277819499364
+  },
+  {
+    "name": "stream64_rows4",
+    "dtype": "fp32",
+    "gpu": 2,
+    "rounds": 5,
+    "median_ms": 0.365564842,
+    "min_ms": 0.365336723,
+    "max_ms": 0.365759125,
+    "median_pflops": 3.0077061616773313
+  }
+]

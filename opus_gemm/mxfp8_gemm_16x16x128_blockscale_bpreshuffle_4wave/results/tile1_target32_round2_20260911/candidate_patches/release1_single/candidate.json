@@ -1,0 +1,12 @@
+{
+  "name": "release1_single",
+  "config": {
+    "release_mfma": 1,
+    "split_pair_for_publication": true,
+    "request_sites_unchanged": true
+  },
+  "source_sha256": "1c5d323c1b1fcc933bc7634e13b27748dd6a4d09a3e4a700f22863f3e38ef29c",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true
+}

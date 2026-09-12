@@ -1,0 +1,71 @@
+{
+  "shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "batch": 1,
+  "physical_gpu": 6,
+  "hip_index": 6,
+  "pci": "0000:e5:00.0",
+  "rounds": 5,
+  "warmup": 200,
+  "iterations": 100,
+  "seed": 1,
+  "scope": "Both paths at K8192 only; current specialized versus unchanged forced generic",
+  "cli": [
+    {
+      "dtype": "bf16",
+      "specialized_ms": 0.359153709,
+      "generic_ms": 0.389636078,
+      "specialized_pflops": 3.0613957206160998,
+      "generic_pflops": 2.8218937871969856,
+      "specialized_speedup_percent": 8.487276682975864
+    },
+    {
+      "dtype": "fp32",
+      "specialized_ms": 0.37627079,
+      "generic_ms": 0.402216148,
+      "specialized_pflops": 2.9221285760077205,
+      "generic_pflops": 2.733633727147126,
+      "specialized_speedup_percent": 6.895395201950172
+    }
+  ],
+  "shared_allocation_summary": [
+    {
+      "name": "specialized",
+      "dtype": "bf16",
+      "median_ms": 0.35942764580249786,
+      "min_ms": 0.35665208101272583,
+      "max_ms": 0.36233219504356384,
+      "median_pflops": 3.0590624861955424
+    },
+    {
+      "name": "specialized",
+      "dtype": "fp32",
+      "median_ms": 0.3804168403148651,
+      "min_ms": 0.3755253851413727,
+      "max_ms": 0.38167712092399597,
+      "median_pflops": 2.890281163331127
+    },
+    {
+      "name": "generic",
+      "dtype": "bf16",
+      "median_ms": 0.39143916964530945,
+      "min_ms": 0.38983219861984253,
+      "max_ms": 0.39164474606513977,
+      "median_pflops": 2.8088952589294744
+    },
+    {
+      "name": "generic",
+      "dtype": "fp32",
+      "median_ms": 0.40313729643821716,
+      "min_ms": 0.40296196937561035,
+      "max_ms": 0.40432608127593994,
+      "median_pflops": 2.7273875116253494
+    }
+  ],
+  "all_outputs_exactly_equal": true,
+  "output_count_per_dtype": 67108864,
+  "gpu2_timing": "Rejected before timing because another task occupied GPU2"
+}

@@ -1,0 +1,8 @@
+tail_a3_prefetch52 PASS [(488, 704), (488, 704)]
+tail_a3_prefetch54 PASS [(488, 704), (488, 704)]
+tail_a3_prefetch58 PASS [(480, 704), (480, 704)]
+tail_a3_prefetch60 PASS [(480, 704), (480, 704)]
+tail_b3_prefetch60 PASS [(464, 704), (464, 704)]
+tail_a3_56_b3_60 PASS [(464, 704), (468, 704)]
+tail_a2_54_a3_56 PASS [(488, 704), (488, 704)]
+tail_a3_56_b2_58 PASS [(464, 704), (468, 704)]

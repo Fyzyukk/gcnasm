@@ -1,0 +1,71 @@
+{
+  "name": "selected_32_clean",
+  "parent": "tail_a3_prefetch56",
+  "baseline_commit": "aabad812aca199d3b91bbb567f176f26f92cf6e0",
+  "baseline_selection": "peel8_tail_columns",
+  "formal_source_sha256": "bdfc2445113a3b404a1d194a5f2110ddbf998fdcd407ca0b786730e00fa1fa25",
+  "shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "batch": 1,
+  "physical_gpu": 2,
+  "pci": "0000:65:00.0",
+  "hip_index": 2,
+  "warmup": 200,
+  "iterations": 100,
+  "rounds": 5,
+  "seed": 1,
+  "output_tiles_per_wg": 1,
+  "waves": 4,
+  "bf16_intermediate_target": 3.2,
+  "bf16_target": 3.5,
+  "intermediate_target_confirmed": true,
+  "final_target_achieved": false,
+  "measurement_window": "measurements/tail_prefetch_confirm_gpu2",
+  "results": [
+    {
+      "name": "baseline",
+      "dtype": "bf16",
+      "gpu": 2,
+      "rounds": 5,
+      "median_ms": 0.347929268,
+      "min_ms": 0.347565536,
+      "max_ms": 0.348288918,
+      "median_pflops": 3.1601584830627125
+    },
+    {
+      "name": "baseline",
+      "dtype": "fp32",
+      "gpu": 2,
+      "rounds": 5,
+      "median_ms": 0.364843369,
+      "min_ms": 0.364764709,
+      "max_ms": 0.365207214,
+      "median_pflops": 3.0136538613533084
+    },
+    {
+      "name": "tail_a3_prefetch56",
+      "dtype": "bf16",
+      "gpu": 2,
+      "rounds": 5,
+      "median_ms": 0.34210331,
+      "min_ms": 0.341582375,
+      "max_ms": 0.342508774,
+      "median_pflops": 3.213975415134101
+    },
+    {
+      "name": "tail_a3_prefetch56",
+      "dtype": "fp32",
+      "gpu": 2,
+      "rounds": 5,
+      "median_ms": 0.361416779,
+      "min_ms": 0.361379051,
+      "max_ms": 0.361749306,
+      "median_pflops": 3.042226292919289
+    }
+  ],
+  "timestamp_utc": "2026-09-11T15:39:44.267694+00:00",
+  "scope": "K=8192 specialized tmpl.hpp only; generic source and ISA unchanged; optimization toward 3.5P continues"
+}

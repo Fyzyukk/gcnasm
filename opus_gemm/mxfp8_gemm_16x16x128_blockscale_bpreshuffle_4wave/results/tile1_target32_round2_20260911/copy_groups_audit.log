@@ -1,0 +1,4 @@
+lds_copy_group4 PASS [(472, 704), (472, 704)]
+lds_copy_group8 PASS [(472, 704), (472, 704)]
+lds_copy_group16 PASS [(472, 704), (472, 704)]
+lds_copy_group32 PASS [(472, 704), (472, 704)]

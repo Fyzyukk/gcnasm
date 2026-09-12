@@ -1,0 +1,20 @@
+{
+  "name": "tail_b3_prefetch56",
+  "parent": "lds_release5_k1",
+  "config": {
+    "tail_operand_prefetch": [
+      "b"
+    ],
+    "prefetch_site": 56,
+    "extra_operand_vgprs": 8,
+    "bf16_lds_epilogue": true,
+    "release_mfma": 5,
+    "unified_initial_matrix_stages": [
+      1
+    ]
+  },
+  "source_sha256": "e7beef6fefce10589f201e3e4734065cedd028376b0c6946674379cea2a92633",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true
+}

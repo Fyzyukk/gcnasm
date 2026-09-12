@@ -1,0 +1,24 @@
+{
+  "name": "lds_rows4",
+  "parent": "tail_a3_prefetch56",
+  "config": {
+    "epilogue_row_store_delay": 4,
+    "lds_fragment_elements": 8,
+    "bf16_lds_epilogue": true,
+    "release_mfma": 5,
+    "tail_prefetch_schedule": [
+      [
+        "a",
+        3,
+        56
+      ]
+    ],
+    "unified_initial_matrix_stages": [
+      1
+    ]
+  },
+  "source_sha256": "46323f9817c57c28fe31f865a3e430d9d1b520630ecb45add9ce0c756a576cb5",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true
+}

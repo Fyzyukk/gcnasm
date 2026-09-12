@@ -1,0 +1,14 @@
+{
+  "name": "lds_vec4",
+  "parent": "bf16_lds_epilogue_aux2",
+  "config": {
+    "bf16_lds_epilogue": true,
+    "bf16_store_aux": 2,
+    "c_lds_pitch": 264,
+    "lds_fragment_elements": 4
+  },
+  "source_sha256": "e6332102ccceb693f05ebee644ead2145605b63264fba1521be38a3cc1a44067",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true
+}

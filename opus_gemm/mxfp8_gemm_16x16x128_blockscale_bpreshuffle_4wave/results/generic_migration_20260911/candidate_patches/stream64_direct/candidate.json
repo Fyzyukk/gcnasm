@@ -1,0 +1,24 @@
+{
+  "name": "stream64_direct",
+  "parent": "aabad81 specialized pipeline",
+  "config": {
+    "lds_output": false,
+    "release_mfma": 4,
+    "unified_k1": false,
+    "early_a1_m3": false,
+    "scale_panel_tiles": 64,
+    "unroll": 8
+  },
+  "source_hashes": {
+    "tmpl_generic.hpp": "59e439b844edb92e8789a6b9d6a3c11234c8b3c23ccebbef808201b76b0d9541",
+    "traits.hpp": "ef8ae2054b2c5d69f086c9b8acfb0256826467411a2ac75983e069c143581f39"
+  },
+  "generic_runtime_k": true,
+  "performance_shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "waves": 4,
+  "output_tiles_per_wg": 1
+}

@@ -1,0 +1,10 @@
+{
+  "name": "matrix_shift",
+  "config": {
+    "matrix_offset_uses_shift": true
+  },
+  "source_sha256": "24c296f3d575deb2b7eba4e0c2e996d701fc9603beae166e2035e0d711889f90",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true
+}

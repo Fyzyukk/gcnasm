@@ -1,0 +1,2 @@
+usage: verify_shapes.py [-h] [--gpu GPU] names [names ...]
+verify_shapes.py: error: unrecognized arguments: --tag --pci 0000:65:00.0 stream32_prologue_next stream64_batch_scale

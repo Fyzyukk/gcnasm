@@ -1,0 +1,50 @@
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.34828732907772064,
+    "min_ms": 0.3465966284275055,
+    "max_ms": 0.3488895297050476,
+    "median_pflops": 3.156909643217721
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.3649962991476059,
+    "min_ms": 0.36393043398857117,
+    "max_ms": 0.3656025826931,
+    "median_pflops": 3.012391167646753
+  },
+  {
+    "name": "bf16_lds_epilogue_aux0",
+    "dtype": "bf16",
+    "median_ms": 0.3460468053817749,
+    "min_ms": 0.3444702923297882,
+    "max_ms": 0.3467307686805725,
+    "median_pflops": 3.1773494529532433
+  },
+  {
+    "name": "bf16_lds_epilogue_aux0",
+    "dtype": "fp32",
+    "median_ms": 0.3653301000595093,
+    "min_ms": 0.36392319202423096,
+    "max_ms": 0.36567890644073486,
+    "median_pflops": 3.009638755735973
+  },
+  {
+    "name": "bf16_lds_epilogue_aux2",
+    "dtype": "bf16",
+    "median_ms": 0.3453783094882965,
+    "min_ms": 0.34412631392478943,
+    "max_ms": 0.3457767367362976,
+    "median_pflops": 3.1834993616275664
+  },
+  {
+    "name": "bf16_lds_epilogue_aux2",
+    "dtype": "fp32",
+    "median_ms": 0.36496371030807495,
+    "min_ms": 0.36470848321914673,
+    "max_ms": 0.365448921918869,
+    "median_pflops": 3.012660154205126
+  }
+]

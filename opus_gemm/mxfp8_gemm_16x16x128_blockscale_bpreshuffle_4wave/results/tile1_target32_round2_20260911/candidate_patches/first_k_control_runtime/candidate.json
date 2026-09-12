@@ -1,0 +1,26 @@
+{
+  "name": "first_k_control_runtime",
+  "parent": "first_k_peeled_control",
+  "config": {
+    "first_k_peeled": true,
+    "zero_src_c_initialization": false,
+    "bf16_lds_epilogue": true,
+    "release_mfma": 5,
+    "tail_prefetch_schedule": [
+      [
+        "a",
+        3,
+        56
+      ]
+    ],
+    "unified_initial_matrix_stages": [
+      1
+    ],
+    "runtime_first_compute_tile": true,
+    "unroll": 8
+  },
+  "source_sha256": "177401472c58b44addd3da6267b9b6d53f515c0abad0e4482e983f8c9137913f",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true
+}

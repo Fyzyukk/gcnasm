@@ -1,0 +1,33 @@
+{
+  "name": "c10_full_columns",
+  "config": {
+    "c10_order": [
+      0,
+      4,
+      8,
+      12,
+      1,
+      5,
+      9,
+      13,
+      2,
+      6,
+      10,
+      14,
+      3,
+      7,
+      11,
+      15
+    ],
+    "b0_load_sites": {
+      "0": 20,
+      "1": 24,
+      "2": 28,
+      "3": 32
+    }
+  },
+  "source_sha256": "31ea97887fe44fef8118f0422c2f400df7b66508150dd23869db120526fa0afa",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true
+}

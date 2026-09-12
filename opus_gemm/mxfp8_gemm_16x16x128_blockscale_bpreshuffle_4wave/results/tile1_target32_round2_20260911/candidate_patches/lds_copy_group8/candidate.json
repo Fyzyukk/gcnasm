@@ -1,0 +1,19 @@
+{
+  "name": "lds_copy_group8",
+  "parent": "lds_release5_k1",
+  "config": {
+    "copy_group": 8,
+    "scalar_copy_offsets": true,
+    "release_mfma": 5,
+    "unified_initial_matrix_stages": [
+      1
+    ],
+    "bf16_lds_epilogue": true,
+    "bf16_store_aux": 2,
+    "c_lds_pitch": 264
+  },
+  "source_sha256": "5506854b0047bc1add12d614bb260a14aa6981304e20b60d1aaab601156938d8",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true
+}

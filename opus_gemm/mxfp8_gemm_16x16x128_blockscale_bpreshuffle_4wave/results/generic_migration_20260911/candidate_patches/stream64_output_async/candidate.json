@@ -1,0 +1,24 @@
+{
+  "name": "stream64_output_async",
+  "parent": "stream64_output_burst",
+  "config": {
+    "scale_panel_tiles": 64,
+    "unroll": 8,
+    "lds_output": true,
+    "output_half_overlap": "burst",
+    "first_half_publication_mfma": 36,
+    "final_barrier_vmem_drain": false
+  },
+  "source_hashes": {
+    "tmpl_generic.hpp": "5fa34ccf0fda9219691d1c7aa3f516e4bde9bc5310392f5e8e78276913cf22de",
+    "traits.hpp": "ef8ae2054b2c5d69f086c9b8acfb0256826467411a2ac75983e069c143581f39"
+  },
+  "generic_runtime_k": true,
+  "performance_shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "waves": 4,
+  "output_tiles_per_wg": 1
+}

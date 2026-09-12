@@ -1,0 +1,30 @@
+--- a/tmpl.hpp
++++ b/tmpl.hpp
+@@ -477,8 +477,11 @@
+             load<4>(s_sfb, (k_tile * T::SCALE_N_HALVES + half_tile_n) * 4));
+     };
+ 
+-    async_load<T::VEC_A>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(0, 0), ga_offset(0, 0));
+-    async_load<T::VEC_A>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(0, 1), ga_offset(1, 0));
++    // The main-loop producer mapping also covers this initial matrix stage.
++    opus::static_for<8>([&](auto initial_issue) {
++        using Issue = opus::number<decltype(initial_issue)::value + 0>;
++        prefetch_matrix_issue(Issue{}, 0, 0);
++    });
+     __builtin_amdgcn_sched_barrier(0);
+ 
+     // Prologue: preload both whole-K scale panels before the first barrier.
+@@ -488,8 +491,11 @@
+         const auto raw = load<1>(g_sfb, lane_id, wave_id * kargs.stride_sfb);
+         panel_sfb_raw = static_cast<D_SF_PACK>(raw[0]);
+     }
+-    async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(0, 0), gb_offset(0, 0));
+-    async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(0, 1), gb_offset(1, 0));
++    // The main-loop producer mapping also covers this initial matrix stage.
++    opus::static_for<8>([&](auto initial_issue) {
++        using Issue = opus::number<decltype(initial_issue)::value + 8>;
++        prefetch_matrix_issue(Issue{}, 0, 0);
++    });
+ 
+     s_waitcnt_vmcnt(0_I);
+ 

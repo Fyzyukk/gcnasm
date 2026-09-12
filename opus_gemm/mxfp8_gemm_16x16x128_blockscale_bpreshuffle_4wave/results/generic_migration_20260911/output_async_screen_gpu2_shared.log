@@ -1,0 +1,93 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL stream64_output_burst bf16 67108864 outputs
+FULL_BASELINE_EQUAL stream64_output_burst fp32 67108864 outputs
+FULL_BASELINE_EQUAL specialized bf16 67108864 outputs
+FULL_BASELINE_EQUAL specialized fp32 67108864 outputs
+FULL_BASELINE_EQUAL stream64_output_async bf16 67108864 outputs
+FULL_BASELINE_EQUAL stream64_output_async fp32 67108864 outputs
+1 stream64_output_burst bf16: 0.343663216 ms / 3.199387 P
+1 specialized bf16: 0.341635734 ms / 3.218374 P
+1 stream64_output_burst bf16: 0.342288584 ms / 3.212236 P
+1 stream64_output_burst bf16: 0.342177004 ms / 3.213283 P
+1 stream64_output_async bf16: 0.342494160 ms / 3.210308 P
+1 stream64_output_burst bf16: 0.343140155 ms / 3.204264 P
+1 stream64_output_burst fp32: 0.365309149 ms / 3.009811 P
+1 specialized fp32: 0.361291111 ms / 3.043284 P
+1 stream64_output_burst fp32: 0.365790457 ms / 3.005851 P
+1 stream64_output_burst fp32: 0.365741998 ms / 3.006249 P
+1 stream64_output_async fp32: 0.365829289 ms / 3.005532 P
+1 stream64_output_burst fp32: 0.365632415 ms / 3.007150 P
+2 stream64_output_burst bf16: 0.343559086 ms / 3.200357 P
+2 stream64_output_async bf16: 0.343683422 ms / 3.199199 P
+2 stream64_output_burst bf16: 0.343739092 ms / 3.198681 P
+2 stream64_output_burst bf16: 0.343492270 ms / 3.200979 P
+2 specialized bf16: 0.342231870 ms / 3.212768 P
+2 stream64_output_burst bf16: 0.343947113 ms / 3.196746 P
+2 stream64_output_burst fp32: 0.366261631 ms / 3.001984 P
+2 stream64_output_async fp32: 0.366129279 ms / 3.003069 P
+2 stream64_output_burst fp32: 0.365872890 ms / 3.005174 P
+2 stream64_output_burst fp32: 0.366204858 ms / 3.002450 P
+2 specialized fp32: 0.361538053 ms / 3.041206 P
+2 stream64_output_burst fp32: 0.366388857 ms / 3.000942 P
+3 stream64_output_burst bf16: 0.343899131 ms / 3.197192 P
+3 specialized bf16: 0.342153907 ms / 3.213500 P
+3 stream64_output_burst bf16: 0.344295084 ms / 3.193515 P
+3 stream64_output_burst bf16: 0.344030678 ms / 3.195970 P
+3 stream64_output_async bf16: 0.343898267 ms / 3.197200 P
+3 stream64_output_burst bf16: 0.344190329 ms / 3.194487 P
+3 stream64_output_burst fp32: 0.366106480 ms / 3.003256 P
+3 specialized fp32: 0.362294048 ms / 3.034860 P
+3 stream64_output_burst fp32: 0.366646081 ms / 2.998836 P
+3 stream64_output_burst fp32: 0.366808891 ms / 2.997505 P
+3 stream64_output_async fp32: 0.366505653 ms / 2.999985 P
+3 stream64_output_burst fp32: 0.366560102 ms / 2.999540 P
+[
+  {
+    "name": "stream64_output_burst",
+    "dtype": "bf16",
+    "median_ms": 0.34370115399360657,
+    "min_ms": 0.34217700362205505,
+    "max_ms": 0.34429508447647095,
+    "median_pflops": 3.1990338554302697
+  },
+  {
+    "name": "stream64_output_burst",
+    "dtype": "fp32",
+    "median_ms": 0.366155669093132,
+    "min_ms": 0.3653091490268707,
+    "max_ms": 0.3668088912963867,
+    "median_pflops": 3.0028529409340874
+  },
+  {
+    "name": "specialized",
+    "dtype": "bf16",
+    "median_ms": 0.3421539068222046,
+    "min_ms": 0.34163573384284973,
+    "max_ms": 0.3422318696975708,
+    "median_pflops": 3.2135001408805937
+  },
+  {
+    "name": "specialized",
+    "dtype": "fp32",
+    "median_ms": 0.3615380525588989,
+    "min_ms": 0.3612911105155945,
+    "max_ms": 0.3622940480709076,
+    "median_pflops": 3.0412058149726198
+  },
+  {
+    "name": "stream64_output_async",
+    "dtype": "bf16",
+    "median_ms": 0.3436834216117859,
+    "min_ms": 0.3424941599369049,
+    "max_ms": 0.3438982665538788,
+    "median_pflops": 3.1991989099141773
+  },
+  {
+    "name": "stream64_output_async",
+    "dtype": "fp32",
+    "median_ms": 0.3661292791366577,
+    "min_ms": 0.3658292889595032,
+    "max_ms": 0.3665056526660919,
+    "median_pflops": 3.00306938130891
+  }
+]

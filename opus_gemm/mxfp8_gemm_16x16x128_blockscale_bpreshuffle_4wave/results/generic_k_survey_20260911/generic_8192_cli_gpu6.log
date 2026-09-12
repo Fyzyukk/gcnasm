@@ -1,0 +1,62 @@
+1 specialized K=8192 bf16 0.360179176 ms / 3.052680 P
+1 specialized K=8192 fp32 0.379557648 ms / 2.896824 P
+1 generic K=8192 bf16 0.389976120 ms / 2.819433 P
+1 generic K=8192 fp32 0.402216148 ms / 2.733634 P
+2 generic K=8192 bf16 0.389398384 ms / 2.823616 P
+2 generic K=8192 fp32 0.402344170 ms / 2.732764 P
+2 specialized K=8192 bf16 0.356951904 ms / 3.080279 P
+2 specialized K=8192 fp32 0.375627632 ms / 2.927132 P
+3 specialized K=8192 bf16 0.359153709 ms / 3.061396 P
+3 specialized K=8192 fp32 0.376620407 ms / 2.919416 P
+3 generic K=8192 bf16 0.389745293 ms / 2.821103 P
+3 generic K=8192 fp32 0.403815422 ms / 2.722807 P
+4 generic K=8192 bf16 0.389527664 ms / 2.822679 P
+4 generic K=8192 fp32 0.401675491 ms / 2.737313 P
+4 specialized K=8192 bf16 0.357217522 ms / 3.077989 P
+4 specialized K=8192 fp32 0.376270790 ms / 2.922129 P
+5 specialized K=8192 bf16 0.359378090 ms / 3.059484 P
+5 specialized K=8192 fp32 0.376038513 ms / 2.923934 P
+5 generic K=8192 bf16 0.389636078 ms / 2.821894 P
+5 generic K=8192 fp32 0.402025757 ms / 2.734928 P
+[
+  {
+    "name": "specialized",
+    "k": 8192,
+    "dtype": "bf16",
+    "rounds": 5,
+    "median_ms": 0.359153709,
+    "min_ms": 0.356951904,
+    "max_ms": 0.360179176,
+    "median_pflops": 3.0613957206160998
+  },
+  {
+    "name": "specialized",
+    "k": 8192,
+    "dtype": "fp32",
+    "rounds": 5,
+    "median_ms": 0.37627079,
+    "min_ms": 0.375627632,
+    "max_ms": 0.379557648,
+    "median_pflops": 2.9221285760077205
+  },
+  {
+    "name": "generic",
+    "k": 8192,
+    "dtype": "bf16",
+    "rounds": 5,
+    "median_ms": 0.389636078,
+    "min_ms": 0.389398384,
+    "max_ms": 0.38997612,
+    "median_pflops": 2.8218937871969856
+  },
+  {
+    "name": "generic",
+    "k": 8192,
+    "dtype": "fp32",
+    "rounds": 5,
+    "median_ms": 0.402216148,
+    "min_ms": 0.401675491,
+    "max_ms": 0.403815422,
+    "median_pflops": 2.733633727147126
+  }
+]

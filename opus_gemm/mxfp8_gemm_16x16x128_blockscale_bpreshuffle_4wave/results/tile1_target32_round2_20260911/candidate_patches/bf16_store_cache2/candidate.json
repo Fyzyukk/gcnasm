@@ -1,0 +1,10 @@
+{
+  "name": "bf16_store_cache2",
+  "config": {
+    "bf16_store_aux": 2
+  },
+  "source_sha256": "283aca79fff5b03f25fd2ba05320e598552ac814e63e1923aa2f828e5d5a57da",
+  "num_waves": 4,
+  "output_tiles_per_wg": 1,
+  "per_accumulator_k_order_unchanged": true
+}
