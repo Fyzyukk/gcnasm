@@ -1,0 +1,23 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -321,7 +321,7 @@
+     opus::static_for<16>([&](auto issue_i) {
+         constexpr int issue = decltype(issue_i)::value;
+         constexpr int local = issue % 4;
+-        constexpr int immediate = local * matrix_pitch - (local ? 32 : 0);
++        constexpr int immediate = local * matrix_pitch;
+         int address = matrix_vector_offset + (issue / 2) * matrix_pair_stride
+             + (issue % 2) * matrix_odd_stride - immediate;
+         asm volatile("" : "+v"(address));
+@@ -330,9 +330,9 @@
+     auto prefetch_matrix_issue = [&](auto issue_i, int matrix_stage, int k_tile) {
+         constexpr int issue = decltype(issue_i)::value;
+         constexpr int local = issue % 4;
+-        constexpr int immediate = local * matrix_pitch - (local ? 32 : 0);
++        constexpr int immediate = local * matrix_pitch;
+         auto* dst = matrix_lds_base + matrix_stage * 2 * smem_a_elem
+-            + (issue / 4) * 4 * matrix_pitch + (local ? 32 : 0);
++            + (issue / 4) * 4 * matrix_pitch;
+         g_matrix.template async_load<16>(
+             reinterpret_cast<void*>(reinterpret_cast<__UINTPTR_TYPE__>(dst)),
+             matrix_addresses[issue], k_tile * matrix_k_stride,

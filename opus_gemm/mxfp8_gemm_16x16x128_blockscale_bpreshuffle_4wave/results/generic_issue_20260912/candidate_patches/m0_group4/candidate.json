@@ -1,0 +1,70 @@
+{
+  "name": "m0_group4",
+  "parent": "baseline",
+  "config": {
+    "lds_output": true,
+    "release_mfma": 5,
+    "unified_k1": true,
+    "early_a1_m3": true,
+    "scale_panel_tiles": 64,
+    "unroll": 8,
+    "explicit_retire_vmem_wait": true,
+    "output_rows": true,
+    "store_delay": 4,
+    "lds_vector_elements": 4,
+    "panel_global_loads": "four_before_transpose",
+    "initial_publish": "after_B_requests",
+    "output_half_overlap": false,
+    "final_barrier_vmem_drain": true,
+    "sfa_next_read_mfma": 2,
+    "sfb_next_read_mfma": 20,
+    "sfa_read_pair": true,
+    "accumulator_early_use": "split_sfa_b",
+    "unsigned_tile_indices": true,
+    "output_quarter_publication_mfmas": [
+      20,
+      36,
+      52,
+      64
+    ],
+    "output_barriers_without_vmem_drain": [
+      3
+    ],
+    "a0_m0_prefetch_mfma": 30,
+    "a0_m0_install_mfma": 36,
+    "matrix_group_immediates": [
+      0,
+      1056,
+      2112,
+      3168
+    ],
+    "matrix_group_m0_adjustments": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "matrix_scalar_k_offset_unchanged": true
+  },
+  "source_hashes": {
+    "tmpl_generic.hpp": "21f07ae837241784f6b043e13fddede7a135360cb238154215ff6954f0930396",
+    "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+    "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+    "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+    "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+    "gemm_a8w8_mxfp8_scale_host.cc": "da5a1c7416a883144c21e82ffc53e0bd2cdd720395788fe87b757cac7ef27216",
+    "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "67f918214451d8b4a90319ea570f83e13f520913baa596f6f2e0ec33580158e7",
+    "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+    "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+  },
+  "generic_runtime_k": true,
+  "performance_shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "waves": 4,
+  "output_tiles_per_wg": 1,
+  "production_single_generic": true,
+  "parent_commit": "9229d1a57f24cdd3da47ba3e03545d08d4f001e1"
+}

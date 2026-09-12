@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "gpu_executed": false,
+  "records": [
+    {
+      "name": "generic_tile1_issue_20260912",
+      "case": "declared C stores only",
+      "status": "PASS"
+    },
+    {
+      "name": "generic_tile1_issue_20260912",
+      "case": "no declared output-store exception",
+      "status": "REJECTED_AS_EXPECTED",
+      "reason": "('Non-output VMEM pending at publication', {'asm': 's_barrier', 'addr': 43940, 'line': 4586}, (('output_store', frozenset()), ('output_store', frozenset()), ('output_store', frozenset()), ('output_store', frozenset()), ('output_store', frozenset()), ('output_store', frozenset()), ('output_store', frozenset()), ('output_store', frozenset())))"
+    },
+    {
+      "name": "generic_tile1_issue_20260912",
+      "case": "matrix-to-LDS input pending at allowed output barrier",
+      "status": "REJECTED_AS_EXPECTED",
+      "reason": "('Non-output VMEM pending at publication', {'asm': 's_barrier', 'addr': 43940, 'line': 4586}, (('output_store', frozenset()), ('output_store', frozenset()), ('output_store', frozenset()), ('output_store', frozenset()), ('output_store', frozenset()), ('output_store', frozenset()), ('output_store', frozenset()), ('output_store', frozenset()), ('matrix_to_lds', frozenset())))"
+    },
+    {
+      "name": "generic_tile1_issue_20260912",
+      "case": "register input pending at allowed output barrier",
+      "status": "REJECTED_AS_EXPECTED",
+      "reason": "('Non-output VMEM pending at publication', {'asm': 's_barrier', 'addr': 43940, 'line': 4586}, (('output_store', frozenset()), ('output_store', frozenset()), ('output_store', frozenset()), ('output_store', frozenset()), ('output_store', frozenset()), ('output_store', frozenset()), ('output_store', frozenset()), ('output_store', frozenset()), ('register_load', frozenset({250}))))"
+    }
+  ]
+}

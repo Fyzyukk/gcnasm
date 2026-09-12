@@ -1,0 +1,1698 @@
+{
+  "pci": "0000:65:00.0",
+  "hip_visible_devices": "2",
+  "timestamp_utc": "2026-09-12T05:35:27.405020+00:00",
+  "performance_measured": false,
+  "versions": {
+    "baseline": {
+      "tmpl_generic.hpp": "6472526cabcb12957570f8540b13adae296ab35f637e9f254c4a7a00e0e58483",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "build/libblockscale_bpreshuffle.so": "fc8822de1073127b4578bc39ef1279d76086adcd6cfff4915145cf662857b01d"
+    },
+    "compute_b1_60": {
+      "tmpl_generic.hpp": "e00d06dcac5ac2040ae3aa417aca6556040a83c9856cdf18b7ba3bbbc7e46bc2",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "build/libblockscale_bpreshuffle.so": "57f5d31233e056c950699e5491681e3dc3ad83ad28cb847d1af2b075c0bd58d4"
+    },
+    "compute_b1_62": {
+      "tmpl_generic.hpp": "50c41fe2284283654c0d14ced7d77ff3d473d75cdd6b8da76f7815ba312725ab",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "build/libblockscale_bpreshuffle.so": "8d798a8a30faee93a1b0d4e56b1b32ebc6cc2ae9498c2b453a34d5ec3f774795"
+    },
+    "compute_a0_m1_34": {
+      "tmpl_generic.hpp": "e325eccac3f618bd005c05a856777da210ed84fbcdce0c01f86ccabe5813d166",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "build/libblockscale_bpreshuffle.so": "e04ff2c8020a4a54817e7e8a43ab766b4313c89c1ea46896f6053f999740f453"
+    }
+  },
+  "records": [
+    {
+      "name": "baseline",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_60",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_b1_62",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_a0_m1_34",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    }
+  ]
+}

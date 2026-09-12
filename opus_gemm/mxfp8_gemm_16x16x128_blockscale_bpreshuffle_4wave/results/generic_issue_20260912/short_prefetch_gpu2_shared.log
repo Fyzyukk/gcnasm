@@ -1,0 +1,129 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL compute_tuned bf16 67108864 outputs
+FULL_BASELINE_EQUAL compute_tuned fp32 67108864 outputs
+FULL_BASELINE_EQUAL compute_b1_60 bf16 67108864 outputs
+FULL_BASELINE_EQUAL compute_b1_60 fp32 67108864 outputs
+FULL_BASELINE_EQUAL compute_b1_62 bf16 67108864 outputs
+FULL_BASELINE_EQUAL compute_b1_62 fp32 67108864 outputs
+FULL_BASELINE_EQUAL compute_a0_m1_34 bf16 67108864 outputs
+FULL_BASELINE_EQUAL compute_a0_m1_34 fp32 67108864 outputs
+1 compute_tuned bf16: 0.335731894 ms / 3.274969 P
+1 compute_b1_60 bf16: 0.337485701 ms / 3.257950 P
+1 compute_tuned bf16: 0.334790736 ms / 3.284176 P
+1 compute_tuned bf16: 0.334908456 ms / 3.283021 P
+1 compute_b1_62 bf16: 0.335726857 ms / 3.275018 P
+1 compute_tuned bf16: 0.334799647 ms / 3.284088 P
+1 compute_tuned bf16: 0.335080862 ms / 3.281332 P
+1 compute_a0_m1_34 bf16: 0.335479587 ms / 3.277432 P
+1 compute_tuned bf16: 0.335478872 ms / 3.277439 P
+1 compute_tuned fp32: 0.357857436 ms / 3.072485 P
+1 compute_b1_60 fp32: 0.359710991 ms / 3.056653 P
+1 compute_tuned fp32: 0.357934237 ms / 3.071826 P
+1 compute_tuned fp32: 0.357884258 ms / 3.072255 P
+1 compute_b1_62 fp32: 0.358666241 ms / 3.065557 P
+1 compute_tuned fp32: 0.358213067 ms / 3.069435 P
+1 compute_tuned fp32: 0.357977450 ms / 3.071455 P
+1 compute_a0_m1_34 fp32: 0.358811826 ms / 3.064313 P
+1 compute_tuned fp32: 0.358161062 ms / 3.069880 P
+2 compute_tuned bf16: 0.335746855 ms / 3.274823 P
+2 compute_a0_m1_34 bf16: 0.335691273 ms / 3.275366 P
+2 compute_tuned bf16: 0.335462034 ms / 3.277604 P
+2 compute_tuned bf16: 0.335881263 ms / 3.273513 P
+2 compute_b1_62 bf16: 0.337290466 ms / 3.259836 P
+2 compute_tuned bf16: 0.336051255 ms / 3.271857 P
+2 compute_tuned bf16: 0.335758477 ms / 3.274710 P
+2 compute_b1_60 bf16: 0.338445663 ms / 3.248709 P
+2 compute_tuned bf16: 0.335790813 ms / 3.274395 P
+2 compute_tuned fp32: 0.358328253 ms / 3.068448 P
+2 compute_a0_m1_34 fp32: 0.358954668 ms / 3.063093 P
+2 compute_tuned fp32: 0.358361065 ms / 3.068167 P
+2 compute_tuned fp32: 0.358297855 ms / 3.068708 P
+2 compute_b1_62 fp32: 0.359180629 ms / 3.061166 P
+2 compute_tuned fp32: 0.358322650 ms / 3.068496 P
+2 compute_tuned fp32: 0.358447045 ms / 3.067431 P
+2 compute_b1_60 fp32: 0.360522658 ms / 3.049771 P
+2 compute_tuned fp32: 0.358596236 ms / 3.066155 P
+3 compute_tuned bf16: 0.335803688 ms / 3.274269 P
+3 compute_b1_60 bf16: 0.338676870 ms / 3.246492 P
+3 compute_tuned bf16: 0.336411297 ms / 3.268355 P
+3 compute_tuned bf16: 0.335972488 ms / 3.272624 P
+3 compute_b1_62 bf16: 0.337602079 ms / 3.256827 P
+3 compute_tuned bf16: 0.335945666 ms / 3.272885 P
+3 compute_tuned bf16: 0.336330861 ms / 3.269137 P
+3 compute_a0_m1_34 bf16: 0.336793661 ms / 3.264645 P
+3 compute_tuned bf16: 0.335858077 ms / 3.273739 P
+3 compute_tuned fp32: 0.358609855 ms / 3.066039 P
+3 compute_b1_60 fp32: 0.361224622 ms / 3.043845 P
+3 compute_tuned fp32: 0.358095855 ms / 3.070439 P
+3 compute_tuned fp32: 0.358586669 ms / 3.066237 P
+3 compute_b1_62 fp32: 0.359734237 ms / 3.056455 P
+3 compute_tuned fp32: 0.358910650 ms / 3.063469 P
+3 compute_tuned fp32: 0.359050244 ms / 3.062278 P
+3 compute_a0_m1_34 fp32: 0.359139442 ms / 3.061517 P
+3 compute_tuned fp32: 0.359077454 ms / 3.062046 P
+[
+  {
+    "name": "compute_tuned",
+    "dtype": "bf16",
+    "median_ms": 0.33577464520931244,
+    "min_ms": 0.33479073643684387,
+    "max_ms": 0.3364112973213196,
+    "median_pflops": 3.2745522732682675
+  },
+  {
+    "name": "compute_tuned",
+    "dtype": "fp32",
+    "median_ms": 0.35832545161247253,
+    "min_ms": 0.35785743594169617,
+    "max_ms": 0.35907745361328125,
+    "median_pflops": 3.0684720352075834
+  },
+  {
+    "name": "compute_b1_60",
+    "dtype": "bf16",
+    "median_ms": 0.33844566345214844,
+    "min_ms": 0.3374857008457184,
+    "max_ms": 0.3386768698692322,
+    "median_pflops": 3.2487094577042965
+  },
+  {
+    "name": "compute_b1_60",
+    "dtype": "fp32",
+    "median_ms": 0.36052265763282776,
+    "min_ms": 0.3597109913825989,
+    "max_ms": 0.36122462153434753,
+    "median_pflops": 3.049771226572371
+  },
+  {
+    "name": "compute_b1_62",
+    "dtype": "bf16",
+    "median_ms": 0.3372904658317566,
+    "min_ms": 0.33572685718536377,
+    "max_ms": 0.33760207891464233,
+    "median_pflops": 3.2598360735297094
+  },
+  {
+    "name": "compute_b1_62",
+    "dtype": "fp32",
+    "median_ms": 0.35918062925338745,
+    "min_ms": 0.35866624116897583,
+    "max_ms": 0.3597342371940613,
+    "median_pflops": 3.06116627186022
+  },
+  {
+    "name": "compute_a0_m1_34",
+    "dtype": "bf16",
+    "median_ms": 0.33569127321243286,
+    "min_ms": 0.33547958731651306,
+    "max_ms": 0.3367936611175537,
+    "median_pflops": 3.2753655382640963
+  },
+  {
+    "name": "compute_a0_m1_34",
+    "dtype": "fp32",
+    "median_ms": 0.35895466804504395,
+    "min_ms": 0.3588118255138397,
+    "max_ms": 0.35913944244384766,
+    "median_pflops": 3.063093269588087
+  }
+]

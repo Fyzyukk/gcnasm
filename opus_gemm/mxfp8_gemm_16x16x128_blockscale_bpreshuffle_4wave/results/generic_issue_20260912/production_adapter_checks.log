@@ -1,0 +1,18 @@
+Physical GPU2 / HIP2 / PCI 0000:65:00.0
+[aiter] import [module_aiter_core] under /sgl-workspace/aiter/aiter/jit/module_aiter_core.so
+[aiter] ROCm/HIP JIT runtime not available: cannot import name 'fly_values' from 'flydsl.compiler.protocol' (/opt/venv/lib/python3.10/site-packages/flydsl/compiler/protocol.py). CK and HIP ops are disabled. Triton ops remain available.
+shuffle_weight source: /sgl-workspace/aiter/aiter/ops/shuffle.py
+GPU: AMD Instinct MI355X
+PASS 256x256x128 tiles=1 dtype=torch.float32 scale=torch.uint8 metadata_layout=False packed_bytes=False
+PASS 256x256x128 tiles=1 dtype=torch.bfloat16 scale=torch.uint8 metadata_layout=False packed_bytes=False
+PASS 512x512x256 tiles=1 dtype=torch.float32 scale=torch.float8_e8m0fnu metadata_layout=True packed_bytes=True
+PASS 512x512x256 tiles=1 dtype=torch.bfloat16 scale=torch.float8_e8m0fnu metadata_layout=True packed_bytes=True
+PASS 1280x512x1152 tiles=1 dtype=torch.float32 scale=torch.float8_e8m0fnu metadata_layout=False packed_bytes=False
+PASS 1280x512x1152 tiles=1 dtype=torch.bfloat16 scale=torch.float8_e8m0fnu metadata_layout=False packed_bytes=False
+PASS 512x256x256 tiles=0 dtype=torch.float32 scale=torch.uint8 metadata_layout=True packed_bytes=False
+PASS 512x256x256 tiles=0 dtype=torch.bfloat16 scale=torch.uint8 metadata_layout=True packed_bytes=False
+PASS 256x512x1024 tiles=1 dtype=torch.float32 scale=torch.uint8 metadata_layout=False packed_bytes=False
+PASS 256x512x1024 tiles=1 dtype=torch.bfloat16 scale=torch.uint8 metadata_layout=False packed_bytes=False
+PASS full 8192x8192x8192 torch.float32: all 67108864 outputs exactly equal
+PASS full 8192x8192x8192 torch.bfloat16: all 67108864 outputs exactly equal
+ALL PYTHON INTEGRATION CHECKS PASSED

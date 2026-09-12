@@ -1,0 +1,85 @@
+GPU2, PCI 0000:65:00.0, HIP 2; work directory: /tmp/mxfp8_4wave_compare_isoo7psc
+make: Nothing to be done for 'all'.
+baseline PASS [{'vgpr_count': 500, 'sgpr_count': 74, 'group_segment_fixed_size': 152064, 'private_segment_fixed_size': 0, 'vgpr_spill_count': 0, 'sgpr_spill_count': 0, 'wavefront_size': 64, 'max_flat_workgroup_size': 256, 'agpr_count': 256}, {'vgpr_count': 504, 'sgpr_count': 74, 'group_segment_fixed_size': 152064, 'private_segment_fixed_size': 0, 'vgpr_spill_count': 0, 'sgpr_spill_count': 0, 'wavefront_size': 64, 'max_flat_workgroup_size': 256, 'agpr_count': 256}]
+current PASS [{'vgpr_count': 500, 'sgpr_count': 62, 'group_segment_fixed_size': 152064, 'private_segment_fixed_size': 0, 'vgpr_spill_count': 0, 'sgpr_spill_count': 0, 'wavefront_size': 64, 'max_flat_workgroup_size': 256, 'agpr_count': 256}, {'vgpr_count': 512, 'sgpr_count': 62, 'group_segment_fixed_size': 152064, 'private_segment_fixed_size': 0, 'vgpr_spill_count': 0, 'sgpr_spill_count': 0, 'wavefront_size': 64, 'max_flat_workgroup_size': 256, 'agpr_count': 256}]
+[aiter] import [module_aiter_core] under /sgl-workspace/aiter/aiter/jit/module_aiter_core.so
+[aiter] ROCm/HIP JIT runtime not available: cannot import name 'fly_values' from 'flydsl.compiler.protocol' (/opt/venv/lib/python3.10/site-packages/flydsl/compiler/protocol.py). CK and HIP ops are disabled. Triton ops remain available.
+/opt/venv/lib/python3.10/site-packages/torch/__init__.py:1605: UserWarning: Please use the new API settings to control TF32 behavior, such as torch.backends.cudnn.conv.fp32_precision = 'tf32' or torch.backends.cuda.matmul.fp32_precision = 'ieee'. Old settings, e.g, torch.backends.cuda.matmul.allow_tf32 = True, torch.backends.cudnn.allow_tf32 = True, allowTF32CuDNN() and allowTF32CuBLAS() will be deprecated after Pytorch 2.9. Please see https://pytorch.org/docs/main/notes/cuda.html#tensorfloat-32-tf32-on-ampere-and-later-devices (Triggered internally at /app/pytorch/aten/src/ATen/Context.cpp:80.)
+  _C._set_float32_matmul_precision(precision)
+PASS dyadic_independent_dequantized_gemm baseline fp32 67108864 outputs exactly equal
+PASS dyadic_independent_dequantized_gemm baseline bf16 67108864 outputs exactly equal
+PASS dyadic_independent_dequantized_gemm current fp32 67108864 outputs exactly equal
+PASS dyadic_independent_dequantized_gemm current bf16 67108864 outputs exactly equal
+PASS cli_seed1_validated_baseline current fp32 67108864 outputs exactly equal
+PASS cli_seed1_validated_baseline current bf16 67108864 outputs exactly equal
+ALL FULL OUTPUT CHECKS PASSED; no performance timing
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL current bf16 67108864 outputs
+FULL_BASELINE_EQUAL current fp32 67108864 outputs
+1 baseline bf16: 0.336980045 ms / 3.262839 P
+1 current bf16: 0.334210485 ms / 3.289878 P
+1 baseline bf16: 0.336289287 ms / 3.269541 P
+1 baseline fp32: 0.359061360 ms / 3.062183 P
+1 current fp32: 0.356286287 ms / 3.086034 P
+1 baseline fp32: 0.359252751 ms / 3.060552 P
+2 baseline bf16: 0.336464167 ms / 3.267842 P
+2 current bf16: 0.334003329 ms / 3.291918 P
+2 baseline bf16: 0.336605757 ms / 3.266467 P
+2 baseline fp32: 0.359531552 ms / 3.058178 P
+2 current fp32: 0.356798679 ms / 3.081602 P
+2 baseline fp32: 0.359527081 ms / 3.058216 P
+3 baseline bf16: 0.336538970 ms / 3.267115 P
+3 current bf16: 0.334548146 ms / 3.286557 P
+3 baseline bf16: 0.337179750 ms / 3.260906 P
+3 baseline fp32: 0.359699965 ms / 3.056747 P
+3 current fp32: 0.356880307 ms / 3.080897 P
+3 baseline fp32: 0.359691918 ms / 3.056815 P
+4 baseline bf16: 0.336516947 ms / 3.267329 P
+4 current bf16: 0.334672570 ms / 3.285335 P
+4 baseline bf16: 0.336991757 ms / 3.262726 P
+4 baseline fp32: 0.359935939 ms / 3.054743 P
+4 current fp32: 0.357334316 ms / 3.076983 P
+4 baseline fp32: 0.359825969 ms / 3.055676 P
+5 baseline bf16: 0.336690217 ms / 3.265648 P
+5 current bf16: 0.334390551 ms / 3.288106 P
+5 baseline bf16: 0.337094992 ms / 3.261726 P
+5 baseline fp32: 0.360039979 ms / 3.053860 P
+5 current fp32: 0.357001960 ms / 3.079848 P
+5 baseline fp32: 0.359900355 ms / 3.055045 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.33664798736572266,
+    "min_ms": 0.33628928661346436,
+    "max_ms": 0.3371797502040863,
+    "median_pflops": 3.266057333001456
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.3596959412097931,
+    "min_ms": 0.3590613603591919,
+    "max_ms": 0.36003997921943665,
+    "median_pflops": 3.0567807467549613
+  },
+  {
+    "name": "current",
+    "dtype": "bf16",
+    "median_ms": 0.3343905508518219,
+    "min_ms": 0.3340033292770386,
+    "max_ms": 0.33467257022857666,
+    "median_pflops": 3.288106153045052
+  },
+  {
+    "name": "current",
+    "dtype": "fp32",
+    "median_ms": 0.3568803071975708,
+    "min_ms": 0.35628628730773926,
+    "max_ms": 0.35733431577682495,
+    "median_pflops": 3.0808974482509193
+  }
+]
+Results: /root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_issue_20260912/shared_allocations/reproduction_confirm_gpu2

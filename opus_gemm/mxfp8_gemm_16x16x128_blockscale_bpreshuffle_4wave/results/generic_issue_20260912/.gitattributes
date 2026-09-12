@@ -1,0 +1,2 @@
+# Preserve llvm-readelf's exact captured metadata, including its final blank line.
+selected/device.notes whitespace=-blank-at-eof

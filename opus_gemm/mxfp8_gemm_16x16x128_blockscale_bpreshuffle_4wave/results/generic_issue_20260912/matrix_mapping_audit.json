@@ -1,0 +1,148 @@
+{
+  "status": "PASS",
+  "scope": "CPU address algebra and independent producer-layout coverage; GPU checks validate the emitted MUBUF semantics",
+  "candidate": "m0_group4",
+  "source_sha256": "21f07ae837241784f6b043e13fddede7a135360cb238154215ff6954f0930396",
+  "immediate_offsets": [
+    0,
+    1056,
+    2112,
+    3168
+  ],
+  "m0_adjustments": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "records": [
+    {
+      "k": 128,
+      "matrix": "a",
+      "bytes_per_k128": 32768,
+      "negative_voffsets": 68,
+      "original_mapping_equal": true,
+      "complete_coordinate_coverage": true
+    },
+    {
+      "k": 128,
+      "matrix": "b",
+      "bytes_per_k128": 32768,
+      "negative_voffsets": 12,
+      "original_mapping_equal": true,
+      "complete_coordinate_coverage": true
+    },
+    {
+      "k": 256,
+      "matrix": "a",
+      "bytes_per_k128": 32768,
+      "negative_voffsets": 16,
+      "original_mapping_equal": true,
+      "complete_coordinate_coverage": true
+    },
+    {
+      "k": 256,
+      "matrix": "b",
+      "bytes_per_k128": 32768,
+      "negative_voffsets": 2,
+      "original_mapping_equal": true,
+      "complete_coordinate_coverage": true
+    },
+    {
+      "k": 384,
+      "matrix": "a",
+      "bytes_per_k128": 32768,
+      "negative_voffsets": 8,
+      "original_mapping_equal": true,
+      "complete_coordinate_coverage": true
+    },
+    {
+      "k": 384,
+      "matrix": "b",
+      "bytes_per_k128": 32768,
+      "negative_voffsets": 2,
+      "original_mapping_equal": true,
+      "complete_coordinate_coverage": true
+    },
+    {
+      "k": 896,
+      "matrix": "a",
+      "bytes_per_k128": 32768,
+      "negative_voffsets": 8,
+      "original_mapping_equal": true,
+      "complete_coordinate_coverage": true
+    },
+    {
+      "k": 896,
+      "matrix": "b",
+      "bytes_per_k128": 32768,
+      "negative_voffsets": 2,
+      "original_mapping_equal": true,
+      "complete_coordinate_coverage": true
+    },
+    {
+      "k": 1152,
+      "matrix": "a",
+      "bytes_per_k128": 32768,
+      "negative_voffsets": 0,
+      "original_mapping_equal": true,
+      "complete_coordinate_coverage": true
+    },
+    {
+      "k": 1152,
+      "matrix": "b",
+      "bytes_per_k128": 32768,
+      "negative_voffsets": 2,
+      "original_mapping_equal": true,
+      "complete_coordinate_coverage": true
+    },
+    {
+      "k": 8192,
+      "matrix": "a",
+      "bytes_per_k128": 32768,
+      "negative_voffsets": 0,
+      "original_mapping_equal": true,
+      "complete_coordinate_coverage": true
+    },
+    {
+      "k": 8192,
+      "matrix": "b",
+      "bytes_per_k128": 32768,
+      "negative_voffsets": 2,
+      "original_mapping_equal": true,
+      "complete_coordinate_coverage": true
+    },
+    {
+      "k": 8320,
+      "matrix": "a",
+      "bytes_per_k128": 32768,
+      "negative_voffsets": 0,
+      "original_mapping_equal": true,
+      "complete_coordinate_coverage": true
+    },
+    {
+      "k": 8320,
+      "matrix": "b",
+      "bytes_per_k128": 32768,
+      "negative_voffsets": 2,
+      "original_mapping_equal": true,
+      "complete_coordinate_coverage": true
+    },
+    {
+      "k": 32896,
+      "matrix": "a",
+      "bytes_per_k128": 32768,
+      "negative_voffsets": 0,
+      "original_mapping_equal": true,
+      "complete_coordinate_coverage": true
+    },
+    {
+      "k": 32896,
+      "matrix": "b",
+      "bytes_per_k128": 32768,
+      "negative_voffsets": 2,
+      "original_mapping_equal": true,
+      "complete_coordinate_coverage": true
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL grid2d bf16 67108864 outputs
+FULL_BASELINE_EQUAL grid2d fp32 67108864 outputs
+FULL_BASELINE_EQUAL compute_tuned_grid2d bf16 67108864 outputs
+FULL_BASELINE_EQUAL compute_tuned_grid2d fp32 67108864 outputs
+FULL_BASELINE_EQUAL compute_tuned bf16 67108864 outputs
+FULL_BASELINE_EQUAL compute_tuned fp32 67108864 outputs
+1 baseline bf16: 0.337351412 ms / 3.259247 P
+1 grid2d bf16: 0.336115152 ms / 3.271235 P
+1 baseline bf16: 0.336359829 ms / 3.268855 P
+1 baseline bf16: 0.336077958 ms / 3.271597 P
+1 compute_tuned_grid2d bf16: 0.334355950 ms / 3.288446 P
+1 baseline bf16: 0.336361200 ms / 3.268842 P
+1 baseline bf16: 0.336450398 ms / 3.267975 P
+1 compute_tuned bf16: 0.334951580 ms / 3.282599 P
+1 baseline bf16: 0.336600423 ms / 3.266519 P
+1 baseline fp32: 0.359625816 ms / 3.057377 P
+1 grid2d fp32: 0.358754158 ms / 3.064805 P
+1 baseline fp32: 0.359433711 ms / 3.059011 P
+1 baseline fp32: 0.359861761 ms / 3.055372 P
+1 compute_tuned_grid2d fp32: 0.357136577 ms / 3.078687 P
+1 baseline fp32: 0.359853387 ms / 3.055443 P
+1 baseline fp32: 0.359932601 ms / 3.054771 P
+1 compute_tuned fp32: 0.357996553 ms / 3.071291 P
+1 baseline fp32: 0.359965354 ms / 3.054493 P
+2 baseline bf16: 0.337267995 ms / 3.260053 P
+2 compute_tuned bf16: 0.335345179 ms / 3.278746 P
+2 baseline bf16: 0.337237597 ms / 3.260347 P
+2 baseline bf16: 0.337333977 ms / 3.259416 P
+2 compute_tuned_grid2d bf16: 0.334926784 ms / 3.282842 P
+2 baseline bf16: 0.336786389 ms / 3.264715 P
+2 baseline bf16: 0.337486386 ms / 3.257944 P
+2 grid2d bf16: 0.336910069 ms / 3.263517 P
+2 baseline bf16: 0.337575644 ms / 3.257082 P
+2 baseline fp32: 0.360099405 ms / 3.053356 P
+2 compute_tuned fp32: 0.358218580 ms / 3.069387 P
+2 baseline fp32: 0.360654175 ms / 3.048659 P
+2 baseline fp32: 0.360268980 ms / 3.051919 P
+2 compute_tuned_grid2d fp32: 0.358134151 ms / 3.070111 P
+2 baseline fp32: 0.360153347 ms / 3.052899 P
+2 baseline fp32: 0.360017776 ms / 3.054048 P
+2 grid2d fp32: 0.359087378 ms / 3.061961 P
+2 baseline fp32: 0.360032171 ms / 3.053926 P
+3 baseline bf16: 0.337442428 ms / 3.258368 P
+3 grid2d bf16: 0.337029994 ms / 3.262355 P
+3 baseline bf16: 0.337084860 ms / 3.261824 P
+3 baseline bf16: 0.337265193 ms / 3.260080 P
+3 compute_tuned_grid2d bf16: 0.334895581 ms / 3.283148 P
+3 baseline bf16: 0.337268025 ms / 3.260053 P
+3 baseline bf16: 0.337354392 ms / 3.259218 P
+3 compute_tuned bf16: 0.335794002 ms / 3.274364 P
+3 baseline bf16: 0.337271988 ms / 3.260015 P
+3 baseline fp32: 0.360282212 ms / 3.051807 P
+3 grid2d fp32: 0.359411359 ms / 3.059201 P
+3 baseline fp32: 0.360324979 ms / 3.051444 P
+3 baseline fp32: 0.360054195 ms / 3.053739 P
+3 compute_tuned_grid2d fp32: 0.358198166 ms / 3.069562 P
+3 baseline fp32: 0.360147744 ms / 3.052946 P
+3 baseline fp32: 0.360224158 ms / 3.052298 P
+3 compute_tuned fp32: 0.358232588 ms / 3.069267 P
+3 baseline fp32: 0.360136569 ms / 3.053041 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.33726659417152405,
+    "min_ms": 0.3360779583454132,
+    "max_ms": 0.33757564425468445,
+    "median_pflops": 3.2600668040571494
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.36007679998874664,
+    "min_ms": 0.35943371057510376,
+    "max_ms": 0.36065417528152466,
+    "median_pflops": 3.053547542664128
+  },
+  {
+    "name": "grid2d",
+    "dtype": "bf16",
+    "median_ms": 0.33691006898880005,
+    "min_ms": 0.33611515164375305,
+    "max_ms": 0.33702999353408813,
+    "median_pflops": 3.263516673977919
+  },
+  {
+    "name": "grid2d",
+    "dtype": "fp32",
+    "median_ms": 0.35908737778663635,
+    "min_ms": 0.35875415802001953,
+    "max_ms": 0.359411358833313,
+    "median_pflops": 3.0619612266887066
+  },
+  {
+    "name": "compute_tuned_grid2d",
+    "dtype": "bf16",
+    "median_ms": 0.3348955810070038,
+    "min_ms": 0.3343559503555298,
+    "max_ms": 0.3349267840385437,
+    "median_pflops": 3.283147614160384
+  },
+  {
+    "name": "compute_tuned_grid2d",
+    "dtype": "fp32",
+    "median_ms": 0.3581341505050659,
+    "min_ms": 0.3571365773677826,
+    "max_ms": 0.3581981658935547,
+    "median_pflops": 3.0701110916828
+  },
+  {
+    "name": "compute_tuned",
+    "dtype": "bf16",
+    "median_ms": 0.33534517884254456,
+    "min_ms": 0.33495157957077026,
+    "max_ms": 0.33579400181770325,
+    "median_pflops": 3.278745892727614
+  },
+  {
+    "name": "compute_tuned",
+    "dtype": "fp32",
+    "median_ms": 0.35821858048439026,
+    "min_ms": 0.35799655318260193,
+    "max_ms": 0.3582325875759125,
+    "median_pflops": 3.0693874848401737
+  }
+]

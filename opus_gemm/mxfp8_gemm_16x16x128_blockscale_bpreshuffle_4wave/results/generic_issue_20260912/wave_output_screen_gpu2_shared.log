@@ -1,0 +1,165 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL out_wave_read64 bf16 67108864 outputs
+FULL_BASELINE_EQUAL out_wave_read64 fp32 67108864 outputs
+FULL_BASELINE_EQUAL out_wave_read64_valu6 bf16 67108864 outputs
+FULL_BASELINE_EQUAL out_wave_read64_valu6 fp32 67108864 outputs
+FULL_BASELINE_EQUAL out_wave_xor bf16 67108864 outputs
+FULL_BASELINE_EQUAL out_wave_xor fp32 67108864 outputs
+FULL_BASELINE_EQUAL out_wave_xor_valu6 bf16 67108864 outputs
+FULL_BASELINE_EQUAL out_wave_xor_valu6 fp32 67108864 outputs
+1 baseline bf16: 0.337164283 ms / 3.261056 P
+1 out_wave_read64 bf16: 0.356652856 ms / 3.082862 P
+1 baseline bf16: 0.336008340 ms / 3.272275 P
+1 baseline bf16: 0.336116642 ms / 3.271220 P
+1 out_wave_read64_valu6 bf16: 0.357550889 ms / 3.075119 P
+1 baseline bf16: 0.336113930 ms / 3.271247 P
+1 baseline bf16: 0.336240232 ms / 3.270018 P
+1 out_wave_xor bf16: 0.355310827 ms / 3.094506 P
+1 baseline bf16: 0.336432695 ms / 3.268147 P
+1 baseline bf16: 0.336886764 ms / 3.263742 P
+1 out_wave_xor_valu6 bf16: 0.356199294 ms / 3.086788 P
+1 baseline bf16: 0.336484343 ms / 3.267646 P
+1 baseline fp32: 0.359619379 ms / 3.057432 P
+1 out_wave_read64 fp32: 0.359856576 ms / 3.055416 P
+1 baseline fp32: 0.359602928 ms / 3.057571 P
+1 baseline fp32: 0.359936953 ms / 3.054734 P
+1 out_wave_read64_valu6 fp32: 0.359520108 ms / 3.058276 P
+1 baseline fp32: 0.359974951 ms / 3.054411 P
+1 baseline fp32: 0.359648943 ms / 3.057180 P
+1 out_wave_xor fp32: 0.360071361 ms / 3.053594 P
+1 baseline fp32: 0.359904945 ms / 3.055006 P
+1 baseline fp32: 0.359617770 ms / 3.057445 P
+1 out_wave_xor_valu6 fp32: 0.360008508 ms / 3.054127 P
+1 baseline fp32: 0.360191345 ms / 3.052576 P
+2 baseline bf16: 0.337439120 ms / 3.258400 P
+2 out_wave_xor_valu6 bf16: 0.356537670 ms / 3.083858 P
+2 baseline bf16: 0.337201536 ms / 3.260696 P
+2 baseline bf16: 0.337336719 ms / 3.259389 P
+2 out_wave_xor bf16: 0.355652928 ms / 3.091530 P
+2 baseline bf16: 0.337345153 ms / 3.259308 P
+2 baseline bf16: 0.337430775 ms / 3.258481 P
+2 out_wave_read64_valu6 bf16: 0.358338922 ms / 3.068357 P
+2 baseline bf16: 0.337347895 ms / 3.259281 P
+2 baseline bf16: 0.337429166 ms / 3.258496 P
+2 out_wave_read64 bf16: 0.356973737 ms / 3.080091 P
+2 baseline bf16: 0.337590754 ms / 3.256936 P
+2 baseline fp32: 0.360059768 ms / 3.053692 P
+2 out_wave_xor_valu6 fp32: 0.360152125 ms / 3.052909 P
+2 baseline fp32: 0.360229373 ms / 3.052254 P
+2 baseline fp32: 0.360282540 ms / 3.051804 P
+2 out_wave_xor fp32: 0.360186547 ms / 3.052617 P
+2 baseline fp32: 0.360459715 ms / 3.050304 P
+2 baseline fp32: 0.360771358 ms / 3.047669 P
+2 out_wave_read64_valu6 fp32: 0.360272944 ms / 3.051885 P
+2 baseline fp32: 0.360222965 ms / 3.052309 P
+2 baseline fp32: 0.360230178 ms / 3.052247 P
+2 out_wave_read64 fp32: 0.360292971 ms / 3.051715 P
+2 baseline fp32: 0.360422552 ms / 3.050618 P
+3 baseline bf16: 0.337243170 ms / 3.260293 P
+3 out_wave_read64 bf16: 0.357107729 ms / 3.078935 P
+3 baseline bf16: 0.337348372 ms / 3.259277 P
+3 baseline bf16: 0.337588757 ms / 3.256956 P
+3 out_wave_read64_valu6 bf16: 0.358832955 ms / 3.064132 P
+3 baseline bf16: 0.337617159 ms / 3.256682 P
+3 baseline bf16: 0.337614357 ms / 3.256709 P
+3 out_wave_xor bf16: 0.356187314 ms / 3.086892 P
+3 baseline bf16: 0.337167978 ms / 3.261020 P
+3 baseline bf16: 0.337699175 ms / 3.255891 P
+3 out_wave_xor_valu6 bf16: 0.356980145 ms / 3.080036 P
+3 baseline bf16: 0.337447971 ms / 3.258315 P
+3 baseline fp32: 0.360439748 ms / 3.050473 P
+3 out_wave_read64 fp32: 0.360396951 ms / 3.050835 P
+3 baseline fp32: 0.360877752 ms / 3.046770 P
+3 baseline fp32: 0.360366970 ms / 3.051089 P
+3 out_wave_read64_valu6 fp32: 0.360652953 ms / 3.048669 P
+3 baseline fp32: 0.360411763 ms / 3.050710 P
+3 baseline fp32: 0.360228956 ms / 3.052258 P
+3 out_wave_xor fp32: 0.360681355 ms / 3.048429 P
+3 baseline fp32: 0.360472947 ms / 3.050192 P
+3 baseline fp32: 0.360315740 ms / 3.051523 P
+3 out_wave_xor_valu6 fp32: 0.360722154 ms / 3.048085 P
+3 baseline fp32: 0.360690951 ms / 3.048348 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.33734093606472015,
+    "min_ms": 0.33600834012031555,
+    "max_ms": 0.33769917488098145,
+    "median_pflops": 3.2593483631202544
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.3602297753095627,
+    "min_ms": 0.3596029281616211,
+    "max_ms": 0.36087775230407715,
+    "median_pflops": 3.052250821940349
+  },
+  {
+    "name": "out_wave_read64",
+    "dtype": "bf16",
+    "median_ms": 0.3569737374782562,
+    "min_ms": 0.3566528558731079,
+    "max_ms": 0.3571077287197113,
+    "median_pflops": 3.0800910888941035
+  },
+  {
+    "name": "out_wave_read64",
+    "dtype": "fp32",
+    "median_ms": 0.3602929711341858,
+    "min_ms": 0.35985657572746277,
+    "max_ms": 0.36039695143699646,
+    "median_pflops": 3.0517154534399817
+  },
+  {
+    "name": "out_wave_read64_valu6",
+    "dtype": "bf16",
+    "median_ms": 0.3583389222621918,
+    "min_ms": 0.35755088925361633,
+    "max_ms": 0.3588329553604126,
+    "median_pflops": 3.0683566854384354
+  },
+  {
+    "name": "out_wave_read64_valu6",
+    "dtype": "fp32",
+    "median_ms": 0.36027294397354126,
+    "min_ms": 0.3595201075077057,
+    "max_ms": 0.36065295338630676,
+    "median_pflops": 3.0518850948095313
+  },
+  {
+    "name": "out_wave_xor",
+    "dtype": "bf16",
+    "median_ms": 0.35565292835235596,
+    "min_ms": 0.3553108274936676,
+    "max_ms": 0.3561873137950897,
+    "median_pflops": 3.091529803704248
+  },
+  {
+    "name": "out_wave_xor",
+    "dtype": "fp32",
+    "median_ms": 0.36018654704093933,
+    "min_ms": 0.3600713610649109,
+    "max_ms": 0.36068135499954224,
+    "median_pflops": 3.0526171418918318
+  },
+  {
+    "name": "out_wave_xor_valu6",
+    "dtype": "bf16",
+    "median_ms": 0.35653766989707947,
+    "min_ms": 0.3561992943286896,
+    "max_ms": 0.3569801449775696,
+    "median_pflops": 3.083858230445586
+  },
+  {
+    "name": "out_wave_xor_valu6",
+    "dtype": "fp32",
+    "median_ms": 0.36015212535858154,
+    "min_ms": 0.36000850796699524,
+    "max_ms": 0.360722154378891,
+    "median_pflops": 3.052908896987025
+  }
+]

@@ -1,0 +1,2120 @@
+{
+  "pci": "0000:65:00.0",
+  "hip_visible_devices": "2",
+  "timestamp_utc": "2026-09-12T05:27:46.292217+00:00",
+  "performance_measured": false,
+  "versions": {
+    "baseline": {
+      "tmpl_generic.hpp": "6472526cabcb12957570f8540b13adae296ab35f637e9f254c4a7a00e0e58483",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "build/libblockscale_bpreshuffle.so": "fc8822de1073127b4578bc39ef1279d76086adcd6cfff4915145cf662857b01d"
+    },
+    "compute_tuned": {
+      "tmpl_generic.hpp": "b42287f0faa0ec298b704ffa254e02984f79b84255ee7ce9d8f4f15960e8a76e",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "build/libblockscale_bpreshuffle.so": "0d0bf34d602f4961d6f3243371101336e58a508774ae5b666399227cd4c7227c"
+    },
+    "out_fragment_stream": {
+      "tmpl_generic.hpp": "878d6fa74440a85013bad381adbecf362826719df4c340f4af746534e9d5e816",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "build/libblockscale_bpreshuffle.so": "d5c25ef17cde5eccf17f69da81b42a1da99e5732b8d2102015c1c2fdf145d82c"
+    },
+    "out_fragment_stream_base": {
+      "tmpl_generic.hpp": "0c542ac8b5d4e840a4231dc351533426ae45398df1b9ae30a95aa90e0b755445",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "build/libblockscale_bpreshuffle.so": "f974ed8027383ca83ca4f74ebe3ba4e4b8c16928a636df0d8becbf3056f83b27"
+    },
+    "out_fragment_group_base": {
+      "tmpl_generic.hpp": "c729d15518ca72ebc2d784b3552d3a0e43a21e734c782feba09a0b7feba28891",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "build/libblockscale_bpreshuffle.so": "b5439d467967977a665df1bcb5930ad7fe54e6a94162fa1de8f64f749077886b"
+    }
+  },
+  "records": [
+    {
+      "name": "baseline",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "compute_tuned",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_stream_base",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "out_fragment_group_base",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    }
+  ]
+}

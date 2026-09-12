@@ -1,0 +1,434 @@
+{
+  "baseline": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2784,
+      "words": 6020,
+      "encoding_sha256": "e7d1449d9af5a380723cd501da615ade837819968a6b2697b6d9689a53ff1605"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3367,
+      "words": 7125,
+      "encoding_sha256": "c0b5a959c8d973facb42e2a38e769b1c44ddbfca71959132b9dcae217ad9f944"
+    }
+  },
+  "issue6_36": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2802,
+      "words": 6038,
+      "encoding_sha256": "77b35025a17882ed4b5c048bc2757894ce2f5201cec819caafab72fe1e2e3583"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3385,
+      "words": 7143,
+      "encoding_sha256": "3b0bd897adb2f09771f0f996699f89030ec9c514bfa7bebf03378c11b99f5315"
+    }
+  },
+  "release4": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2784,
+      "words": 6020,
+      "encoding_sha256": "5fe31dcdc91fe173662a7225d227abd13007c53ab77960339a5862b7dac9d553"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3367,
+      "words": 7125,
+      "encoding_sha256": "677ff972cfbe3d06f4e4e20a75e7dfde2478350f88f36273524c8c54ca65c1f5"
+    }
+  },
+  "release6": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2784,
+      "words": 6020,
+      "encoding_sha256": "f627ced890140c35b35e1675a05719e6c0497bcf8f6a2eae33987143066156f9"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3367,
+      "words": 7125,
+      "encoding_sha256": "8e22aba4000ef45ddf466f13bf1eb24dd110b24eba8cce7803366457e7f6bde4"
+    }
+  },
+  "release7": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2793,
+      "words": 6029,
+      "encoding_sha256": "e5ea69e5064b7f3410c20e54734e263b3b2a2f3e22c2b42749c6ad13e24806c6"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3376,
+      "words": 7134,
+      "encoding_sha256": "1b58f77a14173a286420a141ba26bfd551b8ee2ee9346cc30cd2a3048f02d801"
+    }
+  },
+  "issue7_37": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2856,
+      "words": 6092,
+      "encoding_sha256": "29d215fc41fdf0cc15894317b6db0a1d3091efa75c44cd67519d1406afaf0fa9"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3439,
+      "words": 7197,
+      "encoding_sha256": "8cc9131a45285463b3386c4b10e164f0e072be138eefbfc85d90dbc636f5acc3"
+    }
+  },
+  "issue9_39": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2856,
+      "words": 6092,
+      "encoding_sha256": "26140e3037248af1236834498fffa6d8f3bda87fcb7c29a6248dabbc68a2b6ea"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3439,
+      "words": 7197,
+      "encoding_sha256": "fb4c407f42872d0cddb95f2979cd93bfa8b0495636699e2a78344bda84662fd7"
+    }
+  },
+  "m0_group4": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2732,
+      "words": 5954,
+      "encoding_sha256": "374ac4691df27bec97c0cc95262b207d1563ad41b0e58d1190d0b17965760aed"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3315,
+      "words": 7059,
+      "encoding_sha256": "ac66fb008fdad99fc6cb98f1bae5f1ee44a687abac08dfeb6341384e429cd7d7"
+    }
+  },
+  "m0_issue7": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2768,
+      "words": 5990,
+      "encoding_sha256": "b0c4f8cc912d26dfde853ca784b8775899f280d57b4e543ff6b5f5d721e95eac"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3351,
+      "words": 7095,
+      "encoding_sha256": "5106d591c84d9f77eaab6e5a9a20e3578e3b23758c2145cff6a7a1d74598a32f"
+    }
+  },
+  "main_allprio1": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2746,
+      "words": 5982,
+      "encoding_sha256": "26ea6d403b3b85cf7c69c915656d202855524a0bcb02509c084659e3f081b5a1"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3329,
+      "words": 7087,
+      "encoding_sha256": "dd6ceacf781e50ca97a338928c208c08fdc821cd8b1e1717a844b16463102662"
+    }
+  },
+  "main_keep_prio": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2773,
+      "words": 6009,
+      "encoding_sha256": "8ae1582c8e34144efa0cc906edc52ba999e77682b0f4e3f2c93d96008467626e"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3356,
+      "words": 7114,
+      "encoding_sha256": "02d42ea61cdcfb6c80d9d1f1f308f34eef3c557356743b5f48c7dee718f76637"
+    }
+  },
+  "out_lds_base": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2784,
+      "words": 6020,
+      "encoding_sha256": "e7d1449d9af5a380723cd501da615ade837819968a6b2697b6d9689a53ff1605"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3330,
+      "words": 7054,
+      "encoding_sha256": "46ff09a50aaa06b95f0d09706eb01238896eece0fb40711e550b57ee11894598"
+    }
+  },
+  "out_lds_base_valu6": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2784,
+      "words": 6020,
+      "encoding_sha256": "e7d1449d9af5a380723cd501da615ade837819968a6b2697b6d9689a53ff1605"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3334,
+      "words": 7058,
+      "encoding_sha256": "aa89b42921566d9c7dbff75587c330856d965b5ff07488508fc89e331d4141fc"
+    }
+  },
+  "out_lds_base_write_groups": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2784,
+      "words": 6020,
+      "encoding_sha256": "e7d1449d9af5a380723cd501da615ade837819968a6b2697b6d9689a53ff1605"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3330,
+      "words": 7054,
+      "encoding_sha256": "d6df851a9f68f0492a7d107f6f6e8f6419ff000a6c39a07aa349fc715146d127"
+    }
+  },
+  "out_wave_private": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2784,
+      "words": 6020,
+      "encoding_sha256": "e7d1449d9af5a380723cd501da615ade837819968a6b2697b6d9689a53ff1605"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3301,
+      "words": 7007,
+      "encoding_sha256": "c28c976e84b51fd54f3de119319ac1fe99227fbb9632c788618a4a4f14724420"
+    }
+  },
+  "out_wave_private_valu6": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2784,
+      "words": 6020,
+      "encoding_sha256": "e7d1449d9af5a380723cd501da615ade837819968a6b2697b6d9689a53ff1605"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3294,
+      "words": 7000,
+      "encoding_sha256": "441b72ab172bb7380f0faa0c27836c113e2d37e48c7f266b66faa5e920bb8676"
+    }
+  },
+  "out_wave_read64": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2784,
+      "words": 6020,
+      "encoding_sha256": "e7d1449d9af5a380723cd501da615ade837819968a6b2697b6d9689a53ff1605"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3329,
+      "words": 7065,
+      "encoding_sha256": "6927ffd310e246e223ca84db2d5a99dfb1f537c7df4f9792fcf6162cd9ccdf92"
+    }
+  },
+  "out_wave_read64_valu6": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2784,
+      "words": 6020,
+      "encoding_sha256": "e7d1449d9af5a380723cd501da615ade837819968a6b2697b6d9689a53ff1605"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3324,
+      "words": 7060,
+      "encoding_sha256": "99ac14bca3847419800b2f51769097a30ef4024dbeccc203dc4cd29910b752d3"
+    }
+  },
+  "out_wave_xor": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2784,
+      "words": 6020,
+      "encoding_sha256": "e7d1449d9af5a380723cd501da615ade837819968a6b2697b6d9689a53ff1605"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3422,
+      "words": 7179,
+      "encoding_sha256": "e7d4801b370ebb0df4a841d9b9c254f7a7edd5056e8db6f121515ae1219a9f5b"
+    }
+  },
+  "out_wave_xor_valu6": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2784,
+      "words": 6020,
+      "encoding_sha256": "e7d1449d9af5a380723cd501da615ade837819968a6b2697b6d9689a53ff1605"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3426,
+      "words": 7183,
+      "encoding_sha256": "1561ef931beac29ef176f45d05ef0c0d05b550d6b489b8474e27e447119668ff"
+    }
+  },
+  "compute_tuned": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2730,
+      "words": 5952,
+      "encoding_sha256": "d2e98262552f74f88ab833b1fbb050557f469db32f7c609ac0a4ea95a4cd6e5c"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3313,
+      "words": 7057,
+      "encoding_sha256": "c5323255f9168e4951a365eabd81ee91623260e874914025d19df77d785bbd85"
+    }
+  },
+  "compute_tuned_grid2d": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2707,
+      "words": 5928,
+      "encoding_sha256": "5bd93c9d08c6982dc6e80d524d9011125dbbb1d3548d6d0a79fdb98c6382dad9"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3290,
+      "words": 7033,
+      "encoding_sha256": "bb58ce4a7d3528f35d02bdf523f06362b658550470ea2787f7b02501d8400c6d"
+    }
+  },
+  "compute_tuned_outbase6": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2730,
+      "words": 5952,
+      "encoding_sha256": "d2e98262552f74f88ab833b1fbb050557f469db32f7c609ac0a4ea95a4cd6e5c"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3280,
+      "words": 6990,
+      "encoding_sha256": "3604087c04284d8843615cfca099860c80cf5d54376e80b4da300932e38aa31a"
+    }
+  },
+  "compute_tuned_release4": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2728,
+      "words": 5950,
+      "encoding_sha256": "93f28b9129fe3084142035c4ab73e9496aaa90de41c1443aff1ce1cda5e2d2e9"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3311,
+      "words": 7055,
+      "encoding_sha256": "a5282795e829c5f72cd4dc129760a3839a56e73cc7124d239f8375fd56cc6f75"
+    }
+  },
+  "grid2d": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2761,
+      "words": 5996,
+      "encoding_sha256": "a7014ba78456af7bd7462c4af47dd2e5338c94ae9895bcf48768addef634a6c7"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3344,
+      "words": 7101,
+      "encoding_sha256": "69cf05237265d47d98f941e353c7b9e2bfab0444a24ce21d60aa78e629f67b59"
+    }
+  },
+  "out_fragment_group_base": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2784,
+      "words": 6020,
+      "encoding_sha256": "e7d1449d9af5a380723cd501da615ade837819968a6b2697b6d9689a53ff1605"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3340,
+      "words": 7077,
+      "encoding_sha256": "3d978b585827c1f8155b4b49fc64fe8edf3d985020b9924905976d3c2bccce83"
+    }
+  },
+  "out_fragment_stream": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2784,
+      "words": 6020,
+      "encoding_sha256": "e7d1449d9af5a380723cd501da615ade837819968a6b2697b6d9689a53ff1605"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3364,
+      "words": 7122,
+      "encoding_sha256": "977933b660f0a1e925b59fb7af8596d2836e1a4f7e2710e2ad849e40b9068cdd"
+    }
+  },
+  "out_fragment_stream_base": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2784,
+      "words": 6020,
+      "encoding_sha256": "e7d1449d9af5a380723cd501da615ade837819968a6b2697b6d9689a53ff1605"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3340,
+      "words": 7077,
+      "encoding_sha256": "56c5c1cd9cbe398d4bd49cce04aef7ee12e27cb78ab0ddd4f2aab990f1e18603"
+    }
+  },
+  "out_packed_asm": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2784,
+      "words": 6020,
+      "encoding_sha256": "e7d1449d9af5a380723cd501da615ade837819968a6b2697b6d9689a53ff1605"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3380,
+      "words": 7138,
+      "encoding_sha256": "f9f428a146896ad6731eb4c6190ea7173bb14315b0cb710454717b10b70d3f05"
+    }
+  },
+  "out_packed_asm_base": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2784,
+      "words": 6020,
+      "encoding_sha256": "e7d1449d9af5a380723cd501da615ade837819968a6b2697b6d9689a53ff1605"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3354,
+      "words": 7091,
+      "encoding_sha256": "dedbd60e5808992853a7bc8446bc3c09fd02f3fecf104ba9d2a7a92a7df6c47a"
+    }
+  },
+  "compute_a0_m1_34": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2748,
+      "words": 5970,
+      "encoding_sha256": "391c47833a46f0687c4a12db015158d92f33624e1ab486a4d2b77e82db976ba7"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3331,
+      "words": 7075,
+      "encoding_sha256": "e7a736128b63ff64dee63545f3a7ef6bae080f883534f7e41280cb7762ae657f"
+    }
+  },
+  "compute_b1_60": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2778,
+      "words": 6000,
+      "encoding_sha256": "77b240a6453d74aff5ddff71acf1b5cc427f28f3ea1642d16da1713af5530bc3"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3369,
+      "words": 7113,
+      "encoding_sha256": "2f5c79b027289b789680aa7cb04b7b258a224b2f06fa3f1d6d5c06a7b650c207"
+    }
+  },
+  "compute_b1_62": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2778,
+      "words": 6000,
+      "encoding_sha256": "4eb479382dd0d36f500bb0b4957a6c24dc6048a9bf33f108dd08f695f8f39fe0"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3369,
+      "words": 7113,
+      "encoding_sha256": "c455efeb59c37dd87e0b2d98e0481f94e6a13ff720d1e002cf251bf2778355eb"
+    }
+  },
+  "generic_tile1_issue_20260912": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2179,
+      "words": 4424,
+      "encoding_sha256": "06eea74b57ed997e2b1502fd9562a9dccfd85a2fe6e2e3055a1a3665a4cd9773"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2761,
+      "words": 5528,
+      "encoding_sha256": "fcebbf5c7115deded3f6ff94ecdf054ad09828a7da528fe1a328cde559ba30e0"
+    }
+  },
+  "grid2d_unroll16": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3756,
+      "words": 8929,
+      "encoding_sha256": "639e5299711a7b3df4b9cd27abf500db3acebe5ae21a3f0711f51ea4ba5c213f"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 4339,
+      "words": 10034,
+      "encoding_sha256": "42ae5fb8ec2afd1d0c010947a5a2e121522e83b3c469136393fd789401c750d0"
+    }
+  },
+  "grid2d_unroll4": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2179,
+      "words": 4424,
+      "encoding_sha256": "06eea74b57ed997e2b1502fd9562a9dccfd85a2fe6e2e3055a1a3665a4cd9773"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2761,
+      "words": 5528,
+      "encoding_sha256": "fcebbf5c7115deded3f6ff94ecdf054ad09828a7da528fe1a328cde559ba30e0"
+    }
+  }
+}

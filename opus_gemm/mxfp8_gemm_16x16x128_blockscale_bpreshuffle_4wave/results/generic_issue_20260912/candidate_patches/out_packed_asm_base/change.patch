@@ -1,0 +1,48 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -44,6 +44,22 @@
+     __builtin_amdgcn_sched_group_barrier(0x02, 2, 0);
+     __builtin_amdgcn_sched_group_barrier(0x08, 1, 0);
+     __builtin_amdgcn_sched_group_barrier(0x02, 2, 0);
++}
++
++template<class Acc>
++__device__ inline auto pack_bf16_fragment(const Acc& acc) {
++    unsigned int low, high, temporary0, temporary1;
++    asm volatile(
++        "v_accvgpr_read_b32 %0, %4\n"
++        "v_accvgpr_read_b32 %2, %5\n"
++        "v_accvgpr_read_b32 %1, %6\n"
++        "v_accvgpr_read_b32 %3, %7\n"
++        "v_cvt_pk_bf16_f32 %0, %0, %2\n"
++        "v_cvt_pk_bf16_f32 %1, %1, %3\n"
++        : "=&v"(low), "=&v"(high), "=&v"(temporary0), "=&v"(temporary1)
++        : "a"(acc[0]), "a"(acc[1]), "a"(acc[2]), "a"(acc[3]));
++    const opus::vector_t<unsigned int, 2> packed{low, high};
++    return __builtin_bit_cast(opus::vector_t<opus::bf16_t, 4>, packed);
+ }
+ 
+ template<class T, int HALF_TILE_M, int M_REPEAT, int N_REPEAT, class MMA>
+@@ -1316,11 +1332,20 @@
+     };
+ 
+     const auto gc_offsets = opus::layout_to_offsets<T::VEC_C>(u_gc);
++    int output_lds_byte_base = 0;
++    if constexpr (T::OUTPUT_BF16) {
++        // The lane coordinate is shared by every native C fragment.
++        // Keep its byte base intact so constant fragment offsets fold into DS.
++        output_lds_byte_base = gc_offsets[0] * sizeof(D_C);
++        asm volatile("" : "+v"(output_lds_byte_base));
++    }
+ #define MXFP8_STORE_FRAGMENT(ACC, INDEX)                                   \
+     do {                                                                        \
+         if constexpr (T::OUTPUT_BF16) {                                         \
+-            s_c.template store<T::VEC_C>(cast<D_C>(ACC),                         \
+-                gc_offsets[INDEX] + soff);                                      \
++            s_c.template _store<T::VEC_C>(pack_bf16_fragment(ACC),                        \
++                output_lds_byte_base + sizeof(D_C) * (soff                      \
++                    + (INDEX) / T::E_N * T::W_M * T::T_M * c_lds_pitch           \
++                    + (INDEX) % T::E_N * T::W_N * T::T_N));                      \
+         } else {                                                                \
+             g_c.template store<T::VEC_C>(ACC, gc_offsets[INDEX], soff,            \
+                 opus::number<2>{});                                              \

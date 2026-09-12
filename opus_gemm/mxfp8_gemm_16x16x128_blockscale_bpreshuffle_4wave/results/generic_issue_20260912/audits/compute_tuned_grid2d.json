@@ -1,0 +1,134 @@
+{
+  "status": "PASS",
+  "generic_runtime_k": true,
+  "kernel_reports": [
+    {
+      "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+      "generic": true,
+      "resources": {
+        "vgpr_count": 492,
+        "sgpr_count": 66,
+        "group_segment_fixed_size": 152064,
+        "private_segment_fixed_size": 0,
+        "vgpr_spill_count": 0,
+        "sgpr_spill_count": 0,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      },
+      "unchanged_specialized_isa": false,
+      "static_mfma_count": 704,
+      "native_mfma_tied_c256": true,
+      "exec_unchanged": true,
+      "lds_wait": {
+        "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "cfg_states": 2961,
+        "static_mfma_checked": 704,
+        "max_pending_lgkm_events": 42,
+        "hazards": []
+      },
+      "vmem_wait": {
+        "status": "PASS",
+        "cfg_states": 3265,
+        "hazards": [],
+        "barriers_with_zero_pending_vmem": [
+          596,
+          726,
+          737,
+          876,
+          1007,
+          1138,
+          1269,
+          1400,
+          1531,
+          1663,
+          1788,
+          1933,
+          1950,
+          2108,
+          2253,
+          2387,
+          2409
+        ],
+        "scope": "VMEM register waits and full VMEM publication; LDS content lifetimes checked separately"
+      }
+    },
+    {
+      "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+      "generic": true,
+      "resources": {
+        "vgpr_count": 488,
+        "sgpr_count": 66,
+        "group_segment_fixed_size": 152064,
+        "private_segment_fixed_size": 0,
+        "vgpr_spill_count": 0,
+        "sgpr_spill_count": 0,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      },
+      "unchanged_specialized_isa": false,
+      "static_mfma_count": 704,
+      "native_mfma_tied_c256": true,
+      "exec_unchanged": true,
+      "lds_wait": {
+        "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "cfg_states": 3556,
+        "static_mfma_checked": 704,
+        "max_pending_lgkm_events": 34,
+        "hazards": []
+      },
+      "vmem_wait": {
+        "status": "PASS",
+        "cfg_states": 3655,
+        "hazards": [],
+        "barriers_with_zero_pending_vmem": [
+          3307,
+          3437,
+          3448,
+          3587,
+          3718,
+          3849,
+          3980,
+          4111,
+          4242,
+          4374,
+          4499,
+          4644,
+          4661,
+          4819,
+          4964,
+          5098,
+          5120,
+          5258,
+          5427,
+          5815,
+          5982
+        ],
+        "barriers_with_independent_output_stores": [
+          [
+            5643,
+            8
+          ]
+        ],
+        "allowed_output_barriers_from_end": [
+          3
+        ],
+        "scope": "Typed VMEM readiness; only global C stores may cross the declared LDS-output barriers"
+      }
+    }
+  ],
+  "hashes": {
+    "tmpl_generic.hpp": "73ffbf6b376797a5597266655ffa87aca6b808a1eb727ab31ff992ed6c7afd95",
+    "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+    "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+    "build/device.isa": "bd7b318f1b558d12660a992cf52f8af8a2bee0614694fd0103287f4494931ead",
+    "build/device.notes": "5cd62a5d7c92e34dea86c841d670fc432f5118e61550e2413da957f724299c6a",
+    "build/libblockscale_bpreshuffle.so": "a71a6e42d38e084d26aa09e8b75de3f6d70999ebbc0b01b9eecfe1d7a21ffc2f",
+    "build/gemm_a8w8_blockscale_bpreshuffle.exe": "8cf37aeed376042fd89e551c8eec36c6f52e32d3c521c9ec319065da0e375e0d"
+  },
+  "production_single_generic": true,
+  "kernel_count": 2,
+  "measured_generic_instructions_identical": false,
+  "scope": "Static linked-ISA checks; runtime panel/tail correctness checked independently"
+}

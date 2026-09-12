@@ -1,0 +1,26 @@
+{
+  "out_wave_private": {
+    "status": "REJECTED_BEFORE_GPU",
+    "reason": "The 132-element BF16 wave row has only 8-byte alignment; the vector<BF16,8> source load assumes 16. Replaced with explicitly aligned read64/xor variants.",
+    "gpu_launched": false
+  },
+  "out_wave_private_valu6": {
+    "status": "REJECTED_BEFORE_GPU",
+    "reason": "The 132-element BF16 wave row has only 8-byte alignment; the vector<BF16,8> source load assumes 16. Replaced with explicitly aligned read64/xor variants.",
+    "gpu_launched": false
+  },
+  "out_packed_asm": {
+    "status": "CORRECTNESS_FAILED",
+    "reason": "K128 BF16 shape check failed: 20388/262144 unequal values. The opaque helper hides internal instruction latency from the compiler; the exact failing dependency has not been localized. No performance timing was run.",
+    "evidence": "compute_pack_screen_gpu2_shapes.log",
+    "gpu_launched": true,
+    "performance_measured": false
+  },
+  "out_packed_asm_base": {
+    "status": "ABANDONED_AFTER_SHARED_HELPER_FAILURE",
+    "reason": "Same opaque AGPR-read/conversion helper as out_packed_asm; its BF16 check was not reached after that failure. Replaced by compiler-visible fragment scheduling.",
+    "gpu_launched": true,
+    "bf16_gpu_launched": false,
+    "performance_measured": false
+  }
+}

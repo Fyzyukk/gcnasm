@@ -1,0 +1,274 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -44,6 +44,13 @@
+     __builtin_amdgcn_sched_group_barrier(0x02, 2, 0);
+     __builtin_amdgcn_sched_group_barrier(0x08, 1, 0);
+     __builtin_amdgcn_sched_group_barrier(0x02, 2, 0);
++}
++
++__device__ inline void sched_barrier_pairs_output() {
++    __builtin_amdgcn_sched_group_barrier(0x08, 1, 0);
++    __builtin_amdgcn_sched_group_barrier(0x02, 6, 0);
++    __builtin_amdgcn_sched_group_barrier(0x08, 1, 0);
++    __builtin_amdgcn_sched_group_barrier(0x02, 6, 0);
+ }
+ 
+ template<class T, int HALF_TILE_M, int M_REPEAT, int N_REPEAT, class MMA>
+@@ -1316,11 +1323,20 @@
+     };
+ 
+     const auto gc_offsets = opus::layout_to_offsets<T::VEC_C>(u_gc);
++    int output_lds_byte_base = 0;
++    if constexpr (T::OUTPUT_BF16) {
++        // The lane coordinate is shared by every native C fragment.
++        // Keep its byte base intact so constant fragment offsets fold into DS.
++        output_lds_byte_base = gc_offsets[0] * sizeof(D_C);
++        asm volatile("" : "+v"(output_lds_byte_base));
++    }
+ #define MXFP8_STORE_FRAGMENT(ACC, INDEX)                                   \
+     do {                                                                        \
+         if constexpr (T::OUTPUT_BF16) {                                         \
+-            s_c.template store<T::VEC_C>(cast<D_C>(ACC),                         \
+-                gc_offsets[INDEX] + soff);                                      \
++            s_c.template _store<T::VEC_C>(cast<D_C>(ACC),                        \
++                output_lds_byte_base + sizeof(D_C) * (soff                      \
++                    + (INDEX) / T::E_N * T::W_M * T::T_M * c_lds_pitch           \
++                    + (INDEX) % T::E_N * T::W_N * T::T_N));                      \
+         } else {                                                                \
+             g_c.template store<T::VEC_C>(ACC, gc_offsets[INDEX], soff,            \
+                 opus::number<2>{});                                              \
+@@ -1366,16 +1382,20 @@
+     } while (false)
+ 
+     MXFP8_MMA_PAIR(0, 0, 0, v_a[0], v_b, c00_0, c00_1, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     MXFP8_MMA_PAIR(0, 0, 1, v_a[0], v_b, c00_2, c00_3, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     MXFP8_MMA_PAIR(0, 1, 0, v_a[0], v_b, c00_4, c00_5, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     MXFP8_MMA_PAIR(0, 1, 1, v_a[0], v_b, c00_6, c00_7, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     // Stage this completed output row while later independent MFMAs execute.
+     if constexpr (T::OUTPUT_BF16) {
+@@ -1385,10 +1405,12 @@
+     }
+ 
+     MXFP8_MMA_PAIR(0, 2, 0, v_a[0], v_b, c00_8, c00_9, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     MXFP8_MMA_PAIR(0, 2, 1, v_a[0], v_b, c00_10, c00_11, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     // Stage this completed output row while later independent MFMAs execute.
+     if constexpr (T::OUTPUT_BF16) {
+@@ -1398,10 +1420,12 @@
+     }
+ 
+     MXFP8_MMA_PAIR(0, 3, 0, v_a[0], v_b, c00_12, c00_13, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     MXFP8_MMA_PAIR(0, 3, 1, v_a[0], v_b, c00_14, c00_15, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     // Stage this completed output row while later independent MFMAs execute.
+     if constexpr (T::OUTPUT_BF16) {
+@@ -1411,10 +1435,12 @@
+     }
+ 
+     MXFP8_MMA_PAIR(1, 0, 0, v_a[1], v_b, c10_0, c10_1, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     MXFP8_MMA_PAIR(1, 0, 1, v_a[1], v_b, c10_2, c10_3, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     // Stage this completed output row while later independent MFMAs execute.
+     if constexpr (T::OUTPUT_BF16) {
+@@ -1441,10 +1467,12 @@
+     }
+ 
+     MXFP8_MMA_PAIR(1, 1, 0, v_a[1], v_b, c10_4, c10_5, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     MXFP8_MMA_PAIR(1, 1, 1, v_a[1], v_b, c10_6, c10_7, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     // Stage this completed output row while later independent MFMAs execute.
+     if constexpr (T::OUTPUT_BF16) {
+@@ -1454,10 +1482,12 @@
+     }
+ 
+     MXFP8_MMA_PAIR(1, 2, 0, v_a[1], v_b, c10_8, c10_9, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     MXFP8_MMA_PAIR(1, 2, 1, v_a[1], v_b, c10_10, c10_11, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     // Stage this completed output row while later independent MFMAs execute.
+     if constexpr (T::OUTPUT_BF16) {
+@@ -1467,10 +1497,12 @@
+     }
+ 
+     MXFP8_MMA_PAIR(1, 3, 0, v_a[1], v_b, c10_12, c10_13, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     MXFP8_MMA_PAIR(1, 3, 1, v_a[1], v_b, c10_14, c10_15, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     // Stage this completed output row while later independent MFMAs execute.
+     if constexpr (T::OUTPUT_BF16) {
+@@ -1496,10 +1528,12 @@
+     }
+ 
+     MXFP8_MMA_PAIR(0, 0, 0, v_a[0], v_b, c01_0, c01_1, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     MXFP8_MMA_PAIR(0, 0, 1, v_a[0], v_b, c01_2, c01_3, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     // Stage this completed output row while later independent MFMAs execute.
+     if constexpr (T::OUTPUT_BF16) {
+@@ -1528,10 +1562,12 @@
+ 
+ 
+     MXFP8_MMA_PAIR(0, 1, 0, v_a[0], v_b, c01_4, c01_5, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     MXFP8_MMA_PAIR(0, 1, 1, v_a[0], v_b, c01_6, c01_7, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     // Stage this completed output row while later independent MFMAs execute.
+     if constexpr (T::OUTPUT_BF16) {
+@@ -1541,10 +1577,12 @@
+     }
+ 
+     MXFP8_MMA_PAIR(0, 2, 0, v_a[0], v_b, c01_8, c01_9, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     MXFP8_MMA_PAIR(0, 2, 1, v_a[0], v_b, c01_10, c01_11, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     // Stage this completed output row while later independent MFMAs execute.
+     if constexpr (T::OUTPUT_BF16) {
+@@ -1554,10 +1592,12 @@
+     }
+ 
+     MXFP8_MMA_PAIR(0, 3, 0, v_a[0], v_b, c01_12, c01_13, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     MXFP8_MMA_PAIR(0, 3, 1, v_a[0], v_b, c01_14, c01_15, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     // Stage this completed output row while later independent MFMAs execute.
+     if constexpr (T::OUTPUT_BF16) {
+@@ -1567,10 +1607,12 @@
+     }
+ 
+     MXFP8_MMA_PAIR(1, 0, 0, v_a[1], v_b, c11_0, c11_1, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     MXFP8_MMA_PAIR(1, 0, 1, v_a[1], v_b, c11_2, c11_3, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     // Stage this completed output row while later independent MFMAs execute.
+     if constexpr (T::OUTPUT_BF16) {
+@@ -1597,10 +1639,12 @@
+     }
+ 
+     MXFP8_MMA_PAIR(1, 1, 0, v_a[1], v_b, c11_4, c11_5, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     MXFP8_MMA_PAIR(1, 1, 1, v_a[1], v_b, c11_6, c11_7, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     // Stage this completed output row while later independent MFMAs execute.
+     if constexpr (T::OUTPUT_BF16) {
+@@ -1610,10 +1654,12 @@
+     }
+ 
+     MXFP8_MMA_PAIR(1, 2, 0, v_a[1], v_b, c11_8, c11_9, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     MXFP8_MMA_PAIR(1, 2, 1, v_a[1], v_b, c11_10, c11_11, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     // Stage this completed output row while later independent MFMAs execute.
+     if constexpr (T::OUTPUT_BF16) {
+@@ -1623,10 +1669,12 @@
+     }
+ 
+     MXFP8_MMA_PAIR(1, 3, 0, v_a[1], v_b, c11_12, c11_13, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     MXFP8_MMA_PAIR(1, 3, 1, v_a[1], v_b, c11_14, c11_15, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
++    if constexpr (T::OUTPUT_BF16) sched_barrier_pairs_output();
++    else sched_barrier_pairs_scale();
+ 
+     // Stage this completed output row while later independent MFMAs execute.
+     if constexpr (T::OUTPUT_BF16) {

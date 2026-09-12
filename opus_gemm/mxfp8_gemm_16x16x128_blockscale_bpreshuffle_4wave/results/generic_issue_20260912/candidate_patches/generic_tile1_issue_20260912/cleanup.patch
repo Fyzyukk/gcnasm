@@ -1,0 +1,49 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -314,8 +314,9 @@
+     constexpr int matrix_pitch = T::smem_linear_wave + T::smem_padding;
+     auto* matrix_lds_base = (produces_a ? s_a.ptr : s_b.ptr) + wave_id_m * smem_a_elem;
+     static_assert(smem_a_elem == smem_b_elem);
+-    // Materialize immutable address deltas once in VGPRs, leaving only
+-    // the shared K offset in the scalar issue path. IOFFSET shifts both ends.
++    // Cache immutable address deltas in VGPRs; only K advances in SGPRs.
++    // Four requests share one m0 base, with IOFFSET 0/1056/2112/3168.
++    // Subtract that same immediate from VOFFSET to preserve the input address.
+     opus::vector_t<int, 16> matrix_addresses;
+     opus::static_for<16>([&](auto issue_i) {
+         constexpr int issue = decltype(issue_i)::value;
+@@ -629,6 +630,7 @@
+ 
+     // Prefetch while two later K128 blocks exist; peel the penultimate block.
+     // Future matrix addresses always use the complete runtime K index.
++    // Keep priority 1 across main iterations; scale-panel refill uses 0/1.
+     __builtin_amdgcn_s_setprio(1);
+ #pragma unroll 4
+     for (tile = 0; tile + 2 < loops; ++tile) {
+@@ -653,8 +655,8 @@
+ 
+         // A half 0 x B half 0 -> C[0][0] (128x128 wave quadrant).
+         // After publication at MFMA5, all waves issue one t+2 request
+-        // at the recorded issue sites through MFMA37. Wave-uniform resources select
+-        // the A or B producer without role branches inside the K loop.
++        // after MFMA7,9,...,37. Wave-uniform resources select the A or B
++        // producer without role branches inside the K loop.
+         MXFP8_MMA_PAIR(0, 0, 0, v_a[0], v_b, c00_0, c00_1, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+ 
+@@ -843,7 +845,6 @@
+         opus::set_slice(v_a[0], a0_m0_next_0, opus::number<0>{}, opus::number<16>{});
+         opus::set_slice(v_a[0], a0_m0_next_1, opus::number<16>{}, opus::number<32>{});
+         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+-
+ 
+         // Continue C01 while next-tile operands roll into dead registers.
+         MXFP8_MMA_ONE(
+@@ -1539,7 +1540,6 @@
+         copy_output_quarter(1, 0, 7);
+     }
+ 
+-
+     MXFP8_MMA_PAIR(0, 1, 0, v_a[0], v_b, c01_4, c01_5, v_sfa, v_sfb[1]);
+     sched_barrier_pairs_scale();
+ 

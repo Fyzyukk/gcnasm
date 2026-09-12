@@ -1,0 +1,34 @@
+[
+  {
+    "name": "compute_tuned_grid2d",
+    "dtype": "bf16",
+    "median_ms": 0.3348037302494049,
+    "min_ms": 0.3339520990848541,
+    "max_ms": 0.3352109491825104,
+    "median_pflops": 3.2840483197631705
+  },
+  {
+    "name": "compute_tuned_grid2d",
+    "dtype": "fp32",
+    "median_ms": 0.3572435528039932,
+    "min_ms": 0.356595903635025,
+    "max_ms": 0.35783711075782776,
+    "median_pflops": 3.0777647886042123
+  },
+  {
+    "name": "grid2d_unroll4",
+    "dtype": "bf16",
+    "median_ms": 0.3344297409057617,
+    "min_ms": 0.33400657773017883,
+    "max_ms": 0.33523333072662354,
+    "median_pflops": 3.287720837261986
+  },
+  {
+    "name": "grid2d_unroll4",
+    "dtype": "fp32",
+    "median_ms": 0.35687950253486633,
+    "min_ms": 0.3559783101081848,
+    "max_ms": 0.35754111409187317,
+    "median_pflops": 3.080904394806424
+  }
+]

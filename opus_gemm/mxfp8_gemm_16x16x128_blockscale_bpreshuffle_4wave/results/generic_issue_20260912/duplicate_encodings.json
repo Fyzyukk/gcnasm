@@ -1,0 +1,47 @@
+[
+  {
+    "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+    "encoding_sha256": "e7d1449d9af5a380723cd501da615ade837819968a6b2697b6d9689a53ff1605",
+    "names": [
+      "baseline",
+      "out_lds_base",
+      "out_lds_base_valu6",
+      "out_lds_base_write_groups",
+      "out_wave_private",
+      "out_wave_private_valu6",
+      "out_wave_read64",
+      "out_wave_read64_valu6",
+      "out_wave_xor",
+      "out_wave_xor_valu6",
+      "out_fragment_group_base",
+      "out_fragment_stream",
+      "out_fragment_stream_base",
+      "out_packed_asm",
+      "out_packed_asm_base"
+    ]
+  },
+  {
+    "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+    "encoding_sha256": "d2e98262552f74f88ab833b1fbb050557f469db32f7c609ac0a4ea95a4cd6e5c",
+    "names": [
+      "compute_tuned",
+      "compute_tuned_outbase6"
+    ]
+  },
+  {
+    "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+    "encoding_sha256": "06eea74b57ed997e2b1502fd9562a9dccfd85a2fe6e2e3055a1a3665a4cd9773",
+    "names": [
+      "generic_tile1_issue_20260912",
+      "grid2d_unroll4"
+    ]
+  },
+  {
+    "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+    "encoding_sha256": "fcebbf5c7115deded3f6ff94ecdf054ad09828a7da528fe1a328cde559ba30e0",
+    "names": [
+      "generic_tile1_issue_20260912",
+      "grid2d_unroll4"
+    ]
+  }
+]

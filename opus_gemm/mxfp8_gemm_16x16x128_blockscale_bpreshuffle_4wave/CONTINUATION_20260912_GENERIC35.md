@@ -1,4 +1,6 @@
-# 最新通用4wave / tile1优化记录：2026-09-12
+# 通用4wave / tile1历史检查点：2026-09-12，9229d1a
+
+本文件保留上一轮3.259P记录；最新版本和后续入口见 [发射调度轮续记](CONTINUATION_20260912_ISSUE35.md)。
 
 当前版本 **generic_tile1_opt_20260912**，唯一kernel头文件为顶层 `tmpl_generic.hpp`。本轮选定候选 `split_async36_preload_a0_m0`，清理后全部有效机器指令一致。后续以当前通用版本为基础优化，目标仍为3.5P，尚未达到。
 

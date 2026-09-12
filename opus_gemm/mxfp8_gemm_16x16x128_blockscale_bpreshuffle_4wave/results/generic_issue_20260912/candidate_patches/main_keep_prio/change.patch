@@ -1,0 +1,42 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -521,6 +521,7 @@
+ 
+     auto refill_scale_panel = [&](int next_tile) {
+         if ((next_tile & panel_mask) == 0) {
++            __builtin_amdgcn_s_setprio(0);
+             // Current scales are resident in registers. Retire every reader
+             // of the previous panel before overwriting the same allocation.
+             s_waitcnt_vmcnt(0_I);
+@@ -545,6 +546,7 @@
+             s_waitcnt_lgkmcnt(0_I);
+             __builtin_amdgcn_s_barrier();
+             __builtin_amdgcn_sched_barrier(0);
++            __builtin_amdgcn_s_setprio(1);
+         }
+     };
+ 
+@@ -628,6 +630,7 @@
+ 
+     // Prefetch while two later K128 blocks exist; peel the penultimate block.
+     // Future matrix addresses always use the complete runtime K index.
++    __builtin_amdgcn_s_setprio(1);
+ #pragma unroll 8
+     for (tile = 0; tile + 2 < loops; ++tile) {
+         refill_scale_panel(tile + 1);
+@@ -648,7 +651,6 @@
+         // All LDS reads here are compiler-visible intrinsics. Let LLVM's
+         // waitcnt pass wait at actual operand consumers. The A/B data stage
+         // handoff still has vmcnt(0)/lgkmcnt(0)/barrier below.
+-        __builtin_amdgcn_s_setprio(1);
+ 
+         // A half 0 x B half 0 -> C[0][0] (128x128 wave quadrant).
+         // After publication at MFMA5, all waves issue one t+2 request
+@@ -971,7 +973,6 @@
+         __builtin_amdgcn_sched_group_barrier(0x100, 4, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+-        __builtin_amdgcn_s_setprio(0);
+         v_sfb[1] = v_sfb_next[1];
+         v_sfa[1] = v_sfa_next[1];
+         stage = next_stage;

@@ -1,0 +1,6 @@
+{
+  "device.isa": "7c83db9356bbd3c8307cea14b7ba2c0c0e1ee53491f305f2866fde063d9b91a8",
+  "device.notes": "fbdce6e600ca246531e0f8431a5caa29cc0e4746d98aa087cab14cf8c70de7f5",
+  "gemm_a8w8_blockscale_bpreshuffle.exe": "26cdb4255847ad273cc889d1b014b54c1a3af7490010370c4f0242b643123b54",
+  "libblockscale_bpreshuffle.so": "23dfdd845601a82cba1611fb666a68db3747823347adf7f82b731bd530c610bf"
+}

@@ -22,7 +22,7 @@ def main():
     if args.rounds <= 0 or any(size <= 0 or size % 256 for size in args.sizes):
         parser.error("rounds must be positive and square sizes must be positive multiples of 256")
     root = Path(__file__).resolve().parents[1]
-    dest = root / "results/generic_opt_20260912" / args.tag
+    dest = root / "results/generic_issue_20260912" / args.tag
     dest.mkdir(parents=True, exist_ok=False)
     visibility = {"HIP_VISIBLE_DEVICES", "CUDA_VISIBLE_DEVICES", "ROCR_VISIBLE_DEVICES", "GPU_DEVICE_ORDINAL"}
     env = {k: v for k, v in os.environ.items() if k not in visibility}
@@ -44,6 +44,8 @@ print(json.dumps(devices))
         raise SystemExit(f"GPU{args.gpu} {pci} is occupied: {card}")
     env.update(HIP_VISIBLE_DEVICES=str(hip_index), OMP_TOOL="disabled", OMP_NUM_THREADS="16")
     sources = ["tmpl_generic.hpp", "traits.hpp", "kernel_dispatch.hpp", "gemm_a8w8_mxfp8_scale_kernel.cc",
+               "gemm_a8w8_blockscale_bpreshuffle_launch.cc", "gemm_a8w8_mxfp8_scale_host.cc",
+               "gemm_a8w8_mxfp8_scale_common.h", "blockscale_bpreshuffle.py", "Makefile",
                "build/gemm_a8w8_blockscale_bpreshuffle.exe", "build/libblockscale_bpreshuffle.so"]
     hashes = {name: hashlib.sha256((root / name).read_bytes()).hexdigest() for name in sources}
     metadata = dict(timestamp_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),

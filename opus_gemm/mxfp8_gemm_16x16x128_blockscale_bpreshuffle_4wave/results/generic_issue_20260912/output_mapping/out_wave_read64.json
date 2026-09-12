@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "name": "out_wave_read64",
+  "source_sha256": "f214e5105b5533d42ff9d91c46cb90f6287c5de222fa986b62c074ef9d3ada2c",
+  "elements": 65536,
+  "exclusive_wave_ownership": true,
+  "exact_native_coordinate_coverage": true,
+  "read_alignment_bytes": 8,
+  "global_store_alignment_bytes": 16,
+  "matrix_lds_allocation_bytes": 135168,
+  "highest_output_lds_byte": 135159,
+  "scope": "CPU proof of native output coordinates, alignment, and no cross-wave or cross-quadrant LDS reader"
+}

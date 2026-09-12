@@ -1,0 +1,82 @@
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.3375900089740753,
+    "min_ms": 0.3365267217159271,
+    "max_ms": 0.3380843698978424,
+    "median_pflops": 3.2569436255456106
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.36024110019207,
+    "min_ms": 0.3592609167098999,
+    "max_ms": 0.3606841564178467,
+    "median_pflops": 3.0521548684749535
+  },
+  {
+    "name": "m0_issue7",
+    "dtype": "bf16",
+    "median_ms": 0.3369787633419037,
+    "min_ms": 0.3364066183567047,
+    "max_ms": 0.33704474568367004,
+    "median_pflops": 3.2628513941705553
+  },
+  {
+    "name": "m0_issue7",
+    "dtype": "fp32",
+    "median_ms": 0.3595201075077057,
+    "min_ms": 0.3587453067302704,
+    "max_ms": 0.35955536365509033,
+    "median_pflops": 3.0582757537488607
+  },
+  {
+    "name": "out_lds_base",
+    "dtype": "bf16",
+    "median_ms": 0.3374699056148529,
+    "min_ms": 0.33658507466316223,
+    "max_ms": 0.3375747799873352,
+    "median_pflops": 3.2581027507408287
+  },
+  {
+    "name": "out_lds_base",
+    "dtype": "fp32",
+    "median_ms": 0.360061377286911,
+    "min_ms": 0.35962414741516113,
+    "max_ms": 0.36051174998283386,
+    "median_pflops": 3.053678336901617
+  },
+  {
+    "name": "out_lds_base_valu6",
+    "dtype": "bf16",
+    "median_ms": 0.3372679650783539,
+    "min_ms": 0.33659863471984863,
+    "max_ms": 0.33731314539909363,
+    "median_pflops": 3.260053552730874
+  },
+  {
+    "name": "out_lds_base_valu6",
+    "dtype": "fp32",
+    "median_ms": 0.36017754673957825,
+    "min_ms": 0.35966378450393677,
+    "max_ms": 0.36066654324531555,
+    "median_pflops": 3.052693422255407
+  },
+  {
+    "name": "out_lds_base_write_groups",
+    "dtype": "bf16",
+    "median_ms": 0.3381170928478241,
+    "min_ms": 0.33740752935409546,
+    "max_ms": 0.3383803963661194,
+    "median_pflops": 3.251866442229396
+  },
+  {
+    "name": "out_lds_base_write_groups",
+    "dtype": "fp32",
+    "median_ms": 0.36003056168556213,
+    "min_ms": 0.3599533140659332,
+    "max_ms": 0.36043253540992737,
+    "median_pflops": 3.0539397061971485
+  }
+]

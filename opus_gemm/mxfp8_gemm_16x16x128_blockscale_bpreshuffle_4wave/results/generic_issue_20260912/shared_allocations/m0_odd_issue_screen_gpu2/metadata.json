@@ -1,0 +1,75 @@
+{
+  "comparison_reference": "baseline",
+  "gpu": "AMD Instinct MI355X",
+  "physical_card": "card2",
+  "hip_visible_devices": "2",
+  "pci": "0000:65:00.0",
+  "comparison_scope": "Contemporaneous same-device, same-tensor-address comparison; report this card and this run baseline",
+  "timestamp_utc": "2026-09-12T05:06:08.314453+00:00",
+  "initial_device_status": {
+    "GPU use (%)": "0",
+    "GFX Activity": "3036107851",
+    "GPU Memory Allocated (VRAM%)": "0",
+    "GPU Memory Read/Write Activity (%)": "0",
+    "Memory Activity": "1634620608",
+    "Avg. Memory Bandwidth": "0",
+    "PCI Bus": "0000:65:00.0"
+  },
+  "shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "batch": 1,
+  "warmup": 200,
+  "iterations": 100,
+  "rounds": 3,
+  "versions": {
+    "baseline": {
+      "path": "/tmp/mxfp8_generic_issue_20260912_mzrjraua/baseline",
+      "source_sha256": "6472526cabcb12957570f8540b13adae296ab35f637e9f254c4a7a00e0e58483",
+      "specialized_source_sha256": null,
+      "traits_sha256": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "dispatch_sha256": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "library_sha256": "fc8822de1073127b4578bc39ef1279d76086adcd6cfff4915145cf662857b01d"
+    },
+    "m0_group4": {
+      "path": "/tmp/mxfp8_generic_issue_20260912_mzrjraua/m0_group4",
+      "source_sha256": "21f07ae837241784f6b043e13fddede7a135360cb238154215ff6954f0930396",
+      "specialized_source_sha256": null,
+      "traits_sha256": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "dispatch_sha256": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "library_sha256": "45411c271459521bde4d9535a8f2cb3b14673712d0d70b5a88a4004e7e158f95"
+    },
+    "issue7_37": {
+      "path": "/tmp/mxfp8_generic_issue_20260912_mzrjraua/issue7_37",
+      "source_sha256": "23d84b63e6aba13780d1aca7ebeffeff48c28ed6e2a2a8cd48f07f9c4ef6fa59",
+      "specialized_source_sha256": null,
+      "traits_sha256": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "dispatch_sha256": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "library_sha256": "7c8094d0ec9687387a58131b5b16bac5892e59f4e1bb7fd1caffd4fd22b866e6"
+    },
+    "issue9_39": {
+      "path": "/tmp/mxfp8_generic_issue_20260912_mzrjraua/issue9_39",
+      "source_sha256": "5844487d2af118a16ecc3695ef11ab07dd30abf21dbeb28941fad62945c236bf",
+      "specialized_source_sha256": null,
+      "traits_sha256": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "dispatch_sha256": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "library_sha256": "1f865faacea8a65f5a2939f6517c1c5d2485d4d10b4f42c42587d2808ab01a77"
+    }
+  },
+  "pointers": {
+    "A": 139886545862656,
+    "B": 139885776207872,
+    "SFA": 139887841902592,
+    "SFB": 139887842426880,
+    "bf16": 139885639892992,
+    "fp32": 139885369360384
+  },
+  "input_pattern": "Exact CLI seed=1 generator and host FP8 type",
+  "timing": "HIP events around 100 C ABI launches, no preprocessing",
+  "bracketed": true,
+  "telemetry_enabled": false,
+  "native_timing": true,
+  "benchmark_helper_sha256": "e1725b8fbc942b4b83df5f6e798546790b8e2687011d7d3841e4e5971f2286c3"
+}

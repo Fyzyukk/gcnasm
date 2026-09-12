@@ -1,0 +1,129 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL compute_tuned bf16 67108864 outputs
+FULL_BASELINE_EQUAL compute_tuned fp32 67108864 outputs
+FULL_BASELINE_EQUAL compute_tuned_release4 bf16 67108864 outputs
+FULL_BASELINE_EQUAL compute_tuned_release4 fp32 67108864 outputs
+FULL_BASELINE_EQUAL compute_tuned_outbase6 bf16 67108864 outputs
+FULL_BASELINE_EQUAL compute_tuned_outbase6 fp32 67108864 outputs
+1 baseline bf16: 0.336855054 ms / 3.264050 P
+1 compute_tuned bf16: 0.334582835 ms / 3.286216 P
+1 baseline bf16: 0.336087644 ms / 3.271503 P
+1 baseline bf16: 0.335955173 ms / 3.272793 P
+1 compute_tuned_release4 bf16: 0.336220831 ms / 3.270207 P
+1 baseline bf16: 0.336106867 ms / 3.271316 P
+1 baseline bf16: 0.336132407 ms / 3.271067 P
+1 compute_tuned_outbase6 bf16: 0.334475249 ms / 3.287274 P
+1 baseline bf16: 0.337034822 ms / 3.262309 P
+1 baseline fp32: 0.359491795 ms / 3.058517 P
+1 compute_tuned fp32: 0.357760251 ms / 3.073320 P
+1 baseline fp32: 0.359714240 ms / 3.056625 P
+1 baseline fp32: 0.359683871 ms / 3.056883 P
+1 compute_tuned_release4 fp32: 0.360210240 ms / 3.052416 P
+1 baseline fp32: 0.359469444 ms / 3.058707 P
+1 baseline fp32: 0.359475434 ms / 3.058656 P
+1 compute_tuned_outbase6 fp32: 0.357832640 ms / 3.072698 P
+1 baseline fp32: 0.359526277 ms / 3.058223 P
+2 baseline bf16: 0.337069273 ms / 3.261975 P
+2 compute_tuned_outbase6 bf16: 0.335619748 ms / 3.276064 P
+2 baseline bf16: 0.336624056 ms / 3.266290 P
+2 baseline bf16: 0.336960107 ms / 3.263032 P
+2 compute_tuned_release4 bf16: 0.337587357 ms / 3.256969 P
+2 baseline bf16: 0.336973310 ms / 3.262904 P
+2 baseline bf16: 0.336927325 ms / 3.263350 P
+2 compute_tuned bf16: 0.335024536 ms / 3.281884 P
+2 baseline bf16: 0.337207705 ms / 3.260636 P
+2 baseline fp32: 0.360081494 ms / 3.053508 P
+2 compute_tuned_outbase6 fp32: 0.358499825 ms / 3.066980 P
+2 baseline fp32: 0.359955072 ms / 3.054580 P
+2 baseline fp32: 0.359889060 ms / 3.055140 P
+2 compute_tuned_release4 fp32: 0.360342681 ms / 3.051294 P
+2 baseline fp32: 0.360097438 ms / 3.053373 P
+2 baseline fp32: 0.360080689 ms / 3.053515 P
+2 compute_tuned fp32: 0.358128637 ms / 3.070158 P
+2 baseline fp32: 0.360155076 ms / 3.052884 P
+3 baseline bf16: 0.337187320 ms / 3.260833 P
+3 compute_tuned bf16: 0.333722919 ms / 3.294684 P
+3 baseline bf16: 0.336877316 ms / 3.263834 P
+3 baseline bf16: 0.337202907 ms / 3.260683 P
+3 compute_tuned_release4 bf16: 0.337926984 ms / 3.253696 P
+3 baseline bf16: 0.336975336 ms / 3.262885 P
+3 baseline bf16: 0.336930931 ms / 3.263315 P
+3 compute_tuned_outbase6 bf16: 0.335875690 ms / 3.273567 P
+3 baseline bf16: 0.337399334 ms / 3.258784 P
+3 baseline fp32: 0.360735476 ms / 3.047972 P
+3 compute_tuned fp32: 0.358265042 ms / 3.068989 P
+3 baseline fp32: 0.360237092 ms / 3.052189 P
+3 baseline fp32: 0.360094666 ms / 3.053396 P
+3 compute_tuned_release4 fp32: 0.360948294 ms / 3.046175 P
+3 baseline fp32: 0.360095471 ms / 3.053389 P
+3 baseline fp32: 0.360537887 ms / 3.049642 P
+3 compute_tuned_outbase6 fp32: 0.358221442 ms / 3.069363 P
+3 baseline fp32: 0.360570312 ms / 3.049368 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.3369455188512802,
+    "min_ms": 0.3359551727771759,
+    "max_ms": 0.33739933371543884,
+    "median_pflops": 3.2631733210890346
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.36008109152317047,
+    "min_ms": 0.3594694435596466,
+    "max_ms": 0.3607354760169983,
+    "median_pflops": 3.0535111497384713
+  },
+  {
+    "name": "compute_tuned",
+    "dtype": "bf16",
+    "median_ms": 0.3345828354358673,
+    "min_ms": 0.33372291922569275,
+    "max_ms": 0.33502453565597534,
+    "median_pflops": 3.2862164801241094
+  },
+  {
+    "name": "compute_tuned",
+    "dtype": "fp32",
+    "median_ms": 0.3581286370754242,
+    "min_ms": 0.3577602505683899,
+    "max_ms": 0.3582650423049927,
+    "median_pflops": 3.070158356379738
+  },
+  {
+    "name": "compute_tuned_release4",
+    "dtype": "bf16",
+    "median_ms": 0.3375873565673828,
+    "min_ms": 0.3362208306789398,
+    "max_ms": 0.337926983833313,
+    "median_pflops": 3.256969215186044
+  },
+  {
+    "name": "compute_tuned_release4",
+    "dtype": "fp32",
+    "median_ms": 0.36034268140792847,
+    "min_ms": 0.36021023988723755,
+    "max_ms": 0.3609482944011688,
+    "median_pflops": 3.051294460817119
+  },
+  {
+    "name": "compute_tuned_outbase6",
+    "dtype": "bf16",
+    "median_ms": 0.3356197476387024,
+    "min_ms": 0.33447524905204773,
+    "max_ms": 0.3358756899833679,
+    "median_pflops": 3.2760635675098415
+  },
+  {
+    "name": "compute_tuned_outbase6",
+    "dtype": "fp32",
+    "median_ms": 0.3582214415073395,
+    "min_ms": 0.3578326404094696,
+    "max_ms": 0.35849982500076294,
+    "median_pflops": 3.0693629704280907
+  }
+]

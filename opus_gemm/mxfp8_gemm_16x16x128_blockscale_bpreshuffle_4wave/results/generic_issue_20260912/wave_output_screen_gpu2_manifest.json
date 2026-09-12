@@ -1,0 +1,84 @@
+{
+  "tag": "wave_output_screen_gpu2",
+  "physical_gpu": 2,
+  "hip_index": 2,
+  "pci": "0000:65:00.0",
+  "initial_status": {
+    "GPU use (%)": "1",
+    "GFX Activity": "3037892690",
+    "GPU Memory Allocated (VRAM%)": "0",
+    "GPU Memory Read/Write Activity (%)": "0",
+    "Memory Activity": "1634748846",
+    "Avg. Memory Bandwidth": "0",
+    "PCI Bus": "0000:65:00.0"
+  },
+  "timing_reference": "baseline",
+  "candidates": [
+    "out_wave_read64",
+    "out_wave_read64_valu6",
+    "out_wave_xor",
+    "out_wave_xor_valu6"
+  ],
+  "performance_shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "jobs": [
+    [
+      "audit",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_issue_20260912/audit.py",
+        "out_wave_read64",
+        "out_wave_read64_valu6",
+        "out_wave_xor",
+        "out_wave_xor_valu6"
+      ]
+    ],
+    [
+      "shapes",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_issue_20260912/verify_shapes.py",
+        "--tag",
+        "wave_output_screen_gpu2",
+        "--pci",
+        "0000:65:00.0",
+        "out_wave_read64",
+        "out_wave_read64_valu6",
+        "out_wave_xor",
+        "out_wave_xor_valu6"
+      ]
+    ],
+    [
+      "full",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_issue_20260912/run.py",
+        "verify",
+        "--tag",
+        "wave_output_screen_gpu2",
+        "--pci",
+        "0000:65:00.0",
+        "out_wave_read64",
+        "out_wave_read64_valu6",
+        "out_wave_xor",
+        "out_wave_xor_valu6"
+      ]
+    ],
+    [
+      "shared",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_issue_20260912/run.py",
+        "shared",
+        "wave_output_screen_gpu2",
+        "out_wave_read64",
+        "out_wave_read64_valu6",
+        "out_wave_xor",
+        "out_wave_xor_valu6"
+      ]
+    ]
+  ]
+}

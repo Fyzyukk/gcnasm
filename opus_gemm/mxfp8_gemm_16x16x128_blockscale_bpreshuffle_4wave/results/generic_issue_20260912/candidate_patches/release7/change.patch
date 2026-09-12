@@ -1,0 +1,78 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -651,7 +651,7 @@
+         __builtin_amdgcn_s_setprio(1);
+ 
+         // A half 0 x B half 0 -> C[0][0] (128x128 wave quadrant).
+-        // After publication at MFMA5, all waves issue one t+2 request
++        // After publication at MFMA7, all waves issue one t+2 request
+         // behind each pair through MFMA38. Wave-uniform resources select
+         // the A or B producer without role branches inside the K loop.
+         MXFP8_MMA_PAIR(0, 0, 0, v_a[0], v_b, c00_0, c00_1, v_sfa, v_sfb[0]);
+@@ -669,7 +669,13 @@
+         MXFP8_MMA_ONE(0, 1, 0, v_a[0], v_b, c00_4, v_sfa, v_sfb[0]);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+-        // MFMA5: publish t+1 and release stage t between independent MFMAs.
++        MXFP8_MMA_ONE(0, 1, 1, v_a[0], v_b, c00_5, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++
++        MXFP8_MMA_ONE(0, 1, 2, v_a[0], v_b, c00_6, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++
++        // MFMA7: publish t+1 and release stage t between independent MFMAs.
+         __builtin_amdgcn_s_setprio(0);
+         s_waitcnt_vmcnt(0_I);
+         s_waitcnt_lgkmcnt(0_I);
+@@ -677,11 +683,8 @@
+         __builtin_amdgcn_sched_barrier(0);
+         __builtin_amdgcn_s_setprio(1);
+ 
+-        MXFP8_MMA_ONE(0, 1, 1, v_a[0], v_b, c00_5, v_sfa, v_sfb[0]);
+-        __builtin_amdgcn_sched_barrier(0);
+-
+-        MXFP8_MMA_PAIR(0, 1, 1, v_a[0], v_b, c00_6, c00_7, v_sfa, v_sfb[0]);
+-        sched_barrier_pairs_scale();
++        MXFP8_MMA_ONE(0, 1, 3, v_a[0], v_b, c00_7, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
+         prefetch_matrix_issue(opus::number<0>{}, stage, future_tile);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+@@ -1000,7 +1003,7 @@
+         __builtin_amdgcn_s_setprio(1);
+ 
+         // A half 0 x B half 0 -> C[0][0] (128x128 wave quadrant).
+-        // Publish the final block at MFMA5, then finish its predecessor
++        // Publish the final block at MFMA7, then finish its predecessor
+         // and roll its successor without any further global matrix requests.
+         MXFP8_MMA_PAIR(0, 0, 0, v_a[0], v_b, c00_0, c00_1, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+@@ -1017,7 +1020,13 @@
+         MXFP8_MMA_ONE(0, 1, 0, v_a[0], v_b, c00_4, v_sfa, v_sfb[0]);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+-        // MFMA5: publish t+1 and release stage t between independent MFMAs.
++        MXFP8_MMA_ONE(0, 1, 1, v_a[0], v_b, c00_5, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++
++        MXFP8_MMA_ONE(0, 1, 2, v_a[0], v_b, c00_6, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++
++        // MFMA7: publish t+1 and release stage t between independent MFMAs.
+         __builtin_amdgcn_s_setprio(0);
+         s_waitcnt_vmcnt(0_I);
+         s_waitcnt_lgkmcnt(0_I);
+@@ -1025,11 +1034,8 @@
+         __builtin_amdgcn_sched_barrier(0);
+         __builtin_amdgcn_s_setprio(1);
+ 
+-        MXFP8_MMA_ONE(0, 1, 1, v_a[0], v_b, c00_5, v_sfa, v_sfb[0]);
+-        __builtin_amdgcn_sched_barrier(0);
+-
+-        MXFP8_MMA_PAIR(0, 1, 1, v_a[0], v_b, c00_6, c00_7, v_sfa, v_sfb[0]);
+-        sched_barrier_pairs_scale();
++        MXFP8_MMA_ONE(0, 1, 3, v_a[0], v_b, c00_7, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
+ 
+         MXFP8_MMA_PAIR(
+             0, 2, 0, v_a[0], v_b, c00_8, c00_9, v_sfa, v_sfb[0]);

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compare the generic kernel frozen at f0b117c with the current generic kernel.
+"""Compare the generic kernel frozen at 9229d1a with the current generic kernel.
 
 The GPU argument is the physical rocm-smi card, resolved to HIP by PCI address.
 Every candidate uses the same inputs and output pointers within one process.
@@ -27,7 +27,7 @@ def main():
     if args.rounds <= 0 or not 0 <= args.max_initial_vram_percent <= 100:
         parser.error('rounds must be positive and the VRAM threshold must be in [0,100]')
     root = Path(__file__).resolve().parents[1]
-    evidence = root / 'results/generic_opt_20260912'
+    evidence = root / 'results/generic_issue_20260912'
     support = root / 'results/continuation_20260911/round3/support'
     status = json.loads(subprocess.check_output(
         ['rocm-smi', '--showbus', '--showuse', '--showmemuse', '--json'], text=True))

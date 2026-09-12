@@ -1,0 +1,213 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL grid2d_unroll4 bf16 67108864 outputs
+FULL_BASELINE_EQUAL grid2d_unroll4 fp32 67108864 outputs
+FULL_BASELINE_EQUAL grid2d_unroll16 bf16 67108864 outputs
+FULL_BASELINE_EQUAL grid2d_unroll16 fp32 67108864 outputs
+FULL_BASELINE_EQUAL compute_tuned_grid2d bf16 67108864 outputs
+FULL_BASELINE_EQUAL compute_tuned_grid2d fp32 67108864 outputs
+FULL_BASELINE_EQUAL compute_tuned bf16 67108864 outputs
+FULL_BASELINE_EQUAL compute_tuned fp32 67108864 outputs
+1 baseline bf16: 0.337529361 ms / 3.257529 P
+1 grid2d_unroll4 bf16: 0.334055543 ms / 3.291404 P
+1 baseline bf16: 0.336450964 ms / 3.267970 P
+1 baseline bf16: 0.336286634 ms / 3.269567 P
+1 grid2d_unroll16 bf16: 0.336064100 ms / 3.271732 P
+1 baseline bf16: 0.336314440 ms / 3.269297 P
+1 baseline bf16: 0.336472094 ms / 3.267765 P
+1 compute_tuned_grid2d bf16: 0.334618866 ms / 3.285863 P
+1 baseline bf16: 0.336564481 ms / 3.266868 P
+1 baseline bf16: 0.336568952 ms / 3.266824 P
+1 compute_tuned bf16: 0.335002124 ms / 3.282103 P
+1 baseline bf16: 0.336847752 ms / 3.264120 P
+1 baseline fp32: 0.359892666 ms / 3.055110 P
+1 grid2d_unroll4 fp32: 0.356754273 ms / 3.081986 P
+1 baseline fp32: 0.359943926 ms / 3.054675 P
+1 baseline fp32: 0.359503150 ms / 3.058420 P
+1 grid2d_unroll16 fp32: 0.359334707 ms / 3.059854 P
+1 baseline fp32: 0.359165072 ms / 3.061299 P
+1 baseline fp32: 0.359786689 ms / 3.056010 P
+1 compute_tuned_grid2d fp32: 0.357463926 ms / 3.075867 P
+1 baseline fp32: 0.360041916 ms / 3.053843 P
+1 baseline fp32: 0.359994739 ms / 3.054244 P
+1 compute_tuned fp32: 0.357833505 ms / 3.072691 P
+1 baseline fp32: 0.360070318 ms / 3.053603 P
+2 baseline bf16: 0.337187350 ms / 3.260833 P
+2 compute_tuned bf16: 0.335149348 ms / 3.280662 P
+2 baseline bf16: 0.337359726 ms / 3.259167 P
+2 baseline bf16: 0.336914182 ms / 3.263477 P
+2 compute_tuned_grid2d bf16: 0.334965318 ms / 3.282464 P
+2 baseline bf16: 0.337454945 ms / 3.258247 P
+2 baseline bf16: 0.337183774 ms / 3.260868 P
+2 grid2d_unroll16 bf16: 0.337303311 ms / 3.259712 P
+2 baseline bf16: 0.337634921 ms / 3.256510 P
+2 baseline bf16: 0.337908566 ms / 3.253873 P
+2 grid2d_unroll4 bf16: 0.334444910 ms / 3.287572 P
+2 baseline bf16: 0.337464511 ms / 3.258155 P
+2 baseline fp32: 0.359896302 ms / 3.055079 P
+2 compute_tuned fp32: 0.358122706 ms / 3.070209 P
+2 baseline fp32: 0.360040694 ms / 3.053854 P
+2 baseline fp32: 0.360423923 ms / 3.050607 P
+2 compute_tuned_grid2d fp32: 0.357574701 ms / 3.074914 P
+2 baseline fp32: 0.360472709 ms / 3.050194 P
+2 baseline fp32: 0.360499531 ms / 3.049967 P
+2 grid2d_unroll16 fp32: 0.359356314 ms / 3.059670 P
+2 baseline fp32: 0.360379100 ms / 3.050986 P
+2 baseline fp32: 0.360591501 ms / 3.049189 P
+2 grid2d_unroll4 fp32: 0.357428700 ms / 3.076171 P
+2 baseline fp32: 0.360492319 ms / 3.050028 P
+3 baseline bf16: 0.337606162 ms / 3.256788 P
+3 grid2d_unroll4 bf16: 0.334702104 ms / 3.285045 P
+3 baseline bf16: 0.337555766 ms / 3.257274 P
+3 baseline bf16: 0.337426573 ms / 3.258521 P
+3 grid2d_unroll16 bf16: 0.337075353 ms / 3.261916 P
+3 baseline bf16: 0.337463379 ms / 3.258166 P
+3 baseline bf16: 0.337591738 ms / 3.256927 P
+3 compute_tuned_grid2d bf16: 0.335129321 ms / 3.280858 P
+3 baseline bf16: 0.337575376 ms / 3.257085 P
+3 baseline bf16: 0.337434590 ms / 3.258444 P
+3 compute_tuned bf16: 0.335632563 ms / 3.275938 P
+3 baseline bf16: 0.337542146 ms / 3.257405 P
+3 baseline fp32: 0.360399932 ms / 3.050810 P
+3 grid2d_unroll4 fp32: 0.357507944 ms / 3.075489 P
+3 baseline fp32: 0.360456318 ms / 3.050333 P
+3 baseline fp32: 0.360620737 ms / 3.048942 P
+3 grid2d_unroll16 fp32: 0.359906733 ms / 3.054990 P
+3 baseline fp32: 0.360453516 ms / 3.050356 P
+3 baseline fp32: 0.360826313 ms / 3.047205 P
+3 compute_tuned_grid2d fp32: 0.357833952 ms / 3.072687 P
+3 baseline fp32: 0.360809505 ms / 3.047347 P
+3 baseline fp32: 0.360405117 ms / 3.050766 P
+3 compute_tuned fp32: 0.358672708 ms / 3.065501 P
+3 baseline fp32: 0.360821903 ms / 3.047242 P
+4 baseline bf16: 0.337908983 ms / 3.253869 P
+4 compute_tuned bf16: 0.336305350 ms / 3.269385 P
+4 baseline bf16: 0.337898940 ms / 3.253966 P
+4 baseline bf16: 0.337748557 ms / 3.255415 P
+4 compute_tuned_grid2d bf16: 0.335494578 ms / 3.277286 P
+4 baseline bf16: 0.337803751 ms / 3.254883 P
+4 baseline bf16: 0.337364584 ms / 3.259120 P
+4 grid2d_unroll16 bf16: 0.336870164 ms / 3.263903 P
+4 baseline bf16: 0.337852567 ms / 3.254413 P
+4 baseline bf16: 0.337761343 ms / 3.255292 P
+4 grid2d_unroll4 bf16: 0.334541708 ms / 3.286620 P
+4 baseline bf16: 0.337095380 ms / 3.261723 P
+4 baseline fp32: 0.360870332 ms / 3.046833 P
+4 compute_tuned fp32: 0.358393520 ms / 3.067889 P
+4 baseline fp32: 0.360854298 ms / 3.046968 P
+4 baseline fp32: 0.360957116 ms / 3.046100 P
+4 compute_tuned_grid2d fp32: 0.358228713 ms / 3.069301 P
+4 baseline fp32: 0.360423923 ms / 3.050607 P
+4 baseline fp32: 0.360891908 ms / 3.046651 P
+4 grid2d_unroll16 fp32: 0.360294312 ms / 3.051704 P
+4 baseline fp32: 0.360617101 ms / 3.048973 P
+4 baseline fp32: 0.360609502 ms / 3.049037 P
+4 grid2d_unroll4 fp32: 0.357305527 ms / 3.077231 P
+4 baseline fp32: 0.360706717 ms / 3.048215 P
+5 baseline bf16: 0.337675750 ms / 3.256117 P
+5 grid2d_unroll4 bf16: 0.335120916 ms / 3.280940 P
+5 baseline bf16: 0.338292956 ms / 3.250176 P
+5 baseline bf16: 0.337612957 ms / 3.256722 P
+5 grid2d_unroll16 bf16: 0.337605357 ms / 3.256796 P
+5 baseline bf16: 0.337542146 ms / 3.257405 P
+5 baseline bf16: 0.337664574 ms / 3.256224 P
+5 compute_tuned_grid2d bf16: 0.335426152 ms / 3.277954 P
+5 baseline bf16: 0.337367743 ms / 3.259089 P
+5 baseline bf16: 0.337118953 ms / 3.261495 P
+5 compute_tuned bf16: 0.336323768 ms / 3.269206 P
+5 baseline bf16: 0.337315738 ms / 3.259592 P
+5 baseline fp32: 0.360755116 ms / 3.047806 P
+5 grid2d_unroll4 fp32: 0.357609898 ms / 3.074612 P
+5 baseline fp32: 0.360470325 ms / 3.050214 P
+5 baseline fp32: 0.360507935 ms / 3.049896 P
+5 grid2d_unroll16 fp32: 0.359750330 ms / 3.056319 P
+5 baseline fp32: 0.360587925 ms / 3.049219 P
+5 baseline fp32: 0.360926330 ms / 3.046360 P
+5 compute_tuned_grid2d fp32: 0.358270288 ms / 3.068944 P
+5 baseline fp32: 0.360979110 ms / 3.045915 P
+5 baseline fp32: 0.360841513 ms / 3.047076 P
+5 compute_tuned fp32: 0.358931124 ms / 3.063294 P
+5 baseline fp32: 0.360683948 ms / 3.048407 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.33746394515037537,
+    "min_ms": 0.33628663420677185,
+    "max_ms": 0.3382929563522339,
+    "median_pflops": 3.2581602970535206
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.360495924949646,
+    "min_ms": 0.3591650724411011,
+    "max_ms": 0.3609791100025177,
+    "median_pflops": 3.0499973832702256
+  },
+  {
+    "name": "grid2d_unroll4",
+    "dtype": "bf16",
+    "median_ms": 0.3345417082309723,
+    "min_ms": 0.3340555429458618,
+    "max_ms": 0.33512091636657715,
+    "median_pflops": 3.2866204742904035
+  },
+  {
+    "name": "grid2d_unroll4",
+    "dtype": "fp32",
+    "median_ms": 0.3574286997318268,
+    "min_ms": 0.35675427317619324,
+    "max_ms": 0.35760989785194397,
+    "median_pflops": 3.0761705162482658
+  },
+  {
+    "name": "grid2d_unroll16",
+    "dtype": "bf16",
+    "median_ms": 0.3370753526687622,
+    "min_ms": 0.33606410026550293,
+    "max_ms": 0.337605357170105,
+    "median_pflops": 3.2619164203811426
+  },
+  {
+    "name": "grid2d_unroll16",
+    "dtype": "fp32",
+    "median_ms": 0.35975033044815063,
+    "min_ms": 0.35933470726013184,
+    "max_ms": 0.36029431223869324,
+    "median_pflops": 3.0563186040894217
+  },
+  {
+    "name": "compute_tuned_grid2d",
+    "dtype": "bf16",
+    "median_ms": 0.3351293206214905,
+    "min_ms": 0.33461886644363403,
+    "max_ms": 0.3354945778846741,
+    "median_pflops": 3.2808577469049207
+  },
+  {
+    "name": "compute_tuned_grid2d",
+    "dtype": "fp32",
+    "median_ms": 0.35783395171165466,
+    "min_ms": 0.35746392607688904,
+    "max_ms": 0.3582702875137329,
+    "median_pflops": 3.072686709901678
+  },
+  {
+    "name": "compute_tuned",
+    "dtype": "bf16",
+    "median_ms": 0.3356325626373291,
+    "min_ms": 0.3350021243095398,
+    "max_ms": 0.3363237679004669,
+    "median_pflops": 3.2759384820598814
+  },
+  {
+    "name": "compute_tuned",
+    "dtype": "fp32",
+    "median_ms": 0.35839352011680603,
+    "min_ms": 0.35783350467681885,
+    "max_ms": 0.35893112421035767,
+    "median_pflops": 3.0678892503906097
+  }
+]

@@ -1,0 +1,41 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -245,11 +245,10 @@
+     using D_SF = unsigned char;
+     using D_SF_PACK = unsigned int;
+ 
+-    const unsigned int wgid = block_id_x();
+-    // Both launch paths require positive N divisible by B_N.
+-    const unsigned int num_tiles_n = static_cast<unsigned int>(kargs.n) / T::B_N;
+-    const int block_m = wgid / num_tiles_n;
+-    const int block_n = wgid % num_tiles_n;
++    // N varies along grid X and M along grid Y. The public byte-count
++    // bound limits either tile dimension to less than 16384.
++    const int block_m = block_id_y();
++    const int block_n = block_id_x();
+     const int row = block_m * T::B_M;
+     const int col = block_n * T::B_N;
+ 
+--- a/gemm_a8w8_blockscale_bpreshuffle_launch.cc
++++ b/gemm_a8w8_blockscale_bpreshuffle_launch.cc
+@@ -21,7 +21,7 @@
+ template<bool BF16>
+ void launch(const opus_gemm_scale_kargs& args, hipStream_t stream) {
+     using T = FourWaveTraits<BF16>;
+-    const dim3 grid((args.m / 256) * (args.n / 256), 1, args.batch);
++    const dim3 grid(args.n / T::B_N, args.m / T::B_M, args.batch);
+     launch_blockscale_kernel<BF16>(args, grid, dim3(T::BLOCK_SIZE), stream);
+ }
+ }
+--- a/gemm_a8w8_mxfp8_scale_host.cc
++++ b/gemm_a8w8_mxfp8_scale_host.cc
+@@ -418,8 +418,7 @@
+     kargs.stride_sfb_batch = sfb_batch;
+ 
+     const int output_tiles = opts.tiles == 0 ? pick_output_tiles_per_wg(m_tiles, n_tiles, batch) : opts.tiles;
+-    const int grid_x = checked_count("Grid X", ceil_div_scale(m_tiles, output_tiles), n_tiles);
+-    const dim3 grid(grid_x, 1, batch);
++    const dim3 grid(n_tiles, ceil_div_scale(m_tiles, output_tiles), batch);
+     const dim3 block(GemmTraits::BLOCK_SIZE);
+     std::printf("Launching 4-wave blockscale bpreshuffle GEMM: M=%d, N=%d, K=%d, batch=%d, dtype=%s, seed=%d, "
+                 "grid=(%u,%u,%u), block=%d, output_tiles_per_wg=%d%s\n",

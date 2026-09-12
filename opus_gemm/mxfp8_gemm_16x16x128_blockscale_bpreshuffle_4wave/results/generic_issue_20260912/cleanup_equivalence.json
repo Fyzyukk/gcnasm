@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "candidate": "grid2d_unroll4",
+  "cleaned": "generic_tile1_issue_20260912",
+  "changed_only": "Comments and blank lines",
+  "measured_source_sha256": "5fbea3537edb6551695ac158d6cb14cb3a302b3333e6707f833d75aa4300b1db",
+  "production_source_sha256": "69ef190d32fc10127deee1d06286233ecdde498e543a2d6c07d02b11696955be",
+  "identical_instruction_encodings": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2179,
+      "words": 4424,
+      "encoding_sha256": "06eea74b57ed997e2b1502fd9562a9dccfd85a2fe6e2e3055a1a3665a4cd9773"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2761,
+      "words": 5528,
+      "encoding_sha256": "fcebbf5c7115deded3f6ff94ecdf054ad09828a7da528fe1a328cde559ba30e0"
+    }
+  },
+  "unchanged_support_files": [
+    "gemm_a8w8_blockscale_bpreshuffle_launch.cc",
+    "gemm_a8w8_mxfp8_scale_host.cc"
+  ]
+}
