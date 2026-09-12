@@ -802,5 +802,53 @@
       "words": 5544,
       "encoding_sha256": "66a721770e648e8648660630d563ca86a0e7b06e51113fda0148bddfbe5173dd"
     }
+  },
+  "scalar4_a1m2_prefetch54": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2201,
+      "words": 4443,
+      "encoding_sha256": "057f50044269224fc06c1cd5c374a2107627511e7946f53013d85be407fb0333"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2780,
+      "words": 5544,
+      "encoding_sha256": "0da925be0e62db16976a1b27550f54b27e3e5e50062642376b172c783cd6f97b"
+    }
+  },
+  "scalar4_b1n3_prefetch54": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2230,
+      "words": 4472,
+      "encoding_sha256": "d5e8c4f8c05aeea9c53675062dbf3e9059fd9c55deea6b6d92e441a07eed10a4"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2820,
+      "words": 5584,
+      "encoding_sha256": "aab6a71c4b918c0e2d60dff8e3006abae9ca454e7516490d051fc533806fee0e"
+    }
+  },
+  "scalar4_resident_b1n3_prefetch54": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2235,
+      "words": 4476,
+      "encoding_sha256": "0dd3ba5b6ea91d1c59091111302472a200795b7b135bab8818104dc0715cbfa4"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2817,
+      "words": 5580,
+      "encoding_sha256": "0ceb241436f778d8f26a03655c4d4b3f7928fb6d21ea300e8b60a3ed2f710baa"
+    }
+  },
+  "scalar4_tail_prefetch54": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2246,
+      "words": 4488,
+      "encoding_sha256": "7231e802d9b6075062720f8943059bfdadc470a997f28725fdfacacb6970737c"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2836,
+      "words": 5600,
+      "encoding_sha256": "67eaff6ec4830a3bb40e68c6ece0635be65ef02031d24b0abb2bff1372415aa8"
+    }
   }
 }

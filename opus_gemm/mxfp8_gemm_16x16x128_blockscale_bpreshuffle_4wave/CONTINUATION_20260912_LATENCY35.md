@@ -14,7 +14,9 @@
 - 物理 GPU2 = HIP2 = PCI `0000:65:00.0`。同进程同地址、相邻基线夹测，不改频率/功耗，计时不采 telemetry。
 - 不使用子 agent；不修改或暂存相邻 fp32scale 目录。
 
-## 已确认的小收益
+## 历史五轮候选成绩，需空闲复测
+
+针对用户询问“GPU2 有占用时怎么测试”：`small_gains_confirm_gpu2` 的实际计时为 **07:33:01.393747—07:33:10.738447 UTC**。启动前 GPU2 的利用率与显存占用为 0%，07:58:39 的后续记录为 100% / 80%。原窗口没有计时期间 telemetry，也没有紧接计时后的占用快照，因此不能证明全程无干扰或推断外部任务开始时间。3.298755P 是历史候选成绩，正式选择前必须在空闲窗口重新确认。详见 `timing_provenance.json`；原始样本未改动。
 
 `small_gains_confirm_gpu2` 五轮同地址窗口：
 
@@ -29,14 +31,17 @@
 
 ## 已完成源码和静态检查，待最后 GPU 验证
 
-准确列表、哈希、命令在 `results/generic_latency_20260912/pending_tests.json`。15 版均已编译、零 spill，并通过独立坐标证明及链接 LDS/VMEM 等待检查，**尚未跑 GPU**。
+准确列表、哈希、命令在 `results/generic_latency_20260912/pending_tests.json`。19 版均已编译、零 spill，并通过独立坐标/操作数证明及链接 LDS/VMEM 等待检查，**尚未跑 GPU**。
 
 1. `scalar_matrix_group4` / `group8` 及各自 `_resident`：16 份 VOFFSET 缓存改为 4/8 份，完整行组的位移放到非负 SOFFSET。BF16 普通 VGPR 分别 244/248；去掉末尾 A1/SFB1/B1 reload 后分别 252/256，仍然零 spill。原来未释放寄存器就删 reload 的版本有 spill，不能混用。每版独立枚举 110592 个请求向量，覆盖小 K、面板边界和 ABI 上限，并证明任意 K 的代数恒等式。
 2. `contiguous_waves`、`contiguous_waves_private68/72`：每个 M128×N128 区域内每 wave 计算连续 64×64；成对改变 A/B consumer、scale pack 来源和输出坐标，物理矩阵 producer 保持原样。私有输出槽尝试每行连续 128 字节写回，保留初次矩阵退休的 WG barrier。
 3. `grid_group2_out136`、`grid_group2_compact8`、`grid_group2_out136_compact8`：组合已经单独测量的小收益。
 4. `grid_morton_g4_nfirst/mfirst`、`grid_morton_g8_nfirst/mfirst`、`grid_morton_g16_mfirst`：完整 tile 组内交错 M/N 坐标位，不完整组使用原映射。仍是二维 grid，Z=batch。
+5. `scalar4_a1m2_prefetch54`、`scalar4_b1n3_prefetch54`、`scalar4_tail_prefetch54`、`scalar4_resident_b1n3_prefetch54`：在 group4 地址压缩基础上，把 A1/M2、B1/N3 的读取分别或同时从 MFMA63/64 提前到54，安装仍留在63/64。最后一版同时去掉最终重复读取。BF16 普通 VGPR 分别244/252/252/244，FP32分别232/232/248/232。逐个 MFMA 的符号执行证明当前操作数不被提前覆盖、下一轮操作数完整；所有带 t+2 请求的链接主体与父版 LDS 发射计数逐点一致，只发生预定的读取移动。错误提前覆盖的反例被拒绝。没有运行成绩。
 
 没有未收取的编译任务，也没有后台 GPU 任务。`combinations_gpu2` 先前在空闲预检查处退出，未创建测量窗口、未启动候选。
+
+新增四版全部完成 CPU 检查后，08:29:16 UTC 重新查询 GPU2：仍为100%利用率、80%显存占用；见 `results/generic_latency_20260912/gpu2_availability_20260912T082916.json`。本次没有启动任何 GPU kernel，19个候选仍待运行验证。
 
 ## 已排除的方向和诊断
 
@@ -48,6 +53,8 @@ A LDS XOR mask3/7 四版的映射/运行正确性均通过，但较好的也只�
 
 ## 接下来
 
-先在空闲 GPU2 按 `pending_tests.json` 的四批命令做 22 组通用正确性、完整 8192 独立参考和三轮同地址筛选。保留负结果。胜出者对 f483077 五轮确认，微小组合另做父版直接比较。随后才清理选定源码、证明指令等价、重建、验证实际适配器，并按 8192、1024、2048、4096 顺序记录性能与正式更新。
+先在空闲 GPU2 按 `pending_tests.json` 的五批命令做 22 组通用正确性、完整 8192 独立参考和三轮同地址筛选。新预取批次包括两个 scalar_group4 父版作为同窗口对照。保留负结果。胜出者对 f483077 五轮确认，微小组合另做父版直接比较。随后才清理选定源码、证明指令等价、重建、验证实际适配器，并按 8192、1024、2048、4096 顺序记录性能与正式更新。
 
-`summarize.py` 当前索引 74 个版本、120 条计时汇总；73 个补丁已精确重建。计时关联使用 HPP + library 双哈希，避免把不同编译选项混成同一结果。生产公开比较工具暂时仍属于上一轮，不要误拿它测试本轮候选。
+`screen.py` 现在默认核对 GPU2 的固定 PCI，并在 shapes/full/shared 每个 GPU 子进程前后保存占用快照。出现占用或检查失败就停止后续阶段，原始计时保留并标记需重测；计时过程不采 telemetry。两端快照均空闲仍不能排除窗口内短暂干扰，必须结合相邻基线漂移与重复窗口。6 项 CPU 模拟检查通过，涵盖开跑前阻止启动、验证后停止计时、计时后占用证据保存，未调用 GPU。
+
+`summarize.py` 当前索引 78 个版本、120 条计时汇总；77 个补丁已精确重建。计时关联使用 HPP + library 双哈希，并标记窗口占用证据与是否需要空闲复测。生产公开比较工具暂时仍属于上一轮，不要误拿它测试本轮候选。

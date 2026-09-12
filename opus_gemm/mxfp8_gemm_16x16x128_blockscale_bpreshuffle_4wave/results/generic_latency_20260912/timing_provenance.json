@@ -1,0 +1,53 @@
+{
+  "timestamp_utc": "2026-09-12T08:25:54.349786+00:00",
+  "question": "GPU2 有占用时，之前的成绩如何测试？",
+  "windows": [
+    {
+      "tag": "small_gains_confirm_gpu2",
+      "pci": "0000:65:00.0",
+      "physical_card": "card2",
+      "metadata_timestamp_utc": "2026-09-12T07:33:01.359265+00:00",
+      "initial_device_status": {
+        "GPU use (%)": "0",
+        "GFX Activity": "3051816549",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "0",
+        "Memory Activity": "1635790759",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:65:00.0"
+      },
+      "first_timing_start_utc": "2026-09-12T07:33:01.393747+00:00",
+      "last_timing_end_utc": "2026-09-12T07:33:10.738447+00:00",
+      "telemetry_enabled": false,
+      "post_run_snapshot_available": false,
+      "max_abs_bracket_drift_percent": 0.22045949277545995,
+      "requires_idle_reconfirmation": true
+    },
+    {
+      "tag": "output_materialized_gpu2",
+      "pci": "0000:65:00.0",
+      "physical_card": "card2",
+      "metadata_timestamp_utc": "2026-09-12T07:34:43.716548+00:00",
+      "initial_device_status": {
+        "GPU use (%)": "0",
+        "GFX Activity": "3052770857",
+        "GPU Memory Allocated (VRAM%)": "0",
+        "GPU Memory Read/Write Activity (%)": "0",
+        "Memory Activity": "1635860709",
+        "Avg. Memory Bandwidth": "0",
+        "PCI Bus": "0000:65:00.0"
+      },
+      "first_timing_start_utc": "2026-09-12T07:34:43.749306+00:00",
+      "last_timing_end_utc": "2026-09-12T07:34:51.248022+00:00",
+      "telemetry_enabled": false,
+      "post_run_snapshot_available": false,
+      "max_abs_bracket_drift_percent": 1.895804545701374,
+      "requires_idle_reconfirmation": true
+    }
+  ],
+  "later_busy_record": "final_gpu_availability.json",
+  "later_busy_timestamp_utc": "2026-09-12T07:58:39.115279+00:00",
+  "conclusion": "历史计时开始前的占用快照为空闲，计时期间没有 telemetry，也没有紧接计时后的占用快照。不能据此断定整个窗口无干扰或推断外部任务开始时间。3.298755P 为历史候选结果，正式选择前须在空闲窗口复测。",
+  "production_changed": false,
+  "new_candidates_gpu_launched": false
+}

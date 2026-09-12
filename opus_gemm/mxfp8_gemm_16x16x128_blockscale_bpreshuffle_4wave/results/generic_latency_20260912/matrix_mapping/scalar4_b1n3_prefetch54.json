@@ -1,0 +1,23 @@
+{
+  "name": "scalar4_b1n3_prefetch54",
+  "status": "PASS",
+  "cached_vgpr_addresses": 4,
+  "request_vectors_enumerated": 110592,
+  "tested_k": [
+    128,
+    256,
+    384,
+    8192,
+    8320,
+    32896,
+    8388480
+  ],
+  "algebraic_identity_for_all_positive_k": true,
+  "nonnegative_soffset": true,
+  "maximum_tested_soffset": 939507712,
+  "negative_intermediate_voffsets": 752,
+  "unchanged_global_and_lds_coordinates": true,
+  "final_resident_operands": false,
+  "source_sha256": "0ac9a4a56088e80918c97a05d37e41b6998448bf7646e8be82a4d37429874a20",
+  "scope": "MUBUF VOFFSET+SOFFSET+IOFFSET identity, alignment and ABI bounds. LDS destination formula remains unchanged. Linked uniformity/readiness and GPU checks are separate."
+}

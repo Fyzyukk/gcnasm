@@ -155,6 +155,12 @@ for name in sys.argv[1:]:
         assert proof["status"] == "PASS" and proof["algebraic_identity_for_all_positive_k"]
         assert proof["nonnegative_soffset"] and proof["unchanged_global_and_lds_coordinates"]
         assert proof["source_sha256"] == hashlib.sha256(source.encode()).hexdigest()
+    if metadata["config"].get("tail_operand_prefetch"):
+        proof = json.loads((here / "operand_schedules" / (name + ".json")).read_text())
+        assert proof["status"] == "PASS" and proof["linked_prefetch_placement_matches"]
+        assert proof["early_overwrite_counterexample_rejected"]
+        assert proof["source_sha256"] == hashlib.sha256(source.encode()).hexdigest()
+        assert proof["isa_sha256"] == hashlib.sha256((directory/"build/device.isa").read_bytes()).hexdigest()
     if metadata["config"].get("grid_order") == "morton_local_bits":
         proof = json.loads((here / "grid_mapping" / (name + ".json")).read_text())
         assert proof["status"] == "PASS" and proof["bijective"] and proof["in_bounds"]

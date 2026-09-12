@@ -1,0 +1,18 @@
+{
+  "timestamp_utc": "2026-09-12T08:29:16.905382+00:00",
+  "completed_utc": "2026-09-12T08:29:17.047978+00:00",
+  "physical_gpu": 2,
+  "pci": "0000:65:00.0",
+  "status": {
+    "GPU use (%)": "100",
+    "GFX Activity": "3372848282",
+    "GPU Memory Allocated (VRAM%)": "80",
+    "GPU Memory Read/Write Activity (%)": "4",
+    "Memory Activity": "1648521364",
+    "Avg. Memory Bandwidth": "0",
+    "PCI Bus": "0000:65:00.0"
+  },
+  "idle": false,
+  "gpu_test_launched": false,
+  "reason": "Availability check after completing four additional CPU-only candidates; no benchmark launched by this command."
+}

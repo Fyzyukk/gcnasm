@@ -1,0 +1,100 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -317,8 +317,10 @@
+     // Cache immutable address deltas in VGPRs; only K advances in SGPRs.
+     // Four requests share one m0 base, with IOFFSET 0/1056/2112/3168.
+     // Subtract that same immediate from VOFFSET to preserve the input address.
+-    opus::vector_t<int, 16> matrix_addresses;
+-    opus::static_for<16>([&](auto issue_i) {
++    // Only the lane-dependent addresses are cached in ordinary VGPRs.
++    // Later row groups reuse them with nonnegative, wave-uniform SOFFSETs.
++    opus::vector_t<int, 4> matrix_addresses;
++    opus::static_for<4>([&](auto issue_i) {
+         constexpr int issue = decltype(issue_i)::value;
+         constexpr int local = issue % 4;
+         constexpr int immediate = local * matrix_pitch;
+@@ -335,7 +337,9 @@
+             + (issue / 4) * 4 * matrix_pitch;
+         g_matrix.template async_load<16>(
+             reinterpret_cast<void*>(reinterpret_cast<__UINTPTR_TYPE__>(dst)),
+-            matrix_addresses[issue], k_tile * matrix_k_stride,
++            matrix_addresses[issue % 4],
++            __builtin_amdgcn_readfirstlane(k_tile * matrix_k_stride
++                + (issue / 4) * 2 * matrix_pair_stride),
+             opus::number<immediate>{}, opus::number<0>{});
+     };
+ 
+@@ -921,6 +925,16 @@
+         MXFP8_MMA_PAIR(1, 1, 0, v_a[1], v_b_n1, c11_4, c11_5, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
+ 
++        // MFMA54: use independent registers until the old operand dies.
++        auto a1_m2_early_0 = s_a.template load<16>(ra1_next_offsets[4]);
++        auto a1_m2_early_1 = s_a.template load<16>(ra1_next_offsets[5]);
++        __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
++        __builtin_amdgcn_sched_barrier(0);
++        auto b1_n3_early_0 = s_b.template load<16>(rb1_next_offsets[6]);
++        auto b1_n3_early_1 = s_b.template load<16>(rb1_next_offsets[7]);
++        __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
++        __builtin_amdgcn_sched_barrier(0);
++
+         MXFP8_MMA_PAIR(1, 1, 1, v_a[1], v_b_n1, c11_6, c11_7, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
+         // MFMA56: these operand slices have no remaining current-K consumers.
+@@ -972,7 +986,8 @@
+         __builtin_amdgcn_sched_barrier(0);
+         // MFMA63: these operand slices have no remaining current-K consumers.
+         __builtin_amdgcn_sched_barrier(0);
+-        load_a_mrepeat_scale<T, 2>(s_a, ra1_next_offsets, v_a[1]);
++        opus::set_slice(v_a[1], a1_m2_early_0, opus::number<64>{}, opus::number<80>{});
++        opus::set_slice(v_a[1], a1_m2_early_1, opus::number<80>{}, opus::number<96>{});
+         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+@@ -982,7 +997,8 @@
+         __builtin_amdgcn_sched_barrier(0);
+         opus::set_slice(v_a[1], a1_m3_next_0, opus::number<96>{}, opus::number<112>{});
+         opus::set_slice(v_a[1], a1_m3_next_1, opus::number<112>{}, opus::number<128>{});
+-        load_b_range_scale<T, 6, 8>(s_b, rb1_next_offsets, v_b_second);
++        opus::set_slice(v_b_second, b1_n3_early_0, opus::number<96>{}, opus::number<112>{});
++        opus::set_slice(v_b_second, b1_n3_early_1, opus::number<112>{}, opus::number<128>{});
+         __builtin_amdgcn_sched_group_barrier(0x100, 4, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+@@ -1220,6 +1236,16 @@
+         MXFP8_MMA_PAIR(1, 1, 0, v_a[1], v_b_n1, c11_4, c11_5, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
+ 
++        // MFMA54: use independent registers until the old operand dies.
++        auto a1_m2_early_0 = s_a.template load<16>(ra1_next_offsets[4]);
++        auto a1_m2_early_1 = s_a.template load<16>(ra1_next_offsets[5]);
++        __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
++        __builtin_amdgcn_sched_barrier(0);
++        auto b1_n3_early_0 = s_b.template load<16>(rb1_next_offsets[6]);
++        auto b1_n3_early_1 = s_b.template load<16>(rb1_next_offsets[7]);
++        __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
++        __builtin_amdgcn_sched_barrier(0);
++
+         MXFP8_MMA_PAIR(1, 1, 1, v_a[1], v_b_n1, c11_6, c11_7, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
+         // MFMA56: these operand slices have no remaining current-K consumers.
+@@ -1271,7 +1297,8 @@
+         __builtin_amdgcn_sched_barrier(0);
+         // MFMA63: these operand slices have no remaining current-K consumers.
+         __builtin_amdgcn_sched_barrier(0);
+-        load_a_mrepeat_scale<T, 2>(s_a, ra1_next_offsets, v_a[1]);
++        opus::set_slice(v_a[1], a1_m2_early_0, opus::number<64>{}, opus::number<80>{});
++        opus::set_slice(v_a[1], a1_m2_early_1, opus::number<80>{}, opus::number<96>{});
+         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+@@ -1281,7 +1308,8 @@
+         __builtin_amdgcn_sched_barrier(0);
+         opus::set_slice(v_a[1], a1_m3_next_0, opus::number<96>{}, opus::number<112>{});
+         opus::set_slice(v_a[1], a1_m3_next_1, opus::number<112>{}, opus::number<128>{});
+-        load_b_range_scale<T, 6, 8>(s_b, rb1_next_offsets, v_b_second);
++        opus::set_slice(v_b_second, b1_n3_early_0, opus::number<96>{}, opus::number<112>{});
++        opus::set_slice(v_b_second, b1_n3_early_1, opus::number<112>{}, opus::number<128>{});
+         __builtin_amdgcn_sched_group_barrier(0x100, 4, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 

@@ -7511,6 +7511,461 @@
     "instruction_equivalent_measured_candidate": null
   },
   {
+    "name": "scalar4_a1m2_prefetch54",
+    "status": "AUDITED",
+    "source_sha256": "f2d1dd6026fb11f28057302420578b349876f190e0cbc3231d3ab1f40764eb82",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 4,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "split_sfa_b",
+      "unsigned_tile_indices": false,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ],
+      "output_barriers_without_vmem_drain": [
+        3
+      ],
+      "a0_m0_prefetch_mfma": 30,
+      "a0_m0_install_mfma": 36,
+      "grid_order": "2d_N_then_M",
+      "matrix_group_immediates": [
+        0,
+        1056,
+        2112,
+        3168
+      ],
+      "matrix_group_m0_adjustments": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "matrix_issue_mfmas": [
+        7,
+        9,
+        11,
+        13,
+        15,
+        17,
+        19,
+        21,
+        23,
+        25,
+        27,
+        29,
+        31,
+        33,
+        35,
+        37
+      ],
+      "maintain_priority_between_main_tiles": true,
+      "release_priority": 1,
+      "scale_refill_priority": 0,
+      "matrix_cached_lane_addresses": 4,
+      "matrix_uniform_row_group_issues": 4,
+      "matrix_group_source_offsets_nonnegative": true,
+      "operand_schedule_parent": "scalar_matrix_group4",
+      "tail_operand_prefetch": {
+        "a1_m2": 54
+      },
+      "tail_operand_install": {
+        "a1_m2": 63
+      }
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 488,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {},
+    "measurement_tags": [],
+    "artifact_hashes": {
+      "device.isa": "8f71df87840e0a3daada8b092f50b3dc090f464c8622c78e414133cfcabfb9e3",
+      "device.notes": "c276b851f92c8deccb5647e712e8ed6a908f2cd9043be5349f6e631e5517d2c8",
+      "libblockscale_bpreshuffle.so": "2899a728c50c73db46378da7ca5e29970f044c428eea708cb2bbacf1e0e11fa9",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "9b811ceda4e5afe757ab3197e1c744b130d293d9b39c4509d8df1045f879691f"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "scalar4_b1n3_prefetch54",
+    "status": "AUDITED",
+    "source_sha256": "0ac9a4a56088e80918c97a05d37e41b6998448bf7646e8be82a4d37429874a20",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 4,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "split_sfa_b",
+      "unsigned_tile_indices": false,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ],
+      "output_barriers_without_vmem_drain": [
+        3
+      ],
+      "a0_m0_prefetch_mfma": 30,
+      "a0_m0_install_mfma": 36,
+      "grid_order": "2d_N_then_M",
+      "matrix_group_immediates": [
+        0,
+        1056,
+        2112,
+        3168
+      ],
+      "matrix_group_m0_adjustments": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "matrix_issue_mfmas": [
+        7,
+        9,
+        11,
+        13,
+        15,
+        17,
+        19,
+        21,
+        23,
+        25,
+        27,
+        29,
+        31,
+        33,
+        35,
+        37
+      ],
+      "maintain_priority_between_main_tiles": true,
+      "release_priority": 1,
+      "scale_refill_priority": 0,
+      "matrix_cached_lane_addresses": 4,
+      "matrix_uniform_row_group_issues": 4,
+      "matrix_group_source_offsets_nonnegative": true,
+      "operand_schedule_parent": "scalar_matrix_group4",
+      "tail_operand_prefetch": {
+        "b1_n3": 54
+      },
+      "tail_operand_install": {
+        "b1_n3": 64
+      }
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 488,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 508,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {},
+    "measurement_tags": [],
+    "artifact_hashes": {
+      "device.isa": "31e83926e8e9e797a4c3c642246936aa3dc543c1711e20a6ec1884aa9173f42d",
+      "device.notes": "e0fbb0d5d6083b2b4db2e731f2d6440bb235c614de56906e5984279f22511c9e",
+      "libblockscale_bpreshuffle.so": "39b154e6d3a463a7392feb8f0e6fb844b9799ed026348fe573e88e950c6f602c",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "97f6a7cc76397b10572948d228ab44ba99254d220a1f8a17a33f62866631ca36"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "scalar4_resident_b1n3_prefetch54",
+    "status": "AUDITED",
+    "source_sha256": "2a2802d7ca6118e010c2f3c2f8dc9cbef0f4f257dbdef52a124be8bc4647b0cb",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 4,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "split_sfa_b",
+      "unsigned_tile_indices": false,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ],
+      "output_barriers_without_vmem_drain": [
+        3
+      ],
+      "a0_m0_prefetch_mfma": 30,
+      "a0_m0_install_mfma": 36,
+      "grid_order": "2d_N_then_M",
+      "matrix_group_immediates": [
+        0,
+        1056,
+        2112,
+        3168
+      ],
+      "matrix_group_m0_adjustments": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "matrix_issue_mfmas": [
+        7,
+        9,
+        11,
+        13,
+        15,
+        17,
+        19,
+        21,
+        23,
+        25,
+        27,
+        29,
+        31,
+        33,
+        35,
+        37
+      ],
+      "maintain_priority_between_main_tiles": true,
+      "release_priority": 1,
+      "scale_refill_priority": 0,
+      "matrix_cached_lane_addresses": 4,
+      "matrix_uniform_row_group_issues": 4,
+      "matrix_group_source_offsets_nonnegative": true,
+      "operand_schedule_parent": "scalar_matrix_group4_resident",
+      "tail_operand_prefetch": {
+        "b1_n3": 54
+      },
+      "tail_operand_install": {
+        "b1_n3": 64
+      },
+      "final_operands_resident": true
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 488,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {},
+    "measurement_tags": [],
+    "artifact_hashes": {
+      "device.isa": "22767d99882e2a499ffeb84659b99dd961242bf61b9941055973b8e42e0aef50",
+      "device.notes": "c276b851f92c8deccb5647e712e8ed6a908f2cd9043be5349f6e631e5517d2c8",
+      "libblockscale_bpreshuffle.so": "ab57b7bd9279d538382a064cec7553043d4463937f0fcacff0655ba33be9be77",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "ca5ddf44cb386eef71f52a91f99b1f4e832f73a092645a80e5d172eafbc739d3"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "scalar4_tail_prefetch54",
+    "status": "AUDITED",
+    "source_sha256": "c4ad05e2c922472ab0550fc839de3abc79d2d5ea0f9ee1d9c5048e3c5e6ab49b",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 4,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "split_sfa_b",
+      "unsigned_tile_indices": false,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ],
+      "output_barriers_without_vmem_drain": [
+        3
+      ],
+      "a0_m0_prefetch_mfma": 30,
+      "a0_m0_install_mfma": 36,
+      "grid_order": "2d_N_then_M",
+      "matrix_group_immediates": [
+        0,
+        1056,
+        2112,
+        3168
+      ],
+      "matrix_group_m0_adjustments": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "matrix_issue_mfmas": [
+        7,
+        9,
+        11,
+        13,
+        15,
+        17,
+        19,
+        21,
+        23,
+        25,
+        27,
+        29,
+        31,
+        33,
+        35,
+        37
+      ],
+      "maintain_priority_between_main_tiles": true,
+      "release_priority": 1,
+      "scale_refill_priority": 0,
+      "matrix_cached_lane_addresses": 4,
+      "matrix_uniform_row_group_issues": 4,
+      "matrix_group_source_offsets_nonnegative": true,
+      "operand_schedule_parent": "scalar_matrix_group4",
+      "tail_operand_prefetch": {
+        "a1_m2": 54,
+        "b1_n3": 54
+      },
+      "tail_operand_install": {
+        "a1_m2": 63,
+        "b1_n3": 64
+      }
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 504,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 508,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {},
+    "measurement_tags": [],
+    "artifact_hashes": {
+      "device.isa": "a4d350d7acd1c10f18f2fc96b5e78ed3a1bf8c376ad06a705c15a57bedc3498a",
+      "device.notes": "ec509dd14a606fb27918867a1be6d5ff1c0ee40834ad49e126dcd7985b27f20b",
+      "libblockscale_bpreshuffle.so": "4e21ae1c7aa5a6d8ac7af2788478f8c12f72724d16e5803880c7f49028ccf785",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "0167b10f5cb06b284f83b9cd08e31d7d559986f96b7654924bee6db8dfad794b"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
     "name": "scalar_matrix_group4",
     "status": "AUDITED",
     "source_sha256": "e03470b6c645a204d0808c8f3d1aaddde189109a31f0e9e85c9a3bb4f99fe12b",

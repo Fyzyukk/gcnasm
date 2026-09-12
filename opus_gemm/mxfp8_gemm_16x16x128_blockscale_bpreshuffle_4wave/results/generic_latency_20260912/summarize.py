@@ -63,11 +63,15 @@ for directory in sorted((HERE / "shared_allocations").iterdir()):
     brackets = read(directory / "bracketed_comparisons.json", [])
     reference = metadata.get("comparison_reference", "baseline")
     records = read(directory / "records.json", [])
+    device_window = read(directory / "device_window.json", {})
+    device_status = device_window.get("status", "INITIAL_SNAPSHOT_ONLY")
     for row in summary:
         samples = [r for r in records if r["name"] == row["name"] and r["dtype"] == row["dtype"]]
         paired = [r["speedup_percent"] for r in brackets
                   if r["name"] == row["name"] and r["dtype"] == row["dtype"]]
         windows.append(dict(tag=directory.name, comparison_reference=reference, **row,
+                            device_window_status=device_status,
+                            requires_idle_reconfirmation=device_status != "CLEAR_BOUNDARIES",
                             source_sha256=metadata["versions"][row["name"]]["source_sha256"],
                             library_sha256=metadata["versions"][row["name"]]["library_sha256"],
                             timed_samples=len(samples),

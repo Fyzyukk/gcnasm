@@ -1,0 +1,2535 @@
+{
+  "name": "scalar4_resident_b1n3_prefetch54",
+  "status": "PASS",
+  "source_sha256": "2a2802d7ca6118e010c2f3c2f8dc9cbef0f4f257dbdef52a124be8bc4647b0cb",
+  "isa_sha256": "22767d99882e2a499ffeb84659b99dd961242bf61b9941055973b8e42e0aef50",
+  "parent_isa_sha256": "ee370ecc3c09715ea22eef4ebbe276a331604453c2a7818e6926ef8557138bb2",
+  "simulations": {
+    "main": {
+      "mfmas": 64,
+      "unique_accumulator_fragments": 64,
+      "next_stage_published_after": 5,
+      "current_operands_preserved": true,
+      "next_operands_complete": true,
+      "scale_lifetimes_preserved": true,
+      "independent_prefetches": [
+        {
+          "name": "a0_m0_next_0",
+          "value": [
+            "a",
+            0,
+            0
+          ],
+          "after_mfma": 30
+        },
+        {
+          "name": "a0_m0_next_1",
+          "value": [
+            "a",
+            0,
+            1
+          ],
+          "after_mfma": 30
+        },
+        {
+          "name": "b1_n3_early_0",
+          "value": [
+            "b",
+            1,
+            6
+          ],
+          "after_mfma": 54
+        },
+        {
+          "name": "b1_n3_early_1",
+          "value": [
+            "b",
+            1,
+            7
+          ],
+          "after_mfma": 54
+        },
+        {
+          "name": "a1_m3_next_0",
+          "value": [
+            "a",
+            1,
+            6
+          ],
+          "after_mfma": 56
+        },
+        {
+          "name": "a1_m3_next_1",
+          "value": [
+            "a",
+            1,
+            7
+          ],
+          "after_mfma": 56
+        }
+      ],
+      "installs": [
+        {
+          "name": "a0_m0_next_0",
+          "value": [
+            "a",
+            0,
+            0
+          ],
+          "after_mfma": 36
+        },
+        {
+          "name": "a0_m0_next_1",
+          "value": [
+            "a",
+            0,
+            1
+          ],
+          "after_mfma": 36
+        },
+        {
+          "name": "a1_m3_next_0",
+          "value": [
+            "a",
+            1,
+            6
+          ],
+          "after_mfma": 64
+        },
+        {
+          "name": "a1_m3_next_1",
+          "value": [
+            "a",
+            1,
+            7
+          ],
+          "after_mfma": 64
+        },
+        {
+          "name": "b1_n3_early_0",
+          "value": [
+            "b",
+            1,
+            6
+          ],
+          "after_mfma": 64
+        },
+        {
+          "name": "b1_n3_early_1",
+          "value": [
+            "b",
+            1,
+            7
+          ],
+          "after_mfma": 64
+        }
+      ]
+    },
+    "penultimate": {
+      "mfmas": 64,
+      "unique_accumulator_fragments": 64,
+      "next_stage_published_after": 5,
+      "current_operands_preserved": true,
+      "next_operands_complete": true,
+      "scale_lifetimes_preserved": true,
+      "independent_prefetches": [
+        {
+          "name": "a0_m0_next_0",
+          "value": [
+            "a",
+            0,
+            0
+          ],
+          "after_mfma": 30
+        },
+        {
+          "name": "a0_m0_next_1",
+          "value": [
+            "a",
+            0,
+            1
+          ],
+          "after_mfma": 30
+        },
+        {
+          "name": "b1_n3_early_0",
+          "value": [
+            "b",
+            1,
+            6
+          ],
+          "after_mfma": 54
+        },
+        {
+          "name": "b1_n3_early_1",
+          "value": [
+            "b",
+            1,
+            7
+          ],
+          "after_mfma": 54
+        },
+        {
+          "name": "a1_m3_next_0",
+          "value": [
+            "a",
+            1,
+            6
+          ],
+          "after_mfma": 56
+        },
+        {
+          "name": "a1_m3_next_1",
+          "value": [
+            "a",
+            1,
+            7
+          ],
+          "after_mfma": 56
+        }
+      ],
+      "installs": [
+        {
+          "name": "a0_m0_next_0",
+          "value": [
+            "a",
+            0,
+            0
+          ],
+          "after_mfma": 36
+        },
+        {
+          "name": "a0_m0_next_1",
+          "value": [
+            "a",
+            0,
+            1
+          ],
+          "after_mfma": 36
+        },
+        {
+          "name": "a1_m3_next_0",
+          "value": [
+            "a",
+            1,
+            6
+          ],
+          "after_mfma": 64
+        },
+        {
+          "name": "a1_m3_next_1",
+          "value": [
+            "a",
+            1,
+            7
+          ],
+          "after_mfma": 64
+        },
+        {
+          "name": "b1_n3_early_0",
+          "value": [
+            "b",
+            1,
+            6
+          ],
+          "after_mfma": 64
+        },
+        {
+          "name": "b1_n3_early_1",
+          "value": [
+            "b",
+            1,
+            7
+          ],
+          "after_mfma": 64
+        }
+      ]
+    }
+  },
+  "early_overwrite_counterexample_rejected": true,
+  "linked_prefetch_placement_matches": true,
+  "linked_lds_reads": [
+    {
+      "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+      "blocks": [
+        {
+          "lds_reads_after_mfma": {
+            "2": [
+              {
+                "line": 736,
+                "asm": "ds_read_b64 v[20:21], v2"
+              }
+            ],
+            "20": [
+              {
+                "line": 773,
+                "asm": "ds_read_b64 v[22:23], v2"
+              }
+            ],
+            "30": [
+              {
+                "line": 792,
+                "asm": "ds_read_b128 v[176:179], v30"
+              },
+              {
+                "line": 793,
+                "asm": "ds_read_b128 v[180:183], v30 offset:64"
+              }
+            ],
+            "32": [
+              {
+                "line": 800,
+                "asm": "ds_read_b128 v[168:171], v28"
+              },
+              {
+                "line": 801,
+                "asm": "ds_read_b128 v[172:175], v28 offset:1056"
+              }
+            ],
+            "34": [
+              {
+                "line": 805,
+                "asm": "ds_read_b128 v[184:187], v28 offset:4224"
+              },
+              {
+                "line": 806,
+                "asm": "ds_read_b128 v[188:191], v28 offset:5280"
+              }
+            ],
+            "36": [
+              {
+                "line": 810,
+                "asm": "ds_read_b128 v[192:195], v28 offset:8448"
+              },
+              {
+                "line": 811,
+                "asm": "ds_read_b128 v[196:199], v28 offset:9504"
+              }
+            ],
+            "38": [
+              {
+                "line": 815,
+                "asm": "ds_read_b128 v[200:203], v28 offset:12672"
+              },
+              {
+                "line": 816,
+                "asm": "ds_read_b128 v[204:207], v28 offset:13728"
+              }
+            ],
+            "40": [
+              {
+                "line": 819,
+                "asm": "ds_read_b128 v[160:163], v30 offset:4224"
+              },
+              {
+                "line": 820,
+                "asm": "ds_read_b128 v[164:167], v30 offset:4288"
+              }
+            ],
+            "44": [
+              {
+                "line": 825,
+                "asm": "ds_read_b128 v[152:155], v30 offset:8448"
+              },
+              {
+                "line": 826,
+                "asm": "ds_read_b128 v[156:159], v30 offset:8512"
+              }
+            ],
+            "48": [
+              {
+                "line": 831,
+                "asm": "ds_read_b128 v[144:147], v30 offset:12672"
+              },
+              {
+                "line": 832,
+                "asm": "ds_read_b128 v[148:151], v30 offset:12736"
+              }
+            ],
+            "52": [
+              {
+                "line": 837,
+                "asm": "ds_read_b128 v[136:139], v30 offset:16896"
+              },
+              {
+                "line": 838,
+                "asm": "ds_read_b128 v[140:143], v30 offset:16960"
+              }
+            ],
+            "54": [
+              {
+                "line": 841,
+                "asm": "ds_read_b128 v[72:75], v28 offset:29568"
+              },
+              {
+                "line": 842,
+                "asm": "ds_read_b128 v[76:79], v28 offset:30624"
+              }
+            ],
+            "56": [
+              {
+                "line": 845,
+                "asm": "ds_read_b128 v[128:131], v30 offset:21120"
+              },
+              {
+                "line": 846,
+                "asm": "ds_read_b128 v[132:135], v30 offset:21184"
+              },
+              {
+                "line": 847,
+                "asm": "ds_read_b128 v[112:115], v30 offset:29568"
+              },
+              {
+                "line": 848,
+                "asm": "ds_read_b128 v[116:119], v30 offset:29632"
+              }
+            ],
+            "58": [
+              {
+                "line": 851,
+                "asm": "ds_read_b128 v[48:51], v28 offset:16896"
+              },
+              {
+                "line": 852,
+                "asm": "ds_read_b128 v[52:55], v28 offset:17952"
+              }
+            ],
+            "60": [
+              {
+                "line": 855,
+                "asm": "ds_read_b128 v[56:59], v28 offset:21120"
+              },
+              {
+                "line": 856,
+                "asm": "ds_read_b128 v[60:63], v28 offset:22176"
+              }
+            ],
+            "62": [
+              {
+                "line": 859,
+                "asm": "ds_read_b128 v[64:67], v28 offset:25344"
+              },
+              {
+                "line": 860,
+                "asm": "ds_read_b128 v[68:71], v28 offset:26400"
+              }
+            ],
+            "63": [
+              {
+                "line": 862,
+                "asm": "ds_read_b128 v[120:123], v30 offset:25344"
+              },
+              {
+                "line": 863,
+                "asm": "ds_read_b128 v[124:127], v30 offset:25408"
+              }
+            ]
+          },
+          "matrix_prefetches": 16
+        },
+        {
+          "lds_reads_after_mfma": {
+            "2": [
+              {
+                "line": 876,
+                "asm": "ds_read_b64 v[2:3], v2"
+              }
+            ],
+            "20": [
+              {
+                "line": 915,
+                "asm": "ds_read_b64 v[6:7], v4"
+              }
+            ],
+            "30": [
+              {
+                "line": 934,
+                "asm": "ds_read_b128 v[88:91], v30 offset:33792"
+              },
+              {
+                "line": 935,
+                "asm": "ds_read_b128 v[92:95], v30 offset:33856"
+              }
+            ],
+            "32": [
+              {
+                "line": 942,
+                "asm": "ds_read_b128 v[168:171], v28 offset:33792"
+              },
+              {
+                "line": 943,
+                "asm": "ds_read_b128 v[172:175], v28 offset:34848"
+              }
+            ],
+            "34": [
+              {
+                "line": 947,
+                "asm": "ds_read_b128 v[184:187], v28 offset:38016"
+              },
+              {
+                "line": 948,
+                "asm": "ds_read_b128 v[188:191], v28 offset:39072"
+              }
+            ],
+            "36": [
+              {
+                "line": 952,
+                "asm": "ds_read_b128 v[176:179], v28 offset:42240"
+              },
+              {
+                "line": 953,
+                "asm": "ds_read_b128 v[180:183], v28 offset:43296"
+              }
+            ],
+            "38": [
+              {
+                "line": 957,
+                "asm": "ds_read_b128 v[192:195], v28 offset:46464"
+              },
+              {
+                "line": 958,
+                "asm": "ds_read_b128 v[196:199], v28 offset:47520"
+              }
+            ],
+            "40": [
+              {
+                "line": 961,
+                "asm": "ds_read_b128 v[160:163], v30 offset:38016"
+              },
+              {
+                "line": 962,
+                "asm": "ds_read_b128 v[164:167], v30 offset:38080"
+              }
+            ],
+            "44": [
+              {
+                "line": 967,
+                "asm": "ds_read_b128 v[152:155], v30 offset:42240"
+              },
+              {
+                "line": 968,
+                "asm": "ds_read_b128 v[156:159], v30 offset:42304"
+              }
+            ],
+            "48": [
+              {
+                "line": 973,
+                "asm": "ds_read_b128 v[144:147], v30 offset:46464"
+              },
+              {
+                "line": 974,
+                "asm": "ds_read_b128 v[148:151], v30 offset:46528"
+              }
+            ],
+            "52": [
+              {
+                "line": 979,
+                "asm": "ds_read_b128 v[136:139], v30 offset:50688"
+              },
+              {
+                "line": 980,
+                "asm": "ds_read_b128 v[140:143], v30 offset:50752"
+              }
+            ],
+            "54": [
+              {
+                "line": 983,
+                "asm": "ds_read_b128 v[10:13], v28 offset:63360"
+              },
+              {
+                "line": 984,
+                "asm": "ds_read_b128 v[14:17], v28 offset:64416"
+              }
+            ],
+            "56": [
+              {
+                "line": 987,
+                "asm": "ds_read_b128 v[128:131], v30 offset:54912"
+              },
+              {
+                "line": 988,
+                "asm": "ds_read_b128 v[132:135], v30 offset:54976"
+              },
+              {
+                "line": 989,
+                "asm": "ds_read_b128 v[80:83], v30 offset:63360"
+              },
+              {
+                "line": 990,
+                "asm": "ds_read_b128 v[84:87], v30 offset:63424"
+              }
+            ],
+            "58": [
+              {
+                "line": 993,
+                "asm": "ds_read_b128 v[104:107], v28 offset:50688"
+              },
+              {
+                "line": 994,
+                "asm": "ds_read_b128 v[108:111], v28 offset:51744"
+              }
+            ],
+            "60": [
+              {
+                "line": 997,
+                "asm": "ds_read_b128 v[96:99], v28 offset:54912"
+              },
+              {
+                "line": 998,
+                "asm": "ds_read_b128 v[100:103], v28 offset:55968"
+              }
+            ],
+            "62": [
+              {
+                "line": 1001,
+                "asm": "ds_read_b128 v[64:67], v28 offset:59136"
+              },
+              {
+                "line": 1002,
+                "asm": "ds_read_b128 v[68:71], v28 offset:60192"
+              }
+            ],
+            "63": [
+              {
+                "line": 1004,
+                "asm": "ds_read_b128 v[48:51], v30 offset:59136"
+              },
+              {
+                "line": 1005,
+                "asm": "ds_read_b128 v[52:55], v30 offset:59200"
+              }
+            ]
+          },
+          "matrix_prefetches": 16
+        },
+        {
+          "lds_reads_after_mfma": {
+            "2": [
+              {
+                "line": 1012,
+                "asm": "ds_read_b64 v[4:5], v4"
+              }
+            ],
+            "20": [
+              {
+                "line": 1049,
+                "asm": "ds_read_b64 v[8:9], v8"
+              }
+            ],
+            "30": [
+              {
+                "line": 1068,
+                "asm": "ds_read_b128 v[56:59], v30"
+              },
+              {
+                "line": 1069,
+                "asm": "ds_read_b128 v[60:63], v30 offset:64"
+              }
+            ],
+            "32": [
+              {
+                "line": 1076,
+                "asm": "ds_read_b128 v[120:123], v28"
+              },
+              {
+                "line": 1077,
+                "asm": "ds_read_b128 v[124:127], v28 offset:1056"
+              }
+            ],
+            "34": [
+              {
+                "line": 1081,
+                "asm": "ds_read_b128 v[168:171], v28 offset:4224"
+              },
+              {
+                "line": 1082,
+                "asm": "ds_read_b128 v[172:175], v28 offset:5280"
+              }
+            ],
+            "36": [
+              {
+                "line": 1086,
+                "asm": "ds_read_b128 v[216:219], v28 offset:8448"
+              },
+              {
+                "line": 1087,
+                "asm": "ds_read_b128 v[220:223], v28 offset:9504"
+              }
+            ],
+            "38": [
+              {
+                "line": 1091,
+                "asm": "ds_read_b128 v[224:227], v28 offset:12672"
+              },
+              {
+                "line": 1092,
+                "asm": "ds_read_b128 v[228:231], v28 offset:13728"
+              }
+            ],
+            "40": [
+              {
+                "line": 1095,
+                "asm": "ds_read_b128 v[72:75], v30 offset:4224"
+              },
+              {
+                "line": 1096,
+                "asm": "ds_read_b128 v[76:79], v30 offset:4288"
+              }
+            ],
+            "44": [
+              {
+                "line": 1101,
+                "asm": "ds_read_b128 v[88:91], v30 offset:8448"
+              },
+              {
+                "line": 1102,
+                "asm": "ds_read_b128 v[92:95], v30 offset:8512"
+              }
+            ],
+            "48": [
+              {
+                "line": 1107,
+                "asm": "ds_read_b128 v[112:115], v30 offset:12672"
+              },
+              {
+                "line": 1108,
+                "asm": "ds_read_b128 v[116:119], v30 offset:12736"
+              }
+            ],
+            "52": [
+              {
+                "line": 1113,
+                "asm": "ds_read_b128 v[192:195], v30 offset:16896"
+              },
+              {
+                "line": 1114,
+                "asm": "ds_read_b128 v[196:199], v30 offset:16960"
+              }
+            ],
+            "54": [
+              {
+                "line": 1117,
+                "asm": "ds_read_b128 v[176:179], v28 offset:29568"
+              },
+              {
+                "line": 1118,
+                "asm": "ds_read_b128 v[180:183], v28 offset:30624"
+              }
+            ],
+            "56": [
+              {
+                "line": 1121,
+                "asm": "ds_read_b128 v[200:203], v30 offset:21120"
+              },
+              {
+                "line": 1122,
+                "asm": "ds_read_b128 v[204:207], v30 offset:21184"
+              },
+              {
+                "line": 1123,
+                "asm": "ds_read_b128 v[184:187], v30 offset:29568"
+              },
+              {
+                "line": 1124,
+                "asm": "ds_read_b128 v[188:191], v30 offset:29632"
+              }
+            ],
+            "58": [
+              {
+                "line": 1127,
+                "asm": "ds_read_b128 v[104:107], v28 offset:16896"
+              },
+              {
+                "line": 1128,
+                "asm": "ds_read_b128 v[108:111], v28 offset:17952"
+              }
+            ],
+            "60": [
+              {
+                "line": 1131,
+                "asm": "ds_read_b128 v[96:99], v28 offset:21120"
+              },
+              {
+                "line": 1132,
+                "asm": "ds_read_b128 v[100:103], v28 offset:22176"
+              }
+            ],
+            "62": [
+              {
+                "line": 1135,
+                "asm": "ds_read_b128 v[64:67], v28 offset:25344"
+              },
+              {
+                "line": 1136,
+                "asm": "ds_read_b128 v[68:71], v28 offset:26400"
+              }
+            ],
+            "63": [
+              {
+                "line": 1138,
+                "asm": "ds_read_b128 v[208:211], v30 offset:25344"
+              },
+              {
+                "line": 1139,
+                "asm": "ds_read_b128 v[212:215], v30 offset:25408"
+              }
+            ]
+          },
+          "matrix_prefetches": 16
+        },
+        {
+          "lds_reads_after_mfma": {
+            "2": [
+              {
+                "line": 1147,
+                "asm": "ds_read_b64 v[24:25], v2"
+              }
+            ],
+            "20": [
+              {
+                "line": 1184,
+                "asm": "ds_read_b64 v[26:27], v2"
+              }
+            ],
+            "30": [
+              {
+                "line": 1203,
+                "asm": "ds_read_b128 v[48:51], v30 offset:33792"
+              },
+              {
+                "line": 1204,
+                "asm": "ds_read_b128 v[52:55], v30 offset:33856"
+              }
+            ],
+            "32": [
+              {
+                "line": 1211,
+                "asm": "ds_read_b128 v[144:147], v28 offset:33792"
+              },
+              {
+                "line": 1212,
+                "asm": "ds_read_b128 v[148:151], v28 offset:34848"
+              }
+            ],
+            "34": [
+              {
+                "line": 1216,
+                "asm": "ds_read_b128 v[152:155], v28 offset:38016"
+              },
+              {
+                "line": 1217,
+                "asm": "ds_read_b128 v[156:159], v28 offset:39072"
+              }
+            ],
+            "36": [
+              {
+                "line": 1221,
+                "asm": "ds_read_b128 v[160:163], v28 offset:42240"
+              },
+              {
+                "line": 1222,
+                "asm": "ds_read_b128 v[164:167], v28 offset:43296"
+              }
+            ],
+            "38": [
+              {
+                "line": 1226,
+                "asm": "ds_read_b128 v[168:171], v28 offset:46464"
+              },
+              {
+                "line": 1227,
+                "asm": "ds_read_b128 v[172:175], v28 offset:47520"
+              }
+            ],
+            "40": [
+              {
+                "line": 1230,
+                "asm": "ds_read_b128 v[136:139], v30 offset:38016"
+              },
+              {
+                "line": 1231,
+                "asm": "ds_read_b128 v[140:143], v30 offset:38080"
+              }
+            ],
+            "44": [
+              {
+                "line": 1236,
+                "asm": "ds_read_b128 v[128:131], v30 offset:42240"
+              },
+              {
+                "line": 1237,
+                "asm": "ds_read_b128 v[132:135], v30 offset:42304"
+              }
+            ],
+            "48": [
+              {
+                "line": 1242,
+                "asm": "ds_read_b128 v[120:123], v30 offset:46464"
+              },
+              {
+                "line": 1243,
+                "asm": "ds_read_b128 v[124:127], v30 offset:46528"
+              }
+            ],
+            "52": [
+              {
+                "line": 1248,
+                "asm": "ds_read_b128 v[72:75], v30 offset:50688"
+              },
+              {
+                "line": 1249,
+                "asm": "ds_read_b128 v[76:79], v30 offset:50752"
+              }
+            ],
+            "54": [
+              {
+                "line": 1252,
+                "asm": "ds_read_b128 v[80:83], v28 offset:63360"
+              },
+              {
+                "line": 1253,
+                "asm": "ds_read_b128 v[84:87], v28 offset:64416"
+              }
+            ],
+            "56": [
+              {
+                "line": 1256,
+                "asm": "ds_read_b128 v[112:115], v30 offset:54912"
+              },
+              {
+                "line": 1257,
+                "asm": "ds_read_b128 v[116:119], v30 offset:54976"
+              },
+              {
+                "line": 1258,
+                "asm": "ds_read_b128 v[88:91], v30 offset:63360"
+              },
+              {
+                "line": 1259,
+                "asm": "ds_read_b128 v[92:95], v30 offset:63424"
+              }
+            ],
+            "58": [
+              {
+                "line": 1262,
+                "asm": "ds_read_b128 v[104:107], v28 offset:50688"
+              },
+              {
+                "line": 1263,
+                "asm": "ds_read_b128 v[108:111], v28 offset:51744"
+              }
+            ],
+            "60": [
+              {
+                "line": 1266,
+                "asm": "ds_read_b128 v[56:59], v28 offset:54912"
+              },
+              {
+                "line": 1267,
+                "asm": "ds_read_b128 v[60:63], v28 offset:55968"
+              }
+            ],
+            "62": [
+              {
+                "line": 1270,
+                "asm": "ds_read_b128 v[64:67], v28 offset:59136"
+              },
+              {
+                "line": 1271,
+                "asm": "ds_read_b128 v[68:71], v28 offset:60192"
+              }
+            ],
+            "63": [
+              {
+                "line": 1273,
+                "asm": "ds_read_b128 v[96:99], v30 offset:59136"
+              },
+              {
+                "line": 1274,
+                "asm": "ds_read_b128 v[100:103], v30 offset:59200"
+              }
+            ]
+          },
+          "matrix_prefetches": 16
+        },
+        {
+          "lds_reads_after_mfma": {
+            "2": [
+              {
+                "line": 1459,
+                "asm": "ds_read_b64 v[20:21], v2"
+              }
+            ],
+            "20": [
+              {
+                "line": 1499,
+                "asm": "ds_read_b64 v[22:23], v2"
+              }
+            ],
+            "30": [
+              {
+                "line": 1518,
+                "asm": "ds_read_b128 v[4:7], v2"
+              },
+              {
+                "line": 1519,
+                "asm": "ds_read_b128 v[8:11], v2 offset:64"
+              }
+            ],
+            "32": [
+              {
+                "line": 1526,
+                "asm": "ds_read_b128 v[168:171], v3"
+              },
+              {
+                "line": 1527,
+                "asm": "ds_read_b128 v[172:175], v3 offset:1056"
+              }
+            ],
+            "34": [
+              {
+                "line": 1531,
+                "asm": "ds_read_b128 v[184:187], v3 offset:4224"
+              },
+              {
+                "line": 1532,
+                "asm": "ds_read_b128 v[188:191], v3 offset:5280"
+              }
+            ],
+            "36": [
+              {
+                "line": 1536,
+                "asm": "ds_read_b128 v[192:195], v3 offset:8448"
+              },
+              {
+                "line": 1537,
+                "asm": "ds_read_b128 v[196:199], v3 offset:9504"
+              }
+            ],
+            "38": [
+              {
+                "line": 1541,
+                "asm": "ds_read_b128 v[200:203], v3 offset:12672"
+              },
+              {
+                "line": 1542,
+                "asm": "ds_read_b128 v[204:207], v3 offset:13728"
+              }
+            ],
+            "40": [
+              {
+                "line": 1545,
+                "asm": "ds_read_b128 v[160:163], v2 offset:4224"
+              },
+              {
+                "line": 1546,
+                "asm": "ds_read_b128 v[164:167], v2 offset:4288"
+              }
+            ],
+            "44": [
+              {
+                "line": 1551,
+                "asm": "ds_read_b128 v[152:155], v2 offset:8448"
+              },
+              {
+                "line": 1552,
+                "asm": "ds_read_b128 v[156:159], v2 offset:8512"
+              }
+            ],
+            "48": [
+              {
+                "line": 1557,
+                "asm": "ds_read_b128 v[144:147], v2 offset:12672"
+              },
+              {
+                "line": 1558,
+                "asm": "ds_read_b128 v[148:151], v2 offset:12736"
+              }
+            ],
+            "52": [
+              {
+                "line": 1563,
+                "asm": "ds_read_b128 v[136:139], v2 offset:16896"
+              },
+              {
+                "line": 1564,
+                "asm": "ds_read_b128 v[140:143], v2 offset:16960"
+              }
+            ],
+            "54": [
+              {
+                "line": 1567,
+                "asm": "ds_read_b128 v[104:107], v3 offset:29568"
+              },
+              {
+                "line": 1568,
+                "asm": "ds_read_b128 v[108:111], v3 offset:30624"
+              }
+            ],
+            "56": [
+              {
+                "line": 1571,
+                "asm": "ds_read_b128 v[128:131], v2 offset:21120"
+              },
+              {
+                "line": 1572,
+                "asm": "ds_read_b128 v[132:135], v2 offset:21184"
+              },
+              {
+                "line": 1573,
+                "asm": "ds_read_b128 v[12:15], v2 offset:29568"
+              },
+              {
+                "line": 1574,
+                "asm": "ds_read_b128 v[208:211], v2 offset:29632"
+              }
+            ],
+            "58": [
+              {
+                "line": 1577,
+                "asm": "ds_read_b128 v[80:83], v3 offset:16896"
+              },
+              {
+                "line": 1578,
+                "asm": "ds_read_b128 v[84:87], v3 offset:17952"
+              }
+            ],
+            "60": [
+              {
+                "line": 1581,
+                "asm": "ds_read_b128 v[88:91], v3 offset:21120"
+              },
+              {
+                "line": 1582,
+                "asm": "ds_read_b128 v[92:95], v3 offset:22176"
+              }
+            ],
+            "62": [
+              {
+                "line": 1585,
+                "asm": "ds_read_b128 v[96:99], v3 offset:25344"
+              },
+              {
+                "line": 1586,
+                "asm": "ds_read_b128 v[100:103], v3 offset:26400"
+              }
+            ],
+            "63": [
+              {
+                "line": 1588,
+                "asm": "ds_read_b128 v[120:123], v2 offset:25344"
+              },
+              {
+                "line": 1589,
+                "asm": "ds_read_b128 v[124:127], v2 offset:25408"
+              }
+            ]
+          },
+          "matrix_prefetches": 16
+        },
+        {
+          "lds_reads_after_mfma": {
+            "2": [
+              {
+                "line": 1921,
+                "asm": "ds_read_b64 v[6:7], v2"
+              }
+            ],
+            "20": [
+              {
+                "line": 1949,
+                "asm": "ds_read_b64 v[2:3], v2"
+              }
+            ],
+            "30": [
+              {
+                "line": 1961,
+                "asm": "ds_read_b128 v[8:11], v4"
+              },
+              {
+                "line": 1962,
+                "asm": "ds_read_b128 v[12:15], v4 offset:64"
+              }
+            ],
+            "32": [
+              {
+                "line": 1966,
+                "asm": "ds_read_b128 v[168:171], v5"
+              },
+              {
+                "line": 1967,
+                "asm": "ds_read_b128 v[172:175], v5 offset:1056"
+              }
+            ],
+            "34": [
+              {
+                "line": 1970,
+                "asm": "ds_read_b128 v[184:187], v5 offset:4224"
+              },
+              {
+                "line": 1971,
+                "asm": "ds_read_b128 v[188:191], v5 offset:5280"
+              }
+            ],
+            "36": [
+              {
+                "line": 1974,
+                "asm": "ds_read_b128 v[192:195], v5 offset:8448"
+              },
+              {
+                "line": 1975,
+                "asm": "ds_read_b128 v[196:199], v5 offset:9504"
+              }
+            ],
+            "38": [
+              {
+                "line": 1989,
+                "asm": "ds_read_b128 v[200:203], v5 offset:12672"
+              },
+              {
+                "line": 1990,
+                "asm": "ds_read_b128 v[204:207], v5 offset:13728"
+              }
+            ],
+            "40": [
+              {
+                "line": 1993,
+                "asm": "ds_read_b128 v[160:163], v4 offset:4224"
+              },
+              {
+                "line": 1994,
+                "asm": "ds_read_b128 v[164:167], v4 offset:4288"
+              }
+            ],
+            "44": [
+              {
+                "line": 1999,
+                "asm": "ds_read_b128 v[152:155], v4 offset:8448"
+              },
+              {
+                "line": 2000,
+                "asm": "ds_read_b128 v[156:159], v4 offset:8512"
+              }
+            ],
+            "48": [
+              {
+                "line": 2005,
+                "asm": "ds_read_b128 v[144:147], v4 offset:12672"
+              },
+              {
+                "line": 2006,
+                "asm": "ds_read_b128 v[148:151], v4 offset:12736"
+              }
+            ],
+            "52": [
+              {
+                "line": 2011,
+                "asm": "ds_read_b128 v[136:139], v4 offset:16896"
+              },
+              {
+                "line": 2012,
+                "asm": "ds_read_b128 v[140:143], v4 offset:16960"
+              }
+            ],
+            "54": [
+              {
+                "line": 2015,
+                "asm": "ds_read_b128 v[8:11], v5 offset:29568"
+              },
+              {
+                "line": 2016,
+                "asm": "ds_read_b128 v[12:15], v5 offset:30624"
+              }
+            ],
+            "56": [
+              {
+                "line": 2019,
+                "asm": "ds_read_b128 v[128:131], v4 offset:21120"
+              },
+              {
+                "line": 2020,
+                "asm": "ds_read_b128 v[132:135], v4 offset:21184"
+              },
+              {
+                "line": 2021,
+                "asm": "ds_read_b128 v[16:19], v4 offset:29568"
+              },
+              {
+                "line": 2022,
+                "asm": "ds_read_b128 v[24:27], v4 offset:29632"
+              }
+            ],
+            "58": [
+              {
+                "line": 2025,
+                "asm": "ds_read_b128 v[80:83], v5 offset:16896"
+              },
+              {
+                "line": 2026,
+                "asm": "ds_read_b128 v[84:87], v5 offset:17952"
+              }
+            ],
+            "60": [
+              {
+                "line": 2029,
+                "asm": "ds_read_b128 v[88:91], v5 offset:21120"
+              },
+              {
+                "line": 2030,
+                "asm": "ds_read_b128 v[92:95], v5 offset:22176"
+              }
+            ],
+            "62": [
+              {
+                "line": 2033,
+                "asm": "ds_read_b128 v[96:99], v5 offset:25344"
+              },
+              {
+                "line": 2034,
+                "asm": "ds_read_b128 v[100:103], v5 offset:26400"
+              }
+            ],
+            "63": [
+              {
+                "line": 2036,
+                "asm": "ds_read_b128 v[120:123], v4 offset:25344"
+              },
+              {
+                "line": 2037,
+                "asm": "ds_read_b128 v[124:127], v4 offset:25408"
+              }
+            ]
+          },
+          "matrix_prefetches": 0
+        },
+        {
+          "lds_reads_after_mfma": {},
+          "matrix_prefetches": 0
+        }
+      ]
+    },
+    {
+      "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+      "blocks": [
+        {
+          "lds_reads_after_mfma": {
+            "2": [
+              {
+                "line": 2974,
+                "asm": "ds_read_b64 v[18:19], v2"
+              }
+            ],
+            "20": [
+              {
+                "line": 3011,
+                "asm": "ds_read_b64 v[22:23], v2"
+              }
+            ],
+            "30": [
+              {
+                "line": 3030,
+                "asm": "ds_read_b128 v[170:173], v31"
+              },
+              {
+                "line": 3031,
+                "asm": "ds_read_b128 v[174:177], v31 offset:64"
+              }
+            ],
+            "32": [
+              {
+                "line": 3038,
+                "asm": "ds_read_b128 v[178:181], v30"
+              },
+              {
+                "line": 3039,
+                "asm": "ds_read_b128 v[182:185], v30 offset:1056"
+              }
+            ],
+            "34": [
+              {
+                "line": 3043,
+                "asm": "ds_read_b128 v[186:189], v30 offset:4224"
+              },
+              {
+                "line": 3044,
+                "asm": "ds_read_b128 v[190:193], v30 offset:5280"
+              }
+            ],
+            "36": [
+              {
+                "line": 3048,
+                "asm": "ds_read_b128 v[194:197], v30 offset:8448"
+              },
+              {
+                "line": 3049,
+                "asm": "ds_read_b128 v[198:201], v30 offset:9504"
+              }
+            ],
+            "38": [
+              {
+                "line": 3053,
+                "asm": "ds_read_b128 v[202:205], v30 offset:12672"
+              },
+              {
+                "line": 3054,
+                "asm": "ds_read_b128 v[206:209], v30 offset:13728"
+              }
+            ],
+            "40": [
+              {
+                "line": 3057,
+                "asm": "ds_read_b128 v[162:165], v31 offset:4224"
+              },
+              {
+                "line": 3058,
+                "asm": "ds_read_b128 v[166:169], v31 offset:4288"
+              }
+            ],
+            "44": [
+              {
+                "line": 3063,
+                "asm": "ds_read_b128 v[154:157], v31 offset:8448"
+              },
+              {
+                "line": 3064,
+                "asm": "ds_read_b128 v[158:161], v31 offset:8512"
+              }
+            ],
+            "48": [
+              {
+                "line": 3069,
+                "asm": "ds_read_b128 v[146:149], v31 offset:12672"
+              },
+              {
+                "line": 3070,
+                "asm": "ds_read_b128 v[150:153], v31 offset:12736"
+              }
+            ],
+            "52": [
+              {
+                "line": 3075,
+                "asm": "ds_read_b128 v[138:141], v31 offset:16896"
+              },
+              {
+                "line": 3076,
+                "asm": "ds_read_b128 v[142:145], v31 offset:16960"
+              }
+            ],
+            "54": [
+              {
+                "line": 3079,
+                "asm": "ds_read_b128 v[106:109], v30 offset:29568"
+              },
+              {
+                "line": 3080,
+                "asm": "ds_read_b128 v[110:113], v30 offset:30624"
+              }
+            ],
+            "56": [
+              {
+                "line": 3083,
+                "asm": "ds_read_b128 v[130:133], v31 offset:21120"
+              },
+              {
+                "line": 3084,
+                "asm": "ds_read_b128 v[134:137], v31 offset:21184"
+              },
+              {
+                "line": 3085,
+                "asm": "ds_read_b128 v[114:117], v31 offset:29568"
+              },
+              {
+                "line": 3086,
+                "asm": "ds_read_b128 v[118:121], v31 offset:29632"
+              }
+            ],
+            "58": [
+              {
+                "line": 3089,
+                "asm": "ds_read_b128 v[82:85], v30 offset:16896"
+              },
+              {
+                "line": 3090,
+                "asm": "ds_read_b128 v[86:89], v30 offset:17952"
+              }
+            ],
+            "60": [
+              {
+                "line": 3093,
+                "asm": "ds_read_b128 v[90:93], v30 offset:21120"
+              },
+              {
+                "line": 3094,
+                "asm": "ds_read_b128 v[94:97], v30 offset:22176"
+              }
+            ],
+            "62": [
+              {
+                "line": 3097,
+                "asm": "ds_read_b128 v[98:101], v30 offset:25344"
+              },
+              {
+                "line": 3098,
+                "asm": "ds_read_b128 v[102:105], v30 offset:26400"
+              }
+            ],
+            "63": [
+              {
+                "line": 3100,
+                "asm": "ds_read_b128 v[122:125], v31 offset:25344"
+              },
+              {
+                "line": 3101,
+                "asm": "ds_read_b128 v[126:129], v31 offset:25408"
+              }
+            ]
+          },
+          "matrix_prefetches": 16
+        },
+        {
+          "lds_reads_after_mfma": {
+            "2": [
+              {
+                "line": 3114,
+                "asm": "ds_read_b64 v[2:3], v2"
+              }
+            ],
+            "20": [
+              {
+                "line": 3153,
+                "asm": "ds_read_b64 v[6:7], v4"
+              }
+            ],
+            "30": [
+              {
+                "line": 3172,
+                "asm": "ds_read_b128 v[58:61], v31 offset:33792"
+              },
+              {
+                "line": 3173,
+                "asm": "ds_read_b128 v[62:65], v31 offset:33856"
+              }
+            ],
+            "32": [
+              {
+                "line": 3180,
+                "asm": "ds_read_b128 v[74:77], v30 offset:33792"
+              },
+              {
+                "line": 3181,
+                "asm": "ds_read_b128 v[78:81], v30 offset:34848"
+              }
+            ],
+            "34": [
+              {
+                "line": 3185,
+                "asm": "ds_read_b128 v[178:181], v30 offset:38016"
+              },
+              {
+                "line": 3186,
+                "asm": "ds_read_b128 v[182:185], v30 offset:39072"
+              }
+            ],
+            "36": [
+              {
+                "line": 3190,
+                "asm": "ds_read_b128 v[186:189], v30 offset:42240"
+              },
+              {
+                "line": 3191,
+                "asm": "ds_read_b128 v[190:193], v30 offset:43296"
+              }
+            ],
+            "38": [
+              {
+                "line": 3195,
+                "asm": "ds_read_b128 v[194:197], v30 offset:46464"
+              },
+              {
+                "line": 3196,
+                "asm": "ds_read_b128 v[198:201], v30 offset:47520"
+              }
+            ],
+            "40": [
+              {
+                "line": 3199,
+                "asm": "ds_read_b128 v[170:173], v31 offset:38016"
+              },
+              {
+                "line": 3200,
+                "asm": "ds_read_b128 v[174:177], v31 offset:38080"
+              }
+            ],
+            "44": [
+              {
+                "line": 3205,
+                "asm": "ds_read_b128 v[162:165], v31 offset:42240"
+              },
+              {
+                "line": 3206,
+                "asm": "ds_read_b128 v[166:169], v31 offset:42304"
+              }
+            ],
+            "48": [
+              {
+                "line": 3211,
+                "asm": "ds_read_b128 v[154:157], v31 offset:46464"
+              },
+              {
+                "line": 3212,
+                "asm": "ds_read_b128 v[158:161], v31 offset:46528"
+              }
+            ],
+            "52": [
+              {
+                "line": 3217,
+                "asm": "ds_read_b128 v[146:149], v31 offset:50688"
+              },
+              {
+                "line": 3218,
+                "asm": "ds_read_b128 v[150:153], v31 offset:50752"
+              }
+            ],
+            "54": [
+              {
+                "line": 3221,
+                "asm": "ds_read_b128 v[10:13], v30 offset:63360"
+              },
+              {
+                "line": 3222,
+                "asm": "ds_read_b128 v[14:17], v30 offset:64416"
+              }
+            ],
+            "56": [
+              {
+                "line": 3225,
+                "asm": "ds_read_b128 v[138:141], v31 offset:54912"
+              },
+              {
+                "line": 3226,
+                "asm": "ds_read_b128 v[142:145], v31 offset:54976"
+              },
+              {
+                "line": 3227,
+                "asm": "ds_read_b128 v[50:53], v31 offset:63360"
+              },
+              {
+                "line": 3228,
+                "asm": "ds_read_b128 v[54:57], v31 offset:63424"
+              }
+            ],
+            "58": [
+              {
+                "line": 3231,
+                "asm": "ds_read_b128 v[130:133], v30 offset:50688"
+              },
+              {
+                "line": 3232,
+                "asm": "ds_read_b128 v[134:137], v30 offset:51744"
+              }
+            ],
+            "60": [
+              {
+                "line": 3235,
+                "asm": "ds_read_b128 v[90:93], v30 offset:54912"
+              },
+              {
+                "line": 3236,
+                "asm": "ds_read_b128 v[94:97], v30 offset:55968"
+              }
+            ],
+            "62": [
+              {
+                "line": 3239,
+                "asm": "ds_read_b128 v[82:85], v30 offset:59136"
+              },
+              {
+                "line": 3240,
+                "asm": "ds_read_b128 v[86:89], v30 offset:60192"
+              }
+            ],
+            "63": [
+              {
+                "line": 3242,
+                "asm": "ds_read_b128 v[66:69], v31 offset:59136"
+              },
+              {
+                "line": 3243,
+                "asm": "ds_read_b128 v[70:73], v31 offset:59200"
+              }
+            ]
+          },
+          "matrix_prefetches": 16
+        },
+        {
+          "lds_reads_after_mfma": {
+            "2": [
+              {
+                "line": 3250,
+                "asm": "ds_read_b64 v[4:5], v4"
+              }
+            ],
+            "20": [
+              {
+                "line": 3287,
+                "asm": "ds_read_b64 v[8:9], v8"
+              }
+            ],
+            "30": [
+              {
+                "line": 3306,
+                "asm": "ds_read_b128 v[74:77], v31"
+              },
+              {
+                "line": 3307,
+                "asm": "ds_read_b128 v[78:81], v31 offset:64"
+              }
+            ],
+            "32": [
+              {
+                "line": 3314,
+                "asm": "ds_read_b128 v[122:125], v30"
+              },
+              {
+                "line": 3315,
+                "asm": "ds_read_b128 v[126:129], v30 offset:1056"
+              }
+            ],
+            "34": [
+              {
+                "line": 3319,
+                "asm": "ds_read_b128 v[178:181], v30 offset:4224"
+              },
+              {
+                "line": 3320,
+                "asm": "ds_read_b128 v[182:185], v30 offset:5280"
+              }
+            ],
+            "36": [
+              {
+                "line": 3324,
+                "asm": "ds_read_b128 v[226:229], v30 offset:8448"
+              },
+              {
+                "line": 3325,
+                "asm": "ds_read_b128 v[230:233], v30 offset:9504"
+              }
+            ],
+            "38": [
+              {
+                "line": 3329,
+                "asm": "ds_read_b128 v[234:237], v30 offset:12672"
+              },
+              {
+                "line": 3330,
+                "asm": "ds_read_b128 v[238:241], v30 offset:13728"
+              }
+            ],
+            "40": [
+              {
+                "line": 3333,
+                "asm": "ds_read_b128 v[58:61], v31 offset:4224"
+              },
+              {
+                "line": 3334,
+                "asm": "ds_read_b128 v[62:65], v31 offset:4288"
+              }
+            ],
+            "44": [
+              {
+                "line": 3339,
+                "asm": "ds_read_b128 v[98:101], v31 offset:8448"
+              },
+              {
+                "line": 3340,
+                "asm": "ds_read_b128 v[102:105], v31 offset:8512"
+              }
+            ],
+            "48": [
+              {
+                "line": 3345,
+                "asm": "ds_read_b128 v[106:109], v31 offset:12672"
+              },
+              {
+                "line": 3346,
+                "asm": "ds_read_b128 v[110:113], v31 offset:12736"
+              }
+            ],
+            "52": [
+              {
+                "line": 3351,
+                "asm": "ds_read_b128 v[114:117], v31 offset:16896"
+              },
+              {
+                "line": 3352,
+                "asm": "ds_read_b128 v[118:121], v31 offset:16960"
+              }
+            ],
+            "54": [
+              {
+                "line": 3355,
+                "asm": "ds_read_b128 v[170:173], v30 offset:29568"
+              },
+              {
+                "line": 3356,
+                "asm": "ds_read_b128 v[174:177], v30 offset:30624"
+              }
+            ],
+            "56": [
+              {
+                "line": 3359,
+                "asm": "ds_read_b128 v[194:197], v31 offset:21120"
+              },
+              {
+                "line": 3360,
+                "asm": "ds_read_b128 v[198:201], v31 offset:21184"
+              },
+              {
+                "line": 3361,
+                "asm": "ds_read_b128 v[186:189], v31 offset:29568"
+              },
+              {
+                "line": 3362,
+                "asm": "ds_read_b128 v[190:193], v31 offset:29632"
+              }
+            ],
+            "58": [
+              {
+                "line": 3365,
+                "asm": "ds_read_b128 v[202:205], v30 offset:16896"
+              },
+              {
+                "line": 3366,
+                "asm": "ds_read_b128 v[206:209], v30 offset:17952"
+              }
+            ],
+            "60": [
+              {
+                "line": 3369,
+                "asm": "ds_read_b128 v[90:93], v30 offset:21120"
+              },
+              {
+                "line": 3370,
+                "asm": "ds_read_b128 v[94:97], v30 offset:22176"
+              }
+            ],
+            "62": [
+              {
+                "line": 3373,
+                "asm": "ds_read_b128 v[210:213], v30 offset:25344"
+              },
+              {
+                "line": 3374,
+                "asm": "ds_read_b128 v[214:217], v30 offset:26400"
+              }
+            ],
+            "63": [
+              {
+                "line": 3376,
+                "asm": "ds_read_b128 v[218:221], v31 offset:25344"
+              },
+              {
+                "line": 3377,
+                "asm": "ds_read_b128 v[222:225], v31 offset:25408"
+              }
+            ]
+          },
+          "matrix_prefetches": 16
+        },
+        {
+          "lds_reads_after_mfma": {
+            "2": [
+              {
+                "line": 3385,
+                "asm": "ds_read_b64 v[24:25], v2"
+              }
+            ],
+            "20": [
+              {
+                "line": 3422,
+                "asm": "ds_read_b64 v[26:27], v2"
+              }
+            ],
+            "30": [
+              {
+                "line": 3441,
+                "asm": "ds_read_b128 v[66:69], v31 offset:33792"
+              },
+              {
+                "line": 3442,
+                "asm": "ds_read_b128 v[70:73], v31 offset:33856"
+              }
+            ],
+            "32": [
+              {
+                "line": 3449,
+                "asm": "ds_read_b128 v[146:149], v30 offset:33792"
+              },
+              {
+                "line": 3450,
+                "asm": "ds_read_b128 v[150:153], v30 offset:34848"
+              }
+            ],
+            "34": [
+              {
+                "line": 3454,
+                "asm": "ds_read_b128 v[154:157], v30 offset:38016"
+              },
+              {
+                "line": 3455,
+                "asm": "ds_read_b128 v[158:161], v30 offset:39072"
+              }
+            ],
+            "36": [
+              {
+                "line": 3459,
+                "asm": "ds_read_b128 v[162:165], v30 offset:42240"
+              },
+              {
+                "line": 3460,
+                "asm": "ds_read_b128 v[166:169], v30 offset:43296"
+              }
+            ],
+            "38": [
+              {
+                "line": 3464,
+                "asm": "ds_read_b128 v[178:181], v30 offset:46464"
+              },
+              {
+                "line": 3465,
+                "asm": "ds_read_b128 v[182:185], v30 offset:47520"
+              }
+            ],
+            "40": [
+              {
+                "line": 3468,
+                "asm": "ds_read_b128 v[138:141], v31 offset:38016"
+              },
+              {
+                "line": 3469,
+                "asm": "ds_read_b128 v[142:145], v31 offset:38080"
+              }
+            ],
+            "44": [
+              {
+                "line": 3474,
+                "asm": "ds_read_b128 v[130:133], v31 offset:42240"
+              },
+              {
+                "line": 3475,
+                "asm": "ds_read_b128 v[134:137], v31 offset:42304"
+              }
+            ],
+            "48": [
+              {
+                "line": 3480,
+                "asm": "ds_read_b128 v[122:125], v31 offset:46464"
+              },
+              {
+                "line": 3481,
+                "asm": "ds_read_b128 v[126:129], v31 offset:46528"
+              }
+            ],
+            "52": [
+              {
+                "line": 3486,
+                "asm": "ds_read_b128 v[106:109], v31 offset:50688"
+              },
+              {
+                "line": 3487,
+                "asm": "ds_read_b128 v[110:113], v31 offset:50752"
+              }
+            ],
+            "54": [
+              {
+                "line": 3490,
+                "asm": "ds_read_b128 v[50:53], v30 offset:63360"
+              },
+              {
+                "line": 3491,
+                "asm": "ds_read_b128 v[54:57], v30 offset:64416"
+              }
+            ],
+            "56": [
+              {
+                "line": 3494,
+                "asm": "ds_read_b128 v[114:117], v31 offset:54912"
+              },
+              {
+                "line": 3495,
+                "asm": "ds_read_b128 v[118:121], v31 offset:54976"
+              },
+              {
+                "line": 3496,
+                "asm": "ds_read_b128 v[58:61], v31 offset:63360"
+              },
+              {
+                "line": 3497,
+                "asm": "ds_read_b128 v[62:65], v31 offset:63424"
+              }
+            ],
+            "58": [
+              {
+                "line": 3500,
+                "asm": "ds_read_b128 v[82:85], v30 offset:50688"
+              },
+              {
+                "line": 3501,
+                "asm": "ds_read_b128 v[86:89], v30 offset:51744"
+              }
+            ],
+            "60": [
+              {
+                "line": 3504,
+                "asm": "ds_read_b128 v[90:93], v30 offset:54912"
+              },
+              {
+                "line": 3505,
+                "asm": "ds_read_b128 v[94:97], v30 offset:55968"
+              }
+            ],
+            "62": [
+              {
+                "line": 3508,
+                "asm": "ds_read_b128 v[98:101], v30 offset:59136"
+              },
+              {
+                "line": 3509,
+                "asm": "ds_read_b128 v[102:105], v30 offset:60192"
+              }
+            ],
+            "63": [
+              {
+                "line": 3511,
+                "asm": "ds_read_b128 v[74:77], v31 offset:59136"
+              },
+              {
+                "line": 3512,
+                "asm": "ds_read_b128 v[78:81], v31 offset:59200"
+              }
+            ]
+          },
+          "matrix_prefetches": 16
+        },
+        {
+          "lds_reads_after_mfma": {
+            "2": [
+              {
+                "line": 3697,
+                "asm": "ds_read_b64 v[18:19], v2"
+              }
+            ],
+            "20": [
+              {
+                "line": 3737,
+                "asm": "ds_read_b64 v[22:23], v2"
+              }
+            ],
+            "30": [
+              {
+                "line": 3756,
+                "asm": "ds_read_b128 v[4:7], v2"
+              },
+              {
+                "line": 3757,
+                "asm": "ds_read_b128 v[8:11], v2 offset:64"
+              }
+            ],
+            "32": [
+              {
+                "line": 3764,
+                "asm": "ds_read_b128 v[178:181], v3"
+              },
+              {
+                "line": 3765,
+                "asm": "ds_read_b128 v[182:185], v3 offset:1056"
+              }
+            ],
+            "34": [
+              {
+                "line": 3769,
+                "asm": "ds_read_b128 v[186:189], v3 offset:4224"
+              },
+              {
+                "line": 3770,
+                "asm": "ds_read_b128 v[190:193], v3 offset:5280"
+              }
+            ],
+            "36": [
+              {
+                "line": 3774,
+                "asm": "ds_read_b128 v[194:197], v3 offset:8448"
+              },
+              {
+                "line": 3775,
+                "asm": "ds_read_b128 v[198:201], v3 offset:9504"
+              }
+            ],
+            "38": [
+              {
+                "line": 3779,
+                "asm": "ds_read_b128 v[202:205], v3 offset:12672"
+              },
+              {
+                "line": 3780,
+                "asm": "ds_read_b128 v[206:209], v3 offset:13728"
+              }
+            ],
+            "40": [
+              {
+                "line": 3783,
+                "asm": "ds_read_b128 v[162:165], v2 offset:4224"
+              },
+              {
+                "line": 3784,
+                "asm": "ds_read_b128 v[166:169], v2 offset:4288"
+              }
+            ],
+            "44": [
+              {
+                "line": 3789,
+                "asm": "ds_read_b128 v[154:157], v2 offset:8448"
+              },
+              {
+                "line": 3790,
+                "asm": "ds_read_b128 v[158:161], v2 offset:8512"
+              }
+            ],
+            "48": [
+              {
+                "line": 3795,
+                "asm": "ds_read_b128 v[146:149], v2 offset:12672"
+              },
+              {
+                "line": 3796,
+                "asm": "ds_read_b128 v[150:153], v2 offset:12736"
+              }
+            ],
+            "52": [
+              {
+                "line": 3801,
+                "asm": "ds_read_b128 v[138:141], v2 offset:16896"
+              },
+              {
+                "line": 3802,
+                "asm": "ds_read_b128 v[142:145], v2 offset:16960"
+              }
+            ],
+            "54": [
+              {
+                "line": 3805,
+                "asm": "ds_read_b128 v[74:77], v3 offset:29568"
+              },
+              {
+                "line": 3806,
+                "asm": "ds_read_b128 v[78:81], v3 offset:30624"
+              }
+            ],
+            "56": [
+              {
+                "line": 3809,
+                "asm": "ds_read_b128 v[130:133], v2 offset:21120"
+              },
+              {
+                "line": 3810,
+                "asm": "ds_read_b128 v[134:137], v2 offset:21184"
+              },
+              {
+                "line": 3811,
+                "asm": "ds_read_b128 v[46:49], v2 offset:29632"
+              },
+              {
+                "line": 3812,
+                "asm": "ds_read_b128 v[12:15], v2 offset:29568"
+              }
+            ],
+            "58": [
+              {
+                "line": 3815,
+                "asm": "ds_read_b128 v[50:53], v3 offset:16896"
+              },
+              {
+                "line": 3816,
+                "asm": "ds_read_b128 v[54:57], v3 offset:17952"
+              }
+            ],
+            "60": [
+              {
+                "line": 3819,
+                "asm": "ds_read_b128 v[58:61], v3 offset:21120"
+              },
+              {
+                "line": 3820,
+                "asm": "ds_read_b128 v[62:65], v3 offset:22176"
+              }
+            ],
+            "62": [
+              {
+                "line": 3823,
+                "asm": "ds_read_b128 v[66:69], v3 offset:25344"
+              },
+              {
+                "line": 3824,
+                "asm": "ds_read_b128 v[70:73], v3 offset:26400"
+              }
+            ],
+            "63": [
+              {
+                "line": 3826,
+                "asm": "ds_read_b128 v[122:125], v2 offset:25344"
+              },
+              {
+                "line": 3827,
+                "asm": "ds_read_b128 v[126:129], v2 offset:25408"
+              }
+            ]
+          },
+          "matrix_prefetches": 16
+        },
+        {
+          "lds_reads_after_mfma": {
+            "2": [
+              {
+                "line": 4159,
+                "asm": "ds_read_b64 v[6:7], v2"
+              }
+            ],
+            "20": [
+              {
+                "line": 4187,
+                "asm": "ds_read_b64 v[2:3], v2"
+              }
+            ],
+            "30": [
+              {
+                "line": 4199,
+                "asm": "ds_read_b128 v[8:11], v4"
+              },
+              {
+                "line": 4200,
+                "asm": "ds_read_b128 v[12:15], v4 offset:64"
+              }
+            ],
+            "32": [
+              {
+                "line": 4204,
+                "asm": "ds_read_b128 v[178:181], v5"
+              },
+              {
+                "line": 4205,
+                "asm": "ds_read_b128 v[182:185], v5 offset:1056"
+              }
+            ],
+            "34": [
+              {
+                "line": 4208,
+                "asm": "ds_read_b128 v[186:189], v5 offset:4224"
+              },
+              {
+                "line": 4209,
+                "asm": "ds_read_b128 v[190:193], v5 offset:5280"
+              }
+            ],
+            "36": [
+              {
+                "line": 4212,
+                "asm": "ds_read_b128 v[194:197], v5 offset:8448"
+              },
+              {
+                "line": 4213,
+                "asm": "ds_read_b128 v[198:201], v5 offset:9504"
+              }
+            ],
+            "38": [
+              {
+                "line": 4227,
+                "asm": "ds_read_b128 v[202:205], v5 offset:12672"
+              },
+              {
+                "line": 4228,
+                "asm": "ds_read_b128 v[206:209], v5 offset:13728"
+              }
+            ],
+            "40": [
+              {
+                "line": 4231,
+                "asm": "ds_read_b128 v[162:165], v4 offset:4224"
+              },
+              {
+                "line": 4232,
+                "asm": "ds_read_b128 v[166:169], v4 offset:4288"
+              }
+            ],
+            "44": [
+              {
+                "line": 4237,
+                "asm": "ds_read_b128 v[154:157], v4 offset:8448"
+              },
+              {
+                "line": 4238,
+                "asm": "ds_read_b128 v[158:161], v4 offset:8512"
+              }
+            ],
+            "48": [
+              {
+                "line": 4243,
+                "asm": "ds_read_b128 v[146:149], v4 offset:12672"
+              },
+              {
+                "line": 4244,
+                "asm": "ds_read_b128 v[150:153], v4 offset:12736"
+              }
+            ],
+            "52": [
+              {
+                "line": 4249,
+                "asm": "ds_read_b128 v[138:141], v4 offset:16896"
+              },
+              {
+                "line": 4250,
+                "asm": "ds_read_b128 v[142:145], v4 offset:16960"
+              }
+            ],
+            "54": [
+              {
+                "line": 4253,
+                "asm": "ds_read_b128 v[8:11], v5 offset:29568"
+              },
+              {
+                "line": 4254,
+                "asm": "ds_read_b128 v[12:15], v5 offset:30624"
+              }
+            ],
+            "56": [
+              {
+                "line": 4257,
+                "asm": "ds_read_b128 v[130:133], v4 offset:21120"
+              },
+              {
+                "line": 4258,
+                "asm": "ds_read_b128 v[134:137], v4 offset:21184"
+              },
+              {
+                "line": 4259,
+                "asm": "ds_read_b128 v[24:27], v4 offset:29568"
+              },
+              {
+                "line": 4260,
+                "asm": "ds_read_b128 v[30:33], v4 offset:29632"
+              }
+            ],
+            "58": [
+              {
+                "line": 4263,
+                "asm": "ds_read_b128 v[50:53], v5 offset:16896"
+              },
+              {
+                "line": 4264,
+                "asm": "ds_read_b128 v[54:57], v5 offset:17952"
+              }
+            ],
+            "60": [
+              {
+                "line": 4267,
+                "asm": "ds_read_b128 v[58:61], v5 offset:21120"
+              },
+              {
+                "line": 4268,
+                "asm": "ds_read_b128 v[62:65], v5 offset:22176"
+              }
+            ],
+            "62": [
+              {
+                "line": 4271,
+                "asm": "ds_read_b128 v[66:69], v5 offset:25344"
+              },
+              {
+                "line": 4272,
+                "asm": "ds_read_b128 v[70:73], v5 offset:26400"
+              }
+            ],
+            "63": [
+              {
+                "line": 4274,
+                "asm": "ds_read_b128 v[122:125], v4 offset:25344"
+              },
+              {
+                "line": 4275,
+                "asm": "ds_read_b128 v[126:129], v4 offset:25408"
+              }
+            ]
+          },
+          "matrix_prefetches": 0
+        },
+        {
+          "lds_reads_after_mfma": {
+            "22": [
+              {
+                "line": 4488,
+                "asm": "ds_read_b128 v[4:7], v31"
+              },
+              {
+                "line": 4490,
+                "asm": "ds_read_b128 v[36:39], v31 offset:33792"
+              }
+            ],
+            "25": [
+              {
+                "line": 4501,
+                "asm": "ds_read_b128 v[4:7], v33"
+              }
+            ],
+            "28": [
+              {
+                "line": 4514,
+                "asm": "ds_read_b128 v[40:43], v34"
+              }
+            ],
+            "31": [
+              {
+                "line": 4526,
+                "asm": "ds_read_b128 v[40:43], v35"
+              }
+            ],
+            "35": [
+              {
+                "line": 4545,
+                "asm": "ds_read_b128 v[46:49], v44"
+              }
+            ],
+            "36": [
+              {
+                "line": 4568,
+                "asm": "ds_read_b128 v[82:85], v46"
+              },
+              {
+                "line": 4569,
+                "asm": "ds_read_b128 v[86:89], v49"
+              }
+            ],
+            "37": [
+              {
+                "line": 4700,
+                "asm": "ds_read_b128 v[82:85], v11"
+              }
+            ],
+            "38": [
+              {
+                "line": 4708,
+                "asm": "ds_read_b128 v[82:85], v21"
+              }
+            ],
+            "39": [
+              {
+                "line": 4714,
+                "asm": "ds_read_b128 v[82:85], v37"
+              }
+            ],
+            "40": [
+              {
+                "line": 4720,
+                "asm": "ds_read_b128 v[82:85], v39"
+              }
+            ],
+            "41": [
+              {
+                "line": 4726,
+                "asm": "ds_read_b128 v[82:85], v40"
+              }
+            ],
+            "42": [
+              {
+                "line": 4732,
+                "asm": "ds_read_b128 v[82:85], v41"
+              }
+            ],
+            "43": [
+              {
+                "line": 4738,
+                "asm": "ds_read_b128 v[82:85], v42"
+              }
+            ],
+            "44": [
+              {
+                "line": 4744,
+                "asm": "ds_read_b128 v[86:89], v43"
+              }
+            ],
+            "52": [
+              {
+                "line": 4870,
+                "asm": "ds_read_b128 v[82:85], v31 offset:256"
+              },
+              {
+                "line": 4871,
+                "asm": "ds_read_b128 v[86:89], v33 offset:256"
+              }
+            ],
+            "53": [
+              {
+                "line": 4873,
+                "asm": "ds_read_b128 v[90:93], v34 offset:256"
+              },
+              {
+                "line": 4874,
+                "asm": "ds_read_b128 v[94:97], v35 offset:256"
+              },
+              {
+                "line": 4875,
+                "asm": "ds_read_b128 v[98:101], v31 offset:34048"
+              },
+              {
+                "line": 4880,
+                "asm": "ds_read_b128 v[32:35], v44 offset:256"
+              },
+              {
+                "line": 4881,
+                "asm": "ds_read_b128 v[82:85], v46 offset:256"
+              },
+              {
+                "line": 4882,
+                "asm": "ds_read_b128 v[86:89], v49 offset:256"
+              }
+            ],
+            "64": [
+              {
+                "line": 5037,
+                "asm": "ds_read_b128 v[12:15], v11 offset:256"
+              },
+              {
+                "line": 5038,
+                "asm": "ds_read_b128 v[16:19], v21 offset:256"
+              },
+              {
+                "line": 5039,
+                "asm": "ds_read_b128 v[20:23], v37 offset:256"
+              },
+              {
+                "line": 5040,
+                "asm": "ds_read_b128 v[24:27], v39 offset:256"
+              },
+              {
+                "line": 5047,
+                "asm": "ds_read_b128 v[0:3], v40 offset:256"
+              },
+              {
+                "line": 5048,
+                "asm": "ds_read_b128 v[12:15], v41 offset:256"
+              },
+              {
+                "line": 5049,
+                "asm": "ds_read_b128 v[16:19], v42 offset:256"
+              },
+              {
+                "line": 5050,
+                "asm": "ds_read_b128 v[20:23], v43 offset:256"
+              }
+            ]
+          },
+          "matrix_prefetches": 0
+        }
+      ]
+    }
+  ],
+  "scope": "Symbolic source operands for main and penultimate K blocks; exact linked LDS issue counts vs parent for every t+2-producing body. Register readiness and runtime correctness are separate checks."
+}
