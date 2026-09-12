@@ -1,0 +1,1316 @@
+[
+  {
+    "name": "a_xor3",
+    "status": "PASS",
+    "source_sha256": "4470f2b40ee592584b92c8a9eb9a747ae3f1d596862965fbe5c127fa680e04e8",
+    "patch_sha256": "2d52ccb7c6055c2815ec782ab7817d8b6fa6865c58b85ddd8aa9149e3d2c4be8",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "4470f2b40ee592584b92c8a9eb9a747ae3f1d596862965fbe5c127fa680e04e8",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "a_xor3_out136",
+    "status": "PASS",
+    "source_sha256": "2c9b58ac806c5a4fd7d9851cd763e3bdfe49b50d7c9430adebe1e3898e40cfc6",
+    "patch_sha256": "ffe9f8365cee5b366641ae553d19ae1c8dbd90c86b64f68eed3720373407fb27",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "2c9b58ac806c5a4fd7d9851cd763e3bdfe49b50d7c9430adebe1e3898e40cfc6",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "a_xor7",
+    "status": "PASS",
+    "source_sha256": "c974b8c0fc408d9c17f61cbdf0c220bd1f1a6bc75ad9a3dbb53ca939b5f4e08c",
+    "patch_sha256": "2c09214f45f2ac3a42e64dcef85505495b7dfaf86b24df7ac7890a8d76d09f85",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "c974b8c0fc408d9c17f61cbdf0c220bd1f1a6bc75ad9a3dbb53ca939b5f4e08c",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "a_xor7_out136",
+    "status": "PASS",
+    "source_sha256": "492e20b76247e30b1c85521d05e28fb06178af4471f748fdba00f48e96ecabcb",
+    "patch_sha256": "490b8f3c4f0626994c97222bb1e2a004e567c95b1af2a74bf0a87b2f5b2f496c",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "492e20b76247e30b1c85521d05e28fb06178af4471f748fdba00f48e96ecabcb",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "b_scale_byte0",
+    "status": "PASS",
+    "source_sha256": "2753d8812ba70b586af9c08bc06518b14feb23ba5e14d93f08d12adbc219de45",
+    "patch_sha256": "02d60fd65fe029514b0e84121e81912adf39ce94b81c3adf394984be5535a5d2",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "2753d8812ba70b586af9c08bc06518b14feb23ba5e14d93f08d12adbc219de45",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "compact_args_preload0",
+    "status": "PASS",
+    "source_sha256": "8e92541f4d136ab159a2673f0f18e1c8cb7f7231c0f48a61b56b0453f68cf3fe",
+    "patch_sha256": "97672654bcd16ec5274313978ebb4a37d5bff57c8fc34f32fa40c7a381894cae",
+    "unchanged_support_files": false,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "8e92541f4d136ab159a2673f0f18e1c8cb7f7231c0f48a61b56b0453f68cf3fe",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "c4a15d614aa0a66fa1db03cb9ad5b72387f44601144943bbb4e251c63c54e727",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "1d05b50e6a19dd5b0256170996c1193343d4bf8b80c8ec6d8a3ee7c781db01ac",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "compact_args_preload3",
+    "status": "PASS",
+    "source_sha256": "8e92541f4d136ab159a2673f0f18e1c8cb7f7231c0f48a61b56b0453f68cf3fe",
+    "patch_sha256": "158d4764f2328a0616c11e1523136ca7c6fb9e6f0f16683fe2e1376b714dd491",
+    "unchanged_support_files": false,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "8e92541f4d136ab159a2673f0f18e1c8cb7f7231c0f48a61b56b0453f68cf3fe",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "c4a15d614aa0a66fa1db03cb9ad5b72387f44601144943bbb4e251c63c54e727",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "1d05b50e6a19dd5b0256170996c1193343d4bf8b80c8ec6d8a3ee7c781db01ac",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "1c5d9b803449e0d34eebc6c141d2f772b62ca3cfbee618992b95f10337731ea9"
+    }
+  },
+  {
+    "name": "compact_args_preload8",
+    "status": "PASS",
+    "source_sha256": "8e92541f4d136ab159a2673f0f18e1c8cb7f7231c0f48a61b56b0453f68cf3fe",
+    "patch_sha256": "a4eefc9adf71275edf720b66367f894b6a7620f4f7f375fca62c4465d1dfed9d",
+    "unchanged_support_files": false,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "8e92541f4d136ab159a2673f0f18e1c8cb7f7231c0f48a61b56b0453f68cf3fe",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "c4a15d614aa0a66fa1db03cb9ad5b72387f44601144943bbb4e251c63c54e727",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "1d05b50e6a19dd5b0256170996c1193343d4bf8b80c8ec6d8a3ee7c781db01ac",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "c3cb219a1693747184f4f981bc45bcc2d07efc437f84cc8bed50867e2a6de7c5"
+    }
+  },
+  {
+    "name": "compact_roles_preload0",
+    "status": "PASS",
+    "source_sha256": "c9585b52f7c1def385b9f3b5a0b9afb1a473332d82fa5ad4452105f841ddbd86",
+    "patch_sha256": "d5aa10d74001daecd858cd4b8b5c37b473d64fae3e4baa5b493ca42789da6b61",
+    "unchanged_support_files": false,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "c9585b52f7c1def385b9f3b5a0b9afb1a473332d82fa5ad4452105f841ddbd86",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "c4a15d614aa0a66fa1db03cb9ad5b72387f44601144943bbb4e251c63c54e727",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "1d05b50e6a19dd5b0256170996c1193343d4bf8b80c8ec6d8a3ee7c781db01ac",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "compact_roles_preload8",
+    "status": "PASS",
+    "source_sha256": "c9585b52f7c1def385b9f3b5a0b9afb1a473332d82fa5ad4452105f841ddbd86",
+    "patch_sha256": "0412ec8bb2f8b37b1665d660e96d242ec1eb39250d7535bacc509162f83c213e",
+    "unchanged_support_files": false,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "c9585b52f7c1def385b9f3b5a0b9afb1a473332d82fa5ad4452105f841ddbd86",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "c4a15d614aa0a66fa1db03cb9ad5b72387f44601144943bbb4e251c63c54e727",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "1d05b50e6a19dd5b0256170996c1193343d4bf8b80c8ec6d8a3ee7c781db01ac",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "c3cb219a1693747184f4f981bc45bcc2d07efc437f84cc8bed50867e2a6de7c5"
+    }
+  },
+  {
+    "name": "compact_uniform_preload0",
+    "status": "PASS",
+    "source_sha256": "bd5b44df23d851ff5b280deb2c02fe18e6615f173ac83dd376ee0c5417e45244",
+    "patch_sha256": "23459d47e6f2eb1d6555efecb054f98a883480d0bcf084070ad42cec6d802c95",
+    "unchanged_support_files": false,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "bd5b44df23d851ff5b280deb2c02fe18e6615f173ac83dd376ee0c5417e45244",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "c4a15d614aa0a66fa1db03cb9ad5b72387f44601144943bbb4e251c63c54e727",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "1d05b50e6a19dd5b0256170996c1193343d4bf8b80c8ec6d8a3ee7c781db01ac",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "compact_uniform_preload8",
+    "status": "PASS",
+    "source_sha256": "bd5b44df23d851ff5b280deb2c02fe18e6615f173ac83dd376ee0c5417e45244",
+    "patch_sha256": "42f024961487cf1913652072555904c029bdec6e141ba5fe6d5a7d74964dd968",
+    "unchanged_support_files": false,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "bd5b44df23d851ff5b280deb2c02fe18e6615f173ac83dd376ee0c5417e45244",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "c4a15d614aa0a66fa1db03cb9ad5b72387f44601144943bbb4e251c63c54e727",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "1d05b50e6a19dd5b0256170996c1193343d4bf8b80c8ec6d8a3ee7c781db01ac",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "c3cb219a1693747184f4f981bc45bcc2d07efc437f84cc8bed50867e2a6de7c5"
+    }
+  },
+  {
+    "name": "contiguous_waves",
+    "status": "PASS",
+    "source_sha256": "a0303535f78228748e374a075603c1710bbf91e91314c9d3abb78f07d11e2fc9",
+    "patch_sha256": "499ba6c22f6b3cf86df5df2ee79a6b3c08da4836472033e4bab2885c7d769ff0",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "a0303535f78228748e374a075603c1710bbf91e91314c9d3abb78f07d11e2fc9",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "contiguous_waves_private68",
+    "status": "PASS",
+    "source_sha256": "931d67d3f829b840f4916086f05bb06c6dc2c6b1cc697622bc99cefb7c1286c8",
+    "patch_sha256": "ca4f5cbc91291d1cf05ff9a9c639d4cbbd71c12289640f19459b6f1129e6661c",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "931d67d3f829b840f4916086f05bb06c6dc2c6b1cc697622bc99cefb7c1286c8",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "contiguous_waves_private72",
+    "status": "PASS",
+    "source_sha256": "1dccd56a56cc0bdb768367d1ce1a24a2d464216eefc2a89a46de4a77b1806299",
+    "patch_sha256": "a2861b1a986b6c20f652cac0fe78d44c10a980627055d2377aa14350e8755427",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "1dccd56a56cc0bdb768367d1ce1a24a2d464216eefc2a89a46de4a77b1806299",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "final_resident",
+    "status": "PASS",
+    "source_sha256": "f860f3862265777304c4aaf60bf2d9d1e4f183625734ea25107bea9e2099d828",
+    "patch_sha256": "01803a3c579c54336b69fc4d7c939be779820bf59b2a44b6f73672ee5163777b",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "f860f3862265777304c4aaf60bf2d9d1e4f183625734ea25107bea9e2099d828",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "grid_group2",
+    "status": "PASS",
+    "source_sha256": "b5559320532e67f71818d9a9e1f57682bea608b45a338889c6282ff9dfd35ca8",
+    "patch_sha256": "a93eae68eb758f313e77201435e1c70c61f7d5272f5e84f076aef18ddfbc0830",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "b5559320532e67f71818d9a9e1f57682bea608b45a338889c6282ff9dfd35ca8",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "grid_group2_compact8",
+    "status": "PASS",
+    "source_sha256": "568c5e149cebd81574b394e05f9740a6a0f5647e3afa82dbe827b95b3e3974c0",
+    "patch_sha256": "1516c31d11b7a3b4c84d20475ab833e1a790576fd8156a4d302d536291ef5d78",
+    "unchanged_support_files": false,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "568c5e149cebd81574b394e05f9740a6a0f5647e3afa82dbe827b95b3e3974c0",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "c4a15d614aa0a66fa1db03cb9ad5b72387f44601144943bbb4e251c63c54e727",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "1d05b50e6a19dd5b0256170996c1193343d4bf8b80c8ec6d8a3ee7c781db01ac",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "c3cb219a1693747184f4f981bc45bcc2d07efc437f84cc8bed50867e2a6de7c5"
+    }
+  },
+  {
+    "name": "grid_group2_out136",
+    "status": "PASS",
+    "source_sha256": "edfd08fbf9c9199eebf310610df1d56853fa4aa62703623dffa32912075e5e8a",
+    "patch_sha256": "69943600b7b4ceff5cff3f85fdc5af088cf8e5b7b15b92d4cd44d77c6a8fb793",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "edfd08fbf9c9199eebf310610df1d56853fa4aa62703623dffa32912075e5e8a",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "grid_group2_out136_compact8",
+    "status": "PASS",
+    "source_sha256": "a27f91c001685bb5d78dd6eacc74aa9fa9c449e72ecc862e00ec6172f3e52a75",
+    "patch_sha256": "c62e6136ae36672356c1d0abae72a80ceb7d3d5bc9190c08a3c51e5d8f427ea6",
+    "unchanged_support_files": false,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "a27f91c001685bb5d78dd6eacc74aa9fa9c449e72ecc862e00ec6172f3e52a75",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "c4a15d614aa0a66fa1db03cb9ad5b72387f44601144943bbb4e251c63c54e727",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "1d05b50e6a19dd5b0256170996c1193343d4bf8b80c8ec6d8a3ee7c781db01ac",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "c3cb219a1693747184f4f981bc45bcc2d07efc437f84cc8bed50867e2a6de7c5"
+    }
+  },
+  {
+    "name": "grid_group4",
+    "status": "PASS",
+    "source_sha256": "d1061c693c45d963b0b5546ff0ccfb7854f7e0558eaf9b07de756e3596d80406",
+    "patch_sha256": "921522ecf18f70d7e537263e35918d53ad855676ce3b52d30ddeff6138ab891f",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "d1061c693c45d963b0b5546ff0ccfb7854f7e0558eaf9b07de756e3596d80406",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "grid_group8",
+    "status": "PASS",
+    "source_sha256": "35d32d2ef8c6d13b0d45becdee8f487639e6a120446648e9c2f237ce4d3d3ab1",
+    "patch_sha256": "7ac76fa7da0a569c6bfbb91b33e3b91a37f8380010bbdfd8bb07c7d0e9131c8a",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "35d32d2ef8c6d13b0d45becdee8f487639e6a120446648e9c2f237ce4d3d3ab1",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "grid_morton_g16_mfirst",
+    "status": "PASS",
+    "source_sha256": "94fe4a79fbe0bb672e80c4a1118c9c3bdc069b8f5c87ff77dbeb856e73444d79",
+    "patch_sha256": "c800ff666e75d9c4b9df1efa3c7eaed03611182bbafc52fe11447d2eddc8f52c",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "94fe4a79fbe0bb672e80c4a1118c9c3bdc069b8f5c87ff77dbeb856e73444d79",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "grid_morton_g4_mfirst",
+    "status": "PASS",
+    "source_sha256": "77fc9e75824b623f9b63360bed8b9bbb644d845817cb890d8cd21701e17b4a06",
+    "patch_sha256": "f4b85d57c26364a99739e77b36145f8c06deadf2254fb8277fdd48f54e6aba04",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "77fc9e75824b623f9b63360bed8b9bbb644d845817cb890d8cd21701e17b4a06",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "grid_morton_g4_nfirst",
+    "status": "PASS",
+    "source_sha256": "b02b8c3e649c8a7f327739cb5d1fc82eeced501b1a0aa8ede216c879a2e3d8fc",
+    "patch_sha256": "3adf2004ad5e719ea32b4445c6c256ab8ec668fbffcefc3779a9b4116f98fc16",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "b02b8c3e649c8a7f327739cb5d1fc82eeced501b1a0aa8ede216c879a2e3d8fc",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "grid_morton_g8_mfirst",
+    "status": "PASS",
+    "source_sha256": "74b61796cc05b6e5b3d2a8b0f336f95db1c6b9d69baa4681197b9e3ab4c26fc4",
+    "patch_sha256": "8736f98dbc1f2fd238ec5a1dbecf2e23ba801d95face778122863f578cbb061c",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "74b61796cc05b6e5b3d2a8b0f336f95db1c6b9d69baa4681197b9e3ab4c26fc4",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "grid_morton_g8_nfirst",
+    "status": "PASS",
+    "source_sha256": "9288237d94b52a1457a2e4a113d9e847dde288a9ca19f17721e3a037757ce719",
+    "patch_sha256": "deb8d588056094adc7ab7917c7533ff1edb6a12e806e779888fe3297fa5a5b28",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "9288237d94b52a1457a2e4a113d9e847dde288a9ca19f17721e3a037757ce719",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "grid_n2_m0_b1",
+    "status": "PASS",
+    "source_sha256": "192bec3f7ca65e7a75df206290c913433b50a18a8da17ec272281c16e864f816",
+    "patch_sha256": "cca3f6e55a4739608035a8cd77339705aaa251face5352197f1c29cbc2251f04",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "192bec3f7ca65e7a75df206290c913433b50a18a8da17ec272281c16e864f816",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "grid_n3_m0_b1",
+    "status": "PASS",
+    "source_sha256": "b7955c133eb43053ff1e68fea4aa4d1f3968daf999fa9e5f00f7ff0ef492583c",
+    "patch_sha256": "827e27f07e7b3f77b7a0464c890ea34b87ff0b8dd4c8c5c28edd80f927ae5e01",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "b7955c133eb43053ff1e68fea4aa4d1f3968daf999fa9e5f00f7ff0ef492583c",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "grid_n3_m0_b2",
+    "status": "PASS",
+    "source_sha256": "0937a5faa01e846d7564559f2e1b3a82d0301f23bf514b7d27f1b31e1e8bfcee",
+    "patch_sha256": "5bdeaf3457c7bbdd8e278daba2a93cb2f95bce09a05409ea9d58625ff3ed3820",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "0937a5faa01e846d7564559f2e1b3a82d0301f23bf514b7d27f1b31e1e8bfcee",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "grid_n3_m1_b1",
+    "status": "PASS",
+    "source_sha256": "1cbd3db11d602f955ccddd5c46bd81dfd9496df9f39630c066da3f861412554c",
+    "patch_sha256": "8228cd1da165c99536dbe240a4fbad32f6a3c8fb682d9cdf55ee636c1219e810",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "1cbd3db11d602f955ccddd5c46bd81dfd9496df9f39630c066da3f861412554c",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "grid_n4_m0_b1",
+    "status": "PASS",
+    "source_sha256": "3f5a6b455f188475c660a55d117a57da576308023f7905f3eccb8f35d833b7db",
+    "patch_sha256": "e4a2bfb68a42672a54597717fcb5a2fae76ee809d749508c3e7a0229e1ed9131",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "3f5a6b455f188475c660a55d117a57da576308023f7905f3eccb8f35d833b7db",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "initial_roles_early",
+    "status": "PASS",
+    "source_sha256": "3a58946bc126e28ea2b733d0156ab3006e6eb54b0c145ccd938cc55b7c239321",
+    "patch_sha256": "da443d53e868b4b352c0025e950a9b03eb18cbd5a2621567fd9070cc14a54403",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "3a58946bc126e28ea2b733d0156ab3006e6eb54b0c145ccd938cc55b7c239321",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "initial_roles_quads",
+    "status": "PASS",
+    "source_sha256": "1bee3ef36116eec2277fae14f311b413e5eb438d724ad3cbe919ceac9ae5143f",
+    "patch_sha256": "b175f3a5609327841371876e00dac25df58ffad039b3dd3eabb4e95a3369e338",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "1bee3ef36116eec2277fae14f311b413e5eb438d724ad3cbe919ceac9ae5143f",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "initial_roles_split",
+    "status": "PASS",
+    "source_sha256": "9d53e011e4a1bb1fbfa53b98a3ebc247589d785ae5df51405ecbaed0a5b2fbac",
+    "patch_sha256": "98604a3e20c8fd7c80788e7b23339e9b692bb399aaf58061e42330d35ba2ee19",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "9d53e011e4a1bb1fbfa53b98a3ebc247589d785ae5df51405ecbaed0a5b2fbac",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "k1_after_seed",
+    "status": "PASS",
+    "source_sha256": "a60a95104347a9a6c0570972596050c19b5fa41dfc237705ad5690b5f62ac838",
+    "patch_sha256": "675a8baaf55e01c88c2ff9d313e4396331f39c28bfe4bd2a920a1b3dcae55c2b",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "a60a95104347a9a6c0570972596050c19b5fa41dfc237705ad5690b5f62ac838",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "k1_before_transpose",
+    "status": "PASS",
+    "source_sha256": "f51d75bcc3d1fa82fe890a94006e098488564109d268baeea601e1302b410491",
+    "patch_sha256": "70840338e5e65adafcd84fbd90cad7a162bbfb0be7e31a67861ec8267146a91f",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "f51d75bcc3d1fa82fe890a94006e098488564109d268baeea601e1302b410491",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "k1_interleave_scales",
+    "status": "PASS",
+    "source_sha256": "f821e3a5aa8a738b59ac093fc6ea642e7d7b74ec4a89737cb1b3d6850d9e3622",
+    "patch_sha256": "f873651614459bd980c0a781d49a91154ee9a96f3b770a75a95fee853ff7911b",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "f821e3a5aa8a738b59ac093fc6ea642e7d7b74ec4a89737cb1b3d6850d9e3622",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "m0_grid_group2",
+    "status": "PASS",
+    "source_sha256": "7ecfc1583d54e9212229e7edebdd79869f6fbf289bb58244d64714d28f683484",
+    "patch_sha256": "5e1a610337de4d7c8a1497af20e7a837532647640b87b9c4e157226ceba894b4",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "7ecfc1583d54e9212229e7edebdd79869f6fbf289bb58244d64714d28f683484",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "matrix_cache1",
+    "status": "PASS",
+    "source_sha256": "f30fb1c8245872e7f36e3473d60ce2b6b1f3ad53922b243950621f3de840e8f2",
+    "patch_sha256": "b042b9c40ad36c5ba5b2224ed8c44e3efeaa1c5c33c967f5eeabd7c3381a8854",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "f30fb1c8245872e7f36e3473d60ce2b6b1f3ad53922b243950621f3de840e8f2",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "matrix_cache2",
+    "status": "PASS",
+    "source_sha256": "15f80f4ba40228976022b649811a6666a1200db26a6b4347c342855366665c82",
+    "patch_sha256": "d031a180cf84a62964958a7e816ccd1c5715329065e40d5296997e754f494617",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "15f80f4ba40228976022b649811a6666a1200db26a6b4347c342855366665c82",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "matrix_cache3",
+    "status": "PASS",
+    "source_sha256": "7112e22f9ed95bb70a59a077e4bd4d7ff3aac9e34b0f60b7117883a9d84a62d8",
+    "patch_sha256": "50df33708ac25dca4119fc9904cfbc66dbc487a0645c9452730403751398b7d3",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "7112e22f9ed95bb70a59a077e4bd4d7ff3aac9e34b0f60b7117883a9d84a62d8",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "output_cache0",
+    "status": "PASS",
+    "source_sha256": "2376e8a564791519d6fa851d1cc2f2fa2758abb170c1ac0a9a520519614e00c0",
+    "patch_sha256": "bc2524205c74dee9542acdcf371754d1ca19d42c6a7d18a872cb711cffe04478",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "2376e8a564791519d6fa851d1cc2f2fa2758abb170c1ac0a9a520519614e00c0",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "output_cache3",
+    "status": "PASS",
+    "source_sha256": "f47fd02c4f99a953e4975e3543e5217cd5df479d9b958c74b28491b42cd7bce7",
+    "patch_sha256": "10a2d9e9351515e975d808f911bd0c79380cf9d208052e2a0d8327e4b358e065",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "f47fd02c4f99a953e4975e3543e5217cd5df479d9b958c74b28491b42cd7bce7",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "output_packed_materialized",
+    "status": "PASS",
+    "source_sha256": "c192df04bea0feaf7348fdba23699cf34d65d006469088aa7c0898a530158437",
+    "patch_sha256": "b26d045c1a31afc44b06f2e259f7a822ca6fa3d4089196f9bcc30e0c0198cc55",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "c192df04bea0feaf7348fdba23699cf34d65d006469088aa7c0898a530158437",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "output_packed_materialized_out136",
+    "status": "PASS",
+    "source_sha256": "bc3dc998892b29ee4d1c4dde89fd22af35d5f9a992838ded9648f53f93600764",
+    "patch_sha256": "6799c92b16999185eb9550569cea92ff7a1cb69210f698dd4552379762a34177",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "bc3dc998892b29ee4d1c4dde89fd22af35d5f9a992838ded9648f53f93600764",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "output_pingpong_132",
+    "status": "PASS",
+    "source_sha256": "23abd6f52cef67974b0113793104dd7ce2fcf88ef0160a40bfd5c2fc01837870",
+    "patch_sha256": "829636514c04cbc5e1164064f40fb447f2cf8ac56d1c72bb59d7e98c70b1847d",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "23abd6f52cef67974b0113793104dd7ce2fcf88ef0160a40bfd5c2fc01837870",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "output_pingpong_132_resident",
+    "status": "PASS",
+    "source_sha256": "4865c357f7e5116845fe9ff5580497bf1280d0c4f8dc3ea0a93dbda977c50018",
+    "patch_sha256": "78fb28ad4268c6cc1e5f0ee5615e7bd5036ebc3742a8010bca70dad556e24fa1",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "4865c357f7e5116845fe9ff5580497bf1280d0c4f8dc3ea0a93dbda977c50018",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "output_pingpong_136",
+    "status": "PASS",
+    "source_sha256": "70280d18975932f144a4cc91c01788ab23c85e3e4f026d40c088e46de6b95583",
+    "patch_sha256": "80fb2ec6675246a90f390a2c69de3a80a4819c0266e6c03b730282870808d957",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "70280d18975932f144a4cc91c01788ab23c85e3e4f026d40c088e46de6b95583",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "output_pingpong_136_resident",
+    "status": "PASS",
+    "source_sha256": "0982b8203057de7a49575bccbe6ce4a9fef0afced36ecde93c54b4fa31e829e9",
+    "patch_sha256": "077fb7d4673d2da285b1cf6328edf9e082efdcd99d619f81d7b2783d17e95142",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "0982b8203057de7a49575bccbe6ce4a9fef0afced36ecde93c54b4fa31e829e9",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "output_pingpong_xor128",
+    "status": "PASS",
+    "source_sha256": "4c0284beaed745d5ac0e1466aba7adc23e4751d6d41280313070a8043f295335",
+    "patch_sha256": "f8b120733926cd31b5b8921ce0c1b5c5da20865baa6ede249cefbe8d8cf12943",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "4c0284beaed745d5ac0e1466aba7adc23e4751d6d41280313070a8043f295335",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "output_pingpong_xor128_ordered",
+    "status": "PASS",
+    "source_sha256": "aa68158da1a25fd24005e583d4439fe977cef466b89c3ec9a5e46093c08735b2",
+    "patch_sha256": "93a0c7526e5953bcf9067e5f81ecf0c1b7f77a7f825db5b1bbde64e544db3bf0",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "aa68158da1a25fd24005e583d4439fe977cef466b89c3ec9a5e46093c08735b2",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "output_pingpong_xor128_resident",
+    "status": "PASS",
+    "source_sha256": "8a9ef0f91a38ac4645f151db96c7e0086b90512f9247fbd44ea1daf6f2bbde45",
+    "patch_sha256": "5c43dc7dfc1d1cbfda5d826dcd232303ae888e5ef3ef5c8e3ce21bb42b29d693",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "8a9ef0f91a38ac4645f151db96c7e0086b90512f9247fbd44ea1daf6f2bbde45",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "output_stream_both_materialized",
+    "status": "PASS",
+    "source_sha256": "5942f57660cab5b88ad32a7f4a852d478b26f94cf8d19c60b94859a9d39a75eb",
+    "patch_sha256": "32a329ae6eec6eb06ff8febb3c0c8190ea88daa069975d4ce4908d1474e2d21c",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "5942f57660cab5b88ad32a7f4a852d478b26f94cf8d19c60b94859a9d39a75eb",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "output_stream_both_materialized_out136",
+    "status": "PASS",
+    "source_sha256": "1dd37f28eb08753f40458beb3ca3149e4f3c2e1564fb71afa8b64ef136b6f311",
+    "patch_sha256": "85af5775196d1cfc439a1bd47b8a6311531013279e939dc638e6c6c88a48b500",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "1dd37f28eb08753f40458beb3ca3149e4f3c2e1564fb71afa8b64ef136b6f311",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "output_stream_packed_materialized",
+    "status": "PASS",
+    "source_sha256": "abdbdd4d25d209e860b97723cedb5f275926e10305eeacb0b437913afb3749de",
+    "patch_sha256": "1beb989a2ce01b9bc78ff9b9e9336617e607b59512aa458e2a1914bbfc75b60d",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "abdbdd4d25d209e860b97723cedb5f275926e10305eeacb0b437913afb3749de",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "output_stream_packed_materialized_out136",
+    "status": "PASS",
+    "source_sha256": "5c63e1aa7459e66a47e6cd351b2d005204e8ed2764858c2891161cfcd983d88d",
+    "patch_sha256": "dbb9d7cdeae8ee6944fc372f15e795163063c4463dbf57e9f6350662e5d88fba",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "5c63e1aa7459e66a47e6cd351b2d005204e8ed2764858c2891161cfcd983d88d",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "prepare_m0_explicit1",
+    "status": "PASS",
+    "source_sha256": "880e731002666dae715f4c39da40c225ec51529bbbe6f6a54355b05cb65d0aa6",
+    "patch_sha256": "ed6673bf9a4b57b06e9c0e3af537fd10b37c1b0cfa3d6bbc710cd775faf81148",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "880e731002666dae715f4c39da40c225ec51529bbbe6f6a54355b05cb65d0aa6",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "prepare_m0_explicit2",
+    "status": "PASS",
+    "source_sha256": "30a8f40e83c4959472d03fc679732da2d36cdf4bbc983bc7768f7a0bb129099e",
+    "patch_sha256": "0ddbe437192615cfe8d0e14fee5363800d007938ec0673969687ce2c10921afc",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "30a8f40e83c4959472d03fc679732da2d36cdf4bbc983bc7768f7a0bb129099e",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "prepare_m0_lead1",
+    "status": "PASS",
+    "source_sha256": "503ad3e9132c34e61823b428d92f6fd61a6e91085fc464283bdca1c68f1c1c5e",
+    "patch_sha256": "350461455e24015f2582a4a6a4eebb91c89aa25f0f3f3e7877110f805af62a5b",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "503ad3e9132c34e61823b428d92f6fd61a6e91085fc464283bdca1c68f1c1c5e",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "prepare_m0_lead2",
+    "status": "PASS",
+    "source_sha256": "6ddf3640ea453025746c457cd70b8808081cf26b43f1be139a548f264de8f0c5",
+    "patch_sha256": "8815619d29779864f3afe5c9da281808d932b44b2ec150062caa8235ab7cc482",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "6ddf3640ea453025746c457cd70b8808081cf26b43f1be139a548f264de8f0c5",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "prepare_m0_lead2fixed",
+    "status": "PASS",
+    "source_sha256": "3b7923540e0d66f46fbba6e891a264fda1a21163716a033ca6906e84cefdd095",
+    "patch_sha256": "ecae2e5dc6217ee4ea7e314d613b1f089d663cf4d076a05c49eed09f33b0cdc5",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "3b7923540e0d66f46fbba6e891a264fda1a21163716a033ca6906e84cefdd095",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "scalar_matrix_group4",
+    "status": "PASS",
+    "source_sha256": "e03470b6c645a204d0808c8f3d1aaddde189109a31f0e9e85c9a3bb4f99fe12b",
+    "patch_sha256": "54c001fd69e7d201f80e92f68d547aa2ccb846ab6349ad252a7fd6eab0b65bc6",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "e03470b6c645a204d0808c8f3d1aaddde189109a31f0e9e85c9a3bb4f99fe12b",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "scalar_matrix_group4_resident",
+    "status": "PASS",
+    "source_sha256": "f7c0373082704a28d47f244d42f2537234e052959cf96705c369aa7e352b283d",
+    "patch_sha256": "5cf81e592b0330b8284ca073738ceb4b287cce323a104b9ff6e033387f7c4501",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "f7c0373082704a28d47f244d42f2537234e052959cf96705c369aa7e352b283d",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "scalar_matrix_group8",
+    "status": "PASS",
+    "source_sha256": "266c14e174a974d686410ff828b3ec9d82c2011f6c07c6ad64f1d347743252ae",
+    "patch_sha256": "519215142a1a42596e13dad7c62b4c983f502b9a145bc50a8e7abd8dd68140bd",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "266c14e174a974d686410ff828b3ec9d82c2011f6c07c6ad64f1d347743252ae",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "scalar_matrix_group8_resident",
+    "status": "PASS",
+    "source_sha256": "d5b68401149c976a900aa1ee9d39d170ba9fa94bdaf100df816a579ff6e4d287",
+    "patch_sha256": "2fb3f1ae18711bd7e397b4ab438359f1eec98ed0d77a4a0c64a602518513a760",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "d5b68401149c976a900aa1ee9d39d170ba9fa94bdaf100df816a579ff6e4d287",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "unroll1",
+    "status": "PASS",
+    "source_sha256": "7e4a1941d8172305fdfd4e522714acda067070d5e0c567718a66d6d115140dd0",
+    "patch_sha256": "70f47bb95583e2a0cc5e9ed641033aa7d1164b407098c30aab7693807711380c",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "7e4a1941d8172305fdfd4e522714acda067070d5e0c567718a66d6d115140dd0",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "unroll2",
+    "status": "PASS",
+    "source_sha256": "dcb78eb93a13c2a3c0085aabedc8b188bc07422de888e448aee904a6a469d396",
+    "patch_sha256": "26b2f37c59a15f35311312d930962e8c2663e3f09852cdf5124410f3884975c7",
+    "unchanged_support_files": true,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "dcb78eb93a13c2a3c0085aabedc8b188bc07422de888e448aee904a6a469d396",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "wave4x1_private_u2",
+    "status": "PASS",
+    "source_sha256": "b23ee2e6c71aa8558f75585c99224941c76f3768e1430294a705d931c1f6ade7",
+    "patch_sha256": "3d784da36a5bd6c10d0ab1245042f4b60aee04dc463d337441af6275ab0aa0cc",
+    "unchanged_support_files": false,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "b23ee2e6c71aa8558f75585c99224941c76f3768e1430294a705d931c1f6ade7",
+      "traits.hpp": "b51dafa863fa9a7c7c66bb9d673c120e8dde7111dd17ccd51d0613f5091685af",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "wave4x1_private_u4",
+    "status": "PASS",
+    "source_sha256": "8a6c2e1239ff822b86dccfe5ba8d38147f8639727910af80c79b9c9300220105",
+    "patch_sha256": "acb0ff27c02206c3f91c6b12f9dfd315555dd4c3d6469e82bdcbe83138070fcb",
+    "unchanged_support_files": false,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "8a6c2e1239ff822b86dccfe5ba8d38147f8639727910af80c79b9c9300220105",
+      "traits.hpp": "b51dafa863fa9a7c7c66bb9d673c120e8dde7111dd17ccd51d0613f5091685af",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "wave4x1_u1",
+    "status": "PASS",
+    "source_sha256": "984dc3ad88a34232f307563e423ca68c1ad59dbf40a7f33ffe9a5eb0e503d312",
+    "patch_sha256": "ca6c73905dba34402524612283cae10d9adb2f1d0cacc8fb207add472e56bc3f",
+    "unchanged_support_files": false,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "984dc3ad88a34232f307563e423ca68c1ad59dbf40a7f33ffe9a5eb0e503d312",
+      "traits.hpp": "b51dafa863fa9a7c7c66bb9d673c120e8dde7111dd17ccd51d0613f5091685af",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "wave4x1_u2",
+    "status": "PASS",
+    "source_sha256": "fe42dd4e83379ecc2c1648ff3e296145d7602cd51020ea564a824b96d2da8310",
+    "patch_sha256": "48af82a26aefcbc3cefa8c877d9a260751d6a5327f00f86ad5b03d6ff9b691e1",
+    "unchanged_support_files": false,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "fe42dd4e83379ecc2c1648ff3e296145d7602cd51020ea564a824b96d2da8310",
+      "traits.hpp": "b51dafa863fa9a7c7c66bb9d673c120e8dde7111dd17ccd51d0613f5091685af",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  },
+  {
+    "name": "wave4x1_u4",
+    "status": "PASS",
+    "source_sha256": "5aa2befd05b843ceca945ed821f5664c8ce93d45c1d1f1fb76aa57cd63fbe93b",
+    "patch_sha256": "f889959614d31630b376125284b36b9a2110c1ccf6e7ae64b622379ced6e74e8",
+    "unchanged_support_files": false,
+    "all_source_hashes": {
+      "tmpl_generic.hpp": "5aa2befd05b843ceca945ed821f5664c8ce93d45c1d1f1fb76aa57cd63fbe93b",
+      "traits.hpp": "b51dafa863fa9a7c7c66bb9d673c120e8dde7111dd17ccd51d0613f5091685af",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+      "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+      "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+    }
+  }
+]

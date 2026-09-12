@@ -1,0 +1,128 @@
+{
+  "status": "PASS",
+  "generic_runtime_k": true,
+  "kernel_reports": [
+    {
+      "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+      "generic": true,
+      "resources": {
+        "vgpr_count": 500,
+        "sgpr_count": 62,
+        "group_segment_fixed_size": 152064,
+        "private_segment_fixed_size": 0,
+        "vgpr_spill_count": 0,
+        "sgpr_spill_count": 0,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      },
+      "unchanged_specialized_isa": false,
+      "static_mfma_count": 448,
+      "native_mfma_tied_c256": true,
+      "exec_unchanged": true,
+      "lds_wait": {
+        "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "cfg_states": 2429,
+        "static_mfma_checked": 448,
+        "max_pending_lgkm_events": 42,
+        "hazards": []
+      },
+      "vmem_wait": {
+        "status": "PASS",
+        "cfg_states": 2744,
+        "hazards": [],
+        "barriers_with_zero_pending_vmem": [
+          605,
+          731,
+          742,
+          881,
+          1012,
+          1144,
+          1269,
+          1415,
+          1432,
+          1590,
+          1735,
+          1869,
+          1891
+        ],
+        "scope": "VMEM register waits and full VMEM publication; LDS content lifetimes checked separately"
+      }
+    },
+    {
+      "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+      "generic": true,
+      "resources": {
+        "vgpr_count": 512,
+        "sgpr_count": 62,
+        "group_segment_fixed_size": 152064,
+        "private_segment_fixed_size": 0,
+        "vgpr_spill_count": 0,
+        "sgpr_spill_count": 0,
+        "wavefront_size": 64,
+        "max_flat_workgroup_size": 256,
+        "agpr_count": 256
+      },
+      "unchanged_specialized_isa": false,
+      "static_mfma_count": 448,
+      "native_mfma_tied_c256": true,
+      "exec_unchanged": true,
+      "lds_wait": {
+        "name": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "cfg_states": 3023,
+        "static_mfma_checked": 448,
+        "max_pending_lgkm_events": 34,
+        "hazards": []
+      },
+      "vmem_wait": {
+        "status": "PASS",
+        "cfg_states": 3132,
+        "hazards": [],
+        "barriers_with_zero_pending_vmem": [
+          2797,
+          2923,
+          2934,
+          3073,
+          3204,
+          3336,
+          3461,
+          3607,
+          3624,
+          3782,
+          3927,
+          4061,
+          4083,
+          4221,
+          4390,
+          4778,
+          4945
+        ],
+        "barriers_with_independent_output_stores": [
+          [
+            4606,
+            8
+          ]
+        ],
+        "allowed_output_barriers_from_end": [
+          3
+        ],
+        "scope": "Typed VMEM readiness; only global C stores may cross the declared LDS-output barriers"
+      }
+    }
+  ],
+  "hashes": {
+    "tmpl_generic.hpp": "b02b8c3e649c8a7f327739cb5d1fc82eeced501b1a0aa8ede216c879a2e3d8fc",
+    "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+    "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+    "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+    "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+    "build/device.isa": "484649a47814cef1329f2007031df3207f126005bab9773d605f3c2e175cc157",
+    "build/device.notes": "fbdce6e600ca246531e0f8431a5caa29cc0e4746d98aa087cab14cf8c70de7f5",
+    "build/libblockscale_bpreshuffle.so": "a8fa7f3ba04187cf297ae3dd3c4db4623331061d147a72f9aa7d90a895f34ad1",
+    "build/gemm_a8w8_blockscale_bpreshuffle.exe": "65231c2a3de9318506db58126839416401eb9b8873b13d1561c855a9074cb0e3"
+  },
+  "production_single_generic": true,
+  "kernel_count": 2,
+  "measured_generic_instructions_identical": false,
+  "scope": "Static linked-ISA checks; runtime panel/tail correctness checked independently"
+}

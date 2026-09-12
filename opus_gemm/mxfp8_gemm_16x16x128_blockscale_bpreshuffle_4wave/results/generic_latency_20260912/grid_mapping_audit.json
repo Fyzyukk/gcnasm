@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "records": [
+    {
+      "name": "grid_group2",
+      "source_sha256": "b5559320532e67f71818d9a9e1f57682bea608b45a338889c6282ff9dfd35ca8",
+      "cases": 1027,
+      "group": 2,
+      "one_to_one": true,
+      "in_bounds": true
+    },
+    {
+      "name": "grid_group4",
+      "source_sha256": "d1061c693c45d963b0b5546ff0ccfb7854f7e0558eaf9b07de756e3596d80406",
+      "cases": 1027,
+      "group": 4,
+      "one_to_one": true,
+      "in_bounds": true
+    },
+    {
+      "name": "grid_group8",
+      "source_sha256": "35d32d2ef8c6d13b0d45becdee8f487639e6a120446648e9c2f237ce4d3d3ab1",
+      "cases": 1027,
+      "group": 8,
+      "one_to_one": true,
+      "in_bounds": true
+    }
+  ],
+  "scope": "Output-tile bijection and in-bounds coordinates, including incomplete groups and existing ABI boundary cases"
+}

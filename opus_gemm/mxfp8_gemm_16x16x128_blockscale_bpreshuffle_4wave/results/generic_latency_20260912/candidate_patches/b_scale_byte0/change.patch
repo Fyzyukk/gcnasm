@@ -1,0 +1,11 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -82,7 +82,7 @@
+         static_cast<int>(v_sfa),
+         static_cast<int>(v_sfb),
+         opus::number<scale_op_sel_a>{},
+-        opus::number<N_REPEAT>{});
++        opus::number<0>{});
+ }
+ 
+ #define MXFP8_MMA_PAIR(HALF_TILE_M, M_REPEAT, N_GROUP, VA, VB, C0, C1, SFA, SFB) \

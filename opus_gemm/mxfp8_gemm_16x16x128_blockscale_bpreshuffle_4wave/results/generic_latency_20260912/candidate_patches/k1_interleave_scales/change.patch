@@ -1,0 +1,70 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -474,7 +474,7 @@
+         __builtin_amdgcn_sched_barrier(0);
+     };
+ 
+-    auto publish_sfa_panel = [&]() {
++    auto publish_sfa_panel = [&](auto preload_k1) {
+         // Raw vectors were issued together before this transpose. Each
+         // quad owns four M repeats for one K column and one M128/wave-M
+         // pair. Transpose each 4x4 byte block in registers, then publish
+@@ -502,6 +502,10 @@
+                     + ((owner_wave % T::T_M) * T::W_M + output_row) * 8
+                     + (owner_wave / T::T_M) * 4;
+                 store<4>(s_sfa, __builtin_bit_cast(opus::vector_t<D_SF, 4>, packed), dst);
++                if constexpr (decltype(preload_k1)::value) {
++                    prefetch_matrix_issue(opus::number<pass * 4 + word>{}, 1, 1);
++                    __builtin_amdgcn_sched_barrier(0);
++                }
+             });
+         });
+     };
+@@ -537,7 +541,7 @@
+                 raw_b = static_cast<D_SF_PACK>(raw[0]);
+             }
+             s_waitcnt_vmcnt(0_I);
+-            publish_sfa_panel();
++            publish_sfa_panel(opus::number<0>{});
+             if (wave_id < T::SCALE_N_HALVES) {
+                 const D_SF_PACK packed = raw_b * 0x01010101u;
+                 store<4>(s_sfb, __builtin_bit_cast(opus::vector_t<D_SF, 4>, packed),
+@@ -575,7 +579,9 @@
+ #undef MXFP8_MATERIALIZE_C_QUADRANT
+ 
+     // B matrix requests can progress while the scale transpose publishes.
+-    publish_sfa_panel();
++    // Fill the disjoint K1 matrix stage while compact scales transpose.
++    if (loops > 1) publish_sfa_panel(opus::number<1>{});
++    else publish_sfa_panel(opus::number<0>{});
+     s_waitcnt_vmcnt(0_I);
+ 
+     if (wave_id < T::SCALE_N_HALVES) {
+@@ -591,27 +597,6 @@
+ 
+     int stage = 0;
+     int tile = 0;
+-
+-    // A single K128 block has no K1 producer.
+-    if (loops > 1) {
+-        // Both matrices preload K1. Main-loop publications release the matrix
+-        // stage for t+2 prefetches; the penultimate block issues no future request.
+-        // The main-loop producer mapping also covers this initial matrix stage.
+-        opus::static_for<8>([&](auto initial_issue) {
+-            using Issue = opus::number<decltype(initial_issue)::value + 0>;
+-            prefetch_matrix_issue(Issue{}, 1, 1);
+-        });
+-
+-        // This guarded K1 block has B data ready by the first
+-        // main-loop VMEM drain; scales require no further global traffic.
+-        // The main-loop producer mapping also covers this initial matrix stage.
+-        opus::static_for<8>([&](auto initial_issue) {
+-            using Issue = opus::number<decltype(initial_issue)::value + 8>;
+-            prefetch_matrix_issue(Issue{}, 1, 1);
+-        });
+-        __builtin_amdgcn_sched_barrier(0);
+-
+-    }
+ 
+     // Seed all four matrix halves and scale dwords for K0. The main
+     // and penultimate blocks prefetch each next-K SFA/SFB pair in one b64

@@ -1,0 +1,12 @@
+{
+  "name": "grid_morton_g16_mfirst",
+  "status": "PASS",
+  "bijective": true,
+  "in_bounds": true,
+  "local_cells_proved": 256,
+  "high_bits_translate_complete_groups": true,
+  "enabled_grid_cases": 4,
+  "identity_fallback_cases": 77,
+  "source_sha256": "94fe4a79fbe0bb672e80c4a1118c9c3bdc069b8f5c87ff77dbeb856e73444d79",
+  "scope": "Exact generated coordinate expressions, independent inverse bit interleave and partial-grid identity fallback; each WG remains tile1."
+}

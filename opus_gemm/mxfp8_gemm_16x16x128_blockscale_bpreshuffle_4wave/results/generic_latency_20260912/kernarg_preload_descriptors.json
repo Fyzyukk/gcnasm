@@ -1,0 +1,149 @@
+[
+  {
+    "name": "baseline",
+    "status": "PASS",
+    "explicit_device_argument_bytes": 96,
+    "public_c_abi_bytes": 96,
+    "kernels": [
+      {
+        "kernel": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs.kd",
+        "kernarg_segment_bytes": 96,
+        "preload_dwords": 0,
+        "preload_offset_dwords": 0
+      },
+      {
+        "kernel": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs.kd",
+        "kernarg_segment_bytes": 96,
+        "preload_dwords": 0,
+        "preload_offset_dwords": 0
+      }
+    ],
+    "code_object_sha256": "0c1581177fffdc40dc46826ee46bd6fade6db57d14d07af46da275534d0ed169"
+  },
+  {
+    "name": "compact_uniform_preload0",
+    "status": "PASS",
+    "explicit_device_argument_bytes": 52,
+    "public_c_abi_bytes": 96,
+    "kernels": [
+      {
+        "kernel": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEvPKvS4_PvS4_S4_iii.kd",
+        "kernarg_segment_bytes": 52,
+        "preload_dwords": 0,
+        "preload_offset_dwords": 0
+      },
+      {
+        "kernel": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEvPKvS4_PvS4_S4_iii.kd",
+        "kernarg_segment_bytes": 52,
+        "preload_dwords": 0,
+        "preload_offset_dwords": 0
+      }
+    ],
+    "code_object_sha256": "531833161e8c24b7b4501199e81fc50d9e466f53571464101d9df9e1001ac380"
+  },
+  {
+    "name": "compact_uniform_preload8",
+    "status": "PASS",
+    "explicit_device_argument_bytes": 52,
+    "public_c_abi_bytes": 96,
+    "kernels": [
+      {
+        "kernel": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEvPKvS4_PvS4_S4_iii.kd",
+        "kernarg_segment_bytes": 52,
+        "preload_dwords": 13,
+        "preload_offset_dwords": 0
+      },
+      {
+        "kernel": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEvPKvS4_PvS4_S4_iii.kd",
+        "kernarg_segment_bytes": 52,
+        "preload_dwords": 13,
+        "preload_offset_dwords": 0
+      }
+    ],
+    "code_object_sha256": "fa6010efad743a69376b62065f8aef9bbc7abb32103adc18bbfbf4523b4011b3"
+  },
+  {
+    "name": "compact_roles_preload0",
+    "status": "PASS",
+    "explicit_device_argument_bytes": 52,
+    "public_c_abi_bytes": 96,
+    "kernels": [
+      {
+        "kernel": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEvPKvS4_PvS4_S4_iii.kd",
+        "kernarg_segment_bytes": 52,
+        "preload_dwords": 0,
+        "preload_offset_dwords": 0
+      },
+      {
+        "kernel": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEvPKvS4_PvS4_S4_iii.kd",
+        "kernarg_segment_bytes": 52,
+        "preload_dwords": 0,
+        "preload_offset_dwords": 0
+      }
+    ],
+    "code_object_sha256": "ca1103aa24b2b55ab1ba8efd320285e9fd41c831500ec71b1511619d86a64b05"
+  },
+  {
+    "name": "compact_roles_preload8",
+    "status": "PASS",
+    "explicit_device_argument_bytes": 52,
+    "public_c_abi_bytes": 96,
+    "kernels": [
+      {
+        "kernel": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEvPKvS4_PvS4_S4_iii.kd",
+        "kernarg_segment_bytes": 52,
+        "preload_dwords": 13,
+        "preload_offset_dwords": 0
+      },
+      {
+        "kernel": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEvPKvS4_PvS4_S4_iii.kd",
+        "kernarg_segment_bytes": 52,
+        "preload_dwords": 13,
+        "preload_offset_dwords": 0
+      }
+    ],
+    "code_object_sha256": "f5ef369e2924ad764cbc30d38cd157bebaa319be0d622f3dfb89223fff5a6cad"
+  },
+  {
+    "name": "grid_group2_compact8",
+    "status": "PASS",
+    "explicit_device_argument_bytes": 52,
+    "public_c_abi_bytes": 96,
+    "kernels": [
+      {
+        "kernel": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEvPKvS4_PvS4_S4_iii.kd",
+        "kernarg_segment_bytes": 52,
+        "preload_dwords": 13,
+        "preload_offset_dwords": 0
+      },
+      {
+        "kernel": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEvPKvS4_PvS4_S4_iii.kd",
+        "kernarg_segment_bytes": 52,
+        "preload_dwords": 13,
+        "preload_offset_dwords": 0
+      }
+    ],
+    "code_object_sha256": "b8aef7e26bd252c8d3b4cefcbd7e48c4eac8e88600fe3b94f2039a066b5a00f8"
+  },
+  {
+    "name": "grid_group2_out136_compact8",
+    "status": "PASS",
+    "explicit_device_argument_bytes": 52,
+    "public_c_abi_bytes": 96,
+    "kernels": [
+      {
+        "kernel": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEvPKvS4_PvS4_S4_iii.kd",
+        "kernarg_segment_bytes": 52,
+        "preload_dwords": 13,
+        "preload_offset_dwords": 0
+      },
+      {
+        "kernel": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEvPKvS4_PvS4_S4_iii.kd",
+        "kernarg_segment_bytes": 52,
+        "preload_dwords": 13,
+        "preload_offset_dwords": 0
+      }
+    ],
+    "code_object_sha256": "3a11a15f69ff5e372518dc17563ad8af982d3b356db6bae001bf1a0369ebf47f"
+  }
+]

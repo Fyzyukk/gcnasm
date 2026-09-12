@@ -1,0 +1,1110 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -296,8 +296,8 @@
+     auto s_a = make_smem(reinterpret_cast<D_A*>(smem_matrix));
+     auto s_b = make_smem(reinterpret_cast<D_B*>(smem_matrix + smem_a_elem * 4 * sizeof(D_A)));
+     auto s_c = make_smem(reinterpret_cast<D_C*>(smem_matrix));
+-    constexpr int c_lds_pitch = T::B_N + 8;
+-    static_assert(!T::OUTPUT_BF16 || T::B_M * c_lds_pitch * sizeof(D_C) == matrix_lds_bytes);
++    constexpr int c_lds_pitch = 136;
++    static_assert(!T::OUTPUT_BF16 || 2 * T::HALF_B_M * c_lds_pitch * sizeof(D_C) <= matrix_lds_bytes);
+ 
+     // Matrix producer pairs own contiguous padded LDS rows.
+     // A wave owns one M128 half and alternates row parity across requests.
+@@ -1313,28 +1313,47 @@
+         mma, opus::make_tuple(T::OUTPUT_BF16 ? c_lds_pitch : kargs.stride_c, 1_I), p_coord_c);
+ 
+     auto c_offset = [&](int half_tile_m, int half_tile_n) {
+-        return half_tile_m * T::HALF_B_M * (T::OUTPUT_BF16 ? c_lds_pitch : kargs.stride_c) +
+-               half_tile_n * T::HALF_B_N;
++        if constexpr (T::OUTPUT_BF16) return half_tile_m * T::HALF_B_M * c_lds_pitch;
++        else return half_tile_m * T::HALF_B_M * kargs.stride_c + half_tile_n * T::HALF_B_N;
+     };
+ 
+     // Publish each completed 128x128 quadrant after MFMA20/36/52/64.
+     // Eight coalesced 16-byte copies per thread cover one quadrant. All
+     // four quadrants belong to this workgroup's single 256x256 output tile.
++    // C00/C10 use slot 0/1, then C01/C11 reuse slot 0/1. The existing
++    // publication before copying the intervening quadrant retires all readers
++    // of the reused slot; no additional workgroup barrier is needed.
+     auto copy_output_quarter = [&](int half_m, int half_n, int copy_index) {
+         const int linear = thread_id_x() * 8 + copy_index * T::BLOCK_SIZE * 8;
+-        const int output_row = linear / T::HALF_B_N + half_m * T::HALF_B_M;
+-        const int output_col = linear % T::HALF_B_N + half_n * T::HALF_B_N;
+-        const auto value = s_c.template load<8>(output_row * c_lds_pitch + output_col);
++        const int local_row = linear / T::HALF_B_N;
++        const int local_col = linear % T::HALF_B_N;
++        const int slot_row = half_m * T::HALF_B_M + local_row;
++        const auto value = s_c.template load<8>(slot_row * c_lds_pitch + local_col);
++        const int output_row = local_row + half_m * T::HALF_B_M;
++        const int output_col = local_col + half_n * T::HALF_B_N;
+         g_c.template store<8>(value, output_row * kargs.stride_c + output_col,
+                              0, opus::number<2>{});
+     };
+ 
+     const auto gc_offsets = opus::layout_to_offsets<T::VEC_C>(u_gc);
++    int output_lds_byte_base = 0;
++    if constexpr (T::OUTPUT_BF16) {
++        // The lane coordinate is shared by every native C fragment.
++        // Keep its byte base intact so constant fragment offsets fold into DS.
++        output_lds_byte_base = gc_offsets[0] * sizeof(D_C);
++        asm volatile("" : "+v"(output_lds_byte_base));
++    }
+ #define MXFP8_STORE_FRAGMENT(ACC, INDEX)                                   \
+     do {                                                                        \
+         if constexpr (T::OUTPUT_BF16) {                                         \
+-            s_c.template store<T::VEC_C>(cast<D_C>(ACC),                         \
+-                gc_offsets[INDEX] + soff);                                      \
++            auto fp32_fragment = ACC;                                         \
++            asm volatile("" : "+v"(fp32_fragment));                           \
++            auto packed_fragment = cast<D_C>(fp32_fragment);                       \
++            asm volatile("" : "+v"(packed_fragment));                         \
++            s_c.template _store<T::VEC_C>(packed_fragment,                     \
++                output_lds_byte_base + sizeof(D_C) * (soff                      \
++                    + (INDEX) / T::E_N * T::W_M * T::T_M * c_lds_pitch           \
++                    + (INDEX) % T::E_N * T::W_N * T::T_N));                      \
+         } else {                                                                \
+             g_c.template store<T::VEC_C>(ACC, gc_offsets[INDEX], soff,            \
+                 opus::number<2>{});                                              \
+@@ -1379,66 +1398,129 @@
+         } \
+     } while (false)
+ 
+-    MXFP8_MMA_PAIR(0, 0, 0, v_a[0], v_b, c00_0, c00_1, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
+-
+-    MXFP8_MMA_PAIR(0, 0, 1, v_a[0], v_b, c00_2, c00_3, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
+-
+-    MXFP8_MMA_PAIR(0, 1, 0, v_a[0], v_b, c00_4, c00_5, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
+-
+-    MXFP8_MMA_PAIR(0, 1, 1, v_a[0], v_b, c00_6, c00_7, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
+-
+-    // Stage this completed output row while later independent MFMAs execute.
+     if constexpr (T::OUTPUT_BF16) {
+-        const int soff = c_offset(0, 0);
+-        MXFP8_STORE_TWO_FRAGMENTS(c00_0, c00_1, 0);
+-        MXFP8_STORE_TWO_FRAGMENTS(c00_2, c00_3, 2);
+-    }
+-
+-    MXFP8_MMA_PAIR(0, 2, 0, v_a[0], v_b, c00_8, c00_9, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
+-
+-    MXFP8_MMA_PAIR(0, 2, 1, v_a[0], v_b, c00_10, c00_11, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
+-
+-    // Stage this completed output row while later independent MFMAs execute.
+-    if constexpr (T::OUTPUT_BF16) {
+-        const int soff = c_offset(0, 0);
+-        MXFP8_STORE_TWO_FRAGMENTS(c00_4, c00_5, 4);
+-        MXFP8_STORE_TWO_FRAGMENTS(c00_6, c00_7, 6);
+-    }
+-
+-    MXFP8_MMA_PAIR(0, 3, 0, v_a[0], v_b, c00_12, c00_13, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
+-
+-    MXFP8_MMA_PAIR(0, 3, 1, v_a[0], v_b, c00_14, c00_15, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
+-
+-    // Stage this completed output row while later independent MFMAs execute.
+-    if constexpr (T::OUTPUT_BF16) {
+-        const int soff = c_offset(0, 0);
+-        MXFP8_STORE_TWO_FRAGMENTS(c00_8, c00_9, 8);
+-        MXFP8_STORE_TWO_FRAGMENTS(c00_10, c00_11, 10);
+-    }
+-
+-    MXFP8_MMA_PAIR(1, 0, 0, v_a[1], v_b, c10_0, c10_1, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
+-
+-    MXFP8_MMA_PAIR(1, 0, 1, v_a[1], v_b, c10_2, c10_3, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
+-
+-    // Stage this completed output row while later independent MFMAs execute.
+-    if constexpr (T::OUTPUT_BF16) {
+-        const int soff = c_offset(0, 0);
+-        MXFP8_STORE_TWO_FRAGMENTS(c00_12, c00_13, 12);
+-        MXFP8_STORE_TWO_FRAGMENTS(c00_14, c00_15, 14);
+-    }
+-
+-    if constexpr (T::OUTPUT_BF16) {
+-        // Publish only the completed output quadrant before copying it.
++        // One completed native fragment follows each MFMA, four MFMAs
++        // behind its producer. LLVM sees every AGPR read and conversion.
++        MXFP8_MMA_ONE(0, 0, 0, v_a[0], v_b, c00_0, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 0, 1, v_a[0], v_b, c00_1, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 0, 2, v_a[0], v_b, c00_2, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 0, 3, v_a[0], v_b, c00_3, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 1, 0, v_a[0], v_b, c00_4, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 0);
++            MXFP8_STORE_FRAGMENT(c00_0, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 1, 1, v_a[0], v_b, c00_5, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 0);
++            MXFP8_STORE_FRAGMENT(c00_1, 1);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 1, 2, v_a[0], v_b, c00_6, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 0);
++            MXFP8_STORE_FRAGMENT(c00_2, 2);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 1, 3, v_a[0], v_b, c00_7, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 0);
++            MXFP8_STORE_FRAGMENT(c00_3, 3);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 2, 0, v_a[0], v_b, c00_8, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 0);
++            MXFP8_STORE_FRAGMENT(c00_4, 4);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 2, 1, v_a[0], v_b, c00_9, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 0);
++            MXFP8_STORE_FRAGMENT(c00_5, 5);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 2, 2, v_a[0], v_b, c00_10, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 0);
++            MXFP8_STORE_FRAGMENT(c00_6, 6);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 2, 3, v_a[0], v_b, c00_11, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 0);
++            MXFP8_STORE_FRAGMENT(c00_7, 7);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 3, 0, v_a[0], v_b, c00_12, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 0);
++            MXFP8_STORE_FRAGMENT(c00_8, 8);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 3, 1, v_a[0], v_b, c00_13, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 0);
++            MXFP8_STORE_FRAGMENT(c00_9, 9);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 3, 2, v_a[0], v_b, c00_14, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 0);
++            MXFP8_STORE_FRAGMENT(c00_10, 10);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 3, 3, v_a[0], v_b, c00_15, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 0);
++            MXFP8_STORE_FRAGMENT(c00_11, 11);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 0, 0, v_a[1], v_b, c10_0, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 0);
++            MXFP8_STORE_FRAGMENT(c00_12, 12);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 0, 1, v_a[1], v_b, c10_1, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 0);
++            MXFP8_STORE_FRAGMENT(c00_13, 13);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 0, 2, v_a[1], v_b, c10_2, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 0);
++            MXFP8_STORE_FRAGMENT(c00_14, 14);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 0, 3, v_a[1], v_b, c10_3, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 0);
++            MXFP8_STORE_FRAGMENT(c00_15, 15);
++        }
++        __builtin_amdgcn_sched_barrier(0);
+         __builtin_amdgcn_sched_barrier(0);
+         s_waitcnt_vmcnt(0_I);
+         s_waitcnt_lgkmcnt(0_I);
+@@ -1452,80 +1534,120 @@
+         copy_output_quarter(0, 0, 5);
+         copy_output_quarter(0, 0, 6);
+         copy_output_quarter(0, 0, 7);
+-    }
+-
+-    MXFP8_MMA_PAIR(1, 1, 0, v_a[1], v_b, c10_4, c10_5, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
+-
+-    MXFP8_MMA_PAIR(1, 1, 1, v_a[1], v_b, c10_6, c10_7, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
+-
+-    // Stage this completed output row while later independent MFMAs execute.
+-    if constexpr (T::OUTPUT_BF16) {
+-        const int soff = c_offset(1, 0);
+-        MXFP8_STORE_TWO_FRAGMENTS(c10_0, c10_1, 0);
+-        MXFP8_STORE_TWO_FRAGMENTS(c10_2, c10_3, 2);
+-    }
+-
+-    MXFP8_MMA_PAIR(1, 2, 0, v_a[1], v_b, c10_8, c10_9, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
+-
+-    MXFP8_MMA_PAIR(1, 2, 1, v_a[1], v_b, c10_10, c10_11, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
+-
+-    // Stage this completed output row while later independent MFMAs execute.
+-    if constexpr (T::OUTPUT_BF16) {
+-        const int soff = c_offset(1, 0);
+-        MXFP8_STORE_TWO_FRAGMENTS(c10_4, c10_5, 4);
+-        MXFP8_STORE_TWO_FRAGMENTS(c10_6, c10_7, 6);
+-    }
+-
+-    MXFP8_MMA_PAIR(1, 3, 0, v_a[1], v_b, c10_12, c10_13, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
+-
+-    MXFP8_MMA_PAIR(1, 3, 1, v_a[1], v_b, c10_14, c10_15, v_sfa, v_sfb[0]);
+-    sched_barrier_pairs_scale();
+-
+-    // Stage this completed output row while later independent MFMAs execute.
+-    if constexpr (T::OUTPUT_BF16) {
+-        const int soff = c_offset(1, 0);
+-        MXFP8_STORE_TWO_FRAGMENTS(c10_8, c10_9, 8);
+-        MXFP8_STORE_TWO_FRAGMENTS(c10_10, c10_11, 10);
+-    }
+-
+-    // B-half0 is dead on the final K tile.  Start the direct AGPR stores for
+-    // both completed C quadrants before the B-half1 MFMAs occupy the XDL pipe.
+-    if constexpr (!T::OUTPUT_BF16) {
+-        MXFP8_STORE_QUADRANT(c00, 0, 0);
+-    }
+-    if constexpr (!T::OUTPUT_BF16) {
+-        MXFP8_STORE_QUADRANT(c10, 1, 0);
+-    }
+-
+-    if constexpr (T::OUTPUT_BF16) {
+-        // Final B1 is resident from the operand seed or the penultimate block.
++        MXFP8_MMA_ONE(1, 1, 0, v_a[1], v_b, c10_4, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 0);
++            MXFP8_STORE_FRAGMENT(c10_0, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 1, 1, v_a[1], v_b, c10_5, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 0);
++            MXFP8_STORE_FRAGMENT(c10_1, 1);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 1, 2, v_a[1], v_b, c10_6, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 0);
++            MXFP8_STORE_FRAGMENT(c10_2, 2);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 1, 3, v_a[1], v_b, c10_7, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 0);
++            MXFP8_STORE_FRAGMENT(c10_3, 3);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 2, 0, v_a[1], v_b, c10_8, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 0);
++            MXFP8_STORE_FRAGMENT(c10_4, 4);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 2, 1, v_a[1], v_b, c10_9, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 0);
++            MXFP8_STORE_FRAGMENT(c10_5, 5);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 2, 2, v_a[1], v_b, c10_10, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 0);
++            MXFP8_STORE_FRAGMENT(c10_6, 6);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 2, 3, v_a[1], v_b, c10_11, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 0);
++            MXFP8_STORE_FRAGMENT(c10_7, 7);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 3, 0, v_a[1], v_b, c10_12, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 0);
++            MXFP8_STORE_FRAGMENT(c10_8, 8);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 3, 1, v_a[1], v_b, c10_13, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 0);
++            MXFP8_STORE_FRAGMENT(c10_9, 9);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 3, 2, v_a[1], v_b, c10_14, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 0);
++            MXFP8_STORE_FRAGMENT(c10_10, 10);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 3, 3, v_a[1], v_b, c10_15, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 0);
++            MXFP8_STORE_FRAGMENT(c10_11, 11);
++        }
++        __builtin_amdgcn_sched_barrier(0);
+         v_b = v_b_second;
+-    } else {
+-        v_b = load<T::VEC_B>(s_b, u_rb + sb_offset(stage, 1));
+-    }
+-
+-    MXFP8_MMA_PAIR(0, 0, 0, v_a[0], v_b, c01_0, c01_1, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
+-
+-    MXFP8_MMA_PAIR(0, 0, 1, v_a[0], v_b, c01_2, c01_3, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
+-
+-    // Stage this completed output row while later independent MFMAs execute.
+-    if constexpr (T::OUTPUT_BF16) {
+-        const int soff = c_offset(1, 0);
+-        MXFP8_STORE_TWO_FRAGMENTS(c10_12, c10_13, 12);
+-        MXFP8_STORE_TWO_FRAGMENTS(c10_14, c10_15, 14);
+-    }
+-
+-    if constexpr (T::OUTPUT_BF16) {
+-        // C10 LDS writes must finish before publication. Prior global
+-        // C00 stores are independent and may remain in flight here;
+-        // all matrix loads retired before output reused their LDS.
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 0, 0, v_a[0], v_b, c01_0, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 0);
++            MXFP8_STORE_FRAGMENT(c10_12, 12);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 0, 1, v_a[0], v_b, c01_1, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 0);
++            MXFP8_STORE_FRAGMENT(c10_13, 13);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 0, 2, v_a[0], v_b, c01_2, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 0);
++            MXFP8_STORE_FRAGMENT(c10_14, 14);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 0, 3, v_a[0], v_b, c01_3, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 0);
++            MXFP8_STORE_FRAGMENT(c10_15, 15);
++        }
++        __builtin_amdgcn_sched_barrier(0);
+         __builtin_amdgcn_sched_barrier(0);
+         s_waitcnt_lgkmcnt(0_I);
+         __builtin_amdgcn_s_barrier();
+@@ -1538,62 +1660,118 @@
+         copy_output_quarter(1, 0, 5);
+         copy_output_quarter(1, 0, 6);
+         copy_output_quarter(1, 0, 7);
+-    }
+-
+-    MXFP8_MMA_PAIR(0, 1, 0, v_a[0], v_b, c01_4, c01_5, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
+-
+-    MXFP8_MMA_PAIR(0, 1, 1, v_a[0], v_b, c01_6, c01_7, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
+-
+-    // Stage this completed output row while later independent MFMAs execute.
+-    if constexpr (T::OUTPUT_BF16) {
+-        const int soff = c_offset(0, 1);
+-        MXFP8_STORE_TWO_FRAGMENTS(c01_0, c01_1, 0);
+-        MXFP8_STORE_TWO_FRAGMENTS(c01_2, c01_3, 2);
+-    }
+-
+-    MXFP8_MMA_PAIR(0, 2, 0, v_a[0], v_b, c01_8, c01_9, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
+-
+-    MXFP8_MMA_PAIR(0, 2, 1, v_a[0], v_b, c01_10, c01_11, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
+-
+-    // Stage this completed output row while later independent MFMAs execute.
+-    if constexpr (T::OUTPUT_BF16) {
+-        const int soff = c_offset(0, 1);
+-        MXFP8_STORE_TWO_FRAGMENTS(c01_4, c01_5, 4);
+-        MXFP8_STORE_TWO_FRAGMENTS(c01_6, c01_7, 6);
+-    }
+-
+-    MXFP8_MMA_PAIR(0, 3, 0, v_a[0], v_b, c01_12, c01_13, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
+-
+-    MXFP8_MMA_PAIR(0, 3, 1, v_a[0], v_b, c01_14, c01_15, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
+-
+-    // Stage this completed output row while later independent MFMAs execute.
+-    if constexpr (T::OUTPUT_BF16) {
+-        const int soff = c_offset(0, 1);
+-        MXFP8_STORE_TWO_FRAGMENTS(c01_8, c01_9, 8);
+-        MXFP8_STORE_TWO_FRAGMENTS(c01_10, c01_11, 10);
+-    }
+-
+-    MXFP8_MMA_PAIR(1, 0, 0, v_a[1], v_b, c11_0, c11_1, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
+-
+-    MXFP8_MMA_PAIR(1, 0, 1, v_a[1], v_b, c11_2, c11_3, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
+-
+-    // Stage this completed output row while later independent MFMAs execute.
+-    if constexpr (T::OUTPUT_BF16) {
+-        const int soff = c_offset(0, 1);
+-        MXFP8_STORE_TWO_FRAGMENTS(c01_12, c01_13, 12);
+-        MXFP8_STORE_TWO_FRAGMENTS(c01_14, c01_15, 14);
+-    }
+-
+-    if constexpr (T::OUTPUT_BF16) {
+-        // Publish only the completed output quadrant before copying it.
++        MXFP8_MMA_ONE(0, 1, 0, v_a[0], v_b, c01_4, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 1);
++            MXFP8_STORE_FRAGMENT(c01_0, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 1, 1, v_a[0], v_b, c01_5, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 1);
++            MXFP8_STORE_FRAGMENT(c01_1, 1);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 1, 2, v_a[0], v_b, c01_6, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 1);
++            MXFP8_STORE_FRAGMENT(c01_2, 2);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 1, 3, v_a[0], v_b, c01_7, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 1);
++            MXFP8_STORE_FRAGMENT(c01_3, 3);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 2, 0, v_a[0], v_b, c01_8, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 1);
++            MXFP8_STORE_FRAGMENT(c01_4, 4);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 2, 1, v_a[0], v_b, c01_9, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 1);
++            MXFP8_STORE_FRAGMENT(c01_5, 5);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 2, 2, v_a[0], v_b, c01_10, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 1);
++            MXFP8_STORE_FRAGMENT(c01_6, 6);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 2, 3, v_a[0], v_b, c01_11, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 1);
++            MXFP8_STORE_FRAGMENT(c01_7, 7);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 3, 0, v_a[0], v_b, c01_12, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 1);
++            MXFP8_STORE_FRAGMENT(c01_8, 8);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 3, 1, v_a[0], v_b, c01_13, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 1);
++            MXFP8_STORE_FRAGMENT(c01_9, 9);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 3, 2, v_a[0], v_b, c01_14, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 1);
++            MXFP8_STORE_FRAGMENT(c01_10, 10);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(0, 3, 3, v_a[0], v_b, c01_15, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 1);
++            MXFP8_STORE_FRAGMENT(c01_11, 11);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 0, 0, v_a[1], v_b, c11_0, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 1);
++            MXFP8_STORE_FRAGMENT(c01_12, 12);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 0, 1, v_a[1], v_b, c11_1, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 1);
++            MXFP8_STORE_FRAGMENT(c01_13, 13);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 0, 2, v_a[1], v_b, c11_2, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 1);
++            MXFP8_STORE_FRAGMENT(c01_14, 14);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 0, 3, v_a[1], v_b, c11_3, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(0, 1);
++            MXFP8_STORE_FRAGMENT(c01_15, 15);
++        }
++        __builtin_amdgcn_sched_barrier(0);
+         __builtin_amdgcn_sched_barrier(0);
+         s_waitcnt_vmcnt(0_I);
+         s_waitcnt_lgkmcnt(0_I);
+@@ -1607,73 +1785,421 @@
+         copy_output_quarter(0, 1, 5);
+         copy_output_quarter(0, 1, 6);
+         copy_output_quarter(0, 1, 7);
+-    }
+-
+-    MXFP8_MMA_PAIR(1, 1, 0, v_a[1], v_b, c11_4, c11_5, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
+-
+-    MXFP8_MMA_PAIR(1, 1, 1, v_a[1], v_b, c11_6, c11_7, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
+-
+-    // Stage this completed output row while later independent MFMAs execute.
+-    if constexpr (T::OUTPUT_BF16) {
+-        const int soff = c_offset(1, 1);
+-        MXFP8_STORE_TWO_FRAGMENTS(c11_0, c11_1, 0);
+-        MXFP8_STORE_TWO_FRAGMENTS(c11_2, c11_3, 2);
+-    }
+-
+-    MXFP8_MMA_PAIR(1, 2, 0, v_a[1], v_b, c11_8, c11_9, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
+-
+-    MXFP8_MMA_PAIR(1, 2, 1, v_a[1], v_b, c11_10, c11_11, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
+-
+-    // Stage this completed output row while later independent MFMAs execute.
+-    if constexpr (T::OUTPUT_BF16) {
+-        const int soff = c_offset(1, 1);
+-        MXFP8_STORE_TWO_FRAGMENTS(c11_4, c11_5, 4);
+-        MXFP8_STORE_TWO_FRAGMENTS(c11_6, c11_7, 6);
+-    }
+-
+-    MXFP8_MMA_PAIR(1, 3, 0, v_a[1], v_b, c11_12, c11_13, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
+-
+-    MXFP8_MMA_PAIR(1, 3, 1, v_a[1], v_b, c11_14, c11_15, v_sfa, v_sfb[1]);
+-    sched_barrier_pairs_scale();
+-
+-    // Stage this completed output row while later independent MFMAs execute.
+-    if constexpr (T::OUTPUT_BF16) {
+-        const int soff = c_offset(1, 1);
+-        MXFP8_STORE_TWO_FRAGMENTS(c11_8, c11_9, 8);
+-        MXFP8_STORE_TWO_FRAGMENTS(c11_10, c11_11, 10);
+-    }
+-
+-    // Stage this completed output row while later independent MFMAs execute.
+-    if constexpr (T::OUTPUT_BF16) {
+-        const int soff = c_offset(1, 1);
+-        MXFP8_STORE_TWO_FRAGMENTS(c11_12, c11_13, 12);
+-        MXFP8_STORE_TWO_FRAGMENTS(c11_14, c11_15, 14);
+-    }
+-    __builtin_amdgcn_s_setprio(0);
+-
+-    if constexpr (!T::OUTPUT_BF16) {
+-        MXFP8_STORE_QUADRANT(c01, 0, 1);
+-    }
+-    if constexpr (!T::OUTPUT_BF16) {
+-        MXFP8_STORE_QUADRANT(c11, 1, 1);
+-    }
+-
+-    if constexpr (T::OUTPUT_BF16) {
+-        // The padded LDS rows distribute stores from the MFMA lane layout.
+-        // Retire first-half copies and publish the remaining output half.
++        MXFP8_MMA_ONE(1, 1, 0, v_a[1], v_b, c11_4, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 1);
++            MXFP8_STORE_FRAGMENT(c11_0, 0);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 1, 1, v_a[1], v_b, c11_5, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 1);
++            MXFP8_STORE_FRAGMENT(c11_1, 1);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 1, 2, v_a[1], v_b, c11_6, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 1);
++            MXFP8_STORE_FRAGMENT(c11_2, 2);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 1, 3, v_a[1], v_b, c11_7, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 1);
++            MXFP8_STORE_FRAGMENT(c11_3, 3);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 2, 0, v_a[1], v_b, c11_8, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 1);
++            MXFP8_STORE_FRAGMENT(c11_4, 4);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 2, 1, v_a[1], v_b, c11_9, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 1);
++            MXFP8_STORE_FRAGMENT(c11_5, 5);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 2, 2, v_a[1], v_b, c11_10, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 1);
++            MXFP8_STORE_FRAGMENT(c11_6, 6);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 2, 3, v_a[1], v_b, c11_11, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 1);
++            MXFP8_STORE_FRAGMENT(c11_7, 7);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 3, 0, v_a[1], v_b, c11_12, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 1);
++            MXFP8_STORE_FRAGMENT(c11_8, 8);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 3, 1, v_a[1], v_b, c11_13, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 1);
++            MXFP8_STORE_FRAGMENT(c11_9, 9);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 3, 2, v_a[1], v_b, c11_14, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 1);
++            MXFP8_STORE_FRAGMENT(c11_10, 10);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        MXFP8_MMA_ONE(1, 3, 3, v_a[1], v_b, c11_15, v_sfa, v_sfb[1]);
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 1);
++            MXFP8_STORE_FRAGMENT(c11_11, 11);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 1);
++            MXFP8_STORE_FRAGMENT(c11_12, 12);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 1);
++            MXFP8_STORE_FRAGMENT(c11_13, 13);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 1);
++            MXFP8_STORE_FRAGMENT(c11_14, 14);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        {
++            const int soff = c_offset(1, 1);
++            MXFP8_STORE_FRAGMENT(c11_15, 15);
++        }
++        __builtin_amdgcn_sched_barrier(0);
++        __builtin_amdgcn_s_setprio(0);
+         __builtin_amdgcn_sched_barrier(0);
+         s_waitcnt_vmcnt(0_I);
+         s_waitcnt_lgkmcnt(0_I);
+         __builtin_amdgcn_s_barrier();
+         __builtin_amdgcn_sched_barrier(0);
+-        opus::static_for<T::HALF_B_M * T::HALF_B_N / (T::BLOCK_SIZE * 8)>([&](auto copy_i) {
+-            copy_output_quarter(1, 1, decltype(copy_i)::value);
+-        });
++        copy_output_quarter(1, 1, 0);
++        copy_output_quarter(1, 1, 1);
++        copy_output_quarter(1, 1, 2);
++        copy_output_quarter(1, 1, 3);
++        copy_output_quarter(1, 1, 4);
++        copy_output_quarter(1, 1, 5);
++        copy_output_quarter(1, 1, 6);
++        copy_output_quarter(1, 1, 7);
++    } else {
++        MXFP8_MMA_PAIR(0, 0, 0, v_a[0], v_b, c00_0, c00_1, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++    
++        MXFP8_MMA_PAIR(0, 0, 1, v_a[0], v_b, c00_2, c00_3, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++    
++        MXFP8_MMA_PAIR(0, 1, 0, v_a[0], v_b, c00_4, c00_5, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++    
++        MXFP8_MMA_PAIR(0, 1, 1, v_a[0], v_b, c00_6, c00_7, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++    
++        // Stage this completed output row while later independent MFMAs execute.
++        if constexpr (T::OUTPUT_BF16) {
++            const int soff = c_offset(0, 0);
++            MXFP8_STORE_TWO_FRAGMENTS(c00_0, c00_1, 0);
++            MXFP8_STORE_TWO_FRAGMENTS(c00_2, c00_3, 2);
++        }
++    
++        MXFP8_MMA_PAIR(0, 2, 0, v_a[0], v_b, c00_8, c00_9, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++    
++        MXFP8_MMA_PAIR(0, 2, 1, v_a[0], v_b, c00_10, c00_11, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++    
++        // Stage this completed output row while later independent MFMAs execute.
++        if constexpr (T::OUTPUT_BF16) {
++            const int soff = c_offset(0, 0);
++            MXFP8_STORE_TWO_FRAGMENTS(c00_4, c00_5, 4);
++            MXFP8_STORE_TWO_FRAGMENTS(c00_6, c00_7, 6);
++        }
++    
++        MXFP8_MMA_PAIR(0, 3, 0, v_a[0], v_b, c00_12, c00_13, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++    
++        MXFP8_MMA_PAIR(0, 3, 1, v_a[0], v_b, c00_14, c00_15, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++    
++        // Stage this completed output row while later independent MFMAs execute.
++        if constexpr (T::OUTPUT_BF16) {
++            const int soff = c_offset(0, 0);
++            MXFP8_STORE_TWO_FRAGMENTS(c00_8, c00_9, 8);
++            MXFP8_STORE_TWO_FRAGMENTS(c00_10, c00_11, 10);
++        }
++    
++        MXFP8_MMA_PAIR(1, 0, 0, v_a[1], v_b, c10_0, c10_1, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++    
++        MXFP8_MMA_PAIR(1, 0, 1, v_a[1], v_b, c10_2, c10_3, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++    
++        // Stage this completed output row while later independent MFMAs execute.
++        if constexpr (T::OUTPUT_BF16) {
++            const int soff = c_offset(0, 0);
++            MXFP8_STORE_TWO_FRAGMENTS(c00_12, c00_13, 12);
++            MXFP8_STORE_TWO_FRAGMENTS(c00_14, c00_15, 14);
++        }
++    
++        if constexpr (T::OUTPUT_BF16) {
++            // Publish only the completed output quadrant before copying it.
++            __builtin_amdgcn_sched_barrier(0);
++            s_waitcnt_vmcnt(0_I);
++            s_waitcnt_lgkmcnt(0_I);
++            __builtin_amdgcn_s_barrier();
++            __builtin_amdgcn_sched_barrier(0);
++            copy_output_quarter(0, 0, 0);
++            copy_output_quarter(0, 0, 1);
++            copy_output_quarter(0, 0, 2);
++            copy_output_quarter(0, 0, 3);
++            copy_output_quarter(0, 0, 4);
++            copy_output_quarter(0, 0, 5);
++            copy_output_quarter(0, 0, 6);
++            copy_output_quarter(0, 0, 7);
++        }
++    
++        MXFP8_MMA_PAIR(1, 1, 0, v_a[1], v_b, c10_4, c10_5, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++    
++        MXFP8_MMA_PAIR(1, 1, 1, v_a[1], v_b, c10_6, c10_7, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++    
++        // Stage this completed output row while later independent MFMAs execute.
++        if constexpr (T::OUTPUT_BF16) {
++            const int soff = c_offset(1, 0);
++            MXFP8_STORE_TWO_FRAGMENTS(c10_0, c10_1, 0);
++            MXFP8_STORE_TWO_FRAGMENTS(c10_2, c10_3, 2);
++        }
++    
++        MXFP8_MMA_PAIR(1, 2, 0, v_a[1], v_b, c10_8, c10_9, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++    
++        MXFP8_MMA_PAIR(1, 2, 1, v_a[1], v_b, c10_10, c10_11, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++    
++        // Stage this completed output row while later independent MFMAs execute.
++        if constexpr (T::OUTPUT_BF16) {
++            const int soff = c_offset(1, 0);
++            MXFP8_STORE_TWO_FRAGMENTS(c10_4, c10_5, 4);
++            MXFP8_STORE_TWO_FRAGMENTS(c10_6, c10_7, 6);
++        }
++    
++        MXFP8_MMA_PAIR(1, 3, 0, v_a[1], v_b, c10_12, c10_13, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++    
++        MXFP8_MMA_PAIR(1, 3, 1, v_a[1], v_b, c10_14, c10_15, v_sfa, v_sfb[0]);
++        sched_barrier_pairs_scale();
++    
++        // Stage this completed output row while later independent MFMAs execute.
++        if constexpr (T::OUTPUT_BF16) {
++            const int soff = c_offset(1, 0);
++            MXFP8_STORE_TWO_FRAGMENTS(c10_8, c10_9, 8);
++            MXFP8_STORE_TWO_FRAGMENTS(c10_10, c10_11, 10);
++        }
++    
++        // B-half0 is dead on the final K tile.  Start the direct AGPR stores for
++        // both completed C quadrants before the B-half1 MFMAs occupy the XDL pipe.
++        if constexpr (!T::OUTPUT_BF16) {
++            MXFP8_STORE_QUADRANT(c00, 0, 0);
++        }
++        if constexpr (!T::OUTPUT_BF16) {
++            MXFP8_STORE_QUADRANT(c10, 1, 0);
++        }
++    
++        if constexpr (T::OUTPUT_BF16) {
++            // Final B1 is resident from the operand seed or the penultimate block.
++            v_b = v_b_second;
++        } else {
++            v_b = load<T::VEC_B>(s_b, u_rb + sb_offset(stage, 1));
++        }
++    
++        MXFP8_MMA_PAIR(0, 0, 0, v_a[0], v_b, c01_0, c01_1, v_sfa, v_sfb[1]);
++        sched_barrier_pairs_scale();
++    
++        MXFP8_MMA_PAIR(0, 0, 1, v_a[0], v_b, c01_2, c01_3, v_sfa, v_sfb[1]);
++        sched_barrier_pairs_scale();
++    
++        // Stage this completed output row while later independent MFMAs execute.
++        if constexpr (T::OUTPUT_BF16) {
++            const int soff = c_offset(1, 0);
++            MXFP8_STORE_TWO_FRAGMENTS(c10_12, c10_13, 12);
++            MXFP8_STORE_TWO_FRAGMENTS(c10_14, c10_15, 14);
++        }
++    
++        if constexpr (T::OUTPUT_BF16) {
++            // C10 LDS writes must finish before publication. Prior global
++            // C00 stores are independent and may remain in flight here;
++            // all matrix loads retired before output reused their LDS.
++            __builtin_amdgcn_sched_barrier(0);
++            s_waitcnt_lgkmcnt(0_I);
++            __builtin_amdgcn_s_barrier();
++            __builtin_amdgcn_sched_barrier(0);
++            copy_output_quarter(1, 0, 0);
++            copy_output_quarter(1, 0, 1);
++            copy_output_quarter(1, 0, 2);
++            copy_output_quarter(1, 0, 3);
++            copy_output_quarter(1, 0, 4);
++            copy_output_quarter(1, 0, 5);
++            copy_output_quarter(1, 0, 6);
++            copy_output_quarter(1, 0, 7);
++        }
++    
++        MXFP8_MMA_PAIR(0, 1, 0, v_a[0], v_b, c01_4, c01_5, v_sfa, v_sfb[1]);
++        sched_barrier_pairs_scale();
++    
++        MXFP8_MMA_PAIR(0, 1, 1, v_a[0], v_b, c01_6, c01_7, v_sfa, v_sfb[1]);
++        sched_barrier_pairs_scale();
++    
++        // Stage this completed output row while later independent MFMAs execute.
++        if constexpr (T::OUTPUT_BF16) {
++            const int soff = c_offset(0, 1);
++            MXFP8_STORE_TWO_FRAGMENTS(c01_0, c01_1, 0);
++            MXFP8_STORE_TWO_FRAGMENTS(c01_2, c01_3, 2);
++        }
++    
++        MXFP8_MMA_PAIR(0, 2, 0, v_a[0], v_b, c01_8, c01_9, v_sfa, v_sfb[1]);
++        sched_barrier_pairs_scale();
++    
++        MXFP8_MMA_PAIR(0, 2, 1, v_a[0], v_b, c01_10, c01_11, v_sfa, v_sfb[1]);
++        sched_barrier_pairs_scale();
++    
++        // Stage this completed output row while later independent MFMAs execute.
++        if constexpr (T::OUTPUT_BF16) {
++            const int soff = c_offset(0, 1);
++            MXFP8_STORE_TWO_FRAGMENTS(c01_4, c01_5, 4);
++            MXFP8_STORE_TWO_FRAGMENTS(c01_6, c01_7, 6);
++        }
++    
++        MXFP8_MMA_PAIR(0, 3, 0, v_a[0], v_b, c01_12, c01_13, v_sfa, v_sfb[1]);
++        sched_barrier_pairs_scale();
++    
++        MXFP8_MMA_PAIR(0, 3, 1, v_a[0], v_b, c01_14, c01_15, v_sfa, v_sfb[1]);
++        sched_barrier_pairs_scale();
++    
++        // Stage this completed output row while later independent MFMAs execute.
++        if constexpr (T::OUTPUT_BF16) {
++            const int soff = c_offset(0, 1);
++            MXFP8_STORE_TWO_FRAGMENTS(c01_8, c01_9, 8);
++            MXFP8_STORE_TWO_FRAGMENTS(c01_10, c01_11, 10);
++        }
++    
++        MXFP8_MMA_PAIR(1, 0, 0, v_a[1], v_b, c11_0, c11_1, v_sfa, v_sfb[1]);
++        sched_barrier_pairs_scale();
++    
++        MXFP8_MMA_PAIR(1, 0, 1, v_a[1], v_b, c11_2, c11_3, v_sfa, v_sfb[1]);
++        sched_barrier_pairs_scale();
++    
++        // Stage this completed output row while later independent MFMAs execute.
++        if constexpr (T::OUTPUT_BF16) {
++            const int soff = c_offset(0, 1);
++            MXFP8_STORE_TWO_FRAGMENTS(c01_12, c01_13, 12);
++            MXFP8_STORE_TWO_FRAGMENTS(c01_14, c01_15, 14);
++        }
++    
++        if constexpr (T::OUTPUT_BF16) {
++            // Publish only the completed output quadrant before copying it.
++            __builtin_amdgcn_sched_barrier(0);
++            s_waitcnt_vmcnt(0_I);
++            s_waitcnt_lgkmcnt(0_I);
++            __builtin_amdgcn_s_barrier();
++            __builtin_amdgcn_sched_barrier(0);
++            copy_output_quarter(0, 1, 0);
++            copy_output_quarter(0, 1, 1);
++            copy_output_quarter(0, 1, 2);
++            copy_output_quarter(0, 1, 3);
++            copy_output_quarter(0, 1, 4);
++            copy_output_quarter(0, 1, 5);
++            copy_output_quarter(0, 1, 6);
++            copy_output_quarter(0, 1, 7);
++        }
++    
++        MXFP8_MMA_PAIR(1, 1, 0, v_a[1], v_b, c11_4, c11_5, v_sfa, v_sfb[1]);
++        sched_barrier_pairs_scale();
++    
++        MXFP8_MMA_PAIR(1, 1, 1, v_a[1], v_b, c11_6, c11_7, v_sfa, v_sfb[1]);
++        sched_barrier_pairs_scale();
++    
++        // Stage this completed output row while later independent MFMAs execute.
++        if constexpr (T::OUTPUT_BF16) {
++            const int soff = c_offset(1, 1);
++            MXFP8_STORE_TWO_FRAGMENTS(c11_0, c11_1, 0);
++            MXFP8_STORE_TWO_FRAGMENTS(c11_2, c11_3, 2);
++        }
++    
++        MXFP8_MMA_PAIR(1, 2, 0, v_a[1], v_b, c11_8, c11_9, v_sfa, v_sfb[1]);
++        sched_barrier_pairs_scale();
++    
++        MXFP8_MMA_PAIR(1, 2, 1, v_a[1], v_b, c11_10, c11_11, v_sfa, v_sfb[1]);
++        sched_barrier_pairs_scale();
++    
++        // Stage this completed output row while later independent MFMAs execute.
++        if constexpr (T::OUTPUT_BF16) {
++            const int soff = c_offset(1, 1);
++            MXFP8_STORE_TWO_FRAGMENTS(c11_4, c11_5, 4);
++            MXFP8_STORE_TWO_FRAGMENTS(c11_6, c11_7, 6);
++        }
++    
++        MXFP8_MMA_PAIR(1, 3, 0, v_a[1], v_b, c11_12, c11_13, v_sfa, v_sfb[1]);
++        sched_barrier_pairs_scale();
++    
++        MXFP8_MMA_PAIR(1, 3, 1, v_a[1], v_b, c11_14, c11_15, v_sfa, v_sfb[1]);
++        sched_barrier_pairs_scale();
++    
++        // Stage this completed output row while later independent MFMAs execute.
++        if constexpr (T::OUTPUT_BF16) {
++            const int soff = c_offset(1, 1);
++            MXFP8_STORE_TWO_FRAGMENTS(c11_8, c11_9, 8);
++            MXFP8_STORE_TWO_FRAGMENTS(c11_10, c11_11, 10);
++        }
++    
++        // Stage this completed output row while later independent MFMAs execute.
++        if constexpr (T::OUTPUT_BF16) {
++            const int soff = c_offset(1, 1);
++            MXFP8_STORE_TWO_FRAGMENTS(c11_12, c11_13, 12);
++            MXFP8_STORE_TWO_FRAGMENTS(c11_14, c11_15, 14);
++        }
++        __builtin_amdgcn_s_setprio(0);
++    
++        if constexpr (!T::OUTPUT_BF16) {
++            MXFP8_STORE_QUADRANT(c01, 0, 1);
++        }
++        if constexpr (!T::OUTPUT_BF16) {
++            MXFP8_STORE_QUADRANT(c11, 1, 1);
++        }
++    
++        if constexpr (T::OUTPUT_BF16) {
++            // The padded LDS rows distribute stores from the MFMA lane layout.
++            // Retire first-half copies and publish the remaining output half.
++            __builtin_amdgcn_sched_barrier(0);
++            s_waitcnt_vmcnt(0_I);
++            s_waitcnt_lgkmcnt(0_I);
++            __builtin_amdgcn_s_barrier();
++            __builtin_amdgcn_sched_barrier(0);
++            opus::static_for<T::HALF_B_M * T::HALF_B_N / (T::BLOCK_SIZE * 8)>([&](auto copy_i) {
++                copy_output_quarter(1, 1, decltype(copy_i)::value);
++            });
++        }
+     }
+ #undef MXFP8_STORE_QUADRANT
+ #undef MXFP8_STORE_TWO_FRAGMENTS

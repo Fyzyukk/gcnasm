@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "name": "wave4x1_private_u2",
+  "source_sha256": "b23ee2e6c71aa8558f75585c99224941c76f3768e1430294a705d931c1f6ade7",
+  "wave_partition": [
+    4,
+    1
+  ],
+  "elements": 65536,
+  "exclusive_wave_ownership": true,
+  "exact_native_coordinate_coverage": true,
+  "read_alignment_bytes": 16,
+  "global_store_alignment_bytes": 16,
+  "matrix_lds_allocation_bytes": 135168,
+  "highest_output_lds_byte": 135151,
+  "scope": "Native output coordinate coverage, vector alignment, and exclusive per-wave LDS ownership"
+}

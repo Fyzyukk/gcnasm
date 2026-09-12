@@ -1,0 +1,159 @@
+{
+  "pci": "0000:65:00.0",
+  "hip_visible_devices": "2",
+  "shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "batch": 1,
+  "performance_measured": false,
+  "versions": {
+    "baseline": {
+      "tmpl_generic.hpp": "69ef190d32fc10127deee1d06286233ecdde498e543a2d6c07d02b11696955be",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "build/libblockscale_bpreshuffle.so": "23dfdd845601a82cba1611fb666a68db3747823347adf7f82b731bd530c610bf"
+    },
+    "grid_group2": {
+      "tmpl_generic.hpp": "b5559320532e67f71818d9a9e1f57682bea608b45a338889c6282ff9dfd35ca8",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "build/libblockscale_bpreshuffle.so": "b66e8d77e4bcc16320838dfbf432845ae65549a7986c6d8fe1379b064813323b"
+    },
+    "output_pingpong_136": {
+      "tmpl_generic.hpp": "70280d18975932f144a4cc91c01788ab23c85e3e4f026d40c088e46de6b95583",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "build/libblockscale_bpreshuffle.so": "8b94d26df9c929c09132210db81d918729377f05fdcfee1f8a53b3fb00f6ab01"
+    },
+    "compact_uniform_preload8": {
+      "tmpl_generic.hpp": "bd5b44df23d851ff5b280deb2c02fe18e6615f173ac83dd376ee0c5417e45244",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "c4a15d614aa0a66fa1db03cb9ad5b72387f44601144943bbb4e251c63c54e727",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "build/libblockscale_bpreshuffle.so": "62da6608bbeed53bcfc5b2ac3ee21929ed916fbd650d75cc9e5468e875f51172"
+    }
+  },
+  "records": [
+    {
+      "name": "baseline",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "baseline",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "grid_group2",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "grid_group2",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "output_pingpong_136",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "output_pingpong_136",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "compact_uniform_preload8",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "compact_uniform_preload8",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "grid_group2",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "grid_group2",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "output_pingpong_136",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "output_pingpong_136",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "compact_uniform_preload8",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "compact_uniform_preload8",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "tag": "wave4x1_private_gpu2",
+  "physical_gpu": 2,
+  "hip_index": 2,
+  "pci": "0000:65:00.0",
+  "initial_status": {
+    "GPU use (%)": "1",
+    "GFX Activity": "3045256795",
+    "GPU Memory Allocated (VRAM%)": "0",
+    "GPU Memory Read/Write Activity (%)": "0",
+    "Memory Activity": "1635283332",
+    "Avg. Memory Bandwidth": "0",
+    "PCI Bus": "0000:65:00.0"
+  },
+  "timing_reference": "baseline",
+  "candidates": [
+    "wave4x1_private_u2"
+  ],
+  "performance_shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "jobs": [
+    [
+      "audit",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_latency_20260912/audit.py",
+        "wave4x1_private_u2"
+      ]
+    ],
+    [
+      "shapes",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_latency_20260912/verify_shapes.py",
+        "--tag",
+        "wave4x1_private_gpu2",
+        "--pci",
+        "0000:65:00.0",
+        "wave4x1_private_u2"
+      ]
+    ],
+    [
+      "full",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_latency_20260912/run.py",
+        "verify",
+        "--tag",
+        "wave4x1_private_gpu2",
+        "--pci",
+        "0000:65:00.0",
+        "wave4x1_private_u2"
+      ]
+    ],
+    [
+      "shared",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_latency_20260912/run.py",
+        "shared",
+        "wave4x1_private_gpu2",
+        "wave4x1_private_u2"
+      ]
+    ]
+  ]
+}

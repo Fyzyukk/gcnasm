@@ -1,0 +1,16 @@
+{
+  "name": "contiguous_waves_private68",
+  "status": "PASS",
+  "a_consumer_bytes": 65536,
+  "b_consumer_bytes": 65536,
+  "matrix_stages": 2,
+  "compact_sfa_rows": 256,
+  "native_c_elements": 65536,
+  "exclusive_wave_ownership": true,
+  "slot_reuse_after_reader_retirement": true,
+  "highest_output_lds_byte": 69623,
+  "read_alignment_bytes": 8,
+  "global_store_alignment_bytes": 16,
+  "source_sha256": "931d67d3f829b840f4916086f05bb06c6dc2c6b1cc697622bc99cefb7c1286c8",
+  "scope": "Independent producer/consumer coordinates, SFA pack order, all native C elements and output copy vectors; linked waits and runtime checks are separate."
+}

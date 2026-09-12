@@ -1,0 +1,26 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -317,8 +317,10 @@
+     // Cache immutable address deltas in VGPRs; only K advances in SGPRs.
+     // Four requests share one m0 base, with IOFFSET 0/1056/2112/3168.
+     // Subtract that same immediate from VOFFSET to preserve the input address.
+-    opus::vector_t<int, 16> matrix_addresses;
+-    opus::static_for<16>([&](auto issue_i) {
++    // Only the lane-dependent addresses are cached in ordinary VGPRs.
++    // Later row groups reuse them with nonnegative, wave-uniform SOFFSETs.
++    opus::vector_t<int, 4> matrix_addresses;
++    opus::static_for<4>([&](auto issue_i) {
+         constexpr int issue = decltype(issue_i)::value;
+         constexpr int local = issue % 4;
+         constexpr int immediate = local * matrix_pitch;
+@@ -335,7 +337,9 @@
+             + (issue / 4) * 4 * matrix_pitch;
+         g_matrix.template async_load<16>(
+             reinterpret_cast<void*>(reinterpret_cast<__UINTPTR_TYPE__>(dst)),
+-            matrix_addresses[issue], k_tile * matrix_k_stride,
++            matrix_addresses[issue % 4],
++            __builtin_amdgcn_readfirstlane(k_tile * matrix_k_stride
++                + (issue / 4) * 2 * matrix_pair_stride),
+             opus::number<immediate>{}, opus::number<0>{});
+     };
+ 

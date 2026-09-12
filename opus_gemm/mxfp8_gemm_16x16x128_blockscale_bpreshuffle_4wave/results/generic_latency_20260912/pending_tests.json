@@ -1,0 +1,571 @@
+{
+  "status": "CPU_COMPLETE_GPU_DEFERRED",
+  "timestamp_utc": "2026-09-12T07:57:46.571145+00:00",
+  "baseline_commit": "f483077e0263bc8d39ad810ad4c1f03b93727702",
+  "physical_gpu": 2,
+  "pci": "0000:65:00.0",
+  "user_instruction": "有占用了，你先做，最后测试",
+  "pending_candidates": 15,
+  "production_changed": false,
+  "target_pflops": 3.5,
+  "target_achieved": false,
+  "batches": [
+    {
+      "tag": "scalar_addresses_gpu2",
+      "command": [
+        "python3",
+        "results/generic_latency_20260912/screen.py",
+        "scalar_matrix_group4",
+        "scalar_matrix_group4_resident",
+        "scalar_matrix_group8",
+        "scalar_matrix_group8_resident",
+        "--tag",
+        "scalar_addresses_gpu2",
+        "--gpu",
+        "2",
+        "--rounds",
+        "3"
+      ],
+      "candidates": [
+        {
+          "name": "scalar_matrix_group4",
+          "source_sha256": "e03470b6c645a204d0808c8f3d1aaddde189109a31f0e9e85c9a3bb4f99fe12b",
+          "source_directory": "/tmp/mxfp8_generic_latency_20260912_86xlkzt9/scalar_matrix_group4",
+          "artifact_hashes": {
+            "device.isa": "cd65b86570bb92c4aea0b9403c09c1c98bb30ac21ee2e0495e80fe5d11613368",
+            "device.notes": "c276b851f92c8deccb5647e712e8ed6a908f2cd9043be5349f6e631e5517d2c8",
+            "libblockscale_bpreshuffle.so": "d0391964eece9da1abe366f3416ee0a13fa54c5a07481b1e1d74176ee03321ad",
+            "gemm_a8w8_blockscale_bpreshuffle.exe": "5889a3efec3bb900deadc63f7d45e65b05f2ca45f9d4e70b99c5f19419d0ee2f"
+          },
+          "resources": [
+            {
+              "vgpr_count": 488,
+              "sgpr_count": 74,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            },
+            {
+              "vgpr_count": 500,
+              "sgpr_count": 74,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            }
+          ],
+          "gpu_launched": false,
+          "gpu_correctness": "NOT_RUN",
+          "performance": "NOT_RUN"
+        },
+        {
+          "name": "scalar_matrix_group4_resident",
+          "source_sha256": "f7c0373082704a28d47f244d42f2537234e052959cf96705c369aa7e352b283d",
+          "source_directory": "/tmp/mxfp8_generic_latency_20260912_86xlkzt9/scalar_matrix_group4_resident",
+          "artifact_hashes": {
+            "device.isa": "ee370ecc3c09715ea22eef4ebbe276a331604453c2a7818e6926ef8557138bb2",
+            "device.notes": "7e5a7cb69ae711880d7cc13e5ce3fa6e0882d63846209ebdc404c05e8fc97088",
+            "libblockscale_bpreshuffle.so": "b2af928dc8c924c0ce9310c3113404dbaf5d3547302fa4e0bd8f4d84d85ccccb",
+            "gemm_a8w8_blockscale_bpreshuffle.exe": "a5305eb30d1cb47b9bbb194afa2f738b4e89b31f240033574d8d40e8cb0bd5fb"
+          },
+          "resources": [
+            {
+              "vgpr_count": 496,
+              "sgpr_count": 74,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            },
+            {
+              "vgpr_count": 508,
+              "sgpr_count": 74,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            }
+          ],
+          "gpu_launched": false,
+          "gpu_correctness": "NOT_RUN",
+          "performance": "NOT_RUN"
+        },
+        {
+          "name": "scalar_matrix_group8",
+          "source_sha256": "266c14e174a974d686410ff828b3ec9d82c2011f6c07c6ad64f1d347743252ae",
+          "source_directory": "/tmp/mxfp8_generic_latency_20260912_86xlkzt9/scalar_matrix_group8",
+          "artifact_hashes": {
+            "device.isa": "1f7bbb30c07a43f95ef23825c2dc2b2dc142ec5e300602e9c2e8fef1265df55a",
+            "device.notes": "b6f330975e3e788bc2c09d2cdb661fcda983265dc230a46e8f95ea1a3378b3d8",
+            "libblockscale_bpreshuffle.so": "eba77e93438cfded16297b8e4530df931635ce6d276d65d054fec2a5935d62d0",
+            "gemm_a8w8_blockscale_bpreshuffle.exe": "1d2a10ee15303be43004f34fdec4bbac6ed5ac4c279670b1b0a71e6106f06a49"
+          },
+          "resources": [
+            {
+              "vgpr_count": 492,
+              "sgpr_count": 62,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            },
+            {
+              "vgpr_count": 504,
+              "sgpr_count": 62,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            }
+          ],
+          "gpu_launched": false,
+          "gpu_correctness": "NOT_RUN",
+          "performance": "NOT_RUN"
+        },
+        {
+          "name": "scalar_matrix_group8_resident",
+          "source_sha256": "d5b68401149c976a900aa1ee9d39d170ba9fa94bdaf100df816a579ff6e4d287",
+          "source_directory": "/tmp/mxfp8_generic_latency_20260912_86xlkzt9/scalar_matrix_group8_resident",
+          "artifact_hashes": {
+            "device.isa": "324311fcad21e143ff885fdcae3ced780074f9252aadac8137cac0c3bc6153d5",
+            "device.notes": "4a3fcc5fc77339d0affc96a24f3215e5c797b0a57b19298f4e3a22ae33c02b1f",
+            "libblockscale_bpreshuffle.so": "52fa6ee1e362375c811cab2d320d517e6a6dda79463d6c9b9257d9f6fe147c7c",
+            "gemm_a8w8_blockscale_bpreshuffle.exe": "d76918afc7ca529211c7d82640b9913f11f2da32e2463ca0bf04e2ac33f58397"
+          },
+          "resources": [
+            {
+              "vgpr_count": 500,
+              "sgpr_count": 60,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            },
+            {
+              "vgpr_count": 512,
+              "sgpr_count": 60,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            }
+          ],
+          "gpu_launched": false,
+          "gpu_correctness": "NOT_RUN",
+          "performance": "NOT_RUN"
+        }
+      ]
+    },
+    {
+      "tag": "contiguous_waves_gpu2",
+      "command": [
+        "python3",
+        "results/generic_latency_20260912/screen.py",
+        "contiguous_waves",
+        "contiguous_waves_private68",
+        "contiguous_waves_private72",
+        "--tag",
+        "contiguous_waves_gpu2",
+        "--gpu",
+        "2",
+        "--rounds",
+        "3"
+      ],
+      "candidates": [
+        {
+          "name": "contiguous_waves",
+          "source_sha256": "a0303535f78228748e374a075603c1710bbf91e91314c9d3abb78f07d11e2fc9",
+          "source_directory": "/tmp/mxfp8_generic_latency_20260912_86xlkzt9/contiguous_waves",
+          "artifact_hashes": {
+            "device.isa": "2d929fe959423d1e92f8249e77d173e4a0d36a4baf8e846b980e4872acd01fad",
+            "device.notes": "fbdce6e600ca246531e0f8431a5caa29cc0e4746d98aa087cab14cf8c70de7f5",
+            "libblockscale_bpreshuffle.so": "d6677379a5ccaf01ff3c72e0c6dd02e7c5238ca19bae8bf276a2a0f4d4d213f8",
+            "gemm_a8w8_blockscale_bpreshuffle.exe": "1d19a55d75501aaf04bc2612dcd1bcead605bb4736c789c16ab5a877b42d3dd3"
+          },
+          "resources": [
+            {
+              "vgpr_count": 500,
+              "sgpr_count": 62,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            },
+            {
+              "vgpr_count": 512,
+              "sgpr_count": 62,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            }
+          ],
+          "gpu_launched": false,
+          "gpu_correctness": "NOT_RUN",
+          "performance": "NOT_RUN"
+        },
+        {
+          "name": "contiguous_waves_private68",
+          "source_sha256": "931d67d3f829b840f4916086f05bb06c6dc2c6b1cc697622bc99cefb7c1286c8",
+          "source_directory": "/tmp/mxfp8_generic_latency_20260912_86xlkzt9/contiguous_waves_private68",
+          "artifact_hashes": {
+            "device.isa": "ceeef9eea2566cf86f674101840e5604a8c0a2ad5657fc7f80d8e92a15bc800e",
+            "device.notes": "c358a25b6c08582f435af6080a6f0bc758257d006ddd1d5442257048fe178fa1",
+            "libblockscale_bpreshuffle.so": "903864eb6e53952bc1fe8f9fdfb0a07500218c0ed678c61e6add69eaade2a0e5",
+            "gemm_a8w8_blockscale_bpreshuffle.exe": "9ef85696399e29d454881aa2c1e30c5694f4360478652ea7ee4248e8779ca83a"
+          },
+          "resources": [
+            {
+              "vgpr_count": 500,
+              "sgpr_count": 62,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            },
+            {
+              "vgpr_count": 504,
+              "sgpr_count": 62,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            }
+          ],
+          "gpu_launched": false,
+          "gpu_correctness": "NOT_RUN",
+          "performance": "NOT_RUN"
+        },
+        {
+          "name": "contiguous_waves_private72",
+          "source_sha256": "1dccd56a56cc0bdb768367d1ce1a24a2d464216eefc2a89a46de4a77b1806299",
+          "source_directory": "/tmp/mxfp8_generic_latency_20260912_86xlkzt9/contiguous_waves_private72",
+          "artifact_hashes": {
+            "device.isa": "12d0b1032fe9c7eba01b97630813dc4c1dc0b8426354b4e993ddbe21a75791bb",
+            "device.notes": "c358a25b6c08582f435af6080a6f0bc758257d006ddd1d5442257048fe178fa1",
+            "libblockscale_bpreshuffle.so": "6bec3db26aa51ef75f049fdd784dae69ca537454999c161571e646184d424ca2",
+            "gemm_a8w8_blockscale_bpreshuffle.exe": "6bbab9f77c2ac5e68300cffed12e47a83e45b6188927ba7206b450460c060d9c"
+          },
+          "resources": [
+            {
+              "vgpr_count": 500,
+              "sgpr_count": 62,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            },
+            {
+              "vgpr_count": 504,
+              "sgpr_count": 62,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            }
+          ],
+          "gpu_launched": false,
+          "gpu_correctness": "NOT_RUN",
+          "performance": "NOT_RUN"
+        }
+      ]
+    },
+    {
+      "tag": "combinations_gpu2",
+      "command": [
+        "python3",
+        "results/generic_latency_20260912/screen.py",
+        "grid_group2_out136",
+        "grid_group2_compact8",
+        "grid_group2_out136_compact8",
+        "--tag",
+        "combinations_gpu2",
+        "--gpu",
+        "2",
+        "--rounds",
+        "3"
+      ],
+      "candidates": [
+        {
+          "name": "grid_group2_out136",
+          "source_sha256": "edfd08fbf9c9199eebf310610df1d56853fa4aa62703623dffa32912075e5e8a",
+          "source_directory": "/tmp/mxfp8_generic_latency_20260912_86xlkzt9/grid_group2_out136",
+          "artifact_hashes": {
+            "device.isa": "e55b2f33551d030f2f6adb55a290162b7acd37e15b8cf3491bc1c3cf8683cb32",
+            "device.notes": "c358a25b6c08582f435af6080a6f0bc758257d006ddd1d5442257048fe178fa1",
+            "libblockscale_bpreshuffle.so": "1c2d23036f9d51cc7e9aed26374f5b608bda1e4b6fbfd6112c798de70195034a",
+            "gemm_a8w8_blockscale_bpreshuffle.exe": "460ba0a444548153f7a7e09451489c3c45dbb4a68ea8a9acf7431b5fb154af25"
+          },
+          "resources": [
+            {
+              "vgpr_count": 500,
+              "sgpr_count": 62,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            },
+            {
+              "vgpr_count": 504,
+              "sgpr_count": 62,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            }
+          ],
+          "gpu_launched": false,
+          "gpu_correctness": "NOT_RUN",
+          "performance": "NOT_RUN"
+        },
+        {
+          "name": "grid_group2_compact8",
+          "source_sha256": "568c5e149cebd81574b394e05f9740a6a0f5647e3afa82dbe827b95b3e3974c0",
+          "source_directory": "/tmp/mxfp8_generic_latency_20260912_86xlkzt9/grid_group2_compact8",
+          "artifact_hashes": {
+            "device.isa": "e3bf23bdceb2f2a71f1ca0b3b94e93266bae60d6ff8b1c364b869ae5bce73685",
+            "device.notes": "962e063f7d667b94fa9c5c9473a902014ddb7138b6b543ee950f51ac294b0ad2",
+            "libblockscale_bpreshuffle.so": "9f6d0914092773734c76bc5e7621aa3459eb3e138d8e3d511dad41f925f50771",
+            "gemm_a8w8_blockscale_bpreshuffle.exe": "da86de4100552691a8037a2b8633662f8db452dbb25657e88c5113dc5a8c111e"
+          },
+          "resources": [
+            {
+              "vgpr_count": 500,
+              "sgpr_count": 60,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            },
+            {
+              "vgpr_count": 512,
+              "sgpr_count": 60,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            }
+          ],
+          "gpu_launched": false,
+          "gpu_correctness": "NOT_RUN",
+          "performance": "NOT_RUN"
+        },
+        {
+          "name": "grid_group2_out136_compact8",
+          "source_sha256": "a27f91c001685bb5d78dd6eacc74aa9fa9c449e72ecc862e00ec6172f3e52a75",
+          "source_directory": "/tmp/mxfp8_generic_latency_20260912_86xlkzt9/grid_group2_out136_compact8",
+          "artifact_hashes": {
+            "device.isa": "b427835067ad4415b5f113bfbc1101eb4c47297a5417d8eb2725e06c88199a9c",
+            "device.notes": "d8e321cfc23f551855d104027c410d5cb39519bf419f36e8c029cbc38035a427",
+            "libblockscale_bpreshuffle.so": "ca03165075490e62374c7201eeef85a684ab42d79022b421af029d11e023e04d",
+            "gemm_a8w8_blockscale_bpreshuffle.exe": "13eba8b8e7fd0002d77dbfaf7fcd692231f47a52e6f6ce226c2c79dea3465bc3"
+          },
+          "resources": [
+            {
+              "vgpr_count": 500,
+              "sgpr_count": 60,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            },
+            {
+              "vgpr_count": 504,
+              "sgpr_count": 60,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            }
+          ],
+          "gpu_launched": false,
+          "gpu_correctness": "NOT_RUN",
+          "performance": "NOT_RUN"
+        }
+      ]
+    },
+    {
+      "tag": "morton_gpu2",
+      "command": [
+        "python3",
+        "results/generic_latency_20260912/screen.py",
+        "grid_morton_g4_nfirst",
+        "grid_morton_g4_mfirst",
+        "grid_morton_g8_nfirst",
+        "grid_morton_g8_mfirst",
+        "grid_morton_g16_mfirst",
+        "--tag",
+        "morton_gpu2",
+        "--gpu",
+        "2",
+        "--rounds",
+        "3"
+      ],
+      "candidates": [
+        {
+          "name": "grid_morton_g4_nfirst",
+          "source_sha256": "b02b8c3e649c8a7f327739cb5d1fc82eeced501b1a0aa8ede216c879a2e3d8fc",
+          "source_directory": "/tmp/mxfp8_generic_latency_20260912_86xlkzt9/grid_morton_g4_nfirst",
+          "artifact_hashes": {
+            "device.isa": "484649a47814cef1329f2007031df3207f126005bab9773d605f3c2e175cc157",
+            "device.notes": "fbdce6e600ca246531e0f8431a5caa29cc0e4746d98aa087cab14cf8c70de7f5",
+            "libblockscale_bpreshuffle.so": "a8fa7f3ba04187cf297ae3dd3c4db4623331061d147a72f9aa7d90a895f34ad1",
+            "gemm_a8w8_blockscale_bpreshuffle.exe": "65231c2a3de9318506db58126839416401eb9b8873b13d1561c855a9074cb0e3"
+          },
+          "resources": [
+            {
+              "vgpr_count": 500,
+              "sgpr_count": 62,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            },
+            {
+              "vgpr_count": 512,
+              "sgpr_count": 62,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            }
+          ],
+          "gpu_launched": false,
+          "gpu_correctness": "NOT_RUN",
+          "performance": "NOT_RUN"
+        },
+        {
+          "name": "grid_morton_g4_mfirst",
+          "source_sha256": "77fc9e75824b623f9b63360bed8b9bbb644d845817cb890d8cd21701e17b4a06",
+          "source_directory": "/tmp/mxfp8_generic_latency_20260912_86xlkzt9/grid_morton_g4_mfirst",
+          "artifact_hashes": {
+            "device.isa": "0653a4b7cafe6376d3b3b3c96926c260fec703869be79a48edb5822ec7066dca",
+            "device.notes": "fbdce6e600ca246531e0f8431a5caa29cc0e4746d98aa087cab14cf8c70de7f5",
+            "libblockscale_bpreshuffle.so": "92e551a53b847e107c17f40a22fc2641ad52b5c29268a373d48163279a1281f8",
+            "gemm_a8w8_blockscale_bpreshuffle.exe": "f0ef3b880b7b0018ee5a2f2e5bdf9a711b7ccdcc6a18cdabf0b416501e73ed46"
+          },
+          "resources": [
+            {
+              "vgpr_count": 500,
+              "sgpr_count": 62,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            },
+            {
+              "vgpr_count": 512,
+              "sgpr_count": 62,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            }
+          ],
+          "gpu_launched": false,
+          "gpu_correctness": "NOT_RUN",
+          "performance": "NOT_RUN"
+        },
+        {
+          "name": "grid_morton_g8_nfirst",
+          "source_sha256": "9288237d94b52a1457a2e4a113d9e847dde288a9ca19f17721e3a037757ce719",
+          "source_directory": "/tmp/mxfp8_generic_latency_20260912_86xlkzt9/grid_morton_g8_nfirst",
+          "artifact_hashes": {
+            "device.isa": "d8a3ee5834d058025e84a2d20c0f8616fd259b9f42cc884731c275fde1e2f2ca",
+            "device.notes": "fbdce6e600ca246531e0f8431a5caa29cc0e4746d98aa087cab14cf8c70de7f5",
+            "libblockscale_bpreshuffle.so": "7b095da7232709071126cd54e1c9e74768954eae4c6bdf2f4cada9ea5c6a8882",
+            "gemm_a8w8_blockscale_bpreshuffle.exe": "3c767ed9f7ad61671b10b8edd349571bb00f46296b4849673b755df6117c2120"
+          },
+          "resources": [
+            {
+              "vgpr_count": 500,
+              "sgpr_count": 62,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            },
+            {
+              "vgpr_count": 512,
+              "sgpr_count": 62,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            }
+          ],
+          "gpu_launched": false,
+          "gpu_correctness": "NOT_RUN",
+          "performance": "NOT_RUN"
+        },
+        {
+          "name": "grid_morton_g8_mfirst",
+          "source_sha256": "74b61796cc05b6e5b3d2a8b0f336f95db1c6b9d69baa4681197b9e3ab4c26fc4",
+          "source_directory": "/tmp/mxfp8_generic_latency_20260912_86xlkzt9/grid_morton_g8_mfirst",
+          "artifact_hashes": {
+            "device.isa": "59b7444864de99b44926a5cd7cc0fe1d4787c7293bc82f71cfb36bab66626e2c",
+            "device.notes": "fbdce6e600ca246531e0f8431a5caa29cc0e4746d98aa087cab14cf8c70de7f5",
+            "libblockscale_bpreshuffle.so": "623c6d1fad82c9ce6a9b84e05325c36a0365ac755f37826bd6407ca524cd4648",
+            "gemm_a8w8_blockscale_bpreshuffle.exe": "42bdf697cf54fddcd63a6489fced73f0db5f0c05d7400bdf6dcb186ea3a67f1d"
+          },
+          "resources": [
+            {
+              "vgpr_count": 500,
+              "sgpr_count": 62,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            },
+            {
+              "vgpr_count": 512,
+              "sgpr_count": 62,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            }
+          ],
+          "gpu_launched": false,
+          "gpu_correctness": "NOT_RUN",
+          "performance": "NOT_RUN"
+        },
+        {
+          "name": "grid_morton_g16_mfirst",
+          "source_sha256": "94fe4a79fbe0bb672e80c4a1118c9c3bdc069b8f5c87ff77dbeb856e73444d79",
+          "source_directory": "/tmp/mxfp8_generic_latency_20260912_86xlkzt9/grid_morton_g16_mfirst",
+          "artifact_hashes": {
+            "device.isa": "bce967d03cd32529b77f905d24891bc8c3b32eea42e36de3e779b3fab3459544",
+            "device.notes": "fbdce6e600ca246531e0f8431a5caa29cc0e4746d98aa087cab14cf8c70de7f5",
+            "libblockscale_bpreshuffle.so": "e77f4e3a734d56445874a4a20b2ce30a3711a589953054a37451bd4d6a338a81",
+            "gemm_a8w8_blockscale_bpreshuffle.exe": "92b0099d996b2c948513a2ff3ef5536decfc380fc323b4ff9006f256af019057"
+          },
+          "resources": [
+            {
+              "vgpr_count": 500,
+              "sgpr_count": 62,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            },
+            {
+              "vgpr_count": 512,
+              "sgpr_count": 62,
+              "group_segment_fixed_size": 152064,
+              "private_segment_fixed_size": 0,
+              "vgpr_spill_count": 0,
+              "sgpr_spill_count": 0
+            }
+          ],
+          "gpu_launched": false,
+          "gpu_correctness": "NOT_RUN",
+          "performance": "NOT_RUN"
+        }
+      ]
+    }
+  ],
+  "availability_evidence": "final_gpu_availability.json",
+  "final_gpu_tests_started": false
+}

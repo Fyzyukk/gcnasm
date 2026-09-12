@@ -1,0 +1,78 @@
+{
+  "final_resident": {
+    "status": "REJECTED_BEFORE_GPU",
+    "gpu_launched": false,
+    "reason": "Removing final operand reloads raises BF16 pressure beyond the register limit: 2 VGPR spills and 12 bytes scratch. FP32 has no spill. Retain the original reloads."
+  },
+  "prepare_m0_lead2": {
+    "status": "REJECTED_BEFORE_GPU",
+    "gpu_launched": false,
+    "reason": "Source-order check caught m0 changing before the final request of the preceding group. The separately saved lead2fixed candidate preserves that dependency."
+  },
+  "wave4x1_u4": {
+    "status": "BUILD_FAILED",
+    "gpu_launched": false,
+    "reason": "Clang23 AMDGPU allocator failed a hard-pin constraint for FP32 with four-way loop unrolling; fixed AGPR constraints were retained."
+  },
+  "wave4x1_private_u4": {
+    "status": "BUILD_FAILED",
+    "gpu_launched": false,
+    "reason": "Clang23 AMDGPU allocator failed a hard-pin constraint for FP32 with four-way loop unrolling; fixed AGPR constraints were retained."
+  },
+  "output_pingpong_132_resident": {
+    "status": "REJECTED_BEFORE_GPU",
+    "reason": "BF16 compiled with 2 VGPR spills and 12 bytes scratch; FP32 remains zero-spill",
+    "source_saved": true,
+    "performance_measured": false
+  },
+  "output_pingpong_136_resident": {
+    "status": "REJECTED_BEFORE_GPU",
+    "reason": "BF16 compiled with 2 VGPR spills and 12 bytes scratch; FP32 remains zero-spill",
+    "source_saved": true,
+    "performance_measured": false
+  },
+  "output_pingpong_xor128_resident": {
+    "status": "REJECTED_BEFORE_GPU",
+    "reason": "BF16 compiled with 2 VGPR spills and 12 bytes scratch; FP32 remains zero-spill",
+    "source_saved": true,
+    "performance_measured": false
+  },
+  "output_pingpong_xor128": {
+    "status": "REJECTED_BEFORE_GPU",
+    "reason": "Conservative linked-ISA readiness audit found a final A1 reload overwriting VGPRs of an outstanding LDS read. A separately named ordered candidate adds explicit retirement.",
+    "source_saved": true,
+    "performance_measured": false
+  },
+  "compact_args_preload0": {
+    "status": "REJECTED_BEFORE_GPU",
+    "reason": "Canonical stride folding lowered initial async-load scalar offsets through EXEC waterfall loops. Uniform-offset and producer-role fixes use new candidate names.",
+    "source_saved": true,
+    "performance_measured": false
+  },
+  "compact_args_preload3": {
+    "status": "REJECTED_BEFORE_GPU",
+    "reason": "Canonical stride folding lowered initial async-load scalar offsets through EXEC waterfall loops. Uniform-offset and producer-role fixes use new candidate names.",
+    "source_saved": true,
+    "performance_measured": false
+  },
+  "compact_args_preload8": {
+    "status": "REJECTED_BEFORE_GPU",
+    "reason": "Canonical stride folding lowered initial async-load scalar offsets through EXEC waterfall loops. Uniform-offset and producer-role fixes use new candidate names.",
+    "source_saved": true,
+    "performance_measured": false
+  },
+  "output_stream_both_materialized": {
+    "status": "BUILD_FAILED",
+    "gpu_launched": false,
+    "source_saved": true,
+    "performance_measured": false,
+    "reason": "A mutable ordinary-VGPR constraint on a copy of the pinned accumulator conflicts with hard AGPR precoloring: AMDGPU hard-pin target is outside the allocation order for its register class. Hard pinning remains enabled; no GPU execution."
+  },
+  "output_stream_both_materialized_out136": {
+    "status": "BUILD_FAILED",
+    "gpu_launched": false,
+    "source_saved": true,
+    "performance_measured": false,
+    "reason": "A mutable ordinary-VGPR constraint on a copy of the pinned accumulator conflicts with hard AGPR precoloring: AMDGPU hard-pin target is outside the allocation order for its register class. Hard pinning remains enabled; no GPU execution."
+  }
+}

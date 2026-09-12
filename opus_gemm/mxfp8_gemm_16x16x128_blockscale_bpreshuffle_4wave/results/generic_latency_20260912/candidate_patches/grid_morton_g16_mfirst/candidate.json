@@ -1,0 +1,94 @@
+{
+  "name": "grid_morton_g16_mfirst",
+  "parent": "baseline",
+  "config": {
+    "lds_output": true,
+    "release_mfma": 5,
+    "unified_k1": true,
+    "early_a1_m3": true,
+    "scale_panel_tiles": 64,
+    "unroll": 4,
+    "explicit_retire_vmem_wait": true,
+    "output_rows": true,
+    "store_delay": 4,
+    "lds_vector_elements": 4,
+    "panel_global_loads": "four_before_transpose",
+    "initial_publish": "after_B_requests",
+    "output_half_overlap": false,
+    "final_barrier_vmem_drain": true,
+    "sfa_next_read_mfma": 2,
+    "sfb_next_read_mfma": 20,
+    "sfa_read_pair": true,
+    "accumulator_early_use": "split_sfa_b",
+    "unsigned_tile_indices": false,
+    "output_quarter_publication_mfmas": [
+      20,
+      36,
+      52,
+      64
+    ],
+    "output_barriers_without_vmem_drain": [
+      3
+    ],
+    "a0_m0_prefetch_mfma": 30,
+    "a0_m0_install_mfma": 36,
+    "grid_order": "morton_local_bits",
+    "matrix_group_immediates": [
+      0,
+      1056,
+      2112,
+      3168
+    ],
+    "matrix_group_m0_adjustments": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "matrix_issue_mfmas": [
+      7,
+      9,
+      11,
+      13,
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37
+    ],
+    "maintain_priority_between_main_tiles": true,
+    "release_priority": 1,
+    "scale_refill_priority": 0,
+    "grid_group": 16,
+    "grid_low_bit_first": "m",
+    "grid_partial_groups": "identity"
+  },
+  "source_hashes": {
+    "tmpl_generic.hpp": "94fe4a79fbe0bb672e80c4a1118c9c3bdc069b8f5c87ff77dbeb856e73444d79",
+    "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+    "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+    "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+    "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+    "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+    "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+    "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+    "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+  },
+  "generic_runtime_k": true,
+  "performance_shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "waves": 4,
+  "output_tiles_per_wg": 1,
+  "production_single_generic": true,
+  "parent_commit": "f483077e0263bc8d39ad810ad4c1f03b93727702"
+}

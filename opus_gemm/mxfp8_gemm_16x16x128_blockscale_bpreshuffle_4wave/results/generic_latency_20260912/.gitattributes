@@ -1,0 +1,4 @@
+# Preserve llvm-readelf's exact captured metadata, including its final blank line.
+selected/device.notes whitespace=-blank-at-eof
+# Unified-diff context adds a space before Makefile recipe tabs; keep it exact.
+candidate_patches/*/change.patch whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab

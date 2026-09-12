@@ -1,0 +1,13 @@
+{
+  "status": "BUILD_FAILED",
+  "gpu_launched": false,
+  "performance_measured": false,
+  "reason": "Compile-only literal-zero MFMA SrcC probe fails in SI pre-color pinned registers: malformed vgprcd MFMA accumulator operands.",
+  "toolchain_unchanged": true,
+  "probe_source": "zero_acc_probe.cc",
+  "reproduction_files": [
+    "/tmp/zero_acc_probe-gfx950-3194e1.hip",
+    "/tmp/zero_acc_probe-gfx950-3194e1.sh"
+  ],
+  "evidence": "Diagnostic was emitted during the earlier compile probe; this record summarizes that observed failure rather than claiming a new compile."
+}

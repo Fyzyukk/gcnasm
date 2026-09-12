@@ -1,0 +1,119 @@
+{
+  "pci": "0000:65:00.0",
+  "hip_visible_devices": "2",
+  "shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "batch": 1,
+  "performance_measured": false,
+  "versions": {
+    "baseline": {
+      "tmpl_generic.hpp": "69ef190d32fc10127deee1d06286233ecdde498e543a2d6c07d02b11696955be",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "build/libblockscale_bpreshuffle.so": "23dfdd845601a82cba1611fb666a68db3747823347adf7f82b731bd530c610bf"
+    },
+    "wave4x1_u1": {
+      "tmpl_generic.hpp": "984dc3ad88a34232f307563e423ca68c1ad59dbf40a7f33ffe9a5eb0e503d312",
+      "traits.hpp": "b51dafa863fa9a7c7c66bb9d673c120e8dde7111dd17ccd51d0613f5091685af",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "build/libblockscale_bpreshuffle.so": "bcb4262588f5c38b1e4961c9ce00b549bd333ffa3e35efd385f1dc92778da212"
+    },
+    "wave4x1_u2": {
+      "tmpl_generic.hpp": "fe42dd4e83379ecc2c1648ff3e296145d7602cd51020ea564a824b96d2da8310",
+      "traits.hpp": "b51dafa863fa9a7c7c66bb9d673c120e8dde7111dd17ccd51d0613f5091685af",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+      "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+      "build/libblockscale_bpreshuffle.so": "402e13dce06914c6895aa3ced4ee91a88819e85760ba4a170ad821f035262e78"
+    }
+  },
+  "records": [
+    {
+      "name": "baseline",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "baseline",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "wave4x1_u1",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "wave4x1_u1",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "wave4x1_u2",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "wave4x1_u2",
+      "pattern": "dyadic_independent_dequantized_gemm",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "wave4x1_u1",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "wave4x1_u1",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "wave4x1_u2",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "fp32",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    },
+    {
+      "name": "wave4x1_u2",
+      "pattern": "cli_seed1_validated_baseline",
+      "dtype": "bf16",
+      "elements": 67108864,
+      "exact_equal": true,
+      "output_prefilled_nan": true
+    }
+  ]
+}

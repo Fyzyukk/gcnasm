@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "scope": "Independent A/B producer coordinates, native C coverage and logical SFA-byte contract; GPU reference checks validate the implementation",
+  "records": [
+    {
+      "name": "wave4x1_u1",
+      "source_sha256": "984dc3ad88a34232f307563e423ca68c1ad59dbf40a7f33ffe9a5eb0e503d312",
+      "wave_partition": [
+        4,
+        1
+      ],
+      "output_tile": [
+        256,
+        256
+      ],
+      "unique_output_elements": 65536,
+      "matrix_consumer_offsets_match_original_producer": true,
+      "sfa_byte_matches_logical_row": true
+    },
+    {
+      "name": "wave4x1_u2",
+      "source_sha256": "fe42dd4e83379ecc2c1648ff3e296145d7602cd51020ea564a824b96d2da8310",
+      "wave_partition": [
+        4,
+        1
+      ],
+      "output_tile": [
+        256,
+        256
+      ],
+      "unique_output_elements": 65536,
+      "matrix_consumer_offsets_match_original_producer": true,
+      "sfa_byte_matches_logical_row": true
+    }
+  ]
+}

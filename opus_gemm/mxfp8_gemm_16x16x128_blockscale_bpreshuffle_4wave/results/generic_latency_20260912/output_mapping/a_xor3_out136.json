@@ -1,0 +1,11 @@
+{
+  "name": "a_xor3_out136",
+  "status": "PASS",
+  "native_coordinate_coverage": 65536,
+  "read_alignment_bytes": 16,
+  "store_alignment_bytes": 16,
+  "highest_output_lds_byte": 69615,
+  "slot_reuse_after_prior_reader_publication": true,
+  "source_sha256": "2c9b58ac806c5a4fd7d9851cd763e3bdfe49b50d7c9430adebe1e3898e40cfc6",
+  "scope": "Native C mapping, vector alignment, and source publication lifetime. Linked-ISA waitcnt/control-flow audit is separate."
+}

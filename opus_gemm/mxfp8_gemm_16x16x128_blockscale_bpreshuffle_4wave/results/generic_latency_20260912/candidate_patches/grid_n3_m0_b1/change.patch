@@ -1,0 +1,20 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -247,8 +247,15 @@
+ 
+     // N varies along grid X and M along grid Y. The public byte-count
+     // bound limits either tile dimension to less than 16384.
+-    const int block_m = block_id_y();
+-    const int block_n = block_id_x();
++    int block_m = block_id_y();
++    int block_n = block_id_x();
++    // Exchange complete tile-index fields; partial groups keep direct mapping.
++    if ((kargs.m & 511) == 0 &&
++        (kargs.n & 4095) == 0) {
++        const int old_m = block_m;
++        block_m = (block_m & ~1) | (((block_n >> 3) & 1) << 0);
++        block_n = (block_n & ~8) | (((old_m >> 0) & 1) << 3);
++    }
+     const int row = block_m * T::B_M;
+     const int col = block_n * T::B_N;
+ 

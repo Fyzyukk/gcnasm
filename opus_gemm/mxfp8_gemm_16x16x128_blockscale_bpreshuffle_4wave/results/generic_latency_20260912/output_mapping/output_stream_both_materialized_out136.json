@@ -1,0 +1,23 @@
+{
+  "name": "output_stream_both_materialized_out136",
+  "status": "PASS",
+  "native_coordinate_coverage": 65536,
+  "read_alignment_bytes": 16,
+  "store_alignment_bytes": 16,
+  "highest_output_lds_byte": 69615,
+  "first_write_mfmas": [
+    5,
+    21,
+    37,
+    53
+  ],
+  "publication_mfmas": [
+    20,
+    36,
+    52,
+    64
+  ],
+  "slot_reuse_after_prior_reader_publication": true,
+  "source_sha256": "1dd37f28eb08753f40458beb3ca3149e4f3c2e1564fb71afa8b64ef136b6f311",
+  "scope": "Native C mapping, vector alignment, and source publication lifetime. Linked-ISA waitcnt/control-flow audit is separate."
+}

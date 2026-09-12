@@ -1,0 +1,79 @@
+{
+  "tag": "m0_group2_gpu2",
+  "physical_gpu": 2,
+  "hip_index": 2,
+  "pci": "0000:65:00.0",
+  "initial_status": {
+    "GPU use (%)": "1",
+    "GFX Activity": "3046469936",
+    "GPU Memory Allocated (VRAM%)": "0",
+    "GPU Memory Read/Write Activity (%)": "0",
+    "Memory Activity": "1635368563",
+    "Avg. Memory Bandwidth": "0",
+    "PCI Bus": "0000:65:00.0"
+  },
+  "timing_reference": "baseline",
+  "candidates": [
+    "prepare_m0_explicit1",
+    "prepare_m0_explicit2",
+    "grid_group2"
+  ],
+  "performance_shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "jobs": [
+    [
+      "audit",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_latency_20260912/audit.py",
+        "prepare_m0_explicit1",
+        "prepare_m0_explicit2",
+        "grid_group2"
+      ]
+    ],
+    [
+      "shapes",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_latency_20260912/verify_shapes.py",
+        "--tag",
+        "m0_group2_gpu2",
+        "--pci",
+        "0000:65:00.0",
+        "prepare_m0_explicit1",
+        "prepare_m0_explicit2",
+        "grid_group2"
+      ]
+    ],
+    [
+      "full",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_latency_20260912/run.py",
+        "verify",
+        "--tag",
+        "m0_group2_gpu2",
+        "--pci",
+        "0000:65:00.0",
+        "prepare_m0_explicit1",
+        "prepare_m0_explicit2",
+        "grid_group2"
+      ]
+    ],
+    [
+      "shared",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_latency_20260912/run.py",
+        "shared",
+        "m0_group2_gpu2",
+        "prepare_m0_explicit1",
+        "prepare_m0_explicit2",
+        "grid_group2"
+      ]
+    ]
+  ]
+}

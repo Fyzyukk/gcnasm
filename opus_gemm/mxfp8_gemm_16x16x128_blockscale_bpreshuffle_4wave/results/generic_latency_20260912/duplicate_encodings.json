@@ -1,0 +1,68 @@
+[
+  {
+    "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+    "encoding_sha256": "06eea74b57ed997e2b1502fd9562a9dccfd85a2fe6e2e3055a1a3665a4cd9773",
+    "names": [
+      "baseline",
+      "output_pingpong_132",
+      "output_pingpong_132_resident",
+      "output_pingpong_136",
+      "output_pingpong_136_resident",
+      "output_pingpong_xor128",
+      "output_pingpong_xor128_resident",
+      "output_packed_materialized",
+      "output_packed_materialized_out136",
+      "output_stream_packed_materialized",
+      "output_stream_packed_materialized_out136"
+    ]
+  },
+  {
+    "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+    "encoding_sha256": "2bd62fb71197c1a14de764d454c246d67d38cfa12d4508b86130b3ed508ce512",
+    "names": [
+      "grid_group2",
+      "grid_group2_out136"
+    ]
+  },
+  {
+    "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+    "encoding_sha256": "112857b2e4793ef47dcc3431bed86f3a67bf8a51d13d6e3222e001656303f16c",
+    "names": [
+      "wave4x1_private_u2",
+      "wave4x1_u2"
+    ]
+  },
+  {
+    "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+    "encoding_sha256": "b36b415e394613790c7fabc8499d82491353cc1a7c724561eac644aa5675e1b1",
+    "names": [
+      "a_xor3",
+      "a_xor3_out136"
+    ]
+  },
+  {
+    "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+    "encoding_sha256": "be6acbcb44fe2c695f3e76637c9409b1a8feb7b1256271371f6d7c993c543e78",
+    "names": [
+      "a_xor7",
+      "a_xor7_out136"
+    ]
+  },
+  {
+    "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+    "encoding_sha256": "cd49a5b6a28b2858d981cd542092e77a4a4dbfadddc1bd1fd89e23a1186cdc5d",
+    "names": [
+      "contiguous_waves",
+      "contiguous_waves_private68",
+      "contiguous_waves_private72"
+    ]
+  },
+  {
+    "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEvPKvS4_PvS4_S4_iii",
+    "encoding_sha256": "4d4048f517e61ecaf98b2392a1bb382f24e39b3c5d54cc0cb1019ca0210d304f",
+    "names": [
+      "grid_group2_compact8",
+      "grid_group2_out136_compact8"
+    ]
+  }
+]

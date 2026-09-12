@@ -1,0 +1,18 @@
+{
+  "name": "a_xor3_out136",
+  "status": "PASS",
+  "mask": 3,
+  "stages": 2,
+  "producer_bytes": 65536,
+  "consumer_bytes": 65536,
+  "matrix_shape_per_stage": [
+    256,
+    128
+  ],
+  "vector_alignment_bytes": 16,
+  "highest_a_lds_byte": 67551,
+  "a_lds_capacity_bytes": 67584,
+  "negative_k64_piece_reads": 0,
+  "source_sha256": "2c9b58ac806c5a4fd7d9851cd763e3bdfe49b50d7c9430adebe1e3898e40cfc6",
+  "scope": "Bijective global-A to LDS and native MFMA coordinates, both stages and K64 pieces; linked ISA and GPU correctness audited separately."
+}

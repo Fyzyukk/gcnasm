@@ -1,0 +1,96 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -188,49 +188,29 @@
+ 
+ template<class T>
+ __device__ inline auto make_layout_ra_scale(int lane_id, int wave_id_m) {
+-    constexpr auto ra_block_shape = opus::make_tuple(
+-        opus::number<T::E_M>{},
+-        opus::number<T::T_M>{},
+-        opus::number<T::T_M>{},
+-        opus::number<T::W_M / T::T_M>{},
+-        opus::number<T::E_K>{},
+-        opus::number<T::W_M * T::W_K / T::WARP_SIZE / T::VEC_A>{},
+-        opus::number<T::WARP_SIZE / T::W_M>{},
+-        opus::number<T::VEC_A>{});
+-
+-    constexpr auto ra_block_dim = opus::make_tuple(
+-        opus::make_tuple(opus::y_dim{}, opus::p_dim{}, opus::p_dim{}),
+-        opus::make_tuple(opus::p_dim{}, opus::y_dim{}, opus::y_dim{},
+-                         opus::p_dim{}, opus::y_dim{}));
+-
+-    const int lane_id_m = lane_id % T::W_M;
++    static_assert(T::E_M == 4 && T::T_M == 2 && T::E_K == 1);
++    constexpr int pitch = T::smem_linear_wave + T::smem_padding;
++    const int lane_row = lane_id & 15;
++    // Global row in this M128 half: wave_m*64 + repeat*16 + lane_row.
++    // Producers retain their original paired-row LDS layout.
+     return opus::make_layout<T::VEC_A>(
+-        ra_block_shape,
+-        opus::unfold_x_stride(
+-            ra_block_dim, ra_block_shape,
+-            opus::tuple{opus::number<T::smem_linear_wave + T::smem_padding>{}, 1_I}),
+-        opus::unfold_p_coord(
+-            ra_block_dim,
+-            opus::tuple{wave_id_m, lane_id_m % T::T_M,
+-                        lane_id_m / T::T_M, lane_id / T::W_M}));
++        opus::make_tuple(4_I, 2_I, opus::number<T::VEC_A>{}),
++        opus::make_tuple(opus::number<2 * pitch>{}, 64_I, 1_I),
++        opus::make_tuple(opus::underscore{}, opus::underscore{}, opus::underscore{}))
++        + wave_id_m * 8 * pitch + (lane_row & 1) * pitch
++        + (lane_row / 2) * 128 + (lane_id / 16) * 16;
+ }
+ 
+ template<class T>
+ __device__ inline auto make_layout_rb_scale(int lane_id, int wave_id_n) {
+-    static_assert(T::E_N == 4 && T::E_K == 1);
+-    static_assert(T::T_M == 2 && T::T_N == 2 && T::VEC_B == 16);
++    static_assert(T::E_N == 4 && T::T_N == 2 && T::E_K == 1);
+     constexpr int pitch = T::smem_linear_wave + T::smem_padding;
+-    // Consumer n=32*repeat+16*wave_n+(lane%16),
+-    //          k=64*k_piece+16*(lane/16)+byte.
+-    // Invert the coalesced producer while preserving operand flattening
+-    // (n_repeat, k_piece, byte) and the original four-adjacent-row SB map.
++    // Global column in this N128 half: wave_n*64 + repeat*16 + lane%16.
+     return opus::make_layout<T::VEC_B>(
+         opus::make_tuple(4_I, 2_I, opus::number<T::VEC_B>{}),
+-        opus::make_tuple(opus::number<4 * pitch>{},
+-                         opus::number<pitch>{}, 1_I),
+-        opus::make_tuple(opus::underscore{}, opus::underscore{},
+-                         opus::underscore{})) +
+-        2 * wave_id_n * pitch + lane_id * T::VEC_B;
++        opus::make_tuple(opus::number<2 * pitch>{}, opus::number<pitch>{}, 1_I),
++        opus::make_tuple(opus::underscore{}, opus::underscore{}, opus::underscore{}))
++        + wave_id_n * 8 * pitch + lane_id * 16;
+ }
+ 
+ template<class Traits>
+@@ -463,7 +443,7 @@
+         const int owner_wave = group / 4;
+         const int call = group % 4;
+         const int source_row = (owner_wave / T::T_M) * T::HALF_B_M +
+-            (owner_wave % T::T_M) * T::W_M + call * T::T_M * T::W_M;
++            (owner_wave % T::T_M) * 64 + call * T::W_M;
+         opus::static_for<4>([&](auto pass_i) {
+             constexpr int pass = decltype(pass_i)::value;
+             const int column = panel_begin + tid / 16 + pass * 16;
+@@ -1306,11 +1286,14 @@
+     v_sfb[1] = load_sfb_dword(loops - 1, 1);
+ 
+     __builtin_amdgcn_s_setprio(1);
+-    auto p_coord_c = opus::make_tuple(
+-        wave_id_m, lane_id % mma.grpn_c,
+-        wave_id_n, lane_id / mma.grpn_c);
+-    auto u_gc = partition_layout_c<T::VEC_C>(
+-        mma, opus::make_tuple(T::OUTPUT_BF16 ? c_lds_pitch : kargs.stride_c, 1_I), p_coord_c);
++    const int native_row = wave_id_m * 64 + (lane_id & 15);
++    const int native_col = wave_id_n * 64 + (lane_id / 16) * 4;
++    const int output_stride = T::OUTPUT_BF16 ? c_lds_pitch : kargs.stride_c;
++    auto u_gc = opus::make_layout<T::VEC_C>(
++        opus::make_tuple(4_I, 4_I, opus::number<T::VEC_C>{}),
++        opus::make_tuple(16 * output_stride, 16_I, 1_I),
++        opus::make_tuple(opus::underscore{}, opus::underscore{}, opus::underscore{}))
++        + native_row * output_stride + native_col;
+ 
+     auto c_offset = [&](int half_tile_m, int half_tile_n) {
+         return half_tile_m * T::HALF_B_M * (T::OUTPUT_BF16 ? c_lds_pitch : kargs.stride_c) +

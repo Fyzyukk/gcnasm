@@ -1,0 +1,45 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -550,14 +550,20 @@
+         }
+     };
+ 
+-    async_load<T::VEC_A>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(0, 0), ga_offset(0, 0));
+-    async_load<T::VEC_A>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(0, 1), ga_offset(1, 0));
++    prefetch_matrix_issue(opus::number<0>{}, 0, 0);
++    prefetch_matrix_issue(opus::number<1>{}, 0, 0);
++    prefetch_matrix_issue(opus::number<2>{}, 0, 0);
++    prefetch_matrix_issue(opus::number<3>{}, 0, 0);
+     __builtin_amdgcn_sched_barrier(0);
+ 
+     // Prologue: preload the first bounded scale panel before the first barrier.
+     load_sfa_panel(0);
+     // Initialize C while the four SFA requests progress.
+     MXFP8_MATERIALIZE_C_QUADRANT(c00);
++    prefetch_matrix_issue(opus::number<4>{}, 0, 0);
++    prefetch_matrix_issue(opus::number<5>{}, 0, 0);
++    prefetch_matrix_issue(opus::number<6>{}, 0, 0);
++    prefetch_matrix_issue(opus::number<7>{}, 0, 0);
+     MXFP8_MATERIALIZE_C_QUADRANT(c01);
+ 
+     D_SF_PACK panel_sfb_raw = 0;
+@@ -566,11 +572,17 @@
+         const auto raw = load<1>(g_sfb, valid_column, wave_id * kargs.stride_sfb);
+         panel_sfb_raw = static_cast<D_SF_PACK>(raw[0]);
+     }
+-    async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(0, 0), gb_offset(0, 0));
+-    async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(0, 1), gb_offset(1, 0));
++    prefetch_matrix_issue(opus::number<8>{}, 0, 0);
++    prefetch_matrix_issue(opus::number<9>{}, 0, 0);
++    prefetch_matrix_issue(opus::number<10>{}, 0, 0);
++    prefetch_matrix_issue(opus::number<11>{}, 0, 0);
+ 
+     // Finish C initialization while the initial B requests progress.
+     MXFP8_MATERIALIZE_C_QUADRANT(c10);
++    prefetch_matrix_issue(opus::number<12>{}, 0, 0);
++    prefetch_matrix_issue(opus::number<13>{}, 0, 0);
++    prefetch_matrix_issue(opus::number<14>{}, 0, 0);
++    prefetch_matrix_issue(opus::number<15>{}, 0, 0);
+     MXFP8_MATERIALIZE_C_QUADRANT(c11);
+ #undef MXFP8_MATERIALIZE_C_QUADRANT
+ 

@@ -1,0 +1,13 @@
+[0;33mW20260912 07:35:31.866551 139840439721856 simple_timer.cpp:55] [rocprofv3] tool initialization ::     0.024947 sec
+[m[0;33mW20260912 07:35:31.867039 139840439721856 simple_timer.cpp:55] [rocprofv3] '/tmp/mxfp8_generic_latency_20260912_86xlkzt9/output_stream_packed_materialized_out136/build/gemm_a8w8_blockscale_bpreshuffle.exe -m 8192 -n 8192 -k 8192 -b 1 -w 200 -i 100 -v 0 --dtype bf16' ::     0.000000 sec
+[m[0;33mW20260912 07:35:32.236615 139840439721856 tool.cpp:2158] HSA version 8.18.0 initialized (instance=0)
+[m[0;31mE20260912 07:35:32.323361 139840439721856 output_stream.cpp:111] Opened result file: /tmp/mxfp8_generic_latency_20260912_86xlkzt9/profiles/output_stream_packed_materialized_out136/profile_gfx950_code_object_id_1.out
+[m[0;31mE20260912 07:35:32.351327 139840439721856 output_stream.cpp:111] Opened result file: /tmp/mxfp8_generic_latency_20260912_86xlkzt9/profiles/output_stream_packed_materialized_out136/profile_gfx950_code_object_id_2.out
+[m[0;31mE20260912 07:35:32.421908 139839259276864 output_stream.cpp:111] Opened result file: /tmp/mxfp8_generic_latency_20260912_86xlkzt9/profiles/output_stream_packed_materialized_out136/profile_9967_shader_engine_0_202.att
+[m[0;33mW20260912 07:35:32.460755 139840439721856 simple_timer.cpp:55] [rocprofv3] '/tmp/mxfp8_generic_latency_20260912_86xlkzt9/output_stream_packed_materialized_out136/build/gemm_a8w8_blockscale_bpreshuffle.exe -m 8192 -n 8192 -k 8192 -b 1 -w 200 -i 100 -v 0 --dtype bf16' ::     0.593716 sec
+[m[0;31mE20260912 07:35:32.524954 139840439721856 output_stream.cpp:111] Opened result file: /tmp/mxfp8_generic_latency_20260912_86xlkzt9/profiles/output_stream_packed_materialized_out136/profile_agent_info.csv
+[m[0;33mW20260912 07:35:32.703523 139840439721856 simple_timer.cpp:55] [rocprofv3] tool finalization ::     0.178810 sec
+[mLaunching 4-wave blockscale bpreshuffle GEMM: M=8192, N=8192, K=8192, batch=1, dtype=bf16, seed=1, grid=(32,32,1), block=256, output_tiles_per_wg=1 (auto)
+Input layout: A raw [B,M,K], B packed (16,16), SFA [B,K/128,M], SFB [B,N/128,K/128]
+
+Kernel Performance: avg_time=0.335960999 ms, 3272.735920 TFlops

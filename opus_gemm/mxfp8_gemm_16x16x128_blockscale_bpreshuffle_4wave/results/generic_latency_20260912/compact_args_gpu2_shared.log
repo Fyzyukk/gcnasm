@@ -1,0 +1,165 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL compact_uniform_preload0 bf16 67108864 outputs
+FULL_BASELINE_EQUAL compact_uniform_preload0 fp32 67108864 outputs
+FULL_BASELINE_EQUAL compact_uniform_preload8 bf16 67108864 outputs
+FULL_BASELINE_EQUAL compact_uniform_preload8 fp32 67108864 outputs
+FULL_BASELINE_EQUAL compact_roles_preload0 bf16 67108864 outputs
+FULL_BASELINE_EQUAL compact_roles_preload0 fp32 67108864 outputs
+FULL_BASELINE_EQUAL compact_roles_preload8 bf16 67108864 outputs
+FULL_BASELINE_EQUAL compact_roles_preload8 fp32 67108864 outputs
+1 baseline bf16: 0.334396392 ms / 3.288049 P
+1 compact_uniform_preload0 bf16: 0.333878785 ms / 3.293146 P
+1 baseline bf16: 0.333420455 ms / 3.297673 P
+1 baseline bf16: 0.333857268 ms / 3.293358 P
+1 compact_uniform_preload8 bf16: 0.333025366 ms / 3.301585 P
+1 baseline bf16: 0.333610237 ms / 3.295797 P
+1 baseline bf16: 0.333634913 ms / 3.295553 P
+1 compact_roles_preload0 bf16: 0.333724529 ms / 3.294668 P
+1 baseline bf16: 0.333923727 ms / 3.292703 P
+1 baseline bf16: 0.333917797 ms / 3.292761 P
+1 compact_roles_preload8 bf16: 0.333416224 ms / 3.297715 P
+1 baseline bf16: 0.333990932 ms / 3.292040 P
+1 baseline fp32: 0.356861919 ms / 3.081056 P
+1 compact_uniform_preload0 fp32: 0.356951565 ms / 3.080282 P
+1 baseline fp32: 0.356907606 ms / 3.080662 P
+1 baseline fp32: 0.356901199 ms / 3.080717 P
+1 compact_uniform_preload8 fp32: 0.356694758 ms / 3.082500 P
+1 baseline fp32: 0.356799960 ms / 3.081591 P
+1 baseline fp32: 0.357272416 ms / 3.077516 P
+1 compact_roles_preload0 fp32: 0.356853217 ms / 3.081131 P
+1 baseline fp32: 0.357080817 ms / 3.079167 P
+1 baseline fp32: 0.356852770 ms / 3.081135 P
+1 compact_roles_preload8 fp32: 0.356994361 ms / 3.079913 P
+1 baseline fp32: 0.356818348 ms / 3.081432 P
+2 baseline bf16: 0.334045380 ms / 3.291504 P
+2 compact_roles_preload8 bf16: 0.333844960 ms / 3.293480 P
+2 baseline bf16: 0.334384203 ms / 3.288169 P
+2 baseline bf16: 0.334232211 ms / 3.289664 P
+2 compact_roles_preload0 bf16: 0.334422976 ms / 3.287787 P
+2 baseline bf16: 0.334177405 ms / 3.290203 P
+2 baseline bf16: 0.334438980 ms / 3.287630 P
+2 compact_uniform_preload8 bf16: 0.333580583 ms / 3.296090 P
+2 baseline bf16: 0.334398985 ms / 3.288023 P
+2 baseline bf16: 0.334358990 ms / 3.288417 P
+2 compact_uniform_preload0 bf16: 0.334462583 ms / 3.287398 P
+2 baseline bf16: 0.334339410 ms / 3.288609 P
+2 baseline fp32: 0.357246399 ms / 3.077740 P
+2 compact_roles_preload8 fp32: 0.356942773 ms / 3.080358 P
+2 baseline fp32: 0.357134402 ms / 3.078705 P
+2 baseline fp32: 0.357150793 ms / 3.078564 P
+2 compact_roles_preload0 fp32: 0.356921613 ms / 3.080541 P
+2 baseline fp32: 0.357163578 ms / 3.078454 P
+2 baseline fp32: 0.357740790 ms / 3.073487 P
+2 compact_uniform_preload8 fp32: 0.357119203 ms / 3.078836 P
+2 baseline fp32: 0.357430011 ms / 3.076159 P
+2 baseline fp32: 0.357238382 ms / 3.077809 P
+2 compact_uniform_preload0 fp32: 0.357448399 ms / 3.076001 P
+2 baseline fp32: 0.357367218 ms / 3.076700 P
+3 baseline bf16: 0.335007787 ms / 3.282048 P
+3 compact_uniform_preload0 bf16: 0.335324585 ms / 3.278947 P
+3 baseline bf16: 0.335459411 ms / 3.277629 P
+3 baseline bf16: 0.334913790 ms / 3.282969 P
+3 compact_uniform_preload8 bf16: 0.335164994 ms / 3.280509 P
+3 baseline bf16: 0.335012197 ms / 3.282005 P
+3 baseline bf16: 0.335170209 ms / 3.280458 P
+3 compact_roles_preload0 bf16: 0.335150987 ms / 3.280646 P
+3 baseline bf16: 0.335433394 ms / 3.277884 P
+3 baseline bf16: 0.334938586 ms / 3.282726 P
+3 compact_roles_preload8 bf16: 0.335024595 ms / 3.281883 P
+3 baseline bf16: 0.335147411 ms / 3.280681 P
+3 baseline fp32: 0.357594401 ms / 3.074745 P
+3 compact_uniform_preload0 fp32: 0.357703596 ms / 3.073806 P
+3 baseline fp32: 0.357534796 ms / 3.075258 P
+3 baseline fp32: 0.357374012 ms / 3.076641 P
+3 compact_uniform_preload8 fp32: 0.357377201 ms / 3.076614 P
+3 baseline fp32: 0.357310414 ms / 3.077189 P
+3 baseline fp32: 0.357769191 ms / 3.073243 P
+3 compact_roles_preload0 fp32: 0.357261568 ms / 3.077610 P
+3 baseline fp32: 0.357445598 ms / 3.076025 P
+3 baseline fp32: 0.357341617 ms / 3.076920 P
+3 compact_roles_preload8 fp32: 0.357288390 ms / 3.077379 P
+3 baseline fp32: 0.357849211 ms / 3.072556 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.3343715965747833,
+    "min_ms": 0.33342045545578003,
+    "max_ms": 0.3354594111442566,
+    "median_pflops": 3.2882925435028407
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.3572594076395035,
+    "min_ms": 0.3567999601364136,
+    "max_ms": 0.35784921050071716,
+    "median_pflops": 3.0776282003061324
+  },
+  {
+    "name": "compact_uniform_preload0",
+    "dtype": "bf16",
+    "median_ms": 0.33446258306503296,
+    "min_ms": 0.3338787853717804,
+    "max_ms": 0.33532458543777466,
+    "median_pflops": 3.2873980033880525
+  },
+  {
+    "name": "compact_uniform_preload0",
+    "dtype": "fp32",
+    "median_ms": 0.35744839906692505,
+    "min_ms": 0.3569515645503998,
+    "max_ms": 0.3577035963535309,
+    "median_pflops": 3.0760009854461217
+  },
+  {
+    "name": "compact_uniform_preload8",
+    "dtype": "bf16",
+    "median_ms": 0.3335805833339691,
+    "min_ms": 0.33302536606788635,
+    "max_ms": 0.33516499400138855,
+    "median_pflops": 3.2960900085578655
+  },
+  {
+    "name": "compact_uniform_preload8",
+    "dtype": "fp32",
+    "median_ms": 0.35711920261383057,
+    "min_ms": 0.356694757938385,
+    "max_ms": 0.35737720131874084,
+    "median_pflops": 3.0788364773679016
+  },
+  {
+    "name": "compact_roles_preload0",
+    "dtype": "bf16",
+    "median_ms": 0.3344229757785797,
+    "min_ms": 0.3337245285511017,
+    "max_ms": 0.33515098690986633,
+    "median_pflops": 3.287787345400523
+  },
+  {
+    "name": "compact_roles_preload0",
+    "dtype": "fp32",
+    "median_ms": 0.35692161321640015,
+    "min_ms": 0.3568532168865204,
+    "max_ms": 0.3572615683078766,
+    "median_pflops": 3.08054090047321
+  },
+  {
+    "name": "compact_roles_preload8",
+    "dtype": "bf16",
+    "median_ms": 0.33384495973587036,
+    "min_ms": 0.333416223526001,
+    "max_ms": 0.3350245952606201,
+    "median_pflops": 3.293479789678136
+  },
+  {
+    "name": "compact_roles_preload8",
+    "dtype": "fp32",
+    "median_ms": 0.3569943606853485,
+    "min_ms": 0.3569427728652954,
+    "max_ms": 0.3572883903980255,
+    "median_pflops": 3.079913155113112
+  }
+]

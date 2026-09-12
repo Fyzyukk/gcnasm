@@ -1,0 +1,201 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL grid_n2_m0_b1 bf16 67108864 outputs
+FULL_BASELINE_EQUAL grid_n2_m0_b1 fp32 67108864 outputs
+FULL_BASELINE_EQUAL grid_n3_m0_b1 bf16 67108864 outputs
+FULL_BASELINE_EQUAL grid_n3_m0_b1 fp32 67108864 outputs
+FULL_BASELINE_EQUAL grid_n4_m0_b1 bf16 67108864 outputs
+FULL_BASELINE_EQUAL grid_n4_m0_b1 fp32 67108864 outputs
+FULL_BASELINE_EQUAL grid_n3_m0_b2 bf16 67108864 outputs
+FULL_BASELINE_EQUAL grid_n3_m0_b2 fp32 67108864 outputs
+FULL_BASELINE_EQUAL grid_n3_m1_b1 bf16 67108864 outputs
+FULL_BASELINE_EQUAL grid_n3_m1_b1 fp32 67108864 outputs
+1 baseline bf16: 0.334200144 ms / 3.289980 P
+1 grid_n2_m0_b1 bf16: 0.333693624 ms / 3.294973 P
+1 baseline bf16: 0.333695561 ms / 3.294954 P
+1 baseline bf16: 0.333407909 ms / 3.297797 P
+1 grid_n3_m0_b1 bf16: 0.334134698 ms / 3.290624 P
+1 baseline bf16: 0.333411902 ms / 3.297758 P
+1 baseline bf16: 0.333719909 ms / 3.294714 P
+1 grid_n4_m0_b1 bf16: 0.333790332 ms / 3.294019 P
+1 baseline bf16: 0.333432347 ms / 3.297555 P
+1 baseline bf16: 0.333646774 ms / 3.295436 P
+1 grid_n3_m0_b2 bf16: 0.333634377 ms / 3.295559 P
+1 baseline bf16: 0.341467500 ms / 3.219960 P
+1 baseline bf16: 0.334175617 ms / 3.290221 P
+1 grid_n3_m1_b1 bf16: 0.333801627 ms / 3.293907 P
+1 baseline bf16: 0.333826452 ms / 3.293662 P
+1 baseline fp32: 0.356512159 ms / 3.084079 P
+1 grid_n2_m0_b1 fp32: 0.357286960 ms / 3.077391 P
+1 baseline fp32: 0.356844187 ms / 3.081209 P
+1 baseline fp32: 0.356646627 ms / 3.082916 P
+1 grid_n3_m0_b1 fp32: 0.357100248 ms / 3.079000 P
+1 baseline fp32: 0.357101798 ms / 3.078987 P
+1 baseline fp32: 0.356504589 ms / 3.084144 P
+1 grid_n4_m0_b1 fp32: 0.357234597 ms / 3.077842 P
+1 baseline fp32: 0.356801420 ms / 3.081579 P
+1 baseline fp32: 0.356678575 ms / 3.082640 P
+1 grid_n3_m0_b2 fp32: 0.356573790 ms / 3.083546 P
+1 baseline fp32: 0.356860191 ms / 3.081071 P
+1 baseline fp32: 0.356889814 ms / 3.080815 P
+1 grid_n3_m1_b1 fp32: 0.357079387 ms / 3.079180 P
+1 baseline fp32: 0.356817067 ms / 3.081443 P
+2 baseline bf16: 0.334319651 ms / 3.288803 P
+2 grid_n3_m1_b1 bf16: 0.334176838 ms / 3.290209 P
+2 baseline bf16: 0.333985239 ms / 3.292096 P
+2 baseline bf16: 0.334134012 ms / 3.290631 P
+2 grid_n3_m0_b2 bf16: 0.334290057 ms / 3.289095 P
+2 baseline bf16: 0.333985239 ms / 3.292096 P
+2 baseline bf16: 0.334146857 ms / 3.290504 P
+2 grid_n4_m0_b1 bf16: 0.334302068 ms / 3.288976 P
+2 baseline bf16: 0.334496856 ms / 3.287061 P
+2 baseline bf16: 0.334175676 ms / 3.290220 P
+2 grid_n3_m0_b1 bf16: 0.334601671 ms / 3.286031 P
+2 baseline bf16: 0.334320873 ms / 3.288791 P
+2 baseline bf16: 0.334714860 ms / 3.284920 P
+2 grid_n2_m0_b1 bf16: 0.334378839 ms / 3.288221 P
+2 baseline bf16: 0.334636092 ms / 3.285693 P
+2 baseline fp32: 0.357678652 ms / 3.074021 P
+2 grid_n3_m1_b1 fp32: 0.356981426 ms / 3.080025 P
+2 baseline fp32: 0.357384235 ms / 3.076553 P
+2 baseline fp32: 0.357214242 ms / 3.078017 P
+2 grid_n3_m0_b2 fp32: 0.356729418 ms / 3.082201 P
+2 baseline fp32: 0.356936216 ms / 3.080415 P
+2 baseline fp32: 0.357449830 ms / 3.075989 P
+2 grid_n4_m0_b1 fp32: 0.357359856 ms / 3.076763 P
+2 baseline fp32: 0.357375443 ms / 3.076629 P
+2 baseline fp32: 0.357375443 ms / 3.076629 P
+2 grid_n3_m0_b1 fp32: 0.357207835 ms / 3.078073 P
+2 baseline fp32: 0.357158631 ms / 3.078497 P
+2 baseline fp32: 0.356790245 ms / 3.081675 P
+2 grid_n2_m0_b1 fp32: 0.357599437 ms / 3.074702 P
+2 baseline fp32: 0.357147038 ms / 3.078597 P
+3 baseline bf16: 0.334604502 ms / 3.286004 P
+3 grid_n2_m0_b1 bf16: 0.334549308 ms / 3.286546 P
+3 baseline bf16: 0.334777296 ms / 3.284308 P
+3 baseline bf16: 0.334534883 ms / 3.286688 P
+3 grid_n3_m0_b1 bf16: 0.334826887 ms / 3.283821 P
+3 baseline bf16: 0.334726870 ms / 3.284802 P
+3 baseline bf16: 0.334319264 ms / 3.288807 P
+3 grid_n4_m0_b1 bf16: 0.334952086 ms / 3.282594 P
+3 baseline bf16: 0.334584892 ms / 3.286196 P
+3 baseline bf16: 0.334244072 ms / 3.289547 P
+3 grid_n3_m0_b2 bf16: 0.334244877 ms / 3.289539 P
+3 baseline bf16: 0.334371269 ms / 3.288296 P
+3 baseline bf16: 0.334610850 ms / 3.285941 P
+3 grid_n3_m1_b1 bf16: 0.335150063 ms / 3.280655 P
+3 baseline bf16: 0.334258467 ms / 3.289405 P
+3 baseline fp32: 0.357717872 ms / 3.073684 P
+3 grid_n2_m0_b1 fp32: 0.357749820 ms / 3.073409 P
+3 baseline fp32: 0.357276231 ms / 3.077483 P
+3 baseline fp32: 0.357370228 ms / 3.076674 P
+3 grid_n3_m0_b1 fp32: 0.357523412 ms / 3.075356 P
+3 baseline fp32: 0.357651025 ms / 3.074258 P
+3 baseline fp32: 0.357708633 ms / 3.073763 P
+3 grid_n4_m0_b1 fp32: 0.357637018 ms / 3.074379 P
+3 baseline fp32: 0.357363045 ms / 3.076736 P
+3 baseline fp32: 0.357228637 ms / 3.077893 P
+3 grid_n3_m0_b2 fp32: 0.357251853 ms / 3.077693 P
+3 baseline fp32: 0.357249022 ms / 3.077718 P
+3 baseline fp32: 0.357325852 ms / 3.077056 P
+3 grid_n3_m1_b1 fp32: 0.357686222 ms / 3.073956 P
+3 baseline fp32: 0.357587844 ms / 3.074801 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.334251269698143,
+    "min_ms": 0.3334079086780548,
+    "max_ms": 0.3414674997329712,
+    "median_pflops": 3.28947629359479
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.35722143948078156,
+    "min_ms": 0.3565045893192291,
+    "max_ms": 0.3577178716659546,
+    "median_pflops": 3.0779553135840088
+  },
+  {
+    "name": "grid_n2_m0_b1",
+    "dtype": "bf16",
+    "median_ms": 0.33437883853912354,
+    "min_ms": 0.33369362354278564,
+    "max_ms": 0.33454930782318115,
+    "median_pflops": 3.2882213257863
+  },
+  {
+    "name": "grid_n2_m0_b1",
+    "dtype": "fp32",
+    "median_ms": 0.3575994372367859,
+    "min_ms": 0.3572869598865509,
+    "max_ms": 0.3577498197555542,
+    "median_pflops": 3.074701784410119
+  },
+  {
+    "name": "grid_n3_m0_b1",
+    "dtype": "bf16",
+    "median_ms": 0.33460167050361633,
+    "min_ms": 0.33413469791412354,
+    "max_ms": 0.33482688665390015,
+    "median_pflops": 3.2860314956619936
+  },
+  {
+    "name": "grid_n3_m0_b1",
+    "dtype": "fp32",
+    "median_ms": 0.3572078347206116,
+    "min_ms": 0.357100248336792,
+    "max_ms": 0.3575234115123749,
+    "median_pflops": 3.0780725418186248
+  },
+  {
+    "name": "grid_n4_m0_b1",
+    "dtype": "bf16",
+    "median_ms": 0.33430206775665283,
+    "min_ms": 0.3337903320789337,
+    "max_ms": 0.33495208621025085,
+    "median_pflops": 3.2889764492164706
+  },
+  {
+    "name": "grid_n4_m0_b1",
+    "dtype": "fp32",
+    "median_ms": 0.3573598563671112,
+    "min_ms": 0.3572345972061157,
+    "max_ms": 0.3576370179653168,
+    "median_pflops": 3.0767631231821566
+  },
+  {
+    "name": "grid_n3_m0_b2",
+    "dtype": "bf16",
+    "median_ms": 0.33424487709999084,
+    "min_ms": 0.3336343765258789,
+    "max_ms": 0.3342900574207306,
+    "median_pflops": 3.289539206451551
+  },
+  {
+    "name": "grid_n3_m0_b2",
+    "dtype": "fp32",
+    "median_ms": 0.3567294180393219,
+    "min_ms": 0.35657379031181335,
+    "max_ms": 0.3572518527507782,
+    "median_pflops": 3.082200604085873
+  },
+  {
+    "name": "grid_n3_m1_b1",
+    "dtype": "bf16",
+    "median_ms": 0.33417683839797974,
+    "min_ms": 0.33380162715911865,
+    "max_ms": 0.3351500630378723,
+    "median_pflops": 3.2902089595645867
+  },
+  {
+    "name": "grid_n3_m1_b1",
+    "dtype": "fp32",
+    "median_ms": 0.3570793867111206,
+    "min_ms": 0.35698142647743225,
+    "max_ms": 0.35768622159957886,
+    "median_pflops": 3.079179781009066
+  }
+]

@@ -1,0 +1,89 @@
+{
+  "tag": "grid_cache_gpu2",
+  "physical_gpu": 2,
+  "hip_index": 2,
+  "pci": "0000:65:00.0",
+  "initial_status": {
+    "GPU use (%)": "1",
+    "GFX Activity": "3045505726",
+    "GPU Memory Allocated (VRAM%)": "0",
+    "GPU Memory Read/Write Activity (%)": "0",
+    "Memory Activity": "1635298279",
+    "Avg. Memory Bandwidth": "0",
+    "PCI Bus": "0000:65:00.0"
+  },
+  "timing_reference": "baseline",
+  "candidates": [
+    "grid_group2",
+    "grid_group4",
+    "grid_group8",
+    "output_cache0",
+    "output_cache3"
+  ],
+  "performance_shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "jobs": [
+    [
+      "audit",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_latency_20260912/audit.py",
+        "grid_group2",
+        "grid_group4",
+        "grid_group8",
+        "output_cache0",
+        "output_cache3"
+      ]
+    ],
+    [
+      "shapes",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_latency_20260912/verify_shapes.py",
+        "--tag",
+        "grid_cache_gpu2",
+        "--pci",
+        "0000:65:00.0",
+        "grid_group2",
+        "grid_group4",
+        "grid_group8",
+        "output_cache0",
+        "output_cache3"
+      ]
+    ],
+    [
+      "full",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_latency_20260912/run.py",
+        "verify",
+        "--tag",
+        "grid_cache_gpu2",
+        "--pci",
+        "0000:65:00.0",
+        "grid_group2",
+        "grid_group4",
+        "grid_group8",
+        "output_cache0",
+        "output_cache3"
+      ]
+    ],
+    [
+      "shared",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_latency_20260912/run.py",
+        "shared",
+        "grid_cache_gpu2",
+        "grid_group2",
+        "grid_group4",
+        "grid_group8",
+        "output_cache0",
+        "output_cache3"
+      ]
+    ]
+  ]
+}

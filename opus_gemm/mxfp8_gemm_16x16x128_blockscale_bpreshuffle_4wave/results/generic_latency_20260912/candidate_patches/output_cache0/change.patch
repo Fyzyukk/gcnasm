@@ -1,0 +1,20 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -1326,7 +1326,7 @@
+         const int output_col = linear % T::HALF_B_N + half_n * T::HALF_B_N;
+         const auto value = s_c.template load<8>(output_row * c_lds_pitch + output_col);
+         g_c.template store<8>(value, output_row * kargs.stride_c + output_col,
+-                             0, opus::number<2>{});
++                             0, opus::number<0>{});
+     };
+ 
+     const auto gc_offsets = opus::layout_to_offsets<T::VEC_C>(u_gc);
+@@ -1337,7 +1337,7 @@
+                 gc_offsets[INDEX] + soff);                                      \
+         } else {                                                                \
+             g_c.template store<T::VEC_C>(ACC, gc_offsets[INDEX], soff,            \
+-                opus::number<2>{});                                              \
++                opus::number<0>{});                                              \
+         }                                                                       \
+     } while (false)
+ // Store two native four-element MFMA fragments. BF16 goes to padded LDS;

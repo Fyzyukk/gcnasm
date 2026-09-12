@@ -1,0 +1,89 @@
+{
+  "tag": "matrix_cache_xor_gpu2",
+  "physical_gpu": 2,
+  "hip_index": 2,
+  "pci": "0000:65:00.0",
+  "initial_status": {
+    "GPU use (%)": "1",
+    "GFX Activity": "3049223721",
+    "GPU Memory Allocated (VRAM%)": "0",
+    "GPU Memory Read/Write Activity (%)": "0",
+    "Memory Activity": "1635565689",
+    "Avg. Memory Bandwidth": "0",
+    "PCI Bus": "0000:65:00.0"
+  },
+  "timing_reference": "baseline",
+  "candidates": [
+    "matrix_cache1",
+    "matrix_cache2",
+    "matrix_cache3",
+    "b_scale_byte0",
+    "output_pingpong_xor128_ordered"
+  ],
+  "performance_shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "jobs": [
+    [
+      "audit",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_latency_20260912/audit.py",
+        "matrix_cache1",
+        "matrix_cache2",
+        "matrix_cache3",
+        "b_scale_byte0",
+        "output_pingpong_xor128_ordered"
+      ]
+    ],
+    [
+      "shapes",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_latency_20260912/verify_shapes.py",
+        "--tag",
+        "matrix_cache_xor_gpu2",
+        "--pci",
+        "0000:65:00.0",
+        "matrix_cache1",
+        "matrix_cache2",
+        "matrix_cache3",
+        "b_scale_byte0",
+        "output_pingpong_xor128_ordered"
+      ]
+    ],
+    [
+      "full",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_latency_20260912/run.py",
+        "verify",
+        "--tag",
+        "matrix_cache_xor_gpu2",
+        "--pci",
+        "0000:65:00.0",
+        "matrix_cache1",
+        "matrix_cache2",
+        "matrix_cache3",
+        "b_scale_byte0",
+        "output_pingpong_xor128_ordered"
+      ]
+    ],
+    [
+      "shared",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_latency_20260912/run.py",
+        "shared",
+        "matrix_cache_xor_gpu2",
+        "matrix_cache1",
+        "matrix_cache2",
+        "matrix_cache3",
+        "b_scale_byte0",
+        "output_pingpong_xor128_ordered"
+      ]
+    ]
+  ]
+}

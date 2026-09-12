@@ -1,0 +1,81 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -296,8 +296,8 @@
+     auto s_a = make_smem(reinterpret_cast<D_A*>(smem_matrix));
+     auto s_b = make_smem(reinterpret_cast<D_B*>(smem_matrix + smem_a_elem * 4 * sizeof(D_A)));
+     auto s_c = make_smem(reinterpret_cast<D_C*>(smem_matrix));
+-    constexpr int c_lds_pitch = T::B_N + 8;
+-    static_assert(!T::OUTPUT_BF16 || T::B_M * c_lds_pitch * sizeof(D_C) == matrix_lds_bytes);
++    constexpr int c_lds_pitch = 128;
++    static_assert(!T::OUTPUT_BF16 || 2 * T::HALF_B_M * c_lds_pitch * sizeof(D_C) <= matrix_lds_bytes);
+ 
+     // Matrix producer pairs own contiguous padded LDS rows.
+     // A wave owns one M128 half and alternates row parity across requests.
+@@ -1295,6 +1295,7 @@
+     if constexpr (T::OUTPUT_BF16) {
+         s_waitcnt_vmcnt(0_I);
+     }
++    s_waitcnt_lgkmcnt(0_I);
+     v_a[1] = load<T::VEC_A>(s_a, u_ra + sa_offset(stage, 1));
+ 
+     s_waitcnt_lgkmcnt(0_I);
+@@ -1313,28 +1314,52 @@
+         mma, opus::make_tuple(T::OUTPUT_BF16 ? c_lds_pitch : kargs.stride_c, 1_I), p_coord_c);
+ 
+     auto c_offset = [&](int half_tile_m, int half_tile_n) {
+-        return half_tile_m * T::HALF_B_M * (T::OUTPUT_BF16 ? c_lds_pitch : kargs.stride_c) +
+-               half_tile_n * T::HALF_B_N;
++        if constexpr (T::OUTPUT_BF16) return half_tile_m * T::HALF_B_M * c_lds_pitch;
++        else return half_tile_m * T::HALF_B_M * kargs.stride_c + half_tile_n * T::HALF_B_N;
+     };
+ 
+     // Publish each completed 128x128 quadrant after MFMA20/36/52/64.
+     // Eight coalesced 16-byte copies per thread cover one quadrant. All
+     // four quadrants belong to this workgroup's single 256x256 output tile.
++    // C00/C10 use slot 0/1, then C01/C11 reuse slot 0/1. The existing
++    // publication before copying the intervening quadrant retires all readers
++    // of the reused slot; no additional workgroup barrier is needed.
+     auto copy_output_quarter = [&](int half_m, int half_n, int copy_index) {
+         const int linear = thread_id_x() * 8 + copy_index * T::BLOCK_SIZE * 8;
+-        const int output_row = linear / T::HALF_B_N + half_m * T::HALF_B_M;
+-        const int output_col = linear % T::HALF_B_N + half_n * T::HALF_B_N;
+-        const auto value = s_c.template load<8>(output_row * c_lds_pitch + output_col);
++        const int local_row = linear / T::HALF_B_N;
++        const int local_col = linear % T::HALF_B_N;
++        const int slot_row = half_m * T::HALF_B_M + local_row;
++        const int swizzle = (local_row & 15) * 4;
++        const auto low = s_c.template load<4>(slot_row * c_lds_pitch + (local_col ^ swizzle));
++        const auto high = s_c.template load<4>(slot_row * c_lds_pitch + ((local_col + 4) ^ swizzle));
++        opus::vector_t<D_C, 8> value;
++        opus::set_slice(value, low, opus::number<0>{}, opus::number<4>{});
++        opus::set_slice(value, high, opus::number<4>{}, opus::number<8>{});
++        const int output_row = local_row + half_m * T::HALF_B_M;
++        const int output_col = local_col + half_n * T::HALF_B_N;
+         g_c.template store<8>(value, output_row * kargs.stride_c + output_col,
+                              0, opus::number<2>{});
+     };
+ 
+     const auto gc_offsets = opus::layout_to_offsets<T::VEC_C>(u_gc);
++    opus::vector_t<int, 4> output_lds_byte_bases;
++    if constexpr (T::OUTPUT_BF16) {
++        const int native_row = wave_id_m * 16 + (lane_id & 15);
++        const int native_col = wave_id_n * 16 + (lane_id / 16) * 4;
++        const int swizzle = (native_row & 15) * 4;
++        opus::static_for<4>([&](auto nr_i) {
++            constexpr int nr = decltype(nr_i)::value;
++            int address = (native_row * c_lds_pitch + ((native_col + nr * 32) ^ swizzle)) * sizeof(D_C);
++            asm volatile("" : "+v"(address));
++            output_lds_byte_bases[nr] = address;
++        });
++    }
+ #define MXFP8_STORE_FRAGMENT(ACC, INDEX)                                   \
+     do {                                                                        \
+         if constexpr (T::OUTPUT_BF16) {                                         \
+-            s_c.template store<T::VEC_C>(cast<D_C>(ACC),                         \
+-                gc_offsets[INDEX] + soff);                                      \
++            s_c.template _store<T::VEC_C>(cast<D_C>(ACC),                        \
++                output_lds_byte_bases[(INDEX) % 4]                              \
++                    + sizeof(D_C) * (soff + (INDEX) / 4 * 32 * c_lds_pitch));   \
+         } else {                                                                \
+             g_c.template store<T::VEC_C>(ACC, gc_offsets[INDEX], soff,            \
+                 opus::number<2>{});                                              \

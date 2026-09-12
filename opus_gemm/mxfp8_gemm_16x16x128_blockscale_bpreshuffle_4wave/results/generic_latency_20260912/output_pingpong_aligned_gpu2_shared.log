@@ -1,0 +1,93 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL output_pingpong_132 bf16 67108864 outputs
+FULL_BASELINE_EQUAL output_pingpong_132 fp32 67108864 outputs
+FULL_BASELINE_EQUAL output_pingpong_136 bf16 67108864 outputs
+FULL_BASELINE_EQUAL output_pingpong_136 fp32 67108864 outputs
+1 baseline bf16: 0.334650308 ms / 3.285554 P
+1 output_pingpong_132 bf16: 0.334001690 ms / 3.291934 P
+1 baseline bf16: 0.333428144 ms / 3.297597 P
+1 baseline bf16: 0.333677679 ms / 3.295131 P
+1 output_pingpong_136 bf16: 0.333310366 ms / 3.298762 P
+1 baseline bf16: 0.333880872 ms / 3.293126 P
+1 baseline fp32: 0.356505841 ms / 3.084134 P
+1 output_pingpong_132 fp32: 0.356587023 ms / 3.083431 P
+1 baseline fp32: 0.356772661 ms / 3.081827 P
+1 baseline fp32: 0.356626630 ms / 3.083089 P
+1 output_pingpong_136 fp32: 0.356485397 ms / 3.084310 P
+1 baseline fp32: 0.357159019 ms / 3.078493 P
+2 baseline bf16: 0.334172428 ms / 3.290252 P
+2 output_pingpong_136 bf16: 0.334440827 ms / 3.287612 P
+2 baseline bf16: 0.334667623 ms / 3.285384 P
+2 baseline bf16: 0.334239662 ms / 3.289591 P
+2 output_pingpong_132 bf16: 0.334328085 ms / 3.288721 P
+2 baseline bf16: 0.334414482 ms / 3.287871 P
+2 baseline fp32: 0.356858641 ms / 3.081085 P
+2 output_pingpong_136 fp32: 0.357197076 ms / 3.078165 P
+2 baseline fp32: 0.357350647 ms / 3.076842 P
+2 baseline fp32: 0.357300222 ms / 3.077277 P
+2 output_pingpong_132 fp32: 0.357282639 ms / 3.077428 P
+2 baseline fp32: 0.357179046 ms / 3.078321 P
+3 baseline bf16: 0.334403276 ms / 3.287981 P
+3 output_pingpong_132 bf16: 0.334642857 ms / 3.285627 P
+3 baseline bf16: 0.334694058 ms / 3.285124 P
+3 baseline bf16: 0.334615678 ms / 3.285894 P
+3 output_pingpong_136 bf16: 0.334112048 ms / 3.290847 P
+3 baseline bf16: 0.334537655 ms / 3.286660 P
+3 baseline fp32: 0.357125849 ms / 3.078779 P
+3 output_pingpong_132 fp32: 0.357404262 ms / 3.076381 P
+3 baseline fp32: 0.357185453 ms / 3.078265 P
+3 baseline fp32: 0.357205421 ms / 3.078093 P
+3 output_pingpong_136 fp32: 0.357491046 ms / 3.075634 P
+3 baseline fp32: 0.357973009 ms / 3.071493 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.33440887928009033,
+    "min_ms": 0.33342814445495605,
+    "max_ms": 0.3346940577030182,
+    "median_pflops": 3.2879259370833984
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.3571690320968628,
+    "min_ms": 0.3565058410167694,
+    "max_ms": 0.35797300934791565,
+    "median_pflops": 3.078406941724491
+  },
+  {
+    "name": "output_pingpong_132",
+    "dtype": "bf16",
+    "median_ms": 0.3343280851840973,
+    "min_ms": 0.33400169014930725,
+    "max_ms": 0.33464285731315613,
+    "median_pflops": 3.2887205009132137
+  },
+  {
+    "name": "output_pingpong_132",
+    "dtype": "fp32",
+    "median_ms": 0.3572826385498047,
+    "min_ms": 0.3565870225429535,
+    "max_ms": 0.35740426182746887,
+    "median_pflops": 3.0774280895340222
+  },
+  {
+    "name": "output_pingpong_136",
+    "dtype": "bf16",
+    "median_ms": 0.3341120481491089,
+    "min_ms": 0.3333103656768799,
+    "max_ms": 0.33444082736968994,
+    "median_pflops": 3.290846989406696
+  },
+  {
+    "name": "output_pingpong_136",
+    "dtype": "fp32",
+    "median_ms": 0.3571970760822296,
+    "min_ms": 0.35648539662361145,
+    "max_ms": 0.35749104619026184,
+    "median_pflops": 3.0781652521782785
+  }
+]

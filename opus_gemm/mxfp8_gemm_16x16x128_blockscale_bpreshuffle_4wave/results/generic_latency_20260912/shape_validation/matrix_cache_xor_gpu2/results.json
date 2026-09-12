@@ -1,0 +1,3478 @@
+{
+  "pci": "0000:65:00.0",
+  "hip_visible_devices": "2",
+  "timestamp_utc": "2026-09-12T07:01:15.951137+00:00",
+  "performance_measured": false,
+  "versions": {
+    "baseline": {
+      "tmpl_generic.hpp": "69ef190d32fc10127deee1d06286233ecdde498e543a2d6c07d02b11696955be",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "build/libblockscale_bpreshuffle.so": "23dfdd845601a82cba1611fb666a68db3747823347adf7f82b731bd530c610bf"
+    },
+    "matrix_cache1": {
+      "tmpl_generic.hpp": "f30fb1c8245872e7f36e3473d60ce2b6b1f3ad53922b243950621f3de840e8f2",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "build/libblockscale_bpreshuffle.so": "9da708eb99174e43c10ce5becee250e590f29c61ee717f44fc043d19cd801022"
+    },
+    "matrix_cache2": {
+      "tmpl_generic.hpp": "15f80f4ba40228976022b649811a6666a1200db26a6b4347c342855366665c82",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "build/libblockscale_bpreshuffle.so": "b05abed3b11bda6658068b1a924b5180f147144729b4b98b5b2ed89b6ca6cd32"
+    },
+    "matrix_cache3": {
+      "tmpl_generic.hpp": "7112e22f9ed95bb70a59a077e4bd4d7ff3aac9e34b0f60b7117883a9d84a62d8",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "build/libblockscale_bpreshuffle.so": "fcaf8c9c5164655c8827514482e1c094e12de774e01b611af25292f3728d626c"
+    },
+    "b_scale_byte0": {
+      "tmpl_generic.hpp": "2753d8812ba70b586af9c08bc06518b14feb23ba5e14d93f08d12adbc219de45",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "build/libblockscale_bpreshuffle.so": "3ce1762aeac64e127b23c55121b5c2f1373956f0ba4383a3533680941eb714ef"
+    },
+    "output_pingpong_xor128_ordered": {
+      "tmpl_generic.hpp": "aa68158da1a25fd24005e583d4439fe977cef466b89c3ec9a5e46093c08735b2",
+      "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "build/libblockscale_bpreshuffle.so": "20cb414ba431650a496cee4c007b68cfe7b4a85e4a8ed2e6102a150934dbe25b"
+    }
+  },
+  "records": [
+    {
+      "name": "baseline",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        512,
+        256,
+        128
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        256,
+        512,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        256,
+        256,
+        384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        256,
+        768,
+        896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 196608,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        512,
+        256,
+        1152
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        256,
+        512,
+        3968
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        512,
+        256,
+        4096
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        256,
+        256,
+        4224
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        256,
+        512,
+        4352
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        256,
+        512,
+        8064
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        256,
+        256,
+        8192
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        512,
+        256,
+        8320
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        256,
+        512,
+        8448
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 131072,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        256,
+        256,
+        16384
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        256,
+        512,
+        16512
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 262144,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        256,
+        256,
+        32896
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 65536,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        1024,
+        2048,
+        128
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 2097152,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        1024,
+        2048,
+        128
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 2097152,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        1024,
+        2048,
+        128
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 2097152,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        1024,
+        2048,
+        128
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 2097152,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        1024,
+        2048,
+        128
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 2097152,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        1024,
+        2048,
+        128
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 2097152,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        1024,
+        2048,
+        128
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 2097152,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        1024,
+        2048,
+        128
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 2097152,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        1024,
+        2048,
+        128
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 2097152,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        1024,
+        2048,
+        128
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 2097152,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        1024,
+        2048,
+        128
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 2097152,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        1024,
+        2048,
+        128
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 2097152,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        2048,
+        2048,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 4194304,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        2048,
+        2048,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 4194304,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        2048,
+        2048,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 4194304,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        2048,
+        2048,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 4194304,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        2048,
+        2048,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 4194304,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        2048,
+        2048,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 4194304,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        2048,
+        2048,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 4194304,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        2048,
+        2048,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 4194304,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        2048,
+        2048,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 4194304,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        2048,
+        2048,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 4194304,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        2048,
+        2048,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 4194304,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        2048,
+        2048,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 4194304,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        1280,
+        1024,
+        128
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 1310720,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        1280,
+        1024,
+        128
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 1310720,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        1280,
+        1024,
+        128
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 1310720,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        1280,
+        1024,
+        128
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 1310720,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        1280,
+        1024,
+        128
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 1310720,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        1280,
+        1024,
+        128
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 1310720,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        1280,
+        1024,
+        128
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 1310720,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        1280,
+        1024,
+        128
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 1310720,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        1280,
+        1024,
+        128
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 1310720,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        1280,
+        1024,
+        128
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 1310720,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        1280,
+        1024,
+        128
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 1310720,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        1280,
+        1024,
+        128
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 1310720,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        2048,
+        1024,
+        384
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 4194304,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        2048,
+        1024,
+        384
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 4194304,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        2048,
+        1024,
+        384
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 4194304,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        2048,
+        1024,
+        384
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 4194304,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        2048,
+        1024,
+        384
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 4194304,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        2048,
+        1024,
+        384
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 4194304,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        2048,
+        1024,
+        384
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 4194304,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        2048,
+        1024,
+        384
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 4194304,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        2048,
+        1024,
+        384
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 4194304,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        2048,
+        1024,
+        384
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 4194304,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        2048,
+        1024,
+        384
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 4194304,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        2048,
+        1024,
+        384
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 4194304,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        1024,
+        8192,
+        128
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 16777216,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        1024,
+        8192,
+        128
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 16777216,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        1024,
+        8192,
+        128
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 16777216,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        1024,
+        8192,
+        128
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 16777216,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        1024,
+        8192,
+        128
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 16777216,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        1024,
+        8192,
+        128
+      ],
+      "batch": 2,
+      "dtype": "fp32",
+      "elements": 16777216,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        1024,
+        8192,
+        128
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 16777216,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        1024,
+        8192,
+        128
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 16777216,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        1024,
+        8192,
+        128
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 16777216,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        1024,
+        8192,
+        128
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 16777216,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        1024,
+        8192,
+        128
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 16777216,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        1024,
+        8192,
+        128
+      ],
+      "batch": 2,
+      "dtype": "bf16",
+      "elements": 16777216,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        512,
+        4096,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 2097152,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        512,
+        4096,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 2097152,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        512,
+        4096,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 2097152,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        512,
+        4096,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 2097152,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        512,
+        4096,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 2097152,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        512,
+        4096,
+        256
+      ],
+      "batch": 1,
+      "dtype": "fp32",
+      "elements": 2097152,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "baseline",
+      "shape": [
+        512,
+        4096,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 2097152,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache1",
+      "shape": [
+        512,
+        4096,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 2097152,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache2",
+      "shape": [
+        512,
+        4096,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 2097152,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "matrix_cache3",
+      "shape": [
+        512,
+        4096,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 2097152,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "b_scale_byte0",
+      "shape": [
+        512,
+        4096,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 2097152,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    },
+    {
+      "name": "output_pingpong_xor128_ordered",
+      "shape": [
+        512,
+        4096,
+        256
+      ],
+      "batch": 1,
+      "dtype": "bf16",
+      "elements": 2097152,
+      "reference": "independent dequantized FP32 bmm",
+      "exact_equal": true
+    }
+  ]
+}

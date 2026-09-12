@@ -1,0 +1,98 @@
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.33498430252075195,
+    "min_ms": 0.33349475264549255,
+    "max_ms": 0.3354085087776184,
+    "median_pflops": 3.282278063485934
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.3575156480073929,
+    "min_ms": 0.3568122386932373,
+    "max_ms": 0.35785025358200073,
+    "median_pflops": 3.0754223875349473
+  },
+  {
+    "name": "matrix_cache1",
+    "dtype": "bf16",
+    "median_ms": 0.3351121246814728,
+    "min_ms": 0.33444270491600037,
+    "max_ms": 0.33524051308631897,
+    "median_pflops": 3.281026100804607
+  },
+  {
+    "name": "matrix_cache1",
+    "dtype": "fp32",
+    "median_ms": 0.3578350841999054,
+    "min_ms": 0.3566810190677643,
+    "max_ms": 0.35801708698272705,
+    "median_pflops": 3.072676985361657
+  },
+  {
+    "name": "matrix_cache2",
+    "dtype": "bf16",
+    "median_ms": 0.43384525179862976,
+    "min_ms": 0.4333552122116089,
+    "max_ms": 0.43386203050613403,
+    "median_pflops": 2.5343405816190443
+  },
+  {
+    "name": "matrix_cache2",
+    "dtype": "fp32",
+    "median_ms": 0.47912678122520447,
+    "min_ms": 0.47905799746513367,
+    "max_ms": 0.4803731143474579,
+    "median_pflops": 2.2948239815866094
+  },
+  {
+    "name": "matrix_cache3",
+    "dtype": "bf16",
+    "median_ms": 0.4336196184158325,
+    "min_ms": 0.43305161595344543,
+    "max_ms": 0.43636608123779297,
+    "median_pflops": 2.5356593223178163
+  },
+  {
+    "name": "matrix_cache3",
+    "dtype": "fp32",
+    "median_ms": 0.4807007908821106,
+    "min_ms": 0.47736722230911255,
+    "max_ms": 0.4814459979534149,
+    "median_pflops": 2.2873097956804687
+  },
+  {
+    "name": "b_scale_byte0",
+    "dtype": "bf16",
+    "median_ms": 0.3350660800933838,
+    "min_ms": 0.3339868485927582,
+    "max_ms": 0.3352513015270233,
+    "median_pflops": 3.28147697752504
+  },
+  {
+    "name": "b_scale_byte0",
+    "dtype": "fp32",
+    "median_ms": 0.3575747013092041,
+    "min_ms": 0.35707664489746094,
+    "max_ms": 0.3575778901576996,
+    "median_pflops": 3.0749144829047173
+  },
+  {
+    "name": "output_pingpong_xor128_ordered",
+    "dtype": "bf16",
+    "median_ms": 0.33611050248146057,
+    "min_ms": 0.3350468575954437,
+    "max_ms": 0.33619651198387146,
+    "median_pflops": 3.271280188088284
+  },
+  {
+    "name": "output_pingpong_xor128_ordered",
+    "dtype": "fp32",
+    "median_ms": 0.3577386736869812,
+    "min_ms": 0.3573507070541382,
+    "max_ms": 0.35812267661094666,
+    "median_pflops": 3.0735050712970016
+  }
+]

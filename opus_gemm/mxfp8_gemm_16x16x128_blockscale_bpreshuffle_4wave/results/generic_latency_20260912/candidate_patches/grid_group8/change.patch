@@ -1,0 +1,20 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -247,8 +247,15 @@
+ 
+     // N varies along grid X and M along grid Y. The public byte-count
+     // bound limits either tile dimension to less than 16384.
+-    const int block_m = block_id_y();
+-    const int block_n = block_id_x();
++    int block_m = block_id_y();
++    int block_n = block_id_x();
++    // Transpose low tile-coordinate bits only for complete square groups.
++    // Other legal shapes retain the original direct two-dimensional mapping.
++    if (((kargs.m | kargs.n) & 2047) == 0) {
++        const int old_m = block_m;
++        block_m = (block_m & ~7) | (block_n & 7);
++        block_n = (block_n & ~7) | (old_m & 7);
++    }
+     const int row = block_m * T::B_M;
+     const int col = block_n * T::B_N;
+ 

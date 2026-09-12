@@ -1,0 +1,23 @@
+{
+  "name": "grid_group2_out136_compact8",
+  "status": "PASS",
+  "native_coordinate_coverage": 65536,
+  "read_alignment_bytes": 16,
+  "store_alignment_bytes": 16,
+  "highest_output_lds_byte": 69615,
+  "first_write_mfmas": [
+    8,
+    24,
+    40,
+    56
+  ],
+  "publication_mfmas": [
+    20,
+    36,
+    52,
+    64
+  ],
+  "slot_reuse_after_prior_reader_publication": true,
+  "source_sha256": "a27f91c001685bb5d78dd6eacc74aa9fa9c449e72ecc862e00ec6172f3e52a75",
+  "scope": "Native C mapping, vector alignment, and source publication lifetime. Linked-ISA waitcnt/control-flow audit is separate."
+}

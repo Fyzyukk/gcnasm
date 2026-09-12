@@ -1,0 +1,57 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL wave4x1_private_u2 bf16 67108864 outputs
+FULL_BASELINE_EQUAL wave4x1_private_u2 fp32 67108864 outputs
+1 baseline bf16: 0.334918320 ms / 3.282925 P
+1 wave4x1_private_u2 bf16: 0.338461995 ms / 3.248553 P
+1 baseline bf16: 0.334121704 ms / 3.290752 P
+1 baseline fp32: 0.356591374 ms / 3.083394 P
+1 wave4x1_private_u2 fp32: 0.366599470 ms / 2.999218 P
+1 baseline fp32: 0.356752992 ms / 3.081997 P
+2 baseline bf16: 0.334199369 ms / 3.289987 P
+2 wave4x1_private_u2 bf16: 0.338289380 ms / 3.250210 P
+2 baseline bf16: 0.334481329 ms / 3.287214 P
+2 baseline fp32: 0.357055485 ms / 3.079386 P
+2 wave4x1_private_u2 fp32: 0.366992712 ms / 2.996004 P
+2 baseline fp32: 0.356843829 ms / 3.081212 P
+3 baseline bf16: 0.334473729 ms / 3.287288 P
+3 wave4x1_private_u2 bf16: 0.338590533 ms / 3.247319 P
+3 baseline bf16: 0.334787339 ms / 3.284209 P
+3 baseline fp32: 0.356975108 ms / 3.080079 P
+3 wave4x1_private_u2 fp32: 0.367273211 ms / 2.993716 P
+3 baseline fp32: 0.357031465 ms / 3.079593 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.3344775289297104,
+    "min_ms": 0.3341217041015625,
+    "max_ms": 0.3349183201789856,
+    "median_pflops": 3.2872511086000626
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.35690946877002716,
+    "min_ms": 0.3565913736820221,
+    "max_ms": 0.3570554852485657,
+    "median_pflops": 3.080645721070698
+  },
+  {
+    "name": "wave4x1_private_u2",
+    "dtype": "bf16",
+    "median_ms": 0.3384619951248169,
+    "min_ms": 0.33828938007354736,
+    "max_ms": 0.338590532541275,
+    "median_pflops": 3.2485526990128557
+  },
+  {
+    "name": "wave4x1_private_u2",
+    "dtype": "fp32",
+    "median_ms": 0.366992712020874,
+    "min_ms": 0.3665994703769684,
+    "max_ms": 0.367273211479187,
+    "median_pflops": 2.9960039852602343
+  }
+]

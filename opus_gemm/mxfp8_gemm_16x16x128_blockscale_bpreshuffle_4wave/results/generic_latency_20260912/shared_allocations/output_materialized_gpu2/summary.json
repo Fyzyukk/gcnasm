@@ -1,0 +1,82 @@
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.3349553197622299,
+    "min_ms": 0.33366549015045166,
+    "max_ms": 0.3358735144138336,
+    "median_pflops": 3.2825620699396416
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.3575346767902374,
+    "min_ms": 0.3558112680912018,
+    "max_ms": 0.37123847007751465,
+    "median_pflops": 3.0752587067829347
+  },
+  {
+    "name": "output_packed_materialized",
+    "dtype": "bf16",
+    "median_ms": 0.335097074508667,
+    "min_ms": 0.33416545391082764,
+    "max_ms": 0.33539271354675293,
+    "median_pflops": 3.2811734611176444
+  },
+  {
+    "name": "output_packed_materialized",
+    "dtype": "fp32",
+    "median_ms": 0.35790207982063293,
+    "min_ms": 0.35695406794548035,
+    "max_ms": 0.3579704761505127,
+    "median_pflops": 3.0721018115542496
+  },
+  {
+    "name": "output_stream_packed_materialized",
+    "dtype": "bf16",
+    "median_ms": 0.33498549461364746,
+    "min_ms": 0.3332326114177704,
+    "max_ms": 0.33526912331581116,
+    "median_pflops": 3.2822663830387997
+  },
+  {
+    "name": "output_stream_packed_materialized",
+    "dtype": "fp32",
+    "median_ms": 0.35778486728668213,
+    "min_ms": 0.35725006461143494,
+    "max_ms": 0.3643791079521179,
+    "median_pflops": 3.0731082510960275
+  },
+  {
+    "name": "output_packed_materialized_out136",
+    "dtype": "bf16",
+    "median_ms": 0.3349458575248718,
+    "min_ms": 0.33388394117355347,
+    "max_ms": 0.3354347348213196,
+    "median_pflops": 3.2826548024835756
+  },
+  {
+    "name": "output_packed_materialized_out136",
+    "dtype": "fp32",
+    "median_ms": 0.35753127932548523,
+    "min_ms": 0.35699766874313354,
+    "max_ms": 0.3577052652835846,
+    "median_pflops": 3.075287929633254
+  },
+  {
+    "name": "output_stream_packed_materialized_out136",
+    "dtype": "bf16",
+    "median_ms": 0.3346506953239441,
+    "min_ms": 0.3333418369293213,
+    "max_ms": 0.3348807096481323,
+    "median_pflops": 3.2855501068410016
+  },
+  {
+    "name": "output_stream_packed_materialized_out136",
+    "dtype": "fp32",
+    "median_ms": 0.3571556806564331,
+    "min_ms": 0.35703128576278687,
+    "max_ms": 0.3580980598926544,
+    "median_pflops": 3.0785220208598005
+  }
+]

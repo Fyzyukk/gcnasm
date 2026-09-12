@@ -1,0 +1,27 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -1330,11 +1330,22 @@
+     };
+ 
+     const auto gc_offsets = opus::layout_to_offsets<T::VEC_C>(u_gc);
++    int output_lds_byte_base = 0;
++    if constexpr (T::OUTPUT_BF16) {
++        // The lane coordinate is shared by every native C fragment.
++        // Keep its byte base intact so constant fragment offsets fold into DS.
++        output_lds_byte_base = gc_offsets[0] * sizeof(D_C);
++        asm volatile("" : "+v"(output_lds_byte_base));
++    }
+ #define MXFP8_STORE_FRAGMENT(ACC, INDEX)                                   \
+     do {                                                                        \
+         if constexpr (T::OUTPUT_BF16) {                                         \
+-            s_c.template store<T::VEC_C>(cast<D_C>(ACC),                         \
+-                gc_offsets[INDEX] + soff);                                      \
++            auto packed_fragment = cast<D_C>(ACC);                       \
++            asm volatile("" : "+v"(packed_fragment));                         \
++            s_c.template _store<T::VEC_C>(packed_fragment,                     \
++                output_lds_byte_base + sizeof(D_C) * (soff                      \
++                    + (INDEX) / T::E_N * T::W_M * T::T_M * c_lds_pitch           \
++                    + (INDEX) % T::E_N * T::W_N * T::T_N));                      \
+         } else {                                                                \
+             g_c.template store<T::VEC_C>(ACC, gc_offsets[INDEX], soff,            \
+                 opus::number<2>{});                                              \

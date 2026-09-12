@@ -1,0 +1,165 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL initial_roles_split bf16 67108864 outputs
+FULL_BASELINE_EQUAL initial_roles_split fp32 67108864 outputs
+FULL_BASELINE_EQUAL initial_roles_early bf16 67108864 outputs
+FULL_BASELINE_EQUAL initial_roles_early fp32 67108864 outputs
+FULL_BASELINE_EQUAL initial_roles_quads bf16 67108864 outputs
+FULL_BASELINE_EQUAL initial_roles_quads fp32 67108864 outputs
+FULL_BASELINE_EQUAL m0_grid_group2 bf16 67108864 outputs
+FULL_BASELINE_EQUAL m0_grid_group2 fp32 67108864 outputs
+1 baseline bf16: 0.334746182 ms / 3.284613 P
+1 initial_roles_split bf16: 0.333919138 ms / 3.292748 P
+1 baseline bf16: 0.333337069 ms / 3.298498 P
+1 baseline bf16: 0.333241075 ms / 3.299448 P
+1 initial_roles_early bf16: 0.333302319 ms / 3.298842 P
+1 baseline bf16: 0.333015591 ms / 3.301682 P
+1 baseline bf16: 0.333146334 ms / 3.300386 P
+1 initial_roles_quads bf16: 0.333287656 ms / 3.298987 P
+1 baseline bf16: 0.333566427 ms / 3.296230 P
+1 baseline bf16: 0.333312422 ms / 3.298742 P
+1 m0_grid_group2 bf16: 0.332536846 ms / 3.306435 P
+1 baseline bf16: 0.333423227 ms / 3.297646 P
+1 baseline fp32: 0.356839448 ms / 3.081250 P
+1 initial_roles_split fp32: 0.356369853 ms / 3.085310 P
+1 baseline fp32: 0.356691867 ms / 3.082525 P
+1 baseline fp32: 0.356648952 ms / 3.082896 P
+1 initial_roles_early fp32: 0.357112646 ms / 3.078893 P
+1 baseline fp32: 0.356898963 ms / 3.080736 P
+1 baseline fp32: 0.357007444 ms / 3.079800 P
+1 initial_roles_quads fp32: 0.357156247 ms / 3.078517 P
+1 baseline fp32: 0.357225835 ms / 3.077917 P
+1 baseline fp32: 0.356893033 ms / 3.080788 P
+1 m0_grid_group2 fp32: 0.356273055 ms / 3.086149 P
+1 baseline fp32: 0.357101798 ms / 3.078987 P
+2 baseline bf16: 0.334054828 ms / 3.291411 P
+2 m0_grid_group2 bf16: 0.333378017 ms / 3.298093 P
+2 baseline bf16: 0.333901644 ms / 3.292921 P
+2 baseline bf16: 0.333726048 ms / 3.294653 P
+2 initial_roles_quads bf16: 0.334189266 ms / 3.290087 P
+2 baseline bf16: 0.334144056 ms / 3.290532 P
+2 baseline bf16: 0.334042907 ms / 3.291528 P
+2 initial_roles_early bf16: 0.334430456 ms / 3.287714 P
+2 baseline bf16: 0.333836824 ms / 3.293560 P
+2 baseline bf16: 0.334232867 ms / 3.289657 P
+2 initial_roles_split bf16: 0.334074825 ms / 3.291214 P
+2 baseline bf16: 0.334942847 ms / 3.282684 P
+2 baseline fp32: 0.357383013 ms / 3.076564 P
+2 m0_grid_group2 fp32: 0.356495857 ms / 3.084220 P
+2 baseline fp32: 0.357019395 ms / 3.079697 P
+2 baseline fp32: 0.357549846 ms / 3.075128 P
+2 initial_roles_quads fp32: 0.357538640 ms / 3.075225 P
+2 baseline fp32: 0.357191056 ms / 3.078217 P
+2 baseline fp32: 0.357147813 ms / 3.078590 P
+2 initial_roles_early fp32: 0.357796252 ms / 3.073010 P
+2 baseline fp32: 0.357135862 ms / 3.078693 P
+2 baseline fp32: 0.357425421 ms / 3.076199 P
+2 initial_roles_split fp32: 0.357084662 ms / 3.079134 P
+2 baseline fp32: 0.357465446 ms / 3.075854 P
+3 baseline bf16: 0.334477663 ms / 3.287250 P
+3 initial_roles_split bf16: 0.334570855 ms / 3.286334 P
+3 baseline bf16: 0.335335702 ms / 3.278839 P
+3 baseline bf16: 0.335160434 ms / 3.280553 P
+3 initial_roles_early bf16: 0.335998893 ms / 3.272367 P
+3 baseline bf16: 0.335322082 ms / 3.278972 P
+3 baseline bf16: 0.334964067 ms / 3.282476 P
+3 initial_roles_quads bf16: 0.335738480 ms / 3.274905 P
+3 baseline bf16: 0.335059255 ms / 3.281544 P
+3 baseline bf16: 0.335518479 ms / 3.277052 P
+3 m0_grid_group2 bf16: 0.334234834 ms / 3.289638 P
+3 baseline bf16: 0.335647702 ms / 3.275791 P
+3 baseline fp32: 0.357553452 ms / 3.075097 P
+3 initial_roles_split fp32: 0.357726246 ms / 3.073612 P
+3 baseline fp32: 0.357282639 ms / 3.077428 P
+3 baseline fp32: 0.357754618 ms / 3.073368 P
+3 initial_roles_early fp32: 0.358124226 ms / 3.070196 P
+3 baseline fp32: 0.357973456 ms / 3.071489 P
+3 baseline fp32: 0.357763022 ms / 3.073296 P
+3 initial_roles_quads fp32: 0.358149022 ms / 3.069984 P
+3 baseline fp32: 0.357733041 ms / 3.073553 P
+3 baseline fp32: 0.357479870 ms / 3.075730 P
+3 m0_grid_group2 fp32: 0.356838226 ms / 3.081261 P
+3 baseline fp32: 0.357453048 ms / 3.075961 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.3340994417667389,
+    "min_ms": 0.3330155909061432,
+    "max_ms": 0.33564770221710205,
+    "median_pflops": 3.2909711610462837
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.3572542369365692,
+    "min_ms": 0.3566489517688751,
+    "max_ms": 0.35797345638275146,
+    "median_pflops": 3.07767274421778
+  },
+  {
+    "name": "initial_roles_split",
+    "dtype": "bf16",
+    "median_ms": 0.33407482504844666,
+    "min_ms": 0.33391913771629333,
+    "max_ms": 0.33457085490226746,
+    "median_pflops": 3.2912136603425646
+  },
+  {
+    "name": "initial_roles_split",
+    "dtype": "fp32",
+    "median_ms": 0.3570846617221832,
+    "min_ms": 0.35636985301971436,
+    "max_ms": 0.35772624611854553,
+    "median_pflops": 3.079134294016345
+  },
+  {
+    "name": "initial_roles_early",
+    "dtype": "bf16",
+    "median_ms": 0.334430456161499,
+    "min_ms": 0.3333023190498352,
+    "max_ms": 0.33599889278411865,
+    "median_pflops": 3.2877138057218014
+  },
+  {
+    "name": "initial_roles_early",
+    "dtype": "fp32",
+    "median_ms": 0.35779625177383423,
+    "min_ms": 0.3571126461029053,
+    "max_ms": 0.3581242263317108,
+    "median_pflops": 3.0730104698553684
+  },
+  {
+    "name": "initial_roles_quads",
+    "dtype": "bf16",
+    "median_ms": 0.3341892659664154,
+    "min_ms": 0.33328765630722046,
+    "max_ms": 0.33573848009109497,
+    "median_pflops": 3.290086605853152
+  },
+  {
+    "name": "initial_roles_quads",
+    "dtype": "fp32",
+    "median_ms": 0.357538640499115,
+    "min_ms": 0.35715624690055847,
+    "max_ms": 0.3581490218639374,
+    "median_pflops": 3.075224614159491
+  },
+  {
+    "name": "m0_grid_group2",
+    "dtype": "bf16",
+    "median_ms": 0.33337801694869995,
+    "min_ms": 0.33253684639930725,
+    "max_ms": 0.3342348337173462,
+    "median_pflops": 3.2980927712015045
+  },
+  {
+    "name": "m0_grid_group2",
+    "dtype": "fp32",
+    "median_ms": 0.35649585723876953,
+    "min_ms": 0.3562730550765991,
+    "max_ms": 0.3568382263183594,
+    "median_pflops": 3.0842199297692883
+  }
+]

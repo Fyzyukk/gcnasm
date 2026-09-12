@@ -1,0 +1,52 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -574,24 +574,6 @@
+     MXFP8_MATERIALIZE_C_QUADRANT(c11);
+ #undef MXFP8_MATERIALIZE_C_QUADRANT
+ 
+-    // B matrix requests can progress while the scale transpose publishes.
+-    publish_sfa_panel();
+-    s_waitcnt_vmcnt(0_I);
+-
+-    if (wave_id < T::SCALE_N_HALVES) {
+-        const D_SF_PACK packed = panel_sfb_raw * 0x01010101u;
+-        store<4>(s_sfb,
+-            __builtin_bit_cast(opus::vector_t<D_SF, 4>, packed),
+-            (lane_id * T::SCALE_N_HALVES + wave_id) * 4);
+-    }
+-
+-    s_waitcnt_lgkmcnt(0_I);
+-    __builtin_amdgcn_s_barrier();
+-    __builtin_amdgcn_sched_barrier(0);
+-
+-    int stage = 0;
+-    int tile = 0;
+-
+     // A single K128 block has no K1 producer.
+     if (loops > 1) {
+         // Both matrices preload K1. Main-loop publications release the matrix
+@@ -612,6 +594,24 @@
+         __builtin_amdgcn_sched_barrier(0);
+ 
+     }
++
++    // B matrix requests can progress while the scale transpose publishes.
++    publish_sfa_panel();
++    s_waitcnt_vmcnt(0_I);
++
++    if (wave_id < T::SCALE_N_HALVES) {
++        const D_SF_PACK packed = panel_sfb_raw * 0x01010101u;
++        store<4>(s_sfb,
++            __builtin_bit_cast(opus::vector_t<D_SF, 4>, packed),
++            (lane_id * T::SCALE_N_HALVES + wave_id) * 4);
++    }
++
++    s_waitcnt_lgkmcnt(0_I);
++    __builtin_amdgcn_s_barrier();
++    __builtin_amdgcn_sched_barrier(0);
++
++    int stage = 0;
++    int tile = 0;
+ 
+     // Seed all four matrix halves and scale dwords for K0. The main
+     // and penultimate blocks prefetch each next-K SFA/SFB pair in one b64

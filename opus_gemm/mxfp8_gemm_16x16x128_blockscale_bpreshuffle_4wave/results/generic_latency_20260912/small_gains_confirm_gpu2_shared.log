@@ -1,0 +1,165 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL grid_group2 bf16 67108864 outputs
+FULL_BASELINE_EQUAL grid_group2 fp32 67108864 outputs
+FULL_BASELINE_EQUAL output_pingpong_136 bf16 67108864 outputs
+FULL_BASELINE_EQUAL output_pingpong_136 fp32 67108864 outputs
+FULL_BASELINE_EQUAL compact_uniform_preload8 bf16 67108864 outputs
+FULL_BASELINE_EQUAL compact_uniform_preload8 fp32 67108864 outputs
+1 baseline bf16: 0.334091216 ms / 3.291052 P
+1 grid_group2 bf16: 0.333184481 ms / 3.300009 P
+1 baseline bf16: 0.333891332 ms / 3.293022 P
+1 baseline bf16: 0.332944512 ms / 3.302387 P
+1 output_pingpong_136 bf16: 0.332767069 ms / 3.304148 P
+1 baseline bf16: 0.333112150 ms / 3.300725 P
+1 baseline bf16: 0.332954168 ms / 3.302291 P
+1 compact_uniform_preload8 bf16: 0.332697004 ms / 3.304844 P
+1 baseline bf16: 0.333069801 ms / 3.301145 P
+1 baseline fp32: 0.356295288 ms / 3.085956 P
+1 grid_group2 fp32: 0.355729640 ms / 3.090863 P
+1 baseline fp32: 0.356139600 ms / 3.087305 P
+1 baseline fp32: 0.356461167 ms / 3.084520 P
+1 output_pingpong_136 fp32: 0.356614470 ms / 3.083194 P
+1 baseline fp32: 0.356366456 ms / 3.085340 P
+1 baseline fp32: 0.356346428 ms / 3.085513 P
+1 compact_uniform_preload8 fp32: 0.356202424 ms / 3.086761 P
+1 baseline fp32: 0.356755644 ms / 3.081974 P
+2 baseline bf16: 0.333861887 ms / 3.293313 P
+2 compact_uniform_preload8 bf16: 0.333262682 ms / 3.299234 P
+2 baseline bf16: 0.333776653 ms / 3.294154 P
+2 baseline bf16: 0.333845049 ms / 3.293479 P
+2 output_pingpong_136 bf16: 0.333551049 ms / 3.296382 P
+2 baseline bf16: 0.333801091 ms / 3.293913 P
+2 baseline bf16: 0.333627135 ms / 3.295630 P
+2 grid_group2 bf16: 0.333311081 ms / 3.298755 P
+2 baseline bf16: 0.334299505 ms / 3.289002 P
+2 baseline fp32: 0.356694072 ms / 3.082506 P
+2 compact_uniform_preload8 fp32: 0.356654465 ms / 3.082848 P
+2 baseline fp32: 0.356888086 ms / 3.080830 P
+2 baseline fp32: 0.356926888 ms / 3.080495 P
+2 output_pingpong_136 fp32: 0.356849283 ms / 3.081165 P
+2 baseline fp32: 0.356866062 ms / 3.081020 P
+2 baseline fp32: 0.357110053 ms / 3.078915 P
+2 grid_group2 fp32: 0.356205285 ms / 3.086736 P
+2 baseline fp32: 0.356860876 ms / 3.081065 P
+3 baseline bf16: 0.334183097 ms / 3.290147 P
+3 grid_group2 bf16: 0.333307862 ms / 3.298787 P
+3 baseline bf16: 0.334390730 ms / 3.288104 P
+3 baseline bf16: 0.333879471 ms / 3.293139 P
+3 output_pingpong_136 bf16: 0.334009528 ms / 3.291857 P
+3 baseline bf16: 0.334219515 ms / 3.289789 P
+3 baseline bf16: 0.334927529 ms / 3.282834 P
+3 compact_uniform_preload8 bf16: 0.333855510 ms / 3.293376 P
+3 baseline bf16: 0.334686726 ms / 3.285196 P
+3 baseline fp32: 0.356918871 ms / 3.080565 P
+3 grid_group2 fp32: 0.356460869 ms / 3.084523 P
+3 baseline fp32: 0.357319295 ms / 3.077112 P
+3 baseline fp32: 0.357139289 ms / 3.078663 P
+3 output_pingpong_136 fp32: 0.357088119 ms / 3.079104 P
+3 baseline fp32: 0.357047260 ms / 3.079457 P
+3 baseline fp32: 0.357153654 ms / 3.078539 P
+3 compact_uniform_preload8 fp32: 0.356811672 ms / 3.081490 P
+3 baseline fp32: 0.357207298 ms / 3.078077 P
+4 baseline bf16: 0.335389525 ms / 3.278312 P
+4 compact_uniform_preload8 bf16: 0.335112303 ms / 3.281024 P
+4 baseline bf16: 0.335021943 ms / 3.281909 P
+4 baseline bf16: 0.335328698 ms / 3.278907 P
+4 output_pingpong_136 bf16: 0.335042715 ms / 3.281706 P
+4 baseline bf16: 0.335308731 ms / 3.279102 P
+4 baseline bf16: 0.335861564 ms / 3.273705 P
+4 grid_group2 bf16: 0.334805906 ms / 3.284027 P
+4 baseline bf16: 0.335121125 ms / 3.280938 P
+4 baseline fp32: 0.357449681 ms / 3.075990 P
+4 compact_uniform_preload8 fp32: 0.356937319 ms / 3.080405 P
+4 baseline fp32: 0.357250512 ms / 3.077705 P
+4 baseline fp32: 0.357171655 ms / 3.078384 P
+4 output_pingpong_136 fp32: 0.357631713 ms / 3.074424 P
+4 baseline fp32: 0.357388079 ms / 3.076520 P
+4 baseline fp32: 0.357239276 ms / 3.077802 P
+4 grid_group2 fp32: 0.356926084 ms / 3.080502 P
+4 baseline fp32: 0.357163697 ms / 3.078453 P
+5 baseline bf16: 0.335459530 ms / 3.277628 P
+5 grid_group2 bf16: 0.334385902 ms / 3.288152 P
+5 baseline bf16: 0.335275918 ms / 3.279423 P
+5 baseline bf16: 0.335265517 ms / 3.279525 P
+5 output_pingpong_136 bf16: 0.335194319 ms / 3.280222 P
+5 baseline bf16: 0.335049927 ms / 3.281635 P
+5 baseline bf16: 0.335139930 ms / 3.280754 P
+5 compact_uniform_preload8 bf16: 0.334571123 ms / 3.286332 P
+5 baseline bf16: 0.335291952 ms / 3.279266 P
+5 baseline fp32: 0.357747316 ms / 3.073431 P
+5 grid_group2 fp32: 0.357295722 ms / 3.077315 P
+5 baseline fp32: 0.357518911 ms / 3.075394 P
+5 baseline fp32: 0.357646525 ms / 3.074297 P
+5 output_pingpong_136 fp32: 0.357606500 ms / 3.074641 P
+5 baseline fp32: 0.357434511 ms / 3.076121 P
+5 baseline fp32: 0.357568145 ms / 3.074971 P
+5 compact_uniform_preload8 fp32: 0.357570529 ms / 3.074950 P
+5 baseline fp32: 0.357569724 ms / 3.074957 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.33434511721134186,
+    "min_ms": 0.33294451236724854,
+    "max_ms": 0.33586156368255615,
+    "median_pflops": 3.2885529687008743
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.3571464717388153,
+    "min_ms": 0.356139600276947,
+    "max_ms": 0.35774731636047363,
+    "median_pflops": 3.078601399652307
+  },
+  {
+    "name": "grid_group2",
+    "dtype": "bf16",
+    "median_ms": 0.3333110809326172,
+    "min_ms": 0.33318448066711426,
+    "max_ms": 0.3348059058189392,
+    "median_pflops": 3.2987550989889813
+  },
+  {
+    "name": "grid_group2",
+    "dtype": "fp32",
+    "median_ms": 0.3564608693122864,
+    "min_ms": 0.3557296395301819,
+    "max_ms": 0.3572957217693329,
+    "median_pflops": 3.0845226571356017
+  },
+  {
+    "name": "output_pingpong_136",
+    "dtype": "bf16",
+    "median_ms": 0.3340095281600952,
+    "min_ms": 0.3327670693397522,
+    "max_ms": 0.33519431948661804,
+    "median_pflops": 3.291857073158073
+  },
+  {
+    "name": "output_pingpong_136",
+    "dtype": "fp32",
+    "median_ms": 0.3570881187915802,
+    "min_ms": 0.35661447048187256,
+    "max_ms": 0.35763171315193176,
+    "median_pflops": 3.0791044840608275
+  },
+  {
+    "name": "compact_uniform_preload8",
+    "dtype": "bf16",
+    "median_ms": 0.3338555097579956,
+    "min_ms": 0.3326970040798187,
+    "max_ms": 0.3351123034954071,
+    "median_pflops": 3.293375713861998
+  },
+  {
+    "name": "compact_uniform_preload8",
+    "dtype": "fp32",
+    "median_ms": 0.35681167244911194,
+    "min_ms": 0.3562024235725403,
+    "max_ms": 0.3575705289840698,
+    "median_pflops": 3.081490076344997
+  }
+]

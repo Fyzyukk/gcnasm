@@ -1,0 +1,82 @@
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.3343715965747833,
+    "min_ms": 0.33342045545578003,
+    "max_ms": 0.3354594111442566,
+    "median_pflops": 3.2882925435028407
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.3572594076395035,
+    "min_ms": 0.3567999601364136,
+    "max_ms": 0.35784921050071716,
+    "median_pflops": 3.0776282003061324
+  },
+  {
+    "name": "compact_uniform_preload0",
+    "dtype": "bf16",
+    "median_ms": 0.33446258306503296,
+    "min_ms": 0.3338787853717804,
+    "max_ms": 0.33532458543777466,
+    "median_pflops": 3.2873980033880525
+  },
+  {
+    "name": "compact_uniform_preload0",
+    "dtype": "fp32",
+    "median_ms": 0.35744839906692505,
+    "min_ms": 0.3569515645503998,
+    "max_ms": 0.3577035963535309,
+    "median_pflops": 3.0760009854461217
+  },
+  {
+    "name": "compact_uniform_preload8",
+    "dtype": "bf16",
+    "median_ms": 0.3335805833339691,
+    "min_ms": 0.33302536606788635,
+    "max_ms": 0.33516499400138855,
+    "median_pflops": 3.2960900085578655
+  },
+  {
+    "name": "compact_uniform_preload8",
+    "dtype": "fp32",
+    "median_ms": 0.35711920261383057,
+    "min_ms": 0.356694757938385,
+    "max_ms": 0.35737720131874084,
+    "median_pflops": 3.0788364773679016
+  },
+  {
+    "name": "compact_roles_preload0",
+    "dtype": "bf16",
+    "median_ms": 0.3344229757785797,
+    "min_ms": 0.3337245285511017,
+    "max_ms": 0.33515098690986633,
+    "median_pflops": 3.287787345400523
+  },
+  {
+    "name": "compact_roles_preload0",
+    "dtype": "fp32",
+    "median_ms": 0.35692161321640015,
+    "min_ms": 0.3568532168865204,
+    "max_ms": 0.3572615683078766,
+    "median_pflops": 3.08054090047321
+  },
+  {
+    "name": "compact_roles_preload8",
+    "dtype": "bf16",
+    "median_ms": 0.33384495973587036,
+    "min_ms": 0.333416223526001,
+    "max_ms": 0.3350245952606201,
+    "median_pflops": 3.293479789678136
+  },
+  {
+    "name": "compact_roles_preload8",
+    "dtype": "fp32",
+    "median_ms": 0.3569943606853485,
+    "min_ms": 0.3569427728652954,
+    "max_ms": 0.3572883903980255,
+    "median_pflops": 3.079913155113112
+  }
+]

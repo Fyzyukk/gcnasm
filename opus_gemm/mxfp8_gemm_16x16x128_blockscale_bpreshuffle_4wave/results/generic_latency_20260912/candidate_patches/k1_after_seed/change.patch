@@ -1,0 +1,58 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -592,27 +592,6 @@
+     int stage = 0;
+     int tile = 0;
+ 
+-    // A single K128 block has no K1 producer.
+-    if (loops > 1) {
+-        // Both matrices preload K1. Main-loop publications release the matrix
+-        // stage for t+2 prefetches; the penultimate block issues no future request.
+-        // The main-loop producer mapping also covers this initial matrix stage.
+-        opus::static_for<8>([&](auto initial_issue) {
+-            using Issue = opus::number<decltype(initial_issue)::value + 0>;
+-            prefetch_matrix_issue(Issue{}, 1, 1);
+-        });
+-
+-        // This guarded K1 block has B data ready by the first
+-        // main-loop VMEM drain; scales require no further global traffic.
+-        // The main-loop producer mapping also covers this initial matrix stage.
+-        opus::static_for<8>([&](auto initial_issue) {
+-            using Issue = opus::number<decltype(initial_issue)::value + 8>;
+-            prefetch_matrix_issue(Issue{}, 1, 1);
+-        });
+-        __builtin_amdgcn_sched_barrier(0);
+-
+-    }
+-
+     // Seed all four matrix halves and scale dwords for K0. The main
+     // and penultimate blocks prefetch each next-K SFA/SFB pair in one b64
+     // read, then install its halves after the last current-K consumers.
+@@ -627,6 +606,27 @@
+     v_a[1] = load<T::VEC_A>(s_a, u_ra + sa_offset(stage, 1));
+     v_b_second = load<T::VEC_B>(s_b, u_rb + sb_offset(stage, 1));
+     __builtin_amdgcn_sched_barrier(0);
++
++    // A single K128 block has no K1 producer.
++    if (loops > 1) {
++        // Both matrices preload K1. Main-loop publications release the matrix
++        // stage for t+2 prefetches; the penultimate block issues no future request.
++        // The main-loop producer mapping also covers this initial matrix stage.
++        opus::static_for<8>([&](auto initial_issue) {
++            using Issue = opus::number<decltype(initial_issue)::value + 0>;
++            prefetch_matrix_issue(Issue{}, 1, 1);
++        });
++
++        // This guarded K1 block has B data ready by the first
++        // main-loop VMEM drain; scales require no further global traffic.
++        // The main-loop producer mapping also covers this initial matrix stage.
++        opus::static_for<8>([&](auto initial_issue) {
++            using Issue = opus::number<decltype(initial_issue)::value + 8>;
++            prefetch_matrix_issue(Issue{}, 1, 1);
++        });
++        __builtin_amdgcn_sched_barrier(0);
++
++    }
+ 
+     // Prefetch while two later K128 blocks exist; peel the penultimate block.
+     // Future matrix addresses always use the complete runtime K index.

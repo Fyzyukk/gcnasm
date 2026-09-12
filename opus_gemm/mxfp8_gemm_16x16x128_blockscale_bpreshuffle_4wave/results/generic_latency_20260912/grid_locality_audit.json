@@ -1,0 +1,52 @@
+[
+  {
+    "name": "grid_n2_m0_b1",
+    "status": "PASS",
+    "cases": 4231,
+    "enabled_cases": 257,
+    "fallback_cases": 3974,
+    "bijective": true,
+    "in_bounds": true,
+    "source_sha256": "192bec3f7ca65e7a75df206290c913433b50a18a8da17ec272281c16e864f816"
+  },
+  {
+    "name": "grid_n3_m0_b1",
+    "status": "PASS",
+    "cases": 4231,
+    "enabled_cases": 128,
+    "fallback_cases": 4103,
+    "bijective": true,
+    "in_bounds": true,
+    "source_sha256": "b7955c133eb43053ff1e68fea4aa4d1f3968daf999fa9e5f00f7ff0ef492583c"
+  },
+  {
+    "name": "grid_n4_m0_b1",
+    "status": "PASS",
+    "cases": 4231,
+    "enabled_cases": 64,
+    "fallback_cases": 4167,
+    "bijective": true,
+    "in_bounds": true,
+    "source_sha256": "3f5a6b455f188475c660a55d117a57da576308023f7905f3eccb8f35d833b7db"
+  },
+  {
+    "name": "grid_n3_m0_b2",
+    "status": "PASS",
+    "cases": 4231,
+    "enabled_cases": 32,
+    "fallback_cases": 4199,
+    "bijective": true,
+    "in_bounds": true,
+    "source_sha256": "0937a5faa01e846d7564559f2e1b3a82d0301f23bf514b7d27f1b31e1e8bfcee"
+  },
+  {
+    "name": "grid_n3_m1_b1",
+    "status": "PASS",
+    "cases": 4231,
+    "enabled_cases": 64,
+    "fallback_cases": 4167,
+    "bijective": true,
+    "in_bounds": true,
+    "source_sha256": "1cbd3db11d602f955ccddd5c46bd81dfd9496df9f39630c066da3f861412554c"
+  }
+]

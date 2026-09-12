@@ -1,0 +1,836 @@
+[
+  {
+    "name": "prepare_m0_explicit1",
+    "status": "PASS",
+    "comparison_parent": "baseline",
+    "source_group_order": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "matrix_voffset_resource_immediate_and_m0_expressions_match_baseline": true,
+    "runtime_k_scalar_register_changes": [
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 80,
+        "baseline": "buffer_load_dwordx4 v37, s[24:27], s51 offen lds",
+        "candidate": "buffer_load_dwordx4 v37, s[24:27], s52 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 81,
+        "baseline": "buffer_load_dwordx4 v38, s[24:27], s51 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v38, s[24:27], s52 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 82,
+        "baseline": "buffer_load_dwordx4 v39, s[24:27], s51 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v39, s[24:27], s52 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 83,
+        "baseline": "buffer_load_dwordx4 v40, s[24:27], s51 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v40, s[24:27], s52 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 84,
+        "baseline": "buffer_load_dwordx4 v41, s[24:27], s51 offen lds",
+        "candidate": "buffer_load_dwordx4 v41, s[24:27], s52 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 85,
+        "baseline": "buffer_load_dwordx4 v42, s[24:27], s51 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v42, s[24:27], s52 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 86,
+        "baseline": "buffer_load_dwordx4 v43, s[24:27], s51 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v43, s[24:27], s52 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 87,
+        "baseline": "buffer_load_dwordx4 v44, s[24:27], s51 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v44, s[24:27], s52 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 88,
+        "baseline": "buffer_load_dwordx4 v45, s[24:27], s51 offen lds",
+        "candidate": "buffer_load_dwordx4 v45, s[24:27], s52 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 89,
+        "baseline": "buffer_load_dwordx4 v46, s[24:27], s51 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v46, s[24:27], s52 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 90,
+        "baseline": "buffer_load_dwordx4 v47, s[24:27], s51 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v47, s[24:27], s52 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 91,
+        "baseline": "buffer_load_dwordx4 v48, s[24:27], s51 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v48, s[24:27], s52 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 92,
+        "baseline": "buffer_load_dwordx4 v49, s[24:27], s51 offen lds",
+        "candidate": "buffer_load_dwordx4 v49, s[24:27], s52 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 93,
+        "baseline": "buffer_load_dwordx4 v50, s[24:27], s51 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v50, s[24:27], s52 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 94,
+        "baseline": "buffer_load_dwordx4 v51, s[24:27], s51 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v51, s[24:27], s52 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 95,
+        "baseline": "buffer_load_dwordx4 v52, s[24:27], s51 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v52, s[24:27], s52 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 96,
+        "baseline": "buffer_load_dwordx4 v37, s[24:27], s36 offen lds",
+        "candidate": "buffer_load_dwordx4 v37, s[24:27], s11 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 97,
+        "baseline": "buffer_load_dwordx4 v38, s[24:27], s36 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v38, s[24:27], s11 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 98,
+        "baseline": "buffer_load_dwordx4 v39, s[24:27], s36 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v39, s[24:27], s11 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 99,
+        "baseline": "buffer_load_dwordx4 v40, s[24:27], s36 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v40, s[24:27], s11 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 100,
+        "baseline": "buffer_load_dwordx4 v41, s[24:27], s36 offen lds",
+        "candidate": "buffer_load_dwordx4 v41, s[24:27], s11 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 101,
+        "baseline": "buffer_load_dwordx4 v42, s[24:27], s36 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v42, s[24:27], s11 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 102,
+        "baseline": "buffer_load_dwordx4 v43, s[24:27], s36 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v43, s[24:27], s11 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 103,
+        "baseline": "buffer_load_dwordx4 v44, s[24:27], s36 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v44, s[24:27], s11 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 104,
+        "baseline": "buffer_load_dwordx4 v45, s[24:27], s36 offen lds",
+        "candidate": "buffer_load_dwordx4 v45, s[24:27], s11 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 105,
+        "baseline": "buffer_load_dwordx4 v46, s[24:27], s36 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v46, s[24:27], s11 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 106,
+        "baseline": "buffer_load_dwordx4 v47, s[24:27], s36 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v47, s[24:27], s11 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 107,
+        "baseline": "buffer_load_dwordx4 v48, s[24:27], s36 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v48, s[24:27], s11 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 108,
+        "baseline": "buffer_load_dwordx4 v49, s[24:27], s36 offen lds",
+        "candidate": "buffer_load_dwordx4 v49, s[24:27], s11 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 109,
+        "baseline": "buffer_load_dwordx4 v50, s[24:27], s36 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v50, s[24:27], s11 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 110,
+        "baseline": "buffer_load_dwordx4 v51, s[24:27], s36 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v51, s[24:27], s11 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 111,
+        "baseline": "buffer_load_dwordx4 v52, s[24:27], s36 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v52, s[24:27], s11 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 80,
+        "baseline": "buffer_load_dwordx4 v38, s[24:27], s51 offen lds",
+        "candidate": "buffer_load_dwordx4 v38, s[24:27], s52 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 81,
+        "baseline": "buffer_load_dwordx4 v39, s[24:27], s51 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v39, s[24:27], s52 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 82,
+        "baseline": "buffer_load_dwordx4 v40, s[24:27], s51 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v40, s[24:27], s52 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 83,
+        "baseline": "buffer_load_dwordx4 v41, s[24:27], s51 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v41, s[24:27], s52 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 84,
+        "baseline": "buffer_load_dwordx4 v42, s[24:27], s51 offen lds",
+        "candidate": "buffer_load_dwordx4 v42, s[24:27], s52 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 85,
+        "baseline": "buffer_load_dwordx4 v43, s[24:27], s51 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v43, s[24:27], s52 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 86,
+        "baseline": "buffer_load_dwordx4 v44, s[24:27], s51 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v44, s[24:27], s52 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 87,
+        "baseline": "buffer_load_dwordx4 v45, s[24:27], s51 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v45, s[24:27], s52 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 88,
+        "baseline": "buffer_load_dwordx4 v46, s[24:27], s51 offen lds",
+        "candidate": "buffer_load_dwordx4 v46, s[24:27], s52 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 89,
+        "baseline": "buffer_load_dwordx4 v47, s[24:27], s51 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v47, s[24:27], s52 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 90,
+        "baseline": "buffer_load_dwordx4 v48, s[24:27], s51 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v48, s[24:27], s52 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 91,
+        "baseline": "buffer_load_dwordx4 v49, s[24:27], s51 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v49, s[24:27], s52 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 92,
+        "baseline": "buffer_load_dwordx4 v50, s[24:27], s51 offen lds",
+        "candidate": "buffer_load_dwordx4 v50, s[24:27], s52 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 93,
+        "baseline": "buffer_load_dwordx4 v51, s[24:27], s51 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v51, s[24:27], s52 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 94,
+        "baseline": "buffer_load_dwordx4 v52, s[24:27], s51 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v52, s[24:27], s52 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 95,
+        "baseline": "buffer_load_dwordx4 v53, s[24:27], s51 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v53, s[24:27], s52 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 96,
+        "baseline": "buffer_load_dwordx4 v38, s[24:27], s36 offen lds",
+        "candidate": "buffer_load_dwordx4 v38, s[24:27], s11 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 97,
+        "baseline": "buffer_load_dwordx4 v39, s[24:27], s36 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v39, s[24:27], s11 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 98,
+        "baseline": "buffer_load_dwordx4 v40, s[24:27], s36 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v40, s[24:27], s11 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 99,
+        "baseline": "buffer_load_dwordx4 v41, s[24:27], s36 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v41, s[24:27], s11 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 100,
+        "baseline": "buffer_load_dwordx4 v42, s[24:27], s36 offen lds",
+        "candidate": "buffer_load_dwordx4 v42, s[24:27], s11 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 101,
+        "baseline": "buffer_load_dwordx4 v43, s[24:27], s36 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v43, s[24:27], s11 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 102,
+        "baseline": "buffer_load_dwordx4 v44, s[24:27], s36 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v44, s[24:27], s11 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 103,
+        "baseline": "buffer_load_dwordx4 v45, s[24:27], s36 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v45, s[24:27], s11 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 104,
+        "baseline": "buffer_load_dwordx4 v46, s[24:27], s36 offen lds",
+        "candidate": "buffer_load_dwordx4 v46, s[24:27], s11 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 105,
+        "baseline": "buffer_load_dwordx4 v47, s[24:27], s36 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v47, s[24:27], s11 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 106,
+        "baseline": "buffer_load_dwordx4 v48, s[24:27], s36 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v48, s[24:27], s11 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 107,
+        "baseline": "buffer_load_dwordx4 v49, s[24:27], s36 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v49, s[24:27], s11 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 108,
+        "baseline": "buffer_load_dwordx4 v50, s[24:27], s36 offen lds",
+        "candidate": "buffer_load_dwordx4 v50, s[24:27], s11 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 109,
+        "baseline": "buffer_load_dwordx4 v51, s[24:27], s36 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v51, s[24:27], s11 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 110,
+        "baseline": "buffer_load_dwordx4 v52, s[24:27], s36 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v52, s[24:27], s11 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 111,
+        "baseline": "buffer_load_dwordx4 v53, s[24:27], s36 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v53, s[24:27], s11 offen offset:3168 lds"
+      }
+    ],
+    "requests_per_function": {
+      "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": 112,
+      "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": 112
+    },
+    "source_sha256": "880e731002666dae715f4c39da40c225ec51529bbbe6f6a54355b05cb65d0aa6",
+    "isa_sha256": "50ed32625efc15cfeef94a40f8635e4d9b54573f8633f27df3175737c969402b",
+    "scope": "Matrix request VOFFSET/resource/immediate and m0 ownership equivalence. Runtime-K SOFFSET is compiler-derived C++ arithmetic and covered by generic/full shape checks. CFG VMEM/LGKM readiness is checked by audit.py"
+  },
+  {
+    "name": "prepare_m0_explicit2",
+    "status": "PASS",
+    "comparison_parent": "baseline",
+    "source_group_order": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "matrix_voffset_resource_immediate_and_m0_expressions_match_baseline": true,
+    "runtime_k_scalar_register_changes": [
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 80,
+        "baseline": "buffer_load_dwordx4 v37, s[24:27], s51 offen lds",
+        "candidate": "buffer_load_dwordx4 v37, s[24:27], s52 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 81,
+        "baseline": "buffer_load_dwordx4 v38, s[24:27], s51 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v38, s[24:27], s52 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 82,
+        "baseline": "buffer_load_dwordx4 v39, s[24:27], s51 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v39, s[24:27], s52 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 83,
+        "baseline": "buffer_load_dwordx4 v40, s[24:27], s51 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v40, s[24:27], s52 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 84,
+        "baseline": "buffer_load_dwordx4 v41, s[24:27], s51 offen lds",
+        "candidate": "buffer_load_dwordx4 v41, s[24:27], s52 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 85,
+        "baseline": "buffer_load_dwordx4 v42, s[24:27], s51 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v42, s[24:27], s52 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 86,
+        "baseline": "buffer_load_dwordx4 v43, s[24:27], s51 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v43, s[24:27], s52 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 87,
+        "baseline": "buffer_load_dwordx4 v44, s[24:27], s51 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v44, s[24:27], s52 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 88,
+        "baseline": "buffer_load_dwordx4 v45, s[24:27], s51 offen lds",
+        "candidate": "buffer_load_dwordx4 v45, s[24:27], s52 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 89,
+        "baseline": "buffer_load_dwordx4 v46, s[24:27], s51 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v46, s[24:27], s52 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 90,
+        "baseline": "buffer_load_dwordx4 v47, s[24:27], s51 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v47, s[24:27], s52 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 91,
+        "baseline": "buffer_load_dwordx4 v48, s[24:27], s51 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v48, s[24:27], s52 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 92,
+        "baseline": "buffer_load_dwordx4 v49, s[24:27], s51 offen lds",
+        "candidate": "buffer_load_dwordx4 v49, s[24:27], s52 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 93,
+        "baseline": "buffer_load_dwordx4 v50, s[24:27], s51 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v50, s[24:27], s52 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 94,
+        "baseline": "buffer_load_dwordx4 v51, s[24:27], s51 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v51, s[24:27], s52 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 95,
+        "baseline": "buffer_load_dwordx4 v52, s[24:27], s51 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v52, s[24:27], s52 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 96,
+        "baseline": "buffer_load_dwordx4 v37, s[24:27], s36 offen lds",
+        "candidate": "buffer_load_dwordx4 v37, s[24:27], s11 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 97,
+        "baseline": "buffer_load_dwordx4 v38, s[24:27], s36 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v38, s[24:27], s11 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 98,
+        "baseline": "buffer_load_dwordx4 v39, s[24:27], s36 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v39, s[24:27], s11 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 99,
+        "baseline": "buffer_load_dwordx4 v40, s[24:27], s36 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v40, s[24:27], s11 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 100,
+        "baseline": "buffer_load_dwordx4 v41, s[24:27], s36 offen lds",
+        "candidate": "buffer_load_dwordx4 v41, s[24:27], s11 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 101,
+        "baseline": "buffer_load_dwordx4 v42, s[24:27], s36 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v42, s[24:27], s11 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 102,
+        "baseline": "buffer_load_dwordx4 v43, s[24:27], s36 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v43, s[24:27], s11 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 103,
+        "baseline": "buffer_load_dwordx4 v44, s[24:27], s36 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v44, s[24:27], s11 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 104,
+        "baseline": "buffer_load_dwordx4 v45, s[24:27], s36 offen lds",
+        "candidate": "buffer_load_dwordx4 v45, s[24:27], s11 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 105,
+        "baseline": "buffer_load_dwordx4 v46, s[24:27], s36 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v46, s[24:27], s11 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 106,
+        "baseline": "buffer_load_dwordx4 v47, s[24:27], s36 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v47, s[24:27], s11 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 107,
+        "baseline": "buffer_load_dwordx4 v48, s[24:27], s36 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v48, s[24:27], s11 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 108,
+        "baseline": "buffer_load_dwordx4 v49, s[24:27], s36 offen lds",
+        "candidate": "buffer_load_dwordx4 v49, s[24:27], s11 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 109,
+        "baseline": "buffer_load_dwordx4 v50, s[24:27], s36 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v50, s[24:27], s11 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 110,
+        "baseline": "buffer_load_dwordx4 v51, s[24:27], s36 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v51, s[24:27], s11 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 111,
+        "baseline": "buffer_load_dwordx4 v52, s[24:27], s36 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v52, s[24:27], s11 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 80,
+        "baseline": "buffer_load_dwordx4 v38, s[24:27], s51 offen lds",
+        "candidate": "buffer_load_dwordx4 v38, s[24:27], s52 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 81,
+        "baseline": "buffer_load_dwordx4 v39, s[24:27], s51 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v39, s[24:27], s52 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 82,
+        "baseline": "buffer_load_dwordx4 v40, s[24:27], s51 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v40, s[24:27], s52 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 83,
+        "baseline": "buffer_load_dwordx4 v41, s[24:27], s51 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v41, s[24:27], s52 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 84,
+        "baseline": "buffer_load_dwordx4 v42, s[24:27], s51 offen lds",
+        "candidate": "buffer_load_dwordx4 v42, s[24:27], s52 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 85,
+        "baseline": "buffer_load_dwordx4 v43, s[24:27], s51 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v43, s[24:27], s52 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 86,
+        "baseline": "buffer_load_dwordx4 v44, s[24:27], s51 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v44, s[24:27], s52 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 87,
+        "baseline": "buffer_load_dwordx4 v45, s[24:27], s51 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v45, s[24:27], s52 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 88,
+        "baseline": "buffer_load_dwordx4 v46, s[24:27], s51 offen lds",
+        "candidate": "buffer_load_dwordx4 v46, s[24:27], s52 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 89,
+        "baseline": "buffer_load_dwordx4 v47, s[24:27], s51 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v47, s[24:27], s52 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 90,
+        "baseline": "buffer_load_dwordx4 v48, s[24:27], s51 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v48, s[24:27], s52 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 91,
+        "baseline": "buffer_load_dwordx4 v49, s[24:27], s51 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v49, s[24:27], s52 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 92,
+        "baseline": "buffer_load_dwordx4 v50, s[24:27], s51 offen lds",
+        "candidate": "buffer_load_dwordx4 v50, s[24:27], s52 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 93,
+        "baseline": "buffer_load_dwordx4 v51, s[24:27], s51 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v51, s[24:27], s52 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 94,
+        "baseline": "buffer_load_dwordx4 v52, s[24:27], s51 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v52, s[24:27], s52 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 95,
+        "baseline": "buffer_load_dwordx4 v53, s[24:27], s51 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v53, s[24:27], s52 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 96,
+        "baseline": "buffer_load_dwordx4 v38, s[24:27], s36 offen lds",
+        "candidate": "buffer_load_dwordx4 v38, s[24:27], s11 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 97,
+        "baseline": "buffer_load_dwordx4 v39, s[24:27], s36 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v39, s[24:27], s11 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 98,
+        "baseline": "buffer_load_dwordx4 v40, s[24:27], s36 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v40, s[24:27], s11 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 99,
+        "baseline": "buffer_load_dwordx4 v41, s[24:27], s36 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v41, s[24:27], s11 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 100,
+        "baseline": "buffer_load_dwordx4 v42, s[24:27], s36 offen lds",
+        "candidate": "buffer_load_dwordx4 v42, s[24:27], s11 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 101,
+        "baseline": "buffer_load_dwordx4 v43, s[24:27], s36 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v43, s[24:27], s11 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 102,
+        "baseline": "buffer_load_dwordx4 v44, s[24:27], s36 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v44, s[24:27], s11 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 103,
+        "baseline": "buffer_load_dwordx4 v45, s[24:27], s36 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v45, s[24:27], s11 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 104,
+        "baseline": "buffer_load_dwordx4 v46, s[24:27], s36 offen lds",
+        "candidate": "buffer_load_dwordx4 v46, s[24:27], s11 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 105,
+        "baseline": "buffer_load_dwordx4 v47, s[24:27], s36 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v47, s[24:27], s11 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 106,
+        "baseline": "buffer_load_dwordx4 v48, s[24:27], s36 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v48, s[24:27], s11 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 107,
+        "baseline": "buffer_load_dwordx4 v49, s[24:27], s36 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v49, s[24:27], s11 offen offset:3168 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 108,
+        "baseline": "buffer_load_dwordx4 v50, s[24:27], s36 offen lds",
+        "candidate": "buffer_load_dwordx4 v50, s[24:27], s11 offen lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 109,
+        "baseline": "buffer_load_dwordx4 v51, s[24:27], s36 offen offset:1056 lds",
+        "candidate": "buffer_load_dwordx4 v51, s[24:27], s11 offen offset:1056 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 110,
+        "baseline": "buffer_load_dwordx4 v52, s[24:27], s36 offen offset:2112 lds",
+        "candidate": "buffer_load_dwordx4 v52, s[24:27], s11 offen offset:2112 lds"
+      },
+      {
+        "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+        "ordinal": 111,
+        "baseline": "buffer_load_dwordx4 v53, s[24:27], s36 offen offset:3168 lds",
+        "candidate": "buffer_load_dwordx4 v53, s[24:27], s11 offen offset:3168 lds"
+      }
+    ],
+    "requests_per_function": {
+      "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": 112,
+      "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": 112
+    },
+    "source_sha256": "30a8f40e83c4959472d03fc679732da2d36cdf4bbc983bc7768f7a0bb129099e",
+    "isa_sha256": "21f8dcb3f07e2894c4335dff225e75e6bb8acbd61dbc635231d17dcd6028028f",
+    "scope": "Matrix request VOFFSET/resource/immediate and m0 ownership equivalence. Runtime-K SOFFSET is compiler-derived C++ arithmetic and covered by generic/full shape checks. CFG VMEM/LGKM readiness is checked by audit.py"
+  }
+]

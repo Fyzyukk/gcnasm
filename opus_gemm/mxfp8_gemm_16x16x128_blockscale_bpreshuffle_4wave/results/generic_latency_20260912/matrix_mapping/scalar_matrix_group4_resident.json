@@ -1,0 +1,23 @@
+{
+  "name": "scalar_matrix_group4_resident",
+  "status": "PASS",
+  "cached_vgpr_addresses": 4,
+  "request_vectors_enumerated": 110592,
+  "tested_k": [
+    128,
+    256,
+    384,
+    8192,
+    8320,
+    32896,
+    8388480
+  ],
+  "algebraic_identity_for_all_positive_k": true,
+  "nonnegative_soffset": true,
+  "maximum_tested_soffset": 939507712,
+  "negative_intermediate_voffsets": 752,
+  "unchanged_global_and_lds_coordinates": true,
+  "final_resident_operands": true,
+  "source_sha256": "f7c0373082704a28d47f244d42f2537234e052959cf96705c369aa7e352b283d",
+  "scope": "MUBUF VOFFSET+SOFFSET+IOFFSET identity, alignment and ABI bounds. LDS destination formula remains unchanged. Linked uniformity/readiness and GPU checks are separate."
+}

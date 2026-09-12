@@ -1,0 +1,11 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -336,7 +336,7 @@
+         g_matrix.template async_load<16>(
+             reinterpret_cast<void*>(reinterpret_cast<__UINTPTR_TYPE__>(dst)),
+             matrix_addresses[issue], k_tile * matrix_k_stride,
+-            opus::number<immediate>{}, opus::number<0>{});
++            opus::number<immediate>{}, opus::number<2>{});
+     };
+ 
+     alignas(8) __shared__ char smem_sfa[T::SFA_PANEL_BYTES];

@@ -1,0 +1,11 @@
+{
+  "name": "output_pingpong_132",
+  "status": "PASS",
+  "native_coordinate_coverage": 65536,
+  "read_alignment_bytes": 8,
+  "store_alignment_bytes": 16,
+  "highest_output_lds_byte": 67575,
+  "slot_reuse_after_prior_reader_publication": true,
+  "source_sha256": "23abd6f52cef67974b0113793104dd7ce2fcf88ef0160a40bfd5c2fc01837870",
+  "scope": "Native C mapping, vector alignment, and source publication lifetime. Linked-ISA waitcnt/control-flow audit is separate."
+}

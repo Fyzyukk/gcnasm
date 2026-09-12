@@ -1,0 +1,98 @@
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.33437371253967285,
+    "min_ms": 0.3333280086517334,
+    "max_ms": 0.3354053199291229,
+    "median_pflops": 3.288271734715225
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.35731831192970276,
+    "min_ms": 0.35668668150901794,
+    "max_ms": 0.3579455316066742,
+    "median_pflops": 3.077120850140793
+  },
+  {
+    "name": "unroll1",
+    "dtype": "bf16",
+    "median_ms": 0.3481806516647339,
+    "min_ms": 0.34699222445487976,
+    "max_ms": 0.3491908311843872,
+    "median_pflops": 3.1578768737406153
+  },
+  {
+    "name": "unroll1",
+    "dtype": "fp32",
+    "median_ms": 0.36923277378082275,
+    "min_ms": 0.36868399381637573,
+    "max_ms": 0.369727224111557,
+    "median_pflops": 2.9778278252966572
+  },
+  {
+    "name": "unroll2",
+    "dtype": "bf16",
+    "median_ms": 0.3353629410266876,
+    "min_ms": 0.33446165919303894,
+    "max_ms": 0.33539971709251404,
+    "median_pflops": 3.2785722370215695
+  },
+  {
+    "name": "unroll2",
+    "dtype": "fp32",
+    "median_ms": 0.3583286702632904,
+    "min_ms": 0.35830509662628174,
+    "max_ms": 0.35902392864227295,
+    "median_pflops": 3.068444472969768
+  },
+  {
+    "name": "k1_before_transpose",
+    "dtype": "bf16",
+    "median_ms": 0.33555492758750916,
+    "min_ms": 0.3348689377307892,
+    "max_ms": 0.3359617590904236,
+    "median_pflops": 3.276696413552917
+  },
+  {
+    "name": "k1_before_transpose",
+    "dtype": "fp32",
+    "median_ms": 0.3584631383419037,
+    "min_ms": 0.35793912410736084,
+    "max_ms": 0.3586179316043854,
+    "median_pflops": 3.0672934262135514
+  },
+  {
+    "name": "k1_after_seed",
+    "dtype": "bf16",
+    "median_ms": 0.3347541093826294,
+    "min_ms": 0.33461013436317444,
+    "max_ms": 0.3350409269332886,
+    "median_pflops": 3.284535116846737
+  },
+  {
+    "name": "k1_after_seed",
+    "dtype": "fp32",
+    "median_ms": 0.3580854833126068,
+    "min_ms": 0.357807457447052,
+    "max_ms": 0.3581107258796692,
+    "median_pflops": 3.0705283487187107
+  },
+  {
+    "name": "k1_interleave_scales",
+    "dtype": "bf16",
+    "median_ms": 0.3349824845790863,
+    "min_ms": 0.3342733383178711,
+    "max_ms": 0.335236519575119,
+    "median_pflops": 3.282295876327872
+  },
+  {
+    "name": "k1_interleave_scales",
+    "dtype": "fp32",
+    "median_ms": 0.35753947496414185,
+    "min_ms": 0.35751068592071533,
+    "max_ms": 0.3576194643974304,
+    "median_pflops": 3.075217436861403
+  }
+]

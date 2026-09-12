@@ -1,0 +1,11 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -632,7 +632,7 @@
+     // Future matrix addresses always use the complete runtime K index.
+     // Keep priority 1 across main iterations; scale-panel refill uses 0/1.
+     __builtin_amdgcn_s_setprio(1);
+-#pragma unroll 4
++#pragma unroll 2
+     for (tile = 0; tile + 2 < loops; ++tile) {
+         refill_scale_panel(tile + 1);
+         const int next_stage = stage ^ 1;

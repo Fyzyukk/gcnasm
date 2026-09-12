@@ -1,0 +1,93 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL wave4x1_u1 bf16 67108864 outputs
+FULL_BASELINE_EQUAL wave4x1_u1 fp32 67108864 outputs
+FULL_BASELINE_EQUAL wave4x1_u2 bf16 67108864 outputs
+FULL_BASELINE_EQUAL wave4x1_u2 fp32 67108864 outputs
+1 baseline bf16: 0.334419280 ms / 3.287824 P
+1 wave4x1_u1 bf16: 0.345181823 ms / 3.185311 P
+1 baseline bf16: 0.333644003 ms / 3.295463 P
+1 baseline bf16: 0.333922833 ms / 3.292712 P
+1 wave4x1_u2 bf16: 0.338384479 ms / 3.249297 P
+1 baseline bf16: 0.333968043 ms / 3.292266 P
+1 baseline fp32: 0.356718332 ms / 3.082296 P
+1 wave4x1_u1 fp32: 0.373148769 ms / 2.946577 P
+1 baseline fp32: 0.356729507 ms / 3.082200 P
+1 baseline fp32: 0.356779516 ms / 3.081768 P
+1 wave4x1_u2 fp32: 0.366858393 ms / 2.997101 P
+1 baseline fp32: 0.357088238 ms / 3.079103 P
+2 baseline bf16: 0.333982468 ms / 3.292124 P
+2 wave4x1_u2 bf16: 0.339247346 ms / 3.241032 P
+2 baseline bf16: 0.334294885 ms / 3.289047 P
+2 baseline bf16: 0.334073722 ms / 3.291225 P
+2 wave4x1_u1 bf16: 0.346432179 ms / 3.173815 P
+2 baseline bf16: 0.334523708 ms / 3.286797 P
+2 baseline fp32: 0.357269466 ms / 3.077542 P
+2 wave4x1_u2 fp32: 0.367319196 ms / 2.993341 P
+2 baseline fp32: 0.357297480 ms / 3.077300 P
+2 baseline fp32: 0.356941909 ms / 3.080366 P
+2 wave4x1_u1 fp32: 0.373485595 ms / 2.943920 P
+2 baseline fp32: 0.357060730 ms / 3.079341 P
+3 baseline bf16: 0.334457755 ms / 3.287445 P
+3 wave4x1_u1 bf16: 0.346646607 ms / 3.171852 P
+3 baseline bf16: 0.334498912 ms / 3.287041 P
+3 baseline bf16: 0.334770918 ms / 3.284370 P
+3 wave4x1_u2 bf16: 0.339839369 ms / 3.235386 P
+3 baseline bf16: 0.335114926 ms / 3.280999 P
+3 baseline fp32: 0.357597917 ms / 3.074715 P
+3 wave4x1_u1 fp32: 0.374161988 ms / 2.938598 P
+3 baseline fp32: 0.357412696 ms / 3.076308 P
+3 baseline fp32: 0.357267499 ms / 3.077558 P
+3 wave4x1_u2 fp32: 0.367576778 ms / 2.991243 P
+3 baseline fp32: 0.357321471 ms / 3.077094 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.3343570828437805,
+    "min_ms": 0.33364400267601013,
+    "max_ms": 0.3351149260997772,
+    "median_pflops": 3.288435281299896
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.35717786848545074,
+    "min_ms": 0.3567183315753937,
+    "max_ms": 0.3575979173183441,
+    "median_pflops": 3.078330783590494
+  },
+  {
+    "name": "wave4x1_u1",
+    "dtype": "bf16",
+    "median_ms": 0.3464321792125702,
+    "min_ms": 0.34518182277679443,
+    "max_ms": 0.34664660692214966,
+    "median_pflops": 3.173814944890964
+  },
+  {
+    "name": "wave4x1_u1",
+    "dtype": "fp32",
+    "median_ms": 0.37348559498786926,
+    "min_ms": 0.37314876914024353,
+    "max_ms": 0.3741619884967804,
+    "median_pflops": 2.943919772358856
+  },
+  {
+    "name": "wave4x1_u2",
+    "dtype": "bf16",
+    "median_ms": 0.33924734592437744,
+    "min_ms": 0.3383844792842865,
+    "max_ms": 0.339839369058609,
+    "median_pflops": 3.2410323646897305
+  },
+  {
+    "name": "wave4x1_u2",
+    "dtype": "fp32",
+    "median_ms": 0.3673191964626312,
+    "min_ms": 0.3668583929538727,
+    "max_ms": 0.3675767779350281,
+    "median_pflops": 2.993341046056267
+  }
+]

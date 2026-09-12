@@ -1,0 +1,206 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -234,7 +234,7 @@
+ }
+ 
+ template<class Traits>
+-__global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
++__global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void gemm_a8w8_mxfp8_scale_kernel(const void* __restrict__ ptr_a, const void* __restrict__ ptr_b, void* __restrict__ ptr_c, const void* __restrict__ ptr_sfa, const void* __restrict__ ptr_sfb, int m, int n, int k) {
+     using namespace opus;
+ 
+     using T = opus::remove_cvref_t<Traits>;
+@@ -245,6 +245,15 @@
+     using D_SF = unsigned char;
+     using D_SF_PACK = unsigned int;
+ 
++    // The public launch validates contiguous batches and all canonical strides.
++    // Derive those redundant strides from the three generic dimensions.
++    const int scale_k = static_cast<unsigned int>(k) / T::B_K;
++    const int stride_a_batch = m * k;
++    const int stride_b_batch = n * k;
++    const int stride_c_batch = m * n;
++    const int stride_sfa_batch = m * scale_k;
++    const int stride_sfb_batch = (n / T::GROUP_N) * scale_k;
++
+     // N varies along grid X and M along grid Y. The public byte-count
+     // bound limits either tile dimension to less than 16384.
+     const int block_m = block_id_y();
+@@ -257,34 +266,34 @@
+     const int lane_id = thread_id_x() % T::WARP_SIZE;
+ 
+     auto g_a = make_gmem(
+-        reinterpret_cast<const D_A*>(kargs.ptr_a) +
+-        batch_id * kargs.stride_a_batch + row * kargs.stride_a);
++        reinterpret_cast<const D_A*>(ptr_a) +
++        batch_id * stride_a_batch + row * k);
+     auto g_b = make_gmem(
+-        reinterpret_cast<const D_B*>(kargs.ptr_b) +
+-        batch_id * kargs.stride_b_batch + col * kargs.stride_b);
++        reinterpret_cast<const D_B*>(ptr_b) +
++        batch_id * stride_b_batch + col * k);
+     auto g_c = make_gmem(
+-        reinterpret_cast<D_C*>(kargs.ptr_c) +
+-        batch_id * kargs.stride_c_batch + row * kargs.stride_c + col);
++        reinterpret_cast<D_C*>(ptr_c) +
++        batch_id * stride_c_batch + row * n + col);
+ 
+     // Compact external scales are consumed once per reusable K panel. SFA has
+     // physical [K/128,M] bytes; SFB has physical [N/128,K/128] bytes.
+     auto g_sfa = make_gmem(
+-        reinterpret_cast<const D_SF*>(kargs.ptr_sfa) +
+-        batch_id * kargs.stride_sfa_batch + row,
+-        static_cast<unsigned int>(kargs.stride_sfa_batch - row));
+-    const int sfb_row_offset = (col / T::GROUP_N) * kargs.stride_sfb;
++        reinterpret_cast<const D_SF*>(ptr_sfa) +
++        batch_id * stride_sfa_batch + row,
++        static_cast<unsigned int>(stride_sfa_batch - row));
++    const int sfb_row_offset = (col / T::GROUP_N) * scale_k;
+     auto g_sfb = make_gmem(
+-        reinterpret_cast<const D_SF*>(kargs.ptr_sfb) +
+-        batch_id * kargs.stride_sfb_batch + sfb_row_offset,
+-        static_cast<unsigned int>(kargs.stride_sfb_batch - sfb_row_offset));
++        reinterpret_cast<const D_SF*>(ptr_sfb) +
++        batch_id * stride_sfb_batch + sfb_row_offset,
++        static_cast<unsigned int>(stride_sfb_batch - sfb_row_offset));
+ 
+     const int wave_id_m = wave_id % T::T_M;
+     const int wave_id_n = wave_id / T::T_M;
+ 
+-    auto u_ga = make_layout_ga_scale<T>(lane_id, wave_id_m, wave_id_n, kargs.stride_a);
++    auto u_ga = make_layout_ga_scale<T>(lane_id, wave_id_m, wave_id_n, k);
+     auto u_sa = make_layout_sa_scale<T>(wave_id_m, wave_id_n);
+     auto u_ra = make_layout_ra_scale<T>(lane_id, wave_id_m);
+-    auto u_gb = make_layout_gb_scale<T>(lane_id, wave_id_m, wave_id_n, kargs.stride_b);
++    auto u_gb = make_layout_gb_scale<T>(lane_id, wave_id_m, wave_id_n, k);
+     auto u_sb = make_layout_sb_scale<T>(wave_id_m, wave_id_n);
+     auto u_rb = make_layout_rb_scale<T>(lane_id, wave_id_n);
+     constexpr int smem_a_elem = T::smem_m_rep * (T::smem_linear_wave + T::smem_padding);
+@@ -305,11 +314,11 @@
+     const bool produces_a = wave_id_n == 0;
+     auto g_matrix = produces_a ? g_a : g_b;
+     const int matrix_vector_offset = produces_a
+-        ? (wave_id_m * T::HALF_B_M + (lane_id / 8) * 2) * kargs.stride_a + (lane_id % 8) * 16
+-        : wave_id_m * T::HALF_B_N * kargs.stride_b + lane_id * 16;
++        ? (wave_id_m * T::HALF_B_M + (lane_id / 8) * 2) * k + (lane_id % 8) * 16
++        : wave_id_m * T::HALF_B_N * k + lane_id * 16;
+     // Both public launch paths enforce stride_a == stride_b == k.
+-    const int matrix_pair_stride = 16 * kargs.stride_a;
+-    const int matrix_odd_stride = produces_a ? kargs.stride_a : 1024;
++    const int matrix_pair_stride = 16 * k;
++    const int matrix_odd_stride = produces_a ? k : 1024;
+     const int matrix_k_stride = produces_a ? T::B_K : T::B_K * 16;
+     constexpr int matrix_pitch = T::smem_linear_wave + T::smem_padding;
+     auto* matrix_lds_base = (produces_a ? s_a.ptr : s_b.ptr) + wave_id_m * smem_a_elem;
+@@ -445,14 +454,14 @@
+     D_SF_PACK v_sfb[T::SCALE_N_HALVES];
+     opus::vector_t<D_SF_PACK, 2> v_sfb_next;
+     opus::vector_t<D_SF_PACK, 2> v_sfa_next;
+-    auto ga_offset = [&](int half_tile_m, int tile_k) { return half_tile_m * T::HALF_B_M * kargs.stride_a + tile_k * T::B_K; };
+-    auto gb_offset = [&](int half_tile_n, int tile_k) { return half_tile_n * T::HALF_B_N * kargs.stride_b + tile_k * T::B_K * 16; };
++    auto ga_offset = [&](int half_tile_m, int tile_k) { return __builtin_amdgcn_readfirstlane(half_tile_m * T::HALF_B_M * k + tile_k * T::B_K); };
++    auto gb_offset = [&](int half_tile_n, int tile_k) { return __builtin_amdgcn_readfirstlane(half_tile_n * T::HALF_B_N * k + tile_k * T::B_K * 16); };
+     auto sa_offset = [&](int stage, int half_tile_m) { return (stage * 2 + half_tile_m) * smem_a_elem; };
+     auto sb_offset = [&](int stage, int half_tile_n) { return (stage * 2 + half_tile_n) * smem_b_elem; };
+     // Runtime K controls every matrix iteration. The fixed panel size
+     // is a cache capacity; panels are refreshed for arbitrarily long K.
+     // Positive K is a multiple of B_K under the public contract.
+-    const int loops = static_cast<unsigned int>(kargs.k) / T::B_K;
++    const int loops = static_cast<unsigned int>(k) / T::B_K;
+     static_assert(T::SCALE_PANEL_K_TILES == 64);
+     constexpr int panel_mask = T::SCALE_PANEL_K_TILES - 1;
+ 
+@@ -469,7 +478,7 @@
+             const int column = panel_begin + tid / 16 + pass * 16;
+             const int valid_column = column < loops ? column : loops - 1;
+             panel_raw_a[pass] = load<16>(g_sfa,
+-                valid_column * kargs.stride_sfa + source_row);
++                valid_column * m + source_row);
+         });
+         __builtin_amdgcn_sched_barrier(0);
+     };
+@@ -533,7 +542,7 @@
+             if (wave_id < T::SCALE_N_HALVES) {
+                 const int global_column = next_tile + lane_id;
+                 const int valid_column = global_column < loops ? global_column : loops - 1;
+-                const auto raw = load<1>(g_sfb, valid_column, wave_id * kargs.stride_sfb);
++                const auto raw = load<1>(g_sfb, valid_column, wave_id * scale_k);
+                 raw_b = static_cast<D_SF_PACK>(raw[0]);
+             }
+             s_waitcnt_vmcnt(0_I);
+@@ -563,7 +572,7 @@
+     D_SF_PACK panel_sfb_raw = 0;
+     if (wave_id < T::SCALE_N_HALVES) {
+         const int valid_column = lane_id < loops ? lane_id : loops - 1;
+-        const auto raw = load<1>(g_sfb, valid_column, wave_id * kargs.stride_sfb);
++        const auto raw = load<1>(g_sfb, valid_column, wave_id * scale_k);
+         panel_sfb_raw = static_cast<D_SF_PACK>(raw[0]);
+     }
+     async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(0, 0), gb_offset(0, 0));
+@@ -1310,10 +1319,10 @@
+         wave_id_m, lane_id % mma.grpn_c,
+         wave_id_n, lane_id / mma.grpn_c);
+     auto u_gc = partition_layout_c<T::VEC_C>(
+-        mma, opus::make_tuple(T::OUTPUT_BF16 ? c_lds_pitch : kargs.stride_c, 1_I), p_coord_c);
++        mma, opus::make_tuple(T::OUTPUT_BF16 ? c_lds_pitch : n, 1_I), p_coord_c);
+ 
+     auto c_offset = [&](int half_tile_m, int half_tile_n) {
+-        return half_tile_m * T::HALF_B_M * (T::OUTPUT_BF16 ? c_lds_pitch : kargs.stride_c) +
++        return half_tile_m * T::HALF_B_M * (T::OUTPUT_BF16 ? c_lds_pitch : n) +
+                half_tile_n * T::HALF_B_N;
+     };
+ 
+@@ -1325,7 +1334,7 @@
+         const int output_row = linear / T::HALF_B_N + half_m * T::HALF_B_M;
+         const int output_col = linear % T::HALF_B_N + half_n * T::HALF_B_N;
+         const auto value = s_c.template load<8>(output_row * c_lds_pitch + output_col);
+-        g_c.template store<8>(value, output_row * kargs.stride_c + output_col,
++        g_c.template store<8>(value, output_row * n + output_col,
+                              0, opus::number<2>{});
+     };
+ 
+--- a/Makefile
++++ b/Makefile
+@@ -23,7 +23,7 @@
+ 	mkdir -p $@
+ 
+ $(BUILD)/kernel.o: gemm_a8w8_mxfp8_scale_kernel.cc tmpl_generic.hpp $(HEADERS) Makefile | $(BUILD)
+-	$(HIPCC) -x hip $< $(FLAGS) -D__HIPCC_RTC__ -c -o $@
++	$(HIPCC) -x hip $< $(FLAGS) -mllvm -amdgpu-kernarg-preload-count=8 -D__HIPCC_RTC__ -c -o $@
+ 
+ $(BUILD)/host.o: gemm_a8w8_mxfp8_scale_host.cc $(HEADERS) Makefile | $(BUILD)
+ 	$(HIPCC) -x hip $< $(FLAGS) -fno-finite-math-only $(OMP_FLAGS) -c -o $@
+--- a/gemm_a8w8_mxfp8_scale_kernel.cc
++++ b/gemm_a8w8_mxfp8_scale_kernel.cc
+@@ -4,11 +4,11 @@
+ #ifndef __HIP_DEVICE_COMPILE__
+ namespace blockscale_generic {
+ template<class Traits>
+-__global__ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs) {}
++__global__ void gemm_a8w8_mxfp8_scale_kernel(const void*, const void*, void*, const void*, const void*, int, int, int) {}
+ }
+ #else
+ #include "tmpl_generic.hpp"
+ #endif
+ 
+-template __global__ void blockscale_generic::gemm_a8w8_mxfp8_scale_kernel<FourWaveTraits<false>>(opus_gemm_scale_kargs);
+-template __global__ void blockscale_generic::gemm_a8w8_mxfp8_scale_kernel<FourWaveTraits<true>>(opus_gemm_scale_kargs);
++template __global__ void blockscale_generic::gemm_a8w8_mxfp8_scale_kernel<FourWaveTraits<false>>(const void*, const void*, void*, const void*, const void*, int, int, int);
++template __global__ void blockscale_generic::gemm_a8w8_mxfp8_scale_kernel<FourWaveTraits<true>>(const void*, const void*, void*, const void*, const void*, int, int, int);
+--- a/kernel_dispatch.hpp
++++ b/kernel_dispatch.hpp
+@@ -5,7 +5,7 @@
+ 
+ namespace blockscale_generic {
+ template<class Traits>
+-__global__ void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs);
++__global__ void gemm_a8w8_mxfp8_scale_kernel(const void*, const void*, void*, const void*, const void*, int, int, int);
+ }
+ 
+ // CLI and C ABI use the same runtime-K kernel, including the 8192 benchmark.
+@@ -14,5 +14,5 @@
+                                     dim3 grid, dim3 block,
+                                     hipStream_t stream = nullptr) {
+     blockscale_generic::gemm_a8w8_mxfp8_scale_kernel<FourWaveTraits<OutputBF16>>
+-        <<<grid, block, 0, stream>>>(args);
++        <<<grid, block, 0, stream>>>(args.ptr_a, args.ptr_b, args.ptr_c, args.ptr_sfa, args.ptr_sfb, args.m, args.n, args.k);
+ }
