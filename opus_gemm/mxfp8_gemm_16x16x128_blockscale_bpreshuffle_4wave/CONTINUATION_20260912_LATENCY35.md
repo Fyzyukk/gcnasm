@@ -6,7 +6,7 @@
 
 - 顶层 `tmpl_generic.hpp` 已按用户要求完成无宏清理，源码版本为 `generic_tile1_cpp_20260912`；完整 GPU 代码与 `f483077e0263bc8d39ad810ad4c1f03b93727702` 逐字节相同，仍引用历史 BF16 3.286311P / FP32 3.076707P。
 - **本轮比较基线就是 f483077**。9229d1a 和 f0b117c 是旧轮次基线。
-- 冻结基线 HPP SHA256：`69ef190d32fc10127deee1d06286233ecdde498e543a2d6c07d02b11696955be`；正式无宏源码为 `ad3fc41bb598e1534d170efa3839f4a169fcbd8cb7323c9bcc3cbdbb03620261`。
+- 冻结基线 HPP SHA256：`69ef190d32fc10127deee1d06286233ecdde498e543a2d6c07d02b11696955be`；正式无宏源码为 `ed44bd448691f21182af5c988ccdbb91b6ed8a1d44f7ee6900e3b598233b42ef`。
 - 九份冻结源码：`results/generic_latency_20260912/baseline_source/`。
 - 工作区：`/tmp/mxfp8_generic_latency_20260912_86xlkzt9`；候选源码、构建均在该目录，Git 保存可精确恢复的 patch/metadata。
 - tile1 = 每 WG 一个完整 256×256 输出块，4 个 Wave64。所有新分工和 grid 变化仍是 tile1。

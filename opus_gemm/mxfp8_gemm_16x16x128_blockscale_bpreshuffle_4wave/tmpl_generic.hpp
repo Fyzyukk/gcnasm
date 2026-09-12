@@ -514,6 +514,7 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         }
     };
 
+    // ===== Prologue =====
     async_load<T::VEC_A>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(0, 0), ga_offset(0, 0));
     async_load<T::VEC_A>(g_a, s_a.ptr, u_ga, u_sa + sa_offset(0, 1), ga_offset(1, 0));
     __builtin_amdgcn_sched_barrier(0);
@@ -651,6 +652,7 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
     v_b_second = load<T::VEC_B>(s_b, u_rb + sb_offset(stage, 1));
     __builtin_amdgcn_sched_barrier(0);
 
+    // ===== Main loop: K128 per iteration; K512 per full unroll-4 group =====
     // Prefetch while two later K128 blocks exist; peel the penultimate block.
     // Future matrix addresses always use the complete runtime K index.
     // Keep priority 1 across main iterations; scale-panel refill uses 0/1.
@@ -1082,6 +1084,7 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         stage = next_stage;
     }
 
+    // ===== Epilogue: drain the remaining K blocks and finish output stores =====
     // Penultimate runtime K128 block: roll the final block with no
     // unused future matrix request. K128 skips this segment entirely.
     if (loops > 1) {

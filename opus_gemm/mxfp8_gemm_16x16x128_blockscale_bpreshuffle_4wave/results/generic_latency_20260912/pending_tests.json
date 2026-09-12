@@ -727,7 +727,8 @@
   ],
   "production_change_kind": "SOURCE_CLEANUP_INSTRUCTION_IDENTICAL",
   "performance_baseline_changed": false,
-  "production_source_sha256": "ad3fc41bb598e1534d170efa3839f4a169fcbd8cb7323c9bcc3cbdbb03620261",
+  "production_source_sha256": "ed44bd448691f21182af5c988ccdbb91b6ed8a1d44f7ee6900e3b598233b42ef",
   "production_equivalence_evidence": "../generic_source_cleanup_20260912/selected/production_identity.json",
-  "production_cleanup_timestamp_utc": "2026-09-12T09:29:41.313982+00:00"
+  "production_cleanup_timestamp_utc": "2026-09-12T09:29:41.313982+00:00",
+  "production_comment_only_parent_sha256": "ad3fc41bb598e1534d170efa3839f4a169fcbd8cb7323c9bcc3cbdbb03620261"
 }

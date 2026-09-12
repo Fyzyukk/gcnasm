@@ -68,7 +68,7 @@
     "scale_refill_priority": 0
   },
   "source_hashes": {
-    "tmpl_generic.hpp": "ad3fc41bb598e1534d170efa3839f4a169fcbd8cb7323c9bcc3cbdbb03620261",
+    "tmpl_generic.hpp": "ed44bd448691f21182af5c988ccdbb91b6ed8a1d44f7ee6900e3b598233b42ef",
     "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
     "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
     "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
@@ -103,5 +103,11 @@
   "gpu_launched": false,
   "selected_from": "central_output_refs",
   "cleanup_only": true,
-  "device_code_identical_to": "f483077e0263bc8d39ad810ad4c1f03b93727702"
+  "device_code_identical_to": "f483077e0263bc8d39ad810ad4c1f03b93727702",
+  "comment_only_parent_sha256": "ad3fc41bb598e1534d170efa3839f4a169fcbd8cb7323c9bcc3cbdbb03620261",
+  "comment_only_added_lines": [
+    "// ===== Prologue =====",
+    "// ===== Main loop: K128 per iteration; K512 per full unroll-4 group =====",
+    "// ===== Epilogue: drain the remaining K blocks and finish output stores ====="
+  ]
 }
