@@ -1,0 +1,30 @@
+{
+  "parent_commit": "f0b117c4c18a543d73953776dae32b8df6949c8c",
+  "work_path": "/tmp/mxfp8_generic_opt_20260912_f3qjc1d5",
+  "timestamp_utc": "2026-09-12T03:37:57.711510+00:00",
+  "performance_shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "physical_gpu": 2,
+  "pci": "0000:65:00.0",
+  "baseline_source_hashes": {
+    "tmpl_generic.hpp": "681e64526624bdafd7f8d6c2117cd95dc516866f8d25f5aa8159a90c21687fd6",
+    "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+    "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+    "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+    "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+    "gemm_a8w8_mxfp8_scale_host.cc": "da5a1c7416a883144c21e82ffc53e0bd2cdd720395788fe87b757cac7ef27216",
+    "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "67f918214451d8b4a90319ea570f83e13f520913baa596f6f2e0ec33580158e7",
+    "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+    "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+  },
+  "baseline_artifact_hashes": {
+    "device.isa": "3bba519f0fddc238d2c479e0a75a87b22fdd8094706e719ae91650a56fd1bbfb",
+    "device.notes": "13c138bf58678257e431beb8c22084ea19b36a620541a2b8a8a2b478278ccc33",
+    "libblockscale_bpreshuffle.so": "62c04b8bc6a76817726891541a1787ef10121586312173b882c31ec1111466e3",
+    "gemm_a8w8_blockscale_bpreshuffle.exe": "4e44fe441e8ebc5e63d53f5edec90b838edb93f399c83964471172f8ef0a0d46"
+  },
+  "objective": "Optimize general runtime-K 4-wave, one 256x256 output tile per workgroup toward 3.5 PFLOP/s; use current committed production as baseline"
+}

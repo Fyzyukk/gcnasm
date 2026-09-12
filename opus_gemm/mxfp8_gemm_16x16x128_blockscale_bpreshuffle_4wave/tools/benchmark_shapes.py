@@ -22,7 +22,7 @@ def main():
     if args.rounds <= 0 or any(size <= 0 or size % 256 for size in args.sizes):
         parser.error("rounds must be positive and square sizes must be positive multiples of 256")
     root = Path(__file__).resolve().parents[1]
-    dest = root / "results/final_generic_20260912" / args.tag
+    dest = root / "results/generic_opt_20260912" / args.tag
     dest.mkdir(parents=True, exist_ok=False)
     visibility = {"HIP_VISIBLE_DEVICES", "CUDA_VISIBLE_DEVICES", "ROCR_VISIBLE_DEVICES", "GPU_DEVICE_ORDINAL"}
     env = {k: v for k, v in os.environ.items() if k not in visibility}

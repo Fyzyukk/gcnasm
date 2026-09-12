@@ -1,0 +1,82 @@
+[
+  {
+    "name": "packed2_20_split_async36",
+    "dtype": "bf16",
+    "median_ms": 0.3376680463552475,
+    "min_ms": 0.3361544907093048,
+    "max_ms": 0.33876487612724304,
+    "median_pflops": 3.2561909237311912
+  },
+  {
+    "name": "packed2_20_split_async36",
+    "dtype": "fp32",
+    "median_ms": 0.36081044375896454,
+    "min_ms": 0.36006778478622437,
+    "max_ms": 0.3616534471511841,
+    "median_pflops": 3.0473386976307055
+  },
+  {
+    "name": "split_async36_initial_roles",
+    "dtype": "bf16",
+    "median_ms": 0.3379164934158325,
+    "min_ms": 0.3374980092048645,
+    "max_ms": 0.3384464681148529,
+    "median_pflops": 3.2537968675680045
+  },
+  {
+    "name": "split_async36_initial_roles",
+    "dtype": "fp32",
+    "median_ms": 0.3604622185230255,
+    "min_ms": 0.3598126173019409,
+    "max_ms": 0.3608166575431824,
+    "median_pflops": 3.050282585179633
+  },
+  {
+    "name": "split_async36_initial_roles_early",
+    "dtype": "bf16",
+    "median_ms": 0.33747848868370056,
+    "min_ms": 0.3366736173629761,
+    "max_ms": 0.3382100760936737,
+    "median_pflops": 3.258019887621667
+  },
+  {
+    "name": "split_async36_initial_roles_early",
+    "dtype": "fp32",
+    "median_ms": 0.36047622561454773,
+    "min_ms": 0.3599066436290741,
+    "max_ms": 0.3607330322265625,
+    "median_pflops": 3.0501640597837723
+  },
+  {
+    "name": "split_async36_initial_roles_strides",
+    "dtype": "bf16",
+    "median_ms": 0.337894469499588,
+    "min_ms": 0.33731845021247864,
+    "max_ms": 0.3388552963733673,
+    "median_pflops": 3.254008949611827
+  },
+  {
+    "name": "split_async36_initial_roles_strides",
+    "dtype": "fp32",
+    "median_ms": 0.36063262820243835,
+    "min_ms": 0.35989266633987427,
+    "max_ms": 0.361356645822525,
+    "median_pflops": 3.0488412356266266
+  },
+  {
+    "name": "split_async36_preload_a0_m0",
+    "dtype": "bf16",
+    "median_ms": 0.3369424343109131,
+    "min_ms": 0.3359328806400299,
+    "max_ms": 0.33791568875312805,
+    "median_pflops": 3.263203193817456
+  },
+  {
+    "name": "split_async36_preload_a0_m0",
+    "dtype": "fp32",
+    "median_ms": 0.35992103815078735,
+    "min_ms": 0.3597714304924011,
+    "max_ms": 0.3608558177947998,
+    "median_pflops": 3.0548690163406462
+  }
+]

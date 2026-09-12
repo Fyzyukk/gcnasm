@@ -1,0 +1,79 @@
+{
+  "tag": "tail_prefetch_gpu2",
+  "physical_gpu": 2,
+  "hip_index": 2,
+  "pci": "0000:65:00.0",
+  "initial_status": {
+    "GPU use (%)": "1",
+    "GFX Activity": "3033423838",
+    "GPU Memory Allocated (VRAM%)": "0",
+    "GPU Memory Read/Write Activity (%)": "0",
+    "Memory Activity": "1634436683",
+    "Avg. Memory Bandwidth": "0",
+    "PCI Bus": "0000:65:00.0"
+  },
+  "timing_reference": "preload_a0_prio_clean",
+  "candidates": [
+    "preload_tail_a1_m2",
+    "preload_tail_b1_n3",
+    "preload_tail_both"
+  ],
+  "performance_shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "jobs": [
+    [
+      "audit",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_opt_20260912/audit.py",
+        "preload_tail_a1_m2",
+        "preload_tail_b1_n3",
+        "preload_tail_both"
+      ]
+    ],
+    [
+      "shapes",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_opt_20260912/verify_shapes.py",
+        "--tag",
+        "tail_prefetch_gpu2",
+        "--pci",
+        "0000:65:00.0",
+        "preload_tail_a1_m2",
+        "preload_tail_b1_n3",
+        "preload_tail_both"
+      ]
+    ],
+    [
+      "full",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_opt_20260912/run.py",
+        "verify",
+        "--tag",
+        "tail_prefetch_gpu2",
+        "--pci",
+        "0000:65:00.0",
+        "preload_tail_a1_m2",
+        "preload_tail_b1_n3",
+        "preload_tail_both"
+      ]
+    ],
+    [
+      "shared",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_opt_20260912/run.py",
+        "shared",
+        "tail_prefetch_gpu2",
+        "preload_tail_a1_m2",
+        "preload_tail_b1_n3",
+        "preload_tail_both"
+      ]
+    ]
+  ]
+}

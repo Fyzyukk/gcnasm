@@ -1,0 +1,57 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL packed6_unsigned_index bf16 67108864 outputs
+FULL_BASELINE_EQUAL packed6_unsigned_index fp32 67108864 outputs
+1 baseline bf16: 0.342401356 ms / 3.211178 P
+1 packed6_unsigned_index bf16: 0.340842336 ms / 3.225866 P
+1 baseline bf16: 0.341654629 ms / 3.218196 P
+1 baseline fp32: 0.361690402 ms / 3.039925 P
+1 packed6_unsigned_index fp32: 0.360962421 ms / 3.046056 P
+1 baseline fp32: 0.362258464 ms / 3.035158 P
+2 baseline bf16: 0.341949880 ms / 3.215417 P
+2 packed6_unsigned_index bf16: 0.340675890 ms / 3.227442 P
+2 baseline bf16: 0.341999143 ms / 3.214954 P
+2 baseline fp32: 0.362441331 ms / 3.033627 P
+2 packed6_unsigned_index fp32: 0.361603737 ms / 3.040653 P
+2 baseline fp32: 0.362913668 ms / 3.029678 P
+3 baseline bf16: 0.342396379 ms / 3.211224 P
+3 packed6_unsigned_index bf16: 0.340721130 ms / 3.227013 P
+3 baseline bf16: 0.342496783 ms / 3.210283 P
+3 baseline fp32: 0.363020182 ms / 3.028789 P
+3 packed6_unsigned_index fp32: 0.361983269 ms / 3.037465 P
+3 baseline fp32: 0.363127321 ms / 3.027896 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.3421977609395981,
+    "min_ms": 0.34165462851524353,
+    "max_ms": 0.342496782541275,
+    "median_pflops": 3.213088316992456
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.3626774996519089,
+    "min_ms": 0.3616904020309448,
+    "max_ms": 0.36312732100486755,
+    "median_pflops": 3.031651064185925
+  },
+  {
+    "name": "packed6_unsigned_index",
+    "dtype": "bf16",
+    "median_ms": 0.34072113037109375,
+    "min_ms": 0.34067589044570923,
+    "max_ms": 0.3408423364162445,
+    "median_pflops": 3.2270133248808945
+  },
+  {
+    "name": "packed6_unsigned_index",
+    "dtype": "fp32",
+    "median_ms": 0.3616037368774414,
+    "min_ms": 0.3609624207019806,
+    "max_ms": 0.3619832694530487,
+    "median_pflops": 3.040653388348855
+  }
+]

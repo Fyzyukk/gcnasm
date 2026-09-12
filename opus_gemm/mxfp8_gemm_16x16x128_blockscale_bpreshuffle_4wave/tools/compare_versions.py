@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build and compare the frozen original generic kernel with the current generic.
+"""Compare the generic kernel frozen at f0b117c with the current generic kernel.
 
 The GPU argument is the physical rocm-smi card, resolved to HIP by PCI address.
 Every candidate uses the same inputs and output pointers within one process.
@@ -27,7 +27,7 @@ def main():
     if args.rounds <= 0 or not 0 <= args.max_initial_vram_percent <= 100:
         parser.error('rounds must be positive and the VRAM threshold must be in [0,100]')
     root = Path(__file__).resolve().parents[1]
-    evidence = root / 'results/generic_migration_20260911'
+    evidence = root / 'results/generic_opt_20260912'
     support = root / 'results/continuation_20260911/round3/support'
     status = json.loads(subprocess.check_output(
         ['rocm-smi', '--showbus', '--showuse', '--showmemuse', '--json'], text=True))
@@ -60,15 +60,17 @@ print(json.dumps(out))
                 shutil.copy2(path, dest / path.name)
         with (dest / 'build.log').open('w') as log:
             subprocess.run(['make', '-j2', 'all', 'inspect'], cwd=dest, stdout=log, stderr=subprocess.STDOUT, check=True)
+    shutil.copy2(evidence / 'baseline_source/candidate.json', work / 'baseline/candidate.json')
     shutil.copy2(evidence / 'selected/candidate.json', work / 'current/candidate.json')
     subprocess.run(['make', '-j2', 'all'], cwd=support, check=True)
     env.update(HIP_VISIBLE_DEVICES=str(hip_index), MXFP8_EXPECTED_PCI=pci,
                MXFP8_WORK_DIR=str(work), MXFP8_SHARED_ROUNDS=str(args.rounds),
                MXFP8_BRACKETED='1', MXFP8_NATIVE_TIMING='1', MXFP8_TELEMETRY='0',
+               MXFP8_BENCHMARK_REFERENCE='baseline',
                MXFP8_MAX_INITIAL_VRAM_PERCENT=str(args.max_initial_vram_percent),
                MXFP8_AUDIT_OUTPUT_DIR=str(work / 'audits'),
                OMP_TOOL='disabled', OMP_NUM_THREADS='16')
-    subprocess.run([sys.executable, str(evidence / 'audit.py'), 'current'], env=env, check=True)
+    subprocess.run([sys.executable, str(evidence / 'audit.py'), 'baseline', 'current'], env=env, check=True)
     if args.validate:
         subprocess.run([sys.executable, str(evidence / 'run.py'), 'verify', '--tag', tag,
                         '--pci', pci, 'current'], env=env, check=True)
@@ -76,6 +78,7 @@ print(json.dumps(out))
                     'baseline', 'current'], env=env, check=True)
     result = evidence / 'shared_allocations' / tag
     shutil.copy2(work / 'audits/current.json', result / 'static_audit.json')
+    shutil.copy2(work / 'audits/baseline.json', result / 'baseline_static_audit.json')
     print(f'Results: {result}', flush=True)
 
 

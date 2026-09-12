@@ -1,0 +1,165 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL split_async36_preload_a0_m0 bf16 67108864 outputs
+FULL_BASELINE_EQUAL split_async36_preload_a0_m0 fp32 67108864 outputs
+FULL_BASELINE_EQUAL preload_a0_after26 bf16 67108864 outputs
+FULL_BASELINE_EQUAL preload_a0_after26 fp32 67108864 outputs
+FULL_BASELINE_EQUAL preload_a0_after28 bf16 67108864 outputs
+FULL_BASELINE_EQUAL preload_a0_after28 fp32 67108864 outputs
+FULL_BASELINE_EQUAL preload_a0_after32 bf16 67108864 outputs
+FULL_BASELINE_EQUAL preload_a0_after32 fp32 67108864 outputs
+FULL_BASELINE_EQUAL preload_a0_prio_clean bf16 67108864 outputs
+FULL_BASELINE_EQUAL preload_a0_prio_clean fp32 67108864 outputs
+1 split_async36_preload_a0_m0 bf16: 0.337134719 ms / 3.261342 P
+1 preload_a0_after26 bf16: 0.336771518 ms / 3.264859 P
+1 split_async36_preload_a0_m0 bf16: 0.335823298 ms / 3.274078 P
+1 split_async36_preload_a0_m0 bf16: 0.335927695 ms / 3.273060 P
+1 preload_a0_after28 bf16: 0.336539626 ms / 3.267109 P
+1 split_async36_preload_a0_m0 bf16: 0.336714506 ms / 3.265412 P
+1 split_async36_preload_a0_m0 bf16: 0.336614460 ms / 3.266383 P
+1 preload_a0_after32 bf16: 0.337584913 ms / 3.256993 P
+1 split_async36_preload_a0_m0 bf16: 0.337674856 ms / 3.256125 P
+1 split_async36_preload_a0_m0 bf16: 0.337069780 ms / 3.261970 P
+1 preload_a0_prio_clean bf16: 0.336744070 ms / 3.265125 P
+1 split_async36_preload_a0_m0 bf16: 0.336780101 ms / 3.264776 P
+1 split_async36_preload_a0_m0 fp32: 0.359557539 ms / 3.057957 P
+1 preload_a0_after26 fp32: 0.359437108 ms / 3.058982 P
+1 split_async36_preload_a0_m0 fp32: 0.359557033 ms / 3.057962 P
+1 split_async36_preload_a0_m0 fp32: 0.359591454 ms / 3.057669 P
+1 preload_a0_after28 fp32: 0.359534264 ms / 3.058155 P
+1 split_async36_preload_a0_m0 fp32: 0.359472275 ms / 3.058683 P
+1 split_async36_preload_a0_m0 fp32: 0.359647095 ms / 3.057196 P
+1 preload_a0_after32 fp32: 0.360341102 ms / 3.051308 P
+1 split_async36_preload_a0_m0 fp32: 0.359720260 ms / 3.056574 P
+1 split_async36_preload_a0_m0 fp32: 0.359903067 ms / 3.055022 P
+1 preload_a0_prio_clean fp32: 0.359462649 ms / 3.058765 P
+1 split_async36_preload_a0_m0 fp32: 0.359627903 ms / 3.057359 P
+2 split_async36_preload_a0_m0 bf16: 0.337119371 ms / 3.261491 P
+2 preload_a0_prio_clean bf16: 0.337040126 ms / 3.262257 P
+2 split_async36_preload_a0_m0 bf16: 0.337886155 ms / 3.254089 P
+2 split_async36_preload_a0_m0 bf16: 0.337398529 ms / 3.258792 P
+2 preload_a0_after32 bf16: 0.338175356 ms / 3.251306 P
+2 split_async36_preload_a0_m0 bf16: 0.337347329 ms / 3.259287 P
+2 split_async36_preload_a0_m0 bf16: 0.337243736 ms / 3.260288 P
+2 preload_a0_after28 bf16: 0.337575376 ms / 3.257085 P
+2 split_async36_preload_a0_m0 bf16: 0.337146580 ms / 3.261227 P
+2 split_async36_preload_a0_m0 bf16: 0.337159306 ms / 3.261104 P
+2 preload_a0_after26 bf16: 0.337373734 ms / 3.259032 P
+2 split_async36_preload_a0_m0 bf16: 0.337513745 ms / 3.257680 P
+2 split_async36_preload_a0_m0 fp32: 0.360309899 ms / 3.051572 P
+2 preload_a0_prio_clean fp32: 0.359705925 ms / 3.056696 P
+2 split_async36_preload_a0_m0 fp32: 0.360342324 ms / 3.051297 P
+2 split_async36_preload_a0_m0 fp32: 0.360417128 ms / 3.050664 P
+2 preload_a0_after32 fp32: 0.361315131 ms / 3.043082 P
+2 split_async36_preload_a0_m0 fp32: 0.360179901 ms / 3.052673 P
+2 split_async36_preload_a0_m0 fp32: 0.360284299 ms / 3.051789 P
+2 preload_a0_after28 fp32: 0.360033125 ms / 3.053918 P
+2 split_async36_preload_a0_m0 fp32: 0.360353112 ms / 3.051206 P
+2 split_async36_preload_a0_m0 fp32: 0.360627145 ms / 3.048888 P
+2 preload_a0_after26 fp32: 0.360734344 ms / 3.047982 P
+2 split_async36_preload_a0_m0 fp32: 0.360407919 ms / 3.050742 P
+3 split_async36_preload_a0_m0 bf16: 0.337630153 ms / 3.256556 P
+3 preload_a0_after26 bf16: 0.338174164 ms / 3.251318 P
+3 split_async36_preload_a0_m0 bf16: 0.337465733 ms / 3.258143 P
+3 split_async36_preload_a0_m0 bf16: 0.337292969 ms / 3.259812 P
+3 preload_a0_after28 bf16: 0.337782174 ms / 3.255091 P
+3 split_async36_preload_a0_m0 bf16: 0.337652981 ms / 3.256336 P
+3 split_async36_preload_a0_m0 bf16: 0.337810963 ms / 3.254813 P
+3 preload_a0_after32 bf16: 0.338670164 ms / 3.246556 P
+3 split_async36_preload_a0_m0 bf16: 0.338082969 ms / 3.252195 P
+3 split_async36_preload_a0_m0 bf16: 0.337371379 ms / 3.259054 P
+3 preload_a0_prio_clean bf16: 0.337952971 ms / 3.253446 P
+3 split_async36_preload_a0_m0 bf16: 0.337587357 ms / 3.256969 P
+3 split_async36_preload_a0_m0 fp32: 0.360712349 ms / 3.048167 P
+3 preload_a0_after26 fp32: 0.360809922 ms / 3.047343 P
+3 split_async36_preload_a0_m0 fp32: 0.360721499 ms / 3.048090 P
+3 split_async36_preload_a0_m0 fp32: 0.360420316 ms / 3.050637 P
+3 preload_a0_after28 fp32: 0.360979527 ms / 3.045911 P
+3 split_async36_preload_a0_m0 fp32: 0.360742718 ms / 3.047911 P
+3 split_async36_preload_a0_m0 fp32: 0.360545933 ms / 3.049574 P
+3 preload_a0_after32 fp32: 0.361071944 ms / 3.045132 P
+3 split_async36_preload_a0_m0 fp32: 0.360817909 ms / 3.047276 P
+3 split_async36_preload_a0_m0 fp32: 0.361096293 ms / 3.044926 P
+3 preload_a0_prio_clean fp32: 0.360544741 ms / 3.049584 P
+3 split_async36_preload_a0_m0 fp32: 0.360662311 ms / 3.048590 P
+[
+  {
+    "name": "split_async36_preload_a0_m0",
+    "dtype": "bf16",
+    "median_ms": 0.33732014894485474,
+    "min_ms": 0.33582329750061035,
+    "max_ms": 0.3380829691886902,
+    "median_pflops": 3.2595492181990844
+  },
+  {
+    "name": "split_async36_preload_a0_m0",
+    "dtype": "fp32",
+    "median_ms": 0.360347718000412,
+    "min_ms": 0.35947227478027344,
+    "max_ms": 0.3610962927341461,
+    "median_pflops": 3.0512518127691957
+  },
+  {
+    "name": "preload_a0_after26",
+    "dtype": "bf16",
+    "median_ms": 0.3373737335205078,
+    "min_ms": 0.33677151799201965,
+    "max_ms": 0.33817416429519653,
+    "median_pflops": 3.259031508773828
+  },
+  {
+    "name": "preload_a0_after26",
+    "dtype": "fp32",
+    "median_ms": 0.36073434352874756,
+    "min_ms": 0.35943710803985596,
+    "max_ms": 0.36080992221832275,
+    "median_pflops": 3.047981561778794
+  },
+  {
+    "name": "preload_a0_after28",
+    "dtype": "bf16",
+    "median_ms": 0.33757537603378296,
+    "min_ms": 0.336539626121521,
+    "max_ms": 0.3377821743488312,
+    "median_pflops": 3.2570848048643395
+  },
+  {
+    "name": "preload_a0_after28",
+    "dtype": "fp32",
+    "median_ms": 0.3600331246852875,
+    "min_ms": 0.35953426361083984,
+    "max_ms": 0.36097952723503113,
+    "median_pflops": 3.0539179658457987
+  },
+  {
+    "name": "preload_a0_after32",
+    "dtype": "bf16",
+    "median_ms": 0.33817535638809204,
+    "min_ms": 0.337584912776947,
+    "max_ms": 0.33867016434669495,
+    "median_pflops": 3.2513061848131652
+  },
+  {
+    "name": "preload_a0_after32",
+    "dtype": "fp32",
+    "median_ms": 0.36107194423675537,
+    "min_ms": 0.3603411018848419,
+    "max_ms": 0.36131513118743896,
+    "median_pflops": 3.0451317121860035
+  },
+  {
+    "name": "preload_a0_prio_clean",
+    "dtype": "bf16",
+    "median_ms": 0.33704012632369995,
+    "min_ms": 0.3367440700531006,
+    "max_ms": 0.33795297145843506,
+    "median_pflops": 3.2622573453464927
+  },
+  {
+    "name": "preload_a0_prio_clean",
+    "dtype": "fp32",
+    "median_ms": 0.35970592498779297,
+    "min_ms": 0.3594626486301422,
+    "max_ms": 0.36054474115371704,
+    "median_pflops": 3.0566959046151747
+  }
+]

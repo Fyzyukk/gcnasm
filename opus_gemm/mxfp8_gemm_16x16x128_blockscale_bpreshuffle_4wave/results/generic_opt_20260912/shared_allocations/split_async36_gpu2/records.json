@@ -1,0 +1,200 @@
+[
+  {
+    "round": 1,
+    "name": "baseline",
+    "dtype": "bf16",
+    "ms": 0.3417920768260956,
+    "pflops": 3.216902035840443,
+    "start_utc": "2026-09-12T04:25:08.409562+00:00",
+    "timestamp_utc": "2026-09-12T04:25:08.513513+00:00",
+    "comparison": "packed2_20_split_async36",
+    "role": "before"
+  },
+  {
+    "round": 1,
+    "name": "packed2_20_split_async36",
+    "dtype": "bf16",
+    "ms": 0.3370802700519562,
+    "pflops": 3.261868835000416,
+    "start_utc": "2026-09-12T04:25:08.513693+00:00",
+    "timestamp_utc": "2026-09-12T04:25:08.614721+00:00",
+    "comparison": "packed2_20_split_async36",
+    "role": "candidate"
+  },
+  {
+    "round": 1,
+    "name": "baseline",
+    "dtype": "bf16",
+    "ms": 0.34150588512420654,
+    "pflops": 3.219597891778951,
+    "start_utc": "2026-09-12T04:25:08.614868+00:00",
+    "timestamp_utc": "2026-09-12T04:25:08.717225+00:00",
+    "comparison": "packed2_20_split_async36",
+    "role": "after"
+  },
+  {
+    "round": 1,
+    "name": "baseline",
+    "dtype": "fp32",
+    "ms": 0.36151400208473206,
+    "pflops": 3.041408137542333,
+    "start_utc": "2026-09-12T04:25:08.717299+00:00",
+    "timestamp_utc": "2026-09-12T04:25:08.825797+00:00",
+    "comparison": "packed2_20_split_async36",
+    "role": "before"
+  },
+  {
+    "round": 1,
+    "name": "packed2_20_split_async36",
+    "dtype": "fp32",
+    "ms": 0.3596423268318176,
+    "pflops": 3.057236442278312,
+    "start_utc": "2026-09-12T04:25:08.825901+00:00",
+    "timestamp_utc": "2026-09-12T04:25:08.933661+00:00",
+    "comparison": "packed2_20_split_async36",
+    "role": "candidate"
+  },
+  {
+    "round": 1,
+    "name": "baseline",
+    "dtype": "fp32",
+    "ms": 0.3620636463165283,
+    "pflops": 3.0367910144029473,
+    "start_utc": "2026-09-12T04:25:08.933749+00:00",
+    "timestamp_utc": "2026-09-12T04:25:09.042274+00:00",
+    "comparison": "packed2_20_split_async36",
+    "role": "after"
+  },
+  {
+    "round": 2,
+    "name": "baseline",
+    "dtype": "bf16",
+    "ms": 0.3408454656600952,
+    "pflops": 3.225836159054195,
+    "start_utc": "2026-09-12T04:25:09.042374+00:00",
+    "timestamp_utc": "2026-09-12T04:25:09.144729+00:00",
+    "comparison": "packed2_20_split_async36",
+    "role": "before"
+  },
+  {
+    "round": 2,
+    "name": "packed2_20_split_async36",
+    "dtype": "bf16",
+    "ms": 0.3369278013706207,
+    "pflops": 3.2633449163387285,
+    "start_utc": "2026-09-12T04:25:09.144852+00:00",
+    "timestamp_utc": "2026-09-12T04:25:09.245862+00:00",
+    "comparison": "packed2_20_split_async36",
+    "role": "candidate"
+  },
+  {
+    "round": 2,
+    "name": "baseline",
+    "dtype": "bf16",
+    "ms": 0.3411634564399719,
+    "pflops": 3.222829429767664,
+    "start_utc": "2026-09-12T04:25:09.245945+00:00",
+    "timestamp_utc": "2026-09-12T04:25:09.348355+00:00",
+    "comparison": "packed2_20_split_async36",
+    "role": "after"
+  },
+  {
+    "round": 2,
+    "name": "baseline",
+    "dtype": "fp32",
+    "ms": 0.3628436028957367,
+    "pflops": 3.03026322911898,
+    "start_utc": "2026-09-12T04:25:09.348440+00:00",
+    "timestamp_utc": "2026-09-12T04:25:09.457251+00:00",
+    "comparison": "packed2_20_split_async36",
+    "role": "before"
+  },
+  {
+    "round": 2,
+    "name": "packed2_20_split_async36",
+    "dtype": "fp32",
+    "ms": 0.3602580726146698,
+    "pflops": 3.052011075826834,
+    "start_utc": "2026-09-12T04:25:09.457520+00:00",
+    "timestamp_utc": "2026-09-12T04:25:09.565372+00:00",
+    "comparison": "packed2_20_split_async36",
+    "role": "candidate"
+  },
+  {
+    "round": 2,
+    "name": "baseline",
+    "dtype": "fp32",
+    "ms": 0.3626936376094818,
+    "pflops": 3.0315161716728602,
+    "start_utc": "2026-09-12T04:25:09.565471+00:00",
+    "timestamp_utc": "2026-09-12T04:25:09.674170+00:00",
+    "comparison": "packed2_20_split_async36",
+    "role": "after"
+  },
+  {
+    "round": 3,
+    "name": "baseline",
+    "dtype": "bf16",
+    "ms": 0.34189265966415405,
+    "pflops": 3.215955641914236,
+    "start_utc": "2026-09-12T04:25:09.674271+00:00",
+    "timestamp_utc": "2026-09-12T04:25:09.776761+00:00",
+    "comparison": "packed2_20_split_async36",
+    "role": "before"
+  },
+  {
+    "round": 3,
+    "name": "packed2_20_split_async36",
+    "dtype": "bf16",
+    "ms": 0.3370094299316406,
+    "pflops": 3.262554486973929,
+    "start_utc": "2026-09-12T04:25:09.776869+00:00",
+    "timestamp_utc": "2026-09-12T04:25:09.877951+00:00",
+    "comparison": "packed2_20_split_async36",
+    "role": "candidate"
+  },
+  {
+    "round": 3,
+    "name": "baseline",
+    "dtype": "bf16",
+    "ms": 0.3423779308795929,
+    "pflops": 3.2113974897601536,
+    "start_utc": "2026-09-12T04:25:09.878101+00:00",
+    "timestamp_utc": "2026-09-12T04:25:09.980603+00:00",
+    "comparison": "packed2_20_split_async36",
+    "role": "after"
+  },
+  {
+    "round": 3,
+    "name": "baseline",
+    "dtype": "fp32",
+    "ms": 0.36277806758880615,
+    "pflops": 3.030810641569023,
+    "start_utc": "2026-09-12T04:25:09.980718+00:00",
+    "timestamp_utc": "2026-09-12T04:25:10.089390+00:00",
+    "comparison": "packed2_20_split_async36",
+    "role": "before"
+  },
+  {
+    "round": 3,
+    "name": "packed2_20_split_async36",
+    "dtype": "fp32",
+    "ms": 0.3604736626148224,
+    "pflops": 3.0501857467208726,
+    "start_utc": "2026-09-12T04:25:10.089503+00:00",
+    "timestamp_utc": "2026-09-12T04:25:10.197549+00:00",
+    "comparison": "packed2_20_split_async36",
+    "role": "candidate"
+  },
+  {
+    "round": 3,
+    "name": "baseline",
+    "dtype": "fp32",
+    "ms": 0.36293530464172363,
+    "pflops": 3.0294975818387173,
+    "start_utc": "2026-09-12T04:25:10.197704+00:00",
+    "timestamp_utc": "2026-09-12T04:25:10.306527+00:00",
+    "comparison": "packed2_20_split_async36",
+    "role": "after"
+  }
+]

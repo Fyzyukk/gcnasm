@@ -1,0 +1,94 @@
+{
+  "tag": "output_schedule_gpu2",
+  "physical_gpu": 2,
+  "hip_index": 2,
+  "pci": "0000:65:00.0",
+  "initial_status": {
+    "GPU use (%)": "1",
+    "GFX Activity": "3024504404",
+    "GPU Memory Allocated (VRAM%)": "0",
+    "GPU Memory Read/Write Activity (%)": "0",
+    "Memory Activity": "1633793562",
+    "Avg. Memory Bandwidth": "0",
+    "PCI Bus": "0000:65:00.0"
+  },
+  "timing_reference": "baseline",
+  "candidates": [
+    "packed6_quarter_output",
+    "packed6_output_valu4",
+    "packed6_output_valu6",
+    "packed6_output_valu8",
+    "packed6_unroll4",
+    "packed6_unroll16"
+  ],
+  "performance_shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "jobs": [
+    [
+      "audit",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_opt_20260912/audit.py",
+        "packed6_quarter_output",
+        "packed6_output_valu4",
+        "packed6_output_valu6",
+        "packed6_output_valu8",
+        "packed6_unroll4",
+        "packed6_unroll16"
+      ]
+    ],
+    [
+      "shapes",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_opt_20260912/verify_shapes.py",
+        "--tag",
+        "output_schedule_gpu2",
+        "--pci",
+        "0000:65:00.0",
+        "packed6_quarter_output",
+        "packed6_output_valu4",
+        "packed6_output_valu6",
+        "packed6_output_valu8",
+        "packed6_unroll4",
+        "packed6_unroll16"
+      ]
+    ],
+    [
+      "full",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_opt_20260912/run.py",
+        "verify",
+        "--tag",
+        "output_schedule_gpu2",
+        "--pci",
+        "0000:65:00.0",
+        "packed6_quarter_output",
+        "packed6_output_valu4",
+        "packed6_output_valu6",
+        "packed6_output_valu8",
+        "packed6_unroll4",
+        "packed6_unroll16"
+      ]
+    ],
+    [
+      "shared",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_opt_20260912/run.py",
+        "shared",
+        "output_schedule_gpu2",
+        "packed6_quarter_output",
+        "packed6_output_valu4",
+        "packed6_output_valu6",
+        "packed6_output_valu8",
+        "packed6_unroll4",
+        "packed6_unroll16"
+      ]
+    ]
+  ]
+}

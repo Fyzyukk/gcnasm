@@ -1,5 +1,7 @@
 # 最终通用4wave / tile1：2026-09-12
 
+这是提交 `f0b117c` 的历史检查点。当前版本和最新测量见 [后续通用优化记录](CONTINUATION_20260912_GENERIC35.md)。
+
 当前正式版本为 **generic_tile1_final_20260912**，从通用候选 `stream64_batch_output_burst` 清理而来。唯一kernel实现是顶层 `tmpl_generic.hpp`，生产构建只实例化BF16/FP32两种输出。旧 `tmpl.hpp`、`WholeKScaleTraits` 及过时traits别名已从当前构建删除，历史源码和实验继续保留在 `results/`。
 
 用户最新要求是在本次候选比较后，测8192、1024、2048、4096，整理最终代码，然后commit和push。本轮按此收尾；后续继续优化仍以这份通用kernel为基础，长期目标3.5P尚未达到。

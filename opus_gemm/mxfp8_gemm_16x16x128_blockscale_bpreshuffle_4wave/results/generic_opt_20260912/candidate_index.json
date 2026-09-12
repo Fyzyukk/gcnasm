@@ -1,0 +1,4573 @@
+[
+  {
+    "name": "baseline",
+    "status": "MEASURED",
+    "source_sha256": "681e64526624bdafd7f8d6c2117cd95dc516866f8d25f5aa8159a90c21687fd6",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": "burst",
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true
+    },
+    "build": null,
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "a0_refine_gpu2",
+          "checks": 32
+        },
+        {
+          "tag": "async_output_gpu2",
+          "checks": 32
+        },
+        {
+          "tag": "combined_output_gpu2",
+          "checks": 32
+        },
+        {
+          "tag": "compute_ratio_gpu2",
+          "checks": 32
+        },
+        {
+          "tag": "copy_gpu2",
+          "checks": 32
+        },
+        {
+          "tag": "final_resident_gpu2",
+          "checks": 32
+        },
+        {
+          "tag": "first_scales_gpu2",
+          "checks": 32
+        },
+        {
+          "tag": "initial_roll_gpu2",
+          "checks": 32
+        },
+        {
+          "tag": "output_schedule_gpu2",
+          "checks": 32
+        },
+        {
+          "tag": "row_groups_gpu2",
+          "checks": 32
+        },
+        {
+          "tag": "scale_positions_gpu2",
+          "checks": 32
+        },
+        {
+          "tag": "scale_refine_gpu2",
+          "checks": 32
+        },
+        {
+          "tag": "split_async36_gpu2",
+          "checks": 32
+        },
+        {
+          "tag": "startup_gpu2",
+          "checks": 32
+        },
+        {
+          "tag": "tail_prefetch_gpu2",
+          "checks": 32
+        },
+        {
+          "tag": "unsigned_gpu2",
+          "checks": 32
+        },
+        {
+          "tag": "zero_distribution_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "a0_refine_gpu2",
+          "checks": 2
+        },
+        {
+          "tag": "async_output_gpu2",
+          "checks": 2
+        },
+        {
+          "tag": "combined_output_gpu2",
+          "checks": 2
+        },
+        {
+          "tag": "compute_ratio_gpu2",
+          "checks": 2
+        },
+        {
+          "tag": "copy_gpu2",
+          "checks": 2
+        },
+        {
+          "tag": "final_resident_gpu2",
+          "checks": 2
+        },
+        {
+          "tag": "first_scales_gpu2",
+          "checks": 2
+        },
+        {
+          "tag": "initial_roll_gpu2",
+          "checks": 2
+        },
+        {
+          "tag": "output_schedule_gpu2",
+          "checks": 2
+        },
+        {
+          "tag": "reproduction_smoke_gpu2",
+          "checks": 2
+        },
+        {
+          "tag": "row_groups_gpu2",
+          "checks": 2
+        },
+        {
+          "tag": "scale_positions_gpu2",
+          "checks": 2
+        },
+        {
+          "tag": "scale_refine_gpu2",
+          "checks": 2
+        },
+        {
+          "tag": "split_async36_gpu2",
+          "checks": 2
+        },
+        {
+          "tag": "startup_gpu2",
+          "checks": 2
+        },
+        {
+          "tag": "tail_prefetch_gpu2",
+          "checks": 2
+        },
+        {
+          "tag": "unsigned_gpu2",
+          "checks": 2
+        },
+        {
+          "tag": "zero_distribution_gpu2",
+          "checks": 2
+        }
+      ]
+    },
+    "measurement_tags": [
+      "async_confirm_gpu2",
+      "async_output_gpu2",
+      "combined_output_gpu2",
+      "compute_ratio_gpu2",
+      "copy_gpu2",
+      "final_candidate_confirm_gpu2",
+      "final_resident_gpu2",
+      "first_scales_gpu2",
+      "output_schedule_gpu2",
+      "reproduction_smoke_gpu2",
+      "row_groups_gpu2",
+      "scale_positions_gpu2",
+      "scale_refine_gpu2",
+      "split_async36_gpu2",
+      "split_confirm_gpu2",
+      "startup_gpu2",
+      "unsigned_gpu2",
+      "zero_distribution_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "3bba519f0fddc238d2c479e0a75a87b22fdd8094706e719ae91650a56fd1bbfb",
+      "device.notes": "13c138bf58678257e431beb8c22084ea19b36a620541a2b8a8a2b478278ccc33",
+      "libblockscale_bpreshuffle.so": "62c04b8bc6a76817726891541a1787ef10121586312173b882c31ec1111466e3",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "4e44fe441e8ebc5e63d53f5edec90b838edb93f399c83964471172f8ef0a0d46"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "generic_tile1_opt_20260912",
+    "status": "SELECTED",
+    "source_sha256": "6472526cabcb12957570f8540b13adae296ab35f637e9f254c4a7a00e0e58483",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "split_sfa_b",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ],
+      "output_barriers_without_vmem_drain": [
+        3
+      ],
+      "a0_m0_prefetch_mfma": 30,
+      "a0_m0_install_mfma": 36
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 504,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {},
+    "measurement_tags": [
+      "reproduction_smoke_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "0de43d516eb76d3a5fd76d65f0bc6fa97776821fd9642f9a67007761afad1c53",
+      "device.notes": "455ad41c6888f8bbf02dfc52d5710152805e5d5c720a5f745b89eaf2e12125d3",
+      "libblockscale_bpreshuffle.so": "fc8822de1073127b4578bc39ef1279d76086adcd6cfff4915145cf662857b01d",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "a50082174f7775aaca30147dc1493f59ea353ce30639fd2705a99d03945ad185"
+    },
+    "instruction_equivalent_measured_candidate": "split_async36_preload_a0_m0"
+  },
+  {
+    "name": "packed2_12_unsigned_quarter",
+    "status": "MEASURED",
+    "source_sha256": "64ca08f2bad4aca03ba3e511a848ae0063d10a6e588a58c83d403cdcf3ca00e7",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 12,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ]
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "scale_refine_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "scale_refine_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "scale_refine_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "0502d15ef4b89abbeaaaba999a7a65d200b5ba1b515a97a66709a9b22884bbc3",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "0fdf75002cb4f7b26a2d8fd43377876338d19a3014435d2174a36cf3d135b9b7",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "c69efad347fec318aee14234bccb88b7558c4e4d2006366c5eabcf3d810d0abc"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed2_20_all_strides",
+    "status": "REJECTED_BEFORE_GPU_RUN",
+    "source_sha256": "acbb19b10e6fdacb62169d8b1be2b8db51e9e37403695656571ef36c43c8ed6d",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ],
+      "canonical_stride_expressions": "all"
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": null,
+    "rejection": {
+      "status": "REJECTED_BEFORE_GPU_RUN",
+      "reason": "Canonical stride folding introduced EXEC waterfalls for initial matrix scalar offsets. Making only gb_offset explicit wave-uniform did not remove the ga_offset waterfall; initial producer reuse is tested separately.",
+      "build": {
+        "returncode": 0,
+        "generic_resources": [
+          {
+            "vgpr_count": 500,
+            "sgpr_count": 74,
+            "group_segment_fixed_size": 152064,
+            "private_segment_fixed_size": 0,
+            "vgpr_spill_count": 0,
+            "sgpr_spill_count": 0
+          },
+          {
+            "vgpr_count": 496,
+            "sgpr_count": 74,
+            "group_segment_fixed_size": 152064,
+            "private_segment_fixed_size": 0,
+            "vgpr_spill_count": 0,
+            "sgpr_spill_count": 0
+          }
+        ]
+      }
+    },
+    "validation": {},
+    "measurement_tags": [],
+    "artifact_hashes": {
+      "device.isa": "eb555cfddeee8f89a42b8ad9b299ae66fa8623f166e8e22df709d73da220dd7d",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "750764f3d9e9352158bb9298b57d83bb6b5fe7bc0984a4de69fe3eb92fea03c5",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "fba109bb7ad04ff48c8db163082bc95110856c9a30aea3c94d44280f42333e83"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed2_20_compute_valu1",
+    "status": "MEASURED",
+    "source_sha256": "f5b2833415e03c0c4ab96ccb3b2afad240aa46e183227c42552d8159840ebde1",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ],
+      "compute_valu_per_mfma": 1
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "compute_ratio_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "compute_ratio_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "compute_ratio_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "14b70cff942826554c906a3d61d41f33c8b97bd145dfc476e2975ddbb79de3fa",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "01ea8318c5b7c547a7868ab6d97b74c58237ffb063e9f94105603ba78d5a9f1e",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "4fa25d0532f8fc50adbf1483ed53fab25e182a288c3cab957b32719d4c7ce93e"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed2_20_compute_valu4",
+    "status": "MEASURED",
+    "source_sha256": "b72dbf117a24dfdf0e1947e668e9f139688514a99efdd84e6d9c2ff384c190bd",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ],
+      "compute_valu_per_mfma": 4
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "compute_ratio_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "compute_ratio_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "compute_ratio_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "14b70cff942826554c906a3d61d41f33c8b97bd145dfc476e2975ddbb79de3fa",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "01ea8318c5b7c547a7868ab6d97b74c58237ffb063e9f94105603ba78d5a9f1e",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "4fa25d0532f8fc50adbf1483ed53fab25e182a288c3cab957b32719d4c7ce93e"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed2_20_matrix_stride",
+    "status": "REJECTED_BEFORE_GPU_RUN",
+    "source_sha256": "bbe4735b958a13941b79d1f78fc2f15a9aa7211990a8e886f6f8b21fd1a9ead4",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ],
+      "canonical_stride_expressions": "matrix"
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": null,
+    "rejection": {
+      "status": "REJECTED_BEFORE_GPU_RUN",
+      "reason": "Canonical stride folding introduced EXEC waterfalls for initial matrix scalar offsets. Making only gb_offset explicit wave-uniform did not remove the ga_offset waterfall; initial producer reuse is tested separately.",
+      "build": {
+        "returncode": 0,
+        "generic_resources": [
+          {
+            "vgpr_count": 500,
+            "sgpr_count": 74,
+            "group_segment_fixed_size": 152064,
+            "private_segment_fixed_size": 0,
+            "vgpr_spill_count": 0,
+            "sgpr_spill_count": 0
+          },
+          {
+            "vgpr_count": 496,
+            "sgpr_count": 74,
+            "group_segment_fixed_size": 152064,
+            "private_segment_fixed_size": 0,
+            "vgpr_spill_count": 0,
+            "sgpr_spill_count": 0
+          }
+        ]
+      }
+    },
+    "validation": {},
+    "measurement_tags": [],
+    "artifact_hashes": {
+      "device.isa": "107cfca9bdf20a19a2e329b4c53c6a0aa85b41ee9beb3d0c3c8cc00d23db38f5",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "e89e2662a2f00d242bb4f37618784b35605a861b4ac6415fe1659e37764a79b9",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "0cb409241d45a34b5ac32b89375c54e11099f888759fceea6a0e0eed65ecd30d"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed2_20_quarter_async36",
+    "status": "MEASURED",
+    "source_sha256": "a0691b99bb5f1d6a2b3a2609470f1f8b421fa0842843d4906fade13b41b2ed2f",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ],
+      "output_barriers_without_vmem_drain": [
+        3
+      ]
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "async_output_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "async_output_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "async_confirm_gpu2",
+      "async_output_gpu2",
+      "split_confirm_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "19531d34e462e0fe1d3fcf425559fc46a0696cb220a4472e629c3610f9251d7b",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "330136f5988d003d76feefafaaa211a563aa4d1e97c965ff5cdce8b71e4fef42",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "873f05e0ff858967f62fa5a55c933de5991b2ecb174063b32cf95515a45505fa"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed2_20_quarter_async_all",
+    "status": "MEASURED",
+    "source_sha256": "aa0ea0f3367d524a6a84c34551f257e0fb8ff24f46aa31f9e121f08b396914a9",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": false,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ],
+      "output_barriers_without_vmem_drain": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "async_output_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "async_output_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "async_confirm_gpu2",
+      "async_output_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "f8cd32f2aa3517550bfc3044b10d67eecfc9d66b76ee2c994ec6778ed635951f",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "19fa8979adae073d982ffcd66df78973f7c26bb6198703c036405d0df0eeb2cb",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "4a025c11c86f9adbc3b9b025c903166afc90f7ba2f242fddcf44e1039a9890b2"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed2_20_quarter_zero_split",
+    "status": "MEASURED",
+    "source_sha256": "fd8791b352dae1478ef16cca88f6fdeee2f278f62b3f1ab9dc29c23f8ceee4a0",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "split_sfa_b",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ]
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "scale_refine_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "scale_refine_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "scale_refine_gpu2",
+      "split_confirm_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "fa7ec9adf435157e74e9e874f176a01783941d6ae9c892a7cf1d70a49658fcf9",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "2a8d100fc1a336443655e55e89f157d66eb99106727cf5884e1ab46b7e1f2db8",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "0f350fce8ea5823c45c5d94a919453742cc83ff91afbb19da79ff50d6ce40047"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed2_20_split_async36",
+    "status": "MEASURED",
+    "source_sha256": "1c857f37a27b039c48c1a1cd916790972c119fb61ce9dbcdc6219977922b0591",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "split_sfa_b",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ],
+      "output_barriers_without_vmem_drain": [
+        3
+      ]
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "split_async36_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "split_async36_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "final_candidate_confirm_gpu2",
+      "initial_roll_gpu2",
+      "split_async36_gpu2",
+      "split_confirm_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "9d3142dbaab0844550adf5f401785749529f8952dc971e6df5a2bdfaba7651bb",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "6db4b276e89db41d449a7532fd0e32412f8a9afbae5acb6029e4915ce61bb96c",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "3fc1b65a0a00c8ae34b1c1d24eeaffe4f28ebdb631ea8de442307ee32acd4242"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed2_20_unsigned_quarter",
+    "status": "MEASURED",
+    "source_sha256": "517f64621259fbb631cd22b42cbe086a88c1a82ad18a716c75fcd075884b7375",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ]
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "scale_positions_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "scale_positions_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "async_confirm_gpu2",
+      "scale_positions_gpu2",
+      "split_confirm_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "14b70cff942826554c906a3d61d41f33c8b97bd145dfc476e2975ddbb79de3fa",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "01ea8318c5b7c547a7868ab6d97b74c58237ffb063e9f94105603ba78d5a9f1e",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "4fa25d0532f8fc50adbf1483ed53fab25e182a288c3cab957b32719d4c7ce93e"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed2_28_unsigned_quarter",
+    "status": "MEASURED",
+    "source_sha256": "5f97bcea502276a8e1365874bf20d74dff14b967746f203180e794e0c7d63c57",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 28,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ]
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "scale_refine_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "scale_refine_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "scale_refine_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "55608c2dc6efa542318d70185f45be6f46ec1ba9cf42bda565f3e2a1c1ae78d3",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "aebc1209be9d92567a3f31e7c50a567e6dd40e09f3b1282f795267084cd3b78c",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "629bd814df1071a17155986ab146d5702b55d1ed97b48551dabcde1e86a7ce01"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed2_unsigned_quarter",
+    "status": "MEASURED",
+    "source_sha256": "4f5e496588501b534e0c4c38a39f045fcc08831c2ce181aa0cd47a23a9691e74",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 2,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ]
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "scale_positions_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "scale_positions_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "scale_positions_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "12d3ecc8d9f552b0d657a27b6e3cc5fbb6f620c7828a25c6002db12d0390bb22",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "0b02481391fd845b70c5f3da4e3c12fac44ebced106515bb90d7737ba60929f2",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "9f3903bab7242237e6e541f9696e9ee7caa22d70105e7123314b4d80398b3ba7"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed4_unsigned_quarter",
+    "status": "MEASURED",
+    "source_sha256": "2a6e45012d0cc70232170e6a757e1abc5c61c9d6bc17512e3786b4ea679652f7",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 4,
+      "sfb_next_read_mfma": 4,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ]
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "scale_positions_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "scale_positions_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "scale_positions_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "bed108de215482bae222a7e37e0c7340ef8fbf261006c85b245cff589379a9ad",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "0beee34a6c93f2a3c5075205358cd4edf70d415e1adee2e99cbdd8423a8dbe41",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "de718b47c6522cd12288e2d6a44c693686be0f0f8ce6eeb496ceda7d271fe8bc"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed6_copy_scalar",
+    "status": "MEASURED",
+    "source_sha256": "82a3fdcea2e5ea3925f6b56a137a324240dc57032c6ac26923bb8cba24385a93",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": "burst",
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 6,
+      "sfb_next_read_mfma": 6,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "output_copy_scalar_offset": true,
+      "output_copy_split_lds_bases": false
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "copy_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "copy_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "copy_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "8cb3c6fa519e27b25d18e8c178869a363f07367ab070700d342e8b6efcfd3246",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "ccd0750431027b7186ab823429a392d7a1e348525eed531538b1de6bcdccd505",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "d51784ed53867f44544093eb2bb9357901891bfc5817f4a5978283d3c836b9cd"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed6_copy_scalar_split",
+    "status": "MEASURED",
+    "source_sha256": "5fa679dfc7d8ec328ee12d395275b4b966651868c9842234b088e5a038293fa9",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": "burst",
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 6,
+      "sfb_next_read_mfma": 6,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "output_copy_scalar_offset": true,
+      "output_copy_split_lds_bases": true
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "copy_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "copy_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "copy_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "01396762adf3d6eab976c93d6ec007a7568c5e136d892037cc3ae6c91812ffe5",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "415cb13ad032ccaca371af8ec49c585ccb0fdab9cf1c8b290873b080124708d3",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "1b20a9691a023ad3d003c1cf21edca341d94f18f4eaa49c7392f01a8ee000932"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed6_final_resident",
+    "status": "MEASURED",
+    "source_sha256": "95d0d2603364c7f29eae8cf7c25fc81a2dde8904b4feea0c5053e2ef1b52f15d",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": "burst",
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 6,
+      "sfb_next_read_mfma": 6,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "final_operands": "resident",
+      "final_matrix_retire_mfma": 0
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 476,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 488,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "final_resident_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "final_resident_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "final_resident_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "8164bf5d28bc9a239a1c66602f1494f0a4585002937a8e1e806905ba47fe3302",
+      "device.notes": "8c6b7b041b1581513645bb4e7acc50ca200eb4d85c09b6530256bda7936720af",
+      "libblockscale_bpreshuffle.so": "9a36a93c644a6e88fe639312ad1ecd08830c57a0df94121e5f4f107f86e37642",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "4aefbca170a80c4b72addafa3320ee8d8496f065959cc5393016935e025e6e17"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed6_final_retire8",
+    "status": "MEASURED",
+    "source_sha256": "f45c4a06dffe66ea904b070339530e90e23b426652ed7f21e4e2c6a3389c24ac",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": "burst",
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 6,
+      "sfb_next_read_mfma": 6,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "final_operands": "resident",
+      "final_matrix_retire_mfma": 8
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 476,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 488,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "final_resident_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "final_resident_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "final_resident_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "d100ad3acc14314fd24cdeb87f17388dcddfca271b1e1a7224992c70d63481f6",
+      "device.notes": "8c6b7b041b1581513645bb4e7acc50ca200eb4d85c09b6530256bda7936720af",
+      "libblockscale_bpreshuffle.so": "47c8ec73cdd4bb771ec7594907276a33b17c48c14a0410bba7f19ecb01f0a59a",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "76d72fed8b057bd1a1d9df8db12f9a6515985937ce8912579d78f12cb2bf1aae"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed6_output_valu4",
+    "status": "MEASURED",
+    "source_sha256": "a2a3431c488caf1727acddbd0bd30d36a6c9c056278302077f4521a8d33834f5",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": "burst",
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 6,
+      "sfb_next_read_mfma": 6,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "output_valu_per_mfma": 4
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "output_schedule_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "output_schedule_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "output_schedule_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "fb6ce3543eff040cf20cf67372f20a3e84d42e886466c75a2e0704bb10e69199",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "a47655f20629e67df953b72cf6358153f4fe0f06e4e7790389516338d3bbc843",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "6bfa87b4a6c2871f277285c51907fadbcab492ffe44b5b20958ff10cf9d2dbac"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed6_output_valu6",
+    "status": "MEASURED",
+    "source_sha256": "e6fd625c9d6a745a2843c34c7b4f931299d5f1fe00451f4f6c0c6463ec520421",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": "burst",
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 6,
+      "sfb_next_read_mfma": 6,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "output_valu_per_mfma": 6
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "output_schedule_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "output_schedule_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "output_schedule_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "80295926034ea56456a395849014742d6979df31a7eda2e04b686683600b8c39",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "982e0d0a1f1d21ab94f5c0314be3df01debe7dcd6a08d315d4f9e2e9a459b062",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "90c481626f2dfb822d1cdedcbc75bcf92ea43199e50d7b0bb8d2cfb8111b5805"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed6_output_valu8",
+    "status": "MEASURED",
+    "source_sha256": "90f3038ef9d78b5d3fb733821273e3959735efa30b0350b94c299dda28416fa4",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": "burst",
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 6,
+      "sfb_next_read_mfma": 6,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "output_valu_per_mfma": 8
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "output_schedule_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "output_schedule_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "output_schedule_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "ddb61611b909ea27ef351c30f8a70f3d3e84a3965c145c6aa9896daf9a1b7622",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "d77cb72c326aab185f97c4c27887cc90330b4b9503522b2fba4c29130af52468",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "25ff69dd88a93a7d50123dc646bcd406e1127e9617f88de90c627959c413dfb7"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed6_quarter_output",
+    "status": "MEASURED",
+    "source_sha256": "847f00d005b9f74ee554877ec2b3dab2b6d7db77cb353b48ad58a625ddd38556",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 6,
+      "sfb_next_read_mfma": 6,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ]
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "output_schedule_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "output_schedule_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "output_schedule_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "056b9785717be70e2f25abc412385e706d4cb654d9192cf284851f7d21cafb29",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "ffedd250d36277c2dbb1bfa31119ccc57b28fbbf4b6f84be3e86cbcab14c2a42",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "5303436ced4fd7fd8ee47446add31b174af3c0dd10b2cb1be682ed334c47a367"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed6_quarter_zero_sfa",
+    "status": "MEASURED",
+    "source_sha256": "255bc24ee4d5d872bbe7b8dff0080fe52709343d17ca50c2821c26aa696d7563",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 6,
+      "sfb_next_read_mfma": 6,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "after_sfa",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ]
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "zero_distribution_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "zero_distribution_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "zero_distribution_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "97f15d82f9ca7e6a8caf05ab0d4b0c0da13c9c8651c2ca2878af140963f4008e",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "6606407fa64f17924ec6879f6f3f8fb71b37e5bdc1dad230731e15a34c155ca4",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "b7419e00650cf30e7a234888aab598b0a77658497dbc743be5abaaf750c1ffea"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed6_quarter_zero_split",
+    "status": "MEASURED",
+    "source_sha256": "be3dc5045d063f05150d45b96df790ea9485a1264c970adefcc9bf4f26fccf0e",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 6,
+      "sfb_next_read_mfma": 6,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "split_sfa_b",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ]
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "zero_distribution_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "zero_distribution_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "zero_distribution_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "3f4fd00039b26fcfa2e117ec2bfafd2261c18c1e90c556fce1120f9016318a37",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "98da116315df188661192aa5216122e8526ee535b9577d5c5d2560a876c0aaf0",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "f7c40bb1ef0f0eb3d23ea4b5acdbd8a056429e63dfb8a4e22fb25a20f4ea9db0"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed6_schedule_salu",
+    "status": "REJECTED_BEFORE_GPU_RUN",
+    "source_sha256": "ed13438e5996db5584f20777bd9fc0c788f04b475ca43366899acc84f13e8331",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": "burst",
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 6,
+      "sfb_next_read_mfma": 6,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "compute_sched_barrier_mask": 4
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 492,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 512,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 8,
+          "vgpr_spill_count": 1,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": null,
+    "rejection": {
+      "status": "REJECTED_BEFORE_GPU_RUN",
+      "reason": "Scratch or register spill in device metadata",
+      "build": {
+        "returncode": 0,
+        "generic_resources": [
+          {
+            "vgpr_count": 492,
+            "sgpr_count": 74,
+            "group_segment_fixed_size": 152064,
+            "private_segment_fixed_size": 0,
+            "vgpr_spill_count": 0,
+            "sgpr_spill_count": 0
+          },
+          {
+            "vgpr_count": 512,
+            "sgpr_count": 74,
+            "group_segment_fixed_size": 152064,
+            "private_segment_fixed_size": 8,
+            "vgpr_spill_count": 1,
+            "sgpr_spill_count": 0
+          }
+        ]
+      }
+    },
+    "validation": {},
+    "measurement_tags": [],
+    "artifact_hashes": {
+      "device.isa": "9e0049ee1117b17faed7db82506e6cc134278950e566a45812301291263fc050",
+      "device.notes": "05d35d6956419189ddf7028383cc9e0a4da6874657c8430afacf59a8de30cad0",
+      "libblockscale_bpreshuffle.so": "d84d883bfd38c46238045525af7aede097e47fedfc9ca35c49cab91e5b004cb6",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "1cdb399f7853952b9cd1ee6fbb9dfebf7480cf6e93a831dc4b115e1aa2234504"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed6_schedule_salu_valu",
+    "status": "REJECTED_BEFORE_GPU_RUN",
+    "source_sha256": "d11eb947d949dcbe270bdbce3acc673339c884e930e4017dbac4530cac0cf883",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": "burst",
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 6,
+      "sfb_next_read_mfma": 6,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "compute_sched_barrier_mask": 6
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 492,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 512,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 8,
+          "vgpr_spill_count": 1,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": null,
+    "rejection": {
+      "status": "REJECTED_BEFORE_GPU_RUN",
+      "reason": "Scratch or register spill in device metadata",
+      "build": {
+        "returncode": 0,
+        "generic_resources": [
+          {
+            "vgpr_count": 492,
+            "sgpr_count": 74,
+            "group_segment_fixed_size": 152064,
+            "private_segment_fixed_size": 0,
+            "vgpr_spill_count": 0,
+            "sgpr_spill_count": 0
+          },
+          {
+            "vgpr_count": 512,
+            "sgpr_count": 74,
+            "group_segment_fixed_size": 152064,
+            "private_segment_fixed_size": 8,
+            "vgpr_spill_count": 1,
+            "sgpr_spill_count": 0
+          }
+        ]
+      }
+    },
+    "validation": {},
+    "measurement_tags": [],
+    "artifact_hashes": {
+      "device.isa": "8c1a53f8c45c397efaa23c0e680fae587a32958e664c6403999c9adf0fb10ae5",
+      "device.notes": "05d35d6956419189ddf7028383cc9e0a4da6874657c8430afacf59a8de30cad0",
+      "libblockscale_bpreshuffle.so": "ab00a6863bffb9a7045256214ad8d0de4e4eb277fab07a4ac30a790732506654",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "eb446effb44eed037d5f1db84438d1285c16c297b26d7466048df1690734a206"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed6_sfb_uniform",
+    "status": "MEASURED",
+    "source_sha256": "24352270febb2d77c5460bc4e309cd9ae3249fbfed3d4a82bf2bbcf6d8afc4ed",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": "burst",
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfb_global_read": "all_waves",
+      "initial_b_scalar_offset": "readfirstlane",
+      "sfa_next_read_mfma": 6,
+      "sfb_next_read_mfma": 6,
+      "sfa_read_pair": true
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 76,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 512,
+          "sgpr_count": 76,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "startup_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "startup_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "startup_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "cac4351a2bdfaebbabdbb9ba94097d363114058cbd64f261d3ae675bc3ac1a4f",
+      "device.notes": "f1a16804c7baec63c7ef0ae8d3c6f5de194c407e03c15890ad859bb8bd689961",
+      "libblockscale_bpreshuffle.so": "8f83bce2c7d7ba780fa3f0026336074a31c862a9299a4395d6eda3cb0b16810a",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "a5a45c680b7b5e565000c212f9351c33ae091a4f7f484eb4e3064e486d7db6e4"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed6_startup_combo",
+    "status": "MEASURED",
+    "source_sha256": "3e601f0530a7e0467f8c26b24f5b418c5c26e09af76cc1021c2a58ba8fb29149",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": "burst",
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfb_global_read": "all_waves",
+      "initial_b_scalar_offset": "readfirstlane",
+      "sfa_next_read_mfma": 6,
+      "sfb_next_read_mfma": 6,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only"
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 76,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 512,
+          "sgpr_count": 76,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "copy_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "copy_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "copy_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "09b5ba221e297d79639e2ee6223ea1094f59dc9a4aaf8833d640b07ab7224ddb",
+      "device.notes": "f1a16804c7baec63c7ef0ae8d3c6f5de194c407e03c15890ad859bb8bd689961",
+      "libblockscale_bpreshuffle.so": "636d4dc303e346bbaa600d22d3329bcc154969cadf8265c41d238533bf0cc23c",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "5b63385cef5f0975e5f614a0c2df65ae168182f2c3f0dd4ddc72f5d24d2bfb4d"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed6_unroll16",
+    "status": "MEASURED",
+    "source_sha256": "dc6411ad8332e71943d2b51f228133352f0c15ea67c3da9d79b21e4f0ed19dba",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 16,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": "burst",
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 6,
+      "sfb_next_read_mfma": 6,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only"
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 66,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 484,
+          "sgpr_count": 66,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "output_schedule_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "output_schedule_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "output_schedule_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "4675fff763194c2ae6f6e21849df7bcb2ff68273d27e67bdb97ecf43dff03b7f",
+      "device.notes": "673d8810f2525c59edc33916c8385e31e6a175fc58ce6f5265476eab78deff2f",
+      "libblockscale_bpreshuffle.so": "10e801e00b8c10c25c78b1f33ec8b7401303d2161a471307682cb3f31b80d2dd",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "619d4f5813a9d02ee56e62b5d803ac3b6a952889c4447a08ae9c0911e2a00379"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed6_unroll4",
+    "status": "MEASURED",
+    "source_sha256": "1af17058e9c04c233e6928673fac45dcbde817ec524b31396f4359604ae81d7a",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 4,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": "burst",
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 6,
+      "sfb_next_read_mfma": 6,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only"
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 70,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 512,
+          "sgpr_count": 70,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "output_schedule_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "output_schedule_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "output_schedule_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "4319bb5410fe0ff596398140a438d13d46ced118a210560e94f1c742e062973d",
+      "device.notes": "0a814c6ac202cfc7b9eb88df47b5c52c161fadb230dabed442c067c1f58efa80",
+      "libblockscale_bpreshuffle.so": "d25d392e1ddd953bae9575bca0be316d5013364b54b5f69016457075ee7e749b",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "a0a18d7252f6bb2a169ef6a1564d33ff095f97ee36f0c799166c87244305697e"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed6_unsigned_index",
+    "status": "MEASURED",
+    "source_sha256": "b252183fa39137d6af61dee7c18cee7f54cb8ca772199e2cbf10de0859b747ac",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": "burst",
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 6,
+      "sfb_next_read_mfma": 6,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "unsigned_tile_indices": true
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 488,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "unsigned_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "unsigned_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "unsigned_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "d676e10c9b580ec271bb56525665166139fc12455e081fd0441e73fbcdb48777",
+      "device.notes": "a01d8ae431ed3353623331c262a321b6e156a2c48cff220532a30bd5704d4119",
+      "libblockscale_bpreshuffle.so": "5f771de62a023043383340a882887bd1338c476eb60befc8580ffb910f4d52bc",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "4123e3e40bfa957fc9397abd48482a54a822e7f94c029e5b3c328c153c421b6c"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed6_unsigned_out6",
+    "status": "MEASURED",
+    "source_sha256": "3a29cdb1f460bb681450f878ace8c4d8c37bc50965e780b36a112dcd936b73f0",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": "burst",
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 6,
+      "sfb_next_read_mfma": 6,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "unsigned_tile_indices": true,
+      "output_bf16_valu_per_mfma": 6
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "combined_output_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "combined_output_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "combined_output_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "0b848418ca86b4d44d14de0e7a021b8bee72db7533e00315cfc157adf218a629",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "74d5b1a053f73546def14d84303b88ce89a5e06cfbc0cb98c8b71b26634a14ce",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "b2564baa7ebca3f5330dd6baf013504b09d287152ce6f6acbc9d1120d934b5f0"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed6_unsigned_quarter",
+    "status": "MEASURED",
+    "source_sha256": "759b8dbd2fbb1c4e6edcf8b00d83aa471946c8ed277e5860fc4dc67950f4df6f",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 6,
+      "sfb_next_read_mfma": 6,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "unsigned_tile_indices": true,
+      "output_bf16_valu_per_mfma": 2,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ]
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "combined_output_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "combined_output_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "combined_output_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "f921fd1ca6c8517e22e643e89301ddacb98a2c8b155aa745b52a7440b5935f6e",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "ebf4f1834cbcae183e645767e2f3841e7381afc31b375fa8feb69ef65afedbd9",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "24dab219a4ac578c4647ed38e7b099e2313be41cc72944d110b1f0970c24757e"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed6_unsigned_quarter6",
+    "status": "MEASURED",
+    "source_sha256": "cc4ef1e96020bbd440ba86ed6952e7ac2564b7aba70ba07f293b4d967b800cf3",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 6,
+      "sfb_next_read_mfma": 6,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "unsigned_tile_indices": true,
+      "output_bf16_valu_per_mfma": 6,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ]
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "combined_output_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "combined_output_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "combined_output_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "91a3b377cb4c8aca83e08bfe46615a03ac1e981f582f74afecd7a56368c46323",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "3b91e53f1d53bfadb0be4cb8f9f33dacd868b543a5983e861989f45a1f05f691",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "89eba6ef8c691468ca0559aa32eeaf2e9e880b1f2a8f483422cf29972320ec8f"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed6_unsigned_rows32",
+    "status": "MEASURED",
+    "source_sha256": "ee03eca9bdf13e2240c7822dadd4c78a06816b12b11b230c5e682d6774f0cf7d",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 6,
+      "sfb_next_read_mfma": 6,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "unsigned_tile_indices": true,
+      "output_group_rows": 32
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "row_groups_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "row_groups_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "row_groups_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "7605a69d6d86d0920e3ea9df87ffd5ae7167f5786937f35af781293575304db2",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "6b570ba723f9b10ae1fc28fa0d15d59a9cfc8628c28ba8c8d4216721d5c8fd24",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "7fe8f26b6ac66e2c4d139bf948f27459737813352a8f9c98c8ce70e73a2ef253"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed6_unsigned_rows64",
+    "status": "MEASURED",
+    "source_sha256": "604614ac4d2917a1c8ac525aefab99e7abf9b9a62de98ffb4e3dce831c33dca1",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 6,
+      "sfb_next_read_mfma": 6,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only",
+      "unsigned_tile_indices": true,
+      "output_group_rows": 64
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "row_groups_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "row_groups_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "row_groups_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "3ebd1fbad8c51fc82c5d2542b8ffd80d50fd1704366e467ad64e9cc0732f2f04",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "8325f2a17aedb7e83fe0cd7376a41b64f6af781f0750e58ccd39315c65ee4a5e",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "1122c9f03041eba2953f369a81dd64fd0fecf892c08bfd5c3fb66df34a72bb14"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed6_zero_after_loads",
+    "status": "REJECTED_BEFORE_GPU_RUN",
+    "source_sha256": "dd81009c2accc54e1775e0c9b4131e96e957a340531caedd43dd170c5120f606",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": "burst",
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 6,
+      "sfb_next_read_mfma": 6,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_write"
+    },
+    "build": {
+      "returncode": 2
+    },
+    "static_audit": null,
+    "rejection": {
+      "status": "REJECTED_BEFORE_GPU_RUN",
+      "reason": "Compiler hard-pin coalescing failure",
+      "build": {
+        "returncode": 2
+      }
+    },
+    "validation": {},
+    "measurement_tags": [],
+    "artifact_hashes": {},
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "packed6_zero_read_after_loads",
+    "status": "MEASURED",
+    "source_sha256": "fea59896874a418c8f056b5c6fa60faaba911f538d8d00a12f70e6f7fdf48523",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": "burst",
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 6,
+      "sfb_next_read_mfma": 6,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "read_only"
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 488,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "startup_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "startup_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "startup_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "feb50b500aa8a8a51396e3640313f0f13e34d1c71a27316a492cbf19470e62c2",
+      "device.notes": "a01d8ae431ed3353623331c262a321b6e156a2c48cff220532a30bd5704d4119",
+      "libblockscale_bpreshuffle.so": "61a04848222b41d26032b2da5fcdec83f69461bcbedbf4309dba630711c04301",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "fb6c4e70fa4ba11b37ce57f8c2932f905ad423f7ea00a71a1be494d0442c363a"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "preload_a0_after26",
+    "status": "MEASURED",
+    "source_sha256": "08a9eea1e39d7e35704926fa79228acb6fd63da2081b23037abf5cb66bac2cb1",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "split_sfa_b",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ],
+      "output_barriers_without_vmem_drain": [
+        3
+      ],
+      "a0_m0_prefetch_mfma": 26,
+      "a0_m0_install_mfma": 36
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 492,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 504,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "a0_refine_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "a0_refine_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "a0_refine_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "67322e07b245e56f18eb2db203187ea5643185edd98c699ed5c7cd57bcd930d3",
+      "device.notes": "14416d880818c336eb6cfa2a79b4874b355da24eddf77343b8766596be390e33",
+      "libblockscale_bpreshuffle.so": "ebcfc6e56843542f16a0a2a669f313aa7a11d0b1a7023d65fb24fbeebf790ca1",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "e2c537ed81e560fe4ff9f5ebc364dbb745cc3baa04047c542e86b3318419d123"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "preload_a0_after28",
+    "status": "MEASURED",
+    "source_sha256": "abddec70b6c8d9fdf2be010abe08f187e5a7f27e6323b94fca4b56e00e687d3b",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "split_sfa_b",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ],
+      "output_barriers_without_vmem_drain": [
+        3
+      ],
+      "a0_m0_prefetch_mfma": 28,
+      "a0_m0_install_mfma": 36
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 492,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 504,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "a0_refine_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "a0_refine_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "a0_refine_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "9bfb63683f9258fac59e60fc930c1a6ecae38a02d15a7f97a1753bcc28542214",
+      "device.notes": "14416d880818c336eb6cfa2a79b4874b355da24eddf77343b8766596be390e33",
+      "libblockscale_bpreshuffle.so": "b09dcdc54d25336da2464373a600d3f2eca6f2e5744a630212705fb58b8779f2",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "d7f30897bb1a0b91a7a86e022d9f4638496c79b8ce6132cbfd77583a58e4a98c"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "preload_a0_after32",
+    "status": "MEASURED",
+    "source_sha256": "285792fe7853de789d2320e41536711862741e7c88ac2e3710be2069898ad1f6",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "split_sfa_b",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ],
+      "output_barriers_without_vmem_drain": [
+        3
+      ],
+      "a0_m0_prefetch_mfma": 32,
+      "a0_m0_install_mfma": 36
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 492,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 488,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "a0_refine_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "a0_refine_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "a0_refine_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "d382b366b4e97d50aa6a1fc5bda8207ea5225aebce76de716d2508f04d615225",
+      "device.notes": "ee65a16bc5f1c19c1d18d7c9fe7ae3280517dddfb05906cb4cd14d118ccdcb7c",
+      "libblockscale_bpreshuffle.so": "0a5350bd024ac7afb8b8bb96b2b7fb3e62161a2525641b63c8aeb0f2144c3cb9",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "249433ee05158b469625e712f5ad169f910598eecdad47e7e5bb72118f1d56d2"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "preload_a0_prio_clean",
+    "status": "MEASURED",
+    "source_sha256": "3e3c19512ce9467b094aad71e561159a09d9b285c809618e913cdd261f693278",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "split_sfa_b",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ],
+      "output_barriers_without_vmem_drain": [
+        3
+      ],
+      "a0_m0_prefetch_mfma": 30,
+      "a0_m0_install_mfma": 36,
+      "omit_redundant_mfma36_setprio": true
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 504,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "a0_refine_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "a0_refine_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "a0_refine_gpu2",
+      "final_candidate_confirm_gpu2",
+      "tail_prefetch_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "f75a7b7c17a321025348f0f6d85bcae7ea8b6d94095adec1449f181a48822364",
+      "device.notes": "455ad41c6888f8bbf02dfc52d5710152805e5d5c720a5f745b89eaf2e12125d3",
+      "libblockscale_bpreshuffle.so": "820ff43e6960f162b5a8ffd767323e4972534f27ceab40f437e44c085934dcc1",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "c377a2738a7ac3b239ee667b655cab0a1e5320c5d35c79c27801fd7158fc5449"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "preload_tail_a1_m2",
+    "status": "MEASURED",
+    "source_sha256": "d15de71757bb15c9ce2ea31923fd831851fc69d4e300fff72edd4a20248e8807",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "split_sfa_b",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ],
+      "output_barriers_without_vmem_drain": [
+        3
+      ],
+      "a0_m0_prefetch_mfma": 30,
+      "a0_m0_install_mfma": 36,
+      "omit_redundant_mfma36_setprio": true,
+      "a1_m2_prefetch_mfma": 54,
+      "b1_n3_prefetch_mfma": null
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 492,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "tail_prefetch_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "tail_prefetch_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "tail_prefetch_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "5914b4a22171a2c4ebbb17d516a97702cae94eed257009f284fc372f68cfe301",
+      "device.notes": "c81fbaa904ad30bee7c7cf07820631d5a6772eab6d85608ee67c8dbcd5d20e24",
+      "libblockscale_bpreshuffle.so": "ed5318c271c5b2d21b487c03cc32efc460b27541629ba043db5fedb62b69059d",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "a7f9d0689c730f4556570167db8a6d38047a5f964e7ec0c081e783d0026dda5e"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "preload_tail_b1_n3",
+    "status": "MEASURED",
+    "source_sha256": "acf904132d80d84ad49d31d98bdc8cfb36433993a7bf549ae7806d00997090bb",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "split_sfa_b",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ],
+      "output_barriers_without_vmem_drain": [
+        3
+      ],
+      "a0_m0_prefetch_mfma": 30,
+      "a0_m0_install_mfma": 36,
+      "omit_redundant_mfma36_setprio": true,
+      "a1_m2_prefetch_mfma": null,
+      "b1_n3_prefetch_mfma": 50
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 492,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 512,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "tail_prefetch_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "tail_prefetch_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "tail_prefetch_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "6c3f175295cd224f684efad1715bd8218fee1e8b3f8bed20f7f3dcf91ffe2ab5",
+      "device.notes": "4531fcb522e53940366bb588af34c139818f80fe4fad016641b394bd85489bcd",
+      "libblockscale_bpreshuffle.so": "c5a7ec1d147914406af36f5fa8dcf30c089db250fe1c1a14e9c1d7bbde314503",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "5d7557fc1afb4369e24ee131f9905f8bc93f43d2755a7e0a0b8c4de085579884"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "preload_tail_both",
+    "status": "MEASURED",
+    "source_sha256": "55e1a9a952a33f0adce94a6710852483326bc4efe55ec15937f2f0c6a4f6fb82",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "split_sfa_b",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ],
+      "output_barriers_without_vmem_drain": [
+        3
+      ],
+      "a0_m0_prefetch_mfma": 30,
+      "a0_m0_install_mfma": 36,
+      "omit_redundant_mfma36_setprio": true,
+      "a1_m2_prefetch_mfma": 54,
+      "b1_n3_prefetch_mfma": 50
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 492,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 504,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "tail_prefetch_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "tail_prefetch_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "tail_prefetch_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "5ca6e9cc2ef60b9c703ce0d6bd849d1d437cfdc98ca2429b426b1faf893c8a65",
+      "device.notes": "14416d880818c336eb6cfa2a79b4874b355da24eddf77343b8766596be390e33",
+      "libblockscale_bpreshuffle.so": "7252fc00e3cf8bb910b148d33f0366fba3592afb7ed403ac73648cdfb13abbd3",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "12ef2d41cc0b4720321b93fc8edb195beae84c8d9d0f4d507ae6b83b499cfa39"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "scale_packed6",
+    "status": "MEASURED",
+    "source_sha256": "6d8d6add186cb2729a8d4eae60d659e62d025bce6bccc8d6302060f5d0fffdd3",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": "burst",
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 6,
+      "sfb_next_read_mfma": 6,
+      "sfa_read_pair": true
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 488,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "first_scales_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "first_scales_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "first_scales_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "fd0b7d0664b1a2e7a725fa6970f79fb1369b9e92f5af9db5b376c148913ae3c8",
+      "device.notes": "a01d8ae431ed3353623331c262a321b6e156a2c48cff220532a30bd5704d4119",
+      "libblockscale_bpreshuffle.so": "fdc5b52bd00d25b2b1d5bc4dfefb1fbcd1f6749b258727b8337dee42681fd996",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "7c52052f4c045f6e127a9308386930d1d468a0a3d0c09b0790927ff2870d2269"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "scale_split8_20",
+    "status": "MEASURED",
+    "source_sha256": "13890110222c841be0bba0cdf846968c0a7b44dc471bff9cae9b9e34cf17f983",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": "burst",
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 8,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": false
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 508,
+          "sgpr_count": 76,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 512,
+          "sgpr_count": 76,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "first_scales_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "first_scales_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "first_scales_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "08bc5496c5f36e20a2c16c0a6c8c3d53f32526a5ef36b8a726b6e9c237acb112",
+      "device.notes": "13c138bf58678257e431beb8c22084ea19b36a620541a2b8a8a2b478278ccc33",
+      "libblockscale_bpreshuffle.so": "3d3efe24b28664490db433974623068c5e0eca8cb1cec629b0b1aef3fa2a178e",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "0a65167656f061ad9a200e168018164a3f7393339c6dead9d39f17e47a1e9a93"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "sfb_allwave",
+    "status": "REJECTED_BEFORE_GPU_RUN",
+    "source_sha256": "eb02c31b6acafaccd5310f9fad6bb2d7a3812e60abba8643f2551f4aa62411cd",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": "burst",
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfb_global_read": "all_waves"
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 492,
+          "sgpr_count": 78,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 512,
+          "sgpr_count": 78,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 12,
+          "vgpr_spill_count": 2,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": null,
+    "rejection": {
+      "status": "REJECTED_BEFORE_GPU_RUN",
+      "reason": "Scratch or register spill in device metadata",
+      "build": {
+        "returncode": 0,
+        "generic_resources": [
+          {
+            "vgpr_count": 492,
+            "sgpr_count": 78,
+            "group_segment_fixed_size": 152064,
+            "private_segment_fixed_size": 0,
+            "vgpr_spill_count": 0,
+            "sgpr_spill_count": 0
+          },
+          {
+            "vgpr_count": 512,
+            "sgpr_count": 78,
+            "group_segment_fixed_size": 152064,
+            "private_segment_fixed_size": 12,
+            "vgpr_spill_count": 2,
+            "sgpr_spill_count": 0
+          }
+        ]
+      }
+    },
+    "validation": {},
+    "measurement_tags": [],
+    "artifact_hashes": {
+      "device.isa": "3514f4b1b497973b37d8b0c33eda37527909c4cb68798f6d8e6390de40cfe8c5",
+      "device.notes": "e257a49e927693de102f10552be925f74acd0e30b795ea9513ed6be53eddd3df",
+      "libblockscale_bpreshuffle.so": "690af2e4077d5abced718f31137dc942aa7e5eb3332c9d780806b67f16b9d2f2",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "fce721a4d890513c68ceb3148e84d5e6ac63bb5215dd45d82a73f738392c79b5"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "sfb_allwave_packed6",
+    "status": "REJECTED_BEFORE_GPU_RUN",
+    "source_sha256": "a4ff748ed2f7cf319ad1fe5dcf517f31225f0ec722b24ccfe4966bdcf24d41f0",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": "burst",
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfb_global_read": "all_waves",
+      "sfa_next_read_mfma": 6,
+      "sfb_next_read_mfma": 6,
+      "sfa_read_pair": true
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 76,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 512,
+          "sgpr_count": 76,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": null,
+    "rejection": {
+      "status": "REJECTED_BEFORE_GPU_RUN",
+      "reason": "Linked ISA introduced EXEC waterfall for initial B scalar offset; corrected by packed6_sfb_uniform"
+    },
+    "validation": {},
+    "measurement_tags": [],
+    "artifact_hashes": {
+      "device.isa": "0f957b0b4c690975f28c0f697b930f6fb44d7d3e7a2f78ca2c63ef06469bed8d",
+      "device.notes": "f1a16804c7baec63c7ef0ae8d3c6f5de194c407e03c15890ad859bb8bd689961",
+      "libblockscale_bpreshuffle.so": "add7bfbc7dbb2309ef6e27a68fc54a7ed5ee35fa50df5267cc0ad826a273246e",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "aded0e167584278899838df678a75c6d4f1f5c5d363997d7e3c6cb356a47de68"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "split_async36_all_strides_uniform",
+    "status": "REJECTED_BEFORE_GPU_RUN",
+    "source_sha256": "0d9ad589f2235cbd8b7419e5fb0ceea4ee2b132a5e9ad3be3fdbf29bbdc58157",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "split_sfa_b",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ],
+      "output_barriers_without_vmem_drain": [
+        3
+      ],
+      "initial_b_scalar_offset": "readfirstlane",
+      "canonical_stride_expressions": "all"
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": null,
+    "rejection": {
+      "status": "REJECTED_BEFORE_GPU_RUN",
+      "reason": "Canonical stride folding introduced EXEC waterfalls for initial matrix scalar offsets. Making only gb_offset explicit wave-uniform did not remove the ga_offset waterfall; initial producer reuse is tested separately.",
+      "build": {
+        "returncode": 0,
+        "generic_resources": [
+          {
+            "vgpr_count": 500,
+            "sgpr_count": 74,
+            "group_segment_fixed_size": 152064,
+            "private_segment_fixed_size": 0,
+            "vgpr_spill_count": 0,
+            "sgpr_spill_count": 0
+          },
+          {
+            "vgpr_count": 496,
+            "sgpr_count": 74,
+            "group_segment_fixed_size": 152064,
+            "private_segment_fixed_size": 0,
+            "vgpr_spill_count": 0,
+            "sgpr_spill_count": 0
+          }
+        ]
+      }
+    },
+    "validation": {},
+    "measurement_tags": [],
+    "artifact_hashes": {
+      "device.isa": "79763826d67977219a916085684bffcec508f11cccb5804a72296678097a2713",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "213846c84431dd3f9319fafd32fee1af09f0eb20d45809e67e831862c9951263",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "a12c7c6f4e1361d757c36700086eb3b4c710e967a3e4024065ab7e54035b5435"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "split_async36_initial_roles",
+    "status": "MEASURED",
+    "source_sha256": "f4ae5292cd21d95cc6aa0e5f3a6f668710071a2420903b520f7418289d7f309b",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "split_sfa_b",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ],
+      "output_barriers_without_vmem_drain": [
+        3
+      ],
+      "initial_matrix_producer": "main_roles",
+      "initial_matrix_split": true
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "initial_roll_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "initial_roll_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "initial_roll_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "d7cb4244bc4eddc9f437a0af0c53adb005f4655d101e35b44a987ec8f9421f56",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "7046f09a0386ba508a2826ef151657957f70a2459d1f3d4737fb0fe357bff134",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "e777db207a194e4894e16303843c90ab1965fd20a0d001a9404df2df2c85eaf8"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "split_async36_initial_roles_early",
+    "status": "MEASURED",
+    "source_sha256": "2e8c6d8b29e8c3dfe48bad37b72c34bb1e4ce7a9e00ac71caab5cd40a6ee3c1f",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "split_sfa_b",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ],
+      "output_barriers_without_vmem_drain": [
+        3
+      ],
+      "initial_matrix_producer": "main_roles",
+      "initial_matrix_split": false
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "initial_roll_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "initial_roll_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "initial_roll_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "1b657d9e2445cfffa2a53b49b7f3c494e1e083a38bccfea94e6e73433539d160",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "dfd631471c0da2bcb29330cef5ca010d3458ba0f997db55dd892e37bda9e88fb",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "e143f332ddae0328ae965ba8ad2183948b792200d595b9f97aad2512d85a3cee"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "split_async36_initial_roles_strides",
+    "status": "MEASURED",
+    "source_sha256": "cc1f4271914ecdc70ee877d63f0eaad48134ad0ac92f2a3a95b8b0a3d215b609",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "split_sfa_b",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ],
+      "output_barriers_without_vmem_drain": [
+        3
+      ],
+      "initial_matrix_producer": "main_roles",
+      "initial_matrix_split": true,
+      "canonical_stride_expressions": "all"
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 72,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 72,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "initial_roll_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "initial_roll_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "initial_roll_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "60b5917325a91dd8a0484e9c2d384414ee59e73facd3178ed1cf7c8eff102f51",
+      "device.notes": "23f162024ab58d5ffa73c02fd18272063d3f5345cbe59a5a750981f821f227f7",
+      "libblockscale_bpreshuffle.so": "34630a91c868513e05ffcef7d65fd668b307c4092c53305841420433364ee9d5",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "63d7d739cfd7340c6e0c88297e995ff9e5ec1a4ec6e343ecb0568b6ab2d39fd5"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "split_async36_matrix_stride_uniform",
+    "status": "REJECTED_BEFORE_GPU_RUN",
+    "source_sha256": "fe3e2b475e486fdc67d77762e64c3c816c4536a7125a685b02fca4cbd5ea8826",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "split_sfa_b",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ],
+      "output_barriers_without_vmem_drain": [
+        3
+      ],
+      "initial_b_scalar_offset": "readfirstlane",
+      "canonical_stride_expressions": "matrix"
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": null,
+    "rejection": {
+      "status": "REJECTED_BEFORE_GPU_RUN",
+      "reason": "Canonical stride folding introduced EXEC waterfalls for initial matrix scalar offsets. Making only gb_offset explicit wave-uniform did not remove the ga_offset waterfall; initial producer reuse is tested separately.",
+      "build": {
+        "returncode": 0,
+        "generic_resources": [
+          {
+            "vgpr_count": 500,
+            "sgpr_count": 74,
+            "group_segment_fixed_size": 152064,
+            "private_segment_fixed_size": 0,
+            "vgpr_spill_count": 0,
+            "sgpr_spill_count": 0
+          },
+          {
+            "vgpr_count": 496,
+            "sgpr_count": 74,
+            "group_segment_fixed_size": 152064,
+            "private_segment_fixed_size": 0,
+            "vgpr_spill_count": 0,
+            "sgpr_spill_count": 0
+          }
+        ]
+      }
+    },
+    "validation": {},
+    "measurement_tags": [],
+    "artifact_hashes": {
+      "device.isa": "d5c2a0eae748862cda9a46c17ba976c690d2308c3dc69545874ca3b7ba328307",
+      "device.notes": "96a55518130e309b2c212bbd8c19f3cc5c4c43564d7fc9e36062eb519a984fd1",
+      "libblockscale_bpreshuffle.so": "c10ea23b362877c4ae90c6d00c00fa0eed429c9cf89b7a92471419ef48bf3082",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "b438a40a06440cdfc7481a9299ee629cccab8188f71dfb6612dfb917b9a75188"
+    },
+    "instruction_equivalent_measured_candidate": null
+  },
+  {
+    "name": "split_async36_preload_a0_m0",
+    "status": "MEASURED",
+    "source_sha256": "8a53242baa5689b99ac9f6c3e788c3fc197753facdd44de6c85c19e8449f0207",
+    "config": {
+      "lds_output": true,
+      "release_mfma": 5,
+      "unified_k1": true,
+      "early_a1_m3": true,
+      "scale_panel_tiles": 64,
+      "unroll": 8,
+      "explicit_retire_vmem_wait": true,
+      "output_rows": true,
+      "store_delay": 4,
+      "lds_vector_elements": 4,
+      "panel_global_loads": "four_before_transpose",
+      "initial_publish": "after_B_requests",
+      "output_half_overlap": false,
+      "first_half_publication_mfma": 36,
+      "final_barrier_vmem_drain": true,
+      "sfa_next_read_mfma": 2,
+      "sfb_next_read_mfma": 20,
+      "sfa_read_pair": true,
+      "accumulator_early_use": "split_sfa_b",
+      "unsigned_tile_indices": true,
+      "output_quarter_publication_mfmas": [
+        20,
+        36,
+        52,
+        64
+      ],
+      "output_barriers_without_vmem_drain": [
+        3
+      ],
+      "a0_m0_prefetch_mfma": 30,
+      "a0_m0_install_mfma": 36
+    },
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 504,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    },
+    "static_audit": "PASS",
+    "rejection": null,
+    "validation": {
+      "shape_validation": [
+        {
+          "tag": "initial_roll_gpu2",
+          "checks": 32
+        }
+      ],
+      "full_validation": [
+        {
+          "tag": "initial_roll_gpu2",
+          "checks": 4
+        }
+      ]
+    },
+    "measurement_tags": [
+      "a0_refine_gpu2",
+      "final_candidate_confirm_gpu2",
+      "initial_roll_gpu2"
+    ],
+    "artifact_hashes": {
+      "device.isa": "0de43d516eb76d3a5fd76d65f0bc6fa97776821fd9642f9a67007761afad1c53",
+      "device.notes": "455ad41c6888f8bbf02dfc52d5710152805e5d5c720a5f745b89eaf2e12125d3",
+      "libblockscale_bpreshuffle.so": "fc8822de1073127b4578bc39ef1279d76086adcd6cfff4915145cf662857b01d",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "a50082174f7775aaca30147dc1493f59ea353ce30639fd2705a99d03945ad185"
+    },
+    "instruction_equivalent_measured_candidate": null
+  }
+]

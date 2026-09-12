@@ -1,0 +1,237 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL packed6_quarter_output bf16 67108864 outputs
+FULL_BASELINE_EQUAL packed6_quarter_output fp32 67108864 outputs
+FULL_BASELINE_EQUAL packed6_output_valu4 bf16 67108864 outputs
+FULL_BASELINE_EQUAL packed6_output_valu4 fp32 67108864 outputs
+FULL_BASELINE_EQUAL packed6_output_valu6 bf16 67108864 outputs
+FULL_BASELINE_EQUAL packed6_output_valu6 fp32 67108864 outputs
+FULL_BASELINE_EQUAL packed6_output_valu8 bf16 67108864 outputs
+FULL_BASELINE_EQUAL packed6_output_valu8 fp32 67108864 outputs
+FULL_BASELINE_EQUAL packed6_unroll4 bf16 67108864 outputs
+FULL_BASELINE_EQUAL packed6_unroll4 fp32 67108864 outputs
+FULL_BASELINE_EQUAL packed6_unroll16 bf16 67108864 outputs
+FULL_BASELINE_EQUAL packed6_unroll16 fp32 67108864 outputs
+1 baseline bf16: 0.341882885 ms / 3.216048 P
+1 packed6_quarter_output bf16: 0.339632422 ms / 3.237358 P
+1 baseline bf16: 0.341563106 ms / 3.219059 P
+1 baseline bf16: 0.341193855 ms / 3.222542 P
+1 packed6_output_valu4 bf16: 0.340159446 ms / 3.232342 P
+1 baseline bf16: 0.341703862 ms / 3.217733 P
+1 baseline bf16: 0.341835529 ms / 3.216493 P
+1 packed6_output_valu6 bf16: 0.339580387 ms / 3.237854 P
+1 baseline bf16: 0.341702014 ms / 3.217750 P
+1 baseline bf16: 0.341950297 ms / 3.215414 P
+1 packed6_output_valu8 bf16: 0.340896010 ms / 3.225358 P
+1 baseline bf16: 0.342217207 ms / 3.212906 P
+1 baseline bf16: 0.342435956 ms / 3.210853 P
+1 packed6_unroll4 bf16: 0.340057522 ms / 3.233311 P
+1 baseline bf16: 0.341531157 ms / 3.219360 P
+1 baseline bf16: 0.341496766 ms / 3.219684 P
+1 packed6_unroll16 bf16: 0.343045622 ms / 3.205147 P
+1 baseline bf16: 0.342040777 ms / 3.214563 P
+1 baseline fp32: 0.363228559 ms / 3.027052 P
+1 packed6_quarter_output fp32: 0.361589789 ms / 3.040771 P
+1 baseline fp32: 0.363225371 ms / 3.027078 P
+1 baseline fp32: 0.363068610 ms / 3.028385 P
+1 packed6_output_valu4 fp32: 0.363268167 ms / 3.026722 P
+1 baseline fp32: 0.363449752 ms / 3.025209 P
+1 baseline fp32: 0.363539785 ms / 3.024460 P
+1 packed6_output_valu6 fp32: 0.362744182 ms / 3.031094 P
+1 baseline fp32: 0.362987429 ms / 3.029063 P
+1 baseline fp32: 0.362954170 ms / 3.029340 P
+1 packed6_output_valu8 fp32: 0.363507360 ms / 3.024730 P
+1 baseline fp32: 0.363601327 ms / 3.023948 P
+1 baseline fp32: 0.363070577 ms / 3.028369 P
+1 packed6_unroll4 fp32: 0.361454159 ms / 3.041912 P
+1 baseline fp32: 0.362733394 ms / 3.031184 P
+1 baseline fp32: 0.362536967 ms / 3.032826 P
+1 packed6_unroll16 fp32: 0.363534212 ms / 3.024507 P
+1 baseline fp32: 0.363126993 ms / 3.027898 P
+2 baseline bf16: 0.342999995 ms / 3.205573 P
+2 packed6_unroll16 bf16: 0.343612015 ms / 3.199864 P
+2 baseline bf16: 0.342530787 ms / 3.209964 P
+2 baseline bf16: 0.342605203 ms / 3.209267 P
+2 packed6_unroll4 bf16: 0.341038823 ms / 3.224007 P
+2 baseline bf16: 0.342569619 ms / 3.209601 P
+2 baseline bf16: 0.342563599 ms / 3.209657 P
+2 packed6_output_valu8 bf16: 0.341253191 ms / 3.221982 P
+2 baseline bf16: 0.342870831 ms / 3.206781 P
+2 baseline bf16: 0.343138844 ms / 3.204276 P
+2 packed6_output_valu6 bf16: 0.339928031 ms / 3.234542 P
+2 baseline bf16: 0.342275649 ms / 3.212357 P
+2 baseline bf16: 0.343012422 ms / 3.205457 P
+2 packed6_output_valu4 bf16: 0.341338813 ms / 3.221174 P
+2 baseline bf16: 0.342906833 ms / 3.206444 P
+2 baseline bf16: 0.343175232 ms / 3.203936 P
+2 packed6_quarter_output bf16: 0.340551972 ms / 3.228616 P
+2 baseline bf16: 0.342549235 ms / 3.209792 P
+2 baseline fp32: 0.363796204 ms / 3.022328 P
+2 packed6_unroll16 fp32: 0.364595443 ms / 3.015703 P
+2 baseline fp32: 0.363176197 ms / 3.027488 P
+2 baseline fp32: 0.362846226 ms / 3.030241 P
+2 packed6_unroll4 fp32: 0.362033814 ms / 3.037041 P
+2 baseline fp32: 0.363800228 ms / 3.022295 P
+2 baseline fp32: 0.363369405 ms / 3.025878 P
+2 packed6_output_valu8 fp32: 0.364026636 ms / 3.020415 P
+2 baseline fp32: 0.363511384 ms / 3.024697 P
+2 baseline fp32: 0.364206225 ms / 3.018926 P
+2 packed6_output_valu6 fp32: 0.363767862 ms / 3.022564 P
+2 baseline fp32: 0.363853037 ms / 3.021856 P
+2 baseline fp32: 0.364024997 ms / 3.020429 P
+2 packed6_output_valu4 fp32: 0.364049047 ms / 3.020229 P
+2 baseline fp32: 0.363058597 ms / 3.028469 P
+2 baseline fp32: 0.363710582 ms / 3.023040 P
+2 packed6_quarter_output fp32: 0.362558216 ms / 3.032648 P
+2 baseline fp32: 0.363974184 ms / 3.020851 P
+3 baseline bf16: 0.342897654 ms / 3.206530 P
+3 packed6_quarter_output bf16: 0.340567619 ms / 3.228468 P
+3 baseline bf16: 0.342894047 ms / 3.206564 P
+3 baseline bf16: 0.342767268 ms / 3.207750 P
+3 packed6_output_valu4 bf16: 0.341464847 ms / 3.219985 P
+3 baseline bf16: 0.343632042 ms / 3.199677 P
+3 baseline bf16: 0.343294024 ms / 3.202828 P
+3 packed6_output_valu6 bf16: 0.341262430 ms / 3.221895 P
+3 baseline bf16: 0.343064427 ms / 3.204971 P
+3 baseline bf16: 0.343030065 ms / 3.205292 P
+3 packed6_output_valu8 bf16: 0.342273623 ms / 3.212376 P
+3 baseline bf16: 0.342748046 ms / 3.207930 P
+3 baseline bf16: 0.343272060 ms / 3.203033 P
+3 packed6_unroll4 bf16: 0.341471642 ms / 3.219921 P
+3 baseline bf16: 0.343459666 ms / 3.201283 P
+3 baseline bf16: 0.342932850 ms / 3.206201 P
+3 packed6_unroll16 bf16: 0.344513297 ms / 3.191493 P
+3 baseline bf16: 0.343550086 ms / 3.200441 P
+3 baseline fp32: 0.363980651 ms / 3.020797 P
+3 packed6_quarter_output fp32: 0.362738222 ms / 3.031144 P
+3 baseline fp32: 0.363735050 ms / 3.022837 P
+3 baseline fp32: 0.363727838 ms / 3.022897 P
+3 packed6_output_valu4 fp32: 0.364181012 ms / 3.019135 P
+3 baseline fp32: 0.364191860 ms / 3.019045 P
+3 baseline fp32: 0.363472223 ms / 3.025022 P
+3 packed6_output_valu6 fp32: 0.363686264 ms / 3.023242 P
+3 baseline fp32: 0.363938242 ms / 3.021149 P
+3 baseline fp32: 0.363931060 ms / 3.021209 P
+3 packed6_output_valu8 fp32: 0.364591449 ms / 3.015736 P
+3 baseline fp32: 0.363515437 ms / 3.024663 P
+3 baseline fp32: 0.363746613 ms / 3.022741 P
+3 packed6_unroll4 fp32: 0.362060994 ms / 3.036813 P
+3 baseline fp32: 0.363345414 ms / 3.026078 P
+3 baseline fp32: 0.364045024 ms / 3.020263 P
+3 packed6_unroll16 fp32: 0.364758223 ms / 3.014357 P
+3 baseline fp32: 0.364058226 ms / 3.020153 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.34267662465572357,
+    "min_ms": 0.3411938548088074,
+    "max_ms": 0.3436320424079895,
+    "median_pflops": 3.208598277984805
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.3635276108980179,
+    "min_ms": 0.3625369668006897,
+    "max_ms": 0.3642062246799469,
+    "median_pflops": 3.0245615320935038
+  },
+  {
+    "name": "packed6_quarter_output",
+    "dtype": "bf16",
+    "median_ms": 0.3405519723892212,
+    "min_ms": 0.33963242173194885,
+    "max_ms": 0.34056761860847473,
+    "median_pflops": 3.228616237522049
+  },
+  {
+    "name": "packed6_quarter_output",
+    "dtype": "fp32",
+    "median_ms": 0.3625582158565521,
+    "min_ms": 0.36158978939056396,
+    "max_ms": 0.3627382218837738,
+    "median_pflops": 3.03264849529993
+  },
+  {
+    "name": "packed6_output_valu4",
+    "dtype": "bf16",
+    "median_ms": 0.3413388133049011,
+    "min_ms": 0.34015944600105286,
+    "max_ms": 0.3414648473262787,
+    "median_pflops": 3.2211737573302583
+  },
+  {
+    "name": "packed6_output_valu4",
+    "dtype": "fp32",
+    "median_ms": 0.3640490472316742,
+    "min_ms": 0.3632681667804718,
+    "max_ms": 0.3641810119152069,
+    "median_pflops": 3.0202293788075507
+  },
+  {
+    "name": "packed6_output_valu6",
+    "dtype": "bf16",
+    "median_ms": 0.3399280309677124,
+    "min_ms": 0.33958038687705994,
+    "max_ms": 0.34126242995262146,
+    "median_pflops": 3.2345423960651116
+  },
+  {
+    "name": "packed6_output_valu6",
+    "dtype": "fp32",
+    "median_ms": 0.3636862635612488,
+    "min_ms": 0.36274418234825134,
+    "max_ms": 0.3637678623199463,
+    "median_pflops": 3.0232421126095956
+  },
+  {
+    "name": "packed6_output_valu8",
+    "dtype": "bf16",
+    "median_ms": 0.3412531912326813,
+    "min_ms": 0.34089601039886475,
+    "max_ms": 0.34227362275123596,
+    "median_pflops": 3.2219819653680695
+  },
+  {
+    "name": "packed6_output_valu8",
+    "dtype": "fp32",
+    "median_ms": 0.36402663588523865,
+    "min_ms": 0.36350736021995544,
+    "max_ms": 0.36459144949913025,
+    "median_pflops": 3.0204153196158616
+  },
+  {
+    "name": "packed6_unroll4",
+    "dtype": "bf16",
+    "median_ms": 0.3410388231277466,
+    "min_ms": 0.34005752205848694,
+    "max_ms": 0.3414716422557831,
+    "median_pflops": 3.2240072191550584
+  },
+  {
+    "name": "packed6_unroll4",
+    "dtype": "fp32",
+    "median_ms": 0.36203381419181824,
+    "min_ms": 0.36145415902137756,
+    "max_ms": 0.3620609939098358,
+    "median_pflops": 3.0370412504988833
+  },
+  {
+    "name": "packed6_unroll16",
+    "dtype": "bf16",
+    "median_ms": 0.34361201524734497,
+    "min_ms": 0.3430456221103668,
+    "max_ms": 0.34451329708099365,
+    "median_pflops": 3.199863738712774
+  },
+  {
+    "name": "packed6_unroll16",
+    "dtype": "fp32",
+    "median_ms": 0.3645954430103302,
+    "min_ms": 0.36353421211242676,
+    "max_ms": 0.3647582232952118,
+    "median_pflops": 3.0157031549756566
+  }
+]

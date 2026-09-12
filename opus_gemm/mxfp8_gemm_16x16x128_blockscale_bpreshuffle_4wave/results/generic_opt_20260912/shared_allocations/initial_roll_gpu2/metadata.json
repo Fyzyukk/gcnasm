@@ -1,0 +1,83 @@
+{
+  "comparison_reference": "packed2_20_split_async36",
+  "gpu": "AMD Instinct MI355X",
+  "physical_card": "card2",
+  "hip_visible_devices": "2",
+  "pci": "0000:65:00.0",
+  "comparison_scope": "Contemporaneous same-device, same-tensor-address comparison; report this card and this run baseline",
+  "timestamp_utc": "2026-09-12T04:29:41.253404+00:00",
+  "initial_device_status": {
+    "GPU use (%)": "0",
+    "GFX Activity": "3031882333",
+    "GPU Memory Allocated (VRAM%)": "0",
+    "GPU Memory Read/Write Activity (%)": "0",
+    "Memory Activity": "1634324109",
+    "Avg. Memory Bandwidth": "0",
+    "PCI Bus": "0000:65:00.0"
+  },
+  "shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "batch": 1,
+  "warmup": 200,
+  "iterations": 100,
+  "rounds": 3,
+  "versions": {
+    "packed2_20_split_async36": {
+      "path": "/tmp/mxfp8_generic_opt_20260912_f3qjc1d5/packed2_20_split_async36",
+      "source_sha256": "1c857f37a27b039c48c1a1cd916790972c119fb61ce9dbcdc6219977922b0591",
+      "specialized_source_sha256": null,
+      "traits_sha256": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "dispatch_sha256": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "library_sha256": "6db4b276e89db41d449a7532fd0e32412f8a9afbae5acb6029e4915ce61bb96c"
+    },
+    "split_async36_initial_roles": {
+      "path": "/tmp/mxfp8_generic_opt_20260912_f3qjc1d5/split_async36_initial_roles",
+      "source_sha256": "f4ae5292cd21d95cc6aa0e5f3a6f668710071a2420903b520f7418289d7f309b",
+      "specialized_source_sha256": null,
+      "traits_sha256": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "dispatch_sha256": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "library_sha256": "7046f09a0386ba508a2826ef151657957f70a2459d1f3d4737fb0fe357bff134"
+    },
+    "split_async36_initial_roles_early": {
+      "path": "/tmp/mxfp8_generic_opt_20260912_f3qjc1d5/split_async36_initial_roles_early",
+      "source_sha256": "2e8c6d8b29e8c3dfe48bad37b72c34bb1e4ce7a9e00ac71caab5cd40a6ee3c1f",
+      "specialized_source_sha256": null,
+      "traits_sha256": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "dispatch_sha256": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "library_sha256": "dfd631471c0da2bcb29330cef5ca010d3458ba0f997db55dd892e37bda9e88fb"
+    },
+    "split_async36_initial_roles_strides": {
+      "path": "/tmp/mxfp8_generic_opt_20260912_f3qjc1d5/split_async36_initial_roles_strides",
+      "source_sha256": "cc1f4271914ecdc70ee877d63f0eaad48134ad0ac92f2a3a95b8b0a3d215b609",
+      "specialized_source_sha256": null,
+      "traits_sha256": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "dispatch_sha256": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "library_sha256": "34630a91c868513e05ffcef7d65fd668b307c4092c53305841420433364ee9d5"
+    },
+    "split_async36_preload_a0_m0": {
+      "path": "/tmp/mxfp8_generic_opt_20260912_f3qjc1d5/split_async36_preload_a0_m0",
+      "source_sha256": "8a53242baa5689b99ac9f6c3e788c3fc197753facdd44de6c85c19e8449f0207",
+      "specialized_source_sha256": null,
+      "traits_sha256": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+      "dispatch_sha256": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+      "library_sha256": "fc8822de1073127b4578bc39ef1279d76086adcd6cfff4915145cf662857b01d"
+    }
+  },
+  "pointers": {
+    "A": 140022105767936,
+    "B": 140021336113152,
+    "SFA": 140023435362304,
+    "SFB": 140023435886592,
+    "bf16": 140021199798272,
+    "fp32": 140020929265664
+  },
+  "input_pattern": "Exact CLI seed=1 generator and host FP8 type",
+  "timing": "HIP events around 100 C ABI launches, no preprocessing",
+  "bracketed": true,
+  "telemetry_enabled": false,
+  "native_timing": true,
+  "benchmark_helper_sha256": "e1725b8fbc942b4b83df5f6e798546790b8e2687011d7d3841e4e5971f2286c3"
+}

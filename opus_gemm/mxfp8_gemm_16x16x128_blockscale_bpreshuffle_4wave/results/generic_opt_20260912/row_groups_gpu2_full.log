@@ -1,0 +1,15 @@
+[aiter] import [module_aiter_core] under /sgl-workspace/aiter/aiter/jit/module_aiter_core.so
+[aiter] ROCm/HIP JIT runtime not available: cannot import name 'fly_values' from 'flydsl.compiler.protocol' (/opt/venv/lib/python3.10/site-packages/flydsl/compiler/protocol.py). CK and HIP ops are disabled. Triton ops remain available.
+/opt/venv/lib/python3.10/site-packages/torch/__init__.py:1605: UserWarning: Please use the new API settings to control TF32 behavior, such as torch.backends.cudnn.conv.fp32_precision = 'tf32' or torch.backends.cuda.matmul.fp32_precision = 'ieee'. Old settings, e.g, torch.backends.cuda.matmul.allow_tf32 = True, torch.backends.cudnn.allow_tf32 = True, allowTF32CuDNN() and allowTF32CuBLAS() will be deprecated after Pytorch 2.9. Please see https://pytorch.org/docs/main/notes/cuda.html#tensorfloat-32-tf32-on-ampere-and-later-devices (Triggered internally at /app/pytorch/aten/src/ATen/Context.cpp:80.)
+  _C._set_float32_matmul_precision(precision)
+PASS dyadic_independent_dequantized_gemm baseline fp32 67108864 outputs exactly equal
+PASS dyadic_independent_dequantized_gemm baseline bf16 67108864 outputs exactly equal
+PASS dyadic_independent_dequantized_gemm packed6_unsigned_rows32 fp32 67108864 outputs exactly equal
+PASS dyadic_independent_dequantized_gemm packed6_unsigned_rows32 bf16 67108864 outputs exactly equal
+PASS dyadic_independent_dequantized_gemm packed6_unsigned_rows64 fp32 67108864 outputs exactly equal
+PASS dyadic_independent_dequantized_gemm packed6_unsigned_rows64 bf16 67108864 outputs exactly equal
+PASS cli_seed1_validated_baseline packed6_unsigned_rows32 fp32 67108864 outputs exactly equal
+PASS cli_seed1_validated_baseline packed6_unsigned_rows32 bf16 67108864 outputs exactly equal
+PASS cli_seed1_validated_baseline packed6_unsigned_rows64 fp32 67108864 outputs exactly equal
+PASS cli_seed1_validated_baseline packed6_unsigned_rows64 bf16 67108864 outputs exactly equal
+ALL FULL OUTPUT CHECKS PASSED; no performance timing

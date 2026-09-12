@@ -1,0 +1,188 @@
+{
+  "sfb_allwave": {
+    "status": "REJECTED_BEFORE_GPU_RUN",
+    "reason": "Scratch or register spill in device metadata",
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 492,
+          "sgpr_count": 78,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 512,
+          "sgpr_count": 78,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 12,
+          "vgpr_spill_count": 2,
+          "sgpr_spill_count": 0
+        }
+      ]
+    }
+  },
+  "packed6_zero_after_loads": {
+    "status": "REJECTED_BEFORE_GPU_RUN",
+    "reason": "Compiler hard-pin coalescing failure",
+    "build": {
+      "returncode": 2
+    }
+  },
+  "packed6_schedule_salu": {
+    "status": "REJECTED_BEFORE_GPU_RUN",
+    "reason": "Scratch or register spill in device metadata",
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 492,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 512,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 8,
+          "vgpr_spill_count": 1,
+          "sgpr_spill_count": 0
+        }
+      ]
+    }
+  },
+  "packed6_schedule_salu_valu": {
+    "status": "REJECTED_BEFORE_GPU_RUN",
+    "reason": "Scratch or register spill in device metadata",
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 492,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 512,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 8,
+          "vgpr_spill_count": 1,
+          "sgpr_spill_count": 0
+        }
+      ]
+    }
+  },
+  "sfb_allwave_packed6": {
+    "status": "REJECTED_BEFORE_GPU_RUN",
+    "reason": "Linked ISA introduced EXEC waterfall for initial B scalar offset; corrected by packed6_sfb_uniform"
+  },
+  "packed2_20_matrix_stride": {
+    "status": "REJECTED_BEFORE_GPU_RUN",
+    "reason": "Canonical stride folding introduced EXEC waterfalls for initial matrix scalar offsets. Making only gb_offset explicit wave-uniform did not remove the ga_offset waterfall; initial producer reuse is tested separately.",
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    }
+  },
+  "packed2_20_all_strides": {
+    "status": "REJECTED_BEFORE_GPU_RUN",
+    "reason": "Canonical stride folding introduced EXEC waterfalls for initial matrix scalar offsets. Making only gb_offset explicit wave-uniform did not remove the ga_offset waterfall; initial producer reuse is tested separately.",
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    }
+  },
+  "split_async36_matrix_stride_uniform": {
+    "status": "REJECTED_BEFORE_GPU_RUN",
+    "reason": "Canonical stride folding introduced EXEC waterfalls for initial matrix scalar offsets. Making only gb_offset explicit wave-uniform did not remove the ga_offset waterfall; initial producer reuse is tested separately.",
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    }
+  },
+  "split_async36_all_strides_uniform": {
+    "status": "REJECTED_BEFORE_GPU_RUN",
+    "reason": "Canonical stride folding introduced EXEC waterfalls for initial matrix scalar offsets. Making only gb_offset explicit wave-uniform did not remove the ga_offset waterfall; initial producer reuse is tested separately.",
+    "build": {
+      "returncode": 0,
+      "generic_resources": [
+        {
+          "vgpr_count": 500,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        },
+        {
+          "vgpr_count": 496,
+          "sgpr_count": 74,
+          "group_segment_fixed_size": 152064,
+          "private_segment_fixed_size": 0,
+          "vgpr_spill_count": 0,
+          "sgpr_spill_count": 0
+        }
+      ]
+    }
+  }
+}

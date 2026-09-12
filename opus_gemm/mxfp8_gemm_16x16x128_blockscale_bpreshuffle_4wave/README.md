@@ -5,20 +5,20 @@ gfx950 4-wave blockscale bpreshuffle GEMM
 
 **执行模式为 4wave + tile1。** 本项目的 tile 数量指每个工作组处理的完整 **256×256 输出块数量**：tile1 每WG独立处理1块；tile2/tile4 为每WG连续处理2/4块的持久化方案。当前 `traits.hpp` 的 `OUTPUT_TILES_PER_WG=1`，接口 `tiles=0`（auto）也选择1，CLI、Python与C ABI均只接受0/1。K方向另有2-stage LDS双缓冲。
 
-最终版本为 `generic_tile1_final_20260912`，基于通过五轮确认的 `stream64_batch_output_burst` 清理而来。当前构建只含通用kernel的BF16/FP32两种输出实例。清理前后的通用机器指令完全一致；完整正确性、适配器检查和测量见 [最终记录](results/final_generic_20260912/README.md)。
+当前版本为 `generic_tile1_opt_20260912`，基于通过五轮确认的 `split_async36_preload_a0_m0` 清理而来。本轮在提交 `f0b117c` 的通用版本上继续优化scale预取、启动初始化、A0操作数滚动和BF16输出。构建只含通用kernel的BF16/FP32两种输出实例，清理前后的全部有效机器指令一致。源码、正确性和测量见 [本轮记录](results/generic_opt_20260912/README.md)。
 
 最终构建在GPU2（HIP2，PCI `0000:65:00.0`）实测，M=N=K、batch1、warmup200、iterations100、CLI seed1，五轮中位数：
 
 | M=N=K | BF16 ms | BF16 P | FP32 ms | FP32 P |
 | ---: | ---: | ---: | ---: | ---: |
-| 8192 | 0.342066650 | **3.214320** | 0.362748337 | **3.031059** |
-| 1024 | 0.014202470 | 0.151205 | 0.018589730 | 0.115520 |
-| 2048 | 0.022676940 | 0.757592 | 0.026594579 | 0.645991 |
-| 4096 | 0.049726748 | 2.763884 | 0.056115160 | 2.449230 |
+| 8192 | 0.337379951 | **3.258971** | 0.360149727 | **3.052929** |
+| 1024 | 0.013984480 | 0.153562 | 0.018498060 | 0.116092 |
+| 2048 | 0.022171280 | 0.774870 | 0.026286960 | 0.653551 |
+| 4096 | 0.049476609 | 2.777857 | 0.055901971 | 2.458571 |
 
-同一确认窗口中，BF16从原通用2.887246P提升到3.213513P；迁移检查点为3.183753P。新增收益来自scale全局读取与转置重叠，以及最后一轮前128列输出提前合并写回。3.5P目标尚未达到。8192用于compute-bound优化；另外三个尺寸按用户要求补测，不改变通用支持范围。
+本轮基线明确固定为提交 `f0b117c4c18a543d73953776dae32b8df6949c8c` 的通用4wave/tile1版本。五轮同地址交替确认中，BF16为基线3.213499P、候选3.261905P，FP32为3.023532P、3.051683P；相邻基线归一化后的提升中位数分别为1.582%和0.909%，两种输出均五轮为正。上表是清理后正式构建的独立五轮结果。**3.5P目标尚未达到。** 8192用于compute-bound优化，另外三个尺寸用于记录最终性能。此前3.214P检查点见 [上一版记录](results/final_generic_20260912/README.md)。
 
-历史专用3.214P、持久化tile2/tile4对照及未采用实验保留在 `results/` 的冻结记录和归档中，不参与当前构建。继续工作的入口为 [通用路径续记](CONTINUATION_20260911_GENERIC35.md)。
+历史专用3.214P、持久化tile2/tile4对照及未采用实验保留在 `results/` 的冻结记录和归档中，不参与当前构建。继续工作的入口为 [最新通用路径续记](CONTINUATION_20260912_GENERIC35.md)。
 
 输入和输出
 ----------
@@ -45,7 +45,7 @@ Blockscale 的输入契约及打包 scale / `op_sel` 方案来自此前的 8-wav
 1. A_scale：每个面板256行×64个K128分组，共 **16 KiB**。先一起发出四组向量全局读取，再用quad DPP和byte permute在寄存器内打包，直接写入最终LDS布局。启动时B矩阵请求与scale转置重叠。
 2. 每个 A dword 的四个字节属于四个 M repeat：`s[r,q]、s[r+32,q]、s[r+64,q]、s[r+96,q]`。另一个 M128 half 使用另一组 dword。
 3. B_scale：两个 N128 分组 × 64 个 K128 分组，共 **128 字节**输入。每个 E8M0 字节乘 `0x01010101`，成为四个相同字节，最终 LDS 面板为 512 字节，按 `[K,half]` 排列相邻两个 N128 half。
-4. 发布面板后，主循环对A使用普通LDS dword读取，对B使用一次b64预取下一K的两个half。需要下一面板时，先确认旧面板读取结束，再加载并发布下一段；短K和末尾不足64组的面板只读取有效输入，未使用的槽复制最后一个有效分组。
+4. 发布面板后，主循环在MFMA2后用一次LDS b64预取下一K的两个A scale half，在MFMA20后用一次b64预取两个B scale half。各dword在当前K最后一次使用后再安装。需要下一面板时，先确认旧面板读取结束，再加载并发布下一段；短K和末尾不足64组的面板只读取有效输入，未使用的槽复制最后一个有效分组。
 5. 四个 K32 lane group 读取同一个 A scale dword；MFMA 的 `op_sel` 选择对应 M repeat 字节。B dword 的四个字节相同。这样在硬件内部实现 K128 scale 对四个 K32 子组的复用。
 
 这里没有创建全局 `[M,K/32]` 或 `[N,K/32]` scale张量，没有重新量化A/B。K32广播来自kernel内的LDS读取地址复用和寄存器打包。运行时K迭代和面板内寻址分开：矩阵地址使用完整K索引，scale地址在面板容量内循环。
@@ -55,13 +55,13 @@ Blockscale 的输入契约及打包 scale / `op_sel` 方案来自此前的 8-wav
 
 每个工作组256线程，即4个Wave64，计算256×256输出tile，K tile为128。A/B通过异步global→LDS双缓冲，再进入VGPR；B producer接收标准 `(16,16)` 预排布局。累加结果固定在每线程256个AGPR。
 
-先加载首个scale面板和矩阵K0，存在K1时才预取K1，并种入K0的A0/A1/B0/B1寄存器。wave0/1各负责一个A的M128 half，wave2/3各负责一个B的N128 half。资源描述符按wave选择一次，16个不可变地址提前缓存到VGPR；主循环的预取指令位置由四个wave共用。
+先加载首个scale面板和矩阵K0，存在K1时才预取K1，并种入K0的A0/A1/B0/B1寄存器。AGPR清零分为两组，通过输入约束的空asm把初始化放在SFA请求和B矩阵请求的等待期间。wave0/1各负责一个A的M128 half，wave2/3各负责一个B的N128 half。资源描述符按wave选择一次，16个不可变地址提前缓存到VGPR；主循环的预取指令位置由四个wave共用。
 
 第5条MFMA后，完整VMEM/LGKM等待与barrier发布t+1并释放t的LDS stage。主循环仍在MFMA8、10、…、38后各发一次t+2预取；四个相邻LDS行利用MUBUF immediate共享m0基址，global和LDS两端的地址补偿一致。K1也使用这一统一producer。主循环在存在t+2时发起预取，倒数第二个K128块只滚入最后一个块，不发无消费者的全局矩阵请求；K128单块输入直接进入最后计算段。
 
-两种输出的A0均按M repeat在MFMA36、40、44、48后读取t+1；B0在32、34、36、38后分四对读取。C11前8条维持按行次序，后8条在M repeat 2/3间交替，使B1四个N repeat分别在58、60、62、64后读取。A1的M repeat 0/1/2在52、56、63后读取；M repeat 3的两个16字节片段提前到56后读入临时寄存器，在64后旧值最后一次使用完毕再安装。每个累加器的K顺序、操作数和scale字节选择一致。
+两种输出的A0/M repeat 0均在MFMA30后预读t+1的两个16字节片段，到MFMA36完成当前值的最后消费后再安装；其余A0 M repeat仍在40、44、48后读取。B0在32、34、36、38后分四对读取。C11前8条维持按行次序，后8条在M repeat 2/3间交替，使B1四个N repeat分别在58、60、62、64后读取。A1的M repeat 0/1/2在52、56、63后读取；M repeat 3的两个16字节片段提前到56后读入临时寄存器，在64后旧值最后一次使用完毕再安装。每个累加器的K顺序、操作数和scale字节选择一致。
 
-BF16把完成的累加片段转换为4元素向量，提前写入pitch264的输出LDS，再合并为16字节GMEM stores并使用 `nt`。A/B矩阵的双缓冲合为一个对齐的135168字节拥有者；矩阵DMA和读取全部结束并经等待与barrier后，BF16输出才复用它。最后一轮MFMA36后，前128列已完整写入LDS，发布后集中发出这一半的GMEM写回，与后半块计算重叠；最后再发布并写回剩余128列。FP32直接写回。LDS为 **152064字节**，普通VGPR为FP32 **252** / BF16 **256**，另有固定 **256 AGPR**，SGPR **76**，零spill/scratch。metadata combined VGPR为508/512，已经包含AGPR。
+BF16把完成的累加片段转换为4元素向量，提前写入pitch264的输出LDS，再合并为16字节GMEM stores并使用 `nt`。A/B矩阵的双缓冲合为一个对齐的135168字节分配；矩阵DMA和读取全部结束并经等待与barrier后，BF16输出才复用它。最后一轮MFMA20、36、52、64后，依次发布C00、C10、C01、C11的128×128区域，每区域每线程执行8次16字节合并写回。MFMA36的发布仍等待LDS完成，允许独立的前一块C00全局写回继续进行。这四个区域共同组成每WG唯一的256×256输出tile。FP32直接写回。LDS为 **152064字节**，普通VGPR为FP32 **244** / BF16 **248**，另有固定 **256 AGPR**，SGPR **74**，零spill/scratch。metadata combined VGPR为500/504，已经包含AGPR。
 
 构建与运行
 ----------
@@ -81,13 +81,13 @@ HIP_VISIBLE_DEVICES=2 OMP_TOOL=disabled OMP_NUM_THREADS=16 \
 
 Makefile 默认 `TOOLCHAIN=/root/toolchains/rocm-llvm23-46fcb339-build`，`OPUS_INCLUDE_DIR=/root/workspace/aiter/csrc/include`，均可覆盖。编译器基线、补丁顺序和哈希保存在 `results/toolchain_manifest.json`；补丁原件仍在原 4-wave 目录的 `tools/compiler/`。
 
-按物理卡号重建冻结的原通用kernel和当前通用版本，在8192³进行同地址、相邻基线对照：
+按物理卡号重建冻结的 `f0b117c` 通用kernel和当前通用版本，在8192³进行同地址、相邻基线对照；两者均检查源码哈希和指令编码：
 
 ```bash
 python3 tools/compare_versions.py --gpu 2 --rounds 5 --validate
 ```
 
-此工具按PCI地址解析HIP索引，要求GPU计算活动不超过5%，默认也要求显存占用不超过1%。若显存只是空闲驻留，可显式设置 `--max-initial-vram-percent`；初始状态写入结果。构建和结果保存在隔离目录及 `results/generic_migration_20260911/shared_allocations/`。历史专用实验和原始trace的归档位置见 [专用实验记录](results/tile1_target32_round2_20260911/README.md) 及 [清理记录](results/ARCHIVE_20260911.md)。
+此工具按PCI地址解析HIP索引，要求GPU计算活动不超过5%，默认也要求显存占用不超过1%。若显存只是空闲驻留，可显式设置 `--max-initial-vram-percent`；初始状态写入结果。构建和结果保存在隔离目录及 `results/generic_opt_20260912/shared_allocations/`。四尺寸工具的结果也保存到本轮记录目录。历史专用实验和原始trace的归档位置见 [专用实验记录](results/tile1_target32_round2_20260911/README.md) 及 [清理记录](results/ARCHIVE_20260911.md)。
 
 Python 调用：
 

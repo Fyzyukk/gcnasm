@@ -1,0 +1,68 @@
+[
+  {
+    "round": 1,
+    "name": "baseline",
+    "dtype": "bf16",
+    "ms": 0.342398464679718,
+    "pflops": 3.211204900712657,
+    "start_utc": "2026-09-12T04:43:00.715889+00:00",
+    "timestamp_utc": "2026-09-12T04:43:00.820205+00:00",
+    "comparison": "current",
+    "role": "before"
+  },
+  {
+    "round": 1,
+    "name": "current",
+    "dtype": "bf16",
+    "ms": 0.33628222346305847,
+    "pflops": 3.269609723800296,
+    "start_utc": "2026-09-12T04:43:00.820422+00:00",
+    "timestamp_utc": "2026-09-12T04:43:00.921332+00:00",
+    "comparison": "current",
+    "role": "candidate"
+  },
+  {
+    "round": 1,
+    "name": "baseline",
+    "dtype": "bf16",
+    "ms": 0.34171825647354126,
+    "pflops": 3.217596973374273,
+    "start_utc": "2026-09-12T04:43:00.921506+00:00",
+    "timestamp_utc": "2026-09-12T04:43:01.024097+00:00",
+    "comparison": "current",
+    "role": "after"
+  },
+  {
+    "round": 1,
+    "name": "baseline",
+    "dtype": "fp32",
+    "ms": 0.3614180386066437,
+    "pflops": 3.042215690215382,
+    "start_utc": "2026-09-12T04:43:01.024523+00:00",
+    "timestamp_utc": "2026-09-12T04:43:01.132869+00:00",
+    "comparison": "current",
+    "role": "before"
+  },
+  {
+    "round": 1,
+    "name": "current",
+    "dtype": "fp32",
+    "ms": 0.35902270674705505,
+    "pflops": 3.0625127801474883,
+    "start_utc": "2026-09-12T04:43:01.133416+00:00",
+    "timestamp_utc": "2026-09-12T04:43:01.240859+00:00",
+    "comparison": "current",
+    "role": "candidate"
+  },
+  {
+    "round": 1,
+    "name": "baseline",
+    "dtype": "fp32",
+    "ms": 0.36163151264190674,
+    "pflops": 3.040419845448463,
+    "start_utc": "2026-09-12T04:43:01.241200+00:00",
+    "timestamp_utc": "2026-09-12T04:43:01.349515+00:00",
+    "comparison": "current",
+    "role": "after"
+  }
+]

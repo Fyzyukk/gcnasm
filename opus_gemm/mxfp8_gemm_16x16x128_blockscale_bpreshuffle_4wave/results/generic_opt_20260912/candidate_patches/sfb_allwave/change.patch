@@ -1,0 +1,38 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -507,13 +507,10 @@
+             __builtin_amdgcn_s_barrier();
+             __builtin_amdgcn_sched_barrier(0);
+             load_sfa_panel(next_tile);
+-            D_SF_PACK raw_b = 0;
+-            if (wave_id < T::SCALE_N_HALVES) {
+-                const int global_column = next_tile + lane_id;
+-                const int valid_column = global_column < loops ? global_column : loops - 1;
+-                const auto raw = load<1>(g_sfb, valid_column, wave_id * kargs.stride_sfb);
+-                raw_b = static_cast<D_SF_PACK>(raw[0]);
+-            }
++            const int global_column = next_tile + lane_id;
++            const int valid_column = global_column < loops ? global_column : loops - 1;
++            const auto raw = load<1>(g_sfb, valid_column, wave_id_m * kargs.stride_sfb);
++            const D_SF_PACK raw_b = static_cast<D_SF_PACK>(raw[0]);
+             s_waitcnt_vmcnt(0_I);
+             publish_sfa_panel();
+             if (wave_id < T::SCALE_N_HALVES) {
+@@ -533,12 +530,11 @@
+ 
+     // Prologue: preload the first bounded scale panel before the first barrier.
+     load_sfa_panel(0);
+-    D_SF_PACK panel_sfb_raw = 0;
+-    if (wave_id < T::SCALE_N_HALVES) {
+-        const int valid_column = lane_id < loops ? lane_id : loops - 1;
+-        const auto raw = load<1>(g_sfb, valid_column, wave_id * kargs.stride_sfb);
+-        panel_sfb_raw = static_cast<D_SF_PACK>(raw[0]);
+-    }
++    // Every wave reads its M-parity's SFB row. The duplicate byte loads
++    // avoid an early branch-join VMEM wait before the initial B requests.
++    const int sfb_valid_column = lane_id < loops ? lane_id : loops - 1;
++    const auto initial_sfb = load<1>(g_sfb, sfb_valid_column, wave_id_m * kargs.stride_sfb);
++    const D_SF_PACK panel_sfb_raw = static_cast<D_SF_PACK>(initial_sfb[0]);
+     async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(0, 0), gb_offset(0, 0));
+     async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(0, 1), gb_offset(1, 0));
+ 

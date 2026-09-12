@@ -1,0 +1,50 @@
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.3427303433418274,
+    "min_ms": 0.3411272168159485,
+    "max_ms": 0.3432893753051758,
+    "median_pflops": 3.2080953704159922
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.36331869661808014,
+    "min_ms": 0.36243030428886414,
+    "max_ms": 0.3637979030609131,
+    "median_pflops": 3.02630070516796
+  },
+  {
+    "name": "packed6_sfb_uniform",
+    "dtype": "bf16",
+    "median_ms": 0.34228575229644775,
+    "min_ms": 0.34160250425338745,
+    "max_ms": 0.3426301181316376,
+    "median_pflops": 3.2122623287683094
+  },
+  {
+    "name": "packed6_sfb_uniform",
+    "dtype": "fp32",
+    "median_ms": 0.3642083406448364,
+    "min_ms": 0.36339905858039856,
+    "max_ms": 0.3643263280391693,
+    "median_pflops": 3.01890842430818
+  },
+  {
+    "name": "packed6_zero_read_after_loads",
+    "dtype": "bf16",
+    "median_ms": 0.34122657775878906,
+    "min_ms": 0.3406156301498413,
+    "max_ms": 0.3415193259716034,
+    "median_pflops": 3.2222332591959995
+  },
+  {
+    "name": "packed6_zero_read_after_loads",
+    "dtype": "fp32",
+    "median_ms": 0.36188551783561707,
+    "min_ms": 0.36136141419410706,
+    "max_ms": 0.36243632435798645,
+    "median_pflops": 3.0382857936731313
+  }
+]

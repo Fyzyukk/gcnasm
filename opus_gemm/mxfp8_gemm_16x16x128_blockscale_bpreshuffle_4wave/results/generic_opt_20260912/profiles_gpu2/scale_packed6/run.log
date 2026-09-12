@@ -1,0 +1,13 @@
+[0;33mW20260912 03:44:03.303129 140335642849152 simple_timer.cpp:55] [rocprofv3] tool initialization ::     0.025047 sec
+[m[0;33mW20260912 03:44:03.303731 140335642849152 simple_timer.cpp:55] [rocprofv3] '/tmp/mxfp8_generic_opt_20260912_f3qjc1d5/scale_packed6/build/gemm_a8w8_blockscale_bpreshuffle.exe -m 8192 -n 8192 -k 8192 -b 1 -w 200 -i 100 -v 0 --dtype bf16' ::     0.000000 sec
+[m[0;33mW20260912 03:44:03.635530 140335642849152 tool.cpp:2158] HSA version 8.18.0 initialized (instance=0)
+[m[0;31mE20260912 03:44:03.718898 140335642849152 output_stream.cpp:111] Opened result file: /tmp/mxfp8_generic_opt_20260912_f3qjc1d5/profiles/scale_packed6/profile_gfx950_code_object_id_1.out
+[m[0;31mE20260912 03:44:03.747319 140335642849152 output_stream.cpp:111] Opened result file: /tmp/mxfp8_generic_opt_20260912_f3qjc1d5/profiles/scale_packed6/profile_gfx950_code_object_id_2.out
+[m[0;31mE20260912 03:44:03.819294 140334329755200 output_stream.cpp:111] Opened result file: /tmp/mxfp8_generic_opt_20260912_f3qjc1d5/profiles/scale_packed6/profile_35208_shader_engine_0_202.att
+[m[0;33mW20260912 03:44:03.858616 140335642849152 simple_timer.cpp:55] [rocprofv3] '/tmp/mxfp8_generic_opt_20260912_f3qjc1d5/scale_packed6/build/gemm_a8w8_blockscale_bpreshuffle.exe -m 8192 -n 8192 -k 8192 -b 1 -w 200 -i 100 -v 0 --dtype bf16' ::     0.554885 sec
+[m[0;31mE20260912 03:44:03.923110 140335642849152 output_stream.cpp:111] Opened result file: /tmp/mxfp8_generic_opt_20260912_f3qjc1d5/profiles/scale_packed6/profile_agent_info.csv
+[m[0;33mW20260912 03:44:04.110593 140335642849152 simple_timer.cpp:55] [rocprofv3] tool finalization ::     0.187732 sec
+[mLaunching 4-wave blockscale bpreshuffle GEMM: M=8192, N=8192, K=8192, batch=1, dtype=bf16, seed=1, grid=(1024,1,1), block=256, output_tiles_per_wg=1 (auto)
+Input layout: A raw [B,M,K], B packed (16,16), SFA [B,K/128,M], SFB [B,N/128,K/128]
+
+Kernel Performance: avg_time=0.341758919 ms, 3217.214145 TFlops

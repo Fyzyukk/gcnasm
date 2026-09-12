@@ -1,0 +1,78 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -646,6 +646,10 @@
+ 
+         MXFP8_MMA_PAIR(0, 1, 1, v_a[0], v_b, c00_6, c00_7, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
++
++        // Prefetch published scales ahead of the operand roll.
++        v_sfa1_next = load_sfa_dword(tile + 1, 1);
++        __builtin_amdgcn_sched_barrier(0);
+         prefetch_matrix_issue(opus::number<0>{}, stage, future_tile);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+@@ -689,6 +693,11 @@
+         MXFP8_MMA_PAIR(
+             1, 0, 1, v_a[1], v_b, c10_2, c10_3, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
++
++        // Prefetch published scales ahead of the operand roll.
++        v_sfb_next = __builtin_bit_cast(opus::vector_t<D_SF_PACK, 2>,
++            load<8>(s_sfb, ((tile + 1) & panel_mask) * T::SCALE_N_HALVES * 4));
++        __builtin_amdgcn_sched_barrier(0);
+         prefetch_matrix_issue(opus::number<6>{}, stage, future_tile);
+         __builtin_amdgcn_sched_group_barrier(0x20, 1, 0);
+         __builtin_amdgcn_sched_barrier(0);
+@@ -798,14 +807,11 @@
+ 
+         // Start panel SFA1 for tile t+1 in a dedicated VGPR; the remaining
+         // ten c01 plus sixteen c11 MFMAs cover this immutable panel read.
+-        v_sfa1_next = load_sfa_dword(tile + 1, 1);
+ 
+         // The current tile no longer consumes B-half0 or SFB0. Read both
+         // next scale halves in one LDS b64; retain current SFB1 through c11.
+         // B-half0 was read in four pairs at MFMA32/34/36/38; its values
+         // are retained for the next K tile.
+-        v_sfb_next = __builtin_bit_cast(opus::vector_t<D_SF_PACK, 2>,
+-            load<8>(s_sfb, ((tile + 1) & panel_mask) * T::SCALE_N_HALVES * 4));
+         v_sfb[0] = v_sfb_next[0];
+         __builtin_amdgcn_sched_barrier(0);
+ 
+@@ -983,6 +989,10 @@
+         MXFP8_MMA_PAIR(0, 1, 1, v_a[0], v_b, c00_6, c00_7, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+ 
++        // Prefetch published scales ahead of the operand roll.
++        v_sfa1_next = load_sfa_dword(tile + 1, 1);
++        __builtin_amdgcn_sched_barrier(0);
++
+         MXFP8_MMA_PAIR(
+             0, 2, 0, v_a[0], v_b, c00_8, c00_9, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+@@ -1007,6 +1017,11 @@
+         MXFP8_MMA_PAIR(
+             1, 0, 1, v_a[1], v_b, c10_2, c10_3, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
++
++        // Prefetch published scales ahead of the operand roll.
++        v_sfb_next = __builtin_bit_cast(opus::vector_t<D_SF_PACK, 2>,
++            load<8>(s_sfb, ((tile + 1) & panel_mask) * T::SCALE_N_HALVES * 4));
++        __builtin_amdgcn_sched_barrier(0);
+ 
+         MXFP8_MMA_PAIR(
+             1, 1, 0, v_a[1], v_b, c10_4, c10_5, v_sfa, v_sfb[0]);
+@@ -1086,14 +1101,11 @@
+ 
+         // Start panel SFA1 for tile t+1 in a dedicated VGPR; the remaining
+         // ten c01 plus sixteen c11 MFMAs cover this immutable panel read.
+-        v_sfa1_next = load_sfa_dword(tile + 1, 1);
+ 
+         // The current tile no longer consumes B-half0 or SFB0. Read both
+         // next scale halves in one LDS b64; retain current SFB1 through c11.
+         // B-half0 was read in four pairs at MFMA32/34/36/38; its values
+         // are retained for the next K tile.
+-        v_sfb_next = __builtin_bit_cast(opus::vector_t<D_SF_PACK, 2>,
+-            load<8>(s_sfb, ((tile + 1) & panel_mask) * T::SCALE_N_HALVES * 4));
+         v_sfb[0] = v_sfb_next[0];
+         __builtin_amdgcn_sched_barrier(0);
+ 

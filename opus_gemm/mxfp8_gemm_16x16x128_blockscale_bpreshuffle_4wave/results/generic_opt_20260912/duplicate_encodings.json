@@ -1,0 +1,68 @@
+[
+  {
+    "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+    "encoding_sha256": "e7d1449d9af5a380723cd501da615ade837819968a6b2697b6d9689a53ff1605",
+    "names": [
+      "generic_tile1_opt_20260912",
+      "split_async36_preload_a0_m0"
+    ]
+  },
+  {
+    "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+    "encoding_sha256": "c0b5a959c8d973facb42e2a38e769b1c44ddbfca71959132b9dcae217ad9f944",
+    "names": [
+      "generic_tile1_opt_20260912",
+      "split_async36_preload_a0_m0"
+    ]
+  },
+  {
+    "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+    "encoding_sha256": "0db848b9ab983303d88d84cbb91ef444bad01f375fa499d00f0fd162a84913ed",
+    "names": [
+      "packed2_20_compute_valu1",
+      "packed2_20_compute_valu4",
+      "packed2_20_quarter_async36",
+      "packed2_20_quarter_async_all",
+      "packed2_20_unsigned_quarter"
+    ]
+  },
+  {
+    "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs",
+    "encoding_sha256": "000e52253be866e5ea8d9aad50d81b18c7ac2a2974a3dd66dca13dee5bd2a4c4",
+    "names": [
+      "packed2_20_compute_valu1",
+      "packed2_20_compute_valu4",
+      "packed2_20_unsigned_quarter"
+    ]
+  },
+  {
+    "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+    "encoding_sha256": "ec31d04164a11a02a1f127e198c9c18bd137c726b9c4a53016780fb8f4133897",
+    "names": [
+      "packed2_20_quarter_zero_split",
+      "packed2_20_split_async36"
+    ]
+  },
+  {
+    "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+    "encoding_sha256": "7802c0dc750e6b65059795f94dbcfc44972d830fcd31f7831b4f49fefe7090b9",
+    "names": [
+      "packed6_copy_scalar",
+      "packed6_copy_scalar_split",
+      "packed6_quarter_output",
+      "packed6_zero_read_after_loads"
+    ]
+  },
+  {
+    "function": "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs",
+    "encoding_sha256": "40598d002e4c7e1825e18cbc7bc2ede4b15b00db0fa7eef72f17cacde54f1540",
+    "names": [
+      "packed6_unsigned_index",
+      "packed6_unsigned_out6",
+      "packed6_unsigned_quarter",
+      "packed6_unsigned_quarter6",
+      "packed6_unsigned_rows32",
+      "packed6_unsigned_rows64"
+    ]
+  }
+]

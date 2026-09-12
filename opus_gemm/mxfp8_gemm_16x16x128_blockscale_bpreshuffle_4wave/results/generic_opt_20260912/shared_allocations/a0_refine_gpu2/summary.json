@@ -1,0 +1,82 @@
+[
+  {
+    "name": "split_async36_preload_a0_m0",
+    "dtype": "bf16",
+    "median_ms": 0.33732014894485474,
+    "min_ms": 0.33582329750061035,
+    "max_ms": 0.3380829691886902,
+    "median_pflops": 3.2595492181990844
+  },
+  {
+    "name": "split_async36_preload_a0_m0",
+    "dtype": "fp32",
+    "median_ms": 0.360347718000412,
+    "min_ms": 0.35947227478027344,
+    "max_ms": 0.3610962927341461,
+    "median_pflops": 3.0512518127691957
+  },
+  {
+    "name": "preload_a0_after26",
+    "dtype": "bf16",
+    "median_ms": 0.3373737335205078,
+    "min_ms": 0.33677151799201965,
+    "max_ms": 0.33817416429519653,
+    "median_pflops": 3.259031508773828
+  },
+  {
+    "name": "preload_a0_after26",
+    "dtype": "fp32",
+    "median_ms": 0.36073434352874756,
+    "min_ms": 0.35943710803985596,
+    "max_ms": 0.36080992221832275,
+    "median_pflops": 3.047981561778794
+  },
+  {
+    "name": "preload_a0_after28",
+    "dtype": "bf16",
+    "median_ms": 0.33757537603378296,
+    "min_ms": 0.336539626121521,
+    "max_ms": 0.3377821743488312,
+    "median_pflops": 3.2570848048643395
+  },
+  {
+    "name": "preload_a0_after28",
+    "dtype": "fp32",
+    "median_ms": 0.3600331246852875,
+    "min_ms": 0.35953426361083984,
+    "max_ms": 0.36097952723503113,
+    "median_pflops": 3.0539179658457987
+  },
+  {
+    "name": "preload_a0_after32",
+    "dtype": "bf16",
+    "median_ms": 0.33817535638809204,
+    "min_ms": 0.337584912776947,
+    "max_ms": 0.33867016434669495,
+    "median_pflops": 3.2513061848131652
+  },
+  {
+    "name": "preload_a0_after32",
+    "dtype": "fp32",
+    "median_ms": 0.36107194423675537,
+    "min_ms": 0.3603411018848419,
+    "max_ms": 0.36131513118743896,
+    "median_pflops": 3.0451317121860035
+  },
+  {
+    "name": "preload_a0_prio_clean",
+    "dtype": "bf16",
+    "median_ms": 0.33704012632369995,
+    "min_ms": 0.3367440700531006,
+    "max_ms": 0.33795297145843506,
+    "median_pflops": 3.2622573453464927
+  },
+  {
+    "name": "preload_a0_prio_clean",
+    "dtype": "fp32",
+    "median_ms": 0.35970592498779297,
+    "min_ms": 0.3594626486301422,
+    "max_ms": 0.36054474115371704,
+    "median_pflops": 3.0566959046151747
+  }
+]

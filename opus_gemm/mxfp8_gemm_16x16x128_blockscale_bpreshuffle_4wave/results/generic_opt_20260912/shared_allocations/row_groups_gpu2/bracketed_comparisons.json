@@ -1,0 +1,134 @@
+[
+  {
+    "round": 1,
+    "name": "packed6_unsigned_rows32",
+    "dtype": "bf16",
+    "candidate_ms": 0.34392738342285156,
+    "baseline_before_ms": 0.34268784523010254,
+    "baseline_after_ms": 0.3419140577316284,
+    "reference_ms": 0.3423009514808655,
+    "speedup_percent": -0.4728998097794479,
+    "baseline_drift_percent": -0.22579951674520649
+  },
+  {
+    "round": 1,
+    "name": "packed6_unsigned_rows64",
+    "dtype": "bf16",
+    "candidate_ms": 0.34019792079925537,
+    "baseline_before_ms": 0.34168845415115356,
+    "baseline_after_ms": 0.34193888306617737,
+    "reference_ms": 0.34181366860866547,
+    "speedup_percent": 0.4749434698525068,
+    "baseline_drift_percent": 0.07329159413533848
+  },
+  {
+    "round": 1,
+    "name": "packed6_unsigned_rows32",
+    "dtype": "fp32",
+    "candidate_ms": 0.3614238500595093,
+    "baseline_before_ms": 0.362090140581131,
+    "baseline_after_ms": 0.3624809682369232,
+    "reference_ms": 0.3622855544090271,
+    "speedup_percent": 0.23841933767678736,
+    "baseline_drift_percent": 0.10793656385257311
+  },
+  {
+    "round": 1,
+    "name": "packed6_unsigned_rows64",
+    "dtype": "fp32",
+    "candidate_ms": 0.36190226674079895,
+    "baseline_before_ms": 0.36267420649528503,
+    "baseline_after_ms": 0.3627558648586273,
+    "reference_ms": 0.3627150356769562,
+    "speedup_percent": 0.22458243864478256,
+    "baseline_drift_percent": 0.02251562473420954
+  },
+  {
+    "round": 2,
+    "name": "packed6_unsigned_rows64",
+    "dtype": "bf16",
+    "candidate_ms": 0.34124526381492615,
+    "baseline_before_ms": 0.3427681028842926,
+    "baseline_after_ms": 0.3430148661136627,
+    "reference_ms": 0.34289148449897766,
+    "speedup_percent": 0.48241568707729776,
+    "baseline_drift_percent": 0.07199130470241233
+  },
+  {
+    "round": 2,
+    "name": "packed6_unsigned_rows32",
+    "dtype": "bf16",
+    "candidate_ms": 0.3442669212818146,
+    "baseline_before_ms": 0.3424948751926422,
+    "baseline_after_ms": 0.34213125705718994,
+    "reference_ms": 0.3423130661249161,
+    "speedup_percent": -0.5675407761000284,
+    "baseline_drift_percent": -0.10616746754174011
+  },
+  {
+    "round": 2,
+    "name": "packed6_unsigned_rows64",
+    "dtype": "fp32",
+    "candidate_ms": 0.36211785674095154,
+    "baseline_before_ms": 0.3628390431404114,
+    "baseline_after_ms": 0.3632306158542633,
+    "reference_ms": 0.36303482949733734,
+    "speedup_percent": 0.2532249485398319,
+    "baseline_drift_percent": 0.10791912316348018
+  },
+  {
+    "round": 2,
+    "name": "packed6_unsigned_rows32",
+    "dtype": "fp32",
+    "candidate_ms": 0.36200428009033203,
+    "baseline_before_ms": 0.3632214367389679,
+    "baseline_after_ms": 0.3629007041454315,
+    "reference_ms": 0.3630610704421997,
+    "speedup_percent": 0.2919275848351832,
+    "baseline_drift_percent": -0.08830222037992108
+  },
+  {
+    "round": 3,
+    "name": "packed6_unsigned_rows32",
+    "dtype": "bf16",
+    "candidate_ms": 0.3444817364215851,
+    "baseline_before_ms": 0.3426420986652374,
+    "baseline_after_ms": 0.3429425060749054,
+    "reference_ms": 0.3427923023700714,
+    "speedup_percent": -0.49042775650843806,
+    "baseline_drift_percent": 0.08767381791034978
+  },
+  {
+    "round": 3,
+    "name": "packed6_unsigned_rows64",
+    "dtype": "bf16",
+    "candidate_ms": 0.34166446328163147,
+    "baseline_before_ms": 0.3429264724254608,
+    "baseline_after_ms": 0.3428780734539032,
+    "reference_ms": 0.342902272939682,
+    "speedup_percent": 0.3622880899469605,
+    "baseline_drift_percent": -0.01411351279336781
+  },
+  {
+    "round": 3,
+    "name": "packed6_unsigned_rows32",
+    "dtype": "fp32",
+    "candidate_ms": 0.3623186945915222,
+    "baseline_before_ms": 0.36320385336875916,
+    "baseline_after_ms": 0.3634054958820343,
+    "reference_ms": 0.36330467462539673,
+    "speedup_percent": 0.27213059899824366,
+    "baseline_drift_percent": 0.055517724111364686
+  },
+  {
+    "round": 3,
+    "name": "packed6_unsigned_rows64",
+    "dtype": "fp32",
+    "candidate_ms": 0.36244267225265503,
+    "baseline_before_ms": 0.3634238839149475,
+    "baseline_after_ms": 0.3634631037712097,
+    "reference_ms": 0.3634434938430786,
+    "speedup_percent": 0.27613238369623705,
+    "baseline_drift_percent": 0.010791766308737571
+  }
+]

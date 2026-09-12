@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "candidate": "split_async36_preload_a0_m0",
+  "cleaned": "generic_tile1_opt_20260912",
+  "changed_only": "Comments and repeated input-only accumulator asm anchors grouped into a macro",
+  "measured_source_sha256": "8a53242baa5689b99ac9f6c3e788c3fc197753facdd44de6c85c19e8449f0207",
+  "production_source_sha256": "6472526cabcb12957570f8540b13adae296ab35f637e9f254c4a7a00e0e58483",
+  "identical_instruction_encodings": {
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 2784,
+      "words": 6020,
+      "encoding_sha256": "e7d1449d9af5a380723cd501da615ade837819968a6b2697b6d9689a53ff1605"
+    },
+    "_ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs": {
+      "instructions": 3367,
+      "words": 7125,
+      "encoding_sha256": "c0b5a959c8d973facb42e2a38e769b1c44ddbfca71959132b9dcae217ad9f944"
+    }
+  }
+}

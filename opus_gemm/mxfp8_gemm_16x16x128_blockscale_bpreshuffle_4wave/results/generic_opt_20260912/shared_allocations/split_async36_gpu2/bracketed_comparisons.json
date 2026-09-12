@@ -1,0 +1,68 @@
+[
+  {
+    "round": 1,
+    "name": "packed2_20_split_async36",
+    "dtype": "bf16",
+    "candidate_ms": 0.3370802700519562,
+    "baseline_before_ms": 0.3417920768260956,
+    "baseline_after_ms": 0.34150588512420654,
+    "reference_ms": 0.34164898097515106,
+    "speedup_percent": 1.3553777331704042,
+    "baseline_drift_percent": -0.08373269051367149
+  },
+  {
+    "round": 1,
+    "name": "packed2_20_split_async36",
+    "dtype": "fp32",
+    "candidate_ms": 0.3596423268318176,
+    "baseline_before_ms": 0.36151400208473206,
+    "baseline_after_ms": 0.3620636463165283,
+    "reference_ms": 0.3617888242006302,
+    "speedup_percent": 0.5968422537251383,
+    "baseline_drift_percent": 0.15203954165721179
+  },
+  {
+    "round": 2,
+    "name": "packed2_20_split_async36",
+    "dtype": "bf16",
+    "candidate_ms": 0.3369278013706207,
+    "baseline_before_ms": 0.3408454656600952,
+    "baseline_after_ms": 0.3411634564399719,
+    "reference_ms": 0.34100446105003357,
+    "speedup_percent": 1.2099505184282933,
+    "baseline_drift_percent": 0.09329470740087054
+  },
+  {
+    "round": 2,
+    "name": "packed2_20_split_async36",
+    "dtype": "fp32",
+    "candidate_ms": 0.3602580726146698,
+    "baseline_before_ms": 0.3628436028957367,
+    "baseline_after_ms": 0.3626936376094818,
+    "reference_ms": 0.36276862025260925,
+    "speedup_percent": 0.696874776384182,
+    "baseline_drift_percent": -0.04133055814077302
+  },
+  {
+    "round": 3,
+    "name": "packed2_20_split_async36",
+    "dtype": "bf16",
+    "candidate_ms": 0.3370094299316406,
+    "baseline_before_ms": 0.34189265966415405,
+    "baseline_after_ms": 0.3423779308795929,
+    "reference_ms": 0.3421352952718735,
+    "speedup_percent": 1.5209857306582197,
+    "baseline_drift_percent": 0.1419367166044294
+  },
+  {
+    "round": 3,
+    "name": "packed2_20_split_async36",
+    "dtype": "fp32",
+    "candidate_ms": 0.3604736626148224,
+    "baseline_before_ms": 0.36277806758880615,
+    "baseline_after_ms": 0.36293530464172363,
+    "reference_ms": 0.3628566861152649,
+    "speedup_percent": 0.6610811683595452,
+    "baseline_drift_percent": 0.043342491447329046
+  }
+]

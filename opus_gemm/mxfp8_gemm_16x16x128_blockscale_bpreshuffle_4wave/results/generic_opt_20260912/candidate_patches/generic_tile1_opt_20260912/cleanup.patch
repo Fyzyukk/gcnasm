@@ -1,0 +1,207 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -422,6 +422,25 @@
+     MXFP8_PIN_C(c11_15, 252);
+ #undef MXFP8_PIN_C
+ 
++// These input uses place AGPR zeroing under outstanding prologue loads.
++#define MXFP8_MATERIALIZE_C_QUADRANT(PREFIX) \
++    asm volatile("" : : "a"(PREFIX##_0)); \
++    asm volatile("" : : "a"(PREFIX##_1)); \
++    asm volatile("" : : "a"(PREFIX##_2)); \
++    asm volatile("" : : "a"(PREFIX##_3)); \
++    asm volatile("" : : "a"(PREFIX##_4)); \
++    asm volatile("" : : "a"(PREFIX##_5)); \
++    asm volatile("" : : "a"(PREFIX##_6)); \
++    asm volatile("" : : "a"(PREFIX##_7)); \
++    asm volatile("" : : "a"(PREFIX##_8)); \
++    asm volatile("" : : "a"(PREFIX##_9)); \
++    asm volatile("" : : "a"(PREFIX##_10)); \
++    asm volatile("" : : "a"(PREFIX##_11)); \
++    asm volatile("" : : "a"(PREFIX##_12)); \
++    asm volatile("" : : "a"(PREFIX##_13)); \
++    asm volatile("" : : "a"(PREFIX##_14)); \
++    asm volatile("" : : "a"(PREFIX##_15))
++
+     D_SF_PACK v_sfa[2];
+     D_SF_PACK v_sfb[T::SCALE_N_HALVES];
+     opus::vector_t<D_SF_PACK, 2> v_sfb_next;
+@@ -536,38 +555,8 @@
+     // Prologue: preload the first bounded scale panel before the first barrier.
+     load_sfa_panel(0);
+     // Initialize C while the four SFA requests progress.
+-    asm volatile("" : : "a"(c00_0));
+-    asm volatile("" : : "a"(c00_1));
+-    asm volatile("" : : "a"(c00_2));
+-    asm volatile("" : : "a"(c00_3));
+-    asm volatile("" : : "a"(c00_4));
+-    asm volatile("" : : "a"(c00_5));
+-    asm volatile("" : : "a"(c00_6));
+-    asm volatile("" : : "a"(c00_7));
+-    asm volatile("" : : "a"(c00_8));
+-    asm volatile("" : : "a"(c00_9));
+-    asm volatile("" : : "a"(c00_10));
+-    asm volatile("" : : "a"(c00_11));
+-    asm volatile("" : : "a"(c00_12));
+-    asm volatile("" : : "a"(c00_13));
+-    asm volatile("" : : "a"(c00_14));
+-    asm volatile("" : : "a"(c00_15));
+-    asm volatile("" : : "a"(c01_0));
+-    asm volatile("" : : "a"(c01_1));
+-    asm volatile("" : : "a"(c01_2));
+-    asm volatile("" : : "a"(c01_3));
+-    asm volatile("" : : "a"(c01_4));
+-    asm volatile("" : : "a"(c01_5));
+-    asm volatile("" : : "a"(c01_6));
+-    asm volatile("" : : "a"(c01_7));
+-    asm volatile("" : : "a"(c01_8));
+-    asm volatile("" : : "a"(c01_9));
+-    asm volatile("" : : "a"(c01_10));
+-    asm volatile("" : : "a"(c01_11));
+-    asm volatile("" : : "a"(c01_12));
+-    asm volatile("" : : "a"(c01_13));
+-    asm volatile("" : : "a"(c01_14));
+-    asm volatile("" : : "a"(c01_15));
++    MXFP8_MATERIALIZE_C_QUADRANT(c00);
++    MXFP8_MATERIALIZE_C_QUADRANT(c01);
+ 
+     D_SF_PACK panel_sfb_raw = 0;
+     if (wave_id < T::SCALE_N_HALVES) {
+@@ -579,38 +568,9 @@
+     async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(0, 1), gb_offset(1, 0));
+ 
+     // Finish C initialization while the initial B requests progress.
+-    asm volatile("" : : "a"(c10_0));
+-    asm volatile("" : : "a"(c10_1));
+-    asm volatile("" : : "a"(c10_2));
+-    asm volatile("" : : "a"(c10_3));
+-    asm volatile("" : : "a"(c10_4));
+-    asm volatile("" : : "a"(c10_5));
+-    asm volatile("" : : "a"(c10_6));
+-    asm volatile("" : : "a"(c10_7));
+-    asm volatile("" : : "a"(c10_8));
+-    asm volatile("" : : "a"(c10_9));
+-    asm volatile("" : : "a"(c10_10));
+-    asm volatile("" : : "a"(c10_11));
+-    asm volatile("" : : "a"(c10_12));
+-    asm volatile("" : : "a"(c10_13));
+-    asm volatile("" : : "a"(c10_14));
+-    asm volatile("" : : "a"(c10_15));
+-    asm volatile("" : : "a"(c11_0));
+-    asm volatile("" : : "a"(c11_1));
+-    asm volatile("" : : "a"(c11_2));
+-    asm volatile("" : : "a"(c11_3));
+-    asm volatile("" : : "a"(c11_4));
+-    asm volatile("" : : "a"(c11_5));
+-    asm volatile("" : : "a"(c11_6));
+-    asm volatile("" : : "a"(c11_7));
+-    asm volatile("" : : "a"(c11_8));
+-    asm volatile("" : : "a"(c11_9));
+-    asm volatile("" : : "a"(c11_10));
+-    asm volatile("" : : "a"(c11_11));
+-    asm volatile("" : : "a"(c11_12));
+-    asm volatile("" : : "a"(c11_13));
+-    asm volatile("" : : "a"(c11_14));
+-    asm volatile("" : : "a"(c11_15));
++    MXFP8_MATERIALIZE_C_QUADRANT(c10);
++    MXFP8_MATERIALIZE_C_QUADRANT(c11);
++#undef MXFP8_MATERIALIZE_C_QUADRANT
+ 
+     // B matrix requests can progress while the scale transpose publishes.
+     publish_sfa_panel();
+@@ -651,9 +611,9 @@
+ 
+     }
+ 
+-    // Seed the operand register roll. B-half0, SFB0, and both SFA
+-    // dwords for the first K tile are loaded once here.  SFA0 is later reused
+-    // in place, while SFA1 is carried in a dedicated next-tile VGPR.
++    // Seed all four matrix halves and scale dwords for K0. The main
++    // and penultimate blocks prefetch each next-K SFA/SFB pair in one b64
++    // read, then install its halves after the last current-K consumers.
+     v_sfa[0] = load_sfa_dword(0, 0);
+     v_sfa[1] = load_sfa_dword(0, 1);
+     v_sfb[0] = load_sfb_dword(0, 0);
+@@ -887,13 +847,9 @@
+         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+-        // Start panel SFA1 for tile t+1 in a dedicated VGPR; the remaining
+-        // ten c01 plus sixteen c11 MFMAs cover this immutable panel read.
+-
+-        // The current tile no longer consumes B-half0 or SFB0. Read both
+-        // next scale halves in one LDS b64; retain current SFB1 through c11.
+-        // B-half0 was read in four pairs at MFMA32/34/36/38; its values
+-        // are retained for the next K tile.
++        // Install the low dword of the SFB pair prefetched after MFMA20.
++        // Keep current SFB1 through C11. B0's four operand pairs have now
++        // rolled to the next K block at MFMA32/34/36/38.
+         v_sfb[0] = v_sfb_next[0];
+         __builtin_amdgcn_sched_barrier(0);
+ 
+@@ -925,10 +881,8 @@
+             0, 3, 1, v_a[0], v_b_n1, c01_14, c01_15, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
+ 
+-        // SFA0 is dead after the final c01 MFMA.  Reuse the same VGPR for the
+-        // next tile's SFA0 now, then hide this LDS read under all sixteen c11
+-        // MFMAs.  The true register anti-dependency prevents the read from
+-        // moving above the last current-tile SFA0 consumer.
++        // C01 has consumed current SFA0. Install the low dword of the
++        // SFA pair prefetched after MFMA2; keep current SFA1 through C11.
+         __builtin_amdgcn_sched_barrier(0);
+         v_sfa[0] = v_sfa_next[0];
+         // M3 is dead after c01_15. The earlier three slices already hold
+@@ -1193,13 +1147,9 @@
+         __builtin_amdgcn_sched_group_barrier(0x100, 2, 0);
+         __builtin_amdgcn_sched_barrier(0);
+ 
+-        // Start panel SFA1 for tile t+1 in a dedicated VGPR; the remaining
+-        // ten c01 plus sixteen c11 MFMAs cover this immutable panel read.
+-
+-        // The current tile no longer consumes B-half0 or SFB0. Read both
+-        // next scale halves in one LDS b64; retain current SFB1 through c11.
+-        // B-half0 was read in four pairs at MFMA32/34/36/38; its values
+-        // are retained for the next K tile.
++        // Install the low dword of the SFB pair prefetched after MFMA20.
++        // Keep current SFB1 through C11. B0's four operand pairs have now
++        // rolled to the next K block at MFMA32/34/36/38.
+         v_sfb[0] = v_sfb_next[0];
+         __builtin_amdgcn_sched_barrier(0);
+ 
+@@ -1231,10 +1181,8 @@
+             0, 3, 1, v_a[0], v_b_n1, c01_14, c01_15, v_sfa, v_sfb[1]);
+         sched_barrier_pairs_scale();
+ 
+-        // SFA0 is dead after the final c01 MFMA.  Reuse the same VGPR for the
+-        // next tile's SFA0 now, then hide this LDS read under all sixteen c11
+-        // MFMAs.  The true register anti-dependency prevents the read from
+-        // moving above the last current-tile SFA0 consumer.
++        // C01 has consumed current SFA0. Install the low dword of the
++        // SFA pair prefetched after MFMA2; keep current SFA1 through C11.
+         __builtin_amdgcn_sched_barrier(0);
+         v_sfa[0] = v_sfa_next[0];
+         // M3 is dead after c01_15. The earlier three slices already hold
+@@ -1355,8 +1303,9 @@
+                half_tile_n * T::HALF_B_N;
+     };
+ 
+-    // Each half covers all output rows and 128 contiguous columns.
+-    // The first half is published before its copy overlaps second-half MFMAs.
++    // Publish each completed 128x128 quadrant after MFMA20/36/52/64.
++    // Eight coalesced 16-byte copies per thread cover one quadrant. All
++    // four quadrants belong to this workgroup's single 256x256 output tile.
+     auto copy_output_quarter = [&](int half_m, int half_n, int copy_index) {
+         const int linear = thread_id_x() * 8 + copy_index * T::BLOCK_SIZE * 8;
+         const int output_row = linear / T::HALF_B_N + half_m * T::HALF_B_M;
+@@ -1560,7 +1509,9 @@
+     }
+ 
+     if constexpr (T::OUTPUT_BF16) {
+-        // Publish only the completed output quadrant before copying it.
++        // C10 LDS writes must finish before publication. Prior global
++        // C00 stores are independent and may remain in flight here;
++        // all matrix loads retired before output reused their LDS.
+         __builtin_amdgcn_sched_barrier(0);
+         s_waitcnt_lgkmcnt(0_I);
+         __builtin_amdgcn_s_barrier();

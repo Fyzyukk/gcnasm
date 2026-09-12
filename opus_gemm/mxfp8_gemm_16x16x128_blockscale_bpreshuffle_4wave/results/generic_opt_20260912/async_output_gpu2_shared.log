@@ -1,0 +1,93 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL packed2_20_quarter_async36 bf16 67108864 outputs
+FULL_BASELINE_EQUAL packed2_20_quarter_async36 fp32 67108864 outputs
+FULL_BASELINE_EQUAL packed2_20_quarter_async_all bf16 67108864 outputs
+FULL_BASELINE_EQUAL packed2_20_quarter_async_all fp32 67108864 outputs
+1 baseline bf16: 0.341952294 ms / 3.215395 P
+1 packed2_20_quarter_async36 bf16: 0.337700695 ms / 3.255876 P
+1 baseline bf16: 0.341175675 ms / 3.222714 P
+1 baseline bf16: 0.341242760 ms / 3.222080 P
+1 packed2_20_quarter_async_all bf16: 0.336690992 ms / 3.265640 P
+1 baseline bf16: 0.341371268 ms / 3.220868 P
+1 baseline fp32: 0.361575097 ms / 3.040894 P
+1 packed2_20_quarter_async36 fp32: 0.360565037 ms / 3.049413 P
+1 baseline fp32: 0.362440348 ms / 3.033635 P
+1 baseline fp32: 0.362122297 ms / 3.036299 P
+1 packed2_20_quarter_async_all fp32: 0.360450327 ms / 3.050383 P
+1 baseline fp32: 0.362255484 ms / 3.035183 P
+2 baseline bf16: 0.341628522 ms / 3.218442 P
+2 packed2_20_quarter_async_all bf16: 0.338034093 ms / 3.252665 P
+2 baseline bf16: 0.342627347 ms / 3.209060 P
+2 baseline bf16: 0.342316896 ms / 3.211970 P
+2 packed2_20_quarter_async36 bf16: 0.338078052 ms / 3.252242 P
+2 baseline bf16: 0.342111707 ms / 3.213897 P
+2 baseline fp32: 0.363097906 ms / 3.028141 P
+2 packed2_20_quarter_async_all fp32: 0.360911876 ms / 3.046482 P
+2 baseline fp32: 0.362909466 ms / 3.029713 P
+2 baseline fp32: 0.363251925 ms / 3.026857 P
+2 packed2_20_quarter_async36 fp32: 0.360835850 ms / 3.047124 P
+2 baseline fp32: 0.362987518 ms / 3.029062 P
+3 baseline bf16: 0.342611313 ms / 3.209210 P
+3 packed2_20_quarter_async36 bf16: 0.338160098 ms / 3.251453 P
+3 baseline bf16: 0.343246549 ms / 3.203271 P
+3 baseline bf16: 0.342447728 ms / 3.210743 P
+3 packed2_20_quarter_async_all bf16: 0.338230491 ms / 3.250776 P
+3 baseline bf16: 0.342553318 ms / 3.209753 P
+3 baseline fp32: 0.363069087 ms / 3.028381 P
+3 packed2_20_quarter_async36 fp32: 0.361533135 ms / 3.041247 P
+3 baseline fp32: 0.363590747 ms / 3.024036 P
+3 baseline fp32: 0.363185495 ms / 3.027411 P
+3 packed2_20_quarter_async_all fp32: 0.361687094 ms / 3.039953 P
+3 baseline fp32: 0.363574326 ms / 3.024173 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.34221430122852325,
+    "min_ms": 0.3411756753921509,
+    "max_ms": 0.34324654936790466,
+    "median_pflops": 3.2129330183713454
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.36302830278873444,
+    "min_ms": 0.36157509684562683,
+    "max_ms": 0.3635907471179962,
+    "median_pflops": 3.0287215055402017
+  },
+  {
+    "name": "packed2_20_quarter_async36",
+    "dtype": "bf16",
+    "median_ms": 0.3380780518054962,
+    "min_ms": 0.3377006947994232,
+    "max_ms": 0.33816009759902954,
+    "median_pflops": 3.2522419657356916
+  },
+  {
+    "name": "packed2_20_quarter_async36",
+    "dtype": "fp32",
+    "median_ms": 0.36083585023880005,
+    "min_ms": 0.36056503653526306,
+    "max_ms": 0.36153313517570496,
+    "median_pflops": 3.047124134279747
+  },
+  {
+    "name": "packed2_20_quarter_async_all",
+    "dtype": "bf16",
+    "median_ms": 0.33803409337997437,
+    "min_ms": 0.3366909921169281,
+    "max_ms": 0.3382304906845093,
+    "median_pflops": 3.25266489182223
+  },
+  {
+    "name": "packed2_20_quarter_async_all",
+    "dtype": "fp32",
+    "median_ms": 0.36091187596321106,
+    "min_ms": 0.3604503273963928,
+    "max_ms": 0.3616870939731598,
+    "median_pflops": 3.0464822606393724
+  }
+]

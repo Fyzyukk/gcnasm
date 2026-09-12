@@ -1,0 +1,209 @@
+{
+  "name": "generic_tile1_opt_20260912",
+  "selected_from": "split_async36_preload_a0_m0",
+  "parent_commit": "f0b117c4c18a543d73953776dae32b8df6949c8c",
+  "timestamp_utc": "2026-09-12T04:41:34.718730+00:00",
+  "gpu": {
+    "physical": 2,
+    "hip": 2,
+    "pci": "0000:65:00.0"
+  },
+  "shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "batch": 1,
+  "rounds": 5,
+  "confirmation_window": "final_candidate_confirm_gpu2",
+  "selection_reason": "A0/M0 prefetch after MFMA30 retained the best BF16 result in the final five-round bracketed comparison. Extra tail prefetch and redundant-priority deletion did not establish a BF16 advantage.",
+  "medians": [
+    {
+      "name": "baseline",
+      "dtype": "bf16",
+      "median_ms": 0.34215401113033295,
+      "min_ms": 0.34073641896247864,
+      "max_ms": 0.3500880002975464,
+      "median_pflops": 3.213499161221802
+    },
+    {
+      "name": "baseline",
+      "dtype": "fp32",
+      "median_ms": 0.36365140974521637,
+      "min_ms": 0.36229270696640015,
+      "max_ms": 0.3643544018268585,
+      "median_pflops": 3.023531872312406
+    },
+    {
+      "name": "split_async36_preload_a0_m0",
+      "dtype": "bf16",
+      "median_ms": 0.3370765745639801,
+      "min_ms": 0.3355052173137665,
+      "max_ms": 0.33825981616973877,
+      "median_pflops": 3.2619045960053894
+    },
+    {
+      "name": "split_async36_preload_a0_m0",
+      "dtype": "fp32",
+      "median_ms": 0.36029675602912903,
+      "min_ms": 0.3593982756137848,
+      "max_ms": 0.36086079478263855,
+      "median_pflops": 3.051683395359539
+    }
+  ],
+  "paired_speedups": {
+    "bf16": {
+      "median_percent": 1.5820200376414295,
+      "rounds": [
+        1.6545805546023695,
+        1.6347360818786294,
+        1.5820200376414295,
+        1.4971906407821534,
+        1.239643718178729
+      ]
+    },
+    "fp32": {
+      "median_percent": 0.9085725889076857,
+      "rounds": [
+        0.8302814276492043,
+        1.115762216017746,
+        0.9643325936037561,
+        0.9085725889076857,
+        0.8941379012178174
+      ]
+    }
+  },
+  "generic_contract": {
+    "mn_multiple": 256,
+    "k_multiple": 128,
+    "waves": 4,
+    "output_tile": [
+      256,
+      256
+    ],
+    "output_tiles_per_wg": 1,
+    "extra_device_workspace_bytes": 0
+  },
+  "unchanged_instruction_encodings": "cleanup_equivalence.json",
+  "validation_evidence": [
+    "shape_validation/initial_roll_gpu2/results.json",
+    "full_validation/initial_roll_gpu2/results.json",
+    "audits/production_top.json",
+    "audit_guard_checks.json",
+    "production_adapter_checks.log",
+    "full_validation/reproduction_smoke_gpu2/results.json",
+    "shared_allocations/reproduction_smoke_gpu2/static_audit.json",
+    "shared_allocations/reproduction_smoke_gpu2/baseline_static_audit.json"
+  ],
+  "target_pflops": 3.5,
+  "target_achieved": false,
+  "production_shape_measurements": "final_shapes_gpu2/summary.json",
+  "production_shape_medians": [
+    {
+      "shape": [
+        8192,
+        8192,
+        8192
+      ],
+      "dtype": "bf16",
+      "rounds": 5,
+      "median_ms": 0.337379951,
+      "min_ms": 0.337181969,
+      "max_ms": 0.33749836,
+      "median_pflops": 3.258971449005872
+    },
+    {
+      "shape": [
+        8192,
+        8192,
+        8192
+      ],
+      "dtype": "fp32",
+      "rounds": 5,
+      "median_ms": 0.360149727,
+      "min_ms": 0.359814835,
+      "max_ms": 0.360365753,
+      "median_pflops": 3.0529292273377178
+    },
+    {
+      "shape": [
+        1024,
+        1024,
+        1024
+      ],
+      "dtype": "bf16",
+      "rounds": 5,
+      "median_ms": 0.01398448,
+      "min_ms": 0.013966449,
+      "max_ms": 0.01402245,
+      "median_pflops": 0.1535619235037699
+    },
+    {
+      "shape": [
+        1024,
+        1024,
+        1024
+      ],
+      "dtype": "fp32",
+      "rounds": 5,
+      "median_ms": 0.01849806,
+      "min_ms": 0.01844766,
+      "max_ms": 0.0185365,
+      "median_pflops": 0.11609237120000691
+    },
+    {
+      "shape": [
+        2048,
+        2048,
+        2048
+      ],
+      "dtype": "bf16",
+      "rounds": 5,
+      "median_ms": 0.02217128,
+      "min_ms": 0.022128489,
+      "max_ms": 0.022181289,
+      "median_pflops": 0.7748704262451244
+    },
+    {
+      "shape": [
+        2048,
+        2048,
+        2048
+      ],
+      "dtype": "fp32",
+      "rounds": 5,
+      "median_ms": 0.02628696,
+      "min_ms": 0.026264901,
+      "max_ms": 0.026294911,
+      "median_pflops": 0.6535510071913984
+    },
+    {
+      "shape": [
+        4096,
+        4096,
+        4096
+      ],
+      "dtype": "bf16",
+      "rounds": 5,
+      "median_ms": 0.049476609,
+      "min_ms": 0.049331841,
+      "max_ms": 0.049589429,
+      "median_pflops": 2.7778571783688735
+    },
+    {
+      "shape": [
+        4096,
+        4096,
+        4096
+      ],
+      "dtype": "fp32",
+      "rounds": 5,
+      "median_ms": 0.055901971,
+      "min_ms": 0.055724649,
+      "max_ms": 0.055950661,
+      "median_pflops": 2.4585707983713134
+    }
+  ],
+  "reproduction_smoke_status": "PASS",
+  "adapter_check_status": "PASS"
+}

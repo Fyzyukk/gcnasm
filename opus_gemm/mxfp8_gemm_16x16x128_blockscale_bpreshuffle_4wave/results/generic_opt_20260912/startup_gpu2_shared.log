@@ -1,0 +1,93 @@
+Shared-address comparison on PCI 0000:65:00.0
+FULL_BASELINE_EQUAL baseline bf16 67108864 outputs
+FULL_BASELINE_EQUAL baseline fp32 67108864 outputs
+FULL_BASELINE_EQUAL packed6_sfb_uniform bf16 67108864 outputs
+FULL_BASELINE_EQUAL packed6_sfb_uniform fp32 67108864 outputs
+FULL_BASELINE_EQUAL packed6_zero_read_after_loads bf16 67108864 outputs
+FULL_BASELINE_EQUAL packed6_zero_read_after_loads fp32 67108864 outputs
+1 baseline bf16: 0.342095077 ms / 3.214053 P
+1 packed6_sfb_uniform bf16: 0.341602504 ms / 3.218687 P
+1 baseline bf16: 0.341127217 ms / 3.223172 P
+1 baseline bf16: 0.341593206 ms / 3.218775 P
+1 packed6_zero_read_after_loads bf16: 0.340615630 ms / 3.228013 P
+1 baseline bf16: 0.341942817 ms / 3.215484 P
+1 baseline fp32: 0.362760186 ms / 3.030960 P
+1 packed6_sfb_uniform fp32: 0.363399059 ms / 3.025631 P
+1 baseline fp32: 0.362430304 ms / 3.033719 P
+1 baseline fp32: 0.362832338 ms / 3.030357 P
+1 packed6_zero_read_after_loads fp32: 0.361361414 ms / 3.042692 P
+1 baseline fp32: 0.362943530 ms / 3.029429 P
+2 baseline bf16: 0.342610925 ms / 3.209214 P
+2 packed6_zero_read_after_loads bf16: 0.341226578 ms / 3.222233 P
+2 baseline bf16: 0.342592120 ms / 3.209390 P
+2 baseline bf16: 0.342878103 ms / 3.206713 P
+2 packed6_sfb_uniform bf16: 0.342630118 ms / 3.209034 P
+2 baseline bf16: 0.343173385 ms / 3.203954 P
+2 baseline fp32: 0.363348693 ms / 3.026051 P
+2 packed6_zero_read_after_loads fp32: 0.361885518 ms / 3.038286 P
+2 baseline fp32: 0.363285482 ms / 3.026577 P
+2 baseline fp32: 0.363306701 ms / 3.026401 P
+2 packed6_sfb_uniform fp32: 0.364208341 ms / 3.018908 P
+2 baseline fp32: 0.363330692 ms / 3.026201 P
+3 baseline bf16: 0.342849761 ms / 3.206978 P
+3 packed6_sfb_uniform bf16: 0.342285752 ms / 3.212262 P
+3 baseline bf16: 0.343150169 ms / 3.204170 P
+3 baseline bf16: 0.343289375 ms / 3.202871 P
+3 packed6_zero_read_after_loads bf16: 0.341519326 ms / 3.219471 P
+3 baseline bf16: 0.343051374 ms / 3.205093 P
+3 baseline fp32: 0.363759130 ms / 3.022637 P
+3 packed6_sfb_uniform fp32: 0.364326328 ms / 3.017931 P
+3 baseline fp32: 0.363659143 ms / 3.023468 P
+3 baseline fp32: 0.363797903 ms / 3.022314 P
+3 packed6_zero_read_after_loads fp32: 0.362436324 ms / 3.033668 P
+3 baseline fp32: 0.363632321 ms / 3.023691 P
+[
+  {
+    "name": "baseline",
+    "dtype": "bf16",
+    "median_ms": 0.3427303433418274,
+    "min_ms": 0.3411272168159485,
+    "max_ms": 0.3432893753051758,
+    "median_pflops": 3.2080953704159922
+  },
+  {
+    "name": "baseline",
+    "dtype": "fp32",
+    "median_ms": 0.36331869661808014,
+    "min_ms": 0.36243030428886414,
+    "max_ms": 0.3637979030609131,
+    "median_pflops": 3.02630070516796
+  },
+  {
+    "name": "packed6_sfb_uniform",
+    "dtype": "bf16",
+    "median_ms": 0.34228575229644775,
+    "min_ms": 0.34160250425338745,
+    "max_ms": 0.3426301181316376,
+    "median_pflops": 3.2122623287683094
+  },
+  {
+    "name": "packed6_sfb_uniform",
+    "dtype": "fp32",
+    "median_ms": 0.3642083406448364,
+    "min_ms": 0.36339905858039856,
+    "max_ms": 0.3643263280391693,
+    "median_pflops": 3.01890842430818
+  },
+  {
+    "name": "packed6_zero_read_after_loads",
+    "dtype": "bf16",
+    "median_ms": 0.34122657775878906,
+    "min_ms": 0.3406156301498413,
+    "max_ms": 0.3415193259716034,
+    "median_pflops": 3.2222332591959995
+  },
+  {
+    "name": "packed6_zero_read_after_loads",
+    "dtype": "fp32",
+    "median_ms": 0.36188551783561707,
+    "min_ms": 0.36136141419410706,
+    "max_ms": 0.36243632435798645,
+    "median_pflops": 3.0382857936731313
+  }
+]

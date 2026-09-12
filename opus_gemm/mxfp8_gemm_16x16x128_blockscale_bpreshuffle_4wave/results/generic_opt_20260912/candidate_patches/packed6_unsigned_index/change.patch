@@ -1,0 +1,201 @@
+--- a/tmpl_generic.hpp
++++ b/tmpl_generic.hpp
+@@ -245,8 +245,9 @@
+     using D_SF = unsigned char;
+     using D_SF_PACK = unsigned int;
+ 
+-    const int wgid = block_id_x();
+-    const int num_tiles_n = ceil_div_scale(kargs.n, T::B_N);
++    const unsigned int wgid = block_id_x();
++    // Both launch paths require positive N divisible by B_N.
++    const unsigned int num_tiles_n = static_cast<unsigned int>(kargs.n) / T::B_N;
+     const int block_m = wgid / num_tiles_n;
+     const int block_n = wgid % num_tiles_n;
+     const int row = block_m * T::B_M;
+@@ -424,14 +425,15 @@
+     D_SF_PACK v_sfa[2];
+     D_SF_PACK v_sfb[T::SCALE_N_HALVES];
+     opus::vector_t<D_SF_PACK, 2> v_sfb_next;
+-    D_SF_PACK v_sfa1_next;
++    opus::vector_t<D_SF_PACK, 2> v_sfa_next;
+     auto ga_offset = [&](int half_tile_m, int tile_k) { return half_tile_m * T::HALF_B_M * kargs.stride_a + tile_k * T::B_K; };
+     auto gb_offset = [&](int half_tile_n, int tile_k) { return half_tile_n * T::HALF_B_N * kargs.stride_b + tile_k * T::B_K * 16; };
+     auto sa_offset = [&](int stage, int half_tile_m) { return (stage * 2 + half_tile_m) * smem_a_elem; };
+     auto sb_offset = [&](int stage, int half_tile_n) { return (stage * 2 + half_tile_n) * smem_b_elem; };
+     // Runtime K controls every matrix iteration. The fixed panel size
+     // is a cache capacity; panels are refreshed for arbitrarily long K.
+-    const int loops = ceil_div_scale(kargs.k, T::B_K);
++    // Positive K is a multiple of B_K under the public contract.
++    const int loops = static_cast<unsigned int>(kargs.k) / T::B_K;
+     static_assert(T::SCALE_PANEL_K_TILES == 64);
+     constexpr int panel_mask = T::SCALE_PANEL_K_TILES - 1;
+ 
+@@ -542,6 +544,72 @@
+     async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(0, 0), gb_offset(0, 0));
+     async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(0, 1), gb_offset(1, 0));
+ 
++    // Materialize C while the initial global requests are in flight.
++    asm volatile("" : : "a"(c00_0));
++    asm volatile("" : : "a"(c00_1));
++    asm volatile("" : : "a"(c00_2));
++    asm volatile("" : : "a"(c00_3));
++    asm volatile("" : : "a"(c00_4));
++    asm volatile("" : : "a"(c00_5));
++    asm volatile("" : : "a"(c00_6));
++    asm volatile("" : : "a"(c00_7));
++    asm volatile("" : : "a"(c00_8));
++    asm volatile("" : : "a"(c00_9));
++    asm volatile("" : : "a"(c00_10));
++    asm volatile("" : : "a"(c00_11));
++    asm volatile("" : : "a"(c00_12));
++    asm volatile("" : : "a"(c00_13));
++    asm volatile("" : : "a"(c00_14));
++    asm volatile("" : : "a"(c00_15));
++    asm volatile("" : : "a"(c01_0));
++    asm volatile("" : : "a"(c01_1));
++    asm volatile("" : : "a"(c01_2));
++    asm volatile("" : : "a"(c01_3));
++    asm volatile("" : : "a"(c01_4));
++    asm volatile("" : : "a"(c01_5));
++    asm volatile("" : : "a"(c01_6));
++    asm volatile("" : : "a"(c01_7));
++    asm volatile("" : : "a"(c01_8));
++    asm volatile("" : : "a"(c01_9));
++    asm volatile("" : : "a"(c01_10));
++    asm volatile("" : : "a"(c01_11));
++    asm volatile("" : : "a"(c01_12));
++    asm volatile("" : : "a"(c01_13));
++    asm volatile("" : : "a"(c01_14));
++    asm volatile("" : : "a"(c01_15));
++    asm volatile("" : : "a"(c10_0));
++    asm volatile("" : : "a"(c10_1));
++    asm volatile("" : : "a"(c10_2));
++    asm volatile("" : : "a"(c10_3));
++    asm volatile("" : : "a"(c10_4));
++    asm volatile("" : : "a"(c10_5));
++    asm volatile("" : : "a"(c10_6));
++    asm volatile("" : : "a"(c10_7));
++    asm volatile("" : : "a"(c10_8));
++    asm volatile("" : : "a"(c10_9));
++    asm volatile("" : : "a"(c10_10));
++    asm volatile("" : : "a"(c10_11));
++    asm volatile("" : : "a"(c10_12));
++    asm volatile("" : : "a"(c10_13));
++    asm volatile("" : : "a"(c10_14));
++    asm volatile("" : : "a"(c10_15));
++    asm volatile("" : : "a"(c11_0));
++    asm volatile("" : : "a"(c11_1));
++    asm volatile("" : : "a"(c11_2));
++    asm volatile("" : : "a"(c11_3));
++    asm volatile("" : : "a"(c11_4));
++    asm volatile("" : : "a"(c11_5));
++    asm volatile("" : : "a"(c11_6));
++    asm volatile("" : : "a"(c11_7));
++    asm volatile("" : : "a"(c11_8));
++    asm volatile("" : : "a"(c11_9));
++    asm volatile("" : : "a"(c11_10));
++    asm volatile("" : : "a"(c11_11));
++    asm volatile("" : : "a"(c11_12));
++    asm volatile("" : : "a"(c11_13));
++    asm volatile("" : : "a"(c11_14));
++    asm volatile("" : : "a"(c11_15));
++
+     // B matrix requests can progress while the scale transpose publishes.
+     publish_sfa_panel();
+     s_waitcnt_vmcnt(0_I);
+@@ -644,6 +712,14 @@
+         MXFP8_MMA_ONE(0, 1, 1, v_a[0], v_b, c00_5, v_sfa, v_sfb[0]);
+         __builtin_amdgcn_sched_barrier(0);
+ 
++        // Prefetch published scales ahead of the operand roll.
++        v_sfa_next = __builtin_bit_cast(opus::vector_t<D_SF_PACK, 2>,
++            load<8>(s_sfa, ((tile + 1) & panel_mask) * T::SFA_PANEL_PITCH
++                + (wave_id_m * T::W_M + (lane_id & 15)) * 8));
++        v_sfb_next = __builtin_bit_cast(opus::vector_t<D_SF_PACK, 2>,
++            load<8>(s_sfb, ((tile + 1) & panel_mask) * T::SCALE_N_HALVES * 4));
++        __builtin_amdgcn_sched_barrier(0);
++
+         MXFP8_MMA_PAIR(0, 1, 1, v_a[0], v_b, c00_6, c00_7, v_sfa, v_sfb[0]);
+         sched_barrier_pairs_scale();
+         prefetch_matrix_issue(opus::number<0>{}, stage, future_tile);
+@@ -798,14 +874,11 @@
+ 
+         // Start panel SFA1 for tile t+1 in a dedicated VGPR; the remaining
+         // ten c01 plus sixteen c11 MFMAs cover this immutable panel read.
+-        v_sfa1_next = load_sfa_dword(tile + 1, 1);
+ 
+         // The current tile no longer consumes B-half0 or SFB0. Read both
+         // next scale halves in one LDS b64; retain current SFB1 through c11.
+         // B-half0 was read in four pairs at MFMA32/34/36/38; its values
+         // are retained for the next K tile.
+-        v_sfb_next = __builtin_bit_cast(opus::vector_t<D_SF_PACK, 2>,
+-            load<8>(s_sfb, ((tile + 1) & panel_mask) * T::SCALE_N_HALVES * 4));
+         v_sfb[0] = v_sfb_next[0];
+         __builtin_amdgcn_sched_barrier(0);
+ 
+@@ -842,7 +915,7 @@
+         // MFMAs.  The true register anti-dependency prevents the read from
+         // moving above the last current-tile SFA0 consumer.
+         __builtin_amdgcn_sched_barrier(0);
+-        v_sfa[0] = load_sfa_dword(tile + 1, 0);
++        v_sfa[0] = v_sfa_next[0];
+         // M3 is dead after c01_15. The earlier three slices already hold
+         // tile t+1, so these last two K64 pieces complete the A0 roll.
+         load_a_mrepeat_scale<T, 3>(s_a, ra0_next_offsets, v_a[0]);
+@@ -931,7 +1004,7 @@
+ 
+         __builtin_amdgcn_s_setprio(0);
+         v_sfb[1] = v_sfb_next[1];
+-        v_sfa[1] = v_sfa1_next;
++        v_sfa[1] = v_sfa_next[1];
+         stage = next_stage;
+     }
+ 
+@@ -978,6 +1051,14 @@
+         __builtin_amdgcn_s_setprio(1);
+ 
+         MXFP8_MMA_ONE(0, 1, 1, v_a[0], v_b, c00_5, v_sfa, v_sfb[0]);
++        __builtin_amdgcn_sched_barrier(0);
++
++        // Prefetch published scales ahead of the operand roll.
++        v_sfa_next = __builtin_bit_cast(opus::vector_t<D_SF_PACK, 2>,
++            load<8>(s_sfa, ((tile + 1) & panel_mask) * T::SFA_PANEL_PITCH
++                + (wave_id_m * T::W_M + (lane_id & 15)) * 8));
++        v_sfb_next = __builtin_bit_cast(opus::vector_t<D_SF_PACK, 2>,
++            load<8>(s_sfb, ((tile + 1) & panel_mask) * T::SCALE_N_HALVES * 4));
+         __builtin_amdgcn_sched_barrier(0);
+ 
+         MXFP8_MMA_PAIR(0, 1, 1, v_a[0], v_b, c00_6, c00_7, v_sfa, v_sfb[0]);
+@@ -1086,14 +1167,11 @@
+ 
+         // Start panel SFA1 for tile t+1 in a dedicated VGPR; the remaining
+         // ten c01 plus sixteen c11 MFMAs cover this immutable panel read.
+-        v_sfa1_next = load_sfa_dword(tile + 1, 1);
+ 
+         // The current tile no longer consumes B-half0 or SFB0. Read both
+         // next scale halves in one LDS b64; retain current SFB1 through c11.
+         // B-half0 was read in four pairs at MFMA32/34/36/38; its values
+         // are retained for the next K tile.
+-        v_sfb_next = __builtin_bit_cast(opus::vector_t<D_SF_PACK, 2>,
+-            load<8>(s_sfb, ((tile + 1) & panel_mask) * T::SCALE_N_HALVES * 4));
+         v_sfb[0] = v_sfb_next[0];
+         __builtin_amdgcn_sched_barrier(0);
+ 
+@@ -1130,7 +1208,7 @@
+         // MFMAs.  The true register anti-dependency prevents the read from
+         // moving above the last current-tile SFA0 consumer.
+         __builtin_amdgcn_sched_barrier(0);
+-        v_sfa[0] = load_sfa_dword(tile + 1, 0);
++        v_sfa[0] = v_sfa_next[0];
+         // M3 is dead after c01_15. The earlier three slices already hold
+         // tile t+1, so these last two K64 pieces complete the A0 roll.
+         load_a_mrepeat_scale<T, 3>(s_a, ra0_next_offsets, v_a[0]);
+@@ -1219,7 +1297,7 @@
+ 
+         __builtin_amdgcn_s_setprio(0);
+         v_sfb[1] = v_sfb_next[1];
+-        v_sfa[1] = v_sfa1_next;
++        v_sfa[1] = v_sfa_next[1];
+         stage = next_stage;
+     }
+ 

@@ -1,0 +1,60 @@
+Displaying notes found in: .note
+  Owner                Data size 	Description
+  AMDGPU               0x00000517	NT_AMDGPU_METADATA (AMDGPU Metadata)
+    AMDGPU Metadata:
+        ---
+amdhsa.kernels:
+  - .agpr_count:     256
+    .args:
+      - .offset:         0
+        .size:           96
+        .value_kind:     by_value
+    .gfx1250_revision: B0
+    .group_segment_fixed_size: 152064
+    .kernarg_segment_align: 8
+    .kernarg_segment_size: 96
+    .language:       OpenCL C
+    .language_version:
+      - 2
+      - 0
+    .max_flat_workgroup_size: 256
+    .name:           _ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs
+    .private_segment_fixed_size: 0
+    .sgpr_count:     74
+    .sgpr_spill_count: 0
+    .symbol:         _ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb0EEEEv21opus_gemm_scale_kargs.kd
+    .uniform_work_group_size: 1
+    .uses_dynamic_stack: false
+    .vgpr_count:     500
+    .vgpr_spill_count: 0
+    .wavefront_size: 64
+  - .agpr_count:     256
+    .args:
+      - .offset:         0
+        .size:           96
+        .value_kind:     by_value
+    .gfx1250_revision: B0
+    .group_segment_fixed_size: 152064
+    .kernarg_segment_align: 8
+    .kernarg_segment_size: 96
+    .language:       OpenCL C
+    .language_version:
+      - 2
+      - 0
+    .max_flat_workgroup_size: 256
+    .name:           _ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs
+    .private_segment_fixed_size: 0
+    .sgpr_count:     74
+    .sgpr_spill_count: 0
+    .symbol:         _ZN18blockscale_generic28gemm_a8w8_mxfp8_scale_kernelI14FourWaveTraitsILb1EEEEv21opus_gemm_scale_kargs.kd
+    .uniform_work_group_size: 1
+    .uses_dynamic_stack: false
+    .vgpr_count:     504
+    .vgpr_spill_count: 0
+    .wavefront_size: 64
+amdhsa.target:   amdgcn-amd-amdhsa--gfx950
+amdhsa.version:
+  - 1
+  - 2
+...
+

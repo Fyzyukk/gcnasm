@@ -1,0 +1,200 @@
+[
+  {
+    "round": 1,
+    "name": "packed6_unsigned_quarter",
+    "dtype": "bf16",
+    "candidate_ms": 0.3389889895915985,
+    "baseline_before_ms": 0.3425014019012451,
+    "baseline_after_ms": 0.3416351079940796,
+    "reference_ms": 0.34206825494766235,
+    "speedup_percent": 0.908367366082774,
+    "baseline_drift_percent": -0.2529314923549797
+  },
+  {
+    "round": 1,
+    "name": "packed6_unsigned_out6",
+    "dtype": "bf16",
+    "candidate_ms": 0.33973801136016846,
+    "baseline_before_ms": 0.3413527309894562,
+    "baseline_after_ms": 0.3413247764110565,
+    "reference_ms": 0.34133875370025635,
+    "speedup_percent": 0.47116963264699496,
+    "baseline_drift_percent": -0.008189352497234292
+  },
+  {
+    "round": 1,
+    "name": "packed6_unsigned_quarter6",
+    "dtype": "bf16",
+    "candidate_ms": 0.33939993381500244,
+    "baseline_before_ms": 0.34219634532928467,
+    "baseline_after_ms": 0.3423495888710022,
+    "reference_ms": 0.34227296710014343,
+    "speedup_percent": 0.8465037847376289,
+    "baseline_drift_percent": 0.04478234318079366
+  },
+  {
+    "round": 1,
+    "name": "packed6_unsigned_quarter",
+    "dtype": "fp32",
+    "candidate_ms": 0.3615442216396332,
+    "baseline_before_ms": 0.36260536313056946,
+    "baseline_after_ms": 0.3626270294189453,
+    "reference_ms": 0.3626161962747574,
+    "speedup_percent": 0.2964988986029704,
+    "baseline_drift_percent": 0.005975170413585751
+  },
+  {
+    "round": 1,
+    "name": "packed6_unsigned_out6",
+    "dtype": "fp32",
+    "candidate_ms": 0.36192935705184937,
+    "baseline_before_ms": 0.3629193603992462,
+    "baseline_after_ms": 0.36300623416900635,
+    "reference_ms": 0.3629627972841263,
+    "speedup_percent": 0.28553644851994076,
+    "baseline_drift_percent": 0.023937485634428768
+  },
+  {
+    "round": 1,
+    "name": "packed6_unsigned_quarter6",
+    "dtype": "fp32",
+    "candidate_ms": 0.3616766631603241,
+    "baseline_before_ms": 0.36322060227394104,
+    "baseline_after_ms": 0.3633117973804474,
+    "reference_ms": 0.3632661998271942,
+    "speedup_percent": 0.4394910782965056,
+    "baseline_drift_percent": 0.02510736063301433
+  },
+  {
+    "round": 2,
+    "name": "packed6_unsigned_quarter6",
+    "dtype": "bf16",
+    "candidate_ms": 0.3400156795978546,
+    "baseline_before_ms": 0.34270602464675903,
+    "baseline_after_ms": 0.34283602237701416,
+    "reference_ms": 0.3427710235118866,
+    "speedup_percent": 0.8103578979918868,
+    "baseline_drift_percent": 0.03793272394003733
+  },
+  {
+    "round": 2,
+    "name": "packed6_unsigned_out6",
+    "dtype": "bf16",
+    "candidate_ms": 0.34076249599456787,
+    "baseline_before_ms": 0.3429732620716095,
+    "baseline_after_ms": 0.3432468771934509,
+    "reference_ms": 0.3431100696325302,
+    "speedup_percent": 0.6889178432358145,
+    "baseline_drift_percent": 0.07977739144700013
+  },
+  {
+    "round": 2,
+    "name": "packed6_unsigned_quarter",
+    "dtype": "bf16",
+    "candidate_ms": 0.34016844630241394,
+    "baseline_before_ms": 0.3432096838951111,
+    "baseline_after_ms": 0.3432256579399109,
+    "reference_ms": 0.343217670917511,
+    "speedup_percent": 0.8963866720272495,
+    "baseline_drift_percent": 0.004654310629725877
+  },
+  {
+    "round": 2,
+    "name": "packed6_unsigned_quarter6",
+    "dtype": "fp32",
+    "candidate_ms": 0.3625158369541168,
+    "baseline_before_ms": 0.36340710520744324,
+    "baseline_after_ms": 0.3636094331741333,
+    "reference_ms": 0.36350826919078827,
+    "speedup_percent": 0.2737624499414837,
+    "baseline_drift_percent": 0.05567529192214149
+  },
+  {
+    "round": 2,
+    "name": "packed6_unsigned_out6",
+    "dtype": "fp32",
+    "candidate_ms": 0.36240506172180176,
+    "baseline_before_ms": 0.36300262808799744,
+    "baseline_after_ms": 0.36355945467948914,
+    "reference_ms": 0.3632810413837433,
+    "speedup_percent": 0.24171286619996124,
+    "baseline_drift_percent": 0.15339464466817
+  },
+  {
+    "round": 2,
+    "name": "packed6_unsigned_quarter",
+    "dtype": "fp32",
+    "candidate_ms": 0.362455815076828,
+    "baseline_before_ms": 0.3635222315788269,
+    "baseline_after_ms": 0.36368265748023987,
+    "reference_ms": 0.3636024445295334,
+    "speedup_percent": 0.31635013290167713,
+    "baseline_drift_percent": 0.04413097397544252
+  },
+  {
+    "round": 3,
+    "name": "packed6_unsigned_quarter",
+    "dtype": "bf16",
+    "candidate_ms": 0.34056246280670166,
+    "baseline_before_ms": 0.34350767731666565,
+    "baseline_after_ms": 0.34362369775772095,
+    "reference_ms": 0.3435656875371933,
+    "speedup_percent": 0.8818425570865873,
+    "baseline_drift_percent": 0.033775210487752005
+  },
+  {
+    "round": 3,
+    "name": "packed6_unsigned_out6",
+    "dtype": "bf16",
+    "candidate_ms": 0.3410968780517578,
+    "baseline_before_ms": 0.34323447942733765,
+    "baseline_after_ms": 0.3434332609176636,
+    "reference_ms": 0.3433338701725006,
+    "speedup_percent": 0.6558231003226389,
+    "baseline_drift_percent": 0.05791419634111339
+  },
+  {
+    "round": 3,
+    "name": "packed6_unsigned_quarter6",
+    "dtype": "bf16",
+    "candidate_ms": 0.34023165702819824,
+    "baseline_before_ms": 0.34354445338249207,
+    "baseline_after_ms": 0.34339889883995056,
+    "reference_ms": 0.3434716761112213,
+    "speedup_percent": 0.952297946441405,
+    "baseline_drift_percent": -0.04236847403833455
+  },
+  {
+    "round": 3,
+    "name": "packed6_unsigned_quarter",
+    "dtype": "fp32",
+    "candidate_ms": 0.3626406490802765,
+    "baseline_before_ms": 0.36328747868537903,
+    "baseline_after_ms": 0.3638726770877838,
+    "reference_ms": 0.3635800778865814,
+    "speedup_percent": 0.2590522625324887,
+    "baseline_drift_percent": 0.16108411017148327
+  },
+  {
+    "round": 3,
+    "name": "packed6_unsigned_out6",
+    "dtype": "fp32",
+    "candidate_ms": 0.3629458248615265,
+    "baseline_before_ms": 0.3638070821762085,
+    "baseline_after_ms": 0.3643490970134735,
+    "reference_ms": 0.364078089594841,
+    "speedup_percent": 0.3119652178796839,
+    "baseline_drift_percent": 0.148984135774044
+  },
+  {
+    "round": 3,
+    "name": "packed6_unsigned_quarter6",
+    "dtype": "fp32",
+    "candidate_ms": 0.3631622791290283,
+    "baseline_before_ms": 0.3634895086288452,
+    "baseline_after_ms": 0.36349743604660034,
+    "reference_ms": 0.3634934723377228,
+    "speedup_percent": 0.09119702891191572,
+    "baseline_drift_percent": 0.0021809206502299006
+  }
+]

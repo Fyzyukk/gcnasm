@@ -1,0 +1,70 @@
+{
+  "timestamp_utc": "2026-09-12T04:40:19.776398+00:00",
+  "physical_gpu": 2,
+  "hip_index": 2,
+  "pci": "0000:65:00.0",
+  "initial_status": {
+    "GPU use (%)": "3",
+    "GFX Activity": "3034986643",
+    "GPU Memory Allocated (VRAM%)": "0",
+    "GPU Memory Read/Write Activity (%)": "0",
+    "Memory Activity": "1634548520",
+    "Avg. Memory Bandwidth": "0",
+    "PCI Bus": "0000:65:00.0"
+  },
+  "all_devices": [
+    {
+      "hip_index": 0,
+      "pci": "0000:75:00.0"
+    },
+    {
+      "hip_index": 1,
+      "pci": "0000:05:00.0"
+    },
+    {
+      "hip_index": 2,
+      "pci": "0000:65:00.0"
+    },
+    {
+      "hip_index": 3,
+      "pci": "0000:15:00.0"
+    },
+    {
+      "hip_index": 4,
+      "pci": "0000:f5:00.0"
+    },
+    {
+      "hip_index": 5,
+      "pci": "0000:85:00.0"
+    },
+    {
+      "hip_index": 6,
+      "pci": "0000:e5:00.0"
+    },
+    {
+      "hip_index": 7,
+      "pci": "0000:95:00.0"
+    }
+  ],
+  "sizes": [
+    8192,
+    1024,
+    2048,
+    4096
+  ],
+  "batch": 1,
+  "warmup": 200,
+  "iterations": 100,
+  "rounds": 5,
+  "seed": 1,
+  "hashes": {
+    "tmpl_generic.hpp": "6472526cabcb12957570f8540b13adae296ab35f637e9f254c4a7a00e0e58483",
+    "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+    "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+    "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+    "build/gemm_a8w8_blockscale_bpreshuffle.exe": "a50082174f7775aaca30147dc1493f59ea353ce30639fd2705a99d03945ad185",
+    "build/libblockscale_bpreshuffle.so": "fc8822de1073127b4578bc39ef1279d76086adcd6cfff4915145cf662857b01d"
+  },
+  "kernel_only": true,
+  "scope": "Square M=N=K shapes, in requested order; serial HIP-event CLI measurements"
+}

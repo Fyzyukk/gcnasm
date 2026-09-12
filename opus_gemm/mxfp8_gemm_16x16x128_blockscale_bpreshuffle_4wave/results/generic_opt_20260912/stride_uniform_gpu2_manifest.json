@@ -1,0 +1,74 @@
+{
+  "tag": "stride_uniform_gpu2",
+  "physical_gpu": 2,
+  "hip_index": 2,
+  "pci": "0000:65:00.0",
+  "initial_status": {
+    "GPU use (%)": "1",
+    "GFX Activity": "3031868844",
+    "GPU Memory Allocated (VRAM%)": "0",
+    "GPU Memory Read/Write Activity (%)": "0",
+    "Memory Activity": "1634323646",
+    "Avg. Memory Bandwidth": "0",
+    "PCI Bus": "0000:65:00.0"
+  },
+  "timing_reference": "packed2_20_split_async36",
+  "candidates": [
+    "split_async36_matrix_stride_uniform",
+    "split_async36_all_strides_uniform"
+  ],
+  "performance_shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "jobs": [
+    [
+      "audit",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_opt_20260912/audit.py",
+        "split_async36_matrix_stride_uniform",
+        "split_async36_all_strides_uniform"
+      ]
+    ],
+    [
+      "shapes",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_opt_20260912/verify_shapes.py",
+        "--tag",
+        "stride_uniform_gpu2",
+        "--pci",
+        "0000:65:00.0",
+        "split_async36_matrix_stride_uniform",
+        "split_async36_all_strides_uniform"
+      ]
+    ],
+    [
+      "full",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_opt_20260912/run.py",
+        "verify",
+        "--tag",
+        "stride_uniform_gpu2",
+        "--pci",
+        "0000:65:00.0",
+        "split_async36_matrix_stride_uniform",
+        "split_async36_all_strides_uniform"
+      ]
+    ],
+    [
+      "shared",
+      [
+        "/opt/venv/bin/python3",
+        "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_opt_20260912/run.py",
+        "shared",
+        "stride_uniform_gpu2",
+        "split_async36_matrix_stride_uniform",
+        "split_async36_all_strides_uniform"
+      ]
+    ]
+  ]
+}
