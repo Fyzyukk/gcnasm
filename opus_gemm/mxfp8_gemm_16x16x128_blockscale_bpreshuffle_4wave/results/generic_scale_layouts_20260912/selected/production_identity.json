@@ -1,0 +1,89 @@
+{
+  "status": "PASS",
+  "timestamp_utc": "2026-09-12T11:16:52.017440+00:00",
+  "selected_directory": "/tmp/mxfp8_scale_layouts_20260912_srbvhgm7/shape_dim_layouts",
+  "production_directory": "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave",
+  "source_hashes": {
+    "tmpl_generic.hpp": "62d2f0f3b25bf89c70d55756348fff214937211a95ce669b0a3f12d512ecb513",
+    "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+    "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+    "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+    "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+    "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+    "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+    "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+    "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+  },
+  "artifacts": {
+    "selected": {
+      "device.co": "3e8939186cf34434b178037c4c02724fbfb38627455192983c99d27b9ec0970c",
+      "device.fb": "57ad411d88487b4eeb0e92ae0184645536b6cbb000a8916c87361da8e2125aea",
+      "device.notes": "c444f5af7cce5949cc55e236cc83ffb9706a436b03050e1f6293d2d09a7e131f",
+      "device.isa": "87bfad14ac68bdb1a73b5e8cebf65ac58f24fbedf6bf29e992a9c3174984d6d2",
+      "libblockscale_bpreshuffle.so": "25b5cd35624d54b3391c95a84b4c01a94e184de6a7a262c2e28fd5fec2d4c80e",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "f2b04d04dfe44976cb4f5a4c31127ca082a5af07159eda41b450725783c99cf5",
+      "library.fb": "57ad411d88487b4eeb0e92ae0184645536b6cbb000a8916c87361da8e2125aea"
+    },
+    "production": {
+      "device.co": "3e8939186cf34434b178037c4c02724fbfb38627455192983c99d27b9ec0970c",
+      "device.fb": "57ad411d88487b4eeb0e92ae0184645536b6cbb000a8916c87361da8e2125aea",
+      "device.notes": "c444f5af7cce5949cc55e236cc83ffb9706a436b03050e1f6293d2d09a7e131f",
+      "device.isa": "87bfad14ac68bdb1a73b5e8cebf65ac58f24fbedf6bf29e992a9c3174984d6d2",
+      "libblockscale_bpreshuffle.so": "25b5cd35624d54b3391c95a84b4c01a94e184de6a7a262c2e28fd5fec2d4c80e",
+      "gemm_a8w8_blockscale_bpreshuffle.exe": "f2b04d04dfe44976cb4f5a4c31127ca082a5af07159eda41b450725783c99cf5",
+      "library.fb": "57ad411d88487b4eeb0e92ae0184645536b6cbb000a8916c87361da8e2125aea"
+    }
+  },
+  "resources": {
+    "fp32": {
+      "vgpr_count": 500,
+      "sgpr_count": 62,
+      "group_segment_fixed_size": 152064,
+      "private_segment_fixed_size": 0,
+      "vgpr_spill_count": 0,
+      "sgpr_spill_count": 0,
+      "wavefront_size": 64,
+      "max_flat_workgroup_size": 256,
+      "agpr_count": 256,
+      "ordinary_vgpr_count": 244,
+      "static_mfma_count": 448,
+      "instructions": 2177,
+      "words": 4423,
+      "encoding_sha256": "2f4fcdc05511935f3fa9f07ddfd72048215587e04118d4d2ce9edc2c5834df97"
+    },
+    "bf16": {
+      "vgpr_count": 508,
+      "sgpr_count": 62,
+      "group_segment_fixed_size": 152064,
+      "private_segment_fixed_size": 0,
+      "vgpr_spill_count": 0,
+      "sgpr_spill_count": 0,
+      "wavefront_size": 64,
+      "max_flat_workgroup_size": 256,
+      "agpr_count": 256,
+      "ordinary_vgpr_count": 252,
+      "static_mfma_count": 448,
+      "instructions": 2759,
+      "words": 5527,
+      "encoding_sha256": "eb57ff1f2e65278a657524a89d02948c2397a30b7418553bd99efc9ac499d80c"
+    }
+  },
+  "build_command": [
+    "make",
+    "-j3",
+    "all",
+    "inspect"
+  ],
+  "executable_device_code_objects_identical_to_selected": true,
+  "shared_library_device_fatbins_identical_to_selected": true,
+  "complete_device_metadata_identical_to_selected": true,
+  "gpu_instructions_identical_to_performance_baseline": false,
+  "gpu_launched": false,
+  "gpu_correctness": "NOT_RUN",
+  "performance": "NOT_RUN",
+  "gpu_revalidation_required": true,
+  "historical_performance_baseline": "f483077e0263bc8d39ad810ad4c1f03b93727702",
+  "macro_definitions": 0,
+  "macro_undefinitions": 0,
+  "if_constexpr_count": 7
+}

@@ -1,0 +1,49 @@
+{
+  "status": "CPU_COMPLETE_GPU_DEFERRED",
+  "physical_gpu": 2,
+  "pci": "0000:65:00.0",
+  "availability_evidence": "gpu2_availability.json",
+  "candidate": "shape_dim_layouts",
+  "candidate_metadata": "selected/candidate.json",
+  "source_sha256": "62d2f0f3b25bf89c70d55756348fff214937211a95ce669b0a3f12d512ecb513",
+  "reference": "baseline",
+  "reference_source_commit": "09734d65352d8ad46ab2902714158b0768f0b471",
+  "reference_source_sha256": "ed44bd448691f21182af5c988ccdbb91b6ed8a1d44f7ee6900e3b598233b42ef",
+  "reference_device_object_sha256": "0c1581177fffdc40dc46826ee46bd6fade6db57d14d07af46da275534d0ed169",
+  "reference_gpu_code_identical_to": "f483077e0263bc8d39ad810ad4c1f03b93727702",
+  "work_directory": "/tmp/mxfp8_scale_layouts_20260912_srbvhgm7",
+  "command": [
+    "env",
+    "MXFP8_WORK_DIR=/tmp/mxfp8_scale_layouts_20260912_srbvhgm7",
+    "MXFP8_AUDIT_OUTPUT_DIR=/tmp/mxfp8_scale_layouts_20260912_srbvhgm7/gpu_retest_audits",
+    "python3",
+    "results/generic_latency_20260912/screen.py",
+    "shape_dim_layouts",
+    "--tag",
+    "shape_dim_layouts_gpu2",
+    "--gpu",
+    "2",
+    "--rounds",
+    "5"
+  ],
+  "validation": [
+    "22 generic shapes, both output types",
+    "Independent full 8192 output reference",
+    "Same-process, same-address baseline-candidate-baseline timing with native HIP events"
+  ],
+  "performance_shape": [
+    8192,
+    8192,
+    8192
+  ],
+  "warmup": 200,
+  "iterations": 100,
+  "rounds": 5,
+  "telemetry_during_timing": false,
+  "gpu_launched": false,
+  "gpu_correctness": "NOT_RUN",
+  "performance": "NOT_RUN",
+  "separate_from_frozen_performance_candidates": true,
+  "execution_paused_by_user": true,
+  "pause_instruction": "\u6574\u7406\u5b8c\u4f60\u5148\u4f18\u5316\u5230\u8fd9\u91cc\u5427"
+}

@@ -1,5 +1,7 @@
 # 通用 4-wave / tile1 C++ 源码清理
 
+本目录为历史记录，适用于无宏清理及阶段注释提交 `09734d65352d8ad46ab2902714158b0768f0b471`。当前生产源码后来恢复了scale的shape/dim/layout，生成GPU代码已变化，见 [新布局记录](../generic_scale_layouts_20260912/README.md)。下面的哈希与二进制等价证明只适用于本目录所记录的旧版本。
+
 按用户要求，正式 `tmpl_generic.hpp` 不再使用自定义宏。算法、通用 K、两种输出类型和 GPU 指令保持原样；这次没有运行 GPU，也没有新增性能成绩。
 
 ## 最终代码
@@ -29,7 +31,7 @@
 
 证据在 `selected/comparison.json`、`selected/device_identity.json`、`selected/production_identity.json`、`selected/static_audit.json`，独立干净构建记录为 `verification_20260912T092419.json`。公共比较工具使用的静态审查也通过了源码哈希、原生绑定 MFMA、EXEC、LDS/VMEM 等待检查。
 
-可在不使用 GPU 的情况下重新构建并验证：
+在提交 `09734d65352d8ad46ab2902714158b0768f0b471` 的独立checkout中，可在不使用 GPU 的情况下重新构建并验证。此脚本会读取该checkout顶层源码并核对旧哈希，不能直接用来验证后续shape/dim版本：
 
 ```bash
 python3 results/generic_source_cleanup_20260912/verify.py

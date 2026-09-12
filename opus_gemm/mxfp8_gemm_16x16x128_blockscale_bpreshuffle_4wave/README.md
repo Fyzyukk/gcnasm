@@ -5,11 +5,11 @@ gfx950 4-wave blockscale bpreshuffle GEMM
 
 **执行模式为 4wave + tile1。** 本项目的 tile 数量指每个工作组处理的完整 **256×256 输出块数量**：tile1 每WG独立处理1块；tile2/tile4 为每WG连续处理2/4块的持久化方案。当前 `traits.hpp` 的 `OUTPUT_TILES_PER_WG=1`，接口 `tiles=0`（auto）也选择1，CLI、Python与C ABI均只接受0/1。K方向另有2-stage LDS双缓冲。
 
-当前源码版本为 `generic_tile1_cpp_20260912`，GPU执行代码与 `f483077` 的 `generic_tile1_issue_20260912` 完全相同。`tmpl_generic.hpp` 已移除全部自定义宏，改为显式MMA赋值和局部输出helper；`if constexpr` 从29处收敛到7处，仅用于编译期选择。完整device code object、共享库内嵌GPU代码和设备元数据均逐字节相同，见 [源码清理记录](results/generic_source_cleanup_20260912/README.md)。
+当前源码版本为 `generic_tile1_shape_dim_20260912`。`tmpl_generic.hpp` 的六组 scale 寻址已恢复成与矩阵相同的 `shape → dim → layout` 定义，实际全局读取、LDS写入和寄存器读取均使用对应layout。保持无自定义宏、显式MMA赋值和局部输出helper，`if constexpr` 仍为7处。两种输出的正式构建、编译期地址映射和静态ISA检查通过；**生成的GPU代码与 f483077 不同，新版GPU正确性和性能待空闲卡验证**，见 [scale布局记录](results/generic_scale_layouts_20260912/README.md)。此前仅移除宏时的二进制等价证明属于 [历史源码清理](results/generic_source_cleanup_20260912/README.md)。
 
 性能版本基于通过五轮确认的 `grid2d_unroll4`，在提交 `9229d1a` 的通用版本上优化矩阵请求发射、m0基址复用、主循环优先级、二维grid与循环展开。构建只含通用kernel的BF16/FP32两种输出实例。源码、正确性和历史测量见 [发射调度轮记录](results/generic_issue_20260912/README.md)。
 
-以下为同一GPU内核在源码清理前于GPU2（HIP2，PCI `0000:65:00.0`）测得的历史成绩，M=N=K、batch1、warmup200、iterations100、CLI seed1，五轮中位数：
+以下为冻结版本 **f483077** 在GPU2（HIP2，PCI `0000:65:00.0`）测得的历史成绩，不能当作当前shape/dim版本的跑分。M=N=K、batch1、warmup200、iterations100、CLI seed1，五轮中位数：
 
 | M=N=K | BF16 ms | BF16 P | FP32 ms | FP32 P |
 | ---: | ---: | ---: | ---: | ---: |
@@ -18,9 +18,9 @@ gfx950 4-wave blockscale bpreshuffle GEMM
 | 2048 | 0.021611280 | 0.794949 | 0.025707681 | 0.668278 |
 | 4096 | 0.048890672 | 2.811149 | 0.055321960 | 2.484347 |
 
-本轮基线明确固定为提交 `9229d1a57f24cdd3da47ba3e03545d08d4f001e1` 的通用4wave/tile1版本。五轮同地址交替确认中，BF16为基线3.258160P、候选3.286620P，FP32为3.049997P、3.076171P；相邻基线归一化后的提升中位数分别为0.863%和0.871%，两种输出均五轮为正。上表是清理后正式构建的独立五轮结果。**3.5P目标尚未达到。** 8192用于compute-bound优化，另外三个尺寸用于记录最终性能。此前3.259P检查点见 [上一版记录](results/generic_opt_20260912/README.md)。
+上述发射调度轮的基线为提交 `9229d1a57f24cdd3da47ba3e03545d08d4f001e1` 的通用4wave/tile1版本。五轮同地址交替确认中，BF16为基线3.258160P、候选3.286620P，FP32为3.049997P、3.076171P；相邻基线归一化后的提升中位数分别为0.863%和0.871%，两种输出均五轮为正。上表是当时 f483077 对应正式构建的独立五轮结果。**3.5P目标尚未达到。** 8192用于compute-bound优化，另外三个尺寸用于记录最终性能。此前3.259P检查点见 [上一版记录](results/generic_opt_20260912/README.md)。
 
-后续延迟优化以提交 **f483077**（上表正式版本）为新冻结基线。`grid_group2` 的历史五轮同地址窗口约 **3.299P**；该窗口只保存了开跑前空闲快照，需在空闲时复测，尚未替换生产版本。寄存器压缩、操作数提前读取、连续 wave 分工等19个候选已完成编译和静态核对，GPU运行验证仍待执行。当前筛选工具会在每个GPU阶段前后保存占用快照。见 [延迟优化记录](results/generic_latency_20260912/README.md)。
+后续延迟优化以提交 **f483077**（上表正式版本）为冻结基线。`grid_group2` 的历史五轮同地址窗口约 **3.299P**；该窗口只保存了开跑前空闲快照，需在空闲时复测，尚未替换生产版本。寄存器压缩、操作数提前读取、连续 wave 分工等19个候选已完成编译和静态核对，GPU运行验证仍待执行；本次scale布局整理的复测单独记录，不改写这些候选及其基线。当前筛选工具会在每个GPU阶段前后保存占用快照。见 [延迟优化记录](results/generic_latency_20260912/README.md)。
 
 历史专用3.214P、持久化tile2/tile4对照及未采用实验保留在 `results/` 的冻结记录和归档中，不参与当前构建。继续工作的入口为 [最新通用路径续记](CONTINUATION_20260912_LATENCY35.md)，已发布版本的记录为 [发射调度轮续记](CONTINUATION_20260912_ISSUE35.md)。
 
@@ -41,6 +41,8 @@ M、N 为正的 256 倍数，K 为正的 128 倍数，全部使用同一通用�
 
 Scale 加载流程
 --------------
+
+源码中的 `make_layout_gsfa_scale / make_layout_ssfa_scale / make_layout_rsfa_scale` 对应 A_scale 的全局读取、LDS写入、LDS到MFMA寄存器读取；B_scale 对应 `gsfb / ssfb / rsfb`。每组都有实际的 `*_block_shape`、`*_block_dim`、`unfold_x_stride`、`unfold_p_coord` 和 `make_layout`，调用处使用 `u_gsfa/u_ssfa/u_rsfa` 等变量。`p_dim` 表示由线程或当前K位置选择的坐标，`y_dim` 表示该线程读写的数据维度。
 
 Blockscale 的输入契约及打包 scale / `op_sel` 方案来自此前的 8-wave bpreshuffle 移植；矩阵流水线继承原 4-wave、256 AGPR 实现。与 gfx950 MXScale BMM 相同的是“一个 K128 scale 用于四个 K32 子组”的语义；本实现没有照搬 BMM 的加载流水线。下面的完整 K 面板、寄存器直接打包与普通 LDS dword 读取是 4-wave 的后续优化。
 
@@ -65,12 +67,12 @@ Blockscale 的输入契约及打包 scale / `op_sel` 方案来自此前的 8-wav
 
 两种输出的A0/M repeat 0均在MFMA30后预读t+1的两个16字节片段，到MFMA36完成当前值的最后消费后再安装；其余A0 M repeat仍在40、44、48后读取。B0在32、34、36、38后分四对读取。C11前8条维持按行次序，后8条在M repeat 2/3间交替，使B1四个N repeat分别在58、60、62、64后读取。A1的M repeat 0/1/2在52、56、63后读取；M repeat 3的两个16字节片段提前到56后读入临时寄存器，在64后旧值最后一次使用完毕再安装。每个累加器的K顺序、操作数和scale字节选择一致。
 
-BF16把完成的累加片段转换为4元素向量，提前写入pitch264的输出LDS，再合并为16字节GMEM stores并使用 `nt`。A/B矩阵的双缓冲合为一个对齐的135168字节分配；矩阵DMA和读取全部结束并经等待与barrier后，BF16输出才复用它。最后一轮MFMA20、36、52、64后，依次发布C00、C10、C01、C11的128×128区域，每区域每线程执行8次16字节合并写回。MFMA36的发布仍等待LDS完成，允许独立的前一块C00全局写回继续进行。这四个区域共同组成每WG唯一的256×256输出tile。FP32直接写回。LDS为 **152064字节**，普通VGPR为FP32 **244** / BF16 **256**，另有固定 **256 AGPR**，SGPR **62**，零spill/scratch。metadata combined VGPR为500/512，已经包含AGPR；静态原生MFMA为448条。
+BF16把完成的累加片段转换为4元素向量，提前写入pitch264的输出LDS，再合并为16字节GMEM stores并使用 `nt`。A/B矩阵的双缓冲合为一个对齐的135168字节分配；矩阵DMA和读取全部结束并经等待与barrier后，BF16输出才复用它。最后一轮MFMA20、36、52、64后，依次发布C00、C10、C01、C11的128×128区域，每区域每线程执行8次16字节合并写回。MFMA36的发布仍等待LDS完成，允许独立的前一块C00全局写回继续进行。这四个区域共同组成每WG唯一的256×256输出tile。FP32直接写回。当前shape/dim版本的LDS为 **152064字节**，普通VGPR为FP32 **244** / BF16 **252**，另有固定 **256 AGPR**，SGPR **62**，零spill/scratch。metadata combined VGPR为500/508，已经包含AGPR；两种输出各有448条静态原生MFMA。
 
 构建与运行
 ----------
 
-需要带原 4-wave 两个 hard-pin 补丁的 clang23；普通 ROCm clang 不支持 `amdgpu_pin_agpr`，不能当作等价编译器。当前已在独立目录构建好：
+需要带原 4-wave 两个 hard-pin 补丁的 clang23；普通 ROCm clang 不支持 `amdgpu_pin_agpr`，不能当作等价编译器。当前已在隔离目录和正式目录完成CPU构建。以下GPU命令须在空闲卡上执行，新版尚未运行：
 
 ```bash
 make -j3 all inspect

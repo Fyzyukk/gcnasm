@@ -1,12 +1,14 @@
 # 通用 4wave / tile1 续记：2026-09-12 延迟优化
 
-目标仍为 **通用路径在 8192³ 达到 3.5P**，尚未达到。最新用户指示是 GPU 有占用时“先做，最后测试”；不要在满载卡上运行性能比较，不要再次询问已经授权的 commit/push。没有授权停止其他 GPU 任务。
+目标仍为 **通用路径在 8192³ 达到 3.5P**，尚未达到。最新用户要求：scale也要像 `ga/sa/ra` 一样，使用真实的shape/dim/layout定义，保持无自定义宏。GPU有占用时仍按“先做，最后测试”执行；不要在满载卡上运行性能比较，不要再次询问已经授权的commit/push。没有授权停止其他GPU任务。
+
+用户随后要求“整理完你先优化到这里吧”：完成本次整理、commit和push后暂停优化。下面的待测命令供后续恢复时使用，不自动继续运行或等待GPU。
 
 ## 当前生产与本轮基线
 
-- 顶层 `tmpl_generic.hpp` 已按用户要求完成无宏清理，源码版本为 `generic_tile1_cpp_20260912`；完整 GPU 代码与 `f483077e0263bc8d39ad810ad4c1f03b93727702` 逐字节相同，仍引用历史 BF16 3.286311P / FP32 3.076707P。
+- 顶层 `tmpl_generic.hpp` 为 `generic_tile1_shape_dim_20260912`，六组scale均已接入真实的shape/dim/layout。**生成GPU代码与f483077不同；当前版本GPU正确性和性能未运行。** BF16 3.286311P / FP32 3.076707P属于f483077的历史成绩。
 - **本轮比较基线就是 f483077**。9229d1a 和 f0b117c 是旧轮次基线。
-- 冻结基线 HPP SHA256：`69ef190d32fc10127deee1d06286233ecdde498e543a2d6c07d02b11696955be`；正式无宏源码为 `ed44bd448691f21182af5c988ccdbb91b6ed8a1d44f7ee6900e3b598233b42ef`。
+- 冻结基线HPP SHA256：`69ef190d32fc10127deee1d06286233ecdde498e543a2d6c07d02b11696955be`；当前正式HPP为 `62d2f0f3b25bf89c70d55756348fff214937211a95ce669b0a3f12d512ecb513`，来源父提交为 `09734d65352d8ad46ab2902714158b0768f0b471`。
 - 九份冻结源码：`results/generic_latency_20260912/baseline_source/`。
 - 工作区：`/tmp/mxfp8_generic_latency_20260912_86xlkzt9`；候选源码、构建均在该目录，Git 保存可精确恢复的 patch/metadata。
 - tile1 = 每 WG 一个完整 256×256 输出块，4 个 Wave64。所有新分工和 grid 变化仍是 tile1。
@@ -14,7 +16,13 @@
 - 物理 GPU2 = HIP2 = PCI `0000:65:00.0`。同进程同地址、相邻基线夹测，不改频率/功耗，计时不采 telemetry。
 - 不使用子 agent；不修改或暂存相邻 fp32scale 目录。
 
-用户新增要求是“不想用这种宏，清理代码”。正式头文件全部7个自定义宏/undef已删除；MMA直接调用已有内联模板，输出分为三个局部helper，`if constexpr` 从29处减少到7处。可执行文件和共享库的完整GPU payload、完整设备元数据均相同，正式重建和独立干净重建也通过；没有运行GPU或增加性能成绩。详见 `results/generic_source_cleanup_20260912/README.md`。19个候选保持原始源码和二进制，比较基线仍是冻结的f483077；最终采用候选时也要保持正式代码无自定义宏。
+此前移除全部7个自定义宏/undef，MMA直接调用已有内联模板，输出分为三个局部helper，`if constexpr` 从29处减少到7处。那次清理的完整GPU代码与f483077相同，历史证明保留在 `results/generic_source_cleanup_20260912/README.md`；旧验证脚本需要对应的09734d6 checkout，不能对当前HPP套用旧哈希。
+
+本次进一步恢复 `make_layout_gsfa_scale/ssfa/rsfa` 与 `gsfb/ssfb/rsfb`，每组都有 `*_block_shape`、`*_block_dim`、`unfold_x_stride`、`unfold_p_coord`、`make_layout`。全局读取、LDS发布、首轮读取和下一K预取都使用对应 `u_*` layout。保持64个K128的面板容量、quad DPP打包、MFMA scale字节选择及运行时K流程；无宏、7处 `if constexpr` 和三行阶段标记保留。Epilogue从倒数第二个K128块开始，主循环每次K128、完整unroll4组K512。
+
+隔离版本和正式目录均已 `make -j3 all inspect`，完整device object、实际共享库GPU fatbin及设备元数据相互一致；本次device object SHA256为 `3e8939186cf34434b178037c4c02724fbfb38627455192983c99d27b9ec0970c`。FP32/BF16普通VGPR为244/252、各256 AGPR、62 SGPR、152064B LDS，零spill；有效指令数2177/2759，各448条静态原生MFMA。使用实际layout函数的编译期断言通过，覆盖scale全局→打包→LDS→MFMA对应、完整且唯一的LDS写入、Vec4/Vec8、短K和多面板边界；链接ISA等待审查也通过。详见 `results/generic_scale_layouts_20260912/README.md`。
+
+11:16:26 UTC只读查询GPU2，仍为100%利用率、80%显存占用，没有启动GPU kernel。新版运行验证与8192同地址复测单独记录在 `results/generic_scale_layouts_20260912/gpu_revalidation.json`。19个性能候选保持原始源码、二进制、命令和f483077基线；最终采用候选时也要保留无宏以及scale的shape/dim/layout写法。
 
 ## 历史五轮候选成绩，需空闲复测
 
@@ -55,7 +63,9 @@ A LDS XOR mask3/7 四版的映射/运行正确性均通过，但较好的也只�
 
 ## 接下来
 
-先在空闲 GPU2 按 `pending_tests.json` 的五批命令做 22 组通用正确性、完整 8192 独立参考和三轮同地址筛选。新预取批次包括两个 scalar_group4 父版作为同窗口对照。保留负结果。胜出者对 f483077 五轮确认，微小组合另做父版直接比较。随后才清理选定源码、证明指令等价、重建、验证实际适配器，并按 8192、1024、2048、4096 顺序记录性能与正式更新。
+空闲GPU2先单独验证当前shape/dim版本，按新布局记录中的命令执行22组通用正确性、完整8192独立参考和五轮同地址比较；该次对照为09734d6源码，其GPU代码与f483077逐字节相同。当前版本尚无跑分，不能直接沿用旧成绩。
+
+19个性能候选仍按 `pending_tests.json` 的五批原命令筛选，新预取批次包括两个scalar_group4父版作为同窗口对照。保留负结果。胜出者对f483077五轮确认，微小组合另做父版直接比较。随后按无宏和shape/dim/layout风格整理选定源码、重建、核对实际GPU代码；若整理改变指令，须重新验证和计时最终版本。验证实际适配器后，按8192、1024、2048、4096顺序记录性能与正式更新。
 
 `screen.py` 现在默认核对 GPU2 的固定 PCI，并在 shapes/full/shared 每个 GPU 子进程前后保存占用快照。出现占用或检查失败就停止后续阶段，原始计时保留并标记需重测；计时过程不采 telemetry。两端快照均空闲仍不能排除窗口内短暂干扰，必须结合相邻基线漂移与重复窗口。6 项 CPU 模拟检查通过，涵盖开跑前阻止启动、验证后停止计时、计时后占用证据保存，未调用 GPU。
 

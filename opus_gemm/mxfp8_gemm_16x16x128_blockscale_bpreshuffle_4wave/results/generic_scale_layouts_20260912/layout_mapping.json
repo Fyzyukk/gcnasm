@@ -1,0 +1,55 @@
+{
+  "status": "PASS",
+  "timestamp_utc": "2026-09-12T11:15:40.365059+00:00",
+  "command": [
+    "/root/toolchains/rocm-llvm23-46fcb339-build/bin/clang++",
+    "-x",
+    "hip",
+    "/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_scale_layouts_20260912/layout_check.cc",
+    "-I/root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave",
+    "-I/root/workspace/aiter/csrc/include",
+    "-std=c++17",
+    "-O3",
+    "--offload-arch=gfx950",
+    "--offload-device-only",
+    "--rocm-path=/opt/rocm",
+    "-D__HIPCC_RTC__",
+    "-fconstexpr-steps=200000000",
+    "-c",
+    "-o",
+    "/tmp/mxfp8_scale_layouts_20260912_srbvhgm7/production_layout_check.o"
+  ],
+  "returncode": 0,
+  "gpu_launched": false,
+  "scope": "Compile-time checks of actual Opus layouts; no GPU runtime validation",
+  "source_hashes": {
+    "tmpl_generic.hpp": "62d2f0f3b25bf89c70d55756348fff214937211a95ce669b0a3f12d512ecb513",
+    "traits.hpp": "f041560d0372190eb222efbb57d152e67a52d63de872a61e8f9cb8d85abc3204",
+    "kernel_dispatch.hpp": "aa548247e1d446f5c7e16531c4da2bdd02f2087bc838d1f3c006c74bada44b1d",
+    "gemm_a8w8_mxfp8_scale_kernel.cc": "58f4d8b0c1846d1be249040d488cf0cd986a6f1c43bd567e9680632a09938bab",
+    "gemm_a8w8_mxfp8_scale_common.h": "6980effa0e5107fae4ccdbaf61dc0c1210761b196ec152284720e448320de81a",
+    "gemm_a8w8_mxfp8_scale_host.cc": "2bb897d7361630c888b31b7a3442d1ccff9eda575932f5d04ef794ff8328cd63",
+    "gemm_a8w8_blockscale_bpreshuffle_launch.cc": "fbadc32fd0512ec7636d1531c4f3abf21d1e5e174f916a0450b502b93895c757",
+    "blockscale_bpreshuffle.py": "4d856582e365ab08cfc184446ffd8fddb30ba93a17dbacbdf34727da4d103c3f",
+    "Makefile": "9bf84bf92c4d4396508fd3e09157fb5e8cad0048c34d27e3a70decefe6268b21"
+  },
+  "checker_sha256": "7295af6974899c5fd70e98ecdc05a8b3478cfc48c2161587a054dd6e57b99e10",
+  "assertions": [
+    "SFA global -> quad transpose -> LDS -> MFMA correspondence and complete unique LDS coverage",
+    "SFB global -> byte replication -> LDS -> MFMA correspondence and complete unique LDS coverage",
+    "Runtime K short, boundary, multiple-panel addressing and final-column clamping"
+  ],
+  "k_tile_counts": [
+    1,
+    2,
+    3,
+    63,
+    64,
+    65,
+    127,
+    128,
+    129,
+    257
+  ],
+  "sfa_stride_m": 768
+}

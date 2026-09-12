@@ -219,6 +219,119 @@ __device__ inline auto make_layout_rb_scale(int lane_id, int wave_id_n) {
         2 * wave_id_n * pitch + lane_id * T::VEC_B;
 }
 
+// Scale layouts use the same shape/dim/coord convention as the matrix layouts.
+// p_dim selects a producer/consumer coordinate; y_dim is data owned by a thread.
+// g = global reads, s = LDS writes, r = LDS reads into MFMA operands.
+template<class T>
+__device__ inline constexpr auto make_layout_gsfa_scale(
+    int tid, int k_tile, int stride_sfa, int k_tiles) {
+    // Global SFA [K128 column, M row], with M split into
+    // [M128 half, M repeat, wave-M, 16 adjacent rows].
+    const auto gsfa_block_shape = opus::make_tuple(
+        k_tiles, opus::number<T::B_M / T::HALF_B_M>{},
+        opus::number<T::E_M>{}, opus::number<T::T_M>{}, opus::number<T::W_M>{});
+    constexpr auto gsfa_block_dim = opus::make_tuple(
+        opus::make_tuple(opus::p_dim{}),
+        opus::make_tuple(opus::p_dim{}, opus::p_dim{}, opus::p_dim{}, opus::y_dim{}));
+    const int group = tid & 15;
+    const int owner_wave = group / 4;
+    const int call = group % 4;
+    return opus::make_layout<16>(
+        gsfa_block_shape,
+        opus::unfold_x_stride(gsfa_block_dim, gsfa_block_shape, opus::tuple{stride_sfa, 1_I}),
+        opus::unfold_p_coord(gsfa_block_dim,
+            opus::tuple{k_tile, owner_wave / T::T_M, call, owner_wave % T::T_M}));
+}
+
+template<class T>
+__device__ inline constexpr auto make_layout_ssfa_scale(int tid, int pass, int word) {
+    // LDS SFA [K slot, wave-M, row, M128 half, four packed M-repeat bytes].
+    constexpr auto ssfa_block_shape = opus::make_tuple(
+        opus::number<T::SCALE_PANEL_K_TILES>{}, opus::number<T::T_M>{},
+        opus::number<T::W_M>{}, opus::number<T::B_M / T::HALF_B_M>{}, opus::number<T::E_M>{});
+    constexpr auto ssfa_block_dim = opus::make_tuple(
+        opus::make_tuple(opus::p_dim{}),
+        opus::make_tuple(opus::p_dim{}, opus::p_dim{}, opus::p_dim{}, opus::y_dim{}));
+    const int group = tid & 15;
+    const int owner_wave = group / 4;
+    const int call = group % 4;
+    const int k_column = tid / 16 + pass * 16;
+    const int output_row = word * 4 + call;
+    return opus::make_layout<4>(
+        ssfa_block_shape,
+        opus::unfold_x_stride(ssfa_block_dim, ssfa_block_shape,
+            opus::tuple{opus::number<T::SFA_PANEL_PITCH>{}, 1_I}),
+        opus::unfold_p_coord(ssfa_block_dim,
+            opus::tuple{k_column, owner_wave % T::T_M, output_row, owner_wave / T::T_M}));
+}
+
+template<class T, int Vec>
+__device__ inline constexpr auto make_layout_rsfa_scale(
+    int lane_id, int wave_id_m, int k_tile, int half_tile_m = 0) {
+    static_assert(T::E_M == 4 && (Vec == 4 || Vec == 8));
+    // Read one or both M128 halves from LDS. The four K32 lane groups
+    // share the same row coordinate and therefore the same K128 scales.
+    constexpr auto rsfa_block_shape = opus::make_tuple(
+        opus::number<T::SCALE_PANEL_K_TILES>{}, opus::number<T::T_M>{},
+        opus::number<T::W_M>{}, opus::number<Vec>{});
+    constexpr auto rsfa_block_dim = opus::make_tuple(
+        opus::make_tuple(opus::p_dim{}),
+        opus::make_tuple(opus::p_dim{}, opus::p_dim{}),
+        opus::make_tuple(opus::y_dim{}));
+    return opus::make_layout<Vec>(
+        rsfa_block_shape,
+        opus::unfold_x_stride(rsfa_block_dim, rsfa_block_shape,
+            opus::tuple{opus::number<T::SFA_PANEL_PITCH>{},
+                        opus::number<(T::B_M / T::HALF_B_M) * T::E_M>{}, 1_I}),
+        opus::unfold_p_coord(rsfa_block_dim,
+            opus::tuple{k_tile & (T::SCALE_PANEL_K_TILES - 1), wave_id_m, lane_id & 15}))
+        + half_tile_m * 4;
+}
+
+__device__ inline constexpr auto make_layout_gsfb_scale(int k_tile, int k_tiles) {
+    // Global SFB: one byte per K128 column. The producer's N128 half
+    // is selected by the scalar offset on the global load.
+    const auto gsfb_block_shape = opus::make_tuple(k_tiles, 1_I);
+    constexpr auto gsfb_block_dim = opus::make_tuple(
+        opus::make_tuple(opus::p_dim{}, opus::y_dim{}));
+    return opus::make_layout<1>(
+        gsfb_block_shape,
+        opus::unfold_x_stride(gsfb_block_dim, gsfb_block_shape, opus::tuple{1_I}),
+        opus::unfold_p_coord(gsfb_block_dim, opus::tuple{k_tile}));
+}
+
+template<class T>
+__device__ inline constexpr auto make_layout_ssfb_scale(int lane_id, int wave_id) {
+    // LDS SFB [K slot, N128 half, four replicated bytes].
+    constexpr auto ssfb_block_shape = opus::make_tuple(
+        opus::number<T::SCALE_PANEL_K_TILES>{}, opus::number<T::SCALE_N_HALVES>{}, 4_I);
+    constexpr auto ssfb_block_dim = opus::make_tuple(
+        opus::make_tuple(opus::p_dim{}),
+        opus::make_tuple(opus::p_dim{}, opus::y_dim{}));
+    return opus::make_layout<4>(
+        ssfb_block_shape,
+        opus::unfold_x_stride(ssfb_block_dim, ssfb_block_shape,
+            opus::tuple{opus::number<T::SCALE_N_HALVES * 4>{}, 1_I}),
+        opus::unfold_p_coord(ssfb_block_dim, opus::tuple{lane_id, wave_id}));
+}
+
+template<class T, int Vec>
+__device__ inline constexpr auto make_layout_rsfb_scale(int k_tile, int half_tile_n = 0) {
+    static_assert(Vec == 4 || Vec == 8);
+    // Read one or both adjacent N128 halves from the current LDS K slot.
+    constexpr auto rsfb_block_shape = opus::make_tuple(
+        opus::number<T::SCALE_PANEL_K_TILES>{}, opus::number<Vec>{});
+    constexpr auto rsfb_block_dim = opus::make_tuple(
+        opus::make_tuple(opus::p_dim{}),
+        opus::make_tuple(opus::y_dim{}));
+    return opus::make_layout<Vec>(
+        rsfb_block_shape,
+        opus::unfold_x_stride(rsfb_block_dim, rsfb_block_shape,
+            opus::tuple{opus::number<T::SCALE_N_HALVES * 4>{}, 1_I}),
+        opus::unfold_p_coord(rsfb_block_dim,
+            opus::tuple{k_tile & (T::SCALE_PANEL_K_TILES - 1)})) + half_tile_n * 4;
+}
+
 template<class Traits>
 __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void gemm_a8w8_mxfp8_scale_kernel(opus_gemm_scale_kargs kargs) {
     using namespace opus;
@@ -423,17 +536,12 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
     opus::vector_t<D_SF, 16> panel_raw_a[4];
     auto load_sfa_panel = [&](int panel_begin) {
         const int tid = thread_id_x();
-        const int group = tid & 15;
-        const int owner_wave = group / 4;
-        const int call = group % 4;
-        const int source_row = (owner_wave / T::T_M) * T::HALF_B_M +
-            (owner_wave % T::T_M) * T::W_M + call * T::T_M * T::W_M;
         opus::static_for<4>([&](auto pass_i) {
             constexpr int pass = decltype(pass_i)::value;
             const int column = panel_begin + tid / 16 + pass * 16;
             const int valid_column = column < loops ? column : loops - 1;
-            panel_raw_a[pass] = load<16>(g_sfa,
-                valid_column * kargs.stride_sfa + source_row);
+            const auto u_gsfa = make_layout_gsfa_scale<T>(tid, valid_column, kargs.stride_sfa, loops);
+            panel_raw_a[pass] = load<16>(g_sfa, u_gsfa);
         });
         __builtin_amdgcn_sched_barrier(0);
     };
@@ -445,13 +553,11 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         // the final dword directly, with no intermediate LDS transpose.
         const int tid = thread_id_x();
         const int group = tid & 15;
-        const int owner_wave = group / 4;
         const int call = group % 4;
         const unsigned int select_pair = (call & 1) ? 0x03070105u : 0x06020400u;
         const unsigned int select_quad = (call & 2) ? 0x03020706u : 0x05040100u;
         opus::static_for<4>([&](auto pass_i) {
             constexpr int pass = decltype(pass_i)::value;
-            const int k_column = tid / 16 + pass * 16;
             const auto raw = panel_raw_a[pass];
             const auto words = __builtin_bit_cast(opus::vector_t<D_SF_PACK, 4>, raw);
             opus::static_for<4>([&](auto word_i) {
@@ -461,26 +567,22 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
                 const D_SF_PACK pair = __builtin_amdgcn_perm(adjacent, x, select_pair);
                 const D_SF_PACK opposite = opus::mov_dpp(pair, opus::number<0x4e>{});
                 const D_SF_PACK packed = __builtin_amdgcn_perm(opposite, pair, select_quad);
-                const int output_row = word * 4 + call;
-                const int dst = k_column * T::SFA_PANEL_PITCH
-                    + ((owner_wave % T::T_M) * T::W_M + output_row) * 8
-                    + (owner_wave / T::T_M) * 4;
-                store<4>(s_sfa, __builtin_bit_cast(opus::vector_t<D_SF, 4>, packed), dst);
+                const auto u_ssfa = make_layout_ssfa_scale<T>(tid, pass, word);
+                store<4>(s_sfa, __builtin_bit_cast(opus::vector_t<D_SF, 4>, packed), u_ssfa);
             });
         });
     };
 
     auto load_sfa_dword = [&](int k_tile, int half_tile_m) {
-        const int addr = (k_tile & panel_mask) * T::SFA_PANEL_PITCH
-            + (wave_id_m * T::W_M + (lane_id & 15)) * 8 + half_tile_m * 4;
-        return __builtin_bit_cast(D_SF_PACK, load<4>(s_sfa, addr));
+        const auto u_rsfa = make_layout_rsfa_scale<T, 4>(lane_id, wave_id_m, k_tile, half_tile_m);
+        return __builtin_bit_cast(D_SF_PACK, load<4>(s_sfa, u_rsfa));
     };
 
     auto load_sfb_dword = [&](int k_tile, int half_tile_n) {
         // The prologue already duplicated the compact byte across the
         // dword. Every lane reads the same address, preserving op_sel.
-        return __builtin_bit_cast(D_SF_PACK,
-            load<4>(s_sfb, ((k_tile & panel_mask) * T::SCALE_N_HALVES + half_tile_n) * 4));
+        const auto u_rsfb = make_layout_rsfb_scale<T, 4>(k_tile, half_tile_n);
+        return __builtin_bit_cast(D_SF_PACK, load<4>(s_sfb, u_rsfb));
     };
 
     auto refill_scale_panel = [&](int next_tile) {
@@ -497,15 +599,17 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
             if (wave_id < T::SCALE_N_HALVES) {
                 const int global_column = next_tile + lane_id;
                 const int valid_column = global_column < loops ? global_column : loops - 1;
-                const auto raw = load<1>(g_sfb, valid_column, wave_id * kargs.stride_sfb);
+                const auto u_gsfb = make_layout_gsfb_scale(valid_column, loops);
+                const auto raw = load<1>(g_sfb, u_gsfb, wave_id * kargs.stride_sfb);
                 raw_b = static_cast<D_SF_PACK>(raw[0]);
             }
             s_waitcnt_vmcnt(0_I);
             publish_sfa_panel();
             if (wave_id < T::SCALE_N_HALVES) {
                 const D_SF_PACK packed = raw_b * 0x01010101u;
+                const auto u_ssfb = make_layout_ssfb_scale<T>(lane_id, wave_id);
                 store<4>(s_sfb, __builtin_bit_cast(opus::vector_t<D_SF, 4>, packed),
-                    (lane_id * T::SCALE_N_HALVES + wave_id) * 4);
+                    u_ssfb);
             }
             s_waitcnt_lgkmcnt(0_I);
             __builtin_amdgcn_s_barrier();
@@ -558,7 +662,8 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
     D_SF_PACK panel_sfb_raw = 0;
     if (wave_id < T::SCALE_N_HALVES) {
         const int valid_column = lane_id < loops ? lane_id : loops - 1;
-        const auto raw = load<1>(g_sfb, valid_column, wave_id * kargs.stride_sfb);
+        const auto u_gsfb = make_layout_gsfb_scale(valid_column, loops);
+        const auto raw = load<1>(g_sfb, u_gsfb, wave_id * kargs.stride_sfb);
         panel_sfb_raw = static_cast<D_SF_PACK>(raw[0]);
     }
     async_load<T::VEC_B>(g_b, s_b.ptr, u_gb, u_sb + sb_offset(0, 0), gb_offset(0, 0));
@@ -604,9 +709,10 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
 
     if (wave_id < T::SCALE_N_HALVES) {
         const D_SF_PACK packed = panel_sfb_raw * 0x01010101u;
+        const auto u_ssfb = make_layout_ssfb_scale<T>(lane_id, wave_id);
         store<4>(s_sfb,
             __builtin_bit_cast(opus::vector_t<D_SF, 4>, packed),
-            (lane_id * T::SCALE_N_HALVES + wave_id) * 4);
+            u_ssfb);
     }
 
     s_waitcnt_lgkmcnt(0_I);
@@ -689,9 +795,8 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         sched_barrier_pairs_scale();
 
         // Prefetch published scales ahead of the operand roll.
-        v_sfa_next = __builtin_bit_cast(opus::vector_t<D_SF_PACK, 2>,
-            load<8>(s_sfa, ((tile + 1) & panel_mask) * T::SFA_PANEL_PITCH
-                + (wave_id_m * T::W_M + (lane_id & 15)) * 8));
+        const auto u_rsfa_next = make_layout_rsfa_scale<T, 8>(lane_id, wave_id_m, tile + 1);
+        v_sfa_next = __builtin_bit_cast(opus::vector_t<D_SF_PACK, 2>, load<8>(s_sfa, u_rsfa_next));
         __builtin_amdgcn_sched_barrier(0);
 
         c00_2 = mma_scale_one<T, 0, 0, 2>(
@@ -786,8 +891,8 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         __builtin_amdgcn_sched_barrier(0);
 
         // Prefetch published scales ahead of the operand roll.
-        v_sfb_next = __builtin_bit_cast(opus::vector_t<D_SF_PACK, 2>,
-            load<8>(s_sfb, ((tile + 1) & panel_mask) * T::SCALE_N_HALVES * 4));
+        const auto u_rsfb_next = make_layout_rsfb_scale<T, 8>(tile + 1);
+        v_sfb_next = __builtin_bit_cast(opus::vector_t<D_SF_PACK, 2>, load<8>(s_sfb, u_rsfb_next));
         __builtin_amdgcn_sched_barrier(0);
 
         c10_4 = mma_scale_one<T, 1, 1, 0>(
@@ -1117,9 +1222,8 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         sched_barrier_pairs_scale();
 
         // Prefetch published scales ahead of the operand roll.
-        v_sfa_next = __builtin_bit_cast(opus::vector_t<D_SF_PACK, 2>,
-            load<8>(s_sfa, ((tile + 1) & panel_mask) * T::SFA_PANEL_PITCH
-                + (wave_id_m * T::W_M + (lane_id & 15)) * 8));
+        const auto u_rsfa_next = make_layout_rsfa_scale<T, 8>(lane_id, wave_id_m, tile + 1);
+        v_sfa_next = __builtin_bit_cast(opus::vector_t<D_SF_PACK, 2>, load<8>(s_sfa, u_rsfa_next));
         __builtin_amdgcn_sched_barrier(0);
 
         c00_2 = mma_scale_one<T, 0, 0, 2>(
@@ -1188,8 +1292,8 @@ __global__ __launch_bounds__(Traits::BLOCK_SIZE, Traits::MIN_WGS_PER_CU) void ge
         sched_barrier_pairs_scale();
 
         // Prefetch published scales ahead of the operand roll.
-        v_sfb_next = __builtin_bit_cast(opus::vector_t<D_SF_PACK, 2>,
-            load<8>(s_sfb, ((tile + 1) & panel_mask) * T::SCALE_N_HALVES * 4));
+        const auto u_rsfb_next = make_layout_rsfb_scale<T, 8>(tile + 1);
+        v_sfb_next = __builtin_bit_cast(opus::vector_t<D_SF_PACK, 2>, load<8>(s_sfb, u_rsfb_next));
         __builtin_amdgcn_sched_barrier(0);
 
         c10_4 = mma_scale_one<T, 1, 1, 0>(

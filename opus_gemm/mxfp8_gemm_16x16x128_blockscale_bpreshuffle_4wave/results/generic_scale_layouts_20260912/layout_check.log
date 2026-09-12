@@ -1,0 +1,6 @@
+In file included from /root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/results/generic_scale_layouts_20260912/layout_check.cc:2:
+In file included from /root/workspace/gcnasm_new/gcnasm-mxfp8-final-pipeline-source-20260910/opus_gemm/mxfp8_gemm_16x16x128_blockscale_bpreshuffle_4wave/tmpl_generic.hpp:4:
+/root/workspace/aiter/csrc/include/opus/opus.hpp:331:45: warning: use of CUDA/HIP target attributes on deduction guides is deprecated; they will be rejected in a future version of Clang [-Wdeprecated-attributes]
+  331 | template<typename... T> __host__ __device__ tuple(T&&...) -> tuple<remove_cvref_t<T>...>;
+      |                                             ^
+1 warning generated when compiling for gfx950.

@@ -725,10 +725,26 @@
   "historical_candidate_reconfirmation_required": [
     "grid_group2"
   ],
-  "production_change_kind": "SOURCE_CLEANUP_INSTRUCTION_IDENTICAL",
+  "production_change_kind": "SCALE_SHAPE_DIM_LAYOUT_REFACTOR",
   "performance_baseline_changed": false,
-  "production_source_sha256": "ed44bd448691f21182af5c988ccdbb91b6ed8a1d44f7ee6900e3b598233b42ef",
-  "production_equivalence_evidence": "../generic_source_cleanup_20260912/selected/production_identity.json",
-  "production_cleanup_timestamp_utc": "2026-09-12T09:29:41.313982+00:00",
-  "production_comment_only_parent_sha256": "ad3fc41bb598e1534d170efa3839f4a169fcbd8cb7323c9bcc3cbdbb03620261"
+  "production_source_sha256": "62d2f0f3b25bf89c70d55756348fff214937211a95ce669b0a3f12d512ecb513",
+  "production_source_version": "generic_tile1_shape_dim_20260912",
+  "production_source_parent_commit": "09734d65352d8ad46ab2902714158b0768f0b471",
+  "production_gpu_instructions_identical_to_performance_baseline": false,
+  "production_gpu_revalidation_required": true,
+  "production_update_timestamp_utc": "2026-09-12T11:21:53.856186+00:00",
+  "production_cpu_evidence": "../generic_scale_layouts_20260912/selected/production_identity.json",
+  "production_gpu_revalidation": {
+    "record": "../generic_scale_layouts_20260912/gpu_revalidation.json",
+    "gpu_launched": false,
+    "gpu_correctness": "NOT_RUN",
+    "performance": "NOT_RUN",
+    "separate_from_pending_candidates": true
+  },
+  "user_source_preferences": [
+    "no_custom_macros",
+    "real_scale_shape_dim_layout"
+  ],
+  "execution_paused_by_user": true,
+  "pause_instruction": "\u6574\u7406\u5b8c\u4f60\u5148\u4f18\u5316\u5230\u8fd9\u91cc\u5427"
 }
